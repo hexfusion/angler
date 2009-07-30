@@ -1,0 +1,41 @@
+[comment]
+ui_page: results.html
+ui_type: page
+ui_name: results.html
+ui_page_template: ecom_simms_left_only
+ui_version: 5.5.1
+ui_source: pages/results.html
+ui_template: Yes
+ui_template_name: leftright
+[/comment]
+
+[tmp page_title]__COMPANY__ -- [L]Search results[/L][/tmp]
+[tmpn page_banner][/tmpn]
+[tmpn display_class][/tmpn]
+[tmpn members_only][/tmpn]
+
+[control reset=1]
+[control-set]
+	[component]verticle_simms[/component]
+[/control-set]
+[control-set]
+	[component]dhtml_side_menu[/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component]results_grid[/component]
+	[buylist_button][/buylist_button]
+	[cols]4[/cols]
+	[columnize][/columnize]
+	[htmltmpl][/htmltmpl]
+	[output][/output]
+[/control-set]
+[control reset=1]
+
+@_ECOM_SIMMS_LEFT_ONLY_TOP_@
+<!-- BEGIN CONTENT -->
+
+<!-- END CONTENT -->
+@_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@

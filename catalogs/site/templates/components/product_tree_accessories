@@ -1,0 +1,93 @@
+[comment]
+ui_component: product_tree_accessories
+ui_type: component
+ui_name: product_tree_accessories
+ui_component_version: 5.5.1
+ui_source: templates/components/product_tree_accessories
+
+
+[/comment]
+<script type="text/javascript">
+
+// Tree structure definition s
+
+var TREE_NODES = [
+	["Accessories", "[area href=scan search=| fi=products/st=db/sf=prod_group/se=Accessories/sp=cat_acc/op=rm/nu=0/ml=10/|]", null,{format:{expanded:true}},
+		["Floatants", "[area href=scan search=| fi=products/st=db/se=Floatants/op=rm/nu=0/ml=10/|]", null,],
+		["Fly Boxes", "[area href=scan search=| fi=products/st=db/se=Boxes/op=rm/nu=0/ml=10/ |]", null,],
+		["Indicators", "[area href=scan search=| fi=products/st=db se=Indicators/op=rm/nu=0/ml=10/ |]", null,],
+		["Landing Nets", "[area href=scan search=| fi=products/st=db/se=Nets/op=rm/nu=0/ml=10/ |]", null,],
+		["Line", "[area href=scan search=| fi=products/st=db/se=Lines/op=rm/nu=0/ml=10/ |]", null,],
+		["Reel", "[area href=scan search=| fi=products/st=db/se=Reels/op=rm/nu=0/ml=10/ |]", null,],
+		["Split Shot", "[area href=scan search=| fi=products/st=db/se=Shot/op=rm/nu=0/ml=10/|]", null,],
+		["Sunglasses", "[area href=scan search=| fi=products/st=db/se=Sunglasses/op=rm/nu=0/ml=10/ |]", null,],
+		["Wading", "[area href=scan search=| fi=products/st=db/se=Wading/op=rm/nu=0/ml=10/ |]", null,]
+			],
+
+
+	["Books & DVD's", "[area cat/books_dvd]", null,
+		["Books", "[area href=scan search=| fi=products/st=db/se=Books/op=rm/nu=0/ml=10/ |]", null,],
+		["DVD's", "[area href=scan search=| fi=products/st=db/se=DVD/op=rm/nu=0/ml=10/ |]", null,]
+			],
+
+	["Boots", "[area cat/boots]", null,
+		["Simms", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Simms/op=rm/nu=/sf=category/se=Boots/op=rm/nu=0/ml=10/ |]", null,],
+		["Orvis", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Boots/op=rm/nu=0/ml=10/ |]", null,]
+			 ],
+	
+	["Clothing", "[area cat/clothing]", null,
+		["Outerwear", "[area href=scan search= | fi=products/st=db/sf=category/se=Outerwear/op=rm/nu=0/ml=10/ |]", null,],
+		["Layering", "[area href=scan search= | fi=products/st=db/sf=category/se=Layering/op=rm/nu=0/ml=10/ |]", null,],
+		["Sportswear", "[area href=scan search= | fi=products/st=db/sf=category/se=Sportswear/op=rm/nu=0/ml=10/ |]", null,],
+		["Waders", "[area href=scan search= | fi=products/st=db/sf=category/se=Waders/op=rm/nu=0/ml=10/ |]", null,],
+		["Boots", "[area href=scan search= | fi=products/st=db/sf=category/se=Boots/op=rm/nu=0/ml=10/ |]", null,],
+		["Vests", "[area href=scan search= | fi=products/st=db/sf=category/se=Vests/op=rm/nu=0/ml=10/ |]", null,],
+        ["Packs", "[area href=scan search= | fi=products/st=db/sf=category/se=Packs/op=rm/nu=0/ml=10/ |]", null,],
+		["Gloves", "[area href=scan search= | fi=products/st=db/sf=category/se=Gloves/op=rm/nu=0/ml=10/ |]", null,],
+		["Hats", "[area href=scan search= | fi=products/st=db/sf=category/se=Hats/op=rm/nu=0/ml=10/ |]", null,]
+			],
+
+	["Fly Lines", "[area cat/lines]", null,
+		["Sci Angler", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Sci Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10/ |]", null,],
+		["Rio", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Rio/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10/ |]", null,],
+		["Cortland", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Cortland/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10/ |]", null,],
+		["Sage", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10/ |]", null,]
+			],
+	
+	["Luggage", "[area cat/luggage]", null,
+		["Simms", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Simms/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10/ |]", null,],
+		["Orvis", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10/ |]", null,],
+		["Fish Pond", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Fish Pond/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10/ |]", null,],
+		["Sage", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10/ |]", null,]
+			],
+	
+	["Packs", "[area cat/packs]", null,
+		["Simms", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Simms/op=rm/nu=/sf=category/se=Packs/op=rm/nu=0/ml=10/ |]", null,],
+		["Orvis", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Packs/op=rm/nu=0/ml=10/ |]", null,],
+		["Fish Pond", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Fish Pond/op=rm/nu=/sf=category/se=Packs/op=rm/nu=0/ml=10/ |]", null,],
+		["Sage", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Packs/op=rm/nu=0/ml=10/ |]", null,]
+			],
+	
+	["Reels", "[area cat/reels]", null,
+		["Hardy", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Hardy/op=rm/nu=/sf=category/se=Reels/op=rm/nu=0/ml=10/ |]", null,],
+		["Bauer", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Bauer/op=rm/nu=/sf=category/se=Reels/op=rm/nu=0/ml=10/ |]", null,],
+		["Orvis", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Reels/op=rm/nu=0/ml=10/ |]", null,],
+		["Ross", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Ross/op=rm/nu=/sf=category/se=Reels/op=rm/nu=0/ml=10/ |]", null,],
+		["Sage", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Reels/op=rm/nu=0/ml=10/ |]", null,],
+		["Tibor", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Tibor/op=rm/nu=/sf=category/se=Reels/op=rm/nu=0/ml=10/ |]", null,]
+			],
+	
+	["Rods", "[area cat/rods]", null,
+		["Sage", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=10/ |]", null,],
+		["Winston", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Winston/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=10/ |]", null,],
+		["Orvis", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=10/ |]", null,],
+		["Hardy", "[area href=scan search=|fi=products/st=db/co=1/sf=manufacturer/se=Hardy/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=10/ |]", null,]
+		
+	]
+];
+</script>
+<div>
+<script>
+		var tree1 = new COOLjsTree("tree1", TREE_NODES, TREE_FORMAT);
+		</script>
+</div>

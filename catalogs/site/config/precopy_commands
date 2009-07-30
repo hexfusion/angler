@@ -1,0 +1,11 @@
+{MYSQLCREATE}mysqladmin -u root -ps1a2mayfly create test_site2
+Since you selected the MySQL option, you need to create a database named
+"test_site2". In a default MySQL configuration, any user may create
+and drop and modify test_* databases, but some administrators disable this.
+  
+
+{PGSQL}createdb test_site2
+Since you selected the PostgreSQL option, you need to create a database named
+"test_site2". This will only work if your administrator allowed it.
+
+

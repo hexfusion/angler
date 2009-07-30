@@ -1,0 +1,72 @@
+[set page_title][L]Packing List[/L]: [L]View order[/L][/set]
+[set ui_class]Orders[/set]
+[set help_name]order.view[/set]
+[set icon_name]icon_orders.gif[/set]
+@_UI_STD_HEAD_@
+
+
+<table width="100%" border="0" cellspacing="1" cellpadding="0"  class="rseparator">
+  <tr>
+    <th style="padding: 5px" width="16%" scope="col">Order Item </th>
+    <th style="padding: 5px" width="19%" scope="col">Description</th>
+    <th style="padding: 5px" width="13%" scope="col">Options</th>
+    <th colspan="2" style="padding: 5px" scope="col">Price</th>
+    <th style="padding: 5px" width="6%" scope="col">Status</th>
+    <th style="padding: 5px" width="8%" scope="col">Item Location</th>
+    <th style="padding: 5px" width="7%" scope="col">QTY</th>
+    <th style="padding: 5px" width="24%" scope="col">Bar Code </th>
+    <th width="1%" colspan="2" style="padding: 5px" scope="col">&nbsp;</th>
+  </tr>
+  <!-- search items on order -->
+  [query prefix=orderline list_prefix=orderlinelist list=1 sql="SELECT * FROM orderline WHERE order_number LIKE '[cgi order]'"]
+  [query prefix=shipments list_prefix=shipmentlist list=1 sql="SELECT * FROM ups_shipments_items WHERE code = '[orderline-code]'"]
+
+
+  <tr class="rownorm" valign=top>
+    <td height="88" valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-code]</strong></div></td>
+    <td valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-param description]</strong></div></td>
+    <td valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-param options]</strong></div></td>
+    <td colspan="2" valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-param price]</strong></div></td>
+    <td valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-param status]</strong></div></td>
+    <td valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-param store_id]</strong></div></td>
+    <td valign="middle" style="padding: 5px"><div align="center"><strong>[orderline-param quantity]</strong></div></td>
+    <td valign="bottom" style="padding: 5px"><div align="center">*<font size="2" face="IDAutomationHC39M">[orderline-param upc_no]</font>*</div></td>
+    <td colspan="2" style="padding: 5px"><img src="https://secure.westbranchresort.com/interchange-5/en_US/spacer.gif" width="1" height="60" alt="."> </td>
+    </tr>
+  <tr>
+    <th colspan="11" bgcolor="#FFFFCC" style="padding: 5px" scope="col"><div align="center">Past Shipments for Item </div></th>
+  </tr>
+
+
+  <tr class="rownorm" valign=top>
+    <td height="28" colspan="6" valign="top" style="padding: 5px">&nbsp;</td>
+    <td valign="top" style="padding: 5px"><div align="center"><strong>Date</strong></div></td>
+    <td valign="top" style="padding: 5px"><div align="center"><strong>Qty Shipped </strong></div></td>
+    <td width="24%" valign="top" style="padding: 5px"><div align="center"><strong>Tracking Number </strong></div></td>
+    <td width="1%" valign="middle" style="padding: 5px">&nbsp;</td>
+  </tr>
+  
+ [shipmentlist]
+  <tr class="rownorm" valign=top>
+    <td height="28" colspan="6" valign="top" style="padding: 5px">&nbsp;</td>
+    <td valign="top" style="padding: 5px"><div align="center"><strong>[shipments-param ship_date]</strong></div></td>
+    <td valign="top" style="padding: 5px"><div align="center"><strong>[shipments-param qty]</strong></div></td>
+    <td valign="top" style="padding: 5px"><div align="center"><strong>[shipments-param tracking_number]</strong></div></td>
+    <td valign="middle" style="padding: 5px">&nbsp;</td>
+  </tr>
+[/shipmentlist]
+
+  [shipmentlist-no-match]
+  <tr class="rownorm" valign=top>
+   <td colspan="11" valign="middle" style="padding: 5px"><div align="center"><strong>None</strong></div></td>
+  </tr>
+ [/shipmentlist-no-match]
+  <tr class="rownorm" valign=top>
+   <td colspan="11" valign="middle" style="padding: 5px"><div align="center"><strong><hr></strong></div></td>
+  </tr>
+
+  [/query]  
+  
+  [/query]
+</table>
+@_UI_STD_FOOTER_@

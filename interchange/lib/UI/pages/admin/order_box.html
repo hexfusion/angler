@@ -1,0 +1,542 @@
+<style type="text/css">
+<!--
+	#mainContainer{
+	margin-top:10px;
+	border:0px solid #000;
+	padding:2px;
+	height: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+	width: auto;
+	}
+	
+	#capitals{
+	width:230px;
+	float:left;
+	border:1px solid #000;
+	background-color:#E2EBED;
+	padding:3px;
+	height: auto;
+	}
+	#countries{
+	float:right;
+	margin:2px;
+	width:975px;
+	height: auto;
+	}	
+	.dragableBox,.dragableBoxRight{
+	height:15px;
+	border:1px solid #000;
+	background-color:#FFF;
+	margin-bottom:5px;
+	padding:3px;
+	font-weight:bold;
+	text-align:center;
+	font-size: 12px;
+	width: 190px;
+	color: #000000;
+	}
+		}	
+	.dragableBoxRight2{
+	height:15px;
+	border:1px solid #000;
+	background-color:#FFF;
+	margin-bottom:5px;
+	padding:3px;
+	font-weight:bold;
+	text-align:center;
+	font-size: 12px;
+	width: 190px;
+	color: #000000;
+	}
+	div.dragableBoxRight{
+	height:200px;
+	width:200px;
+	float:left;
+	margin-right:30px;
+	padding:5px;
+	background-color:#DECA96;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	}
+	div.dragableBoxRight2{
+	height:200px;
+	width:200px;
+	float:left;
+	margin-right:30px;
+	padding:5px;
+	background-color:#FFFFCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	}
+	.dropBox{
+		width:190px;
+		border:1px solid #000;
+		background-color:#E2EBED;
+		height:400px;
+		margin-bottom:10px;
+		padding:3px;
+		overflow:auto;
+	}		
+	a{
+		color:#F00;
+	}
+		
+	.clear{
+		clear:both;
+	}
+	img{
+		border:0px;
+	}-->
+</style>
+
+
+
+
+
+
+
+
+
+[set page_title][L]Packing List[/L]: [L]View order[/L][/set]
+[set ui_class]Orders[/set]
+[set help_name]order.view[/set]
+[set icon_name]icon_orders.gif[/set]
+@_UI_STD_HEAD_@
+
+
+
+[loop list="[value-extended order]"]
+
+	<table width="100%" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+      <tr>
+        <td width="25%" nowrap class="block4bold">[L]User Name[/L]: &nbsp; <a href="[area href="admin/customer_view" form="customer=[loop-data transactions username]"]" title="View customer"><span class="maincontent">[loop-data transactions username]</span></a></td>
+        <td width="25%" nowrap class="block4bold"> [L]Order Status[/L]: &nbsp;
+          [page href="admin/order_status" form="order=[loop-code]"] <span class="alert">[display table=transactions col=status type=display key="[loop-code]"]</span> </a> [if-loop-data transactions archived == 1]
+          ([L]archived[/L])
+          [/if-loop-data]
+          [if-loop-data transactions deleted == 1]
+          ([L]deleted[/L])
+          [/if-loop-data] </td>
+        <td width="25%" nowrap class="block4bold"> [L]Affiliate[/L]: &nbsp;
+          [if-loop-data transactions affiliate]
+          [page href="admin/affiliate"
+          form="affiliate=[loop-data transactions affiliate]"
+          ]<span class="maincontent">[loop-data transactions affiliate]</span></A> [else] <span class="maincontent">[L]none[/L]</span> [/else]
+          [/if-loop-data] </td>
+        <td width="25%" nowrap class="block4bold"> [L]Order Date[/L]: &nbsp; <span class="maincontent"> [convert-date fmt="%b %e, %Y %l:%M %P"][loop-data transactions order_date][/convert-date] </span> </td>
+      </tr>
+    </table>
+	<br>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <!-- CUSTOMER DETAILS -->
+        [loop prefix=customer list="[loop-data transactions username]"]
+        <td width="33%" valign="top"><table width="100%" height="160" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+          <tr>
+            <td height="1%" class="block4"><a href="[area href='admin/customer_view' form='customer=[loop-data transactions username]']">[L]Customer Details[/L]</a></td>
+          </tr>
+          <tr>
+            <td height="99%" valign="top" class="block4"><table width="100%" border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td width="30%" class="block4bold">[L]Customer[/L]:</td>
+                <td width="70%" class="maincontent"><a href="[area href='admin/customer_view' form='customer=[loop-data transactions username]']">[customer-data userdb fname] [customer-data userdb lname]</a> </td>
+              </tr>
+              [if-customer-data userdb company]
+              <tr>
+                <td class="block4bold"> [L]Company[/L]:</td>
+                <td class="maincontent">[customer-data userdb company]</td>
+              </tr>
+              [/if-customer-data]
+              [if-customer-data userdb phone_night]
+              <tr>
+                <td nowrap class="block4bold">[L]Home phone[/L]:</td>
+                <td class="maincontent">[customer-data userdb phone_night]</td>
+              </tr>
+              [/if-customer-data]
+              [if-customer-data userdb phone_day]
+              <tr>
+                <td nowrap class="block4bold"> [L]Work phone[/L]:</td>
+                <td class="maincontent">[customer-data userdb phone_day]</td>
+              </tr>
+              [/if-customer-data]
+              <tr>
+                <td class="block4bold">[L]Email[/L]:</td>
+                <td class="maincontent"><a href="mailto:[customer-data userdb email]">[loop-data transactions email]</a></td>
+              </tr>
+              <tr>
+                <td nowrap class="block4bold">[L]Payment type[/L]:</td>
+                <td class="maincontent">[loop-data transactions payment_method]</td>
+              </tr>
+              [if-loop-data transactions shipmode]
+              <tr>
+                <td nowrap class="block4bold">[L]Ship method[/L]:</td>
+                <td class="maincontent">[loop-data transactions shipmode]</td>
+              </tr>
+              [/if-loop-data]
+              <tr>
+                <td height="15" colspan="2" class="block4bold"><img src="bg.gif" alt="." width="1" height="1"></td>
+              </tr>
+              [if type=file term="[either]__ORDER_DIRECTORY__[or]orders[/either]/[loop-code]"]
+              <tr>
+                <td align=right>&nbsp;</td>
+                <td>[page href="process/[loop-code].pgp"
+                  add_dot_html=0
+                  form="
+                  deliver_encrypted=1
+                  mv_todo=return
+                  mv_nextpage=@@MV_PAGE@@
+                  order=[loop-code]
+                  "][L]Decrypt Credit Card[/L]</a> </td>
+              </tr>
+              [/if]
+            </table></td>
+          </tr>
+        </table></td>
+        [/loop]
+        <td width="3"><img src="bg.gif" alt="." width="3" height="1"></td>
+        <!-- BILLING DETAILS -->
+        <td width="33%" valign="top"><table width="100%" height="160" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+          <tr>
+            <td height="1%" class="block4"><a href="#">[L]Billing Details[/L]</a></td>
+          </tr>
+          <tr>
+            <td height="99%" valign="top" class="block4"> [if-loop-data transactions b_address1]
+              [loop prefix=bill list="[loop-code]"]
+              <table width="100%" border="0" cellspacing="0" cellpadding="1">
+                  <tr>
+                    <td width="30%" class="block4bold">[L]Name[/L]:</td>
+                    <td width="70%" class="maincontent"><A HREF="[area
+				href=__UI_BASE__/customer_view
+				arg="[loop-data transactions username]"
+		]"><u>[loop-data transactions b_fname] [loop-data transactions b_lname]</A> </td>
+                  </tr>
+                [if-bill-data transactions b_company]
+                <tr>
+                  <td width="30%" class="block4bold">[L]Company[/L]:</td>
+                  <td width="70%" class="maincontent"> [loop-data transactions b_company] </td>
+                </tr>
+                [/if-bill-data]
+                <tr>
+                  <td valign="top" class="block4bold">[L]Address[/L]:</td>
+                  <td class="maincontent"> [loop-data transactions b_address1]
+                    [if-bill-data transactions b_address2] <br>
+                    [loop-data transactions b_address2]
+                    [/if-bill-data] </td>
+                </tr>
+                [if-bill-data transactions b_country =~ /^US|^CA/]
+                <tr>
+                  <td class="block4bold">[L]City, State, Zip[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_city], [loop-data transactions b_state]  [loop-data transactions b_zip]</td>
+                </tr>
+                [else]
+                <tr>
+                  <td class="block4bold">[L]City[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_city]</td>
+                </tr>
+                [if-bill-data transactions b_state]
+                <tr>
+                  <td class="block4bold">[L]State[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_state]</td>
+                </tr>
+                [/if-bill-data]
+                [if-bill-data transactions b_zip]
+                <tr>
+                  <td class="block4bold">[L]Postal code[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_zip]</td>
+                </tr>
+                [/if-bill-data]
+                [/else]
+                [/if-bill-data]
+                <tr>
+                  <td class="block4bold">[L]Country[/L]:</td>
+                  <td class="maincontent">[data table=country col=name key="[loop-data transactions b_country]"]</td>
+                </tr>
+                <tr>
+                  <td height="15" colspan="2" class="block4bold"><img src="bg.gif" alt="." width="1" height="1"></td>
+                </tr>
+                </table>
+              [/loop]
+              [else] <i>[L]Same as shipping address[/L]</i> [/else]
+              [/if-loop-data] </td>
+          </tr>
+        </table></td>
+        <td width="3"><img src="bg.gif" alt="." width="3" height="1"></td>
+        <!-- SHIPPING DETAILS -->
+        <td width="34%" valign="top"><table width="100%" height="160" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+          <tr>
+            <td height="1%" class="block4"><a href="#">[L]Shipping Details[/L]</a></td>
+          </tr>
+          <tr>
+            <td height="99%" valign="top" class="block4"><table width="100%" border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td width="30%" class="block4bold">[L]Name[/L]:</td>
+                <td width="70%" class="maincontent"><A HREF="[area
+				href=__UI_BASE__/customer_view
+				arg="[loop-data transactions username]"
+		]"><u>[loop-data transactions fname] [loop-data transactions lname]</A> </td>
+              </tr>
+              [if-loop-data transactions company]
+              <tr>
+                <td width="30%" class="block4bold">[L]Company[/L]:</td>
+                <td width="70%" class="maincontent"> [loop-data transactions company] </td>
+              </tr>
+              [/if-loop-data]
+              <tr>
+                <td valign="top" class="block4bold">[L]Address[/L]:</td>
+                <td class="maincontent"> [loop-data transactions address1]
+                  [if-loop-data transactions address2] <br>
+                  [loop-data transactions address2]
+                  [/if-loop-data] </td>
+              </tr>
+              [if-loop-data transactions country =~ /^US|^CA/]
+              <tr>
+                <td class="block4bold">[L]City, State, Zip[/L]:</td>
+                <td class="maincontent">[loop-data transactions city], [loop-data transactions state]  [loop-data transactions zip]</td>
+              </tr>
+              [else]
+              <tr>
+                <td class="block4bold">[L]City[/L]:</td>
+                <td class="maincontent">[loop-data transactions city]</td>
+              </tr>
+              [if-loop-data transactions state]
+              <tr>
+                <td class="block4bold">[L]State[/L]:</td>
+                <td class="maincontent">[loop-data transactions state]</td>
+              </tr>
+              [/if-loop-data]
+              [if-loop-data transactions zip]
+              <tr>
+                <td class="block4bold">[L]Postal code[/L]:</td>
+                <td class="maincontent">[loop-data transactions zip]</td>
+              </tr>
+              [/if-loop-data]
+              [/else]
+              [/if-loop-data]
+              <tr>
+                <td class="block4bold">[L]Country[/L]:</td>
+                <td class="maincontent">[data table=country col=name key="[loop-data transactions country]"]</td>
+              </tr>
+              <tr>
+                <td height="15" colspan="2" class="block4bold"><img src="bg.gif" alt="." width="1" height="1"></td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table>
+	<br>
+	<table width="100%" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+      <tr>
+        <td height="30" valign="top" nowrap class="block4bold"><div align="center"><strong>Move All Order Items to Correct Box for Shipping</strong>  </div></td>
+      </tr>
+    </table>
+	[/loop]
+	<br>
+<table width="100%" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+  <tr>
+    <th  class="block4bold" scope="col">
+		<div id="header"></div>
+	<div id="mainContainer">
+		<h2>&nbsp;</h2>
+		<div class="konaBody">
+		<div class="maincontent" id="capitals">
+			<p><b>Order Items </b></p>
+
+			<div id="dropContent"></div>
+		</div>
+		<div id="countries"></div>
+		<div class="clear"></div>
+		<div class="konaBody"></div>
+	</div>
+
+<div id="debug"></div>
+
+	</th>
+  </tr>
+</table>
+	
+
+  [query prefix=orderline list_prefix=orderlinelist list=1 sql="SELECT * FROM orderline WHERE order_number LIKE '[cgi order]'"]
+  [query prefix=totalshipped sql="select SUM(qty) AS 'Shipped' FROM ups_shipments_items WHERE code = '[orderline-code]' " type=list]
+  
+  [if term='[cgi [orderline-code]-shipped]' op='==' compare='0']
+  
+   [query list=1 sql="UPDATE orderline set status = 'backorder' WHERE code='[orderline-code]'"] [/query]
+   [query list=1 sql="UPDATE transactions set status = 'processing' WHERE code='[cgi order]'"][/query]
+  [else]
+  [/else]
+  [/if]
+   [/query]
+   [/query]
+
+
+[output name=bottom_buttons]
+
+<span class="hiddenOnPrint">
+<form action="https://www.westbranchangler.com/cgi-bin/site/admin/order_ship.html?id=[data session id]&order=[cgi order][query list=1 sql="SELECT * FROM orderline WHERE order_number LIKE '[cgi order]'"][if term='[cgi [sql-code]-shipped]' op='==' compare='0']&[sql-code]-shipped=0[/if][/query]" method="post" onsubmit="this.action = this.action + GetData()">
+
+<select name="shipper">
+  <option value="1" selected>UPS</option>
+  <option value="2">Post Office (USPS)</option>
+</select>
+  <input name="submit" type="submit" value="Next">
+</span>
+</p>
+</form>
+
+[output]
+<script type="text/javascript">
+
+function showResult(){
+	var data = GetData();
+	if (data=="") return;
+	document.getElementById('data').value =  GetData();
+}
+function _getValue(data, name){
+	var ar = data.split("&");
+	for (var i=0; i<ar.length; i++)
+		if (ar[i].split("=")[0]==name)
+			return ar[i].split("=")[1];
+	return "";		
+}
+
+function GetData(){
+	if (SourceDraggableElements_Selected < SourceDraggableElements.length){
+		alert("Select all the capitals at first.");
+		return "";
+	};
+	var result = "&count=" + SourceDraggableElements.length;
+	for (var i=0; i<SourceDraggableElements.length; i++){
+		var el = SourceDraggableElements[i];
+		for (var j in el)
+			if (j!="targetId" && j!="targetName")
+				result += "&" + j + "=" + el[j];
+		result+= "&" + el.targetName + "=" + el.targetId; 		}	
+	
+	return result;
+}
+
+// Custom drop action for the country boxes
+function dropItems(idOfDraggedItem,targetId,x,y){
+	var targetObj = document.getElementById(targetId);	// Creating reference to target obj
+	var sourceObj = document.getElementById(idOfDraggedItem);	// Creating reference to source, i.e. dragged object
+	var ind = findSourceById(idOfDraggedItem);
+	if (ind==-1) return;
+	
+	//we return it to start position. Decrease the SourceDraggableElements_Selected
+	if (targetObj.id == "capitals") {
+		document.getElementById("dropContent").appendChild(sourceObj);	
+		SourceDraggableElements[ind].targetId = "";
+		SourceDraggableElements_Selected--;
+		sourceObj.style.backgroundColor="";
+	}
+	// drop into the countries. Increase the SourceDraggableElements_Selected.
+	if (targetObj.className == "dragableBoxRight"){
+		var color = (SourceDraggableElements[ind].greenColorId==targetId)?"#0F0":"";
+		// Set green background color for dragged object
+		sourceObj.style.backgroundColor=color;	
+		// Append	
+		targetObj.appendChild(sourceObj);	
+		//save the target it
+		SourceDraggableElements[ind].targetId = targetId;
+		SourceDraggableElements_Selected++;
+	}
+}
+
+
+// find the index of source element by the id.
+function findSourceById(id){
+	for (var i=0; i<SourceDraggableElements.length; i++)
+		if (SourceDraggableElements[i].id==id)
+			return i;
+	return -1;		
+}
+function findTargetById(id){
+	for (var i=0; i<TargetDraggableElements.length; i++)
+		if (TargetDraggableElements[i].id==id)
+			return i;
+	return -1;		
+}
+
+// Collect the source information. Every item of an array can contain any count of parameters.
+var SourceDraggableElements_Selected = 0;
+var SourceDraggableElements = new Array();
+SourceDraggableElements[0] = {
+	id : "box0",
+	label : "Packing List",
+	shipped: "packinglist",
+	backordered: "1",
+	targetName: "PackingList"
+	
+	}
+	[seti counter]0[/seti]
+  [query prefix=orderline list_prefix=orderlinelist list=1 sql="SELECT * FROM orderline WHERE order_number LIKE '[cgi order]'"]
+  
+  [if term='[cgi [orderline-code]-shipped]' op='==' compare='0' ]
+  
+ [else]
+  [seti counter][calc interpolate="1"][scratch counter]+1[/calc][/seti]
+  SourceDraggableElements[[scratch counter]] = {
+	id : "[orderline-code]",
+	label : "[orderline-param sku] x [cgi [orderline-code]-shipped]",
+	targetName : "[orderline-code]-box",
+	"[orderline-code]-shipped": "[cgi [orderline-code]-shipped]",
+	"[orderline-code]-backordered": "[cgi [orderline-code]-backordered]"
+}
+[/else]
+[/if]
+[/query]
+
+var TargetDraggableElements = new Array();
+TargetDraggableElements[0] = {
+	id : "box101",
+	label : "Box 1"
+};
+TargetDraggableElements[1] = {
+	id : "box102",
+	label : "Box 2"
+};
+TargetDraggableElements[2] = {
+	id : "box103",
+	label : "Box 3"
+};
+TargetDraggableElements[3] = {
+	id : "box104",
+	label : "Drop Ship"
+};
+			
+
+var dragDropObj = new DHTMLgoodies_dragDrop();	// Creating drag and drop object
+// Assigning drag events to all the source elements
+var dropContent = document.getElementById("dropContent");
+for (var i=0; i<SourceDraggableElements.length; i++){
+	var div = document.createElement("DIV");
+	div.className = "dragableBox";
+	div.innerHTML = SourceDraggableElements[i].label;
+	div.id = SourceDraggableElements[i].id;
+	dropContent.appendChild(div);
+	dragDropObj.addSource(SourceDraggableElements[i].id,true);	
+}	
+// add target events to all the right elements
+var countries = document.getElementById("countries");
+for (var i=0; i<TargetDraggableElements.length; i++){
+	var div = document.createElement("DIV");
+	div.className = "dragableBoxRight";
+	div.innerHTML = TargetDraggableElements[i].label;
+	div.id = TargetDraggableElements[i].id;
+	countries.appendChild(div);
+	dragDropObj.addTarget(TargetDraggableElements[i].id,'dropItems');	
+}	
+// also add sorce container to the target items (when we want to return container to the beginning.
+dragDropObj.addTarget("capitals",'dropItems');
+
+
+dragDropObj.init();	// Initizlizing drag and drop object
+</script>
+@_UI_STD_FOOTER_@
+
+

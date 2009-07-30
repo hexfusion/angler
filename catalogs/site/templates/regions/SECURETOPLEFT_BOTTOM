@@ -1,0 +1,36 @@
+<!-- BEGIN SECURETOPLEFT_BOTTOM -->
+    [component group=content]
+
+  <br><br>
+<table width="450" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><p align="center"><font color="#666666">All contents &copy; Copyright 
+        2004-2005 West Branch Angler &amp; Resort</font> <font color="#999999"><br>
+        <font color="#666666">Reservations / Orders </font></font> <font color="#666666"><strong>800.201.2557</strong></font><font color="#999999"><strong><br>
+        <a href="mailto:wbangler@westbranchresort.com%20"><font color="#999999">wbangler@westbranchresort.com</font> 
+        </a> <br>
+        </strong><font color="#666666">Fax: 607-467-5525</font></font><strong><br>
+        </strong></p>
+      <p align="center">&nbsp; 
+        <!--
+TrustLogo Html Builder Code:
+Shows the logo at URL https://secure.westbranchresort.com/interchange-5/en_US/secure_site.gif
+Logo type is undefined ("SC")
+undefined
+//-->
+        <script type="text/javascript">TrustLogo("https://secure.westbranchresort.com/interchange-5/en_US/secure_site.gif", "SC", "none");</script>
+      </p>
+</td>
+  </tr>
+</table>
+  <br><br>
+
+  </td>
+</tr>
+</table>
+
+__ADL_PAGE__
+</body>
+</html>
+
+<!-- END SECURETOPLEFT_BOTTOM -->

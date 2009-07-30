@@ -1,0 +1,13 @@
+[comment]
+ui_template: ecom_simms_left_right
+ui_type: template
+ui_name: ecom_simms_left_right
+ui_version: 5.6.1
+ui_label: Simms Ecommerce Left Right
+ui_source: templates/ecom_simms_left_right
+ui_template_layout: ECOM_SIMMS_LEFT_RIGHT_TOP, UI_CONTENT, ECOM_SIMMS_LEFT_RIGHT_BOTTOM
+ui_template_version: 5.5.1
+
+
+[/comment]
+

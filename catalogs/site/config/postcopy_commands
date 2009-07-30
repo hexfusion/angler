@@ -1,0 +1,7 @@
+sh /home/virtual/site12/fst/var/www/catalogs/site2/config/makedirs
+We need to make some directories to store sessions, logs, and such.
+
+sh /home/virtual/site12/fst/var/www/catalogs/site2/config/add_global_usertag
+This catalog requires some global usertags not available in the
+standard distribution.
+

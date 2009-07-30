@@ -1,0 +1,92 @@
+#!/bin/sh
+
+PERMTYPE=`echo M | sed -e 's/\(.\).*/\1/' | tr a-z A-Z`
+
+if [ "x`whoami`" = xroot ]
+then
+	if test "x$PERMTYPE" = x -o "x$PERMTYPE" = xM
+	then
+		CATUSER=admin12
+		CATGROUP=admin12
+	elif test "x$PERMTYPE" = xG
+	then
+		CATUSER=interch
+		CATGROUP=admin12
+	else
+		CATUSER=interch
+		CATGROUP=interch
+	fi
+fi
+
+if test "x$PERMTYPE" = x -o "x$PERMTYPE" = xM -o "x$PERMTYPE" = xG
+then
+	DMODE=2770
+	FMODE=660
+else
+	DMODE=700
+	FMODE=600
+fi
+
+# Link the image directory always
+ln -s /home/virtual/site12/fst/var/www/html/site2/images /home/virtual/site12/fst/var/www/catalogs/site2
+
+# Make log directories to store logs.
+if test -n ''
+then 
+	LOGDIR=''
+	mkdir -p     $LOGDIR/logs
+	mkdir -p     $LOGDIR/orders
+	touch        $LOGDIR/error.log
+	ln    -s     $LOGDIR/error.log /home/virtual/site12/fst/var/www/catalogs/site2
+	ln    -s     $LOGDIR/logs      /home/virtual/site12/fst/var/www/catalogs/site2
+	ln    -s     $LOGDIR/orders    /home/virtual/site12/fst/var/www/catalogs/site2
+	chmod $DMODE $LOGDIR/logs
+	chmod $DMODE $LOGDIR/orders
+	touch        $LOGDIR/error.log
+	if test -n "$CATUSER"
+	then
+		[ -n "$CATUSER"  ] && chown $CATUSER  $LOGDIR/error.log
+		[ -n "$CATGROUP" ] && chgrp $CATGROUP $LOGDIR/error.log
+	fi
+else
+	LOGDIR='/home/virtual/site12/fst/var/www/catalogs/site2'
+	mkdir -p     $LOGDIR/orders
+	mkdir -p     $LOGDIR/logs
+	chmod $DMODE $LOGDIR/logs
+	chmod $DMODE $LOGDIR/orders
+	touch        $LOGDIR/error.log
+	if test -n "$CATUSER"
+	then
+		[ -n "$CATUSER"  ] && chown $CATUSER  $LOGDIR/error.log
+		[ -n "$CATGROUP" ] && chgrp $CATGROUP $LOGDIR/error.log
+	fi
+fi
+
+chmod $FMODE $LOGDIR/error.log
+chmod $FMODE /home/virtual/site12/fst/var/www/catalogs/site2/catalog.cfg
+
+# Make cache directories to store tmps.
+if test -n ''
+then 
+	CACHEDIR=''
+	mkdir -p $CACHEDIR/session
+	ln    -s $CACHEDIR/session /home/virtual/site12/fst/var/www/catalogs/site2
+	mkdir -p $CACHEDIR/tmp
+	ln    -s $CACHEDIR/tmp     /home/virtual/site12/fst/var/www/catalogs/site2
+else
+	CACHEDIR='/home/virtual/site12/fst/var/www/catalogs/site2'
+	mkdir -p     $CACHEDIR/session
+	mkdir -p     $CACHEDIR/tmp
+	chmod $DMODE $CACHEDIR/session
+	chmod $DMODE $CACHEDIR/tmp
+fi
+
+# Fix directory ownership if running as root
+if test -n "$CATUSER"
+then
+	for i in $LOGDIR/logs $LOGDIR/orders $CACHEDIR/session $CACHEDIR/tmp
+	do
+		[ -n "$CATUSER"  ] && chown $CATUSER $i
+		[ -n "$CATGROUP" ] && chgrp $CATGROUP $i
+	done
+fi

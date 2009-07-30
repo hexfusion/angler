@@ -1,0 +1,391 @@
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+[set page_title][L]Shipping manager[/L]: [L]View order[/L][/set]
+
+
+  @_UI_STD_HEAD_@
+  <!-- ----- BEGIN REAL STUFF ----- -->
+  
+  <!-- TODO this needs to get cleaned up with some nice join queries and also look for there to be any shipments that were not completed and use them instead of making new ones. 
+  
+<!-- Add a new shipment to the DB -->
+  [query row_count=1 list=1 sql="SELECT * FROM ups_shipments WHERE code = '[cgi order]' AND ship_status = '1'"]
+
+[if term='[sql-param count]' op='==' compare='0']
+  
+[query sql="INSERT into ups_shipments set code = '[cgi order]', ship_status = '1'"][/query]
+
+[/if]
+[/query]
+<!-- Find the shipment that we made above and add the items being shipped to it -->
+[query  prefix=shipments list_prefix=shipmentslist list=1 sql="SELECT shipping_id FROM ups_shipments WHERE code = '[cgi order]' AND ship_status = '1'"][set shipping_id] [shipments-pos 0] [/set][/query]
+
+   [query prefix=orderline list_prefix=orderlinelist list=1 sql="SELECT * FROM orderline WHERE order_number LIKE '[cgi order]'"]
+   			[query  prefix=shipmentlines  row_count=1 list=1 sql="SELECT * FROM ups_shipments_items WHERE code = '[orderline-param code]' AND shipping_id = '[scratch shipping_id]' AND  ship_status = 'unshipped'"][seti lines][calc interpolate="1"][shipmentlines-param count]-0[/calc][/seti][/query]
+ 
+
+  <!-- if item in order has shipped less than was is due but did ship something the its a partial ship -->  
+ [if term='[cgi [orderline-code]-shipped]' op='!=' compare='0']
+ [then]
+
+ [if term='[cgi [orderline-code]-shipped]]' op='<' compare='[calc interpolate="1"]([orderline-param quantity] - ([totalshipped-pos 0]-0)[/calc]']
+
+
+[query sql="UPDATE orderline set status = 'processing_part_bo', quantity_shipped = '[cgi [orderline-code]-shipped]', quantity_backordered = '[cgi [orderline-code]-backordered]' WHERE code='[orderline-param code]'"][/query]
+[query sql="UPDATE transactions set status = 'processing' WHERE code='[cgi order]'"][/query]
+
+[if term='[scratch lines]' op='==' compare='0']
+[query sql="INSERT into ups_shipments_items set order_number = '[cgi order]', sku = '[orderline-param sku]', description = '[orderline-param description]', options = '[orderline-param options]', box = '[cgi [orderline-param code]-box]', code = '[orderline-param code]', qty = '[cgi [orderline-code]-shipped]', shipping_id = '[scratch shipping_id]'"][/query]
+[else]
+[query sql="UPDATE ups_shipments_items set options = '[orderline-param options]', box='[cgi [orderline-code]-box]', code = '[orderline-code]', qty = '[cgi [orderline-code]-shipped]', shipping_id = '[shipments-param shipping_id]' WHERE shipping_id='[shipments-param shipping_id]' AND code= '[orderline-code]'"][/query]
+[/else]
+[/if]
+[/if]
+
+
+[if term='[cgi [orderline-code]-shipped]]' op='==' compare='[calc interpolate="1"] ([orderline-param quantity] - ([totalshipped-pos 0]-0))[/calc]'] 
+[then]
+
+[query sql="UPDATE orderline set status = 'processing_shipped', quantity_shipped = '[cgi [orderline-code]-shipped]', quantity_backordered = '[cgi [orderline-code]-backordered]' WHERE code='[orderline-param code]'"][/query]
+[query sql="UPDATE transactions set status = 'processing' WHERE code='[cgi order]'"][/query]
+
+[if term='[scratch lines]' op='==' compare='0']
+
+[query sql="INSERT into ups_shipments_items set order_number = '[cgi order]', sku = '[orderline-param sku]', description = '[orderline-param description]', options = '[orderline-param options]', box = '[cgi [orderline-param code]-box]', code = '[orderline-param code]', qty = '[cgi [orderline-code]-shipped]', shipping_id = '[scratch shipping_id]'"][/query]
+
+[else]
+[query sql="UPDATE ups_shipments_items set options = '[orderline-param options]', box = '[cgi [orderline-code]-box]', code = '[orderline-code]', qty = '[cgi [orderline-code]-shipped]', shipping_id = '[shipments-param shipping_id]' WHERE shipping_id='[shipments-param shipping_id]' AND code= '[orderline-code]'"][/query]
+[/else]
+[/if]
+[/if]
+[/if]
+
+
+[/query]
+
+
+
+[loop list="[value-extended order]"]
+
+	<table width="100%" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+      <tr>
+        <td width="25%" nowrap class="block4bold">[L]User Name[/L]: &nbsp; <a href="[area href="admin/customer_view" form="customer=[loop-data transactions username]"]" title="View customer"><span class="maincontent">[loop-data transactions username]</span></a></td>
+        <td width="25%" nowrap class="block4bold"> [L]Order Status[/L]: &nbsp;
+          [page href="admin/order_status" form="order=[loop-code]"] <span class="alert">[display table=transactions col=status type=display key="[loop-code]"]</span> </a> [if-loop-data transactions archived == 1]
+          ([L]archived[/L])
+          [/if-loop-data]
+          [if-loop-data transactions deleted == 1]
+          ([L]deleted[/L])
+          [/if-loop-data] </td>
+        <td width="25%" nowrap class="block4bold"> [L]Affiliate[/L]: &nbsp;
+          [if-loop-data transactions affiliate]
+          [page href="admin/affiliate"
+          form="affiliate=[loop-data transactions affiliate]"
+          ]<span class="maincontent">[loop-data transactions affiliate]</span></A> [else] <span class="maincontent">[L]none[/L]</span> [/else]
+          [/if-loop-data] </td>
+        <td width="25%" nowrap class="block4bold"> [L]Order Date[/L]: &nbsp; <span class="maincontent"> [convert-date fmt="%b %e, %Y %l:%M %P"][loop-data transactions order_date][/convert-date] </span> </td>
+      </tr>
+    </table>
+	<br>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <!-- CUSTOMER DETAILS -->
+        [loop prefix=customer list="[loop-data transactions username]"]
+        <td width="33%" valign="top"><table width="100%" height="160" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+          <tr>
+            <td height="1%" class="block4"><a href="[area href='admin/customer_view' form='customer=[loop-data transactions username]']">[L]Customer Details[/L]</a></td>
+          </tr>
+          <tr>
+            <td height="99%" valign="top" class="block4"><table width="100%" border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td width="30%" class="block4bold">[L]Customer[/L]:</td>
+                <td width="70%" class="maincontent"><a href="[area href='admin/customer_view' form='customer=[loop-data transactions username]']">[customer-data userdb fname] [customer-data userdb lname]</a> </td>
+              </tr>
+              [if-customer-data userdb company]
+              <tr>
+                <td class="block4bold"> [L]Company[/L]:</td>
+                <td class="maincontent">[customer-data userdb company]</td>
+              </tr>
+              [/if-customer-data]
+              [if-customer-data userdb phone_night]
+              <tr>
+                <td nowrap class="block4bold">[L]Home phone[/L]:</td>
+                <td class="maincontent">[customer-data userdb phone_night]</td>
+              </tr>
+              [/if-customer-data]
+              [if-customer-data userdb phone_day]
+              <tr>
+                <td nowrap class="block4bold"> [L]Work phone[/L]:</td>
+                <td class="maincontent">[customer-data userdb phone_day]</td>
+              </tr>
+              [/if-customer-data]
+              <tr>
+                <td class="block4bold">[L]Email[/L]:</td>
+                <td class="maincontent"><a href="mailto:[customer-data userdb email]">[loop-data transactions email]</a></td>
+              </tr>
+              <tr>
+                <td nowrap class="block4bold">[L]Payment type[/L]:</td>
+                <td class="maincontent">[loop-data transactions payment_method]</td>
+              </tr>
+              [if-loop-data transactions shipmode]
+              <tr>
+                <td nowrap class="block4bold">[L]Ship method[/L]:</td>
+                <td class="maincontent">[loop-data transactions shipmode]</td>
+              </tr>
+              [/if-loop-data]
+              <tr>
+                <td height="15" colspan="2" class="block4bold"><img src="bg.gif" alt="." width="1" height="1"></td>
+              </tr>
+              [if type=file term="[either]__ORDER_DIRECTORY__[or]orders[/either]/[loop-code]"]
+              <tr>
+                <td align=right>&nbsp;</td>
+                <td>[page href="process/[loop-code].pgp"
+                  add_dot_html=0
+                  form="
+                  deliver_encrypted=1
+                  mv_todo=return
+                  mv_nextpage=@@MV_PAGE@@
+                  order=[loop-code]
+                  "][L]Decrypt Credit Card[/L]</a> </td>
+              </tr>
+              [/if]
+            </table></td>
+          </tr>
+        </table></td>
+        [/loop]
+        <td width="3"><img src="bg.gif" alt="." width="3" height="1"></td>
+        <!-- BILLING DETAILS -->
+        <td width="33%" valign="top"><table width="100%" height="160" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+          <tr>
+            <td height="1%" class="block4"><a href="#">[L]Billing Details[/L]</a></td>
+          </tr>
+          <tr>
+            <td height="99%" valign="top" class="block4"> [if-loop-data transactions b_address1]
+              [loop prefix=bill list="[loop-code]"]
+              <table width="100%" border="0" cellspacing="0" cellpadding="1">
+                  <tr>
+                    <td width="30%" class="block4bold">[L]Name[/L]:</td>
+                    <td width="70%" class="maincontent"><A HREF="[area
+				href=__UI_BASE__/customer_view
+				arg="[loop-data transactions username]"
+		]"><u>[loop-data transactions b_fname] [loop-data transactions b_lname]</A> </td>
+                  </tr>
+                [if-bill-data transactions b_company]
+                <tr>
+                  <td width="30%" class="block4bold">[L]Company[/L]:</td>
+                  <td width="70%" class="maincontent"> [loop-data transactions b_company] </td>
+                </tr>
+                [/if-bill-data]
+                <tr>
+                  <td valign="top" class="block4bold">[L]Address[/L]:</td>
+                  <td class="maincontent"> [loop-data transactions b_address1]
+                    [if-bill-data transactions b_address2] <br>
+                    [loop-data transactions b_address2]
+                    [/if-bill-data] </td>
+                </tr>
+                [if-bill-data transactions b_country =~ /^US|^CA/]
+                <tr>
+                  <td class="block4bold">[L]City, State, Zip[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_city], [loop-data transactions b_state]  [loop-data transactions b_zip]</td>
+                </tr>
+                [else]
+                <tr>
+                  <td class="block4bold">[L]City[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_city]</td>
+                </tr>
+                [if-bill-data transactions b_state]
+                <tr>
+                  <td class="block4bold">[L]State[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_state]</td>
+                </tr>
+                [/if-bill-data]
+                [if-bill-data transactions b_zip]
+                <tr>
+                  <td class="block4bold">[L]Postal code[/L]:</td>
+                  <td class="maincontent">[loop-data transactions b_zip]</td>
+                </tr>
+                [/if-bill-data]
+                [/else]
+                [/if-bill-data]
+                <tr>
+                  <td class="block4bold">[L]Country[/L]:</td>
+                  <td class="maincontent">[data table=country col=name key="[loop-data transactions b_country]"]</td>
+                </tr>
+                <tr>
+                  <td height="15" colspan="2" class="block4bold"><img src="bg.gif" alt="." width="1" height="1"></td>
+                </tr>
+              </table>
+              [/loop]
+              [else] <i>[L]Same as shipping address[/L]</i> [/else]
+              [/if-loop-data] </td>
+          </tr>
+        </table></td>
+        <td width="3"><img src="bg.gif" alt="." width="3" height="1"></td>
+        <!-- SHIPPING DETAILS -->
+        <td width="34%" valign="top"><table width="100%" height="160" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+          <tr>
+            <td height="1%" class="block4"><a href="#">[L]Shipping Details[/L]</a></td>
+          </tr>
+          <tr>
+            <td height="99%" valign="top" class="block4"><table width="100%" border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td width="30%" class="block4bold">[L]Name[/L]:</td>
+                <td width="70%" class="maincontent"><A HREF="[area
+				href=__UI_BASE__/customer_view
+				arg="[loop-data transactions username]"
+		]"><u>[loop-data transactions fname] [loop-data transactions lname]</A> </td>
+              </tr>
+              [if-loop-data transactions company]
+              <tr>
+                <td width="30%" class="block4bold">[L]Company[/L]:</td>
+                <td width="70%" class="maincontent"> [loop-data transactions company] </td>
+              </tr>
+              [/if-loop-data]
+              <tr>
+                <td valign="top" class="block4bold">[L]Address[/L]:</td>
+                <td class="maincontent"> [loop-data transactions address1]
+                  [if-loop-data transactions address2] <br>
+                  [loop-data transactions address2]
+                  [/if-loop-data] </td>
+              </tr>
+              [if-loop-data transactions country =~ /^US|^CA/]
+              <tr>
+                <td class="block4bold">[L]City, State, Zip[/L]:</td>
+                <td class="maincontent">[loop-data transactions city], [loop-data transactions state]  [loop-data transactions zip]</td>
+              </tr>
+              [else]
+              <tr>
+                <td class="block4bold">[L]City[/L]:</td>
+                <td class="maincontent">[loop-data transactions city]</td>
+              </tr>
+              [if-loop-data transactions state]
+              <tr>
+                <td class="block4bold">[L]State[/L]:</td>
+                <td class="maincontent">[loop-data transactions state]</td>
+              </tr>
+              [/if-loop-data]
+              [if-loop-data transactions zip]
+              <tr>
+                <td class="block4bold">[L]Postal code[/L]:</td>
+                <td class="maincontent">[loop-data transactions zip]</td>
+              </tr>
+              [/if-loop-data]
+              [/else]
+              [/if-loop-data]
+              <tr>
+                <td class="block4bold">[L]Country[/L]:</td>
+                <td class="maincontent">[data table=country col=name key="[loop-data transactions country]"]</td>
+              </tr>
+              <tr>
+                <td height="15" colspan="2" class="block4bold"><img src="bg.gif" alt="." width="1" height="1"></td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table>
+	<div align="center"><br>
+	  <div align="center">
+	  [/loop]
+	  <br>
+      <img src="https://www.westbranchangler.com/interchange-5/en_US/ups_logo.jpg" alt="UPS" width="346" height="113" border="1"><br> 
+	  <table width="100%" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+        <tr>
+          <td height="30" valign="top" nowrap class="block4bold"><div align="center"><strong>Shipments For This Order</strong></div></td>
+        </tr>
+      </table>
+	  <br>
+</div>
+	<table width="100%" border="0" cellspacing="1" cellpadding="0">
+        <tr>
+          <th scope="col"><table width="685" border="1" align="center" cellpadding="3" cellspacing="0" bordercolor="#666666">
+            <tr class="rownorm">
+              <th width="101" scope="col">#</th>
+              <th width="115" scope="col">ShipID</th>
+              <th width="137" scope="col">Date</th>
+              <th width="157" scope="col"> Status</th>
+              <th width="133" scope="col">Details</th>
+            </tr>
+            [query type=list sql="SELECT * FROM ups_shipments WHERE code = '[cgi order]'"]
+            
+            [list]
+  <tr class="[sql-alternate 2]rowalt[else]rownorm[/else][/sql-alternate]" valign=top>
+    <td><div align="center">&nbsp;[sql-increment]</div></td>
+    <td><div align="center">[sql-param shipping_id] </div></td>
+    <td><div align="center">&nbsp;[sql-param date_shipped] </div></td>
+    <td><div align="center">&nbsp;[sql-param ship_status] </div></td>
+    <td><div align="center"><a href="https://www.westbranchangler.com/cgi-bin/site/admin/shipment_view.html?order=[cgi order]&amp;id=[data session id]&amp;shipping_id=[sql-param shipping_id]">more info </a></div></td>
+  </tr>
+            [/list]
+            [/query]
+          </table>
+          <br></th>
+        </tr>
+</table>
+    <table width="100%" border="0" cellpadding="6" cellspacing="1" class="rseparator">
+      <tr>
+        <td height="30" valign="top" nowrap class="block4bold"><div align="center"><strong>Please Ship Each Box Including Back Ordered </strong></div></td>
+      </tr>
+    </table>
+    <br>
+    <table width="100%" border="0" cellspacing="1" cellpadding="0">
+      <tr>
+        <th scope="col"><table width="685" border="1" align="center" cellpadding="3" cellspacing="0" bordercolor="#666666">
+            <tr class="rownorm">
+              <th width="174" scope="col">Box 1</th>
+              <th width="159" scope="col">Box 2</th>
+              <th width="162" scope="col">Box 3 </th>
+              <th width="156" scope="col">Back Order</th>
+            </tr>
+          <tr valign=top>
+            <td><div align="center">
+			 [query  prefix=shipments list_prefix=shipmentslist list=1 sql="SELECT * FROM ups_shipments WHERE code = '[cgi order]' AND ship_status = '1'"]
+
+			<form action="[area __UI_BASE__/order_process]">
+			<input type="hidden" name="order" value="[cgi order]">
+			<input type="hidden" name="id" value="[data session id]">
+			<input type="hidden" name="shipping_id" value="[shipments-param shipping_id]">
+			<input type="hidden" name="box" value="box101">
+            <input type="submit" name="Submit" value="Submit">
+			</form>           [/query]</div></td>
+            <td><div align="center">
+			 [query  prefix=shipments list_prefix=shipmentslist list=1 sql="SELECT * FROM ups_shipments WHERE code = '[cgi order]' AND ship_status = '1'"]
+
+			<form action="[area __UI_BASE__/order_process]">
+			<input type="hidden" name="order" value="[cgi order]">
+			<input type="hidden" name="id" value="[data session id]">
+			<input type="hidden" name="shipping_id" value="[shipments-param shipping_id]">
+			<input type="hidden" name="box" value="box102">
+            <input type="submit" name="Submit" value="Submit">
+			</form>           [/query]</div></td>
+            <td><div align="center">
+			 [query  prefix=shipments list_prefix=shipmentslist list=1 sql="SELECT * FROM ups_shipments WHERE code = '[cgi order]' AND ship_status = '1'"]
+			<form action="[area __UI_BASE__/order_process]" method="post">
+			<input type="hidden" name="order" value="[cgi order]">
+			<input type="hidden" name="id" value="[data session id]">
+			<input type="hidden" name="shipping_id" value="[shipments-param shipping_id]">
+			<input type="hidden" name="box" value="box103">
+            <input type="submit" name="Submit" value="Submit">
+			</form>       [/query]     </div></td>
+            <td><div align="center">
+			 [query  prefix=shipments list_prefix=shipmentslist list=1 sql="SELECT * FROM ups_shipments WHERE code = '[cgi order]' AND ship_status = '1'"]
+
+			<form action="[area __UI_BASE__/order_process]">
+			<input type="hidden" name="order" value="[cgi order]">
+			<input type="hidden" name="id" value="[data session id]">
+			<input type="hidden" name="shipping_id" value="[shipments-param shipping_id]">
+			<input type="hidden" name="box" value="box104">
+            <input type="submit" name="Submit" value="Submit">
+			</form>        [/query]  </div></td>
+          </tr>
+       
+        </table></th>
+      </tr>
+    </table>
+
+<!-- ----- END REAL STUFF ----- -->
+@_UI_STD_FOOTER_@ 
+

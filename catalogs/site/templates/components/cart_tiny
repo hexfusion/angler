@@ -1,0 +1,53 @@
+[comment]
+ui_component: cart_tiny
+ui_type: component
+ui_name: cart_tiny
+ui_class: vertical
+ui_group: info
+ui_label: Small cart for left/right display
+ui_source: templates/components/cart_tiny
+
+
+[/comment]
+[comment]
+ui_name: cart_tiny
+ui_type: component
+ui_class: vertical
+ui_group: info
+ui_label: Small cart for left/right display
+
+[/comment]
+<!-- BEGIN COMPONENT [control component cart_tiny] -->
+  [if items]
+  <div padding="2" align="center">
+  <div align="center" class="item_header"><strong>Shopping Cart</strong></div>
+  <div class="carttiny">
+
+  <table width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+		<td align=left class=ctiny_heading><strong>Description</strong></td>
+		<td align=right class=ctiny_heading><strong>Quantity</strong></td>
+      </tr>
+[item-list]
+	[item-next][item-modifier mv_si][/item-next]
+      <tr>
+		<td valign=top align=left>
+		  <a href="[area [item-sku]]" class="ctiny_text">[item-filter 8][item-data products description]...[/item-filter]</A>
+		</td>
+		<td align=right valign=top class="ctiny_text">
+		  [item-quantity]&nbsp;x&nbsp;[item-discount-price]
+		</TD>
+      </tr>
+[/item-list]
+  </table>
+  <br>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th scope="col"><a href="http://www.westbranchangler.com/cgi-bin/site/ord/basket.html?id=NEuRYCXr&mv_pc=10649"><img src="http://www.westbranchangler.com/images/view_cart.jpg" alt="View Cart" width="73" height="20" border="0"></a></th>
+      <th scope="col"><a href="http://www.westbranchangler.com/cgi-bin/site/ord/checkout.html?id=NEuRYCXr&mv_pc=10650"><img src="http://www.westbranchangler.com/images/checkout.jpg" alt="Check Out" width="73" height="20" border="0"></a></th>
+    </tr>
+  </table>
+  </div>
+  </div>
+  [/if]
+<!-- END COMPONENT [control component cart_tiny] -->

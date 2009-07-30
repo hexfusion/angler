@@ -1,0 +1,31 @@
+[component group=content]	
+</td>
+  <!-- End Column 2 Main Content-->
+  
+   
+    <td width="160" valign="top" bgcolor="#E9EEDF">
+	[component group=vertical]<br>
+	[component group=vertical]<br>
+	[component group=vertical]	</td>
+  </tr>
+</table>
+    <table width="1000" border="0" align="left" cellpadding="0" cellspacing="1" bgcolor="#333333" CLASS="treeNode">
+  <tr>
+    <td width="100%" height="15" valign="top" bgcolor="#B25F36"><p align="center"><font color="666666">| <a href="[area index]">Home</a> | <a href="[area wba_about_us]">About Us</a> | <a href="[area href="advancedsearch.html"]">Search</a>  | <a href="[area href="customerservice.html"]">Order Tracking</a> | <a href="[area href="shipping.html"]">Shipping Info</a> | <a href="[area href="sitemap"]">Sitemap</a> |<a href="[area href="contact"]">Contact</a> |</font></p>    </td>
+  </tr>
+</table>  
+
+    <p>&nbsp;</p>
+    <table width="1000" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th scope="col"><p align="center"><font style="font-size: 8pt " color="#FFFFFF">All contents &copy; Copyright 
+          1991-2008 West Branch Angler <br>
+        Orders <strong>800.201.2557<br>
+          </strong>Fax: 607-467-5525 </font><br>
+  <br>
+        __ADL_PAGE__</p></th>
+      </tr>
+    </table>
+
+</body>
+</html>

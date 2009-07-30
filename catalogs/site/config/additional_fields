@@ -1,0 +1,68 @@
+COMPANY
+Your company name
+Standard Store
+
+MYSQL
+Set to 1 if you want to use MySQL
+	1	0
+
+{MYSQL}SQLDB
+Database to use (will be created)
+test_site2	interch
+
+{MYSQL}SQLDSN
+DBI DSN to use
+dbi:mysql:test_site2
+
+{MYSQL}SQLUSER
+Username for MySQL (if any)
+	admin12	interch
+
+{MYSQL}SQLPASS
+Password for MySQL (if any)
+	pass
+
+{MYSQL}MYSQLCREATE
+Set to 1 to create 'test_site2' with mysqladmin
+1	0
+
+{MYSQLCREATE}MYSQLCREATEOPT
+Extra options for creation
+	-p	-u root -p
+
+{MAILORDERTO and ! '1'}PGSQL
+Set to 1 if you want to use PostgreSQL
+	1	0
+
+{PGSQL}SQLDB
+Database to use (will be created)
+site2	interch
+
+{PGSQL}SQLDSN
+DBI DSN to use
+dbi:Pg:dbname=test_site2
+
+{PGSQL}SQLUSER
+Username for PostgreSQL (if any)
+	admin12	interch
+
+{PGSQL}SQLPASS
+Password for PostgreSQL (if any)
+	pass
+
+{PGSQL}!SQLUDATE
+Timestamp for PostgreSQL (if any)
+2000-01-01
+
+SUPERUSER
+Account name that will control this catalog
+admin12	interchange	admin	interch
+
+CRYPTPW
+Administrative password
+pass	nevairbe
+
+DEMOMODE
+Set to 1 to display demo helper features in your store
+1	0	1
+

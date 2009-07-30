@@ -1,0 +1,920 @@
+code	store_id	order_number	session	username	shipmode	sku	UPC_No	quantity	price	subtotal	shipping	taxable	size	color	options	order_date	update_date	status	parent	affiliate	campaign	description
+WBA32001-1		WBA32001	f5rLCWtT	U00001		Simms_G3_Vest		1	169.95	169.95					color: taupo, size: l	20070828	2007-08-28 14:09:54	pending				Simms G3 Vest
+WBA32002-1		WBA32002	f5rLCWtT	U00002		Simms_G3_Vest		1	169.95	169.95					color: taupo, size: l	20070828	2007-08-28 16:07:32	pending				Simms G3 Vest
+WBA32002-2		WBA32002	f5rLCWtT	U00002		Simms_G3_Vest		1	169.95	169.95					color: taupo, size: l	20070828	2007-08-28 16:07:32	pending				Simms G3 Vest
+WBA32003-1		WBA32003	zkRiXafp	U00003		SIMG3		1	340.00	340.00					size: l, other:	20070831	2007-09-03 10:09:32	shipped				Simms G3 Waders Mens Close Outs
+WBA32004-1		WBA32004	TyVIsugq	U00004		simms_freestone_boot_closeout		1	59.95	59.95					size: 10	20070831	2007-09-03 09:30:35	shipped				Simms Freestone Boot Closeout
+WBA32005-1		WBA32005	cuEYSZeZ	U00005		ROSCIMS		1	80.00	80.00					backing: none, retrieve: rh, option: cim2, color: slate, other:	20070903	2007-09-14 10:01:09	shipped				Ross Cimarron Series Spools
+WBA32006-1		WBA32006	idejsLJE	U00006		disc_simms_waders		2	287.96	575.92					size: l	20070903	2007-09-03 14:51:03	pending				Simms 2007 Guide Wader Closeouts
+WBA32007-1		WBA32007	3TsEbuUi	U00007		ROSFLY		1	109.00	109.00					backing: none, retrieve: lh, option: fly3, color: black, other:	20070904	2007-09-14 10:01:22	shipped				Ross FlyWater Series Fly Reels
+WBA32008-1		WBA32008	yitc42HQ	U00008		simms_freestone_boot_closeout		1	59.95	59.95					size: 12	20070913	2007-09-17 07:43:13	shipped				Simms Freestone Boot Closeout
+WBA32009-1		WBA32009	h6Doyk4I	U00009		simms_freestone_boot_closeout		1	59.95	59.95					size: 7	20070916	2007-09-16 11:26:03	pending				Simms Freestone Boot Closeout
+WBA32010-1		WBA32010	tuzb3Vod	U00010		simms_guide_boot_closeout		1	99.95	99.95					size: 10	20070920	2007-09-25 11:01:16	shipped				Simms Guide Boot Closeout
+WBA32011-1		WBA32011	Uu9zfa96	U00011		SIMLTW		1	149.95	149.95					size: m, other:	20070921	2007-10-03 11:13:11	shipped				Simms Lightweight Waders Closeouts *No Gravel Guard
+WBA32011-2		WBA32011	Uu9zfa96	U00011		SIMLTW		1	149.95	149.95					size: xxl, other:	20070921	2007-10-03 11:13:11	shipped				Simms Lightweight Waders Closeouts *No Gravel Guard
+WBA32012-1		WBA32012	7SzCNS94	U00012		SIMGD04D		1	260.00	260.00					size: xl, other:	20070923	2007-09-28 10:52:28	shipped				Simms Classic Guide Waders Mens Closeouts
+WBA32013-1		WBA32013	LACWrfFY	U00013		SIMG3		1	340.00	340.00					size: ms, other:	20070923	2007-10-01 09:50:00	shipped				Simms G3 Waders Mens Close Outs
+WBA32014-1		WBA32014	abGAVHMM	U00014		SIMG3		1	365.00	365.00					size: xxls, other:	20071005	2007-10-05 15:08:03	pending				Simms G3 Waders Mens Close Outs
+WBA32015-1		WBA32015	JpLCCqrh	U00015		demo_discontinued_reels_spools		1	290.00	290.00					model: hrdy56gem	20071006	2007-10-08 13:33:53	shipped				Discontinued and Demo Reels and Spools
+WBA32016-1		WBA32016	EB7wQX9p	U00016		SIMFS		1	159.00	159.00					size: m, other:	20071014	2007-10-18 12:45:17	shipped				Simms Freestone Waders
+WBA32017-1		WBA32017	H9qwpE2R	U00017		DOWFB		1	69.95	69.95					flybox: 3tray, assesory: none, assesory2: none, assesory3: none, compartment1: none, compartment2: none, other:	20071014	2007-10-16 13:22:08	shipped				The Downs Chest Fly Box
+WBA32018-1		WBA32018	nGRq7N2B	U00018		SIMLTW		1	149.95	149.95					size: ml, other: no size substitutes, please!	20071015	2007-10-15 09:34:25	shipped				Simms Lightweight Waders Closeouts *No Gravel Guard
+WBA32016-2		WBA32016				cortland_line_closeout		1	15.00	15.00							2007-10-18 12:45:17	shipped				444SL DT4
+WBA32016-3		WBA32016				simms_guide_boot_closeout		1	99.95	99.95							2007-10-18 12:45:17	shipped				Simms Guide Boot Size 9
+WBA32019-1		WBA32019	8irmdDBh	U00019		HER9		1	625.00	625.00					Model: 805736, Retrieve: rh, backing: 20w, line: none, Extras: none, special:	20071016	2007-10-18 13:24:42	shipped				The Hardy Bougle MkV Classic Fly Reel Series
+WBA32020-1		WBA32020	kn6JJ9b7	U00020		DOWFB		1	89.95	89.95					flybox: 5tray, assesory: none, assesory2: none, assesory3: none, compartment1: none, compartment2: none, other:	20071016	2007-10-18 12:45:30	shipped				The Downs Chest Fly Box
+WBA32021-1		WBA32021	Nvrnw9ce	U00021		sage_slt_closeout		1	375.00	375.00					model: slt690-4	20071021	2007-10-24 08:18:21	shipped				Sage SLT Closeout
+WBA32022-1		WBA32022	pRLui3gI	U00022		sage_slt_closeout		1	375.00	375.00					model: slt690-4	20071021	2007-10-23 11:14:13	canceled				Sage SLT Closeout
+WBA32023-1		WBA32023	ypNMFyIy	U00023		SAG2500		1	375.00	375.00					backing: 20lbwhite, retrieve: lh, option: 2580, other:	20071024	2007-10-24 05:08:25	pending				Sage 2500 Disc Drag Series Fly Reels
+WBA32024-1		WBA32024	tnSGscCS	U00024		sage_slt_closeout		1	375.00	375.00					model: slt596-4	20071024	2007-10-30 09:36:33	shipped				Sage SLT Closeout
+WBA32025-1		WBA32025	spX2nrhe	U00025		ROSEVS		1	119.00	119.00					backing: 12lbyellow, retrieve: lh, option: ev1, color: black, other:	20071026	2007-10-30 10:09:08	shipped				Ross Evolution Series Fly Reel Spare Spools
+WBA32026-1		WBA32026	C99Jnzz7	U00026		BAUMZS		1	130.00	130.00					option: mz2, backing: 20lbyellow, retrieve: lh, color: black, other:	20071029	2007-11-08 13:33:33	canceled				Bauer Mackenzie Z Series Spools
+WBA32027-1		WBA32027	xdFoSW7V	U00027		disc_simms_waders		1	287.96	287.96					size: xll	20071030	2007-11-08 13:33:15	canceled				Simms 2007 Guide Wader Closeouts
+WBA32028-1		WBA32028	K9VfSAIk	U00028		sage_slt_closeout		1	375.00	375.00					model: slt480-4	20071102	2007-11-08 13:32:56	shipped				Sage SLT Closeout
+WBA32029-1		WBA32029	ySzcQuTe	U00029		simms_freestone_boot_closeout		1	59.95	59.95					size: 10	20071106	2007-11-08 13:45:15	shipped				Simms Freestone Boot Closeout
+WBA32030-1		WBA32030	fR8qCZf2	U00030		cortland_line_closeout		1	15.00	15.00					model: 444sldt4	20071108	2007-11-08 13:32:33	shipped				Cortland 444SL Line Closeout
+WBA32030-2		WBA32030	fR8qCZf2	U00030		cortland_line_closeout		1	20.00	20.00					model: 444slwf6	20071108	2007-11-08 13:32:33	shipped				Cortland 444SL Line Closeout
+WBA32031-1		WBA32031	hj6vmGLu	U00031		scientific_anglers_closeout		1	20.00	20.00					model: xxdwf6	20071110	2007-11-10 01:40:59	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32032-1		WBA32032	xa3J6HF5	U00032		scientific_anglers_closeout		1	20.00	20.00					model: xxdwf6	20071114	2007-11-14 21:53:02	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32033-1		WBA32033	BcciNUWW	U00033		scientific_anglers_closeout		4	20.00	80.00					model: xxdwf6	20071115	2007-11-15 13:16:59	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32033-2		WBA32033	BcciNUWW	U00033		scientific_anglers_closeout		1	20.00	20.00					model: xpswf6	20071115	2007-11-15 13:16:59	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32033-3		WBA32033	BcciNUWW	U00033		cortland_line_closeout		1	15.00	15.00					model: 444sldt6	20071115	2007-11-15 13:16:59	pending				Cortland 444SL Line Closeout
+WBA32033-4		WBA32033	BcciNUWW	U00033		scientific_anglers_closeout		1	20.00	20.00					model: xpswf4	20071115	2007-11-15 13:16:59	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32034-1		WBA32034	k8BwXokN	U00034		cortland_line_closeout		1	20.00	20.00					model: 444slwf6	20071116	2007-11-16 07:27:35	pending				Cortland 444SL Line Closeout
+WBA32034-2		WBA32034	k8BwXokN	U00034		scientific_anglers_closeout		2	20.00	40.00					model: xxdwf6	20071116	2007-11-16 07:27:35	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32035-1		WBA32035	qj8X2e5f	U00035		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt5	20071121	2007-11-21 01:45:04	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32036-1		WBA32036	nMvK3Wcj	U00036		demo_discontinued_reels_spools		1	139.00	139.00					model: orvlaiiig	20071129	2007-11-29 06:57:53	pending				Discontinued and Demo Reels and Spools
+WBA32037-1		WBA32037	YaR7rncR	U00037		SIMGD04D		1	260.00	260.00					size: ll, other:	20071129	2007-11-29 22:02:26	pending				Simms Classic Guide Waders Mens Closeouts
+WBA32037-2		WBA32037	YaR7rncR	U00037		scientific_anglers_closeout		1	20.00	20.00					model: xpswf4	20071129	2007-11-29 22:02:27	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32037-3		WBA32037	YaR7rncR	U00037		scientific_anglers_closeout		1	20.00	20.00					model: xxdwf6	20071129	2007-11-29 22:02:27	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32038-1		WBA32038	nwuIPxJ2	U00038		cortland_line_closeout		1	20.00	20.00					model: 444slwf3	20071130	2007-11-30 03:19:21	pending				Cortland 444SL Line Closeout
+WBA32038-2		WBA32038	nwuIPxJ2	U00038		cortland_line_closeout		1	20.00	20.00					model: 444slwf4	20071130	2007-11-30 03:19:21	pending				Cortland 444SL Line Closeout
+WBA32039-1		WBA32039	Z8x965pk	U00039		cortland_line_closeout		2	20.00	40.00					model: 444slwf6	20071130	2007-11-30 04:10:46	pending				Cortland 444SL Line Closeout
+WBA32039-2		WBA32039	Z8x965pk	U00039		cortland_line_closeout		2	20.00	40.00					model: 444slwf4	20071130	2007-11-30 04:10:46	pending				Cortland 444SL Line Closeout
+WBA32039-3		WBA32039	Z8x965pk	U00039		cortland_line_closeout		2	20.00	40.00					model: 444slwf7	20071130	2007-11-30 04:10:46	pending				Cortland 444SL Line Closeout
+WBA32040-1		WBA32040	qG3AFvVp	U00040		cortland_line_closeout		1	20.00	20.00					model: 444slwf7	20071130	2007-11-30 04:36:12	pending				Cortland 444SL Line Closeout
+WBA32040-2		WBA32040	qG3AFvVp	U00040		cortland_line_closeout		1	20.00	20.00					model: 444slwf8	20071130	2007-11-30 04:36:12	pending				Cortland 444SL Line Closeout
+WBA32041-1		WBA32041	4TTY4fko	U00041		giftcert		1	200.00	200.00					amount: 200, giftcertto: Barry Pittman, giftcertfrom: Amy &amp; Tony Furey, note: Merry Christmas!  Start making your flies!	20071204	2007-12-04 12:57:29	pending				West Branch Angler Gift Certificate
+WBA32042-1		WBA32042	98WfWT3Q	U00042		BAUMXP		1	495.00	495.00					backing: none, retrieve: lh, option: mxp4, color: gray, other:	20071205	2007-12-05 11:08:57	pending				Bauer MXP Series Fly Reels
+WBA32043-1		WBA32043	YAaxeTuM	U00043		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt5	20071205	2008-01-14 14:38:26	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32044-1		WBA32044	HFXV7jre	U00044		NETZY		2	74.95	149.90					model: lz1, other: Please make sure to send the small LZ1 version	20071215	2008-01-31 08:43:44	shipped				S2 Products Zephyr Composite NSB* Fishing Nets
+WBA32045-1		WBA32045	JkmJVjiE	U00045		SIMGD04D		1	260.00	260.00					size: ll, other:	20071218	2008-01-31 09:05:29	canceled				Simms Classic Guide Waders Mens Closeouts
+WBA32045-2		WBA32045	JkmJVjiE	U00045		scientific_anglers_closeout		1	20.00	20.00					model: xpswf4	20071218	2008-01-31 09:05:29	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32045-3		WBA32045	JkmJVjiE	U00045		scientific_anglers_closeout		1	20.00	20.00					model: xxdwf6	20071218	2008-01-31 09:05:29	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32046-1		WBA32046	IiVwjqha	U00046		cortland_line_closeout		1	20.00	20.00					model: 444slwf7	20071223	2007-12-23 14:25:46	pending				Cortland 444SL Line Closeout
+WBA32046-2		WBA32046	IiVwjqha	U00046		cortland_line_closeout		1	15.00	15.00					model: 444sldt3	20071223	2007-12-23 14:25:46	pending				Cortland 444SL Line Closeout
+WBA32046-3		WBA32046	IiVwjqha	U00046		cortland_line_closeout		1	15.00	15.00					model: 444sldt4	20071223	2007-12-23 14:25:46	pending				Cortland 444SL Line Closeout
+WBA32047-1		WBA32047	dkLpqzx5	U00047		cortland_line_closeout		2	15.00	30.00					model: 5ft Sink Tip Rocket Taper Type 6	20071223	2008-01-31 09:06:51	canceled				Cortland 444SL Line Closeout
+WBA32047-2		WBA32047	dkLpqzx5	U00047		cortland_line_closeout		2	15.00	30.00					model: 444sldt4	20071223	2008-01-31 09:06:51	canceled				Cortland 444SL Line Closeout
+WBA32047-3		WBA32047	dkLpqzx5	U00047		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt3	20071223	2008-01-31 09:06:51	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32047-4		WBA32047	dkLpqzx5	U00047		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt5	20071223	2008-01-31 09:06:51	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32047-5		WBA32047	dkLpqzx5	U00047		scientific_anglers_closeout		1	20.00	20.00					model: xxdwf6	20071223	2008-01-31 09:06:51	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32048-1		WBA32048	mv9P6b9A	U00048		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt5	20071224	2007-12-24 09:26:17	pending				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32049-1		WBA32049	FWSdJUxH	U00049		cortland_line_closeout		1	15.00	15.00					model: 444sldt2	20080102	2008-01-31 09:08:17	canceled				Cortland 444SL Line Closeout
+WBA32049-2		WBA32049	FWSdJUxH	U00049		cortland_line_closeout		1	15.00	15.00					model: 444sldt4	20080102	2008-01-31 09:08:17	canceled				Cortland 444SL Line Closeout
+WBA32049-3		WBA32049	FWSdJUxH	U00049		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt3	20080102	2008-01-31 09:08:17	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32049-4		WBA32049	FWSdJUxH	U00049		scientific_anglers_closeout		1	20.00	20.00					model: xpswf4	20080102	2008-01-31 09:08:17	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32050-1		WBA32050	kIciMkq4	U00050		cortland_line_closeout		1	20.00	20.00					model: 444slwf4	20080102	2008-01-31 09:09:21	canceled				Cortland 444SL Line Closeout
+WBA32050-2		WBA32050	kIciMkq4	U00050		cortland_line_closeout		1	15.00	15.00					model: 444sldt4	20080102	2008-01-31 09:09:21	canceled				Cortland 444SL Line Closeout
+WBA32051-1		WBA32051	ZRTtp8YY	U00051		cortland_line_closeout		1	20.00	20.00					model: 444slwf4	20080106	2008-01-31 09:10:16	canceled				Cortland 444SL Line Closeout
+WBA32051-2		WBA32051	ZRTtp8YY	U00051		cortland_line_closeout		1	20.00	20.00					model: 444slwf3	20080106	2008-01-31 09:10:16	canceled				Cortland 444SL Line Closeout
+WBA32051-3		WBA32051	ZRTtp8YY	U00051		cortland_line_closeout		1	15.00	15.00					model: 444sldt4	20080106	2008-01-31 09:10:16	canceled				Cortland 444SL Line Closeout
+WBA32051-4		WBA32051	ZRTtp8YY	U00051		scientific_anglers_closeout		2	20.00	40.00					model: xpswf4	20080106	2008-01-31 09:10:16	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32051-5		WBA32051	ZRTtp8YY	U00051		scientific_anglers_closeout		2	20.00	40.00					model: xpsdt5	20080106	2008-01-31 09:10:16	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32052-1		WBA32052	3vUvjMCE	U00052		scientific_anglers_closeout		1	20.00	20.00					model: xpswf4	20080110	2008-01-31 09:11:00	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32052-2		WBA32052	3vUvjMCE	U00052		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt5	20080110	2008-01-31 09:11:00	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32052-3		WBA32052	3vUvjMCE	U00052		scientific_anglers_closeout		1	20.00	20.00					model: xpsdt3	20080110	2008-01-31 09:11:00	canceled				Scientific Anglers Fly Line Close Out XPS/XXD
+WBA32053-1		WBA32053	vhshu3Qc	U00053		simms_guide_boot_closeout		1	99.95	99.95					size: 14	20080117	2008-01-31 13:23:03	shipped				Simms Guide Boot Closeout
+WBA32054-1		WBA32054	dDtmAnWU	U00054		ROSRHYS		1	101.00	101.00					backing: 20lbwhite, retrieve: lh, option: rhy3, color: slate, other:	20080120	2008-02-11 10:52:09	shipped				Ross Rhythm Fly Reel Series Spare Spools
+WBA32055-1		WBA32055	mtZzgy8i	U00055		NETZY		1	79.95	79.95					model: zephyr, other:	20080124	2008-03-04 09:49:22	shipped				S2 Products Zephyr Composite NSB* Fishing Nets
+WBA32056-1		WBA32056	rdCFewf5	U00056		simms_guide_boot_closeout		1	99.95	99.95					size: 14	20080130	2008-01-31 08:45:30	canceled				Simms Guide Boot Closeout
+WBA32057-1		WBA32057	LpJNPR9b	U00057		Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color: red	20080201	2008-02-01 18:38:03	pending				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32058-1		WBA32058	waPqTF3T	U00058		Hardy_Angel_Featherweight		1	500.00	500.00					backing: none, Retrieve: lh, special: , Extras: none, line: none, Model: angelfw2-3	20080207	2008-02-07 21:09:12	pending				Hardy Angel Featherweight Fly Reel Series
+WBA32059-1		WBA32059	cFej3ToS	U00059		NETZY		1	74.95	74.95					model: lz1, other:	20080302	2008-03-02 18:02:31	pending				S2 Products Zephyr Composite NSB* Fishing Nets
+WBA32060-1		WBA32060	rhzdi67t	U00060		HEI0		1	595.00	595.00					Retrieve: rh, Model: 807389, line: none, Extras: none, special: , backing: none	20080304	2008-03-04 09:59:03	pending				The Hardy Sirrus Allwater Fly Reel Series
+WBA32061-1		WBA32061	rhzdi67t	U00061		simms_freestone_boot_closeout		1	59.95	59.95					size: 8	20080304	2008-03-04 10:20:06	pending				Simms Freestone Boot Closeout
+WBA32069-1		WBA32069	aXLNIbxJ			BAUMZ		1	325.00	325.00					backing: none, retrieve: lh, option: mz1, color: black, other:	20080305	2008-03-05 14:29:23	pending				Bauer Mackenzie Z Series Fly Reels
+WBA32070-1		WBA32070	VdNad8jj			SIMGD04D		1	260.00	260.00					size: m, other: Termometer in green is prefered.	20080305	2008-03-05 15:00:25	pending				Simms Classic Guide Waders Mens Closeouts
+WBA32070-2		WBA32070	VdNad8jj			Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color: green	20080305	2008-03-05 15:00:25	pending				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32070-3		WBA32070	VdNad8jj			Fishpond_Swift_Current_Thermometer		1	18.00	18.00						20080305	2008-03-05 15:00:25	pending				Fishpond USA - Swift Current Thermometer
+WBA32071-1		WBA32071	VdNad8jj			SIMGD04D		1	260.00	260.00					size: m, other: Termometer in green is prefered.	20080305	2008-03-05 15:03:29	pending				Simms Classic Guide Waders Mens Closeouts
+WBA32071-2		WBA32071	VdNad8jj			Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color: green	20080305	2008-03-05 15:03:29	pending				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32071-3		WBA32071	VdNad8jj			Fishpond_Swift_Current_Thermometer		1	18.00	18.00						20080305	2008-03-05 15:03:29	pending				Fishpond USA - Swift Current Thermometer
+WBA32072-1		WBA32072	VdNad8jj			Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color: green	20080305	2008-03-05 15:13:03	pending				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32072-2		WBA32072	VdNad8jj			Fishpond_Swift_Current_Thermometer		1	18.00	18.00						20080305	2008-03-05 15:13:03	pending				Fishpond USA - Swift Current Thermometer
+WBA32072-3		WBA32072	VdNad8jj			SIMGD04D		1	260.00	260.00					size: m, other: Thermometer is prefered in green if you have.	20080305	2008-03-05 15:13:03	pending				Simms Classic Guide Waders Mens Closeouts
+WBA32073-1		WBA32073	eEDEtW9Z			ROSRHYS		1	83.00	83.00					backing: none, retrieve: lh, option: rhy0, color: black, other:	20080305	2008-03-05 16:11:07	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32074-1		WBA32074	MtqGuvzI			NETZY		1	74.95	74.95					model: lz1, other:	20080305	2008-03-05 17:09:33	pending				S2 Products Zephyr Composite NSB* Fishing Nets
+WBA32075-1		WBA32075	QPhKaUmc			Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color: red	20080305	2008-03-05 17:25:20	pending				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32076-1		WBA32076	NaFtEV4p	jhughes14		BAUSLS		1	115.00	115.00					option: m1sl, backing: 20lbyellow, retrieve: lh, color: black, other:	20080305	2008-03-14 14:25:41	shipped				Bauer MacKenzie SuperLite Fly Reel Series Spare Spools
+WBA32077-1		WBA32077	cpSoL7uV			ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080305	2008-03-05 21:20:43	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32078-1		WBA32078	cpSoL7uV			ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080305	2008-03-05 21:22:13	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32079-1		WBA32079	cpSoL7uV			ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080305	2008-03-05 21:23:30	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32080-1		WBA32080	cpSoL7uV			ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080305	2008-03-05 21:26:19	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32081-1		WBA32081	cpSoL7uV			ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080305	2008-03-05 21:27:52	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32082-1		WBA32082	cpSoL7uV			ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080305	2008-03-05 21:29:43	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32083-1		WBA32083	HETftHA9			ROSRHYS		1	83.00	83.00					backing: none, retrieve: lh, option: rhy0, color: black, other:	20080306	2008-03-06 07:21:44	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32084-1		WBA32084	HETftHA9			ROSRHYS		1	83.00	83.00					backing: none, retrieve: lh, option: rhy0, color: black, other:	20080306	2008-03-06 07:25:51	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32084-2		WBA32084	HETftHA9			ROSRHYS		1	83.00	83.00					backing: none, retrieve: lh, option: rhy0, color: black, other:	20080306	2008-03-06 07:25:51	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32085-1		WBA32085	HETftHA9	U00068		ROSRHYS		1	83.00	83.00					backing: none, retrieve: lh, option: rhy0, color: black, other:	20080306	2008-03-06 07:30:52	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32085-2		WBA32085	HETftHA9	U00068		ROSRHYS		1	83.00	83.00					backing: none, retrieve: lh, option: rhy0, color: black, other:	20080306	2008-03-06 07:30:52	pending				Ross Rhythm Fly Reel Series Spare Spools
+WBA32086-1		WBA32086	nobE2TEq			Simms_G3_Vest		1	169.95	169.95					color: taupo, size: l	20080306	2008-03-06 08:01:03	pending				Simms G3 Vest
+WBA32087-1		WBA32087	nobE2TEq			Simms_G3_Vest		1	169.95	169.95					color: taupo, size: l	20080306	2008-03-06 08:02:47	pending				Simms G3 Vest
+WBA32088-1		WBA32088	wIVSd2LI	U00071		Fishpond_Barracuda_Pliers		1	139.00	139.00					color: BCP-CO	20080306	2008-03-06 08:19:42	pending				Fishpond USA - Barracuda Pliers
+WBA32089-1		WBA32089	f57TUMMa	U00072		ROSRHYS		1	101.00	101.00					backing: 20lbyellow, retrieve: rh, option: rhy3, color: black, other:	20080306	2008-03-14 11:49:14	shipped				Ross Rhythm Fly Reel Series Spare Spools
+WBA32090-1		WBA32090	uZF6BMct			SIMGD04D		1	260.00	260.00					size: m, other: thermometer in green. Or blue as an second option.	20080306	2008-04-10 08:45:14	pending				Simms Classic Guide Waders Mens Closeouts
+WBA32090-2		WBA32090	uZF6BMct			Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color: green	20080306	2008-04-10 08:45:14	pending				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32090-3		WBA32090	uZF6BMct			Fishpond_Swift_Current_Thermometer		1	18.00	18.00						20080306	2008-04-10 08:45:14	pending				Fishpond USA - Swift Current Thermometer
+WBA32092-1		WBA32092	VHCxc2iY	U00077		-12		1	225.00	225.00					-12	20080324	2008-04-09 16:43:44	backorder				size12
+WBA32092-2		WBA32092	VHCxc2iY	U00077		-12		1	225.00	225.00					-12	20080324	2008-04-09 15:58:47	partial				size12
+WBA32094-1		WBA32094	rAhHwnNb	U00078		SB20805		1	225.00	225.00					SB20805	20080324	2008-04-10 08:47:01	partial				size05
+WBA32095-1		WBA32095	yYpRCwPq	U00079		SB20806	[item-UPC_No]	1	225.00	225.00					SB20806	20080324	2008-04-09 17:08:42	partial				size06
+WBA32096-1		WBA32096	uxDaL2gg	U00080		SB20806		1	225.00	225.00					SB20806	20080324	2008-04-10 08:48:12	shipped				size06
+WBA32097-1		WBA32097	uxDaL2gg	U00081		SB20806		1	225.00	225.00					SB20806	20080324	2008-04-10 09:51:18	partial				size06
+WBA32098-1		WBA32098	uxDaL2gg	U00082		SB20806	[item-upc_no]	1	225.00	225.00					SB20806	20080324	2008-03-24 13:54:55	pending				size06
+WBA32099-1		WBA32099	uxDaL2gg	U00083		SB20806		1	225.00	225.00					SB20806	20080324	2008-04-09 15:56:33	partial				size06
+WBA32100-1		WBA32100	uxDaL2gg	U00084		SB20806	20000010120206	1	225.00	225.00					SB20806	20080324	2008-04-09 13:23:40	partial				size06
+WBA32101-1		WBA32101	iPYcWg8s	U00086		Simms_G3_Vest		2	169.95	339.90					color: taupo, size: l	20080410	2008-04-10 13:14:05	partial				Simms G3 Vest
+WBA32101-2		WBA32101	iPYcWg8s	U00086		HEVD		1	370.00	370.00					Extras: nailknot, line: none, Retrieve: , Model: soldout, backing: none, special:	20080410	2008-04-10 13:14:05	partial				The Hardy Ultralite Disc Large Arbor Fly Reel Series
+WBA32102-1		WBA32102	iPYcWg8s	U00087		Simms_G3_Vest		1	169.95	169.95					color: taupo, size: l	20080410	2008-04-11 16:50:30	backorder				Simms G3 Vest
+WBA32102-2		WBA32102	iPYcWg8s	U00087		simms_freestone_boot_closeout		1	59.95	59.95					size: 8	20080410	2008-04-10 22:14:20	partial				Simms Freestone Boot Closeout
+WBA32102-3		WBA32102	iPYcWg8s	U00087		FITNAV		1	34.95	34.95					frame: black, lens: grey	20080410	2008-04-11 16:50:30	backorder				Fitover Eyewear The Navigator
+WBA32104-1		WBA32104	Fvr7xLyS	U00089		Fishpond_Barracuda_Pliers		1	139.00	139.00					color: BCP-CO	20080414	2008-04-14 08:26:05	pending				Fishpond USA - Barracuda Pliers
+WBA32104-2		WBA32104	Fvr7xLyS	U00089		Fishpond_Barracuda_Pliers		1	139.00	139.00					color: BCP-CO	20080414	2008-04-14 08:26:05	pending				Fishpond USA - Barracuda Pliers
+WBA32105-1		WBA32105	Fvr7xLyS	U00090		Simms_G3_Vest		2	169.95	339.90					color: taupo, size: l	20080414	2008-04-14 08:33:01	pending				Simms G3 Vest
+WBA32105-2		WBA32105	Fvr7xLyS	U00090		Simms_G3_Vest		2	169.95	339.90					color: taupo, size: l	20080414	2008-04-14 08:33:01	pending				Simms G3 Vest
+WBA32106-1		WBA32106	Fvr7xLyS	U00088		Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color:	20080414	2008-04-16 07:41:16	partial				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32106-2		WBA32106	Fvr7xLyS	U00088		Fishpond_Pitchfork_Aluminum_Clippers		1	22.00	22.00					Color:	20080414	2008-04-16 07:41:16	partial				Fishpond USA - Pitchfork Aluminum Clippers
+WBA32107-1		WBA32107	7IsahW28	U00088		WBSFWWG10-805-66		1	379.95	379.95					WBSFWWG10-805-66	20080419	2008-04-19 10:12:17	pending				WOMEN'S GORE-TEX STOCKINGFOOT XXLS
+WBA32108-1		WBA32108	7IsahW28	U00088		WBSFMS481-30		1	24.95	24.95					WBSFMS481-30	20080419	2008-04-19 10:22:21	partial				EXSTREAM SOCK M
+WBA32108-2		WBA32108	7IsahW28	U00088		WBSFMS481-50		1	24.95	24.95					WBSFMS481-50	20080419	2008-04-19 10:22:41	partial				EXSTREAM SOCK XL
+WBA32125-1		WBA32125	QiNkCCCB	U00107		WBSFASB1-000		1	19.95	19.95					WBSFASB1-000	20080428	2008-04-28 08:58:01	pending				NEOPRENE BELT BLACK
+WBA32126-1		WBA32126	QiNkCCCB	U00108		WBSFSL20-400		1	2.95	2.95					WBSFSL20-400	20080428	2008-04-28 09:17:11	pending				REPLACEMENT LACES
+WBA32127-1		WBA32127	5hzKu6NK	U00109		WBSFSL20-400		1	2.95	2.95					WBSFSL20-400	20080430	2008-04-30 15:58:10	pending				REPLACEMENT LACES
+WBA32128-1		WBA32128	5hzKu6NK	U00110		WBSFSL20-400		3	2.95	8.85					WBSFSL20-400	20080430	2008-04-30 16:06:57	pending				REPLACEMENT LACES
+WBA32128-2		WBA32128	5hzKu6NK	U00110		WBSFWGR10-805-30		1	299.95	299.95					WBSFWGR10-805-30	20080430	2008-04-30 16:06:57	pending				RIVERSHED STOCKINGFOOT M
+WBA32129-1		WBA32129	5hzKu6NK	U00111		WBSFSS-K-10800-08		1	129.95	129.95					WBSFSS-K-10800-08	20080430	2008-04-30 16:09:43	pending				HEADWATERS BOOT AQUA 08
+WBA32129-2		WBA32129	5hzKu6NK	U00111		WBSFVF5-08-60		1	79.95	79.95					WBSFVF5-08-60	20080430	2008-04-30 16:09:43	pending				FREESTONE MESH VEST TAN XXL
+WBA32130-1		WBA32130	5hzKu6NK	U00112		WBSFDR0-1000		2	14.95	29.90					WBSFDR0-1000	20080430	2008-04-30 16:14:30	pending				GORE-TEX REVIVEX
+WBA32130-2		WBA32130	5hzKu6NK	U00112		WBSG32-3100-R-S		1	280.00	280.00					3100, R, S	20080430	2008-04-30 16:14:30	pending				3100 REEL, SILVER
+WBA32131-1		WBA32131	5hzKu6NK	U00113		WBSFHRH108-0800		1	29.95	29.95					WBSFHRH108-0800	20080430	2008-04-30 16:17:37	pending				SUNSHIELD HAT TAN
+WBA32131-2		WBA32131	5hzKu6NK	U00113		WBOR29-CY5157		1	755.00	755.00					WBOR29-CY5157	20080430	2008-04-30 16:17:37	pending				ZG HELIOS 904-4 MID FLEX
+WBA32132-1		WBA32132	N9dxdU3i	U00114		WBSFLDW107-6400		1	129.95	129.95					WBSFLDW107-6400	20080502	2008-05-02 09:52:12	pending				DRY CREEK WADER BAG COAL
+WBA32133-1		WBA32133	N9dxdU3i	U00115		WBSFSL20-400		2	2.95	5.90					WBSFSL20-400	20080502	2008-05-02 11:29:14	pending				REPLACEMENT LACES
+WBA32133-2		WBA32133	N9dxdU3i	U00115		WBSFLDW107-6400		1	129.95	129.95					WBSFLDW107-6400	20080502	2008-05-02 11:29:14	pending				DRY CREEK WADER BAG COAL
+WBA32134-1		WBA32134	JWcQa7eT	U00116		WBSFSL20-400		1	2.95	2.95					WBSFSL20-400	20080502	2008-05-02 11:40:05	pending				REPLACEMENT LACES
+WBA32135-1		WBA32135	JWcQa7eT	U00117		WBSFASB9-000		1	39.95	39.95					WBSFASB9-000	20080502	2008-05-02 12:15:39	pending				BACKSAVER BELT
+WBA32136-1		WBA32136	N9dxdU3i	U00118		WBSFSL20-400		2	2.95	5.90					WBSFSL20-400	20080502	2008-05-02 12:54:25	pending				REPLACEMENT LACES
+WBA32136-2		WBA32136	N9dxdU3i	U00118		WBSG320-2540-S		1	145.00	145.00					WBSG320-2540-S	20080502	2008-05-02 12:54:25	pending				2540 SPOOL 4-5 WT
+WBA32137-1		WBA32137	JWcQa7eT	U00119		WBSFAWS-3001		1	99.95	99.95					WBSFAWS-3001	20080502	2008-05-02 13:01:25	pending				WADINGSTAFF BLACK 52 INCH
+WBA32138-1		WBA32138	L6XjwyMF	U00120		WBSFCTT10-721-50		1	39.95	39.95					WBSFCTT10-721-50	20080513	2008-05-13 15:06:03	shipped				3XDRY TATTERSALLSHIRT GREEN XL
+WBA32138-2		WBA32138	L6XjwyMF	U00120		WBSFCTT10-705-50		1	39.95	39.95					WBSFCTT10-705-50	20080513	2008-05-13 15:06:03	shipped				3XDRY TATTERSALLSHIRT BLUE XL
+WBA32139-1		WBA32139	weLQ8WN4	U00121		WBSFHTR108-8300		2	14.95	29.90					WBSFHTR108-8300	20080516	2008-05-16 10:44:57	partial				TRUCKER CAP DRIFTWOOD
+WBA32140-1		WBA32140	yKYgbifZ	U00122		WBSFRP-465-30		1	179.95	179.95					WBSFRP-465-30	20080517	2008-05-17 16:01:14	partial				PACLITE RAIN PANTSMOKE M
+WBA32140-2		WBA32140	yKYgbifZ	U00122		WBSFLMT10-811-40		1	49.95	49.95					WBSFLMT10-811-40	20080517	2008-05-17 16:01:14	partial				WADERWICK FLEECE TOP BLACK LG
+WBA32141-1		WBA32141	mWypEq3g	U00123		WBSFRJ-403-40		1	399.95	399.95					WBSFRJ-403-40	20080521	2008-05-21 11:13:18	partial				G3 GUIDE JACKET DARK LODEN L
+WBA32142-1		WBA32142	nuqSS2YL	U00122		WBSFRP-465-40		1	179.95	179.95						20080523	2008-05-23 08:29:01	partial		ORDER_DESK		PACLITE RAIN PANTSMOKE L
+WBA32142-2		WBA32142	nuqSS2YL	U00122		WBSFLMT10-811-50		1	49.95	49.95						20080523	2008-05-23 08:29:01	partial		ORDER_DESK		WADERWICK FLEECE TOP BLACK XL
+WBA32143-1		WBA32143	I77YKdhx	U00124		WBSFHTT107-0800		1	19.95	19.95					WBSFHTT107-0800	20080526	2008-05-28 11:31:55	shipped				TECH TWILL CAP TAN
+WBA32143-2		WBA32143	I77YKdhx	U00124		WBSFALW-43-50		1	14.95	14.95					WBSFALW-43-50	20080526	2008-05-28 11:31:55	shipped				NYLONWEB BELT LADDERLOC ORG/LDN XL
+WBA32144-1		WBA32144	jE3YhiDB	U00125		WBSFPDB10-84300		1	129.95	129.95					WBSFPDB10-84300	20080526	2008-05-27 09:11:33	partial				DRY CREEK BACKPACK STERLING
+WBA32145-1		WBA32145	3wZdwxxM	U00126		WBSFSWS108-120-40		1	19.95	39.90					WBSFSWS108-120-40	20080526	2008-05-27 12:14:51	shipped				SIMMSWADINGSOCK GREY / ORANGE L
+WBA32145-2		WBA32145	3wZdwxxM	U00126		WBSFULTI10-520-40		1	69.95	69.95					WBSFULTI10-520-40	20080526	2008-06-10 13:12:24	shipped				RIVERTEK MWT ZIP TOP COAL/LT GREEN L
+WBA32145-3		WBA32145	3wZdwxxM	U00126		WBSFFT-463-40		1	89.95	89.95					WBSFFT-463-40	20080526	2008-05-27 12:14:51	shipped				RIVERTEK HWT ZIPTOP JASPER L
+WBA32145-4		WBA32145	3wZdwxxM	U00126		WBSFOWS10-821-50		1	199.95	199.95					WBSFOWS10-821-50	20080526	2008-06-01 05:57:32	shipped				WINDSTOPPER SOFT SHELL JKT COAL/GREEN XL
+WBA32145-5		WBA32145	3wZdwxxM	U00126		WBSFSWS108-120-50		1	19.95	19.95					WBSFSWS108-120-50	20080526	2008-06-01 05:57:32	shipped				SIMMSWADINGSOCK GREY / ORANGE XL
+WBA32145-6		WBA32145	3wZdwxxM	U00126		WBSFMS481-40		1	24.95	24.95					WBSFMS481-40	20080526	2008-06-01 05:57:32	shipped				EXSTREAM SOCK L
+WBA32145-7		WBA32145	3wZdwxxM	U00126		WBSFLWB10-811-40		1	29.95	29.95					WBSFLWB10-811-40	20080526	2008-06-01 05:57:32	shipped				WADERWICK BOTTOM BLACK LG
+WBA32145-8		WBA32145	3wZdwxxM	U00126		WBSFLSP1086440		1	99.95	99.95					WBSFLSP1086440	20080526	2008-06-01 05:57:32	shipped				GUIDE FLEECE PANT COAL L
+WBA32145-9		WBA32145	3wZdwxxM	U00126		WBSFLWB10-811-40		1	29.95	29.95					WBSFLWB10-811-40	20080526	2008-06-01 05:57:32	shipped				WADERWICK BOTTOM BLACK LG
+WBA32146-1		WBA32146	ota47r3C	U00127		WBSFWCY10-718-40		1	139.95	139.95					WBSFWCY10-718-40	20080527	2008-05-27 10:07:23	partial				KIDS STOCKINGFOOT L
+WBA32147-1		WBA32147	ddvdfKdC	U00128		WBSFCHD10-829-40		1	54.95	54.95					WBSFCHD10-829-40	20080527	2008-05-28 09:09:41	partial		313?expandable=		3XDRYSOLARFLEX HOODY LT BLUE L
+WBA32148-1		WBA32148	5hNuLcLr	U00129		WBSFRJ-403-50		1	399.95	399.95					WBSFRJ-403-50	20080530	2008-05-30 16:36:14	partial				G3 GUIDE JACKET DARK LODENXL
+WBA32148-2		WBA32148	5hNuLcLr	U00129		WBSG7670-2-MG		1	275.00	275.00					WBSG7670-2-MG	20080530	2008-05-30 16:40:32	partial				Sage Rolling Duffel
+WBA32149-1		WBA32149	9NaghRrJ	U00130		WBSFSSF-44-08		1	79.95	79.95					WBSFSSF-44-08	20080531	2008-06-01 11:26:35	partial				RIVERSANDAL 8
+WBA32150-1		WBA32150	ceKW8goa	U00131		WBSFSSF-44-09		1	79.95	79.95					WBSFSSF-44-09	20080601	2008-06-08 09:55:38	shipped				RIVERSANDAL 9
+WBA32150-2		WBA32150	ceKW8goa	U00131		WBSFSSF-44-08		1	79.95	79.95					WBSFSSF-44-08	20080601	2008-06-08 09:55:38	canceled				RIVERSANDAL 8
+WBA32151-1		WBA32151	xYJTWYtm	U00132		WBSFCWS10-821-60		1	69.95	69.95					WBSFCWS10-821-60	20080603	2008-06-04 14:21:21	partial				3XDRY BIGSKYSHIRT GREEN XXL
+WBA32152-1		WBA32152	ryjprgyA	U00133		WBSFCHD10-854-50		1	54.95	54.95					WBSFCHD10-854-50	20080604	2008-06-04 13:59:09	partial				3XDRYSOLARFLEX HOODY WHITE XL
+WBA32153-1		WBA32153	YbGwtNkF	U00134		WBSFHTT107-0800		1	19.95	19.95					WBSFHTT107-0800	20080605	2008-06-05 16:46:49	backorder				TECH TWILL CAP TAN
+WBA32153-2		WBA32153	YbGwtNkF	U00134		WBSFHFS10-72000		1	19.95	19.95					WBSFHFS10-72000	20080605	2008-06-05 16:46:49	shipped				FORESTSERVICE CAP BROWN
+WBA32154-1		WBA32154	TawciPLu	U00135		WBSG204-9129-4		1	845.00	845.00					WBSG204-9129-4	20080606	2008-06-10 11:05:47	shipped				9129-4 TCR 2HD ROD 4PC 9WT 12'9''L
+WBA32155-1		WBA32155	JgmQTGKF	U00136		WBSFHTR108-1100		1	14.95	14.95					WBSFHTR108-1100	20080607	2008-06-07 12:21:48	shipped				TRUCKER CAP BLACK
+WBA32156-1		WBA32156	vfAq3FYd	U00137		WBSFWGV10-843-58		1	439.95	439.95					WBSFWPG10-843-58	20080608	2008-06-10 12:08:58	partial				G4 PRO STOCKINGFOOT XLL
+WBA32157-1		WBA32157	9teuErWY	U00138		WBSFALW-10765-40		1	14.95	14.95					WBSFALW-10765-40	20080610	2008-06-10 19:08:35	shipped				NYLONWEB BELT DECCO BROWN/BLACK L
+WBA32158-1		WBA32158	8M7CXzQn	U00139		WBSFMS031-40		1	19.95	19.95					WBSFMS031-40	20080610	2008-06-10 15:08:07	partial				WETWADING SOCK L
+WBA32158-2		WBA32158	8M7CXzQn	U00139		WBSFMS031-30		1	19.95	19.95					WBSFMS031-30	20080610	2008-06-10 15:08:07	partial				WETWADING SOCK M
+WBA32159-1		WBA32159	9ZKMjZ3A	U00140		WBSFHTR107-8000		1	14.95	14.95					WBSFHTR107-8000	20080613	2008-07-02 09:24:15	shipped				TRUCKER CAPSIMMS ORANGE
+WBA32159-2		WBA32159	9ZKMjZ3A	U00140		WBSFCSC10-830-40		1	29.95	29.95					WBSFCSC10-830-40	20080613	2008-07-02 09:24:15	shipped				ROOSTERFISH T-SHIRT LS WHITE L
+WBA32160-1		WBA32160	PVKIJYnc	U00141		WBSFCSN10-817-50		1	99.95	99.95					WBSFCSN10-817-50	20080615	2008-06-17 08:37:44	partial				WADERFLEX JEAN DK KHAKI XL
+WBA32161-1		WBA32161	9beqXbxw	U00142		WBSFVG5-80-60		1	179.95	179.95					WBSFVG5-80-60	20080617	2008-06-18 13:17:21	partial				G3 GUIDE VESTSIMMS ORANGE XXL
+WBA32162-1		WBA32162	hdM9CaJE	U00143		WBSFHAC108-3100		1	29.95	29.95					WBSFHAC108-3100	20080618	2008-07-02 10:35:39	shipped				CLASSIC ADMIRAL CAP GREY
+WBA32162-2		WBA32162	hdM9CaJE	U00143		WBSFCPF1081340		1	44.95	44.95					WBSFCPF1081340	20080618	2008-07-02 10:35:39	shipped				3XDRY SOLARFLEX SHIRT LT GREEN L
+WBA32162-3		WBA32162	hdM9CaJE	U00143		WBSFLWB10-811-40		1	29.95	29.95					WBSFLWB10-811-40	20080618	2008-07-02 10:35:39	shipped				WADERWICK BOTTOM BLACK LG
+WBA32162-4		WBA32162	hdM9CaJE	U00143		WBSFULTI10-520-40		1	69.95	69.95					WBSFULTI10-520-40	20080618	2008-07-02 10:35:39	shipped				RIVERTEK MWT ZIP TOP COAL/LT GREEN L
+WBA32163-1		WBA32163	SPCNvVxN	U00144		WBSFCTT10-705-40		1	39.95	39.95					WBSFCTT10-705-40	20080622	2008-06-22 16:09:45	shipped				3XDRY TATTERSALLSHIRT BLUE L
+WBA32163-2		WBA32163	SPCNvVxN	U00144		WBSFCTT10-794-40		1	39.95	39.95					WBSFCTT10-794-40	20080622	2008-06-22 16:09:46	shipped				3XDRY TATTERSALLSHIRTSALMON L
+WBA32164-1		WBA32164	WsBfRmAU	U00145		WBSFBDP-59900		1	14.95	14.95					WBSFBDP-59900	20080623	2008-07-02 08:54:23	partial				DRY CREEK TECH POUCH CLEAR
+WBA32164-2		WBA32164	WsBfRmAU	U00145		WBSFHFS10-88000		1	19.95	19.95					WBSFHFS10-88000	20080623	2008-07-02 08:54:23	partial				FORESTSERVICE CAP ORANGE
+WBA32165-1		WBA32165	akRVSBWj	U00146		WBSFCWS10-821-30		1	69.95	69.95					WBSFCWS10-821-30	20080624	2008-06-24 09:44:00	partial		293?expandable=		3XDRY BIGSKYSHIRT GREEN M
+WBA32166-1		WBA32166	yBUnntMH	U00147		WBSFCTR10-844-40		1	69.95	69.95					WBSFCTR10-844-40	20080625	2008-06-26 10:18:27	shipped				3XDRY BLUEWATERSHIRT KHAKI L
+WBA32166-2		WBA32166	yBUnntMH	U00147		WBSFCTR10-805-40		1	69.95	69.95					WBSFCTR10-805-40	20080625	2008-06-26 10:18:27	shipped				3XDRY BLUEWATERSHIRT BLUE L
+WBA32167-1		WBA32167	9ssK73Cu	U00148		WBSFASC-4140		1	19.95	19.95					WBSFASC-4140	20080625	2008-06-26 10:12:16	shipped				SUNCLAVA TAN
+WBA32168-1		WBA32168	7ScwcG5P	U00149		WBSFCSA10-830-20		1	29.95	29.95					WBSFCSA10-830-20	20080626	2008-06-26 15:16:34	pending				PERMIT T-SHIRT LS WHITES
+WBA32169-1		WBA32169	VYq8oP3Q	U00150		WBSFCPC1084430		1	59.95	59.95					WBSFCPC1084430	20080626	2008-06-26 19:32:39	pending				GUIDE KHAKIS KHAKI M
+WBA32170-1		WBA32170	eJ4BEsZa	U00151		WBSFLWD		1	185.00	185.00					size: ml	20080627	2008-06-27 06:50:20	pending				LIGHTWEIGHT WADERS DISCONTINUED
+WBA32171-1		WBA32171	QT6Nmws8	U00152		WBSFWWG10-805-62		1	329.95	329.95					WBSFWWG10-805-62	20080627	2008-06-27 10:50:44	pending				WOMEN'S GORE-TEX STOCKINGFOOT XXLF
+WBA32172-1		WBA32172	Um2Dp47K	U00153		WBSFHMF108-0200		1	24.95	24.95					WBSFHMF108-0200	20080628	2008-06-28 11:44:11	pending				MICROFIBER CAPSAGE
+WBA32173-1		WBA32173	iWYGe3dM	U00154		WBSFCSA10-830-40		1	29.95	29.95					WBSFCSA10-830-40	20080629	2008-07-02 15:16:50	shipped				PERMIT T-SHIRT LS WHITE L
+WBA32174-1		WBA32174	MzDd7m2i	U00155		WBSFCSP10-717-40		1	59.95	59.95					WBSFCSP10-717-40	20080630	2008-06-30 14:10:07	partial				3XDRY SUPERLIGHT PANT DK KHAKI L
+WBA32174-2		WBA32174	MzDd7m2i	U00155		WBSFCSZ10-817-40		1	69.95	69.95					WBSFCSZ10-817-40	20080630	2008-06-30 14:10:07	partial				3XDRYSUPERLIGHT ZO PANT DK KHAKI L
+WBA32175-1		WBA32175	kYeZVR49	U00156		WBSFCWS10-805-40		1	69.95	69.95					WBSFCWS10-805-40	20080630	2008-06-30 15:46:38	partial				3XDRY BIGSKYSHIRT BLUE L
+WBA32175-2		WBA32175	kYeZVR49	U00156		WBSFPDH10-70500		1	99.95	99.95					WBSFPDH10-70500	20080630	2008-06-30 15:46:38	partial				DRY CREEK CHEST/HIP PACK STERLING
+WBA32175-3		WBA32175	kYeZVR49	U00156		WBSFALW-506-40		1	14.95	14.95					WBSFALW-506-40	20080630	2008-06-30 15:46:38	partial				NYLONWEB BELT LADDERLOCK NVY/GRY L
+WBA32175-4		WBA32175	kYeZVR49	U00156		WBSFHWT10-80600		1	16.95	16.95					WBSFHWT10-80600	20080630	2008-06-30 15:46:38	partial				WASHED TWILL SB NAVY
+WBA32176-1		WBA32176	nimunEZD	U00157		WBSFHTR108-8300		1	14.95	14.95					WBSFHTR108-8300	20080630	2008-07-02 09:36:23	shipped				TRUCKER CAP DRIFTWOOD
+WBA32176-2		WBA32176	nimunEZD	U00157		WBSFCFE10-830-50		1	24.95	24.95					WBSFCFE10-830-50	20080630	2008-07-02 09:37:05	shipped				SMALLMOUTH BASS T-SHIRTSSWHITE XL
+WBA32176-3		WBA32176	nimunEZD	U00157		WBSFCFE10-830-50		1	24.95	24.95					WBSFCFE10-830-50	20080630	2008-07-11 13:22:44	shipped				CUTT THROAT TROUT XL
+WBA32177-1		WBA32177	8Tb8IjDN	U00158		WBSFLWD		2	185.00	370.00					size: mk	20080701	2008-07-02 11:06:44	canceled				LIGHTWEIGHT WADERS DISCONTINUED
+WBA32178-1		WBA32178	fsHQI9fF	U00159		WBSFOCG10-744-50		1	299.95	299.95					WBSFOCG10-744-50	20080701	2008-07-01 13:27:48	partial				CLASSIC GUIDE JACKET KHAKI XL
+WBA32179-1		WBA32179	Qnc6XhkY	U00160		WBSFCTR10-805-50		1	69.95	69.95					WBSFCTR10-805-50	20080702	2008-07-02 13:28:59	partial				3XDRY BLUEWATERSHIRT BLUE XL
+WBA32179-2		WBA32179	Qnc6XhkY	U00160		WBSFCWS10-821-50		1	69.95	69.95					WBSFCWS10-821-50	20080702	2008-07-02 13:28:59	partial				3XDRY BIGSKYSHIRT GREEN XL
+WBA32179-3		WBA32179	Qnc6XhkY	U00160		WBSFCTT10-705-50		1	39.95	39.95					WBSFCTT10-705-50	20080702	2008-07-02 13:28:59	partial				3XDRY TATTERSALLSHIRT BLUE XL
+WBA32179-4		WBA32179	Qnc6XhkY	U00160		WBSFCSW10-813-50		1	49.95	49.95					WBSFCSW10-813-50	20080702	2008-07-02 13:28:59	partial				3XDRY TARPON POLO LT GREEN XL
+WBA32179-5		WBA32179	Qnc6XhkY	U00160		WBSFCPS10-880-50		1	39.95	39.95					WBSFCPS10-880-50	20080702	2008-07-02 13:28:59	partial				3XDRY TROUT POLO ORANGE XL
+WBA32180-1		WBA32180	8YQPJEir	U00161		WBSFCTS20-721-40		1	21.95	21.95					WBSFCTS20-721-40	20080703	2008-07-17 08:00:24	partial				FLY TROUT SS GREEN L
+WBA32180-2		WBA32180	8YQPJEir	U00161		WBSFCTE10-730-40		1	21.95	21.95					WBSFCTE10-730-40	20080703	2008-07-17 08:00:24	partial				SIMMS STEELHEAD SS WHITE L
+WBA32180-3		WBA32180	8YQPJEir	U00161		WBSFCTB10-725-40		1	21.95	21.95					WBSFCTB10-725-40	20080703	2008-07-17 08:00:24	partial				SIMMS SWIMMING BROWN SS CEMENT L
+WBA32180-4		WBA32180	8YQPJEir	U00161		WBSFCFD10-830-40		1	24.95	24.95					WBSFCFD10-830-40	20080703	2008-07-17 08:00:24	partial				RAINBOW TROUT T-SHIRTSSWHITE L
+WBA32181-1		WBA32181	75Zr6VAF	U00162		WBSFLP-564-40		1	69.95	69.95					WBSFLP-564-40	20080706	2008-07-08 09:23:00	canceled				RIVERTEK MWT BOTTOM COAL L
+WBA32182-1		WBA32182	Ans3SD2z	U00163		WBSFCSA10-830-30		1	29.95	29.95					WBSFCSA10-830-30	20080706	2008-07-09 08:36:16	pending				PERMIT T-SHIRT LS WHITE M
+WBA32183-1		WBA32183	gLSnBy7p	U00164		WBROEVO-3-R-BLUE		1	315.00	315.00					3, R, BLUE	20080707	2008-07-07 20:21:02	pending				EVOLUTION 3 REEL - SLATE BLUE
+WBA32184-1		WBA32184	sWMViueL	U00165		WBSFCTT10-705-50		1	39.95	39.95					WBSFCTT10-705-50	20080708	2008-07-17 08:39:38	shipped				3XDRY TATTERSALLSHIRT BLUE XL
+WBA32184-2		WBA32184	sWMViueL	U00165		WBSFCTT10-794-50		1	39.95	39.95					WBSFCTT10-794-50	20080708	2008-07-17 08:39:38	shipped				3XDRY TATTERSALLSHIRTSALMON XL
+WBA32185-1		WBA32185	Lip22Ubw	U00166		WBSFHTT107-0800		1	19.95	19.95					WBSFHTT107-0800	20080709	2008-07-09 19:55:16	pending				TECH TWILL CAP TAN
+WBA32186-1		WBA32186	FiEMwjND	U00167		WBSFHFS10-72100		1	19.95	19.95					WBSFHFS10-72100	20080709	2008-07-10 08:50:37	partial				FORESTSERVICE CAP GREEN
+WBA32187-1		WBA32187	YIkyboVL	U00168		WBSFSSF-44-10		1	79.95	79.95					WBSFSSF-44-10	20080710	2008-07-10 10:47:56	partial		1645?expandable=		RIVERSANDAL 10
+WBA32188-1		WBA32188	D4I8yKtZ	U00169		WBSFCSE10-830-30		1	29.95	29.95					WBSFCSE10-830-30	20080710	2008-07-11 15:56:06	partial				STRIPED BASS T-SHIRT LS WHITE M
+WBA32189-1		WBA32189	Ch4aFQqv	U00170		WBSFSSF-44-08		1	79.95	79.95					WBSFSSF-44-08	20080711	2008-07-11 10:46:53	partial				RIVERSANDAL 8
+WBA32190-1		WBA32190	dUk3prBZ	U00171		WBSFPDH10-84300		1	99.95	99.95					WBSFPDH10-84300	20080713	2008-07-17 13:45:58	partial				DRY CREEK CHEST/HIP PACK STERLING
+WBA32190-2		WBA32190	dUk3prBZ	U00171		WBSFDR0-1000		1	14.95	14.95					WBSFDR0-1000	20080713	2008-07-17 13:45:58	partial				GORE-TEX REVIVEX
+WBA32191-1		WBA32191	9mg55WCs	U00172		WBSFD06-0000		1	5.95	5.95					WBSFD06-0000	20080714	2008-07-14 11:47:33	partial				GORE-TEX REPAIR KIT
+WBA32192-1		WBA32192	cCnNH2tH	U00173		WBSFWGV107-43-66		1	749.95	749.95					WBSFWGV107-43-66	20080715	2008-08-02 07:33:43	partial				G4 GUIDE STOCKINGFOOT XXLS
+WBA32193-1		WBA32193	g4JUTGrF	U00174		WBSFOWS10-846-50		1	199.95	199.95					WBSFOWS10-846-50	20080716	2008-07-17 10:13:48	partial				WINDSTOPPER SOFT SHELL JKT COAL/SIMMS ORNG XL
+WBA32193-2		WBA32193	g4JUTGrF	U00174		WBSFOGG10-8117-50		1	449.95	449.95					WBSFOGG10-8117-50	20080716	2008-07-17 10:13:48	partial				G4 PRO JACKET COAL/ORANGE XL
+WBA32193-3		WBA32193	g4JUTGrF	U00174		WBSFCPF10-829-50		1	44.95	44.95					WBSFCPF10-829-50	20080716	2008-07-17 10:13:48	partial				3XDRY SOLARFLEX SHIRT LT BLUE XL
+WBA32193-4		WBA32193	g4JUTGrF	U00174		WBSFSSF-44-13		1	79.95	79.95					WBSFSSF-44-13	20080716	2008-07-17 10:13:48	partial				RIVERSANDAL 13
+WBA32194-1		WBA32194	dsYpd7dS	U00175		WBSFSB2-08-14		1	99.95	99.95					WBSFSB2-08-14	20080718	2008-07-18 13:05:52	partial				FLATSSNEAKER SIZE 14
+WBA32195-1		WBA32195	JqhAJdmY	U00176		WBSFSGF-10614-12		1	179.95	179.95					WBSFSGF-10614-12	20080719	2008-07-19 09:25:56	pending		262?expandable=		G3 BOOT W/ FELT GREY 12
+WBA32196-1		WBA32196	8ggIigR9	U00177		WBSFWGV107-43-56		1	699.95	699.95					WBSFWGV107-43-56	20080719	2008-07-21 15:31:31	canceled				G4 GUIDE STOCKINGFOOT XLS
+WBA32197-1		WBA32197	8ggIigR9	U00178		WBSFWGV107-43-56		1	699.95	699.95					WBSFWGV107-43-56	20080719	2008-07-19 11:31:23	pending				G4 GUIDE STOCKINGFOOT XLS
+WBA32198-1		WBA32198	WcrbTXKX	U00179		WBSFWGV10-843-56		1	499.95	499.95					WBSFWGV10-843-56	20080719	2008-07-19 13:15:30	shipped				G4 PRO STOCKINGFOOT XLS
+WBA32199-1		WBA32199	8BwXWZDa	U00180		WBSFGWD		1	269.00	269.00					size: lk	20080721	2008-07-23 16:18:52	pending				2007 Guide Waders Discontinued
+WBA32199-2		WBA32199	8BwXWZDa	U00180		WBSFST-S10831-11		1	189.95	189.95					S10831, 11	20080721	2008-07-23 16:18:52	pending				RIVERSHED BOOT STUDDED AQUA 11
+WBA32200-1		WBA32200	m2LchcDw	U00181		WBSFCTR10-8119-40		1	69.95	69.95					WBSFCTR10-8119-40	20080722	2008-07-22 09:40:24	pending				3XDRY BLUEWATERSHIRT AQUA L
+WBA32200-2		WBA32200	m2LchcDw	U00181		WBSFCZP10-603-40		1	59.95	59.95					WBSFCZP10-603-40	20080722	2008-07-22 09:40:24	pending				3XDRY GUIDE ZO PANT KHAKI L
+WBA32200-3		WBA32200	m2LchcDw	U00181		WBSFHRH108-0800		1	29.95	29.95					WBSFHRH108-0800	20080722	2008-07-22 09:40:24	pending				SUNSHIELD HAT TAN
+WBA32200-4		WBA32200	m2LchcDw	U00181		WBSFWGP10-843-58		1	399.95	399.95					WBSFWGP10-843-58	20080722	2008-07-22 09:40:24	pending				G3 GUIDE STOCKINGFOOT XLL
+WBA32200-5		WBA32200	m2LchcDw	U00181		WBSFST-F10800-14		1	139.95	139.95					F10800, 14	20080722	2008-07-22 09:40:24	pending				RIVERSHED BOOT FELT 14
+WBA32200-6		WBA32200	m2LchcDw	U00181		WBSFPDB10-84300		2	129.95	259.90					WBSFPDB10-84300	20080722	2008-07-22 09:40:24	pending				DRY CREEK BACKPACK STERLING
+WBA32200-7		WBA32200	m2LchcDw	U00181		WBSFPDA10-70500		1	29.95	29.95					WBSFPDA10-70500	20080722	2008-07-22 09:40:24	pending				DRY CREEK CAMERA BAG BLUE
+WBA32200-8		WBA32200	m2LchcDw	U00181		WBSFCLT10-805-60		1	39.95	39.95					WBSFCLT10-805-60	20080722	2008-07-22 09:40:24	pending				TOURNAMENTSHIRT BLUE XXL
+WBA32200-9		WBA32200	m2LchcDw	U00181		WBORZG-78295167		2	450.00	900.00					WBORZG-78295167	20080722	2008-07-22 09:40:24	pending				ZERO G 905-4 TIP FLEX ROD
+WBA32200-10		WBA32200	m2LchcDw	U00181		WBSG320-2540-R		1	300.00	300.00					WBSG320-2540-R	20080722	2008-07-22 09:40:24	pending				2540 REEL 4-5 WT
+WBA32200-11		WBA32200	m2LchcDw	U00181		WBSFWL210-615-40		1	249.95	249.95					WBSFWL210-615-40	20080722	2008-07-22 09:40:24	pending				L2 STOCKINGFOOT WADER L
+WBA32200-12		WBA32200	m2LchcDw	U00181		WBSFST-F10800-10		1	139.95	139.95					F10800, 10	20080722	2008-07-22 09:40:24	pending				RIVERSHED BOOT FELT 10
+WBA32200-13		WBA32200	m2LchcDw	U00181		WBSFOFJ10-667-40		1	179.95	179.95					WBSFOFJ10-667-40	20080722	2008-07-22 09:40:24	pending				FREESTONE JKTSLATE/KHAKI L
+WBA32200-14		WBA32200	m2LchcDw	U00181		WBSFCLT10-805-40		1	39.95	39.95					WBSFCLT10-805-40	20080722	2008-07-22 09:40:24	pending				TOURNAMENTSHIRT BLUE L
+WBA32200-15		WBA32200	m2LchcDw	U00181		WBSFCKS10-821-40		1	49.95	49.95					WBSFCKS10-821-40	20080722	2008-07-22 09:40:24	pending				3XDRY GUIDESHIRT GREEN L
+WBA32200-16		WBA32200	m2LchcDw	U00181		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20080722	2008-07-22 09:40:24	pending				KRIEGER CRUSHER LODEN
+WBA32200-17		WBA32200	m2LchcDw	U00181		WBSFAFP-50000		4	4.95	19.80					WBSFAFP-50000	20080722	2008-07-22 09:40:24	pending				SUPER-FLY PATCH
+WBA32200-18		WBA32200	m2LchcDw	U00181		WBSFSL20-400		2	2.95	5.90					WBSFSL20-400	20080722	2008-07-22 09:40:24	pending				REPLACEMENT LACES
+WBA32200-19		WBA32200	m2LchcDw	U00181		WBSFWGP10-843-48		1	399.95	399.95					WBSFWGP10-843-48	20080722	2008-07-22 09:40:24	pending				G3 GUIDE STOCKINGFOOT LL 9-11
+WBA32200-20		WBA32200	m2LchcDw	U00181		WBSFST-S10831-10		2	189.95	379.90					S10831, 10	20080722	2008-07-22 09:40:24	pending				RIVERSHED BOOT STUDDED AQUA 10
+WBA32200-21		WBA32200	m2LchcDw	U00181		WBSFWGP10-843-38		1	399.95	399.95					WBSFWGP10-843-38	20080722	2008-07-22 09:40:24	pending				G3 GUIDE STOCKINGFOOT ML
+WBA32200-22		WBA32200	m2LchcDw	U00181		WBSFCPF1081340		1	44.95	44.95					WBSFCPF1081340	20080722	2008-07-22 09:40:24	pending				3XDRY SOLARFLEX SHIRT LT GREEN L
+WBA32200-23		WBA32200	m2LchcDw	U00181		WBSFLWC10-880-40		1	29.95	29.95					880, 40	20080722	2008-07-22 09:40:24	pending				WADERWICK CREW TOP ORANGE L
+WBA32200-24		WBA32200	m2LchcDw	U00181		WBSG330-1850-R		1	139.00	139.00					1850, R	20080722	2008-07-22 09:40:24	pending				1850 REEL
+WBA32200-25		WBA32200	m2LchcDw	U00181		WBSFWGP10-843-40		1	399.95	399.95					WBSFWGP10-843-40	20080722	2008-07-22 09:40:24	pending				G3 GUIDE STOCKINGFOOT L 9-11
+WBA32200-26		WBA32200	m2LchcDw	U00181		WBSFST-F10800-09		1	139.95	139.95					F10800, 09	20080722	2008-07-22 09:40:24	pending				RIVERSHED BOOT FELT 09
+WBA32200-27		WBA32200	m2LchcDw	U00181		WBSFD06-0000		1	5.95	5.95					WBSFD06-0000	20080722	2008-07-22 09:40:24	pending				GORE-TEX REPAIR KIT
+WBA32201-1		WBA32201	t4sAU2Tf	U00182		WBSFCPS10-803-60		1	39.95	39.95					WBSFCPS10-803-60	20080723	2008-07-31 14:20:35	partial				3XDRY TROUT POLO LODEN XXL
+WBA32201-2		WBA32201	t4sAU2Tf	U00182		WBSFCPS10-807-60		1	39.95	39.95					WBSFCPS10-807-60	20080723	2008-07-31 14:20:35	partial				3XDRY TROUT POLO LT KHAKI XXL
+WBA32201-3		WBA32201	t4sAU2Tf	U00182		WBSFCFD10-830-60		1	24.95	24.95					WBSFCFD10-830-60	20080723	2008-07-31 14:20:35	partial				RAINBOW TROUT T-SHIRTSSWHITE XXL
+WBA32202-1		WBA32202	3viYPqHz	U00183		WBSFOGG10-8117-40		1	449.95	449.95					WBSFOGG10-8117-40	20080723	2008-07-24 08:59:48	partial				G4 PRO JACKET COAL/ORANGE L
+WBA32203-1		WBA32203	jtz5ruHa	U00184		WBSFPDC10-84300		1	69.95	69.95					WBSFPDC10-84300	20080723	2008-07-24 09:10:54	partial				DRY CREEK CHEST PACK STERLING
+WBA32204-1		WBA32204	S4F2j3GY	U00185		WBSFOGG10-8117-30		1	449.95	449.95					WBSFOGG10-8117-30	20080724	2008-07-24 16:20:41	shipped				G4 PRO JACKET COAL/ORANGE M
+WBA32204-2		WBA32204	S4F2j3GY	U00185		WBSFRP-465-30		1	179.95	179.95					WBSFRP-465-30	20080724	2008-07-24 16:20:41	shipped				PACLITE RAIN PANTSMOKE M
+WBA32204-3		WBA32204	S4F2j3GY	U00185		WBSFST-S10831-09		1	189.95	189.95					S10831, 09	20080724	2008-07-24 16:20:41	shipped				RIVERSHED BOOT STUDDED AQUA 09
+WBA32204-4		WBA32204	S4F2j3GY	U00185		WBSFWGV10-843-30		1	499.95	499.95					WBSFWGV10-843-30	20080724	2008-07-24 16:20:41	shipped				G4 PRO STOCKINGFOOT M
+WBA32204-5		WBA32204	S4F2j3GY	U00185		WBSFOWS10-821-30		1	199.95	199.95					WBSFOWS10-821-30	20080724	2008-07-24 16:20:41	shipped				WINDSTOPPER SOFT SHELL JKT COAL/GREEN M
+WBA32204-6		WBA32204	S4F2j3GY	U00185		WBSFOXJ10-608-30		1	199.95	199.95					WBSFOXJ10-608-30	20080724	2008-07-24 16:20:41	shipped				EXSTREAM INSUL JKT DK KHAKI M
+WBA32205-1		WBA32205	9UwAUoYI	U00186		WBSFVC5-04-70		1	119.95	119.95					WBSFVC5-04-70	20080724	2008-07-25 08:02:12	partial				CLASSIC GUIDE VEST TAUPO XXXL
+WBA32206-1		WBA32206	ATVhrLc9	U00187		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20080725	2008-07-31 16:27:53	partial				KRIEGER CRUSHER LODEN
+WBA32207-1		WBA32207	Y8QFzH5X	U00188		WBSFCLT10-805-60		1	39.95	39.95					WBSFCLT10-805-60	20080726	2008-07-26 18:26:02	pending				TOURNAMENTSHIRT BLUE XXL
+WBA32207-2		WBA32207	Y8QFzH5X	U00188		WBSFCLT10-844-20		1	39.95	39.95					WBSFCLT10-844-20	20080726	2008-07-26 18:26:02	pending				TOURNAMENTSHIRT KHAKI S
+WBA32208-1		WBA32208	HwxSgNP8	U00189		WBSFG3D		1	320.00	320.00					size: m	20080728	2008-07-30 12:34:27	partial				G3 WADERS 2007 DISCONTINUED
+WBA32209-1		WBA32209	tupgn7N5	U00190		WBSFCMS108-80-40		1	69.95	69.95					WBSFCMS108-80-40	20080731	2008-08-01 14:09:21	partial				3XDRY ESSEXSHIRT ORNG L
+WBA32209-2		WBA32209	tupgn7N5	U00190		WBSFCMS108-80-60		1	69.95	69.95					WBSFCMS108-80-60	20080731	2008-08-01 14:09:21	partial				3XDRY ESSEXSHIRT ORNG XXL
+WBA32210-1		WBA32210	IgeVcqgf	U00191		WBSFCPF1081340		1	44.95	44.95					WBSFCPF1081340	20080801	2008-08-02 11:40:10	partial				3XDRY SOLARFLEX SHIRT LT GREEN L
+WBA32210-2		WBA32210	IgeVcqgf	U00191		WBSFCPF10-854-40		1	44.95	44.95					WBSFCPF10-854-40	20080801	2008-08-02 11:40:10	partial				3XDRY SOLARFLEX SHIRT WHITE L
+WBA32211-1		WBA32211	YQ5YZPgI	U00192		WBSFLDW107-8000		1	129.95	129.95					WBSFLDW107-8000	20080803	2008-08-12 10:50:59	pending				DRY CREEK WADER BAG ORANGE
+WBA32212-1		WBA32212	FGW2ydcI	U00193		WBSFHFS10-72100		1	19.95	19.95					WBSFHFS10-72100	20080804	2008-08-05 16:27:25	shipped				FORESTSERVICE CAP GREEN
+WBA32212-2		WBA32212	FGW2ydcI	U00193		WBSFHFS10-88000		1	19.95	19.95					WBSFHFS10-88000	20080804	2008-08-05 16:27:25	shipped				FORESTSERVICE CAP ORANGE
+WBA32213-1		WBA32213	2MaZPRSx	U00194		WBSFOWV10-723-30		1	149.95	149.95					WBSFOWV10-723-30	20080804	2008-08-12 11:09:04	shipped				WIND STOPPER DL VEST LODEN M
+WBA32213-2		WBA32213	2MaZPRSx	U00194		WBSFBWB56-400		1	39.95	39.95					WBSFBWB56-400	20080804	2008-08-12 11:09:04	shipped				SIMMSWADER BAG COAL
+WBA32213-3		WBA32213	2MaZPRSx	U00194		WBSFLSP1086430		1	99.95	99.95					WBSFLSP1086430	20080804	2008-08-12 11:09:04	shipped				GUIDE FLEECE PANT COAL M
+WBA32214-1		WBA32214	f3be4tEe	U00195		WBWRWT-490-3		1	635.00	635.00					WBWRWT-490-3	20080804	2008-08-05 07:15:06	partial				WT 4Wt 9Ft 3Pc
+WBA32215-1		WBA32215	HdhCY6xr	U00196		WBSFCLT10-805-40		1	39.95	39.95					WBSFCLT10-805-40	20080805	2008-08-06 11:11:58	shipped				TOURNAMENTSHIRT BLUE L
+WBA32216-1		WBA32216	qLNxbwIG	U00197		WBSFHEB106-1100		1	29.95	29.95					WBSFHEB106-1100	20080806	2008-08-12 08:22:56	shipped				EXSTREAM BALACLAVA BLACK
+WBA32217-1		WBA32217	PYVnpqXT	U00198		WBSFCGT10-805-30		1	39.95	39.95					WBSFCGT10-805-30	20080806	2008-08-06 10:46:30	partial				3XDRY STRETCH CREW BLUE M
+WBA32217-2		WBA32217	PYVnpqXT	U00198		WBSFCGT10-780-30		1	39.95	39.95					WBSFCGT10-780-30	20080806	2008-08-06 10:46:30	partial				3XDRY STRETCH CREWSIMMS ORNG M
+WBA32218-1		WBA32218	bnodDfw4	U00199		WBSFHWC10-82000		1	19.95	19.95					WBSFHWC10-82000	20080807	2008-08-07 08:14:51	partial				WAXED CANVAS CAP BROWN
+WBA32218-2		WBA32218	bnodDfw4	U00199		WBSFHCL10-60600		1	16.95	16.95					WBSFHCL10-60600	20080807	2008-08-07 08:14:51	partial				CLASSIC LOGO CAP DK BLUE
+WBA32219-1		WBA32219	SPqRVq7x	U00200		WBSFWPG10-843-27		1	379.95	379.95					WBSFWPG10-843-27	20080809	2008-08-12 09:04:57	shipped				G3 GUIDE CONVERTIBLE SK
+WBA32219-2		WBA32219	SPqRVq7x	U00200		WBSFVG5-80-50		1	179.95	179.95					WBSFVG5-80-50	20080809	2008-08-12 09:04:57	shipped				G3 GUIDE VESTSIMMS ORANGE XL
+WBA32219-3		WBA32219	SPqRVq7x	U00200		WBSFSG-C10820-09		1	179.95	179.95					C10820, 09	20080809	2008-08-12 09:04:57	shipped				GUIDE BOOT STUDDED 09
+WBA32219-4		WBA32219	SPqRVq7x	U00200		WBSFARE-1000		1	7.95	7.95					WBSFARE-1000	20080809	2008-08-12 09:04:57	shipped				RETRACTOR
+WBA32220-1		WBA32220	bEAeHN8S	U00201		WBSFLWC10-813-40		1	29.95	29.95					813, 40	20080809	2008-08-12 07:42:14	shipped				WADERWICK CREW TOP LT GREEN L
+WBA32220-2		WBA32220	bEAeHN8S	U00201		WBSFCSZ10-807-40		1	69.95	69.95					WBSFCSZ10-807-40	20080809	2008-08-12 07:42:14	shipped				3XDRYSUPERLIGHT ZO PANT LT KHAKI L
+WBA32221-1		WBA32221	BesCGcBf	U00202		WBSFOGG10-8117-20		1	449.95	449.95					WBSFOGG10-8117-20	20080809	2008-08-15 08:44:14	shipped				G4 PRO JACKET COAL/ORANGE S
+WBA32222-1		WBA32222	8T4MvsnW	U00203		WBSFCPC1084430		1	59.95	59.95					WBSFCPC1084430	20080811	2008-08-11 15:25:03	pending				GUIDE KHAKIS KHAKI M
+WBA32223-1		WBA32223	mjgIchBd	U00204		WBSFPDB10-84300		1	129.95	129.95					WBSFPDB10-84300	20080812	2008-08-12 10:13:33	shipped				DRY CREEK BACKPACK STERLING
+WBA32224-1		WBA32224	7ib2hiUy	U00205		WBSFWGP10-843-56		1	399.95	399.95					WBSFWGP10-843-56	20080816	2008-08-16 22:05:43	pending				G3 GUIDE STOCKINGFOOT XLS
+WBA32225-1		WBA32225	4h5jorji	U00206		WBSFCTE10-730-40		5	21.95	109.75					WBSFCTE10-730-40	20080817	2008-08-17 09:13:18	pending				SIMMS STEELHEAD SS WHITE L
+WBA32225-2		WBA32225	4h5jorji	U00206		WBSFHWT10-80600		5	16.95	84.75					WBSFHWT10-80600	20080817	2008-08-17 09:13:18	pending				WASHED TWILL SB NAVY
+WBA32225-3		WBA32225	4h5jorji	U00206		WBSFCTT10-721-40		5	39.95	199.75					WBSFCTT10-721-40	20080817	2008-08-17 09:13:18	pending				3XDRY TATTERSALLSHIRT GREEN L
+WBA32226-1		WBA32226	wPI39cBT	U00207		WBSFCTR10-8119-40		1	69.95	69.95					WBSFCTR10-8119-40	20080821	2008-08-21 13:23:34	partial				3XDRY BLUEWATERSHIRT AQUA L
+WBA32227-1		WBA32227	YZPXAPGw	U00208		WBSFCTR10-813-20		1	69.95	69.95					WBSFCTR10-813-20	20080821	2008-08-22 09:07:40	partial				3XDRY BLUEWATERSHIRT LT GREEN S
+WBA32228-1		WBA32228	Tfv3Zs9C	U00209		WBSFCFD10-830-50		1	24.95	24.95					WBSFCFD10-830-50	20080823	2008-08-27 12:29:55	partial				RAINBOW TROUT T-SHIRTSSWHITE XL
+WBA32229-1		WBA32229	jUsarIYD	U00210		WBSFWGV10-843-40		1	499.95	499.95					WBSFWGV10-843-40	20080824	2008-08-24 02:54:10	pending				G4 PRO STOCKINGFOOT L 9-11
+WBA32230-1		WBA32230	V2Hq4c7q	U00211		WBSFH8P10-81100		1	19.95	19.95					WBSFH8P10-81100	20080824	2008-08-24 11:38:52	pending				8 PANEL LB CAP BLACK
+WBA32230-2		WBA32230	V2Hq4c7q	U00211		WBSFH8P10-80800		1	19.95	19.95					WBSFH8P10-80800	20080824	2008-08-24 11:38:52	pending				8 PANEL LB CAP TAN
+WBA32231-1		WBA32231	V2Hq4c7q	U00212		WBSFH8P10-81100		1	19.95	19.95					WBSFH8P10-81100	20080824	2008-08-25 09:59:51	partial				8 PANEL LB CAP BLACK
+WBA32231-2		WBA32231	V2Hq4c7q	U00212		WBSFH8P10-88300		1	19.95	19.95					WBSFH8P10-88300	20080824	2008-08-25 09:59:51	partial				8 PANEL LB CAP DRIFTWOOD
+WBA32232-1		WBA32232	yM9XpbB3	U00213		WBSFANS-4140		1	19.95	19.95					WBSFANS-4140	20080825	2008-08-28 11:30:45	partial				NEOPRENEWADINGSOCK GREY L
+WBA32232-2		WBA32232	yM9XpbB3	U00213		WBSFHFG40564-40		1	34.95	34.95					WBSFHFG40564-40	20080825	2008-08-28 11:30:45	partial				WIND STOPPER GLOVE HALF COAL/BLACK L
+WBA32232-3		WBA32232	yM9XpbB3	U00213		WBSFLMT10-811-50		1	49.95	49.95					WBSFLMT10-811-50	20080825	2008-08-28 11:30:45	partial				WADERWICK FLEECE TOP BLACK XL
+WBA32232-4		WBA32232	yM9XpbB3	U00213		WBSFLMB10-81-140		1	49.95	49.95					WBSFLMB10-81-140	20080825	2008-08-28 11:30:45	partial				WADERWICK FLEECE PANT BLACK LG
+WBA32233-1		WBA32233	QMpnCAfV	U00214		WBSFWPG10-843-60		1	379.95	379.95					WBSFWPG10-843-60	20080825	2008-08-25 09:21:51	shipped		265?expandable=		G3 GUIDE CONVERTIBLE XXL
+WBA32233-2		WBA32233	QMpnCAfV	U00214		WBSFOCG10-703-70		1	349.95	349.95					WBSFOCG10-703-70	20080825	2008-08-25 09:21:51	shipped		265?expandable=		CLASSIC GUIDE JACKET LODEN 3XL
+WBA32234-1		WBA32234	Lr3HNjb5	U00215		WBSFPDB10-84300		1	129.95	129.95					WBSFPDB10-84300	20080825	2008-08-25 14:59:12	pending				DRY CREEK BACKPACK STERLING
+WBA32235-1		WBA32235	UVyC7a5D	U00216		WBSFCSH10-807-30		1	49.95	49.95					807, 30	20080826	2008-09-04 11:18:11	partial				3XDRY SUPERLIGHT SHORT LT KHAKI M
+WBA32235-2		WBA32235	UVyC7a5D	U00216		WBSFCBS10-606-30		1	29.95	29.95					WBSFCBS10-606-30	20080826	2008-09-04 11:18:11	partial				WADING TRUNK BLUE M
+WBA32236-1		WBA32236	WAYv7ZuD	U00217		WBSFHCL10-88000		1	16.95	16.95					WBSFHCL10-88000	20080826	2008-08-27 11:55:02	partial				CLASSIC LOGO CAP ORANGE
+WBA32237-1		WBA32237	26KPpk2k	U00218		WBSFHWC10-82000		1	19.95	19.95					WBSFHWC10-82000	20080827	2008-08-27 11:43:16	partial				WAXED CANVAS CAP BROWN
+WBA32238-1		WBA32238	u54dt9jE	U00219		WBSFCSH10-807-30		1	49.95	49.95					807, 30	20080828	2008-09-24 12:51:38	partial				3XDRY SUPERLIGHT SHORT LT KHAKI M
+WBA32239-1		WBA32239	aRqZupZE	U00220		WBSFHWC10-82000		1	19.95	19.95					WBSFHWC10-82000	20080902	2008-09-02 11:25:29	pending				WAXED CANVAS CAP BROWN
+WBA32240-1		WBA32240	ieixJzYX	U00221		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20080903	2008-09-04 11:49:25	partial				KRIEGER CRUSHER LODEN
+WBA32241-1		WBA32241	2tropDdu	U00222		WBSFHCL10-60700		2	16.95	33.90					WBSFHCL10-60700	20080903	2008-09-04 14:06:35	partial				CLASSIC LOGO CAP LT TAN
+WBA32242-1		WBA32242	bkQ6iFCE	U00223		WBSFWWG10-805-36		1	329.95	329.95					WBSFWWG10-805-36	20080904	2008-09-04 13:44:42	shipped				WOMEN'S GORE-TEX STOCKINGFOOT MS
+WBA32242-2		WBA32242	bkQ6iFCE	U00223		WBSFOPJ10-705-60		1	249.95	249.95					WBSFOPJ10-705-60	20080904	2008-09-04 13:44:42	shipped				PACLITE JACKET BLUE XXL
+WBA32243-1		WBA32243	rT5L5TWA	U00224		WBSFHGE106-2300		1	49.95	49.95					WBSFHGE106-2300	20080906	2008-09-06 17:08:01	pending				GORE TEXEXSTREAM HAT LODEN
+WBA32244-1		WBA32244	RHmsJ8sZ	U00225		WBSFOWV10-780-50		1	149.95	149.95					WBSFOWV10-780-50	20080907	2008-09-10 11:44:58	partial				WIND STOPPER DL VEST SIMMS ORNG XL
+WBA32245-1		WBA32245	BoksJzq7	U00226		WBSFCSH10-807-40		3	49.95	149.85					807, 40	20080907	2008-09-10 12:20:11	partial				3XDRY SUPERLIGHT SHORT LT KHAKI L
+WBA32245-2		WBA32245	BoksJzq7	U00226		WBSFCSZ10-807-40		2	69.95	139.90					WBSFCSZ10-807-40	20080907	2008-09-10 12:21:24	partial				3XDRYSUPERLIGHT ZO PANT LT KHAKI L
+WBA32245-3		WBA32245	BoksJzq7	U00226		WBSFCSN10-817-40		1	99.95	99.95					WBSFCSN10-817-40	20080907	2008-09-10 12:20:11	partial				WADERFLEX JEAN DK KHAKI L
+WBA32245-4		WBA32245	BoksJzq7	U00226		WBSFCTR10-8119-50		1	69.95	69.95					WBSFCTR10-8119-50	20080907	2008-09-10 12:21:24	partial				3XDRY BLUEWATERSHIRT AQUA XL
+WBA32245-5		WBA32245	BoksJzq7	U00226		WBSFCTR10-813-50		1	69.95	69.95					WBSFCTR10-813-50	20080907	2008-09-10 12:20:11	partial				3XDRY BLUEWATERSHIRT LT GREEN XL
+WBA32245-6		WBA32245	BoksJzq7	U00226		WBSFCGT10-805-50		2	39.95	79.90					WBSFCGT10-805-50	20080907	2008-09-10 12:20:11	partial				3XDRY STRETCH CREW BLUE XL
+WBA32245-7		WBA32245	BoksJzq7	U00226		WBSFCGT10-882-50		2	39.95	79.90					WBSFCGT10-882-50	20080907	2008-09-10 12:20:11	partial				3XDRY STRETCH CREW GINGER XL
+WBA32245-8		WBA32245	BoksJzq7	U00226		WBSFCGT10-713-50		2	39.95	79.90					WBSFCGT10-713-50	20080907	2008-09-10 12:20:11	partial				3XDRY STRETCH CREW LT GREEN XL
+WBA32245-9		WBA32245	BoksJzq7	U00226		WBSFCBS10-603-40		4	29.95	119.80					WBSFCBS10-603-40	20080907	2008-09-10 12:20:11	partial				WADING TRUNK KHAKI L
+WBA32245-10		WBA32245	BoksJzq7	U00226		WBSFALW-43-40		2	14.95	29.90					WBSFALW-43-40	20080907	2008-09-10 12:20:11	partial				NYLONWEB BELT LADDERLOCK ORG/LDN L
+WBA32245-11		WBA32245	BoksJzq7	U00226		WBSFASK-3031		1	24.95	24.95					WBSFASK-3031	20080907	2008-09-10 12:20:11	partial				WS STOCKING CAP LODEN
+WBA32245-12		WBA32245	BoksJzq7	U00226		WBSG7158-NV		1	22.00	22.00					WBSG7158-NV	20080907	2008-09-10 12:21:24	partial				Hat Beanie Wool-Max Navy
+WBA32246-1		WBA32246	DCYvUMFj	U00227		WBSFCFE10-830-50		1	24.95	24.95					WBSFCFE10-830-50	20080908	2008-09-10 13:05:37	partial				SMALLMOUTH BASS T-SHIRTSSWHITE XL
+WBA32247-1		WBA32247	Be72Lcvx	U00228		WBSFCTE10-730-40		3	21.95	65.85					WBSFCTE10-730-40	20080909	2008-09-19 09:29:47	pending				SIMMS STEELHEAD SS WHITE L
+WBA32247-2		WBA32247	Be72Lcvx	U00228		WBSFCTB10-720-40		5	21.95	109.75					WBSFCTB10-720-40	20080909	2008-09-09 22:17:04	pending				SIMMS SWIMMING BROWN SS BRN L
+WBA32247-3		WBA32247	Be72Lcvx	U00228		WBSFCTT10-705-40		3	39.95	119.85					WBSFCTT10-705-40	20080909	2008-09-09 22:17:04	pending				3XDRY TATTERSALLSHIRT BLUE L
+WBA32248-1		WBA32248	S94UMuPS	U00229		WBSFCLT10-844-30		1	39.95	39.95					WBSFCLT10-844-30	20080910	2008-09-11 11:16:51	partial				TOURNAMENTSHIRT KHAKI M
+WBA32249-1		WBA32249	v2qUdCJ7	U00230		WBSFRA-508-30		1	99.95	99.95					508, 30	20080910	2008-09-11 10:14:51	partial				IN-VEST JACKET TAN M
+WBA32250-1		WBA32250	UjTbZ54z	U00231		WBSFHFH106-1400		1	24.95	24.95					WBSFHFH106-1400	20080913	2008-09-19 09:12:27	partial				FLATS HAT TAUPO
+WBA32250-2		WBA32250	UjTbZ54z	U00231		WBSFHEB106-1100		1	29.95	29.95					WBSFHEB106-1100	20080913	2008-09-19 09:12:28	partial				EXSTREAM BALACLAVA BLACK
+WBA32250-3		WBA32250	UjTbZ54z	U00231		WBSFASC-4140		1	19.95	19.95					WBSFASC-4140	20080913	2008-09-19 09:13:14	partial				SUNCLAVA TAN
+WBA32250-4		WBA32250	UjTbZ54z	U00231		WBSFMS031-40		2	19.95	39.90					WBSFMS031-40	20080913	2008-09-19 09:12:27	partial				WETWADING SOCK L
+WBA32250-5		WBA32250	UjTbZ54z	U00231		WBSFASG4140		1	14.95	14.95					WBSFASG4140	20080913	2008-09-19 09:12:27	partial				SUNGLOVES TAN L
+WBA32250-6		WBA32250	UjTbZ54z	U00231		WBSFMS031-50		1	19.95	19.95					WBSFMS031-50	20080913	2008-09-19 09:12:27	partial				WETWADING SOCK XL
+WBA32251-1		WBA32251	nHGjDSI6	U00232		WBROMTM-6-R-BLACK		1	545.00	545.00					6, R, BLACK	20080916	2008-09-16 14:52:55	pending				MOMENTUM 6 REEL - BLACK
+WBA32252-1		WBA32252	8WwGHSYU	U00233		WBSFSGF-10614-07		1	179.95	179.95					WBSFSGF-10614-07	20080920	2008-09-20 08:20:32	pending				G3 BOOT W/ FELT GREY 07
+WBA32253-1		WBA32253	iZxtRG7v	U00234		WBSFCTT10-721-30		1	39.95	39.95					WBSFCTT10-721-30	20080921	2008-09-22 07:53:59	partial				3XDRY TATTERSALLSHIRT GREEN M
+WBA32254-1		WBA32254	NDAF3oC8	U00235		WBSFCLT10-844-50		1	39.95	39.95					WBSFCLT10-844-50	20080921	2008-10-01 07:58:33	pending				TOURNAMENTSHIRT KHAKI XL
+WBA32255-1		WBA32255	cvz7r5sD	U00236		WBSFRA-508-60		1	99.95	99.95					508, 60	20080923	2008-09-23 07:56:30	pending				IN-VEST JACKET TAN XXL
+WBA32256-1		WBA32256	gQXWtYKh	U00237		WBSFABO-4080		1	5.95	5.95					WBSFABO-4080	20080923	2008-09-23 11:45:30	pending				BOTTLE OPENER ORANGE
+WBA32257-1		WBA32257	RWk6Ua8w	U00238		WBSFCWS10-805-40		1	69.95	69.95					WBSFCWS10-805-40	20080923	2008-09-25 11:28:18	partial				3XDRY BIGSKYSHIRT BLUE L
+WBA32258-1		WBA32258	D28b3bfV	U00239		WBSFARC-50000		2	14.95	29.90					WBSFARC-50000	20080923	2008-09-25 10:18:51	partial				HARD BITE BOOTSTUDS
+WBA32259-1		WBA32259	WRMQySFj	U00240		WBSG32-3400D-R-B		1	600.00	600.00					3400D, R, B	20080925	2008-09-25 17:14:42	pending				3400D REEL W/DRAG, BLACK
+WBA32259-2		WBA32259	WRMQySFj	U00240		WBSFWGV107-43-70		1	774.95	774.95					WBSFWGV107-43-70	20080925	2008-09-25 17:14:42	pending				G4 GUIDE STOCKINGFOOT 3XL
+WBA32259-3		WBA32259	WRMQySFj	U00240		WBSFGWD		1	269.00	269.00					size: ml	20080925	2008-09-25 17:14:42	pending				2007 Guide Waders Discontinued
+WBA32260-1		WBA32260	Iw3kiI8c	U00241		WBSFWBE-F-07-30-10		1	429.95	429.95					F, 07	20080927	2008-09-27 10:22:23	pending				EXSTREAM BOOTFOOTS M 10 FELT
+WBA32261-1		WBA32261	kMrbRhkb	U00242		WBSFWBE-L-07-40-11		1	399.95	399.95					L, 07	20080928	2008-09-29 08:30:59	partial				EXSTREAM BOOTFOOTS L 11 LUG
+WBA32262-1		WBA32262	o6kbmPu7	U00243		WBOR60L6-21-57		1	189.00	189.00					WBOR60L6-21-57	20081001	2008-10-01 11:24:54	pending				WMNS SILVER LABEL II SF WADERS L/PETITE
+WBA32263-1		WBA32263	8FW8US2E	U00244		WBSFSS-K10800-12		1	129.95	129.95					K10800, 12	20081002	2008-10-02 13:19:40	partial				HEADWATERS BOOT AQUA 12
+WBA32264-1		WBA32264	iaMAhXAC	U00245		WBSFAFP-50000		2	4.95	9.90					WBSFAFP-50000	20081004	2008-10-04 12:23:24	pending				SUPER-FLY PATCH
+WBA32266-1		WBA32266	a9WYDfF9	U00247		WBSFWBE-L-07-40-10		1	399.95	399.95					L, 07	20081006	2008-10-07 08:28:39	partial				EXSTREAM BOOTFOOTS L 10 LUG
+WBA32266-2		WBA32266	a9WYDfF9	U00247		WBSFOCG10-703-40		1	299.95	299.95					WBSFOCG10-703-40	20081006	2008-10-07 08:28:39	partial				CLASSIC GUIDE JACKET LODEN L
+WBA32267-1		WBA32267	6NRX77hd	U00248		WBSFWGV107-43-20		1	699.95	699.95					WBSFWGV107-43-20	20081007	2008-10-07 08:41:42	partial				G4 GUIDE STOCKINGFOOT S
+WBA32268-1		WBA32268	8FJCJcGA	U00249		WBSFSGF-10614-12		1	179.95	179.95					WBSFSGF-10614-12	20081007	2008-10-07 09:48:18	partial				G3 BOOT W/ FELT GREY 12
+WBA32269-1		WBA32269	r25vjpiE	U00250		WBSFASH-4007		1	16.95	16.95					WBSFASH-4007	20081007	2008-10-07 17:51:37	pending				WASHED TWILLSB CAP KHAKI
+WBA32270-1		WBA32270	qIYsxxrn	U00251		WBSFCSZ10-807-30		1	48.95	48.95					WBSFCSZ10-807-30	20081010	2008-10-10 19:18:53	pending				3XDRYSUPERLIGHT ZO PANT LT KHAKI M
+WBA32271-1		WBA32271	dw2VtacK	U00252		WBSFOSV10-623-40		1	99.95	99.95					WBSFOSV10-623-40	20081011	2008-10-11 16:01:48	canceled				SUPERLT INSUL VEST LODEN L
+WBA32272-1		WBA32272	PIUZFGFK	U00253		WBSFLRS108-43-30		1	129.95	129.95					43, 30	20081011	2008-10-12 09:35:09	partial				RIVERSHED SWEATER (NEW FOR FALL 2008), Sterling, M
+WBA32273-1		WBA32273	pwvZbnbf	U00254		WBSFCMS108-05-40		1	48.95	48.95					WBSFCMS108-05-40	20081012	2008-10-13 08:34:05	shipped				3XDRY ESSEXSHIRT BLUE L
+WBA32273-2		WBA32273	pwvZbnbf	U00254		WBSFCMS108-21-40		1	48.95	48.95					WBSFCMS108-21-40	20081012	2008-10-13 08:34:05	shipped				3XDRY ESSEXSHIRT GREEN L
+WBA32274-1		WBA32274	6pej5qcs	U00255		WBSFCSF10-606-50		1	119.95	119.95					WBSFCSF10-606-50	20081013	2008-10-13 10:30:30	pending				DOBBY PT PULLOVER NAVY XL
+WBA32275-1		WBA32275	DkXnycPH	U00256		WBSFHWC10-82000		1	19.95	19.95					WBSFHWC10-82000	20081014	2008-10-14 19:52:05	pending				WAXED CANVAS CAP BROWN
+WBA32275-2		WBA32275	DkXnycPH	U00256		WBSFSH-F41-10		1	119.95	119.95					WBSFSH-F41-10	20081014	2008-10-14 19:52:05	pending				L2WADING BOOT FELT 10
+WBA32275-3		WBA32275	DkXnycPH	U00256		WBSFWL210-615-40		1	249.95	249.95					WBSFWL210-615-40	20081014	2008-10-14 19:52:05	pending				L2 STOCKINGFOOT WADER L
+WBA32275-4		WBA32275	DkXnycPH	U00256		WBSFLWB10-811-40		1	29.95	29.95					WBSFLWB10-811-40	20081014	2008-10-14 19:52:05	pending				WADERWICK BOTTOM BLACK LG
+WBA32275-5		WBA32275	DkXnycPH	U00256		WBSFOFJ10-667-40		1	179.95	179.95					WBSFOFJ10-667-40	20081014	2008-10-14 19:52:05	pending				FREESTONE JKTSLATE/KHAKI L
+WBA32275-6		WBA32275	DkXnycPH	U00256		WBSFMS481-40		1	24.95	24.95					WBSFMS481-40	20081014	2008-10-14 19:52:05	pending				EXSTREAM SOCK L
+WBA32276-1		WBA32276	CUi6hfLP	U00257		WBSFCLT10-805-30		1	27.95	27.95					WBSFCLT10-805-30	20081015	2008-10-15 21:20:23	pending				TOURNAMENTSHIRT BLUE M
+WBA32276-2		WBA32276	CUi6hfLP	U00257		WBSFCVG10-713-30		0	41.95	41.95					WBSFCVG10-713-30	20081015	2008-10-24 09:14:37	pending				3XDRY RIVERTEK SHIRT LT GRN M
+WBA32277-1		WBA32277	TjXwKebz	U00258		WBSFBDD-564-20		1	129.95	129.95					WBSFBDD-564-20	20081019	2008-10-19 13:37:52	pending				DRY CREEK DUFFEL COALS
+WBA32278-1		WBA32278	YE5ESGyC	U00259		WBSFCMS108-05-60		1	48.95	48.95					WBSFCMS108-05-60	20081019	2008-10-19 16:58:31	pending				3XDRY ESSEXSHIRT BLUE XXL
+WBA32279-1		WBA32279	pymxS2Iq	U00260		WBSFHWC10-82000		1	19.95	19.95					WBSFHWC10-82000	20081021	2008-10-21 11:50:05	pending				WAXED CANVAS CAP BROWN
+WBA32280-1		WBA32280	XNZy7F4G	U00261		WBSFCPF10-854-50		1	31.50	31.50					WBSFCPF10-854-50	20081022	2008-10-23 11:27:25	partial				3XDRY SOLARFLEX SHIRT WHITE XL
+WBA32281-1		WBA32281	d5CvgEJy	U00262		WBSFCPS10-803-30		1	27.95	27.95					WBSFCPS10-803-30	20081022	2008-10-23 11:36:13	partial				3XDRY TROUT POLO LODEN M
+WBA32282-1		WBA32282	q7N3ZoES	U00263		WBSG217-1480-4		1	745.00	745.00					WBSG217-1480-4	20081023	2008-11-14 17:38:22	canceled				1480-4 XI2 ROD 4 PC 8'0"L 14 WT
+WBA32283-1		WBA32283	WmTVv63Q	U00264		WBSFABO-4080		1	5.95	5.95					WBSFABO-4080	20081023	2008-10-24 09:19:59	partial				BOTTLE OPENER ORANGE
+WBA32284-1		WBA32284	EQ8UE42k	U00265		WBSG204-590-4		1	499.95	499.95					WBSG204-590-4	20081023	2008-10-24 09:05:13	partial				590-4 TCR ROD 4PC 5WT
+WBA32285-1		WBA32285	MYL2h7V4	U00266		WBSFWBE-L-07-50-12		1	399.95	399.95					L, 07	20081023	2008-10-24 08:41:58	partial				EXSTREAM BOOTFOOTS XL 12 LUG
+WBA32286-1		WBA32286	eHLytxfD	U00267		WBSFASC-4140		13	19.95	259.35					WBSFASC-4140	20081024	2008-10-24 09:11:30	canceled				SUNCLAVA TAN
+WBA32287-1		WBA32287	XUxsyPe4	U00268		WBSG204-9129-4		1	699.00	699.00					WBSG204-9129-4	20081024	2008-10-24 13:08:19	pending				9129-4 TCR 2HD ROD 4PC 9WT 12'9''L
+WBA32288-1		WBA32288	QPKMKKKi	U00269		WBSFLGT1080-35-40		1	99.95	99.95					35, 40	20081025	2008-10-25 13:58:33	pending				GUIDE TOP (NEW FOR FALL 2008), Black/Coal, L
+WBA32289-1		WBA32289	pxWUeXGK	U00270		WBORSI01EH-00		1	49.95	49.95					WBORSI01EH-00	20081027	2008-10-27 08:28:50	pending				FLY TYING GUIDE, Hardcover
+WBA32290-1		WBA32290	pxWUeXGK	U00271		WBOR74R2-00-00		1	24.95	24.95					WBOR74R2-00-00	20081027	2008-10-27 08:49:30	pending				THE ORVIS STORY - SOFT COVER
+WBA32291-1		WBA32291	pxWUeXGK	U00272		WBOR42Y7-00-00		1	29.95	29.95					WBOR42Y7-00-00	20081027	2008-10-27 08:55:27	pending				THE NEW FLY FISHING BASICS
+WBA32292-1		WBA32292	pxWUeXGK	U00273		WBOR09R0-00-00		1	26.95	26.95					WBOR09R0-00-00	20081027	2008-10-27 09:06:58	pending				TROUT BUM DIARIES II NEW ZEAL
+WBA32293-1		WBA32293	pxWUeXGK	U00274		WBSFWBE-L-07-20-07		1	399.95	399.95					L, 07	20081027	2008-10-27 09:36:16	pending				EXSTREAM BOOTFOOTS S 7 LUG
+WBA32294-1		WBA32294	tTAI8bB3	U00275		WBSFWWG10-805-20		1	329.95	329.95					WBSFWWG10-805-20	20081028	2008-10-28 11:41:02	pending				WOMEN'S GORE-TEX STOCKINGFOOT S
+WBA32295-1		WBA32295	jdLVp2Ch	U00276		WBSFHFS10-72000		1	19.95	19.95					WBSFHFS10-72000	20081028	2008-10-28 13:34:56	pending				FORESTSERVICE CAP BROWN
+WBA32296-1		WBA32296	7qbxbgiG	U00277		WBSFCTR10-805-50		1	48.95	48.95					WBSFCTR10-805-50	20081030	2008-10-30 09:23:41	partial				3XDRY BLUEWATERSHIRT BLUE XL
+WBA32296-2		WBA32296	7qbxbgiG	U00277		WBSFCVG1070750		1	41.95	41.95					WBSFCVG1070750	20081030	2008-10-30 09:23:41	partial				3XDRY RIVERTEK SHIRT LT KHAKI XL
+WBA32296-3		WBA32296	7qbxbgiG	U00277		WBSFCKS10-821-50		1	34.95	34.95					WBSFCKS10-821-50	20081030	2008-10-30 09:23:41	partial				3XDRY GUIDESHIRT GREEN XL
+WBA32297-1		WBA32297	Ivo3THJD	U00278		WBSFCPS10-705-40		1	27.95	27.95					WBSFCPS10-705-40	20081030	2008-10-30 10:41:35	pending				3XDRY TROUT POLO BLUE L
+WBA32298-1		WBA32298	PRykVq5R	U00279		WBSFCSP10-717-40		1	41.95	41.95					WBSFCSP10-717-40	20081102	2008-11-02 11:12:02	pending				3XDRY SUPERLIGHT PANT DK KHAKI L
+WBA32299-1		WBA32299	bLFTYYWE	U00280		WBSFLMT10-811-50		1	49.95	49.95					WBSFLMT10-811-50	20081102	2008-11-03 08:03:47	partial				WADERWICK FLEECE TOP BLACK XL
+WBA32300-1		WBA32300	3nr2Bv2x	U00281		WBSFLMT10-811-40		2	49.95	99.90					WBSFLMT10-811-40	20081103	2008-11-03 10:28:36	pending				WADERWICK FLEECE TOP BLACK LG
+WBA32301-1		WBA32301	4NdSZGMz	U00282		WBSFOWV10-723-50		1	149.95	149.95					WBSFOWV10-723-50	20081103	2008-11-03 12:11:48	pending				WIND STOPPER DL VEST LODEN XL
+WBA32302-1		WBA32302	3ZCXSZia	U00283		WBSFCWP10-807-20		1	41.95	41.95					WBSFCWP10-807-20	20081104	2008-11-04 21:19:56	pending				W'S SUPERLIGHT ZO PANT LT KHAKIS
+WBA32303-1		WBA32303	KRC4Wwii	U00284		WBSFSGF-10614-10		1	179.95	179.95					WBSFSGF-10614-10	20081106	2008-11-06 13:26:28	shipped				G3 BOOT W/ FELT GREY 10
+WBA32304-1		WBA32304	Hr9zATcR	U00285		WBSFCKS10-821-40		1	34.95	34.95					WBSFCKS10-821-40	20081106	2008-11-06 22:09:10	pending				3XDRY GUIDESHIRT GREEN L
+WBA32305-1		WBA32305	6WF5aRkU	U00121		HFL10943XX		1	24.95	24.95						20081107	2008-11-12 14:02:32	pending		ORDER_DESK		Flap Cap Sterling
+WBA32305-2		WBA32305	6WF5aRkU	U00121		HFL10964XX		1	24.95	24.95						20081107	2008-11-12 14:02:32	pending		ORDER_DESK		Flap Cap Coal
+WBA32306-1		WBA32306	eMyckLv6	U00286		WBSFCTT10-705-30		1	27.95	27.95					WBSFCTT10-705-30	20081112	2008-11-12 13:09:57	pending				3XDRY TATTERSALLSHIRT BLUE M
+WBA32306-2		WBA32306	eMyckLv6	U00286		WBSFCTT10-705-40		1	27.95	27.95					WBSFCTT10-705-40	20081112	2008-11-12 13:09:57	pending				3XDRY TATTERSALLSHIRT BLUE L
+WBA32306-3		WBA32306	eMyckLv6	U00286		WBSFCWS10-805-40		1	48.95	48.95					WBSFCWS10-805-40	20081112	2008-11-12 13:09:57	pending				3XDRY BIGSKYSHIRT BLUE L
+WBA32306-4		WBA32306	eMyckLv6	U00286		WBSFCZP10-603-40		1	41.95	41.95					WBSFCZP10-603-40	20081112	2008-11-12 13:09:57	pending				3XDRY GUIDE ZO PANT KHAKI L
+WBA32306-5		WBA32306	eMyckLv6	U00286		WBSFCTR10-8119-30		1	48.95	48.95					WBSFCTR10-8119-30	20081112	2008-11-12 13:09:57	pending				3XDRY BLUEWATERSHIRT AQUA M
+WBA32305-3		WBA32305				WBSFHTR107-8000		1	14.95	14.95							2008-11-12 14:05:31					Trucker Cap Orange
+WBA32307-1		WBA32307	QWFkQmCf	U00287		WBSFCZP10-805-40		1	41.95	41.95					WBSFCZP10-805-40	20081114	2008-11-14 14:36:05	pending				3XDRY GUIDE ZO PANT BLUE L
+WBA32307-2		WBA32307	QWFkQmCf	U00287		WBSFCSW10-829-40		1	34.95	34.95					WBSFCSW10-829-40	20081114	2008-11-14 14:36:05	pending				3XDRY TARPON POLO LT BLUE L
+WBA32307-3		WBA32307	QWFkQmCf	U00287		WBSFCPS10-803-40		1	27.95	27.95					WBSFCPS10-803-40	20081114	2008-11-14 14:36:05	pending				3XDRY TROUT POLO LODEN L
+WBA32307-4		WBA32307	QWFkQmCf	U00287		WBSFCMS108-05-50		1	48.95	48.95					WBSFCMS108-05-50	20081114	2008-11-14 14:36:05	pending				3XDRY ESSEXSHIRT BLUE XL
+WBA32308-1		WBA32308	hgAVkx8f	U00288		WBSFWPG10-843-56		1	379.95	379.95					WBSFWPG10-843-56	20081114	2008-11-17 09:38:47	partial				G3 GUIDE CONVERTIBLE XLS
+WBA32309-1		WBA32309	vxRfVvpz	U00289		WBSFWWG10-805-56		1	329.95	329.95					WBSFWWG10-805-56	20081115	2008-11-17 09:51:20	partial				WOMENS GORE-TEX STOCKINGFOOT XLS
+WBA32310-1		WBA32310	L86NbA3o	U00290		WBSFLGT1080-35-40		1	99.95	99.95					35, 40	20081116	2008-11-17 10:16:23	partial				GUIDE TOP (NEW FOR FALL 2008), Black/Coal, L
+WBA32311-1		WBA32311	PUMb7ZAo	U00291		WBSFWBE-L-07-50-12		1	399.95	399.95					L, 07	20081116	2008-11-17 10:04:45	partial				EXSTREAM BOOTFOOTS XL 12 LUG
+WBA32312-1		WBA32312	QdjDY6PV	U00292		WBSFCTT10-721-40		1	27.95	27.95					WBSFCTT10-721-40	20081122	2008-11-23 08:30:08	partial				3XDRY TATTERSALLSHIRT GREEN L
+WBA32313-1		WBA32313	pkcB2Vtk	U00293		WBSFARC-50000		2	14.95	29.90					WBSFARC-50000	20081123	2008-11-23 08:17:09	partial				HARD BITE BOOTSTUDS
+WBA32314-1		WBA32314	Ru9MSBfj	U00294		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20081123	2008-11-24 11:43:07	partial				KRIEGER CRUSHER LODEN
+WBA32314-2		WBA32314	Ru9MSBfj	U00294		WBSFHFG30564-50		1	24.95	24.95					WBSFHFG30564-50	20081123	2008-11-24 11:43:07	partial				POLARTEC GLOVE HALF COAL/BLACK XL
+WBA32315-1		WBA32315	BgefKEVS	U00295		WBSFRA-508-50		2	99.95	199.90					508, 50	20081123	2008-11-28 12:59:55	partial				IN-VEST JACKET TAN XL
+WBA32316-1		WBA32316	EGZVLaU9	U00296		WBSFHFL10921XX		1	24.95	24.95					WBSFHFL10921XX	20081123	2008-11-24 09:19:34	partial				Flap Cap Green
+WBA32317-1		WBA32317	JFYPVayR	U00297		WBSFHKC108-0800		1	19.95	19.95					WBSFHKC108-0800	20081124	2008-11-24 01:21:47	pending				KRIEGER CRUSHER TAN
+WBA32317-2		WBA32317	JFYPVayR	U00297		WBSFCFD10-830-40		1	24.95	24.95					WBSFCFD10-830-40	20081124	2008-11-24 01:21:47	pending				RAINBOW TROUT T-SHIRTSSWHITE L
+WBA32317-3		WBA32317	JFYPVayR	U00297		WBSFCFD10-830-50		1	24.95	24.95					WBSFCFD10-830-50	20081124	2008-11-24 01:21:47	pending				RAINBOW TROUT T-SHIRTSSWHITE XL
+WBA32317-4		WBA32317	JFYPVayR	U00297		WBSFHGE106-2300		1	49.95	49.95					WBSFHGE106-2300	20081124	2008-11-24 01:21:47	pending				GORE TEXEXSTREAM HAT LODEN
+WBA32318-1		WBA32318	HNizttIN	U00298		WBSFCPS10-705-50		1	27.95	27.95					WBSFCPS10-705-50	20081126	2008-11-26 11:23:02	pending				3XDRY TROUT POLO BLUE XL
+WBA32318-2		WBA32318	HNizttIN	U00298		WBSFCPS10-803-50		1	27.95	27.95					WBSFCPS10-803-50	20081126	2008-11-26 11:23:02	pending				3XDRY TROUT POLO LODEN XL
+WBA32319-1		WBA32319	e63D5RAV	U00299		WBSFLGT1080-35-30		1	99.95	99.95					35, 30	20081126	2008-11-28 12:25:16	partial				GUIDE TOP (NEW FOR FALL 2008), Black/Coal, M
+WBA32320-1		WBA32320	gSXGICjQ	U00300		WBSFHFM10564-30		1	39.95	39.95					WBSFHFM10564-30	20081127	2008-11-28 12:30:03	partial				WIND STOPPER MITT COAL/BLACK M
+WBA32320-2		WBA32320	gSXGICjQ	U00300		WBSFHEB106-1100		1	29.95	29.95					WBSFHEB106-1100	20081127	2008-11-28 12:30:03	partial				EXSTREAM BALACLAVA BLACK
+WBA32321-1		WBA32321	vKuqtK6e	U00301		WBSFBDR-59900		2	23.95	47.90					WBSFBDR-59900	20081127	2008-11-28 12:10:29	pending				DRY CREEK ROLL TOP CLEAR
+WBA32322-1		WBA32322	IQGh8a9M	U00302		WBSFBWB56-400		1	31.96	31.96					WBSFBWB56-400	20081128	2009-01-21 11:07:38	backorder				SIMMSWADER BAG COAL
+WBA32322-2		WBA32322	IQGh8a9M	U00302		WBSFBDD-564-40		1	159.96	159.96					WBSFBDD-564-40	20081128	2009-01-21 11:07:38	backorder				DRY CREEK DUFFEL COAL L
+WBA32322-3		WBA32322	IQGh8a9M	U00302		WBSFLB-B-108-4340		1	151.96	151.96					WBSFLB-B-108-4340	20081128	2009-01-27 11:49:42	pending				DRY CREEK BOAT BAG LARGE STERLING
+WBA32322-4		WBA32322	IQGh8a9M	U00302		WBSFCGD10-744-40		1	34.95	34.95					WBSFCGD10-744-40	20081128	2009-01-27 11:49:42	canceled				3XDRY GUIDE PANT KHAKI L
+WBA32323-1		WBA32323	AfLo8tnt	U00303		WBSFAGS-41-30		1	23.96	23.96					WBSFAGS-41-30	20081128	2008-12-11 12:31:56	shipped				GUARDSOCKSSTERLING M
+WBA32323-2		WBA32323	AfLo8tnt	U00303		WBOR9C0H-00-00		1	18.36	18.36					WBOR9C0H-00-00	20081128	2008-12-11 12:31:56	canceled				PROSPECTING FOR TROUT REVISED
+WBA32324-1		WBA32324	qpvLb6iB	U00304		WBORSI96Y1-40-00		1	39.20	39.20					WBORSI96Y1-40-00	20081128	2008-12-04 12:52:33	partial				Safe Passage Sling Pack
+WBA32324-2		WBA32324	qpvLb6iB	U00304		WBSFAWB-1000		1	8.76	8.76					WBSFAWB-1000	20081128	2008-12-04 12:52:33	partial				WEB BELT BLACK
+WBA32325-1		WBA32325	w75PcUCh	U00305		WBSFLMB10-811-60		1	39.96	39.96					WBSFLMB10-811-60	20081128	2008-11-28 13:00:40	pending				WADERWICK FLEECE PANT BLACK XXL
+WBA32325-2		WBA32325	w75PcUCh	U00305		WBSFCMS108-80-60		1	48.95	48.95					WBSFCMS108-80-60	20081128	2008-11-28 13:00:40	pending				3XDRY ESSEXSHIRT ORNG XXL
+WBA32326-1		WBA32326	TPkrDuHS	U00306		WBSFWGV10-843-4012		1	399.96	399.96					WBSFWGV10-843-4012	20081128	2008-11-30 09:37:59	partial				G4 PRO STOCKINGFOOT L 12-13
+WBA32327-1		WBA32327	zNstWbQP	U00307		WBSFLMT10-811-40		1	39.96	39.96					WBSFLMT10-811-40	20081129	2008-11-29 00:01:59	pending				WADERWICK FLEECE TOP BLACK LG
+WBA32327-2		WBA32327	zNstWbQP	U00307		WBSFLMB10-81-140		1	39.96	39.96					WBSFLMB10-81-140	20081129	2008-11-29 00:01:59	pending				WADERWICK FLEECE PANT BLACK LG
+WBA32328-1		WBA32328	kqxsf2NF	U00308		WBSFCSH10-717-30		1	34.95	34.95					717, 30	20081129	2008-11-29 02:43:15	pending				3XDRY SUPERLIGHT SHORT DK KHAKI M
+WBA32329-1		WBA32329	kyRQMGA8	U00309		HFL10964XX		1	24.95	24.95					HFL10964XX	20081201	2008-12-01 09:58:03	pending				Flap Cap Coal
+WBA32329-2		WBA32329	kyRQMGA8	U00309		WBSFHFL10921XX		1	24.95	24.95					WBSFHFL10921XX	20081201	2008-12-01 09:58:03	pending				Flap Cap Green
+WBA32330-1		WBA32330	Dr73qRhJ	U00310		WBSFHFM10564-50		1	39.95	39.95					WBSFHFM10564-50	20081201	2008-12-09 09:03:22	partial				WIND STOPPER MITT COAL/BLACK XL
+WBA32330-2		WBA32330	Dr73qRhJ	U00310		WBSFLWB10-811-50		1	29.95	29.95					WBSFLWB10-811-50	20081201	2008-12-09 09:03:22	partial				WADERWICK BOTTOM BLACK XL
+WBA32331-1		WBA32331	2bejD5iL	U00311		WBSFOSV10-607-30		1	99.95	99.95					WBSFOSV10-607-30	20081201	2008-12-04 13:37:37	partial				SUPERLT INSUL VEST LT KHAKI M
+WBA32332-1		WBA32332	eiKZNsLa	U00312		WBWRBIIMX-990-4		1	532.00	532.00					WBWRBIIMX-990-4	20081201	2008-12-04 09:47:28	partial				Boron II-MX 9Wt 9Ft 4Pc
+WBA32332-2		WBA32332	eiKZNsLa	U00312		WBSFRP-465-60		1	143.96	143.96					WBSFRP-465-60	20081201	2008-12-04 09:48:28	partial				PACLITE RAIN PANTSMOKE XXL
+WBA32333-1		WBA32333	eiKZNsLa	U00313		WBFPBC		1	69.95	69.95						20081201	2008-12-04 14:52:24	partial				Blizzard Soft Cooler
+WBA32334-1		WBA32334	WJBs7IV2	U00314		WBSFCFE10-830-50		1	24.95	24.95					WBSFCFE10-830-50	20081201	2008-12-09 09:29:20	partial				SMALLMOUTH BASS T-SHIRTSSWHITE XL
+WBA32335-1		WBA32335	efyibSWk	U00315		WBORSI60KR-24-00		1	95.20	95.20					WBORSI60KR-24-00	20081202	2008-12-04 11:20:01	pending				Brodin C&R Rubber Net 24in
+WBA32335-2		WBA32335	efyibSWk	U00315		WBSG2001-390-4		1	536.00	536.00					WBSG2001-390-4	20081202	2008-12-04 11:20:01	pending				390-4 Z-AXIS ROD 4PC 9L 3WT
+WBA32335-3		WBA32335	efyibSWk	U00315		WBSFVG5-88-60		1	143.96	143.96					WBSFVG5-88-60	20081202	2008-12-04 11:20:01	pending				G3 GUIDE VEST TAUPO XXL
+WBA32335-4		WBA32335	efyibSWk	U00315		WBBRROUGE-2-R		1	276.00	276.00					WBBRROUGE-2-R	20081202	2008-12-04 11:20:01	pending				Rogue 2 Reel
+WBA32335-5		WBA32335	efyibSWk	U00315		WBBRROUGE-2-S		1	132.00	132.00					WBBRROUGE-2-S	20081202	2008-12-04 11:20:01	pending				Rogue 2 Spool
+WBA32336-1		WBA32336	zJgNChig	U00316		WBSFOGG10-8117-50		1	449.95	449.95					WBSFOGG10-8117-50	20081203	2008-12-04 09:27:18	partial				G4 PRO JACKET COAL/ORANGE XL
+WBA32337-1		WBA32337	3yxvKweS	U00317		WBSFWFS10-718-30		1	199.95	199.95					WBSFWFS10-718-30	20081203	2008-12-09 09:13:54	partial				FREESTONE STOCKINGFOOT M
+WBA32338-1		WBA32338	FZwpE8uf	U00318		WBSFWWG10-805-20		1	329.95	329.95					WBSFWWG10-805-20	20081203	2008-12-04 09:00:17	partial				WOMENS GORE-TEX STOCKINGFOOT S
+WBA32339-1		WBA32339	croDePhC	U00319		WBSFLWB10-811-50		1	29.95	29.95					WBSFLWB10-811-50	20081203	2009-02-10 14:39:28	pending				WADERWICK BOTTOM BLACK XL
+WBA32339-2		WBA32339	croDePhC	U00319		WBSFHTR108-8300		1	14.95	14.95					WBSFHTR108-8300	20081203	2009-02-10 14:39:28	pending				TRUCKER CAP DRIFTWOOD
+WBA32339-3		WBA32339	croDePhC	U00319		WBSFHFM10564-30		1	39.95	39.95					WBSFHFM10564-30	20081203	2009-02-10 14:39:28	pending				WIND STOPPER MITT COAL/BLACK M
+WBA32340-1		WBA32340	63YnZyYv	U00320		WBSFHFG30564-30		1	24.95	24.95					WBSFHFG30564-30	20081203	2008-12-03 18:37:08	pending				POLARTEC GLOVE HALF COAL/BLACK M
+WBA32341-1		WBA32341	zAzYMT39	U00321		WBSFLMT10-811-30		1	49.95	49.95					WBSFLMT10-811-30	20081203	2009-01-05 10:21:52	pending				WADERWICK FLEECE TOP BLACK M
+WBA32341-2		WBA32341	zAzYMT39	U00321		WBSFLWC10-880-30		1	29.95	29.95					880, 30	20081203	2009-01-05 10:21:52	pending				WADERWICK CREW TOP ORANGE M
+WBA32342-1		WBA32342	E3YHJkXb	U00322		WBSFCZP10-603-50		1	41.95	41.95					WBSFCZP10-603-50	20081204	2008-12-04 11:23:28	pending				3XDRY GUIDE ZO PANT KHAKI XL
+WBA32343-1		WBA32343	SViIiaCS	U00323		WBSFSH-F41-11		1	119.95	119.95					WBSFSH-F41-11	20081204	2008-12-04 13:47:06	partial				L2WADING BOOT FELT 11
+WBA32344-1		WBA32344	zgWqcjDd	U00324		HFL10943XX		1	24.95	24.95					HFL10943XX	20081205	2008-12-06 09:23:05	partial				Flap Cap Sterling
+WBA32345-1		WBA32345	AknzMUIS	U00325		WBSFCMS107-05-50		1	48.95	48.95					WBSFCMS107-05-50	20081206	2008-12-08 09:13:50	partial				3XDRY MICROCHECKSHIRT BLUE XL
+WBA32346-1		WBA32346	r8FCbqzj	U00326		WBSFWWG10-805-42		1	329.95	329.95					WBSFWWG10-805-42	20081207	2008-12-07 10:08:17	pending				WOMEN'S GORE-TEX STOCKINGFOOT LF
+WBA32347-1		WBA32347	xKPzBxf7	U00327		WBSFCSP10-717-40		1	41.95	41.95					WBSFCSP10-717-40	20081207	2008-12-08 10:00:13	shipped				3XDRY SUPERLIGHT PANT DK KHAKI L
+WBA32347-2		WBA32347	xKPzBxf7	U00327		WBSFHTR107-8000		1	14.95	14.95					WBSFHTR107-8000	20081207	2008-12-08 10:00:13	shipped				TRUCKER CAPSIMMS ORANGE
+WBA32348-1		WBA32348	tkQmLPyP	U00328		WBSFCKS10-603-50		1	34.95	34.95					WBSFCKS10-603-50	20081207	2008-12-20 11:28:22	partial				3XDRY GUIDESHIRT KHAKI XL
+WBA32348-2		WBA32348	tkQmLPyP	U00328		WBSFCTT10-794-50		1	27.95	27.95					WBSFCTT10-794-50	20081207	2008-12-20 11:28:22	partial				3XDRY TATTERSALLSHIRTSALMON XL
+WBA32349-1		WBA32349	9zp6QJAD	U00329		WBSFLGT1080-35-40		1	99.95	99.95					35, 40	20081207	2008-12-08 09:03:04	partial				GUIDE TOP (NEW FOR FALL 2008), Black/Coal, L
+WBA32350-1		WBA32350	2iYKvqav	U00330		WBSFCLT10-805-40		1	27.95	27.95					WBSFCLT10-805-40	20081207	2008-12-08 08:46:13	partial				TOURNAMENTSHIRT BLUE L
+WBA32351-1		WBA32351	GWCze32Q	U00331		WBSFWPG10-843-27		1	379.95	379.95					WBSFWPG10-843-27	20081208	2008-12-08 12:15:30	pending				G3 GUIDE CONVERTIBLE SK
+WBA32351-2		WBA32351	GWCze32Q	U00331		WBSFST-S10831-08		1	189.95	189.95					S10831, 08	20081208	2008-12-08 12:15:30	pending				RIVERSHED BOOT STUDDED AQUA 08
+WBA32352-1		WBA32352	zkpj82mi	U00332		WBSFASG4120		1	14.95	14.95					WBSFASG4120	20081209	2008-12-09 17:06:42	pending				SUNGLOVES TANS
+WBA32352-2		WBA32352	zkpj82mi	U00332		WBSFASG4140		1	14.95	14.95					WBSFASG4140	20081209	2008-12-09 17:06:42	pending				SUNGLOVES TAN L
+WBA32352-3		WBA32352	zkpj82mi	U00332		WBSFASG4130		1	14.95	14.95					WBSFASG4130	20081209	2008-12-09 17:06:42	pending				SUNGLOVES TAN M
+WBA32352-4		WBA32352	zkpj82mi	U00332		WBSFHFG30564-30		1	24.95	24.95					WBSFHFG30564-30	20081209	2008-12-09 17:06:42	pending				POLARTEC GLOVE HALF COAL/BLACK M
+WBA32352-5		WBA32352	zkpj82mi	U00332		WBSFHSS106-8400		1	29.95	29.95					WBSFHSS106-8400	20081209	2008-12-09 17:06:42	pending				SOLAR SOMBRERO TAN
+WBA32353-1		WBA32353	YmunZn3H	U00333		WBSFCKS10-821-50		1	34.95	34.95					WBSFCKS10-821-50	20081209	2008-12-10 11:39:34	shipped				3XDRY GUIDESHIRT GREEN XL
+WBA32353-2		WBA32353	YmunZn3H	U00333		WBSFLDD1066430		1	169.95	169.95					WBSFLDD1066430	20081209	2008-12-10 11:39:34	shipped				DRY CREEK DUFFEL COAL M
+WBA32354-1		WBA32354	FHyoRZzg	U00334		WBSFHTR108-0600		1	14.95	14.95					WBSFHTR108-0600	20081209	2008-12-17 09:07:57	shipped				TRUCKER CAP NAVY
+WBA32354-2		WBA32354	FHyoRZzg	U00334		WBSFRA-508-40		1	99.95	99.95					508, 40	20081209	2008-12-17 09:07:57	shipped				IN-VEST JACKET TAN L
+WBA32372-1		WBA32372	8bwcAW6x	U00352		WBSFCSB10-830-50		1	29.95	29.95					WBSFCSB10-830-50	20081215	2008-12-17 10:01:33	partial				REDFISH T-SHIRT LS WHITE XL
+WBA32355-1		WBA32355	akPRnoPy	U00335		WBSFLWB10-811-30		1	29.95	29.95					WBSFLWB10-811-30	20081210	2008-12-10 15:03:30	pending		3418?expandable=		WADERWICK BOTTOM BLACK M
+WBA32356-1		WBA32356	z5rF9MVx	U00336		WBSFHKC108-0800		1	19.95	19.95					WBSFHKC108-0800	20081210	2008-12-10 15:21:28	pending				KRIEGER CRUSHER TAN
+WBA32356-2		WBA32356	z5rF9MVx	U00336		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20081210	2008-12-10 15:21:28	pending				KRIEGER CRUSHER LODEN
+WBA32356-3		WBA32356	z5rF9MVx	U00336		WBSFBWB56-400		1	39.95	39.95					WBSFBWB56-400	20081210	2008-12-10 15:21:28	pending				SIMMSWADER BAG COAL
+WBA32356-4		WBA32356	z5rF9MVx	U00336		HFL10964XX		1	24.95	24.95					HFL10964XX	20081210	2008-12-10 15:21:28	pending				Flap Cap Coal
+WBA32357-1		WBA32357	FYoYRo8t	U00337		WBSFHWT10-81100		1	16.95	16.95					WBSFHWT10-81100	20081210	2008-12-10 16:12:46	pending				WASHED TWILL SB BLACK
+WBA32357-2		WBA32357	FYoYRo8t	U00337		WBSFHWT10-88000		1	16.95	16.95					WBSFHWT10-88000	20081210	2008-12-10 16:12:46	pending				WASHED TWILL SB ORANGE
+WBA32358-1		WBA32358	pPCbobe3	U00338		WBSFCKS10-821-60		1	34.95	34.95					WBSFCKS10-821-60	20081210	2008-12-10 22:02:31	pending				3XDRY GUIDESHIRT GREEN XXL
+WBA32359-1		WBA32359	akPRnoPy	U00339		WBSFCSC10-830-40		1	29.95	29.95					WBSFCSC10-830-40	20081211	2008-12-11 09:31:05	pending		990?expandable=		ROOSTERFISH T-SHIRT LS WHITE L
+WBA32360-1		WBA32360	VMXhRPsc	U00340		WBSFCGD10-744-30		1	34.95	34.95					WBSFCGD10-744-30	20081211	2008-12-11 14:27:38	pending				3XDRY GUIDE PANT KHAKI M
+WBA32361-1		WBA32361	F8jhtXbx	U00341		WBSFCSA10-830-60		1	29.95	29.95					WBSFCSA10-830-60	20081212	2008-12-15 15:08:03	partial				PERMIT T-SHIRT LS WHITE XXL
+WBA32361-2		WBA32361	F8jhtXbx	U00341		WBSFCMS108-21-60		1	48.95	48.95					WBSFCMS108-21-60	20081212	2008-12-15 15:08:03	partial				3XDRY ESSEXSHIRT GREEN XXL
+WBA32362-1		WBA32362	cC4wwwbN	U00342		WBSFSWS108-120-40		4	19.95	79.80					WBSFSWS108-120-40	20081212	2008-12-12 17:15:19	pending				SIMMSWADINGSOCK GREY / ORANGE L
+WBA32363-1		WBA32363	RnwHwWRW	U00343		WBSFASK-3103		1	24.95	24.95					WBSFASK-3103	20081212	2008-12-12 18:32:18	pending				WS STOCKING CAP BLACK
+WBA32364-1		WBA32364	CRTYwN2h	U00344		WBSFCMS107-05-50		1	48.95	48.95					WBSFCMS107-05-50	20081213	2008-12-13 12:36:12	pending				3XDRY MICROCHECKSHIRT BLUE XL
+WBA32365-1		WBA32365	cnexRTn8	U00345		WBSFHFG40564-40		2	34.95	69.90					WBSFHFG40564-40	20081213	2008-12-28 15:36:28	partial				WIND STOPPER GLOVE HALF COAL/BLACK L
+WBA32366-1		WBA32366	cnexRTn8	U00345		WBSFAGS-41-40		1	29.95	29.95					WBSFAGS-41-40	20081213	2008-12-15 09:18:20	pending				GUARDSOCKSSTERLING L
+WBA32367-1		WBA32367	ofbyYQj3	U00347		WBSFHFM10564-30		1	39.95	39.95					WBSFHFM10564-30	20081213	2008-12-15 14:27:25	partial				WIND STOPPER MITT COAL/BLACK M
+WBA32368-1		WBA32368	Pnnbafv5	U00348		WBSFASK-3103		1	24.95	24.95					WBSFASK-3103	20081213	2008-12-13 21:04:29	pending				WS STOCKING CAP BLACK
+WBA32369-1		WBA32369	qHeiZVKx	U00349		WBSFST-F10800-10		1	139.95	139.95					sole: F10800, size: 10	20081214	2008-12-15 14:37:07	partial				RIVERSHED BOOT FELT 10
+WBA32370-1		WBA32370	PovMqJWu	U00350		WBSFHFM10564-40		1	39.95	39.95					WBSFHFM10564-40	20081214	2008-12-15 14:47:54	partial				WIND STOPPER MITT COAL/BLACK L
+WBA32371-1		WBA32371	RzJ7XBJz	U00351		WBWRBIIxD-1267-4		1	835.00	835.00					WBWRBIIxD-1267-4	20081215	2008-12-15 09:16:26	pending		3215?expandable=		12ft 6in 6-7 Wt Double Handed Biix
+WBA32373-1		WBA32373	msm4M84S	U00353		WBSFBDP-59900		1	14.95	14.95					WBSFBDP-59900	20081215	2008-12-15 17:05:24	pending				DRY CREEK TECH POUCH CLEAR
+WBA32374-1		WBA32374	RzJ7XBJz	U00354		WBWRBIIxD-117-4		1	735.00	735.00					WBWRBIIxD-117-4	20081216	2008-12-16 09:26:53	partial		12090?expandable=		11ft 7Wt Double Handed Biix
+WBA32375-1		WBA32375	RzJ7XBJz	U00355		WBSFDR0-1000		1	14.95	14.95					WBSFDR0-1000	20081216	2008-12-16 09:34:04	partial		12090?expandable=		GORE-TEX REVIVEX
+WBA32376-1		WBA32376	pKNCBdJf	U00356		WBORSI60KR-24-00		1	119.00	119.00					WBORSI60KR-24-00	20081216	2008-12-16 15:23:59	pending				Brodin C&R Rubber Net 24in
+WBA32377-1		WBA32377	MuYiByLf	U00357		WBSFLGT1080-35-60		1	99.95	99.95					color: 35, size: 60	20081216	2008-12-29 11:32:29	partial				GUIDE TOP (NEW FOR FALL 2008), Black/Coal, XXL
+WBA32377-2		WBA32377	MuYiByLf	U00357		WBSFHWC10-82000		1	19.95	19.95					WBSFHWC10-82000	20081216	2008-12-29 11:32:29	partial				WAXED CANVAS CAP BROWN
+WBA32378-1		WBA32378	xr9bW7kn	U00358		WBSFCKS10-821-50		1	34.95	34.95					WBSFCKS10-821-50	20081217	2008-12-17 12:45:01	pending				3XDRY GUIDESHIRT GREEN XL
+WBA32379-1		WBA32379	pHds5xxA	U00359		WBSFLWC10-880-50		1	29.95	29.95					color: 880, size: 50	20081217	2008-12-18 09:12:04	partial				WADERWICK CREW TOP ORANGE XL
+WBA32379-2		WBA32379	pHds5xxA	U00359		WBSFLWB10-811-40		1	0.00	0.00					WBSFLWB10-811-40	20081217	2008-12-18 09:25:24	partial				WADERWICK BOTTOM BLACK LG
+WBA32379-3		WBA32379	pHds5xxA	U00359		WBSFCTT10-721-50		1	27.95	27.95					WBSFCTT10-721-50	20081217	2008-12-18 09:12:04	partial				3XDRY TATTERSALLSHIRT GREEN XL
+WBA32379-4		WBA32379	pHds5xxA	U00359		WBSFLDW107-8000		1	129.95	129.95					WBSFLDW107-8000	20081217	2008-12-18 09:12:04	partial				DRY CREEK WADER BAG ORANGE
+WBA32379-5		WBA32379	pHds5xxA	U00359		WBSFSWS108-120-40		1	0.00	0.00					WBSFSWS108-120-40	20081217	2008-12-18 09:25:24	partial				SIMMSWADINGSOCK GREY / ORANGE L
+WBA32379-6		WBA32379	pHds5xxA	U00359		WBSFMS481-40		1	24.95	24.95					WBSFMS481-40	20081217	2008-12-18 09:12:04	partial				EXSTREAM SOCK L
+WBA32380-1		WBA32380	gY4tjgxI	U00360		WBSFCPS10-807-40		1	27.95	27.95					WBSFCPS10-807-40	20081217	2008-12-17 20:20:51	pending				3XDRY TROUT POLO LT KHAKI L
+WBA32381-1		WBA32381	UpnxwwTq	U00361		WBSFHFM10564-30		1	39.95	39.95					WBSFHFM10564-30	20081219	2008-12-19 15:09:15	pending				WIND STOPPER MITT COAL/BLACK M
+WBA32382-1		WBA32382	VR89Co57	U00362		WBSFCFE10-830-60		1	24.95	24.95					WBSFCFE10-830-60	20081219	2008-12-20 11:50:22	partial				SMALLMOUTH BASS T-SHIRTSSWHITE XXL
+WBA32383-1		WBA32383	yQCGMg8z	U00363		WBSFCPC1084430		1	41.95	41.95					WBSFCPC1084430	20081219	2008-12-19 22:10:29	pending				GUIDE KHAKIS KHAKI M
+WBA32384-1		WBA32384	eAGNbShm	U00364		WBSFCVG10-713-30		1	41.95	41.95					WBSFCVG10-713-30	20081219	2008-12-19 22:51:47	pending				3XDRY RIVERTEK SHIRT LT GRN M
+WBA32385-1		WBA32385	NfRoYdSi	U00365		WBSFHEB106-1100		1	29.95	29.95					WBSFHEB106-1100	20081220	2008-12-20 11:18:31	pending				EXSTREAM BALACLAVA BLACK
+WBA32386-1		WBA32386	AgEM6T7V	U00366		WBSFHEB106-1100		1	29.95	29.95					WBSFHEB106-1100	20081220	2008-12-20 16:54:45	pending				EXSTREAM BALACLAVA BLACK
+WBA32387-1		WBA32387	XFdc2ARZ	U00367		WBSFHFM10564-50		1	39.95	39.95					WBSFHFM10564-50	20081221	2008-12-22 09:43:23	partial				WIND STOPPER MITT COAL/BLACK XL
+WBA32388-1		WBA32388	wNjjHHbf	U00368		WBSFST-S10831-13		1	189.95	189.95					sole: S10831, size: 13	20081222	2008-12-22 11:10:45	partial				RIVERSHED BOOT STUDDED AQUA 13
+WBA32389-1		WBA32389	UEQqiaiw	U00369		WBSFCSW10-889-50		1	34.95	34.95					WBSFCSW10-889-50	20081222	2008-12-22 15:01:25	pending				3XDRY TARPON POLO DK BLUE XL
+WBA32390-1		WBA32390	MfCoB8RA	U00370		WBSFCGT10-805-40		2	27.95	55.90					WBSFCGT10-805-40	20081223	2008-12-29 12:12:41	partial				3XDRY STRETCH CREW BLUE L
+WBA32390-2		WBA32390	MfCoB8RA	U00370		WBSFCGT10-833-40		1	27.95	27.95					WBSFCGT10-833-40	20081223	2008-12-29 12:12:41	partial				3XDRY STRETCH CREW HEATHER GREY L
+WBA32390-3		WBA32390	MfCoB8RA	U00370		WBSFCGT10-710-40		1	27.95	27.95					WBSFCGT10-710-40	20081223	2008-12-29 12:12:41	partial				3XDRY STRETCH CREW LT GREY L
+WBA32391-1		WBA32391	tPtVpn3M	U00371		WBSFLWC10-811-40		1	29.95	29.95					color: 811, size: 40	20081226	2008-12-28 15:17:03	partial				WADERWICK CREW TOP BLACK L
+WBA32392-1		WBA32392	2pXJCnIt	U00372		WBSFCPF10-829-60		1	31.50	31.50					WBSFCPF10-829-60	20081226	2008-12-26 12:35:08	pending				3XDRY SOLARFLEX SHIRT LT BLUE XXL
+WBA32392-2		WBA32392	2pXJCnIt	U00372		WBSFCPF1081360		2	31.50	63.00					WBSFCPF1081360	20081226	2008-12-26 12:35:08	pending				3XDRY SOLARFLEX SHIRT LT GREEN XXL
+WBA32392-3		WBA32392	2pXJCnIt	U00372		WBSFCPF10-854-60		4	31.50	126.00					WBSFCPF10-854-60	20081226	2008-12-26 12:35:08	pending				3XDRY SOLARFLEX SHIRT WHITE XXL
+WBA32393-1		WBA32393	Qqn5ZdoT	U00373		WBSFLWC10-880-30		1	29.95	29.95					color: 880, size: 30	20081227	2008-12-27 20:31:45	pending				WADERWICK CREW TOP ORANGE M
+WBA32394-1		WBA32394	FMjXrJZB	U00374		WBSFCSA10-830-40		1	29.95	29.95					WBSFCSA10-830-40	20081229	2008-12-29 11:00:33	pending				PERMIT T-SHIRT LS WHITE L
+WBA32395-1		WBA32395	RStob6sX	U00375		WBSFCHD10-829-40		0	0.00	0.00					WBSFCHD10-829-40	20090101	2009-01-05 10:45:07	backorder				3XDRYSOLARFLEX HOODY LT BLUE L
+WBA32395-2		WBA32395	RStob6sX	U00375		WBSFCHD10-829-30		1	38.50	38.50					WBSFCHD10-829-30	20090101	2009-01-05 10:45:52	partial				3XDRYSOLARFLEX HOODY LT BLUE M
+WBA32395-3		WBA32395	RStob6sX	U00375		WBSFCHD10-829-50		1	38.50	38.50					WBSFCHD10-829-50	20090101	2009-01-05 10:45:52	partial				3XDRYSOLARFLEX HOODY LT BLUE XL
+WBA32395-4		WBA32395	RStob6sX	U00375		WBSFHGE106-2300		2	49.95	99.90					WBSFHGE106-2300	20090101	2009-01-05 10:45:52	partial				GORE TEXEXSTREAM HAT LODEN
+WBA32395-5		WBA32395	RStob6sX	U00375		WBSFASG4130		0	0.00	0.00					WBSFASG4130	20090101	2009-01-05 10:45:07	backorder				SUNGLOVES TAN M
+WBA32396-1		WBA32396	Ndar6X9G	U00376		WBSFCPC1084450		0	41.95	0.00					WBSFCPC1084450	20090103	2009-01-05 14:32:48	pending				GUIDE KHAKIS KHAKI XL
+WBA32396-2		WBA32396	Ndar6X9G	U00376		WBSFCSN10-817-50		1	99.95	99.95					WBSFCSN10-817-50	20090103	2009-01-05 14:27:43	pending				WADERFLEX JEAN DK KHAKI XL
+WBA32396-3		WBA32396	Ndar6X9G	U00376		WBSFCMS108-80-50		1	48.95	48.95					WBSFCMS108-80-50	20090103	2009-01-05 14:27:43	pending				3XDRY ESSEXSHIRT ORNG XL
+WBA32396-4		WBA32396	Ndar6X9G	U00376		WBSFCMS108-21-50		0	48.95	0.00					WBSFCMS108-21-50	20090103	2009-01-05 14:32:48	pending				3XDRY ESSEXSHIRT GREEN XL
+WBA32396-5		WBA32396	Ndar6X9G	U00376		WBSFCPC1084450		0	41.95	0.00					WBSFCPC1084450	20090103	2009-01-05 14:32:48	pending				GUIDE KHAKIS KHAKI XL
+WBA32397-1		WBA32397	Ndar6X9G	U00377		WBSFMS406-40		2	16.95	33.90					WBSFMS406-40	20090103	2009-01-03 20:43:09	pending				SPORT CREW SOCK GREY L
+WBA32398-1		WBA32398	QoDhAbvc	U00378		WBSFCPF10-829-40		1	31.50	31.50					WBSFCPF10-829-40	20090104	2009-01-04 09:24:17	pending				3XDRY SOLARFLEX SHIRT LT BLUE L
+WBA32399-1		WBA32399	KHHfvUT4	U00379		WBSFPDH10-70500		1	99.95	99.95					WBSFPDH10-70500	20090105	2009-01-06 07:59:15	partial				DRY CREEK CHEST/HIP PACK BLUE
+WBA32400-1		WBA32400	3MpqeSpg	U00380		WBSFOFJ10-667-50		1	179.95	179.95					WBSFOFJ10-667-50	20090107	2009-01-07 15:17:22	pending				FREESTONE JKTSLATE/KHAKI XL
+WBA32401-1		WBA32401	bZeL5FRq	U00381		WBSG237-1290-4		1	325.00	325.00					WBSG237-1290-4	20090109	2009-01-09 17:52:26	pending				1290-4FLI ROD 4PC 12WT 9'L
+WBA32402-1		WBA32402	2Rxw2P2r	U00382		WBSFHWT10-81100		1	16.95	16.95					WBSFHWT10-81100	20090110	2009-01-10 13:37:14	pending				WASHED TWILL SB BLACK
+WBA32403-1		WBA32403	3LWubjUK	U00383		WBSFCMS108-05-40		1	69.95	69.95					WBSFCMS108-05-40	20090114	2009-01-14 14:16:17	pending				3XDRY ESSEXSHIRT BLUE L
+WBA32404-1		WBA32404	2xo3fVsF	U00384		WBSFHTR108-1100		1	14.95	14.95					WBSFHTR108-1100	20090116	2009-01-16 11:31:42	pending				TRUCKER CAP BLACK
+WBA32405-1		WBA32405	AVVit5vd	U00385		WBSFST-S10831-11		1	189.95	189.95					sole: S10831, size: 11	20090118	2009-01-18 01:20:52	pending				RIVERSHED BOOT STUDDED AQUA 11
+WBA32406-1		WBA32406	jdG5BtzA	U00386		WBSFHTR108-9600		1	14.95	14.95					WBSFHTR108-9600	20090119	2009-01-29 11:44:05	pending				DESERT CAMO
+WBA32407-1		WBA32407	FGeSkx5c	U00387		WBSFHFG40564-30		1	34.95	34.95					WBSFHFG40564-30	20090120	2009-01-20 19:04:39	pending				WIND STOPPER GLOVE HALF COAL/BLACK M
+WBA32408-1		WBA32408	dBChxSZH	U00388		WBSFCSW109-29-50		1	49.95	49.95					WBSFCSW109-29-50	20090125	2009-02-03 13:39:14	partial				TARPON POLO SS LT BLU XL
+WBA32408-2		WBA32408	dBChxSZH	U00388		WBSFCPS109-05-50		1	39.95	39.95					WBSFCPS10-807-50	20090125	2009-02-03 13:39:14	partial				TROUT POLO COR3 NAVY XL
+WBA32408-3		WBA32408	dBChxSZH	U00388		WBSFHTR108-0600		1	14.95	14.95					WBSFHTR108-9600	20090125	2009-02-03 13:39:14	partial				TRUCKER CAP NAVY
+WBA32409-1		WBA32409	rHXxItqn	U00389		WBSFLMB10-811-50		1	49.95	49.95					WBSFLMB10-811-50	20090126	2009-01-29 11:30:40	partial				WADERWICK FLEECE PANT BLACK XL
+WBA32409-2		WBA32409	rHXxItqn	U00389		WBSFLMT10-811-50		1	49.95	49.95					WBSFLMT10-811-50	20090126	2009-01-29 11:30:40	partial				WADERWICK FLEECE TOP BLACK XL
+WBA32410-1		WBA32410	JGYKbAUA	U00390		WBSFCHD10-854-60		1	38.50	38.50					WBSFCHD10-854-60	20090127	2009-01-27 14:46:31	pending				3XDRYSOLARFLEX HOODY WHITE XXL
+WBA32411-1		WBA32411	ydNeBxYS	U00391		WBSFLMT10-811-30		1	49.95	49.95					WBSFLMT10-811-30	20090127	2009-02-10 14:37:00	partial				WADERWICK FLEECE TOP BLACK M
+WBA32411-2		WBA32411	ydNeBxYS	U00391		WBSFHFM10564-40		1	39.95	39.95					WBSFHFM10564-40	20090127	2009-02-10 14:36:59	partial				WIND STOPPER MITT COAL/BLACK L
+WBA32412-1		WBA32412	PeCMKH2B	U00392		WBSFHRH108-0800		1	29.95	29.95					WBSFHRH108-0800	20090128	2009-01-28 10:30:02	pending				SUNSHIELD HAT TAN
+WBA32412-2		WBA32412	PeCMKH2B	U00392		WBSFHFL109-64-XX		1	24.95	24.95					WBSFHFL109-64-XX	20090128	2009-01-28 10:30:02	pending				Flap Cap Coal
+WBA32413-1		WBA32413	wyqvI5h7	U00393		WBSG8600-005		1	65.00	65.00					WBSG8600-005	20090131	2009-01-31 06:12:48	pending				WF-5-F FLY LINE PERFORMANCE TAPER II 90'
+WBA32414-1		WBA32414	mxFzSv2V	U00394		WBORSI96GX-21-00		1	198.00	198.00					WBORSI96GX-21-00	20090202	2009-02-02 14:12:07	pending				Safe Passage¨ Rolling Vented Duffle
+WBA32415-1		WBA32415	LKKqLjwf	U00395		WBSG2000-490-4		1	410.00	410.00					WBSG2000-490-4	20090204	2009-02-04 15:33:09	pending				490-4 VT2 ROD 4PC 4WT 9' L
+WBA32416-1		WBA32416	9Sfj4afM	U00396		WBSFOWJ10-720-50		1	199.95	199.95					WBSFOWJ10-720-50	20090205	2009-02-09 14:22:22	partial				WIND STOPPER DL JACKET BROWN XL
+WBA32417-1		WBA32417	K9d5RbVX	U00397		WBSFLSP1086440		1	99.95	99.95					WBSFLSP1086440	20090206	2009-02-06 10:33:08	pending				GUIDE FLEECE PANT COAL L
+WBA32418-1		WBA32418	ALXfm9Uj	U00398		WBSFWGR10-805-48		1	239.95	239.95					WBSFWGR10-805-48	20090206	2009-02-06 20:35:26	pending				RIVERSHED STOCKINGFOOT LL 9-11
+WBA32419-1		WBA32419	3xvkNmFk	U00399		WBSFCKS10-805-40		1	34.95	34.95					WBSFCKS10-805-40	20090207	2009-02-09 13:32:44	partial				3XDRY GUIDESHIRT BLUE L
+WBA32419-2		WBA32419	3xvkNmFk	U00399		WBSFCKS10-794-40		1	34.95	34.95					WBSFCKS10-794-40	20090207	2009-02-09 13:32:44	partial				3XDRY GUIDESHIRTSALMON L
+WBA32420-1		WBA32420	vQ4JtTBf	U00400		WBSFCTR10-805-40		1	48.95	48.95					WBSFCTR10-805-40	20090207	2009-02-07 20:11:33	pending				3XDRY BLUEWATERSHIRT BLUE L
+WBA32420-2		WBA32420	vQ4JtTBf	U00400		WBSFHIP109-31-40		1	19.95	19.95					WBSFHIP109-31-40	20090207	2009-02-07 20:11:33	pending				BOOT/LINER SOCK COMBO L
+WBA32420-3		WBA32420	vQ4JtTBf	U00400		WBSFCRT109-44-40		1	29.95	29.95					WBSFCRT109-44-40	20090207	2009-02-07 20:11:33	pending				RVR TRUNK STN L
+WBA32420-4		WBA32420	vQ4JtTBf	U00400		WBSFHIP109-31-30		1	19.95	19.95					WBSFHIP109-31-30	20090207	2009-02-07 20:11:33	pending				BOOT/LINER SOCK COMBO M
+WBA32421-1		WBA32421	gdjWPNK8	U00401		WBSFCMS107-21-30		1	48.95	48.95					WBSFCMS107-21-30	20090208	2009-02-08 20:47:37	pending				3XDRY MICROCHECKSHIRT GREEN M
+WBA32421-2		WBA32421	gdjWPNK8	U00401		WBSFCMS107-41-30		1	48.95	48.95					WBSFCMS107-41-30	20090208	2009-02-08 20:47:37	pending				3XDRY MICROCHECKSHIRT YELLOW M
+WBA32422-1		WBA32422	Lqf5pk8I	U00402		WBSFWGR10-805-40		1	239.95	239.95					WBSFWGR10-805-40	20090209	2009-02-09 13:16:37	partial				RIVERSHED STOCKINGFOOT L 9-11
+WBA32423-1		WBA32423	8veQn84y	U00403		WBSFCPC1084430		2	41.95	83.90					WBSFCPC1084430	20090210	2009-02-10 18:32:17	pending				GUIDE KHAKIS KHAKI M
+WBA32423-2		WBA32423	8veQn84y	U00403		WBSFCSN10-817-30		1	99.95	99.95					WBSFCSN10-817-30	20090210	2009-02-10 18:32:17	pending				WADERFLEX JEAN DK KHAKI M
+WBA32423-3		WBA32423	8veQn84y	U00403		WBSFHTR107-8000		1	14.95	14.95					WBSFHTR107-8000	20090210	2009-02-10 18:32:17	pending				TRUCKER CAPSIMMS ORANGE
+WBA32423-4		WBA32423	8veQn84y	U00403		WBSFCSA10-830-50		1	29.95	29.95					WBSFCSA10-830-50	20090210	2009-02-10 18:32:17	pending				PERMIT T-SHIRT LS WHITE XL
+WBA32423-5		WBA32423	8veQn84y	U00403		WBSFCSP109-17-30		1	69.95	69.95					WBSFCSP109-17-30	20090210	2009-02-10 18:32:17	pending				SUPERLT PANT DK KHA M
+WBA32424-1		WBA32424	H58LIVrc	U00404		WBSFHTR108-9600		1	14.95	14.95					WBSFHTR108-9600	20090211	2009-02-12 09:52:00	partial				TRUCKER CAP DESERT CAMO
+WBA32425-1		WBA32425	WLUMqJhZ	U00405		WBSFHEB106-1100		1	29.95	29.95					WBSFHEB106-1100	20090212	2009-02-12 08:22:32	pending				EXSTREAM BALACLAVA BLACK
+WBA32426-1		WBA32426	DW6BPD4L	U00406		WBORSI36X9-52-00		1	275.00	275.00					WBORSI36X9-52-00	20090214	2009-02-17 10:29:17	shipped				BATTENKILL¨ CARRY-ON GEAR BAG MEDIUM
+WBA32427-1		WBA32427	QrCxyDBP	U00407		WBHHHRSW140		2	649.00	1298.00					WBHHHRSW140	20090214	2009-02-14 12:44:38	pending				Swift Mk II 9ft #4 3pc
+WBA32428-1		WBA32428	sLyaXNvS	U00408		WBSFHTR108-1100		1	14.95	14.95					WBSFHTR108-1100	20090215	2009-03-03 10:34:29	partial				TRUCKER CAP BLACK
+WBA32428-2		WBA32428	sLyaXNvS	U00408		WBSFHTR108-0600		1	14.95	14.95					WBSFHTR108-0600	20090215	2009-03-03 10:34:29	partial				TRUCKER CAP NAVY
+WBA32429-1		WBA32429	wNE5R3p8	U00409		WBSFWGR10-805-40		2	239.95	479.90					WBSFWGR10-805-40	20090215	2009-02-15 21:48:02	pending				RIVERSHED STOCKINGFOOT L 9-11
+WBA32430-1		WBA32430	eDfeZkhR	U00410		WBSFPDL10-84300		1	89.95	89.95					WBSFPDL10-84300	20090217	2009-02-17 22:26:31	pending				DRY CREEK ROLLTOP LUMBAR BAG STERLING
+WBA32431-1		WBA32431	zzQaaNCE	U00411		WBSFASF50-800		1	24.95	24.95					WBSFASF50-800	20090222	2009-02-23 07:56:53	partial				SALTWATER FISHING HAT TAN
+WBA32432-1		WBA32432	CYgsN7pe	U00412		WBSFORS10-8122-40		1	279.95	279.95					WBSFORS10-8122-40	20090222	2009-02-22 15:36:11	pending				RIVERSHEDWADING JACKET ARCTIC CHAR L
+WBA32433-1		WBA32433	drK4BHKS	U00413		WBSFWGR10-805-30		1	239.95	239.95					WBSFWGR10-805-30	20090222	2009-02-23 07:47:56	partial				RIVERSHED STOCKINGFOOT M
+WBA32434-1		WBA32434	bfndFKKe	U00414		WBSG2000-386-4		4	435.00	1740.00					WBSG2000-386-4	20090223	2009-02-23 17:09:52	pending				386-4 VT2 ROD 4PC 3WT 8'6'' L
+WBA32434-2		WBA32434	bfndFKKe	U00414		WBORSI40E		4	179.00	716.00						20090223	2009-02-23 17:09:52	pending				BATTENKILL LARGE ARBOR TROUT REEL/SPOOL
+WBA32434-3		WBA32434	bfndFKKe	U00414		WBORSI94GR-21-04		4	59.00	236.00					WBORSI94GR-21-04	20090223	2009-02-23 17:09:52	pending				WONDERLINE GEN 3 DT 4 OLIVE
+WBA32435-1		WBA32435	n8e4ewJw	U00415		WBORZG-78295167		1	400.00	400.00					WBORZG-78295167	20090224	2009-03-05 08:36:06	shipped				ZERO G TIP FLEX 9FT 5WT 4PC
+WBA32436-1		WBA32436	S7skDjhI	U00416		WBSFOWV10-780-50		1	149.95	149.95					WBSFOWV10-780-50	20090225	2009-03-05 12:37:02	partial				WIND STOPPER DL VEST SIMMS ORNG XL
+WBA32437-1		WBA32437	zhyDI5Gk	U00417		WBSFSSF-44-11		1	79.95	79.95					WBSFSSF-44-11	20090225	2009-02-26 08:45:25	partial				RIVERSANDAL 11
+WBA32437-2		WBA32437	zhyDI5Gk	U00417		WBSFCPC1084430		1	41.95	41.95					WBSFCPC1084430	20090225	2009-02-26 08:47:52	partial				GUIDE KHAKIS KHAKI M
+WBA32438-1		WBA32438	ZvyedY8E	U00418		WBSFCLT10-805-40		1	27.95	27.95					WBSFCLT10-805-40	20090227	2009-02-27 09:00:56	pending				TOURNAMENTSHIRT BLUE L
+WBA32438-2		WBA32438	ZvyedY8E	U00418		WBSFCLT10-844-40		1	27.95	27.95					WBSFCLT10-844-40	20090227	2009-02-27 09:00:56	pending				TOURNAMENTSHIRT KHAKI L
+WBA32439-1		WBA32439	QChCthxs	U00419		WBSFHFL109-64-XX		1	24.95	24.95					WBSFHFL109-64-XX	20090227	2009-02-27 21:13:12	pending				FLAP CAP COAL
+WBA32439-2		WBA32439	QChCthxs	U00419		WBSFHWC109-03-00		2	19.95	39.90					WBSFHWC109-03-00	20090227	2009-02-27 21:13:12	pending				WAXED CANVAS CAP LDN
+WBA32440-1		WBA32440	G6opkbR2	U00420		WBSFSG-C10820-14		1	179.95	179.95					sole: C10820, size: 14	20090301	2009-03-01 06:58:19	pending				GUIDE BOOT STUDDED 14
+WBA32441-1		WBA32441	Wjd2k7xu	U00421		WBSFMS031-40		1	19.95	19.95					WBSFMS031-40	20090302	2009-03-05 08:49:21	partial				WETWADING SOCK L
+WBA32441-2		WBA32441	Wjd2k7xu	U00421		WBSFHIL109-30-40		1	9.95	9.95					WBSFHIL109-30-40	20090302	2009-03-05 08:49:21	partial				OTC LINER SOCK L
+WBA32442-1		WBA32442	qEq8nszY	U00422		WBSFOGG10-952-50		1	449.95	449.95					WBSFOGG10-952-50	20090303	2009-03-03 08:23:28	pending				G4 PRO JKT GUN XL
+WBA32443-1		WBA32443	LDa6cciH	U00423		WBORSI36T3-40-00		1	275.00	275.00					WBORSI36T3-40-00	20090303	2009-03-05 09:19:41	shipped				BATTENKILL GARMENT BAG
+WBA32444-1		WBA32444	HKbiQQsN	U00424		WBSFSG-C10820-11		1	179.95	179.95					sole: C10820, size: 11	20090304	2009-03-10 15:45:21	partial				GUIDE BOOT STUDDED 11
+WBA32445-1		WBA32445	wNmNEksw	U00425		WBSFCWS10-805-60		1	48.95	48.95					WBSFCWS10-805-60	20090307	2009-03-07 00:58:19	pending				3XDRY BIGSKYSHIRT BLUE XXL
+WBA32445-2		WBA32445	wNmNEksw	U00425		WBSFCWS10-821-60		1	48.95	48.95					WBSFCWS10-821-60	20090307	2009-03-07 00:58:19	pending				3XDRY BIGSKYSHIRT GREEN XXL
+WBA32446-1		WBA32446	jsFcFBMt	U00426		WBSFARE-1000		1	7.95	7.95					WBSFARE-1000	20090309	2009-03-09 06:10:45	pending				RETRACTOR
+WBA32447-1		WBA32447	33tTD4L9	U00427		WBSFCRT109-61-40		1	29.95	29.95					WBSFCRT109-61-40	20090310	2009-03-10 07:56:32	pending				RVR TRUNK OLV L
+WBA32447-2		WBA32447	33tTD4L9	U00427		WBSFCRT109-44-40		1	29.95	29.95					WBSFCRT109-44-40	20090310	2009-03-10 07:56:32	pending				RVR TRUNK STN L
+WBA32448-1		WBA32448	Lhcd9dPa	U00428		WBSFHST109-64-XX		1	24.95	24.95					WBSFHST109-64-XX	20090310	2009-03-10 15:22:48	partial				STRIPED CAP COAL
+WBA32448-2		WBA32448	Lhcd9dPa	U00428		WBSFHST109-43-XX		1	24.95	24.95					WBSFHST109-43-XX	20090310	2009-03-10 15:22:48	partial				STRIPED CAP STRLNG
+WBA32449-1		WBA32449	anLIm9wN	U00429		WBSFWHS109-02-48		1	299.95	299.95					WBSFWHS109-02-48	20090311	2009-03-11 08:01:41	pending				HDWTRS STFT LL
+WBA32450-1		WBA32450	hGg6GhLE	U00430		WBSFHPM109-11-XX		1	17.95	17.95					WBSFHPM109-11-XX	20090311	2009-03-11 12:53:52	pending				PTEC BEANIE
+WBA32450-2		WBA32450	hGg6GhLE	U00430		WBSFCPS109-03-30		1	39.95	39.95					WBSFCPS109-03-30	20090311	2009-03-11 12:53:52	pending				TROUT POLO LDN M
+WBA32451-1		WBA32451	iBxLK4P2	U00431		WBSFHFT108-11-30		1	19.95	19.95					WBSFHFT108-11-30	20090316	2009-03-16 08:25:35	pending				FS HALF FINGER GLV M
+WBA32452-1		WBA32452	HgbgoWS3	U00432		WBSFSG4109-00-12		1	219.95	219.95					WBSFSG4109-00-12	20090317	2009-03-31 13:15:15	shipped				G4 GUIDE BOOT 12
+WBA32452-2		WBA32452	HgbgoWS3	U00432		WBSFARC-50000		1	14.95	14.95					WBSFARC-50000	20090317	2009-03-31 13:15:15	pending				HARD BITE BOOTSTUDS
+WBA32453-1		WBA32453	JhD3ZwC6	U00433		WBSFWGP10-843-36		1	399.95	399.95					WBSFWGP10-843-36	20090317	2009-03-17 21:30:36	pending				G3 GUIDE STOCKINGFOOT MS
+WBA32454-1		WBA32454	JhD3ZwC6	U00434		WBSFWGP10-843-36		1	399.95	399.95					WBSFWGP10-843-36	20090317	2009-03-18 12:45:35	partial				G3 GUIDE STOCKINGFOOT MS
+WBA32455-1		WBA32455	nobGvHkz	U00435		WBSFPDC10-84300		1	69.95	69.95					WBSFPDC10-84300	20090319	2009-03-23 12:23:30	partial				DRY CREEK CHEST PACK STERLING
+WBA32456-1		WBA32456	ywg37L8C	U00436		WBSFFS07D		1	59.95	59.95					size: 15	20090320	2009-03-23 11:24:35	partial				2007 FREESTONE BOOT DISCONTINUED
+WBA32457-1		WBA32457	xBYLnjsc	U00437		WBSFST-B10900-09		1	179.95	179.95					sole: B10900, size: 09	20090322	2009-03-23 12:09:49	partial				RIVERSHED BOOT VIBRAM 09
+WBA32458-1		WBA32458	wPcy2AXS	U00438		WBSFSN-B10900-12		1	129.95	129.95					WBSFSN-B10900-12	20090322	2009-03-23 12:36:28	partial				FREESTONE BOOT VIBRAM 12
+WBA32458-2		WBA32458	wPcy2AXS	U00438		WBSFCDY309-30-60		1	24.95	24.95					WBSFCDY309-30-60	20090322	2009-03-31 14:38:08	backorder				DEYOUNG BRWN TRT SS T WHT XXL
+WBA32458-3		WBA32458	wPcy2AXS	U00438		WBSFOWH108-64-60		1	219.95	219.95					WBSFOWH108-64-60	20090322	2009-03-31 14:38:08	backorder				WS SFTSH HDY JKT COAL XXL
+WBA32458-4		WBA32458	wPcy2AXS	U00438		WBSFHFM10564-40		1	39.95	39.95					WBSFHFM10564-40	20090322	2009-03-31 14:38:08	backorder				WIND STOPPER MITT COAL/BLACK L
+WBA32458-5		WBA32458	wPcy2AXS	U00438		WBSFHTR108-8300		1	14.95	14.95					WBSFHTR108-8300	20090322	2009-03-31 14:38:08	backorder				TRUCKER CAP DRIFTWOOD
+WBA32459-1		WBA32459	dNfPNZhX	U00439		WBSFCPF10-829-30		1	31.50	31.50					WBSFCPF10-829-30	20090322	2009-03-23 10:46:47	partial				3XDRY SOLARFLEX SHIRT LT BLUE M
+WBA32460-1		WBA32460	zMChUITy	U00440		WBSFWGR10-805-36		1	239.95	239.95					WBSFWGR10-805-36	20090322	2009-03-23 11:38:54	partial				RIVERSHED STOCKINGFOOT MS
+WBA32461-1		WBA32461	8qc3i3S3	U00441		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20090323	2009-03-24 09:25:29	partial				KRIEGER CRUSHER LODEN
+WBA32461-2		WBA32461	8qc3i3S3	U00441		WBSFCSH10-807-60		1	34.95	34.95					color: 807, size: 60	20090323	2009-03-24 09:25:29	partial				3XDRY SUPERLIGHT SHORT LT KHAKI XXL
+WBA32462-1		WBA32462	5p75J3Jb	U00442		WBORSI9H-2L		1	29.99	29.99					WBORSI9H-2L	20090323	2009-03-23 08:00:30	pending				SPORTING LODGE CUISINE
+WBA32463-1		WBA32463	5p75J3Jb	U00443		WBORSI96Y1-40-00		1	49.00	49.00					WBORSI96Y1-40-00	20090323	2009-03-23 08:02:36	pending				SAFE PASSAGE SLING PACK
+WBA32464-1		WBA32464	5p75J3Jb	U00444		WBORSI96Y1-40-00		1	49.00	49.00					WBORSI96Y1-40-00	20090323	2009-03-23 08:47:43	pending				SAFE PASSAGE SLING PACK
+WBA32465-1		WBA32465	zkB3B3EM	U00445		WBSFCLT10-805-60		1	27.95	27.95					WBSFCLT10-805-60	20090323	2009-03-24 09:37:24	partial				TOURNAMENTSHIRT BLUE XXL
+WBA32465-2		WBA32465	zkB3B3EM	U00445		WBSFCKS10-794-60		1	34.95	34.95					WBSFCKS10-794-60	20090323	2009-03-24 09:37:24	partial				3XDRY GUIDESHIRTSALMON XXL
+WBA32465-3		WBA32465	zkB3B3EM	U00445		WBSFCSW10-829-60		1	34.95	34.95					WBSFCSW10-829-60	20090323	2009-03-24 09:37:24	partial				3XDRY TARPON POLO LT BLUE XXL
+WBA32465-4		WBA32465	zkB3B3EM	U00445		WBSFCZP10-805-50		1	41.95	41.95					WBSFCZP10-805-50	20090323	2009-03-24 09:37:24	partial				3XDRY GUIDE ZO PANT BLUE XL
+WBA32466-1		WBA32466	KFjiF6ei	U00446		WBSFPHC109-64-00		1	69.95	69.95					WBSFPHC109-64-00	20090326	2009-03-31 07:52:23	partial				HDWTRS CHEST PK
+WBA32467-1		WBA32467	fLCHJ65k	U00447		WBSFLDD1066430		1	169.95	169.95					WBSFLDD1066430	20090327	2009-03-31 07:57:55	backorder				DRY CREEK DUFFEL COAL M
+WBA32468-1		WBA32468	wmUdCgTc	U00448		WBSFST-B10900-10		1	179.95	179.95					sole: B10900, size: 10	20090327	2009-03-31 16:28:29	partial				RIVERSHED BOOT VIBRAM 10
+WBA32469-1		WBA32469	cdF2EqEL	U00449		WBSFARC-50000		1	14.95	14.95					WBSFARC-50000	20090330	2009-03-31 13:11:50	partial				HARD BITE BOOTSTUDS
+WBA32470-1		WBA32470	rwB4Xyit	U00450		WBSFCLT109-05-40		1	39.95	39.95					WBSFCLT109-05-40	20090401	2009-04-01 05:05:24	pending				TOURNY SHIRT BLU L
+WBA32471-1		WBA32471	rSsnI653	U00451		WBSFCDY409-30-50		1	24.95	24.95					WBSFCDY409-30-50	20090402	2009-06-08 09:13:56	shipped				DEYOUNG 4 IN 1 SS T  WHT XL
+WBA32471-2		WBA32471	rSsnI653	U00451		WBSFCDY609-30-20		1	24.95	24.95					WBSFCDY609-30-20	20090402	2009-06-08 09:13:56	shipped				DEYOUNG BROOKIE SS T  WHT S
+WBA32472-1		WBA32472	s6iVz2Ps	U00452		WBSFCTT10-705-50		1	27.95	27.95					WBSFCTT10-705-50	20090403	2009-04-03 11:52:12	partial				3XDRY TATTERSALLSHIRT BLUE XL
+WBA32473-1		WBA32473	PX9q36aP	U00453		WBSFCGWD-S		1	199.95	199.95					WBSFCGWD-S	20090403	2009-04-03 23:49:11	pending				Classic Guide Waders S
+WBA32474-1		WBA32474	tptWSWUS	U00454		WBSFHIP109-31-40		1	19.95	19.95					WBSFHIP109-31-40	20090404	2009-04-13 15:45:53	partial				BOOT/LINER SOCK COMBO L
+WBA32474-2		WBA32474	tptWSWUS	U00454		WBSFHIP109-31-30		2	19.95	39.90					WBSFHIP109-31-30	20090404	2009-04-13 15:45:53	partial				BOOT/LINER SOCK COMBO M
+WBA32475-1		WBA32475	kAw3rG6S	U00455		WBSFCDY209-30-20		1	24.95	24.95					WBSFCDY209-30-20	20090405	2009-04-14 07:47:17	partial				DEYOUNG RNBW SIMMS SS T WHT S
+WBA32475-2		WBA32475	kAw3rG6S	U00455		WBSFCSD10-830-20		1	29.95	29.95					WBSFCSD10-830-20	20090405	2009-06-08 10:30:21	backorder				SNOOK T-SHIRT LS WHITES
+WBA32476-1		WBA32476	8KTjIJoI	U00456		WBWRASC-380-4		1	195.00	195.00					WBWRASC-380-4	20090406	2009-04-14 12:11:46	partial				ASCENT 3WT 8FT 4PC
+WBA32477-1		WBA32477	i6eQkJ4V	U00457		WBSFVG5-88-30		1	179.95	179.95					WBSFVG5-88-30	20090407	2009-04-07 03:50:52	pending				G3 GUIDE VEST TAUPO M
+WBA32478-1		WBA32478	gissgLGt	U00458		WBSFPDL10-84300		1	89.95	89.95					WBSFPDL10-84300	20090407	2009-04-07 09:56:19	pending				DRY CREEK ROLLTOP LUMBAR BAG STERLING
+WBA32479-1		WBA32479	ZAiJPsXn	U00459		WBSFWL210-615-38		1	199.96	199.96					WBSFWL210-615-38	20090407	2009-04-07 11:23:01	pending				L2 STOCKINGFOOT WADER ML
+WBA32480-1		WBA32480	u2qQSXqq	U00460		WBSFVG5-80-60		1	179.95	179.95					WBSFVG5-80-60	20090407	2009-04-08 10:30:26	shipped				G3 GUIDE VESTSIMMS ORANGE XXL
+WBA32481-1		WBA32481	rx9uIom9	U00461		WBORSI44KY-61-15		1	98.00	98.00					WBORSI44KY-61-15	20090408	2009-04-08 10:57:14	shipped				BBS FLY REEL II TITANIUM
+WBA32482-1		WBA32482	cATe2Rrz	U00462		WBORSI44KY-61-00		1	98.00	98.00					WBORSI44KY-61-00	20090409	2009-04-09 18:32:59	pending				BBS FLY REEL II BLACK
+WBA32483-1		WBA32483	X7TmRMad	U00463		WBSFCSW109-29-50		2	49.95	99.90					WBSFCSW109-29-50	20090409	2009-04-10 13:45:22	partial				TARPON POLO SS LT BLU XL
+WBA32483-2		WBA32483	X7TmRMad	U00463		WBSFCSW109-13-50		2	49.95	99.90					WBSFCSW109-13-50	20090409	2009-04-10 13:21:49	partial				TARPON POLO SS LT GRN XL
+WBA32483-3		WBA32483	X7TmRMad	U00463		WBSFCSW109-30-50		2	49.95	99.90					WBSFCSW109-30-50	20090409	2009-04-10 13:21:49	partial				TARPON POLO SS WHT XL
+WBA32483-4		WBA32483	X7TmRMad	U00463		WBSFCSH10-807-50		1	34.95	34.95					color: 807, size: 50	20090409	2009-04-20 15:17:00	backorder				3XDRY SUPERLIGHT SHORT LT KHAKI XL
+WBA32483-5		WBA32483	X7TmRMad	U00463		WBSFCSH10-717-50		1	34.95	34.95					color: 717, size: 50	20090409	2009-04-20 15:17:00	backorder				3XDRY SUPERLIGHT SHORT DK KHAKI XL
+WBA32483-6		WBA32483	X7TmRMad	U00463		WBSFCSH109-07-50		1	49.95	49.95					WBSFCSH109-07-50	20090409	2009-04-20 15:17:00	backorder				SUPERLT SHORT OYS XL
+WBA32483-7		WBA32483	X7TmRMad	U00463		WBSFCSH109-17-50		1	49.95	49.95					WBSFCSH109-17-50	20090409	2009-04-20 15:17:00	backorder				SUPERLT SHORT DK KHA XL
+WBA32484-1		WBA32484	iDpyTNvI	U00464		WBSFCKS109-44-70		1	59.95	59.95					WBSFCKS109-44-70	20090412	2009-04-12 22:17:22	pending				GUIDE SHIRT KHA 3XL
+WBA32485-1		WBA32485	bDEk7vPV	U00465		WBSFASB9-000		1	39.95	39.95					WBSFASB9-000	20090413	2009-04-13 10:26:19	partial				BACKSAVER BELT
+WBA32486-1		WBA32486	DTJTcVuF	U00466		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20090413	2009-04-14 08:38:59	shipped				KRIEGER CRUSHER LODEN
+WBA32487-1		WBA32487	CiXGIs6L	U00467		WBORSI44K1-62-00		1	55.00	55.00					WBORSI44K1-62-00	20090414	2009-04-20 11:38:03	shipped				BBS FLY SPOOL IV BLACK
+WBA32487-2		WBA32487	CiXGIs6L	U00467		WBORSI44KY-62-00		1	45.00	45.00					WBORSI44KY-62-00	20090414	2009-04-20 11:38:03	shipped				BBS FLY SPOOL II BLACK
+WBA32488-1		WBA32488	zQMizWIN	U00468		WBSFCTT10-705-50		1	27.95	27.95					WBSFCTT10-705-50	20090415	2009-04-15 06:08:26	pending				3XDRY TATTERSALLSHIRT BLUE XL
+WBA32488-2		WBA32488	zQMizWIN	U00468		WBSFCTT10-721-50		1	27.95	27.95					WBSFCTT10-721-50	20090415	2009-04-15 06:08:26	pending				3XDRY TATTERSALLSHIRT GREEN XL
+WBA32489-1		WBA32489	DiPcRVSF	U00469		WBSFCGS109-05-30		1	49.95	49.95					WBSFCGS109-05-30	20090415	2009-04-16 11:41:53	partial				GUIDE SHORT BLU M
+WBA32490-1		WBA32490	paMFyybo	U00470		WBSFOCG10-744-70		1	349.95	349.95					WBSFOCG10-744-70	20090417	2009-04-17 16:11:37	partial				CLASSIC GUIDE JACKET KHAKI 3XL
+WBA32491-1		WBA32491	fnKgpWKw	U00471		WBSFCGT10-882-40		1	27.95	27.95					WBSFCGT10-882-40	20090417	2009-04-18 07:55:14	partial				3XDRY STRETCH CREW GINGER L
+WBA32491-2		WBA32491	fnKgpWKw	U00471		WBSFCGT10-713-40		1	27.95	27.95					WBSFCGT10-713-40	20090417	2009-04-18 07:55:14	partial				3XDRY STRETCH CREW LT GREEN L
+WBA32491-3		WBA32491	fnKgpWKw	U00471		WBSFCMS109-05-40		1	69.95	69.95					WBSFCMS109-05-40	20090417	2009-04-18 07:55:14	partial				RVSIDE CHECK SHIRT BLU L
+WBA32491-4		WBA32491	fnKgpWKw	U00471		WBSFCSS109-05-40		1	59.95	59.95					WBSFCSS109-05-40	20090417	2009-04-18 07:55:14	partial				MICRCHK PKR SHIRT SS BLU L
+WBA32492-1		WBA32492	pL6IPT3f	U00472		WBSFARC-60000		1	19.95	19.95					WBSFARC-60000	20090417	2009-04-18 10:48:34	partial				HARD BITE BOOTSTUDS VIBRAM
+WBA32493-1		WBA32493	Un8ciQqu	U00473		WBSFHMF108-0200		1	24.95	24.95					WBSFHMF108-0200	20090418	2009-04-18 19:16:21	pending				MICROFIBER CAPSAGE
+WBA32494-1		WBA32494	W8oxhZUS	U00474		WBORSI88C3-21-00		1	98.00	98.00					WBORSI88C3-21-00	20090419	2009-04-20 11:53:25	canceled				SHOOTERS GEAR BAG BURGANDY STRAP
+WBA32495-1		WBA32495	NYZ8ie72	U00475		WBHHHRMD40		1	699.00	699.00					WBHHHRMD40	20090420	2009-04-22 08:11:57	shipped				Marksman Drifter11ft #5 4pc
+WBA32496-1		WBA32496	MvuFBMCT	U00476		WBSG237-590-4		1	236.25	236.25					WBSG237-590-4	20090422	2009-04-23 07:51:53	partial				5904 FLI ROD 4PC 5WT 9ftL
+WBA32497-1		WBA32497	4wQNzppR	U00477		WBOR9A3H-00-00		1	16.95	16.95					WBOR9A3H-00-00	20090427	2009-04-27 10:35:59	pending				PEACH TREE IN APPLE ORCHARD
+WBA32498-1		WBA32498	are2PmWW	U00478		WBSFSG4109-00-10		1	219.95	219.95					WBSFSG4109-00-10	20090427	2009-04-27 10:46:39	partial				G4 GUIDE BOOT 10
+WBA32498-2		WBA32498	are2PmWW	U00478		WBSFARC-60000		1	19.95	19.95					WBSFARC-60000	20090427	2009-04-27 10:46:39	partial				HARD BITE BOOTSTUDS VIBRAM
+WBA32499-1		WBA32499	bkkVnh2S	U00479		WBSFSG4109-00-11		1	219.95	219.95					WBSFSG4109-00-11	20090428	2009-04-29 09:15:55	partial				G4 GUIDE BOOT 11
+WBA32500-1		WBA32500	mwQj2DSv	U00480		WBSFWWG109-02-22		1	299.95	299.95					WBSFWWG109-02-22	20090430	2009-05-11 14:07:10	partial				WMS HDWTRS STFT SF
+WBA32501-1		WBA32501	eKvK4PVL	U00481		WBSFCDY109-30-40		1	24.95	24.95					WBSFCDY109-30-40	20090501	2009-05-01 06:18:20	pending				DEYOUNG PHS SS T WHT L
+WBA32502-1		WBA32502	5sC4RCRI	U00482		WBORSI2645-40-53		1	225.00	225.00					WBORSI2645-40-53	20090501	2009-05-01 13:47:50	pending				BATTENKILL DUFFLES-LARGE
+WBA32503-1		WBA32503	Pb7grVhh	U00483		WBSFCSH10		1	34.95	34.95					color: , size:	20090501	2009-05-04 12:34:17	partial				3XDRY SUPERLIGHT SHORT
+WBA32503-2		WBA32503	Pb7grVhh	U00483		WBSFCBS10-606-60		1	29.95	29.95					WBSFCBS10-606-60	20090501	2009-05-04 12:34:17	partial				WADING TRUNK BLUE XXL
+WBA32503-3		WBA32503	Pb7grVhh	U00483		WBSFCSL109-78-60		1	129.95	129.95					WBSFCSL109-78-60	20090501	2009-05-04 12:34:17	partial				ULTRALT SHIRT BLU XXL
+WBA32503-4		WBA32503	Pb7grVhh	U00483		WBSFCTR109-39-60		1	69.95	69.95					WBSFCTR109-39-60	20090501	2009-05-04 12:34:17	partial				BLUWTR SHIRT AQU XXL
+WBA32504-1		WBA32504	LJTy5GrU	U00484		WBSFCPF1081330		1	31.50	31.50					WBSFCPF1081330	20090503	2009-05-04 13:52:26	partial				3XDRY SOLARFLEX SHIRT LT GREEN M
+WBA32505-1		WBA32505	ErCosBPU	U00485		WBSFSN-N10808-12		1	69.95	69.95					WBSFSN-N10808-12	20090504	2009-05-04 13:30:09	partial				FREESTONE BOOT FELT 12
+WBA32506-1		WBA32506	EMYcEwbd	U00486		WBORSI44KY-61-00		1	98.00	98.00					WBORSI44KY-61-00	20090504	2009-05-04 12:44:20	pending				BBS FLY REEL II BLACK
+WBA32507-1		WBA32507	6HTnivWB	U00487		WBS2ZEP-lz1		1	79.95	79.95					WBS2ZEP-lz1	20090504	2009-05-04 14:13:10	partial				LZ-1
+WBA32508-1		WBA32508	975TxC9T	U00488		WBSFCGT10-805-50		1	27.95	27.95					WBSFCGT10-805-50	20090505	2009-05-08 14:01:34	partial				3XDRY STRETCH CREW BLUE XL
+WBA32509-1		WBA32509	ipi7YJAA	U00489		WBSFCMS108-21-30		1	69.95	69.95					WBSFCMS108-21-30	20090505	2009-05-06 14:18:59	partial				3XDRY ESSEXSHIRT GREEN M
+WBA32510-1		WBA32510	iCwTu6PC	U00490		WBSFARC-50000		1	19.95	19.95					WBSFARC-50000	20090506	2009-05-06 12:16:35	pending				HARD BITE BOOTSTUDS FELT
+WBA32511-1		WBA32511	hgWGpZdh	U00491		WBFPBSB-MG		1	129.00	129.00					WBFPBSB-MG	20090507	2009-05-13 13:39:20	partial				BARCELONA STREET BACKPACK - MOSS GREEN
+WBA32512-1		WBA32512	mqWkrNQb	U00492		WBSFSH-S41-11		1	99.95	99.95					WBSFSH-S41-11	20090508	2009-05-09 09:54:50	partial				L2WADING BOOTSTUDDED 11
+WBA32513-1		WBA32513	ycE5sczD	U00493		WBSFWL210-615-36		1	199.96	199.96					WBSFWL210-615-36	20090509	2009-05-10 07:56:47	partial				L2 STOCKINGFOOT WADER MS
+WBA32514-1		WBA32514	ViWTHZUZ	U00494		WBSFCTT10-705-50		1	27.95	27.95					WBSFCTT10-705-50	20090509	2009-05-10 11:47:15	partial				3XDRY TATTERSALLSHIRT BLUE XL
+WBA32514-2		WBA32514	ViWTHZUZ	U00494		WBSFCPF10-829-60		1	31.50	31.50					WBSFCPF10-829-60	20090509	2009-05-10 11:47:15	partial				3XDRY SOLARFLEX SHIRT LT BLUE XXL
+WBA32514-3		WBA32514	ViWTHZUZ	U00494		WBSFCPS109-17-60		1	39.95	39.95					WBSFCPS109-17-60	20090509	2009-05-10 11:48:14	partial				TROUT POLO DK KHA XXL
+WBA32514-4		WBA32514	ViWTHZUZ	U00494		WBSFCPS109-07-60		1	39.95	39.95					WBSFCPS109-07-60	20090509	2009-05-10 11:47:15	partial				TROUT POLO LT KHA XXL
+WBA32515-1		WBA32515	eLdakBeW	U00495		WBSFLRS108-43-40		1	129.95	129.95					color: 43, size: 40	20090510	2009-05-10 12:37:37	partial				RIVERSHED SWEATER (NEW FOR FALL 2008), STERLING, L
+WBA32515-2		WBA32515	eLdakBeW	U00495		WBSFH8P10-60500		1	19.95	19.95					WBSFH8P10-60500	20090510	2009-05-10 12:37:37	partial				8 PANEL LB CAP BLUE
+WBA32516-1		WBA32516	8YK8cY9y	U00496		WBSFCSF209-44-30		1	89.95	89.95					WBSFCSF209-44-30	20090512	2009-05-12 14:20:45	partial				LONGHL PANT KHA M
+WBA32516-2		WBA32516	8YK8cY9y	U00496		WBSFCSF209-31-30		1	89.95	89.95					WBSFCSF209-31-30	20090512	2009-05-22 09:27:20	backorder				LONGHL PANT GRY M
+WBA32517-1		WBA32517	FRyGLuYS	U00497		WBSFST-S10831-10		1	139.95	139.95					WBSFST-S10831-10	20090514	2009-05-14 01:38:07	pending				RIVERSHED BOOT STUDDED AQUA 10
+WBA32518-1		WBA32518	iuscRYzq	U00498		WBSFHFT108-11-40		1	19.95	19.95					WBSFHFT108-11-40	20090516	2009-05-16 20:18:06	pending				FS HALF FINGER GLV  L
+WBA32519-1		WBA32519	rgkP3tUY	U00499		WBSFCMS109-05-30		1	69.95	69.95					WBSFCMS109-05-30	20090517	2009-05-18 11:09:36	partial				RVSIDE CHECK SHIRT BLU M
+WBA32519-2		WBA32519	rgkP3tUY	U00499		WBSFCLT109-21-30		1	39.95	39.95					WBSFCLT109-21-30	20090517	2009-05-18 11:09:36	partial				TOURNY SHIRT GRN M
+WBA32519-3		WBA32519	rgkP3tUY	U00499		WBSFCLT109-44-30		1	39.95	39.95					WBSFCLT109-44-30	20090517	2009-05-18 11:09:36	partial				TOURNY SHIRT KHA M
+WBA32520-1		WBA32520	bwuQ2kaV	U00500		WBSFCGWD-ML		1	199.95	199.95					WBSFCGWD-ML	20090518	2009-05-18 12:17:47	pending				Classic Guide Waders ML
+WBA32521-1		WBA32521	xMFU34sZ	U00501		WBSFWBE-L-07-20-08		1	299.95	299.95					WBSFWBE-L-07-20-08	20090520	2009-05-20 08:38:36	pending				EXSTREAM BOOTFOOTS S 8 LUG
+WBA32521-2		WBA32521	xMFU34sZ	U00501		WBSFWBE-L-07-30-09		1	299.95	299.95					WBSFWBE-L-07-30-09	20090520	2009-05-20 08:38:36	pending				EXSTREAM BOOTFOOTS M 9 LUG
+WBA32521-3		WBA32521	xMFU34sZ	U00501		WBSFWBE-L-07-37-10		1	299.95	299.95					WBSFWBE-L-07-37-10	20090520	2009-05-20 08:38:36	pending				EXSTREAM BOOTFOOTS MK 10 LUG
+WBA32521-4		WBA32521	xMFU34sZ	U00501		WBSFWBE-L-07-37-09		1	299.95	299.95					WBSFWBE-L-07-37-09	20090520	2009-05-20 08:38:36	pending				EXSTREAM BOOTFOOTS MK 9 LUG
+WBA32521-5		WBA32521	xMFU34sZ	U00501		WBSFWBE-L-07-30-08		1	299.95	299.95					WBSFWBE-L-07-30-08	20090520	2009-05-20 08:38:36	pending				EXSTREAM BOOTFOOTS M 8 LUG
+WBA32522-1		WBA32522	WANKkBPE	U00502		WBSFST-B10900-14		1	179.95	179.95					sole: B10900, size: 14	20090520	2009-05-20 12:46:04	partial				RIVERSHED BOOT VIBRAM 14
+WBA32522-2		WBA32522	WANKkBPE	U00502		WBSFHIS109-31-50		2	19.95	39.90					WBSFHIS109-31-50	20090520	2009-05-20 12:46:04	partial				WDG SOCK XL
+WBA32522-3		WBA32522	WANKkBPE	U00502		WBS2ZEP-zepher		1	85.95	85.95					WBS2ZEP-zepher	20090520	2009-05-20 12:53:40	partial				ZEPHYR
+WBA32523-1		WBA32523	QLimZWQW	U00503		WBSFASG4140		1	14.95	14.95					WBSFASG4140	20090522	2009-05-30 10:33:16	shipped				SUNGLOVES TAN L
+WBA32524-1		WBA32524	GmSFzav7	U00504		WBSFWBE-L-07-50-12		1	299.95	299.95					WBSFWBE-L-07-50-12	20090522	2009-05-25 15:28:17	pending				EXSTREAM BOOTFOOTS XL 12 LUG
+WBA32525-1		WBA32525	KJerPHPa	U00505		WBSFCST509-30-50		1	29.95	29.95					WBSFCST509-30-50	20090524	2009-05-25 15:27:26	pending				STIDHAM TARPON LS T  WHT XL
+WBA32526-1		WBA32526	Ch4im7XD	U00506		WBSFASG4140		1	14.95	14.95					WBSFASG4140	20090524	2009-05-25 15:28:00	pending				SUNGLOVES TAN L
+WBA32527-1		WBA32527	kRCmEaiE	U00507		WBSFASC-4140		1	19.95	19.95					WBSFASC-4140	20090525	2009-05-25 13:27:38	partial				SUNCLAVA TAN
+WBA32528-1		WBA32528	kYbIDrJn	U00508		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20090526	2009-06-02 11:34:31	partial				KRIEGER CRUSHER LODEN
+WBA32529-1		WBA32529	B2L4Tt2r	U00509		WBSFPHH109-64-00		1	79.95	79.95					WBSFPHH109-64-00	20090526	2009-06-09 09:09:40	shipped				HDWTRS CHEST/HIP PK
+WBA32530-1		WBA32530	QStqMFzD	U00510		WBSFCPS10-705-60		1	27.95	27.95					WBSFCPS10-705-60	20090530	2009-05-30 09:23:30	pending				3XDRY TROUT POLO BLUE XXL
+WBA32530-2		WBA32530	QStqMFzD	U00510		WBSFCWR10-812-40		1	41.95	41.95					WBSFCWR10-812-40	20090530	2009-05-30 09:23:30	pending				W'S 3XDRY CTNWDSHIRT CONCH L
+WBA32530-3		WBA32530	QStqMFzD	U00510		WBSFCVG1070760		1	41.95	41.95					WBSFCVG1070760	20090530	2009-05-30 09:23:30	pending				3XDRY RIVERTEK SHIRT LT KHAKI XXL
+WBA32531-1		WBA32531	mpkT6yWC	U00511		WBORSI40C7-61-15		1	89.00	89.00					WBORSI40C7-61-15	20090530	2009-06-02 09:32:37	shipped				BBS FLY REEL I TITANIUM
+WBA32532-1		WBA32532	nbuhAmNz	U00512		WBORSI40C7-61-15		1	89.00	89.00					WBORSI40C7-61-15	20090531	2009-06-02 10:51:28	shipped				BBS FLY REEL I TITANIUM
+WBA32533-1		WBA32533	xnoMVirI	U00513		WBS2ZEP-zepher		1	85.95	85.95					WBS2ZEP-zepher	20090531	2009-06-01 15:47:59	partial				ZEPHYR
+WBA32534-1		WBA32534	Yx4JwncW	U00514		WBSFCLT109-05-40		1	39.95	39.95					WBSFCLT109-05-40	20090531	2009-06-02 11:26:30	partial				TOURNY SHIRT BLU L
+WBA32534-2		WBA32534	Yx4JwncW	U00514		WBSFCMS108-80-40		1	69.95	69.95					WBSFCMS108-80-40	20090531	2009-06-02 11:26:30	partial				3XDRY ESSEXSHIRT ORNG L
+WBA32534-3		WBA32534	Yx4JwncW	U00514		WBSFSL20-400		1	2.95	2.95					WBSFSL20-400	20090531	2009-06-02 11:26:30	partial				REPLACEMENT LACES
+WBA32535-1		WBA32535	sALg8tes	U00515		WBSFLMT10-811-60		1	49.95	49.95					WBSFLMT10-811-60	20090531	2009-06-05 06:50:49	partial				WADERWICK FLEECE TOP BLACK XXL
+WBA32536-1		WBA32536	ILGVX9mr	U00516		WBSFCRT109-61-50		1	29.95	29.95					WBSFCRT109-61-50	20090601	2009-06-02 11:12:26	partial				RVR TRUNK OLV XL
+WBA32536-2		WBA32536	ILGVX9mr	U00516		WBSFCRT109-44-50		1	29.95	29.95					WBSFCRT109-44-50	20090601	2009-06-02 11:12:26	partial				RVR TRUNK STN XL
+WBA32537-1		WBA32537	GwADiJa2	U00517		WBSFLSP1086440		2	99.95	199.90					WBSFLSP1086440	20090601	2009-06-05 07:31:00	backorder				GUIDE FLEECE PANT COAL L
+WBA32537-2		WBA32537	GwADiJa2	U00517		WBSFULTI10-520-50		1	69.95	69.95					WBSFULTI10-520-50	20090601	2009-06-05 07:31:00	backorder				RIVERTEK MWT ZIP TOP COAL/LT GREEN XL
+WBA32537-3		WBA32537	GwADiJa2	U00517		WBSFLP-564-40		2	69.95	139.90					WBSFLP-564-40	20090601	2009-06-05 07:31:00	backorder				RIVERTEK MWT BOTTOM COAL L
+WBA32537-4		WBA32537	GwADiJa2	U00517		WBSFLGT1080-35-50		1	99.95	99.95					color: 35, size: 50	20090601	2009-06-02 10:57:18	partial				GUIDE TOP XL
+WBA32538-1		WBA32538	oHEhPvxj	U00518		WBSFSSF-44-12		1	59.95	59.95					WBSFSSF-44-12	20090602	2009-06-02 22:52:20	pending				RIVERSANDAL 12
+WBA32539-1		WBA32539	2g2dGy7K	U00519		WBSFRA-508-50		1	99.95	99.95					color: 508, size: 50	20090605	2009-06-05 12:45:08	pending				IN-VEST JACKET TAN XL
+WBA32540-1		WBA32540	PYS8e3T2	U00520		WBSFSN-N10808-14		1	69.95	69.95					WBSFSN-N10808-14	20090606	2009-06-08 10:48:23	partial				FREESTONE BOOT FELT 14
+WBA32541-1		WBA32541	zDVKjup2	U00521		WBSFCDY109-30-50		1	24.95	24.95					WBSFCDY109-30-50	20090607	2009-06-08 14:04:29	partial				DEYOUNG PHS SS T WHT XL
+WBA32541-2		WBA32541	zDVKjup2	U00521		WBSFCSE10-830-50		1	29.95	29.95					WBSFCSE10-830-50	20090607	2009-06-08 14:04:29	partial				STRIPED BASS T-SHIRT LS WHITE XL
+WBA32542-1		WBA32542	YKo5Xppd	U00522		WBSFCTT10-721-40		1	27.95	27.95					WBSFCTT10-721-40	20090607	2009-06-08 08:20:56	shipped				3XDRY TATTERSALLSHIRT GREEN L
+WBA32542-2		WBA32542	YKo5Xppd	U00522		WBSFCSW10-813-40		1	34.95	34.95					WBSFCSW10-813-40	20090607	2009-06-08 08:20:56	shipped				3XDRY TARPON POLO LT GREEN L
+WBA32543-1		WBA32543	vbV7vQCh	U00523		WBSFCGT10-882-50		1	27.95	27.95					WBSFCGT10-882-50	20090607	2009-06-09 10:23:01	partial				3XDRY STRETCH CREW GINGER XL
+WBA32544-1		WBA32544	G9GgnerX	U00524		WBSFRTBD-7		1	49.95	49.95					WBSFRTBD-7	20090607	2009-06-08 12:02:01	shipped				Rivertek Boot Felt Size 7
+WBA32544-2		WBA32544	G9GgnerX	U00524		WBSFSH-S41-10		1	99.95	99.95					WBSFSH-S41-10	20090607	2009-06-08 12:02:01	shipped				L2WADING BOOTSTUDDED 10
+WBA32545-1		WBA32545	YvvHN4tp	U00525		WBSFCPF10-854-60		1	31.50	31.50					WBSFCPF10-854-60	20090608	2009-06-16 06:54:16	partial				3XDRY SOLARFLEX SHIRT WHITE XXL
+WBA32546-1		WBA32546	KmgCZZsJ	U00526		WBSFVHM109-08-30		1	99.95	99.95					WBSFVHM109-08-30	20090608	2009-06-09 08:45:04	partial				HDWTRS MESH VEST GUN M
+WBA32547-1		WBA32547	X6VvqacE	U00527		WBSFCTT10-721-40		1	27.95	27.95					WBSFCTT10-721-40	20090608	2009-06-09 09:13:01	partial				3XDRY TATTERSALLSHIRT GREEN L
+WBA32548-1		WBA32548	yIoaWbRP	U00528		WBSFLMB10-811-30		1	49.95	49.95					WBSFLMB10-811-30	20090609	2009-06-09 12:12:31	partial				WADERWICK FLEECE PANT BLACK M
+WBA32549-1		WBA32549	cWQmNpN2	U00529		WBSFLWC10-813-50		1	29.95	29.95					color: 813, size: 50	20090609	2009-06-10 14:12:04	partial				WADERWICK CREW TOP LT GREEN XL
+WBA32549-2		WBA32549	cWQmNpN2	U00529		WBSFLWC10-811-40		1	29.95	29.95					color: 811, size: 40	20090609	2009-06-10 14:12:04	partial				WADERWICK CREW TOP BLACK L
+WBA32550-1		WBA32550	NWd6I6BJ	U00530		WBSFG3B-14		1	129.95	129.95					WBSFG3B-14	20090610	2009-06-11 08:30:06	partial				G3 Guide Boot Felt 14
+WBA32551-1		WBA32551	SVh7pmdr	U00531		WBSFWHP109-02-40		1	249.95	249.95					WBSFWHP109-02-40	20090612	2009-06-13 06:55:05	partial				HDWTRS PANT L
+WBA32552-1		WBA32552	RJYPWABQ	U00532		WBORSI117K-40-00		1	169.00	169.00					WBORSI117K-40-00	20090613	2009-06-13 14:00:14	pending				BATTENKILL ROLLING GOLF BAG COVER
+WBA32553-1		WBA32553	8QzaxJab	U00533		WBORSI2645-40-52		1	198.00	198.00					WBORSI2645-40-52	20090614	2009-06-14 19:12:24	pending				BATTENKILL DUFFLES-MEDIUM
+WBA32554-1		WBA32554	5oqw7bpT	U00534		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20090615	2009-06-16 12:04:05	partial				KRIEGER CRUSHER LODEN
+WBA32555-1		WBA32555	onikZVHG	U00535		WBSFCTR10-805-30		1	48.95	48.95					WBSFCTR10-805-30	20090615	2009-06-16 13:47:45	partial				3XDRY BLUEWATERSHIRT BLUE M
+WBA32556-1		WBA32556	96eWKuDp	U00536		WBSFWBE-L-07-50-14		1	299.95	299.95					WBSFWBE-L-07-50-14	20090616	2009-06-18 09:18:05	shipped				EXSTREAM BOOTFOOTS XL 14 LUG
+WBA32557-1		WBA32557	S4AIphyk	U00537		WBSFCMS109-05-50		1	69.95	69.95					WBSFCMS109-05-50	20090617	2009-06-18 08:44:13	partial				RVSIDE CHECK SHIRT BLU XL
+WBA32557-2		WBA32557	S4AIphyk	U00537		WBSFCMS109-21-50		1	69.95	69.95					WBSFCMS109-21-50	20090617	2009-06-18 08:44:13	partial				RVSIDE CHECK SHIRT GRN XL
+WBA32558-1		WBA32558	H2NpKd6T	U00538		WBSFOPJ10-770-50		1	214.95	214.95					WBSFOPJ10-770-50	20090617	2009-06-18 09:31:14	partial				PACLITE JACKET SMK/GRN XL
+WBA32559-1		WBA32559	hWx7GvC3	U00539		WBORSI9L98-40-00		1	198.00	198.00					WBORSI9L98-40-00	20090618	2009-06-18 12:12:07	pending				BATTENKILL EXTRA-CAPACITY BRIEFCASE
+WBA32560-1		WBA32560	ymfX5SZW	U00540		WBSFWBE-L-07-40-11		1	299.95	299.95					WBSFWBE-L-07-40-11	20090621	2009-06-24 09:53:50	pending				EXSTREAM BOOTFOOTS L 11 LUG
+WBA32561-1		WBA32561	wRiqiJin	U00541		WBSFCMS108-80-60		1	69.95	69.95					WBSFCMS108-80-60	20090621	2009-07-01 12:27:36	shipped				3XDRY ESSEXSHIRT ORNG XXL
+WBA32562-1		WBA32562	AI2VbVQj	U00542		WBSFCVG10-781-30		1	41.95	41.95					WBSFCVG10-781-30	20090623	2009-06-25 09:17:18	partial				3XDRY RIVERTEK SHIRT LT BLUE M
+WBA32563-1		WBA32563	nKqbR6Dy	U00543		WBSFSN-N10808-12		1	69.95	69.95					WBSFSN-N10808-12	20090623	2009-06-23 10:20:03	pending				FREESTONE BOOT FELT 12
+WBA32564-1		WBA32564	8qVtTwPG	U00544		WBSFWGV107-43-47		1	699.95	699.95					WBSFWGV107-43-47	20090624	2009-07-01 12:10:47	shipped				G4 GUIDE STOCKINGFOOT LK
+WBA32565-1		WBA32565	sygrAZti	U00545		WBSFSN-B10900-10		1	129.95	129.95					WBSFSN-B10900-10	20090625	2009-07-01 12:11:25	shipped				FREESTONE BOOT VIBRAM 10
+WBA32565-2		WBA32565	sygrAZti	U00545		WBSFCWP10-807-50		1	41.95	41.95					WBSFCWP10-807-50	20090625	2009-07-01 12:11:25	shipped				W'S SUPERLIGHT ZO PANT LT KHAKI XL
+WBA32565-3		WBA32565	sygrAZti	U00545		WBSFHWC10-82000		2	19.95	39.90					WBSFHWC10-82000	20090625	2009-07-01 12:11:25	canceled				WAXED CANVAS CAP BROWN
+WBA32565-4		WBA32565	sygrAZti	U00545		WBSFCTR109-39-50		1	69.95	69.95					WBSFCTR109-39-50	20090625	2009-07-01 12:11:25	shipped				BLUWTR SHIRT AQU XL
+WBA32565-5		WBA32565	sygrAZti	U00545		WBSFHWC109-20-00		1	19.95	19.95					WBSFHWC109-20-00	20090625	2009-07-01 12:11:25	shipped				WAXED CANVAS CAP BRN
+WBA32565-6		WBA32565	sygrAZti	U00545		WBSFH4C109-06-00		1	14.95	14.95					WBSFH4C109-06-00	20090625	2009-07-01 12:11:25	shipped				406 CANVAS CAP NVY
+WBA32565-7		WBA32565	sygrAZti	U00545		WBSFVHM109-08-50		1	99.95	99.95					WBSFVHM109-08-50	20090625	2009-07-01 12:11:25	shipped				HDWTRS MESH VEST GUN XL
+WBA32565-8		WBA32565	sygrAZti	U00545		WBSFHTR107-8000		1	14.95	14.95					WBSFHTR107-8000	20090625	2009-07-01 12:11:25	shipped				TRUCKER CAPSIMMS ORANGE
+WBA32565-9		WBA32565	sygrAZti	U00545		WBSFHTR108-8300		1	14.95	14.95					WBSFHTR108-8300	20090625	2009-07-01 12:11:25	shipped				TRUCKER CAP DRIFTWOOD
+WBA32565-10		WBA32565	sygrAZti	U00545		WBSFHIL109-30-40		2	9.95	19.90					WBSFHIL109-30-40	20090625	2009-07-01 12:11:25	shipped				OTC LINER SOCK L
+WBA32565-11		WBA32565	sygrAZti	U00545		WBSFHIE109-31-40		2	24.95	49.90					WBSFHIE109-31-40	20090625	2009-07-01 12:11:25	shipped				EXSTRM SOCK L
+WBA32565-12		WBA32565	sygrAZti	U00545		WBSG8600-003		1	65.00	65.00					WBSG8600-003	20090625	2009-06-25 12:25:00	pending				WF-3-F FLY LINE PERFORMANCE TAPER II 90'
+WBA32565-13		WBA32565	sygrAZti	U00545		WBSG8600-005		1	65.00	65.00					WBSG8600-005	20090625	2009-06-25 12:25:00	pending				WF-5-F FLY LINE PERFORMANCE TAPER II 90'
+WBA32566-1		WBA32566	IIipau8M	U00546		WBSFCSW109-29-40		1	49.95	49.95					WBSFCSW109-29-40	20090625	2009-06-30 08:53:50	shipped				TARPON POLO SS LT BLU L
+WBA32567-1		WBA32567	cz8ApU4q	U00547		WBSFHTR108-8300		1	14.95	14.95					WBSFHTR108-8300	20090626	2009-06-30 09:46:50	shipped				TRUCKER CAP DRIFTWOOD
+WBA32567-2		WBA32567	cz8ApU4q	U00547		WBSFCSZ10-817-40		1	48.95	48.95					WBSFCSZ10-817-40	20090626	2009-06-30 09:46:50	shipped				3XDRYSUPERLIGHT ZO PANT DK KHAKI L
+WBA32568-1		WBA32568	DhZvYkb3	U00548		WBSFWBE-F-07-40-12		1	329.95	329.95					WBSFWBE-F-07-40-12	20090705	2009-07-05 19:17:27	pending				EXSTREAM BOOTFOOTS L 12 FELT
+WBA32569-1		WBA32569	BvRTHXQs	U00549		WBSFCRT109-61-40		1	29.95	29.95					WBSFCRT109-61-40	20090706	2009-07-06 16:29:37	pending				RVR TRUNK OLV L
+WBA32569-2		WBA32569	BvRTHXQs	U00549		WBSFCRT109-44-40		1	29.95	29.95					WBSFCRT109-44-40	20090706	2009-07-06 16:29:37	pending				RVR TRUNK STN L
+WBA32570-1		WBA32570	I2BJvBIT	U00550		WBSFMS031-30		1	19.95	19.95					WBSFMS031-30	20090709	2009-07-09 06:58:28	pending				WETWADING SOCK M
+WBA32571-1		WBA32571	I2BJvBIT	U00551		WBSFLRS108-26-20		1	129.95	129.95					color: 26, size: 20	20090709	2009-07-09 07:33:33	pending		1510?submenuheader=1		RIVERSHED SWEATER (NEW FOR FALL 2008), MOSS, S
+WBA32572-1		WBA32572	eH95BD9b	U00552		WBSFHKC108-0300		1	19.95	19.95					WBSFHKC108-0300	20090709	2009-07-10 07:36:32	shipped				KRIEGER CRUSHER LODEN
+WBA32573-1		WBA32573	2eKbgqx4	U00553		WBSFCHD109-13-40		1	59.95	59.95					WBSFCHD109-13-40	20090709	2009-07-10 08:40:37	shipped				SFLEX HDY LT GRN L
+WBA32574-1		WBA32574	B6KhI7dS	U00554		WBSFHCL10-62100		1	16.95	16.95					WBSFHCL10-62100	20090713	2009-07-14 09:01:13	shipped				CLASSIC LOGO CAP BROWN
+WBA32574-2		WBA32574	B6KhI7dS	U00554		WBSFHFH109-08-00		1	24.95	24.95					WBSFHFH109-08-00	20090713	2009-07-14 09:01:13	shipped				FISHING HAT TAN
+WBA32575-1		WBA32575	75VwWWpU	U00555		WBSFWHP109-02-47		1	249.95	249.95					WBSFWHP109-02-47	20090716	2009-07-16 20:11:07	pending				HDWTRS PANT LK
+WBA32575-2		WBA32575	75VwWWpU	U00555		WBSFOGG10-8117-50		1	449.95	449.95					WBSFOGG10-8117-50	20090716	2009-07-16 20:11:07	pending				G4 PRO JACKET COAL/ORANGE XL
+WBA32575-3		WBA32575	75VwWWpU	U00555		WBSFCFE10-830-50		1	24.95	24.95					WBSFCFE10-830-50	20090716	2009-07-16 20:11:07	pending				SMALLMOUTH BASS T-SHIRTSSWHITE XL
+WBA32575-4		WBA32575	75VwWWpU	U00555		WBSFAGS-41-50		1	29.95	29.95					WBSFAGS-41-50	20090716	2009-07-16 20:11:07	pending				GUARDSOCKSSTERLING XL
+WBA32575-5		WBA32575	75VwWWpU	U00555		WBSG8602-05		1	65.00	65.00					WBSG8602-05	20090716	2009-07-16 20:11:07	pending				DT-5-FL FLYLINE QUIET DBL  TAPER II 80'
+WBA32576-1		WBA32576	IKbrzLJo	U00556		WBSFCGT10-780-50		1	27.95	27.95					WBSFCGT10-780-50	20090716	2009-07-16 20:32:57	pending				3XDRY STRETCH CREWSIMMS ORNG XL
+WBA32576-2		WBA32576	IKbrzLJo	U00556		WBSFWHP109-02-47		1	249.95	249.95					WBSFWHP109-02-47	20090716	2009-07-16 20:32:57	pending				HDWTRS PANT LK
+WBA32576-3		WBA32576	IKbrzLJo	U00556		WBSFCFE109-30-50		1	24.95	24.95					WBSFCFE109-30-50	20090716	2009-07-16 20:32:57	pending				CURRIER GOLDEN TRT T SS WHT XL
+WBA32576-4		WBA32576	IKbrzLJo	U00556		WBSFOGG10-8117-50		1	449.95	449.95					WBSFOGG10-8117-50	20090716	2009-07-16 20:32:57	pending				G4 PRO JACKET COAL/ORANGE XL
+WBA32576-5		WBA32576	IKbrzLJo	U00556		WBSFAGS-41-50		1	29.95	29.95					WBSFAGS-41-50	20090716	2009-07-16 20:32:57	pending				GUARDSOCKSSTERLING XL
+WBA32576-6		WBA32576	IKbrzLJo	U00556		WBSG8602-05		1	65.00	65.00					WBSG8602-05	20090716	2009-07-16 20:32:57	pending				DT-5-FL FLYLINE QUIET DBL  TAPER II 80'
+WBA32577-1		WBA32577	TGx7fq5f	U00557		WBSFWHP109-02-47		1	249.95	249.95					WBSFWHP109-02-47	20090720	2009-07-20 15:06:22	pending				HDWTRS PANT LK
+WBA32577-2		WBA32577	TGx7fq5f	U00557		WBSFCGT10-833-50		1	27.95	27.95					WBSFCGT10-833-50	20090720	2009-07-20 15:06:22	pending				3XDRY STRETCH CREW HEATHER GREY XL
+WBA32577-3		WBA32577	TGx7fq5f	U00557		WBSFULTI10-520-50		1	69.95	69.95					WBSFULTI10-520-50	20090720	2009-07-20 15:06:22	pending				RIVERTEK MWT ZIP TOP COAL/LT GREEN XL
+WBA32577-4		WBA32577	TGx7fq5f	U00557		WBSFCTE10-730-50		1	21.95	21.95					WBSFCTE10-730-50	20090720	2009-07-20 15:06:22	pending				SIMMS STEELHEAD SS WHITE XL
+WBA32577-5		WBA32577	TGx7fq5f	U00557		WBSFOGG10-8117-50		1	449.95	449.95					WBSFOGG10-8117-50	20090720	2009-07-20 15:06:22	pending				G4 PRO JACKET COAL/ORANGE XL
+WBA32577-6		WBA32577	TGx7fq5f	U00557		WBSFAGS-41-50		1	29.95	29.95					WBSFAGS-41-50	20090720	2009-07-20 15:06:22	pending				GUARDSOCKSSTERLING XL
+WBA32577-7		WBA32577	TGx7fq5f	U00557		WBSFCFE109-40-50		1	24.95	24.95					WBSFCFE109-40-50	20090720	2009-07-20 15:06:22	pending				CURRIER WALLEYE T SS WHT XL
+WBA32577-8		WBA32577	TGx7fq5f	U00557		WBSFCDY609-30-50		1	24.95	24.95					WBSFCDY609-30-50	20090720	2009-07-20 15:06:22	pending				DEYOUNG BROOKIE SS T  WHT XL
+WBA32577-9		WBA32577	TGx7fq5f	U00557		WBSFCKS109-80-50		1	59.95	59.95					WBSFCKS109-80-50	20090720	2009-07-20 15:06:22	pending				GUIDE SHIRT ORG XL
+WBA32577-10		WBA32577	TGx7fq5f	U00557		WBSFSG4109-00-10		1	219.95	219.95					WBSFSG4109-00-10	20090720	2009-07-20 15:06:22	pending				G4 GUIDE BOOT 10
+WBA32578-1		WBA32578	DDr5JbfT	U00558		WBWRASC-490-4		1	195.00	195.00					WBWRASC-490-4	20090720	2009-07-21 11:11:13	shipped				ASCENT 4WT 9FT 4PC
+WBA32579-1		WBA32579	aIskJkV7	U00559		WBSFHTR108-1100		1	14.95	14.95					WBSFHTR108-1100	20090720	2009-07-20 20:08:00	pending				TRUCKER CAP BLACK
+WBA32579-2		WBA32579	aIskJkV7	U00559		WBSFHTR108-0600		1	14.95	14.95					WBSFHTR108-0600	20090720	2009-07-20 20:08:00	pending				TRUCKER CAP NAVY
+WBA32579-3		WBA32579	aIskJkV7	U00559		WBSFHTR107-8000		1	14.95	14.95					WBSFHTR107-8000	20090720	2009-07-20 20:08:00	pending				TRUCKER CAPSIMMS ORANGE
+WBA32580-1		WBA32580	XjLuRTgG	U00560		WBSFWBE-L-07-47-12		1	299.95	299.95					WBSFWBE-L-07-47-12	20090720	2009-07-21 12:43:08	shipped				EXSTREAM BOOTFOOTS LK 12 LUG
+WBA32581-1		WBA32581	VNrZvrZ2	U00561		WBSFSBS109-00-11		1	119.95	119.95					WBSFSBS109-00-11	20090721	2009-07-21 13:09:53	shipped				PURSUIT SHOE 11
+WBA32582-1		WBA32582	WN2vArPI	U00562		WBSFSG-B10900-14		1	199.95	199.95					sole: B10900, size: 14	20090722	2009-07-22 14:06:28	shipped				GUIDE BOOT VIBRAM 14
+WBA32583-1		WBA32583	ECgGPGmC	U00563		WBSG237-590-4		1	236.25	236.25					WBSG237-590-4	20090723	2009-07-23 13:58:07	pending				590-4 FLI ROD 4PC 5WT 9'L
+WBA32584-1		WBA32584	sryiUHRL	U00564		WBSFSN-N10808-12		1	69.95	69.95					WBSFSN-N10808-12	20090725	2009-07-25 23:40:41	pending				FREESTONE BOOT FELT 12
+WBA32585-1		WBA32585	TZzkzuev	severrw		WBSFSH-F41-13		1	89.25	89.25					WBSFSH-F41-13	20090726	2009-07-26 11:53:04	pending				L2WADING BOOT FELT 13

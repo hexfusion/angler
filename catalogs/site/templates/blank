@@ -1,0 +1,12 @@
+[comment]
+ui_template: blank
+ui_type: template
+ui_name: blank
+ui_version: 5.6.1
+ui_source: templates/blank
+ui_template_layout: BLANK_TOP, UI_CONTENT, BLANK_BOTTOM
+ui_template_version: 5.5.1
+
+
+[/comment]
+
