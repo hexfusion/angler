@@ -2,21 +2,16 @@ code	Variable	pref_group
 UI_META_LINK	1	Admin Control
 MV_PAYMENT_HOST		Payment
 MAILING_MAX_DIRECT	50	Mailings
-EMAIL_SERVICE	sbatschelet@mac.com	Company
 SHIP_FLAT_INTL_RATE	10	Shipping
 SHIP_DEFAULT_MODE	free_or_upsg	Shipping
-ORDERS_TO	orders@nuwayhydraulic.com	Order
 UPS_ORIGIN	13783	Shipping
-#PGSQL	1	Database
 CREDIT_CARDS_ACCEPTED	visa mc  amex 	Payment
 UI_HELP_WIDTH	650	Admin Control
-FORUM_EMAIL_NOTIFY	sam@westbranchresort.com	Forums
 LOGO		Template
 PUBLISH_NO_PAGE_ROOT	0	Admin Control
 SHIP_MIN_WEIGHT		5	Shipping
 FORUM_ANON_NAME	Anonymous Coward	Forums
 CART_UPSELL	0	Cart/Checkout
-SAMPLEURL	http://www.westbranchangler.com/site	Directories and Paths
 MV_PAYMENT_PARTNER		Payment
 PGP_KEY	9DF12A71	Encryption
 UI_ITEM_TABLES	products pricing inventory merchandising options:sku	Item display
@@ -24,17 +19,13 @@ BAR_LINK_TEMPLATE	<A HREF="$URL$" CLASS="barlink">$ANCHOR$</A>	Template
 PGSQL		Database
 THEME_CSS               Template		
 USPS_ORIGIN	13783	Shipping
-SERVER_NAME	www.westbranchangler.com	Directories and Paths
 IMAGE_DIR	/site/images	Directories and Paths
-SAMPLEHTML	/var/www/clients/client1/web15/web/site	Directories and Paths
-		
 MV_DEFAULT_SEARCH_DB	1	Database
 UPS_COUNTRY_FIELD	country	Shipping
 LINKMODE	UNIX	Admin Control
 SHIP_FLAT_DOM_RATE	5	Shipping
 USPS_SIZE	REGULAR	Shipping
 LINKPORT		Admin Control
-DOCROOT	/var/www/clients/client1/web15/web/		Directories and Paths
 TAXSHIPPING		Tax
 MV_PAYMENT_ID	a_fake_id	Payment
 UI_COMPONENT_DIR	templates/components	Directories and Paths
@@ -44,14 +35,11 @@ CHECKOUT_FORM_WIDTH	600	Cart/Checkout
 UI_ABOUT_NORMAL_URL	http://www.icdevgroup.org/	Admin Control
 UI_ORDER_VIEWNEXT_MAX_SKIP	20	Admin Control
 FORUM_PRODUCTS	1	Forums
-IC_DIR	/usr/local/interchange	Admin Control
 UI_ADMIN_TABLES	area cat 2ndDayAir 2ndDayAirAM 3DaySelect access Accessorials air_pp Book dict Expedited Express Ground ichelp locale mv_metadata NextDayAir NextDayAirSaver Priority surf_pp ups_cache usps variable Xarea Zone	Admin Control
 UI_PAGE_DIR	pages	Directories and Paths
 PAGE_EDITOR_STYLE	standard	Content Edit
 PUBLISH_PUT_IMAGES	images	Admin Control
 SHIP_DEFAULT_ZIP	90210	Shipping
-#SQLUSER        posgres    Database		
-CGI_DIR	/var/www/clients/client1/web15/cgi-bin	Admin Control
 ORDER_ROUTES	log main copy_user	Order
 SHIP_DEFAULT_COUNTRY	US	Shipping
 MV_PAYMENT_MODE		Payment
@@ -62,14 +50,12 @@ CGI_URL	/cgi-bin/site	Directories and Paths
 MV_PAYMENT_SECRET		Payment
 LINKHOST		Admin Control
 UI_USER_MERGE_TABLES		Admin Control
-#SQLPASS        mayfly6969      Database		
 MV_DEMO_MODE		General
 CONTRAST		Template
 FAX	(607) 467-2215	Company
 UI_WIDGET_TYPES		Admin Control
 PO_ACCEPTED	0	Payment
 PUBLISH_QUIT_ON_RCS_ERROR	0	Admin Control
-EMAIL_INFO	sam@westbranchresort.com	Company
 LOCALES		Internationalization
 MV_PAYMENT_REFERER		Payment
 UI_SECURE	1	Admin Control
@@ -95,15 +81,10 @@ PUBLISH_DO_RCS	0	Admin Control
 USPS_ID	737WESTB7706	Shipping
 UI_IMAGE_DIR	/interchange-5/	Admin Control
 MYSQL	1	Database
-SECURE_SERVER	https://www.westbranchangler.com	Directories and Paths
 COMPANY	WBA	Company
 CGIWRAP		Admin Control
-SQLPASS	s1a2mayfly	Database
 COD_ACCEPTED	0	Payment
-MAILING_FROM	WBA <sam@westbranchresort.com>	Mailings
-SQLDSN	dbi:mysql:c1wba	Database
 SETTLE_TRANSACTION		Payment
-SQLUSER	root	Database
 TAXAREA	NY	Tax
 STYLE	blueyellow	Template
 USPS_PASSWORD	819KO64ZY870	Shipping
