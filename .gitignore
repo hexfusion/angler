@@ -1,2 +1,16 @@
-catalogs/site/var/*
 catalogs/site/catalog_local.cfg
+catalogs/site/products/*.gdbm
+catalogs/site/products/.*.autonumber
+catalogs/site/products/.*.gdbm
+catalogs/site/products/.*.sql
+catalogs/site/var/*
+cgi-bin/site
+httpd/
+interchange/bin/interchange
+interchange/etc/varnames
+interchange/interchange_local.cfg
+interchange/var/log/*
+interchange/var/run/*
+my.cnf
+mysql.yml
+mysql/
