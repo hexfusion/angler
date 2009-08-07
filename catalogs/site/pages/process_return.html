@@ -101,7 +101,7 @@ $Tag->tmp( { name => 'return_detail' }, $detail );
 [/elsif]
 [else]					  
 
-[seti rma_number][counter etc/rma.number][/seti]
+[seti rma_number][counter var/counters/rma.number][/seti]
 
 [L PROCESS_RETURNS_PAR1]Your return has been processed. Please ship the item(s) to the address 
 below and your account will be credited for the returned amount. 
@@ -302,7 +302,7 @@ __CITY__
 
 [/set]
 
-[seti return_number][counter etc/return.number][/seti]
+[seti return_number][counter var/counters/return.number][/seti]
 
 [comment] ADD ENTRY TO RETURN DATABASE [/comment]
 

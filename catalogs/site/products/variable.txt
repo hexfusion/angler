@@ -96,3 +96,4 @@ DECREMENT_INVENTORY	1	Order
 SECURE_ENABLE	1	General
 UI_TEMPLATE_DIR	templates	Directories and Paths
 UPS_POSTCODE_FIELD	zip	Shipping
+GIFT_CERT_COUNTER	var/counters/pay_cert.number	Order
