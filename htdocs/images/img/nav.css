@@ -1,0 +1,445 @@
+/* --------------------------------
+   Hilton Brand.com
+   Main Styles for Screen Media
+-------------------------------- */
+
+body {
+	background-color: #fff;
+	border: 0;
+	color: #333;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	/* remove the following line to left-align the entire page */
+	text-align: center;
+}
+
+#wrapper {
+	width: 994px;
+	/* remove the following 2 lines to left-align the entire page */
+	margin: 0 auto;
+	text-align: center;
+}
+
+/* forms
+--------------------------- */
+
+form {display: inline;}
+
+fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.frmText {
+	border: 1px solid #ccc;
+	width: 300px; 
+}
+
+.frmTextMed {
+	border: 1px solid #ccc;
+	width: 200px; 
+}
+
+.frmTextShort {
+	border: 1px solid #ccc;
+	width: 165px; 
+}
+
+.frmTextTiny {
+	border: 1px solid #ccc;
+	width: 55px; 
+}
+
+.frmTextSignin {
+	border: 1px solid #ccc;
+	width: 140px; 
+}
+
+.frmTextSearch {
+	border: 1px solid #ccc;
+	margin-top: -1px;
+	width: 75px; 
+}
+
+.frmTextDate {
+	border: 1px solid #ccc;
+	width: 105px; 
+}
+
+.frmTextarea {
+	border: 1px solid #ccc;
+	height: 125px; 
+	overflow: auto;
+	width: 420px; 
+}
+
+.frmSubmit:hover {
+	border: none;
+}
+
+.tblForm td {
+	font-size: .7em;
+	padding: 0 2em 1em 0;
+}
+
+/* common
+--------------------------- */
+
+p {margin: 0 0 1em 0;}
+
+.linktop {
+	border-top: 1px dotted #ccc;
+	font-size: .9em;
+	margin: 2em 0 3em 0;
+	padding-top: 1em;
+}
+
+h1 {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	text-indent: -9999px;
+}
+
+h1 a:link, h1 a:visited {
+	background: transparent url(../media/images/logos/hdr_logo.gif) no-repeat top;
+	float: left;
+	height: 109px;
+	margin: 0 41px 0 35px;
+	padding: 0;
+	text-decoration: none;
+	width: 187px;
+}
+
+h1 a:hover {background: transparent url(../media/images/logos/hdr_logo.gif) no-repeat top;}
+
+h2 {
+	background-color: transparent;
+	color: #010930;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+h3 {
+	background-color: transparent;
+	border-bottom: 1px solid #D2D5D7;
+	color: #323A61;
+	font-size: 1.3em;
+	font-weight: bold;
+	margin: 0 0 8px 0;
+	padding: 0 0 4px 0;
+}
+
+h4 {
+	background-color: transparent;
+	font-size: 1.4em;
+	margin: 0 0 .2em 0;
+}
+
+.rule {
+	border-top: 1px dotted #ccc;
+	margin: 1.5em 0;
+}
+
+i {font-style: italic;}
+u {border-bottom: 1px solid #333;}
+
+sup {
+	font-size: .8em;
+	position: relative;
+	top: -3px;
+}
+
+.imgright {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.imgleft {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.floatleft {float: left;}
+.floatright {float: right;}
+.clearleft {clear: left;}
+.clearright {clear: right;}
+.clear {clear: both;}
+
+hr, .wai {display: none;}
+
+caption {
+	font-size: .7em;
+	font-weight: bold;
+	padding: 0 0 .5em 0;
+	text-align: left;
+}
+
+.small {font-size: .9em;}
+.bold {font-weight: bold;}
+
+/* header
+--------------------------- */
+
+#header {
+	background-color: transparent;
+	color: #999;
+	font-size: .7em;
+	text-align: left;
+}
+
+#header input, #header select {
+	background-color: #fff;
+	color: #000;
+	font-family: Verdana, Arial, sans-serif; 
+	font-size: 10px;
+}
+
+#header input:hover, #header input:focus, #header select:hover, #header select:focus {
+	background-color: #eee;
+	border: 1px solid #999;
+	color: #000;
+}
+
+#header input.btn:hover, #header input.btn:focus {border: none;}
+
+#header a {
+	background-color: transparent;
+	color: #999;
+}
+
+#header a:hover {
+	background-color: transparent;
+	color: #333;
+}
+
+#signin, #search {font-size: 9px;}
+
+#signin {
+	float: left;
+	height: 1%;
+	margin: 39px 30px 0 0;
+	width: 390px;
+}
+
+#signin .hdr {
+	float: left;
+	margin-top: 11px;
+	width: 67px;
+}
+
+#signin .input {
+	float: left;
+	width: 145px;
+}
+
+#signin .btn {
+	float: left;
+	margin-top: 5px;
+	width: 27px;
+}
+
+#signin #remember {
+	background-color: transparent;
+	clear: both;
+	color: #999;
+	margin-left: 208px;
+}
+
+#reservation {
+	float: left;
+	font-size: 9px;
+	margin: 60px 32px 0 0;
+	width: 119px;
+}
+
+#hilton-family {
+	border: 0;
+	float: left;
+	margin: 32px 0 0 0;
+	padding: 0;
+	width: 125px;
+	text-indent: -9999px;
+}
+
+#hilton-family a:link, #hilton-family a:visited {
+	background: transparent url(/en/common/media/images/logos/logo_hiltonfamily.gif) no-repeat top;
+	float: left;
+	width: 125px;
+	height: 58px;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+
+#hilton-family a:hover {background: transparent url(/en/common/media/images/logos/logo_hiltonfamily.gif) no-repeat top;}
+
+/* brand.com nav
+--------------------------- */
+
+#navmain {
+	clear: left;
+	height: 23px;
+	margin: 0;
+	padding: 7px 0 0 0;
+	width: 994px;
+}
+
+#navmain ul	{
+	background: transparent url(../media/images/nav/nav_bg.gif) top left no-repeat;
+	height: 23px;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	width: 994px;
+}
+
+#navmain li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+}
+	
+#navmain li, #navmain a {
+	background-image: none;
+	display: block;
+	height: 23px;
+}
+
+#navmain ul li a {
+	text-indent: -9999px;
+	text-decoration: none;
+}
+
+#navmain #navmain01 {left: 0; width: 173px;}  
+#navmain #navmain02 {left: 173px; width: 118px;}  
+#navmain #navmain03 {left: 291px; width: 155px;}  
+#navmain #navmain04 {left: 446px; width: 137px;}  
+#navmain #navmain05 {left: 583px; width: 123px;}  
+#navmain #navmain06 {left: 706px; width: 117px;}  
+#navmain #navmain07 {left: 823px; width: 171px;}
+
+#navmain #navmain01 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) 0 -23px no-repeat;}  
+#navmain #navmain02 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) -173px -23px no-repeat;}  
+#navmain #navmain03 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) -291px -23px no-repeat;}  
+#navmain #navmain04 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) -446px -23px no-repeat;}  
+#navmain #navmain05 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) -583px -23px no-repeat;}  
+#navmain #navmain06 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) -706px -23px no-repeat;}  
+#navmain #navmain07 a:hover {background: transparent url(../media/images/nav/nav_bg.gif) -823px -23px no-repeat;}
+
+/* masthead
+--------------------------- */
+
+#masthead {clear: left;}
+
+/* footer
+--------------------------- */
+
+#footer {
+	background: transparent url('/en/common/media/images/common_misc/colored_bar.gif') top left no-repeat;
+	color: #666;
+	float: left;
+	font-size: 9px;
+	margin: 0 0 20px 0;
+	padding: 24px 0 0 0;
+	text-align: left;
+}
+
+#footer #footersub, #footer #footernav {
+	float: left;
+	width: 994px;
+}
+
+#footer input, #footer select {
+	background-color: #fff;
+	color: #000;
+	font-family: Verdana, Arial, sans-serif; 
+	font-size: 10px;
+}
+
+#footer input:hover, #footer input:focus, #footer select:hover, #footer select:focus {
+	background-color: #eee;
+	border: 1px solid #999;
+	color: #000;
+}
+
+#footer input.btn:hover, #footer input.btn:focus {border: none;}
+
+#footer a {
+	background-color: transparent;
+	color: #999;
+}
+
+#footer a:hover {
+	background-color: transparent;
+	color: #666;
+}
+
+#footer img {
+	border: none;
+}
+
+#footer #linksutil {
+	float: left;
+	width: 719px;
+}
+
+#footer #copyright {
+	float: right;
+	width: 275px;
+	text-align: right;
+}
+
+#footer ul.navutil {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#footer ul.navutil li {
+	float: left;
+	margin: 0;
+	padding: 0 4px;
+}
+
+#footer ul.navutil li.first {
+	padding: 0 4px 0 0;
+}
+
+#footer #worldwide {
+	float: left;
+	width: 300px;
+}
+
+#footer #search {
+	float: right;
+	width: 240px;
+	text-align: right;
+}
+
+#footer input, #footer select {
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	width: 155px;
+}
+
+#footer #search .btn, #footer #worldwide .btn {
+	height: 27px; 
+	position: relative;
+	top: -3px;
+	width: 27px;
+}
+
+#footer #aboutNav {
+	visibility: hidden;
+	padding-top: 20px;
+}

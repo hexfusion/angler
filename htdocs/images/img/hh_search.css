@@ -1,0 +1,63 @@
+.hhonors_search_mem_name { font-family: Arial, Helvetica, sans-serif;
+			   font-size: 13px;
+			   font-weight: bold;
+			   color: #000000;
+			   }
+.hhonors_search_balance_text { font-family: Arial, Helvetica, sans-serif;
+			       font-size: 12px;
+			       font-weight: bold;
+			       color: #000000;
+			       }
+.hhonors_search_points { font-weight: bold; }
+.hhonors_search_level { }
+.hhonors_search_account_num { }
+
+.hh_search_body {
+ color: black; 
+ font-size: 11px; 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-weight: normal; 
+ line-height: 13px
+ }
+
+.hh_search_nav1 {
+font-family: Verdana, Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-weight: bold;
+text-decoration: none;
+color: #497195;
+}
+
+.hh_search_nav2 {
+font-family: Arial, Arial, Helvetica, sans-serif;
+font-size: 11px;
+text-decoration: none;
+color: 767676;
+}
+
+.hh_search_subhead3 {
+font-family: Arial, Arial, Helvetica, sans-serif;
+font-size: 12px;
+font-weight: bold;
+color: 282828;
+}
+
+.hh_search_text { 
+font-family: Verdana, Arial, Helvetica, sans-serif;
+font-size: 10px;
+color: 282828;
+}
+
+.hh_search_highlight {
+font-family: Verdana, Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-weight: bold;
+color: 4487BA;
+}
+
+.hh_search_hotelwidgetText {
+font-family: Verdana, Arial, Helvetica, sans-serif;
+font-size: 10px;
+color: 282828;
+}
+

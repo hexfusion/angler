@@ -5,8 +5,7 @@ catalogs/site/products/.*.gdbm
 catalogs/site/products/.*.sql
 catalogs/site/var/*
 cgi-bin/site
-htdocs/images
-htdocs/site
+htdocs/site/images/items
 httpd/
 interchange/bin/interchange
 interchange/etc/varnames
