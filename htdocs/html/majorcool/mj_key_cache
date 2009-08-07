@@ -1,0 +1,115 @@
+#!PERLBIN
+
+###############################################################
+# This program builds a list of configuration parameters
+# for each majordomo list. This allows the www interface
+# program to quickly get the information it needs to
+# display certain list information without doing a full
+# get config on each list.
+#
+# This program should be run by cron to make sure it is
+# up to date for any changes made to the config files.
+###############################################################
+
+# Before doing anything else tell the world I am MajorCool.
+# The mc_ prefix is reserved for tools that are part of MajorCool.
+$main'program_name = 'mc_key_cache';
+
+sub squawk {
+	printf STDERR "$main'program_name: @_\n";
+	exit(1);
+}
+
+$cf = $ENV{"MAJORDOMO_CF"} || "/etc/majordomo.cf"; 
+$cache = "COOL_CACHE";
+
+while ($ARGV[0]) {
+	if ($ARGV[0] eq "-C") {
+		$cf = $ARGV[1];
+		shift(@ARGV);
+		shift(@ARGV);
+	}
+	elsif ($ARGV[0] eq "-K") {
+		$cache = $ARGV[1];
+		shift(@ARGV);
+		shift(@ARGV);
+	}
+	elsif ($ARGV[0] eq "-v") {
+		$verbose = 1;
+		shift(@ARGV);
+	}
+	else {
+		&squawk("invalid argument $ARGV[0]");
+		shift(@ARGV);
+	}
+}
+
+# Read and execute the .cf file
+&squawk("$cf not readable; stopped") unless -r $cf;
+&squawk("require of majordomo.cf failed $@") unless require $cf;
+
+# Go to the home directory specified by the .cf file
+chdir("$homedir");
+
+# Load needed Majordomo files
+unshift(@INC, $homedir);
+require "ctime.pl";		# To get MoY definitions for month abbrevs
+require "majordomo_version.pl";	# What version of Majordomo is this?
+require "majordomo.pl";		# all sorts of general-purpose Majordomo subs
+require "shlock.pl";		# NNTP-style file locking
+require "config_parse.pl";	# functions to parse the config files
+
+# Here's where the fun begins...
+
+# check to see if the cf file is valid
+&squawk("listdir not defined. Is majordomo.cf being included correctly?")
+	if ! defined($listdir);
+
+# where do we look for files, by default?
+$filedir = $listdir unless defined($filedir);
+$filedir_suffix = ".archive" unless defined($filedir_suffix);
+
+#----------------------------------------------------------------------------
+
+# check if process already running
+#
+unless (&shlock("$listdir/.cache.LOCK")) {
+    print "$main'program_name: cache already running\n" if $verbose;
+    exit;
+}
+print "$main'program_name: building key cache\n" if $verbose;
+
+# match all lists
+#
+local(@lists,@TMP);
+print "$main'program_name: gathering listnames\n" if $verbose;
+opendir(RD_DIR, $listdir) || &squawk("opendir failed $!");
+@lists = readdir(RD_DIR);
+closedir(RD_DIR);
+
+foreach (sort(@lists)) {
+	local($list) = $_;
+	$list =~ s,^.*/,,;			# strip off leading path
+	$list =~ /[^-_0-9a-zA-Z]/ && next;	# skip non-list files
+
+	print "$main'program_name: collecting <$list> keys\n" 
+		if $verbose;
+	&get_config($listdir, $list) if !&cf_ck_bool($list, '', 1);
+	local($desc) = $config_opts{$list,'description'};
+	local($owner) = $config_opts{$list,'owner'};
+	local($spolicy) = $config_opts{$list,'subscribe_policy'};
+	local($upolicy) = $config_opts{$list,'unsubscribe_policy'};
+	local($advertise) = $config_opts{$list,'advertise'};
+	local($noadvertise) = $config_opts{$list,'noadvertise'};
+	push(@TMP,
+	  "$list\007$owner\007$spolicy\007$upolicy\007$desc\007$advertise\007$noadvertise\n");
+}
+open(CACHE, ">$cache") || &squawk("Could not open cache");
+print CACHE @TMP;
+close(CACHE);
+
+print "$main'program_name: cache complete\n" if $verbose;
+
+# free_lock is only 1.94
+&free_lock("$listdir/.cache.LOCK") if defined(&free_lock);
+

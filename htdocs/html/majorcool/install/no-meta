@@ -1,0 +1,6 @@
+# To remove META directives from any file (eg, HTML); Note: this
+# kills *any* line with META, not just in context of valid HTML.
+# This is intentional.
+#
+perl -pi -e "s/^.*META.*$/  <!-- META tag removed -->/;" $*
+

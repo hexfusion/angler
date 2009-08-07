@@ -1,0 +1,203 @@
+#~ Local domain matching and DNS/SMTP confirmation of
+#~   remote addresses. Returns /user@FQDN|user/ if address is local to
+#~   Majordomo [$whereami]. Uses RegExp only if local. Requires Perl
+#~   Net-DNS-0.12 and libnet-1.0605 (both on CPAN).
+
+#=============================================================================
+# ADDRESS LOOKUP CUSTOMIZATIONS
+#=============================================================================
+# %siteaddr is an array which defines the prompts (with suitable local
+# examples) associated with the opening form input.
+#
+# siteaddr() is an address-mapping function used to tie an address [or
+# possibly name] to a set of address regexp's. These regexp's will be
+# used to determine list membership.
+#
+# by_siteaddr() is a address-comparison function used for the sorting of
+# subscriber addresses.
+#-----------------------------------------------------------------------------
+
+%siteaddr = (
+	'prompt',"Your E-Mail Address",
+	'browse',"<B>Enter your e-mail address:</B>
+		(e.g.: \"jdoe\@host.dom.ain\" or ".
+		"simply \"jdoe\" for local accounts.)",
+);
+
+#-----------------------------------------------------------------------------
+# I modified the "domain" siteaddr routine to treat unqualified user names as
+# local and to confirm all entries via DNS and SMTP. The SMTP check is not
+# bulletproof as some mailers will accept any user name as is without
+# checking it first. However, the confirmation will at least validate the
+# mail host name, and the few robustly configured servers will validate the
+# entire address.
+#
+# Basically, I added a function confirm_address() which performs the
+# additional tests and modified siteaddr() a tad. I left some comments in the
+# code to explain what I was doing. If you have any questions, please let me
+# know. Feel free to pass the modifications on should anyone else find them
+# useful -- I place these mods in the public domain (should any distribution
+# questions arise).
+# 
+# Igor S. Livshits <igorl@uiuc.edu>
+#
+#
+# Changes:
+# 
+# ISL 971229 - Added type checking for returned address records as Net::SMTP
+# returns too much for an "A" request [query($host, "A")].
+#
+#-----------------------------------------------------------------------------
+# siteaddr()
+#
+# Function should return a 3-tuple list:
+#   user:     given "real name" of user
+#   address:  preferred address of user
+#   pattern:  regexp of address patterns to match
+#
+# The "pattern" regexp enables MajorCool to identify list members even if
+# they may be subscribed with multiple addresses.
+#
+sub siteaddr {
+	local($target) = @_;
+	# weed out bogus attempts
+	&send_error("<$target> is not a valid e-mail address.")
+		unless &valid_addr($target);
+	#
+	# valid_addr() only checks for filenames, pipes, -args, and
+	# other potential mail security problems. It does nothing to
+	# prevent syntactially incorrect addresses from being used.
+ 	#
+	# added by Igor S. Livshits <mailto:igorl@uiuc.edu> 12/15/97
+	#
+	# attempt to confirm given address via SMTP
+	# return fully qualified address if successful
+	#
+	local($confirmed) = &confirm_address($target);
+	local($lhs,@rhs) = split(/[!%@]/, $confirmed);
+	#
+	# moved into confirm_address; ISL 12/15/97
+	#
+	#local($lhs,@rhs) = split(/[!%@]/, $target);
+	#&send_error("<$target> is not a valid e-mail address.")
+  	#	unless $lhs ne "" && $#rhs >= 0;
+	#&send_error("Bad user-id format.")
+	#	unless $lhs =~ /^([\-\w\d\._]+)$/;
+	#
+	return ($target, $target, "") if @rhs[0] !~ /^$whereami$/i;
+	# no regexp spoofs of user-id
+	local($regex) = "^$confirmed\$";
+	$regex .= "|^$lhs\$";
+	$regex =~ s/\./\\./g;	# periods are real, not meta
+	return ($target, $confirmed, $regex);
+}
+
+#-----------------------------------------------------------------------------
+# confirm_address()
+#
+# Function should return a fully qualified localized email address
+# or nothing, on failure.
+#
+sub confirm_address {
+	local($address) = @_;
+	local($user) = split(/[!%@]/, $address);
+	local($mailhost);	# the host part of an email address
+	local($confirmed);	# boolean indicating address validity
+	local($smtp, $dns);	# SMTP and DNS objects
+	local(@mx, $a);		# MX and A records for the mailhost
+	local(@hosts);		# an ordered array of MX and A results
+	local($rr, $host);	# result records and hosts we'll try
+	local($lastPreference);	# keeps track of mail exchanger preferences
+	local($errorMessage);	# preformat to keep &send_error() happy
+
+	$address=~ /^$user[!%@](.+)$/;
+	$mailhost= $1;
+	&send_error("User-id missing: [$address].")
+	  unless $user ne "";
+	&send_error("Bad user-id format: [$user].")
+	  unless $user =~ /^([\-\w\d\._]+)$/;
+
+	# First, find all the lowest priority MX hosts
+	#   if none exist, find all the A records for the host
+
+	# Try local domain for unqualified user names
+	$host= $mailhost ? $mailhost : $whereami;
+
+	use Net::DNS;		# Net-DNS-0.12
+	$dns= new Net::DNS::Resolver;
+	if (@mx= mx($dns, $host))
+	{			# found at least one mail exchange record
+	  # Peg initial preference high for lowest preference comparisons
+	  $lastPreference= 1000000;
+	  foreach $rr (@mx)
+	  {			# keep each lowest preference MX name
+	    last if ($lastPreference < $rr->preference);
+	    $lastPreference=  $rr->preference;
+	    push(@hosts, $rr->exchange);
+	  }
+	}
+	else
+	{
+	  $a= $dns->query($host, "A");
+	  if ($a)
+	  {			# found at least one address record
+	    foreach $rr ($a->answer)
+	    {			# keep each address
+	      push(@hosts,  $rr->address) if ($rr->type eq "A");
+	    }
+	  }
+	}
+	&send_error("Could not resolve [$host] for address confirmation.")
+	    unless @hosts;
+
+	# Having either list, attempt delivery to supplied emailaddress
+	#   for each host name (MX) or host address (A)
+
+	use Net::SMTP;		# libnet-1.0605
+	foreach $host (@hosts)
+	{
+	  if ($smtp= new Net::SMTP($host, Timeout => 300))
+	  {
+	    $smtp->mail($ENV{USER});
+	    $confirmed= $smtp->to($address);
+	    $smtp->quit();
+	  }
+	  last if $confirmed;
+	}
+
+	# In case of failure, report such with the list of tried
+	#   host names (MX) or host addresses (A) and the final error message
+	#   from Net::SMTP
+
+	unless ($confirmed)
+	{
+	  $errorMessage= "Could not confirm [$address] via ["
+	    . join(",", @hosts) . "]";
+	  if ($@)
+	  {			# include the error message from Net::SMTP
+	    &send_error($errorMessage, "($@)");
+	  }
+	  else
+	  {
+	    &send_error($errorMessage);
+	  }
+	}
+
+	# Fully qualify a lone user name as a local address
+	$address= "$user\@$whereami" unless $mailhost;
+
+	return $address;
+}
+
+#-----------------------------------------------------------------------------
+# by_siteaddr()
+#
+# Function should return {-1,0,+1} depending on the comparison of the
+# two array elements.
+#
+sub by_siteaddr {
+	$a cmp $b;
+}
+
+1;	# keep require happy
+

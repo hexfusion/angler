@@ -1,0 +1,30 @@
+#
+# THINGS TO DO (in no particular order, and no guarantee of
+# ever getting done unless *you* decide to help me do it)
+# [Names are requestors, not comitted developers.]
+#
+
+Word-wrap of the info file.
+	Despite the use of WRAP=PHYSICAL and the Preferences setting
+	to control it, wrapping of the file is not working correctly.
+	(bhoule@sandiegoca.ncr.com)
+
+Archive list & file get interface.
+	The next logical step would be to provide access to Majordomo
+	list archives, possibly even augmented by HTML formatting via
+	tools such as HyperMail or MHonArc (WILMA!).
+	(bhoule@sandiegoca.ncr.com)
+
+More complete is_advertised() address matching. 
+	The is_advertised() function should probably match against
+	all address patterns rather than primary address.
+	(bhoule@sandiegoca.ncr.com)
+
+Convert Configure shell to GNU auto-conf.
+	David Lee <T.D.Lee@durham.ac.uk>
+
+Expand nested lists in BROWSE of member list.
+	Essentially a "recursive who". Functionality may be better
+	applied to Majordomo proper?
+	(martin.fogel@elsegundoca.ncr.com)
+

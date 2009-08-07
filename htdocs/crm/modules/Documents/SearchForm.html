@@ -1,0 +1,78 @@
+<!--
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+/*********************************************************************************
+ * $Id: SearchForm.html,v 1.10 2006/08/27 10:33:08 majed Exp $
+ ********************************************************************************/
+-->
+<!-- BEGIN: main -->
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 0px none; margin-bottom: 4px" class="tabForm">
+<tr><td>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="dataLabel" noWrap><span sugar='slot1'>{MOD.LBL_SF_DOCUMENT}</span sugar='slot'>&nbsp;&nbsp;<span sugar='slot1b'><input type=text  id="document_name_basic" name="document_name_basic" class=dataField value="{DOCUMENT_NAME}"></span sugar='slot'></td>
+		<td class="dataLabel" noWrap><span sugar='slot2'>{MOD.LBL_SF_CATEGORY}</span sugar='slot'>&nbsp;&nbsp;<span sugar='slot2b'><select id="category_id_basic" name="category_id_basic" class=dataField">{CATEGORY_OPTIONS}</select></span sugar='slot'></td>
+		<td class="dataLabel" noWrap><span sugar='slot3'>{MOD.LBL_SF_SUBCATEGORY}</span sugar='slot'>&nbsp;&nbsp;<span sugar='slot3b'><select id="subcategory_id_basic" name="subcategory_id_basic" class=dataField">{SUBCATEGORY_OPTIONS}</select></span sugar='slot'></td>
+		<td class="dataLabel" align='right' noWrap><span sugar='slot4'><input title="{APP.LBL_SELECT_BUTTON_TITLE}" accessKey="{APP.LBL_SELECT_BUTTON_KEY}" type="button"  class="button" value='{APP.LBL_SELECT_BUTTON_LABEL}' name=btn1
+			onclick='open_popup("Documents", 600, 400, "&caller=Documents", true, false, "");' /></span sugar='slot'>
+		</td>
+	</tr>
+	</table>
+</td></tr>
+</table>
+<!-- END: main -->
+
+<!-- BEGIN: advanced -->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 0px none; margin-bottom: 4px" class="tabForm">
+<tr>
+<td>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="20%" class="dataLabel" noWrap><span sugar='slot4b'>{MOD.LBL_SF_DOCUMENT}</span sugar='slot'></td>
+		<td width="25%" class="dataField"><span sugar='slot5'><input tabindex='1' type=text size="20" name="document_name" class=dataField value="{DOCUMENT_NAME}"></span sugar='slot'></td>
+
+		<td width="20%" class="dataLabel" noWrap><span sugar='slot5b'>{MOD.LBL_SF_CATEGORY}</span sugar='slot'></td>
+		<td width="20%" class="dataField"><span sugar='slot6'><select tabindex='2' id="category_id"  name="category_id" class=dataField">{CATEGORY_OPTIONS}</select></span sugar='slot'></td>
+		<td>&nbsp;</td>		
+ 	</tr>
+	<tr>
+		<td class="dataLabel" noWrap><span sugar='slot6b'>{MOD.LBL_SF_ACTIVE_DATE}</span sugar='slot'></td>
+		<td class="dataField"><span sugar='slot7'><input tabindex='2' type=text size="10" name="active_date" class=dataField value="{ACTIVE_DATE}"></span sugar='slot'></td>
+		<td class="dataLabel" noWrap><span sugar='slot7b'>{MOD.LBL_SF_SUBCATEGORY}</span sugar='slot'></td>
+		<td class="dataField"><span sugar='slot8'><select tabindex='1' id="subcategory_id" name="subcategory_id" class=dataField">{SUBCATEGORY_OPTIONS}</select></span sugar='slot'></td>
+		<td class="dataLabel" align='right' noWrap><span sugar='slot8b'><input title="{APP.LBL_SELECT_BUTTON_TITLE}" accessKey="{APP.LBL_SELECT_BUTTON_KEY}" type="button"  class="button" value='{APP.LBL_SELECT_BUTTON_LABEL}' name=btn1
+			onclick='open_popup("Documents", 600, 400, "&caller=Documents", true, false, "");' /></span sugar='slot'>
+		</td>
+	</tr>
+	<tr>
+		<td class="dataLabel" noWrap><span sugar='slot9'>{MOD.LBL_SF_EXP_DATE}</span sugar='slot'></td>
+		<td class="dateField"><span sugar='slot9b'><input tabindex='1' type=text size="10" name="exp_date" class=dataField value="{EXP_DATE}"></span sugar='slot'></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>		
+		<td>&nbsp;</td>		
+	</tr>
+	</table>
+</td>
+</tr>
+</table>
+<!-- END: advanced -->

@@ -1,0 +1,13 @@
+.treeNode {
+	text-decoration: none; color: black; font: 8pt tahoma;
+}
+.class1 {
+	font: 14pt courier;
+}
+.class2 {
+	color: blue;
+font: 12pt georgia, sans;
+}
+.class3 {
+	text-decoration: underline;
+}

@@ -1,0 +1,36 @@
+*** majordomo.orig	Sun Apr 20 20:07:04 1997
+--- majordomo	Mon Apr 21 15:25:49 1997
+***************
+*** 213,220 ****
+      elsif ($cmd eq "intro") { &do_intro(@parts); }
+      elsif ($cmd eq "newintro") { &do_newintro(@parts); }
+      elsif ($cmd eq "config") { &do_config(@parts); }
+!     elsif ($cmd eq "newconfig") { &do_newconfig(@parts); }
+!     elsif ($cmd eq "writeconfig") { &do_writeconfig(@parts); }
+      elsif ($cmd eq "mkdigest") { &do_mkdigest(@parts); }
+      elsif ($cmd eq "lists") { &do_lists(@parts); }
+      elsif ($cmd eq "help") { &do_help(@parts); }
+--- 213,220 ----
+      elsif ($cmd eq "intro") { &do_intro(@parts); }
+      elsif ($cmd eq "newintro") { &do_newintro(@parts); }
+      elsif ($cmd eq "config") { &do_config(@parts); }
+!     elsif ($cmd eq "newconfig") { &do_newconfig(@parts); $mc_key_ca = 1; }
+!     elsif ($cmd eq "writeconfig") { &do_writeconfig(@parts); $mc_key_ca = 1; }
+      elsif ($cmd eq "mkdigest") { &do_mkdigest(@parts); }
+      elsif ($cmd eq "lists") { &do_lists(@parts); }
+      elsif ($cmd eq "help") { &do_help(@parts); }
+***************
+*** 227,232 ****
+--- 227,238 ----
+      }
+  }
+  
++ # Cache config file changes for MajorCool
++ if ( $mc_key_ca and -s "$homedir/mj_key_cache" ) {
++   system "/usr/bin/nohup $homedir/wrapper mj_key_cache " .
++            ">>$homedir/Log.mj_key_cache 2>&1 &";
++ }
++ 
+  # we've processed all the commands; let's clean up and go home
+  &done();
+  

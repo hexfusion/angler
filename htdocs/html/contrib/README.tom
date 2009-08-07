@@ -1,0 +1,37 @@
+These diff files record our modifications to Majordomo 1.94.3
+for use with MajorCool 1.0.  Before applying these diffs,
+be sure that you have installed both Majordomo and MajorCool.
+You should be able to access MajorCool's opening web screen
+before applying these diffs.  The instructions below assume
+that you use Larry Wall's "patch" program to apply diffs.
+
+1) You should be logged in as the owner of the Majordomo files
+   and directories.
+
+2) Get in Majordomo's home directory and copy in the diff files:
+
+	diff.owner
+	diff.auto_cache
+
+3) To add the "owner" keyword to Majordomo's config files
+   (as MajorCool recommends):
+
+	patch <diff.owner
+
+4) This change to "majordomo" is optional, is probably
+   Unix specific, and may be Solaris 2.5 specific, but
+   we want Majordomo to run "mj_key_cache" whenever there's
+   a config file change.  You should consider all options
+   for maintaining MajorCool's cache before applying this
+   diff:
+
+	patch <diff.auto_cache
+
+This file and the above referenced diff files are in the public
+domain; use at your own risk.  The views and opinions expressed
+in these files are strictly those of the author.  The contents
+of these files have not been reviewed, approved, or monitored
+by Mississippi State University.  
+
+-- Tom White <tom@net.msstate.edu>
+

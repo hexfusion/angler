@@ -1,0 +1,211 @@
+<HTML>
+<HEAD>
+<!-- =================================================================== -->
+<META HTTP-EQUIV="EXPIRES" CONTENT="Fri, 02 Feb 1996 11:04:53 PDT 1996">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<META NAME="KEYWORDS" CONTENT="MajorCool, Majordomo, Web, CGI, mailing list">
+<META NAME="DESCRIPTION" CONTENT="MajorCool is a Web interface to Majordomo. This is an installed copy; the definitive site for MajorCool info is http://ncrinfo.ncr.com/pub/contrib/unix/MajorCool/">
+<!-- =================================================================== -->
+<TITLE>MajorCool Requirements</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<DIV ALIGN=CENTER>
+<TABLE WIDTH=100% BORDER=0 ALIGN=CENTER VALIGN=TOP>
+<TR>
+<TD WIDTH=520 ALIGN=CENTER VALIGN=MIDDLE>
+  <DIV ALIGN=CENTER>
+  <IMG SRC="../icons/mc_cool_banner.gif" ALT="[MajorCool]" ALIGN=MIDDLE>
+  <H3 ALIGN=CENTER>MajorCool: A Web Interface To Majordomo</H3>
+  <FONT SIZE=-1><!--META-->(This is a copy of the <I>MajorCool</I> <A HREF="http://ncrinfo.ncr.com/pub/contrib/unix/MajorCool/">master</A> documentation set)</FONT>
+  </DIV>
+</TD>
+<TD ALIGN=RIGHT VALIGN=TOP>
+  <FONT SIZE=2>
+  <A HREF="index.htm">Introduction</A><BR>
+  <A HREF="usage.htm">Usage</A><BR>
+  <B>System&nbsp;Requirements</B><BR>
+  <A HREF="install.htm">Installation</A><BR>
+  <A HREF="config.htm">Configuration</A><BR>
+  <A HREF="future.htm">Future&nbsp;Direction</A><BR>
+  <A HREF="support.htm">Licensing,&nbsp;FAQs,&nbsp;&amp;&nbsp;Credits</A><BR>
+  </FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+<HR>
+
+<H2>Server Requirements</H2>
+
+<UL>
+<LI>Because it directly accesses <I>Majordomo</I> files and programs, 
+<I>MajorCool</I> requires that the Web server and listserver be
+co-located on the same machine. NFS mounting of the <I>Majordomo</I>
+files on the Web server is a possibility, but you run the risk of
+lockfile collision, so it is not recommended.
+<LI>The Web server does not need to be run as a particular user-id.
+The <I>MajorCool</I> CGI utilizes the <I>Majordomo</I>
+<CODE>wrapper</CODE> program to enforce permissions and provide the
+necessary uid/gid operation.
+<LI>This CGI script has been successfully implemented under Netscape,
+Apache, and NCSA Web servers.
+<LI>Perl is required. The application was designed using Perl 4.036, but
+it has subsequently been ported to Perl5.
+<LI>UNIX is assumed, although it is concievable that this could work
+on Windows/NT if <I>Majordomo</I> has been ported and a compatible
+mailer (eg, <I>sendmail</I>) is available.
+<LI>Although "root" access is not mandatory, it helps considerably.
+At the minimum, write access to the <I>Majordomo</I> <CODE>$homedir</CODE>
+and the <CODE>/cgi-bin/</CODE> directory of the Web server is required.
+</UL>
+
+<H3>A Note About Web Server Security</H3>
+
+<P>Although the <I>MajorCool</I> CGI utilizes the 'POST' method 
+to hide script arguments wherever possible, URL-based parameters are
+used in certain situations. If your server is configured to log full 
+URL data, this could result in script arguments being written to the 
+Web server access log. Someone with access to the local Web server 
+logs would then have access to this info.
+
+<P>Some servers do not log complete URL data, and many that do can be
+disabled. Here's how one user (perry@ece.vill.edu) avoided the 
+problem:
+
+<BLOCKQUOTE>
+<PRE>
+As far as Web server logging goes, that is not a problem with
+MajorCool per se, and I've discovered that I can work around 
+it in Apache by specifying a different LogFormat in httpd.conf:
+
+  LogFormat "%h %l %v:%p %t \"- %U HTTP/1.x %{cipher}c %u\" %>s %b"
+
+The default LogFormat for Apache is: "%h %l %u %t \"%r\" %>s %b"
+Mine is hacked for SSL and virtual hosts, and also doesn't break 
+the 'wwwstat' statistics reporting script, but the main thing is 
+to replace %r with %U to just get the URL pathname and no GET 
+arguments.
+</PRE>
+</BLOCKQUOTE>
+
+<P>At last analysis, most <I>MajorCool</I> arguments passed as part
+of the URL could be considered relatively harmless, and if you run
+your Web server on a restricted-access machine you have even less to
+worry about. Noting the logging behavior here is done more as a
+courtesy than a warning. 
+
+<H2>Browser Requirements</H2>
+
+<UL>
+<LI><I>MajorCool</I> was developed in a Netscape Navigator 3.0
+environment, and some functions are optimized accordingly for this
+browser. However, browser-detection is used to degrade gracefully
+for non-Netscape platforms.
+<LI><I>JavaScript</I> is used, but only for "bells and whistles" --
+nothing critical is dependent upon it. Browsers that do not support
+<I>JavaScript</I> will be able to use <I>MajorCool</I> without 
+significant loss in functionality.
+<LI>Because of its extensive use of basic table functions, <I>MajorCool</I>
+requires an HTML 2.0 compliant browser. Nested tables, however, are not
+used.
+<LI>Support for multiple submit buttons is not required, but this may
+change in the future.
+<LI>Support for HTML Forms is a given.
+</UL>
+
+<A NAME="PREREQ">
+<H2>Majordomo Requirements</H2>
+</A>
+
+<P>This application was originally designed for <I>Majordomo</I> version
+1.93, but it has since been enhanced to incorporate 1.94 features. Because
+<I>MajorCool</I> relies on the <I>Majordomo</I> config file API, list
+configuration differences between 1.93 and 1.94 are not a problem. For
+instance, users migrating from <I>Majordomo</I> 1.93 to 1.94 will notice
+that support for the new <CODE>+confirm</CODE> subscribe policy attribute
+requires no changes to <I>MajorCool</I> code. Similarly, no special
+modifications are required to make local keyword additions visible to the
+application.
+
+<P>Certain of these "local keywords" (ie, keywords not part of the
+standard <I>Majordomo</I> distribution) are specially designed for
+use by <I>MajorCool</I> and attempt to make list management a more
+pleasurable and/or efficient activity...
+
+<A NAME="OWNER">
+<H3>'owner' Keyword (Optional)</H3>
+</A>
+
+<P>The "<CODE>owner</CODE>" keyword defines the e-mail address of the
+list-owner. The addition of this keyword to <I>Majordomo</I> is
+completely optional (modification details later). However, if detected,
+<I>MajorCool</I> will use the value of the "<CODE>owner</CODE>"
+variable to determine the reply address of administrative mail messages
+that are simulated and passed on to <I>Majordomo</I>. More importantly,
+the existence of the "<CODE>owner</CODE>" attribute opens the door for
+automatic alias generation.
+
+<P>In our configuration, a list is not active until "<CODE>owner</CODE>"
+is defined. Using this mechanism, our <I>sendmail</I> alias administration
+is completely hands free. Given a new list, users can set the ownership
+themselves (thus activating the <CODE>-owner</CODE>, <CODE>-approval</CODE>,
+<CODE>-request</CODE>, and <CODE>-outgoing</CODE> aliases) and, if
+necessary, can later reassign list responsibilities without administrative
+assistance.
+
+<P>If you choose not to implement the <CODE>owner</CODE> keyword, 
+<I>MajorCool</I> will revert to using the <CODE>owner-$list</CODE> address
+for all operations performed during list configuration. Without the
+<CODE>owner</CODE> keyword, you do not have the potential for automatic
+alias generation or access to owner-specific functions such as the
+"show all owned lists" option of <I>MajorCool</I>.
+
+<A NAME="ACCESS">
+<H3>'web_access' Keyword (Optional)</H3>
+</A>
+
+<P>In a standard <I>Majordomo</I> installation, all lists are
+available to <I>MajorCool</I> (subject to advertise and password
+checks, of course). With the addition of the <CODE>web_access</CODE>
+keyword, list owners can control whether their list is made available
+to <I>MajorCool</I>'s BROWSE and/or MODIFY modes. This is most useful 
+to address list-owner concerns/fears about web accessibility without 
+unduly preventing the rest of the lists at the site from reaping the 
+rewards of improved usability.
+
+<A NAME="QUEUE">
+<H3>Approval Queue (Optional)</H3>
+</A>
+
+<P>Normally, messages sent to a mailing list that require "approval" are
+redirected to a moderator address. The moderator must then manipulate 
+specific header information and send the message back to the list in order 
+to "approve" it.
+
+<P>With an enhancement available for <I>Majordomo</I> (see patches in
+<CODE>contrib/</CODE>), the approval process can be modified to store
+a copy of the redirected mail on the list server (instead of, or in
+addition to, the copy sent to the moderator). <I>MajorCool</I> can then
+be used to manage this Approval Queue via the Web. By utilizing the 
+Web-based approval process, problems caused by misbehaving mailers or
+incorrectly placed headers are eliminated.
+
+<P>The enhancement for <I>Majordomo</I> adds a <CODE>bounce_action</CODE>
+keyword to the list configuration file. This keyword can be set to
+mail the message to the moderator, store the file locally, or a
+combination of both actions. <I>MajorCool</I> can access any locally
+stored messages and approve them directly. If your host system is
+configured for <CODE>bounce_action</CODE>, <I>MajorCool</I> will
+automatically support the capability.
+
+<HR>
+<A HREF="usage.htm">[Previous: Usage]</A>
+<A HREF="install.htm">[Next: Install]</A>
+<A HREF=".">[Top: Intro]</A>
+<A HREF="..">[Home]</A>
+<A HREF="mailto:Bill.Houle@SanDiegoCA.NCR.COM">[Feedback]</A>
+
+</BODY>
+</HTML>
+

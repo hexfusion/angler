@@ -1,0 +1,93 @@
+<?php
+include ("../functions.php");
+include ("../f_secure.php");
+include ("../config.php");
+$limit = 50;
+//prepare HTML text for UTF-8 character data in XML
+
+function cleanTxt($txt) {
+
+    return utf8_encode(
+
+        htmlspecialchars(
+
+            stripslashes($txt)));
+}
+ 
+
+// set the file's content type and character set
+header("Content-Type: text/xml;charset=utf-8");
+
+// run the query 
+$sql = "select * from review_items WHERE item_name != '' order by item_id limit $limit"; 
+
+    $result = mysql_query($sql) 
+or die(sprintf("Couldn't execute query, %s: %s", db_errno(), db_error()));
+
+// Get the current version of PHP
+$phpversion = phpversion();
+
+// display RSS 2.0 channel information
+ECHO <<<END
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Five Star Review Script</title>
+    <description>Amazon-style script enables users to review products</description>
+    <link>
+    http://www.review-script.com/
+    </link>
+    <language>en-us</language>
+    <generator>PHP/$phpversion</generator>
+    END;
+    
+    
+    // loop through the array
+    
+    while($row = mysql_fetch_array($result)) { 
+    $title = cleanTxt($row["item_name"]); 
+    $desc = $row["item_desc"];
+    $item_id = $row["item_id"]; 
+    $category = cleanTxt($row["category"]); 
+    
+    if ($category == "") { $category = "none"; }
+    
+    //Replace certain html
+    
+    $desc_replace = array("
+    <H3>&#160;</H3>
+    ", "
+    <P>&#160;</P>
+    ", );
+    
+    $desc_replace_with  = array("", "", "");
+    
+    $desc = str_replace($desc_replace, $desc_replace_with, $desc);
+    
+    
+    //Now clean the HTML
+    
+    $desc = cleanTxt($desc);
+    
+    
+    
+    
+    // display each item.
+    
+    ECHO <<<END
+
+  
+    <item>
+      <title>$title</title>
+      <category>$category</category>
+      <link>$url$directory/review-item/$item_id.php</link>
+    </item>
+    END;
+    }
+    
+    // Display end of RSS file data
+    ECHO <<<END
+    </channel>
+</rss>
+END;
+?>

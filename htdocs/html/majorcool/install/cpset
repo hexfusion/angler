@@ -1,0 +1,38 @@
+#!/bin/sh
+#	cpset.sh
+#  This script does the subset of the cpset(1) command that is needed
+#  by the MajorCool programs.  It does require that all arguments
+#  be specified and it will fail spectacularly if the file system
+#  is full.
+USAGE="usage: Cpset [-o] from-file to-file  mode  owner group"
+
+#  Save to-file with OLD prefix if -o option specified
+OLD=
+if [ X"$1" = X"-o" ]
+then
+	shift
+	OLD=`echo $2 | sed 's,\([^/]*\)$,OLD\1,'`
+fi
+
+if [ $# -ne 5 ]
+then
+	echo $USAGE 1>&2
+	exit 2
+fi
+
+if [ -n "$OLD" -a -f $2 ]
+then
+	rm -f $OLD
+	mv $2 $OLD
+fi
+
+set -e			# Fail if something goes wrong
+rm -f $2
+cp $1 $2		# Copy source to destination
+chgrp $5 $2		# Change GROUP
+chmod $3 $2		# Change Modes in case OWNER is different
+chown $4 $2		# Change Owner
+set +e
+chmod $3 $2		# Try setting modes again (might fail)
+
+exit 0

@@ -1,0 +1,87 @@
+<!--
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+/*********************************************************************************
+ * $Id: Updater.html,v 1.10 2006/08/17 02:28:20 roger Exp $
+ ********************************************************************************/
+-->
+
+<!-- BEGIN: main -->
+<form name="updates" method="POST" action="index.php" >
+	<input type="hidden" name="module" value="Administration">
+	<input type="hidden" name="action" value="Updater">
+	<input type="hidden" name="useraction">	
+	<input type="hidden" name="return_module" value="{RETURN_MODULE}">
+	<input type="hidden" name="return_action" value="{RETURN_ACTION}">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td style="padding-bottom: 2px;"><input title="{APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{APP.LBL_SAVE_BUTTON_KEY}" class="button" onclick="this.form.useraction.value='Save';" type="submit" name="button" value="  {APP.LBL_SAVE_BUTTON_LABEL}  " > <input title="{APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{APP.LBL_CANCEL_BUTTON_KEY}" class="button" onclick="this.form.action.value='{RETURN_ACTION}'; this.form.module.value='{RETURN_MODULE}'; this.form.record.value='{RETURN_ID}'" type="submit" name="button" value="  {APP.LBL_CANCEL_BUTTON_LABEL}  "></td>
+		<td align="right" nowrap><span class="required">{APP.LBL_REQUIRED_SYMBOL}</span> {APP.NTC_REQUIRED}</td>
+	</tr>
+	</table>
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabForm">
+	<tr><td>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr><th align="left" class="dataLabel" colspan="2"><h4 class="dataLabel">{MOD.LBL_UPDATE_TITLE}</h4></th>
+			</tr>
+			<tr>
+				<td colspan=2 class="dataField"><slot><p>{MOD.HEARTBEAT_MESSAGE}</p></slot></td>			
+			</tr>
+			<!-- BEGIN: stats -->
+			<tr>
+				<td colspan=2 class="checkbox"><input type="checkbox" name='beat' tabindex='4' {SEND_STAT_CHECKED} >{MOD.LBL_SEND_STAT}</td>
+  			</tr><tr>
+  				<td colspan=2>&nbsp;</td>
+  			</tr>
+  			<!-- END: stats -->
+			<tr>
+				<td colspan=2 class="checkbox"><input type="checkbox" name='type' tabindex='1' {AUTOMATIC_CHECKED} value="automatic" >{MOD.LBL_UPDATE_CHECK_TYPE}</td>
+			</tr><tr>
+  				<td colspan=2>&nbsp;</td>
+  			</tr><tr>
+				<td colspan=2 style="padding-bottom: 2px;"><input title="{MOD.LBL_CHECK_NOW_TITLE}" class="buttonOn" onclick="this.form.useraction.value='CheckNow';" type="submit" name="checknow" value="  {MOD.LBL_CHECK_NOW_LABEL}  " ><br></td>
+			</tr>
+<!-- BEGIN: updates -->
+			<tr>
+				<td  class="dataLabel" align='center'>{MOD.LBL_AVAILABLE_UPDATES}</td><td class="dataLabel" > {MOD.LBL_UPDATE_DESCRIPTIONS}</td>
+			</tr>
+<!-- BEGIN: version -->
+
+<tr>
+				<td  class="dataLabel" align='center'>{VERSION.version}</td><td>{VERSION.description}</td>
+			</tr>
+			
+<!-- END: version -->
+
+<!-- END: updates -->
+
+<!-- BEGIN: noupdates -->
+			<tr>
+				<td class="dataLabel" >{MOD.LBL_UPTODATE} </td>
+			</tr>
+<!-- END: noupdates -->
+		</table>
+	</td></tr>
+	</table>
+</form>
+<!-- END: main -->

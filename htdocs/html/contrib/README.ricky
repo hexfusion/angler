@@ -1,0 +1,46 @@
+mj_build_aliases2.pl is a modification to mj_build_aliases that
+optionally mails any changed aliases to the majordomo-owner.
+See the comments in the code.
+
+I also modified the mj_log (as mj_log2), in order to get some
+statistics for the brand-new-message, in the same fashion than
+syslog does, that is:
+
+   DATE PROCESS LIST FROM-ADDRESS NUMBER-OF-LINES
+
+For example:
+
+   Jul 06 17:36:18 mj_log2 latinet ricky@ornet.co.il 89 lines
+
+The command line options are:
+
+   mj_log2 [-C config_file] [-m] [-l log_file] list
+
+      -C config_file ......... The Majordomo config file.
+      -m ..................... Add an abbreviated month extension to
+                               the log file.
+      -l log_file ............ An optional log_file instead of ussing
+                               the $listdir/Log.$list
+      list ................... The list related to this message
+                               (mandatory) 
+
+The mj_log2 is called in the same fashion than mj_log (from the
+wrapper)
+
+The From_ line sometimes is changed by sendmail before calling the
+wrapper or script, usually when a `owner' (For sendmail) for the
+current alias is defined. This uses the From: instead.
+
+I don't like to have the `listdir' as a junk-dir for log-files, and this
+motivated me to add a $logdir in the majordomo.cf file and the mj_log2 will
+see if the variable $logdir is defined and will use it, otherwise it will
+use the $listdir instead... or if the logfile is given from the command line.
+
+-- 
+--- Ricky                                    -*- Mode: Another-Unix-Hacker -*-
+------------------------------------------------------------------------------
+--- e-mail: ricky@ornet.co.il       ORNET Data Communication Technologies Ltd.  
+--- phone: +972-4-9981314                      (A Siemens Company)
+------------------------------------------------------------------------------
+#include <SWEEPING_GENERALITY.h>
+

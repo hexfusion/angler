@@ -1,0 +1,70 @@
+#~Generic e-mail address matching. Exact match only. No 
+#~   RegExp support.
+
+#=============================================================================
+# ADDRESS LOOKUP CUSTOMIZATIONS
+#=============================================================================
+# %siteaddr is an array which defines the prompts (with suitable local
+# examples) associated with the opening form input.
+#
+# siteaddr() is an address-mapping function used to tie an address [or
+# possibly name] to a set of address regexp's. These regexp's will be
+# used to determine list membership.
+#
+# by_siteaddr() is a address-comparison function used for the sorting of
+# subscriber addresses.
+#-----------------------------------------------------------------------------
+
+%siteaddr = (
+	'prompt',"Your E-Mail Address",
+	'browse',"<B>Enter your e-mail address:</B>
+		(e.g.: \"jdoe\@host.dom.ain\")",
+);
+
+#-----------------------------------------------------------------------------
+# siteaddr()
+#
+# Function should return a 3-tuple list:
+#   user:     given "real name" of user
+#   address:  preferred address of user
+#   pattern:  regexp of address patterns to match
+#
+# The "pattern" regexp enables MajorCool to identify list members even if
+# they may be subscribed with multiple addresses.
+#
+sub siteaddr {
+	local($target) = @_;
+	# weed out bogus attempts
+	&send_error("'$target' is not a valid e-mail address.")
+		unless &valid_addr($target);
+	#
+	# valid_addr() only checks for filenames, pipes, -args, and
+	# other potential mail security problems. It does nothing to
+	# prevent syntactially incorrect addresses from being used. If
+	# you want to do a little more checking, consider using this
+	# regexp contributed by <karsten@zora.nadir.org> to check
+	# for user@host.dom.ain address formats. Or invent your own.
+	#
+	# $target =~
+	#   /([\w-\.]+)@(([\w-\.]+\.)?[a-z]([\w-]{0,62}[\w])\.([a-z]){2,3})$/i;
+	# &send_error("$target is not a valid e-mail address.")
+	#	unless $1 && $2;
+	#
+        local($lhs,@rhs) = split(/[!%@]/, $target);
+        &send_error("'$target' is not a valid e-mail address.")
+                unless $lhs ne "" && $#rhs >= 0;
+	return ($target, $target, "");
+}
+
+#-----------------------------------------------------------------------------
+# by_siteaddr()
+#
+# Function should return {-1,0,+1} depending on the comparison of the
+# two array elements.
+#
+sub by_siteaddr {
+	$a cmp $b;
+}
+
+1;	# keep require happy
+

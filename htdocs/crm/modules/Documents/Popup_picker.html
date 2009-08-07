@@ -1,0 +1,173 @@
+<!--
+/*
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ */
+-->
+<!-- $Id: Popup_picker.html,v 1.6 2006/08/18 23:48:09 ajay Exp $ -->
+<!-- BEGIN: main -->
+<!-- BEGIN: SearchHeader -->
+<script type="text/javascript" src="include/JSON.js?s={SUGAR_VERSION}&c={JS_CUSTOM_VERSION}"></script>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tabForm">
+<tr>
+<td>
+<form action="index.php" method="post" name="popup_query_form" id="popup_query_form">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+<td class="dataLabel" nowrap="nowrap">{MOD.LBL_DOC_NAME}</td>
+<td class="dataField" nowrap="nowrap"><input type="text" name="document_name" class="dataField" size="10" value="{DOCUMENT_NAME}"/></td>
+<td class="dataLabel" nowrap="nowrap">{MOD.LBL_DET_IS_TEMPLATE}</td>
+<td class="dataField" nowrap="nowrap"><select name="is_template" class="dataField" >{IS_TEMPLATE_OPTIONS}</select></td>
+</tr>
+<tr>
+<td class="dataLabel" nowrap="nowrap">{MOD.LBL_DET_TEMPLATE_TYPE}</td>
+<td class="dataField" nowrap="nowrap"><select name="template_type" class="dataField" >{TEMPLATE_TYPE_OPTIONS}</select></td>
+<td class="dataLabel" nowrap="nowrap">{MOD.LBL_CATEGORY_VALUE}</td>
+<td class="dataField" nowrap="nowrap"><select name="category_id" class="dataField" >{CATEGORY_OPTIONS}</select></td>
+</tr>
+<tr>
+<td class="dataLabel" nowrap="nowrap">{MOD.LBL_SUBCATEGORY_VALUE}</td>
+<td class="dataField" nowrap="nowrap"><select name="subcategory_id" class="dataField" >{SUB_CATEGORY_OPTIONS}</select></td>
+<td align="right" colspan=2>
+<input type="hidden" name="module" value="{MODULE_NAME}" />
+<input type="hidden" name="action" value="Popup" />
+<input type="hidden" name="query" value="true" />
+<input type="hidden" name="func_name" value="" />
+<input type="hidden" name="request_data" value="{request_data}" />
+<input type="hidden" name="populate_parent" value="false" />
+<input type="hidden" name="record_id" value="" />
+<input type="submit" name="button" class="button"
+	title="{APP.LBL_SEARCH_BUTTON_TITLE}"
+	accessKey="{APP.LBL_SEARCH_BUTTON_KEY}"
+	value="{APP.LBL_SEARCH_BUTTON_LABEL}" />
+</td>
+</tr>
+</table>
+</form>
+</td>
+</tr>
+</table>
+<!-- BEGIN: TreeView -->
+<script type="text/javascript" src="include/javascript/popup_helper.js?s={SUGAR_VERSION}&c={JS_CUSTOM_VERSION}"></script>
+<script type='text/javascript' src='include/javascript/yui/connection.js'></script>
+{SITEURL}
+{TREEHEADER}
+{SET_RETURN_JS}
+<script>
+function select_document(treeid) {
+	var node=YAHOO.namespace(treeid).selectednode;
+	send_back('Documents',node.data.id);
+}
+
+function populate_parent_search(treeid) {
+	var node=YAHOO.namespace(treeid).selectednode;
+	var category_id_basic=window.opener.document.getElementById('category_id_basic');
+	var subcategory_id_basic=window.opener.document.getElementById('subcategory_id_basic');
+	var category_id=window.opener.document.getElementById('category_id');
+	var subcategory_id=window.opener.document.getElementById('subcategory_id');
+	
+	if (node.depth==1) {
+		new_subcategory_id=node.data.id;
+		if (new_subcategory_id == 'null') new_subcategory_id='';
+		new_category_id=node.parent.data.id;
+		if (new_category_id == 'null') new_category_id='';
+	} else {
+		new_category_id=node.data.id;
+		if (new_category_id == 'null') new_category_id='';
+		new_subcategory_id='';	
+	}
+	if (category_id_basic != null) category_id_basic.value=new_category_id;
+	if (category_id != null) category_id.value=new_category_id;
+	if (subcategory_id_basic != null) subcategory_id_basic.value=new_subcategory_id;
+	if (subcategory_id != null) subcategory_id.value=new_subcategory_id;
+
+	window.close();
+}
+
+function populate_search(treeid) {
+	var node=YAHOO.namespace(treeid).selectednode;
+
+	if (node.depth==1) {
+		new_subcategory_id=node.data.id;
+		if (new_subcategory_id == 'null') new_subcategory_id='';
+		new_category_id=node.parent.data.id;
+		if (new_category_id == 'null') new_category_id='';
+	} else {
+		new_category_id=node.data.id;
+		if (new_category_id == 'null') new_category_id='';
+		new_subcategory_id='';	
+	}
+
+	document.popup_query_form.subcategory_id.value=new_subcategory_id;
+	document.popup_query_form.category_id.value=new_category_id;
+	
+	document.popup_query_form.submit();
+}
+</script>
+
+<table cellpadding="0" cellspacing="0" style="border-left:1px solid; border-right:1px solid; border-bottom:1px solid" width="100%" class="tabForm">
+
+<tr>
+	<td width="100%" valign="top" style="border-right: 1px">
+		<div id="doctree">
+			{TREEINSTANCE}
+		</div>
+	</td>
+</tr>
+</table>
+<!-- END: TreeView -->
+
+<script type="text/javascript">
+<!--
+/* initialize the popup request from the parent */
+
+if(window.document.forms['popup_query_form'].request_data.value == "")
+{
+	window.document.forms['popup_query_form'].request_data.value
+		= JSON.stringify(window.opener.get_popup_request_data());
+}
+-->
+</script>
+
+<!-- END: SearchHeader -->
+<table cellpadding="0" cellspacing="0" width="100%" border="0" class="listView">
+<!-- BEGIN: list_nav_row -->
+{PAGINATION}
+<!-- END: list_nav_row -->
+<tr height="20" class="listViewThS1">
+<td scope="col" width="33%" class="listViewThS1" nowrap="nowrap"><a href="{ORDER_BY}document_name" class="listViewThLinkS1">{MOD.LBL_LIST_DOCUMENT}{arrow_start}{name_arrow}{arrow_end}</a></td>
+<td scope="col" width="33%" class="listViewThS1" nowrap="nowrap">{MOD.LBL_LIST_REVISION}</td>
+<td scope="col" width="34%" class="listViewThS1" nowrap="nowrap">{MOD.LBL_LIST_STATUS}</td>
+</tr>
+<!-- BEGIN: row -->
+<tr height="20"
+	onmouseover="setPointer(this, '{DOCUMENT.ID}', 'over', '{BG_COLOR}', '{BG_HILITE}', '{BG_CLICK}');"
+	onmouseout="setPointer(this, '{DOCUMENT.ID}', 'out', '{BG_COLOR}', '{BG_HILITE}', '{BG_CLICK}');"
+	onmousedown="setPointer(this, '{DOCUMENT.ID}', 'click', '{BG_COLOR}', '{BG_HILITE}', '{BG_CLICK}');">
+<td scope="row" valign="top" class="{ROW_COLOR}S1" bgcolor="{BG_COLOR}"><a href="#" onclick="send_back('Documents','{DOCUMENT.ID}');" class="listViewTdLinkS1">{DOCUMENT.DOCUMENT_NAME}</a></td>
+<td valign="top" class="{ROW_COLOR}S1" bgcolor="{BG_COLOR}">{DOCUMENT.LATEST_REVISION}</td>
+<td valign="top" class="{ROW_COLOR}S1" bgcolor="{BG_COLOR}">{DOCUMENT.STATUS_ID}</td>
+</tr>
+<tr><td colspan="20" class="listViewHRS1"></td></tr>
+<!-- END: row -->
+</table>
+{ASSOCIATED_JAVASCRIPT_DATA}
+<!-- END: main -->

@@ -1,0 +1,1 @@
+|a:5:{s:14:"derivativePath";s:80:"/home/virtual/site12/fst/var/www/html/gallery/g2data/cache/derivative/0/7/71.dat";s:14:"derivativeType";i:1;s:8:"mimeType";s:10:"image/jpeg";s:8:"parentId";i:70;s:14:"pseudoFileName";s:31:"pictures-huskavarna-etc 052.jpg";}

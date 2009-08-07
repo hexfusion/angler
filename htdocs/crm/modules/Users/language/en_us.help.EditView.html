@@ -1,0 +1,59 @@
+<!--
+
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+
+/*********************************************************************************
+ * $Id: en_us.help.EditView.html,v 1.6 2006/08/22 23:25:28 awu Exp $
+ ********************************************************************************/
+
+-->
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<h1>Users</h1>
+<p> Use this page to view or update your information and settings such as name, address, locale settings, and email options. Administrators can also create user records for new employees.
+
+<p>Enter or update information in the following fields:</p>
+<ul>
+<li>In the top sub-panel, enter the user name, the login name and password, and the user status.
+<li>In the User Settings sub-panel, select the appropriate box to specify whether the user is an administrator, a group user, or a portal-only user. You can also specify whether the system should send an email notification to the user when a record is assigned to that person. The system displays the default values for the date and time format, the time zone, and currency values as specified on the System Settings page. However, you can change these values for individual users if necessary. You can also specify automatic reminders for upcoming meetings and calls. If the user has access to the Sugar Plug-in for Microsoft Word, you can enable the Mail Merge option.
+<li>In the Locale Settings sub-panel, specify the default settings for date, time, currency, and saluation formats.
+<li>In the User Information sub-panel, specify the user's employee status, title, department, phone numbers, IM (Instant Messenger) type and ID. You can add comments in the Notes field, if necessary.
+<li>In the Address Information sub-panel, specify the user's home address.
+<li>In the Calendar Options sub-panel, you can enter a Publish Key to prevent others from publishing the user's calendar without authorization. 
+<li>In the Layout Options sub-panel, you can limit access to Sugar modules by granting the user access only to specific modules, depending on the tasks that the user needs to perform. By default, the user has access to all the modules. To hide a module from the user's view, move the module tab to the Hide Tabs list using the Arrow buttons. Similarly, to display a module to a user, move it from the Hide Tabs list to the Display Tabs list.<br>
+To apply these settings to all users, move the modules from the Hide Tabs list to the Remove Tabs list. To move up a module, select the module in the Display Tabs list and click the up arrow; to move down the module, click the down arrow.
+In the Number of Tabs field, specify the maximum number of module tabs to display.
+<li>In the Email Options sub-panel, enter the user's email addresses, the user name and address that displays in outbound emails. You can also create or select an existing signature for the user. You can also choose to display email counts.
+<li>In the Outbound Email Settings sub-panel, select the mail transfer agent for the user's outbound emails. You can choose either Sendmail or SMTP.
+<li>In the Inbound Email Settings sub-panel, you can specify Mail Server information such as its address, protocol, port number, status, user name and password. To ensure that the settings are accurate, click <span class="helpButton">Test Settings</span>.
+<li>Click <span class="helpButton">Show Advanced</span> to set the following options:
+<li><span class="helpButton">Use SSL</span>. Select this box to use Secure Socket Layer (SSL) when connecting to the mail server. 
+<li><span class="helpButton">Leave Messages on Server</span>. Select this box to save your inbound messages on the email server instead of the Sugar server.
+<li><span class="helpButton">Import only since last check</span>. Select this box to instruct the system to import only email messages that are new since the last time you checked for messages. 
+Selecting this option could slow down performance because the server will check every message to ensure that you have not already read it.
+</ul>
+<p>To create the user, click <span class="helpButton">Save</span>; click <span class="helpButton">Cancel</span> to exit the page without saving your changes.
+<p>To change the user password, click <span class="helpButton">Change Password</span>, enter the new password, and save it.

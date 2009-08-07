@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>COOLjsTree Standard 2.8.7</title>
+		<style type="text/css">
+body, html {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	background-color: white;
+}
+
+h2 {
+	margin: 19px 0;
+	font: italic bold 11pt arial;
+	color: #1B7389;
+}
+
+h3 {
+	margin: 19px 0;
+	font: bold 10pt arial;
+	color: #1B7389;
+}
+
+h4 {
+	margin: 19px 0;
+	font: bold 9pt arial;
+	color: #1B7389;
+}
+
+h5 {
+	margin: 19px 0;
+	font: bold 9pt arial;
+	color: #1B7389;
+}
+
+table#footer {
+	height: 43px;
+}
+
+table#footer td {
+	padding-left: 217px;
+	padding-right: 0;
+	text-align: center;
+	vertical-align: middle;
+	font: 8pt tahoma;
+	color: black;
+}
+
+table#footer a, table#footer a:link, table#footer a:visited {
+	color: black;
+	text-decoration: underline;
+}
+
+table#footer a:hover, table#footer a:active {
+	color: #359595;
+	text-decoration: underline;
+}
+
+td { font-size: 8pt; }
+
+a img {
+	border: none;
+}
+
+.table {
+	width: 100%;
+	background-color: #96B3BF;
+}
+
+.table td, .table th {
+	padding: 3px 6px;
+	font: 9pt tahoma;
+}
+
+.table td {
+	border: 2px solid white;
+	background-color: white;
+}
+
+.table th {
+	font-weight: bold;
+	border: 1px solid white;
+	background-color: #D0DFDE;
+}
+
+.table .even td {
+	background-color: #F0F0F0;
+}
+
+.cntDblLeft, .cntDblRight {
+	background-repeat: no-repeat;
+}
+
+.cntDblLeft {
+	background-position: 12px 0;
+	background-image: url(Misc%20files/images/cnt-dbl-bg-left.jpg);
+}
+
+.cntDblRight {
+	background-position: 5px 0;
+	background-image: url(Misc%20files/images/cnt-dbl-bg-right.jpg);
+}
+
+.cntDblLeft div, .cntDblRight div {
+	padding-top: 0;
+	padding-bottom: 10px;
+}
+
+.cntDblLeft div {
+	padding-left: 45px;
+	padding-right: 42px;
+}
+
+.cntDblRight div {
+	padding-left: 38px;
+	padding-right: 43px;
+}
+
+.cntDblLeft div p, .cntDblRight div p {
+	margin: 11px 0;
+	/*text-align: justify;*/
+	font: 9pt arial;
+	color: black;
+}
+
+.cntDblLeft .header {
+	background: #96B3BF;
+	margin-left: 11px;
+	margin-right: 7px;
+	margin-bottom: 11px;
+}
+
+.cntDblHdrLeft {
+	background-image: url(Misc%20files/images/cnt-dbl-ttl-bg-left.gif);
+}
+
+.cntDblHdrLeft h2 {
+	left: 0;
+	margin: 0;
+	padding-left: 45px;
+	font: bold 9pt tahoma;
+	color: #065467;
+	background-image: url(Misc%20files/images/ico1.gif);
+	background-position: 19px -1px;
+	background-repeat: no-repeat;
+}
+
+.cntDblHdrRight {
+	background-image: url(Misc%20files/images/cnt-dbl-ttl-bg-right.gif);
+}
+
+.cntDblHdrRight h2 {
+	left: 0;
+	margin: 0;
+	padding-left: 38px;
+	font: bold 9pt tahoma;
+	color: #065467;
+	background-image: url(Misc%20files/images/ico1.gif);
+	background-position: 12px -1px;
+	background-repeat: no-repeat;
+}
+
+.cntFirst {
+	background-image: url(Misc%20files/images/cnt-first-bg.gif);
+}
+
+.cntFirst2 {
+	background: left top no-repeat url(Misc%20files/images/cnt-first-hdr-bg.jpg);
+}
+
+.cntFirst3 {
+	background: left bottom no-repeat url(Misc%20files/images/cnt-first-ftr-bg.gif);
+	padding: 15px 42px 8px 44px;
+}
+
+h1 {
+	margin: 19px 0;
+	font: bold 12pt arial;
+	color: #1B7389;
+}
+
+p, ul, ol, dl, dt {
+	font-size: small;
+	font-family: arial;
+	color: black;
+}
+
+p {
+	margin: 19px 0;
+	/*text-align: justify;*/
+}
+
+p.centered {
+	text-align: center;
+}
+
+ul, ol {
+	margin-top: 19px;
+	margin-bottom: 19px;
+}
+
+ul ul {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 19px;
+}
+
+a { color: #2B6F7F; }
+a.plain:visited { color: navy; }
+a.plain:hover { color: #2B6F7F; }
+
+.cntSingle {
+	border: 1px solid #1B7389;
+	margin: 0 5px 10px 9px;
+}
+
+.cntSingleInner {
+	padding: 0 37px 0 36px;
+}
+
+.cntSingle h2 {
+	left: 0;
+	margin: 1px;
+	background-color: #96B3BF;
+	font: bold 9pt tahoma;
+	color: #065467;
+	padding: 2px 0 4px 35px;
+	background-image: url(Misc%20files/images/ico1.gif);
+	background-position: 8px 1px;
+	background-repeat: no-repeat;
+}
+
+.subnavigation a {
+	color: white;
+	text-decoration: none;
+}
+
+.subnavigation a:hover, .subnavigation a:active {
+	text-decoration: underline;
+}
+
+.subnavigation a.current {
+	color: #B0EDEF;
+}
+
+.subnavigation td {
+	font: bold 7pt tahoma;
+	padding-left: 27px;
+	padding-right: 7px;
+	background-image: url(Misc%20files/images/ico1.gif);
+	background-position: 5px 2px;
+	background-repeat: no-repeat;
+}
+
+.subnavigation td.div {
+	background-image: url(Misc%20files/images/subnav-div.gif);
+	background-repeat: no-repeat;
+	background-position: 5px 0;
+	padding-left: 0;
+}
+
+#navigation div {
+	text-align: center;
+	background: url(Misc%20files/images/nav-btn-middle.gif);
+	font: bold 9pt tahoma;
+}
+
+#navigation div div {
+	background: no-repeat left top url(Misc%20files/images/nav-btn-left.gif);
+}
+
+#navigation div div div {
+	background: no-repeat right top url(Misc%20files/images/nav-btn-right.gif);
+}
+
+#navigation a {
+	color: black;
+	text-decoration: none;
+	display: block;
+	padding: 16px 12px 0 12px;
+	height: 23px;
+}
+
+#navigation div.current {
+	background-image: url(Misc%20files/images/nav-btn-middle-selected.gif);
+}
+
+#navigation div.current div {
+	background-image: url(Misc%20files/images/nav-btn-left-selected.gif);
+}
+
+#navigation div.current div div {
+	background-image: url(Misc%20files/images/nav-btn-right-selected.gif);
+}
+
+.code {
+	font: 9pt courier new;
+	padding: 10px;
+	background-color: #F0F0F0;
+	border: 1px solid #E8E8E8;
+	margin: 19px 0;
+}
+
+.code .field { color: #008000; }
+.code .string { color: #A000A0; }
+.code .comment { color: #808080; }
+.code .tag { color: #000080; }
+
+.highlighedProduct td { background-color: #E0F0F0; }
+.eula { font: 8pt tahoma; }
+div.button {
+	text-align: center;
+}
+
+.form {
+	margin-left: auto;
+	margin-right: auto;
+	width: auto;
+}
+
+.form .label {
+	background-color: #F0F0F0;
+}
+
+.form .textField {
+	background-color: #F8F8F8;
+}
+
+.form .textField input {
+	border: 1px solid silver;
+}
+
+.form .buttons {
+	text-align: center;
+}
+
+.error {
+	color: red;
+	text-align: center;
+}
+
+.testimonials p {
+	font-style: italic;
+	margin-bottom: 5px;
+	text-align: left;
+}
+
+.testimonials .sign {
+	margin-top: 0;
+	margin-bottom: 29px;
+	text-align: right;
+	font-size: 70%;
+	font-style: normal;
+}
+
+p.more {
+	padding-right: 20px;
+	font-size: 70%;
+	font-style: normal;
+	text-align: right;
+}
+
+.more a { text-decoration: none; }
+.more a:hover { text-decoration: underline; }
+
+.tip {
+	width: 300px;
+}
+
+a.hidden {
+	color: black;
+	text-decoration: none;
+	cursor: default;
+}
+
+.tip {
+	border: 1px solid #1B7389;
+	width: 300px;
+	padding: 10px;
+	background-color: #F0F0F0;
+	text-align: left;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='gray', Direction=135, Strength=3);
+}
+
+.tipShot {
+	text-align: center;
+	margin: 10px 0;
+}
+
+.purchase {
+	width: 100%;
+}
+
+.purchase td {
+	font: 9pt tahoma;
+	border-style: solid none solid none;
+	border-width: 1px 0 1px 0;
+	border-color: red;
+}
+
+.purchase td a {
+	display: block;
+	width: 100%;
+	text-decoration: none;
+}
+
+/* news */
+
+dl.news .date {
+	color: #1B7389;
+	font-size: 8pt;
+	line-height: 11pt;
+}
+
+dl.news .subject {
+	float: left;
+	color: #1B7389;
+}
+
+dl.news {
+}
+
+dl.news dt {
+	text-align: right;
+	font-weight: bold;
+	font-size: 10pt;
+	border-bottom: 1px solid #1B7389;
+	margin: 0;
+}
+
+dl.news dd {
+	margin: 0;
+}
+
+dl.news p {
+}
+
+dl.news ul {
+}
+
+.shortNews {
+	padding: 10px 15px 0 20px;
+	text-align: left;
+	font: 8pt tahoma;
+}
+
+.shortNews .date {
+	font-weight: bold;
+}
+
+.shortNews div {
+	padding: 3px 3px 12px 3px;
+	font: 8pt tahoma;
+}
+
+.navTip {
+	font: 8pt tahoma;
+	position: absolute;
+	visibility: hidden;
+	width: 440px;
+	padding: 5px 20px 0 20px;
+	text-align: center;
+	color: black;
+}
+
+.imgfix {
+	font-size: 1px;
+}
+
+.imgfix img {
+	vertical-align: bottom;
+}
+
+.copy {
+	font: 8pt tahoma;
+	color: black;
+}
+
+.copy a, .copy a:link, .copy a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+.copy a:hover, .copy a:active {
+	text-decoration: underline;
+}
+		</style>
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%" style="height: 100%;">
+			<tr valign="top">
+				<td class="imgfix" width="18" background="Misc&#32;files/images/left-bg-liquid.gif"><img src="Misc&#32;files/images/header-left-bg-popup.gif" width="18" height="46" /></td>
+				<td>
+					<div style="height: 7px; background: white repeat-x left top url(Misc%20files/images/header-bg-popup.gif);" class="imgfix"><img src="Misc&#32;files/images/b.gif" width="1" height="7" /></div>
+					<script type="text/javascript">if (document.layers) document.write('<img src="Misc&#32;files/images/b.gif" width="' + (window.innerWidth - 57) + '" height="1" />');</script>
+					<div style="padding: 8px 31px 10px 35px;"><div>
+					<h1>COOLjsTree Standard 2.8.7</h1>
+<style type="text/css">
+h2 { margin-top: 30px; }
+</style>
+
+<p>This is COOLjsTree Standard package from <a class="plain"
+href="http://javascript.cooldev.com/">JavaScript.CoolDev.Com</a>. On
+the left side you can see list of components that are included. On the
+right side there are additional products and services (some of them are
+not free).</p><table cellpadding="0" border="0" cellspacing="5" align="center" width="90%"><tr valign="top"><td width="50%"><h2>Scripts</h2>
+<ul><li><a class="plain" href="Scripts/cooltree.js">cooltree.js</a></li><li><a class="plain" href="Scripts/cooltree_tight_compression.js">cooltree_tight_compression.js</a></li></ul><h2>Documentation</h2>
+<ul><li><a class="plain" href="Documentation/Manual&#32;Reference/index.html">Introduction and Manual Reference</a></li><li><a class="plain" href="Documentation/Tree&#32;FAQ/index.html">Tree Frequently Asked Questions</a></li><li><a class="plain" href="Documentation/Common&#32;FAQ/index.html">Common Frequently Asked Questions</a></li><li><a class="plain" href="history.html">Version history</a></li></ul><p>Up to date on-line documentation is available <a class="plain" href="http://javascript.cooldev.com/doc/">here</a>.</p><h2>Samples</h2>
+<ul><li><a class="plain" href="Samples/Commented/index.html">Commented</a></li><li><a class="plain" href="Samples/Ready&#32;to&#32;use/index.html">Ready to use</a></li><li><a class="plain" href="Samples/Graphically&#32;rich/index.html">Graphically rich</a></li></ul><h2>License</h2>
+<ul><li><a class="plain" href="COOLjsTree&#32;Standard&#32;License&#32;Notice.txt">COOLjsTree Standard License Notice</a></li></ul><p>Other licensing schemes are available. Please, refer to our <a class="plain" href="http://javascript.cooldev.com/pricing.php">pricelist</a>.</p></td><td><h2>COOLjsBuilder</h2>
+<p>COOLjsBuilder is the IDE (integrated development environment) that
+allows you to easily generate configuration files for COOLjsTree Standard,
+even without knowing anything about the JavaScript. You
+just start the application and after the short learning curve (minutes)
+you have the handy and efficient tool to produce the script of any
+complexity.</p>
+
+<p>More information about builder can be found <a
+class="plain" href="http://javascript.cooldev.com/utils/builder/">here</a>.</p><h2>Support</h2>
+<p>Primary support addresses:</p>
+<ul>
+<li>general: <a href="mailto:jsinfo@cooldev.com">jsinfo@cooldev.com</a></li>
+<li>technical: <a href="mailto:jssupport@cooldev.com">jssupport@cooldev.com</a></li>
+<li>sales: <a href="mailto:jssales@cooldev.com">jssales@cooldev.com</a></li>
+</ul>
+
+<p>Also, <a class="plain" href="http://javascript.cooldev.com/forum/">on-line support
+forum</a> is available.</p>
+
+<p>More information about support can be found <a class="plain"
+href="http://javascript.cooldev.com/support.php">here</a>.</p><h2>Services</h2>
+<p>JSCD will be happy to provide you with the additional service such us
+scripts setup, customization and fine-tuning.</p>
+
+<p>More information about our services can be found <a class="plain"
+href="http://javascript.cooldev.com/services/">here</a>.</p></td></tr></table><h1></h1>
+<h1 style="text-align: center; margin-top: 80px;">You can have many more features!</h1>
+<p style="text-align: center; margin-bottom: 0;">Our <a href="http://javascript.cooldev.com/scripts/cooltree/">Professional version</a> offers many more advanced features. Here is the list with short descriptions:</p>
+
+<table cellspacing="0" cellpadding="0" width="750" align="center">
+	<tr valign="top">
+		<td width="50%" style="padding-right: 20px;">
+			<h2>Per node image customization</h2>
+			<p>You can define separate set of images for individual nodes. I.e. one of the nodes can have special document icon, or larger button image (see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/images/">demo</a> and <a href="http://javascript.cooldev.com/scripts/cooltree/demos/images2/">demo</a>).
+			<div style="text-align: center"><img src="Misc&#32;files/tree_images.gif" alt="Images" /></div>
+			</p>
+
+			<h2>Explorer-like mode</h2>
+			<p>Tree can be presented as connected set of nodes - just like in many applications with hierarchical views
+			(see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/lines/">demo</a> and <a href="http://javascript.cooldev.com/scripts/cooltree/demos/lines2/">demo</a>):
+			<div style="text-align: center"><img src="Misc&#32;files/tree_explorer_mode.gif" alt="Explorer-like tree" /></div>
+
+			<h2>Relative positioning</h2>
+			<p>Relative positioning allow you to put the tree into container like &lt;DIV&gt; or &lt;TD&gt;. This means that tree will follow the flow of design: it can be centered, left or right aligned, and also it can resize its container when needed (see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/relative/">demo</a>).</p>
+
+                        <h2>Full source code</h2>
+                        <p>Professional edition includes full uncompressed source code.</p>
+		</td>
+		<td width="50%" style="padding-left: 20px;">
+			<h2>Special style for selected node</h2>
+			<p>Selected (i.e. last clicked) node can have special CSS style and/or background color (see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/background/">demo</a> and <a href="http://javascript.cooldev.com/scripts/cooltree/demos/selected/">demo</a>).</p>
+			<div style="text-align: center"><img src="Misc&#32;files/tree_selected.gif" alt="Selected nodes" /></div>
+
+			<h2>Text wrapping</h2>
+			<p>Tree nodes can contain many lines of text, and script will wrap them correctly (see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/wrapping/">demo</a>):
+			<div style="text-align: center"><img src="Misc&#32;files/tree_wrapping.gif" alt="Wrapping" /></div>
+
+			<h2>Dynamic API</h2>
+			<p>COOLjsTree Professional can be modified on the fly (at client's side) by calling its methods. You can add, modify, and remove nodes (see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/dynamics/">demo</a>).</p>
+
+                        <h2>State in cookies</h2>
+                        <p>Tree can keep its state between pages. That means user will see tree with same expanded and selected nodes when he/she will go to another page with the same tree (see <a href="http://javascript.cooldev.com/scripts/cooltree/demos/cookies/">demo</a>).</p>
+		</td>
+	</tr>
+</table>
+
+<p style="text-align: center;">All these features are available in <a href="http://javascript.cooldev.com/scripts/cooltree/">Professional package</a> which costs only <span style="font-weight: bold; color: red;">$49!</span><br />You can <a href="http://javascript.cooldev.com/shareit.php?id=160725">place your order</a> on-line right now! Delivery is almost instant!</p>
+					</div></div>
+				</td>
+				<td class="imgfix" width="18" background="Misc&#32;files/images/right-bg-liquid.gif"><img src="Misc&#32;files/images/header-right-bg-popup.gif" width="18" height="46" /></td>
+			</tr>
+			<tr valign="bottom">
+				<td class="imgfix" width="18" background="Misc&#32;files/images/left-bg-liquid.gif"><img src="Misc&#32;files/images/footer-left-bg-liquid.gif" width="18" height="75" /></td>
+				<td>
+					<table border="0" cellspacing="0" cellpadding="0" width="100%" height="75">
+						<tr>
+							<td class="imgfix" width="204"><img src="Misc&#32;files/images/footer-corner.gif" width="204" height="75" /></td>
+							<td valign="bottom">
+								<script type="text/javascript">if (document.layers) document.write('<img src="Misc&#32;files/images/b.gif" width="' + (window.innerWidth - 261) + '" height="1" />');</script>
+								<table border="0" cellspacing="0" cellpadding="0" width="100%" height="43">
+									<tr>
+									<td align="center" background="Misc&#32;files/images/footer-bg-liquid.gif" class="copy">Copyright &copy; <a href="http://javascript.cooldev.com/">CoolDev.Com</a> 1997-2007.</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td class="imgfix" width="18" background="Misc&#32;files/images/right-bg-liquid.gif"><img src="Misc&#32;files/images/footer-right-bg-liquid.gif" width="18" height="75" /></td>
+			</tr>
+		</table>
+	</body>
+</html>

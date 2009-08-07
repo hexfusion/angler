@@ -1,0 +1,225 @@
+#~Uses the "ldapsearch" program, available on the Internet,
+#~   for name-to-address mapping. No RegExps - matches exact address only.
+#
+#+LDAPSEARCH
+#+PRIMARY_SERVER
+#+SECONDARY_SERVER
+
+# Author: Tom Moore, NCR Corporation.  
+#         Tom.Moore@DaytonOH.NCR.COM
+# Based on ncr-rolo module.
+
+# Print debugging information as comments in the HTML output.
+# Set to 1 only for module debugging
+$ldap_debug = 0;
+sub ldap_debug {
+    print "<!-- @_ -->\n" if $ldap_debug
+}
+
+#=============================================================================
+# ADDRESS LOOKUP CUSTOMIZATIONS
+#=============================================================================
+# %siteaddr is an array which defines the prompts (with suitable local
+# examples) associated with the opening form input.
+#
+# siteaddr() is an address-mapping function used to tie an address [or
+# possibly name] to a set of address regexp's. These regexp's will be
+# used to determine list membership.
+#
+# by_siteaddr() is a address-comparison function used for the sorting of
+# subscriber addresses.
+#-----------------------------------------------------------------------------
+
+%siteaddr = (
+    'prompt',"Your Name or X.500 uniqueId",
+    'browse',"<B>Enter your name or X.500 uniqueId:</B>
+            <BR>(e.g.: \"John Doe\" or \"jd239405\")",
+    'create',"<UL>
+        <LI><B>Mailing lists are for NCR business purposes only.</B>
+        </UL>",
+);
+
+#-----------------------------------------------------------------------------
+# siteaddr()
+#
+# Function should return a 3-tuple list:
+#   user:     given "real name" of user
+#   address:  preferred address of user
+#   pattern:  regexp of address patterns to match
+#
+# The "pattern" regexp enables MajorCool to identify list members even if
+# they may be subscribed with multiple addresses.
+#
+#-----------------------------------------------------------------------------
+sub siteaddr {
+    local($target) = @_;
+    local($ldapsearch) = "LDAPSEARCH";
+    #local($ldapsearch) = "/usr/lbin/ldapsearch";
+    local(@ldapservers) = ('PRIMARY_SERVER', 'SECONDARY_SERVER');
+    #local(@ldapservers) = ('wtc63.daytonoh.ncr.com', 'wtc64.daytonoh.ncr.com');
+    local($n) = 0;
+    local($filter);
+    local($last, $first);
+    local($uniqueid, $cn, $mail);
+
+    # Determine the LDAP filter to use in the inquiry
+
+    if ($target =~ /[A-Za-z][A-Za-z][0-9][0-9][0-9][0-9][0-9][0-9]/) {
+        # Target is X.500 uniqueId
+        $filter = "uniqueId=$target";
+    } else {
+	# Target is name of one form or another
+	$target =~ s/\./ /g; 	# Translate dots to spaces
+	$target =~ s/\s+/ /g; 	# Translate multiple spaces/tabs to one
+	$target =~ s/ $//; 	# Strip trailing spaces
+	if(index($target, ",") >= 0) {
+	    # Last, First ...
+	    # (surname=Last AND firstName=First) OR cn=First Last
+	    $target =~ s/, +/,/; 	# Remove spaces after comma
+            ($last, $first) = split(/,/, $target, 2);
+            $filter = "(|(&(sn=$last)(firstName=$first))(cn=$first $last))";
+	} elsif(index($target, " ") >= 0) {
+	    # First Last ...
+            ($first, $last) = split(/ /, $target, 2);
+            $filter = "(|(&(sn=$last)(firstName=$first))(cn=$first $last))";
+	} else {
+	    # Last
+	    $last = $target;
+            $filter = "(sn=$target)";
+	}
+	$filter = "(&$filter(mail=*))";	# Add mail attribute for all
+    }
+
+    # Run the LDAP search with the constructed filter.
+    # Count the returned entries and store for later use.
+
+    # Example output:
+    # ldapsearch -hwtc64 '(&(sn=moore)(firstName=tom))' cn mail
+    # uniqueId=TM124841 + cn=Tom Moore, l=Georgia, l=US, o=ATTGIS, c=US
+    # cn=Tom Moore
+    # mail=tmoore@rpspo3.AtlantaGA.ncr.com
+    #
+    # uniqueId=TM127663 + cn=Tom R Moore, l=New Jersey, l=US, o=ATTGIS, c=US
+    # cn=Tom R Moore
+    # mail=mooret@amaframp01.FraminghamMA.ncr.com
+    #
+    # uniqueId=TM131507 + cn=Tom J Moore, l=Ohio, l=US, o=ATTGIS, c=US
+    # cn=Tom J Moore
+    # mail=tm131507@rpc1220.DaytonOH.ncr.com
+
+    # Try each server in turn
+    # Filter is double quoted to allow for apostrophys in filter
+    for $server (@ldapservers) {
+        ldap_debug "$ldapsearch -h$server \"$filter\" cn mail";
+        unless(open(LDAP, "$ldapsearch -h$server \"$filter\" cn mail 2>&1 |")) {
+	    ldap_debug "Open of '$server' failed";
+	    next;
+	}
+        $n = 0;
+        $uniqueid = $cn = $mail = "";
+        while(<LDAP>) {
+	    chop;
+	    ldap_debug "line: $_";
+            if(/^uniqueId=/) {
+                # Split off first attribute=value pair and get value
+                ($avpair, $junk) = split(/ /, $_, 2);
+                ($junk, $uniqueid) = split(/=/, $avpair, 2);
+	        ldap_debug "Got uniqueId=$uniqueid";
+            } elsif(/^cn=/) {
+                ($junk, $cn) = split(/=/, $_, 2);
+	        ldap_debug "Got cn=$cn";
+            } elsif(/^mail=/) {
+                ($junk, $mail) = split(/=/, $_, 2);
+	        ldap_debug "Got mail=$mail";
+	    } elsif(/^$/) {
+	        ldap_debug "Got blank line";
+	        # End of entry - save the concatenated data
+	        if($uniqueid ne "" && $cn ne "" && $mail ne "" ) {
+	            $entries{$uniqueid} = $mail . ' ' . $cn;
+	            $n++;
+	        }
+	        $uniqueid = $cn = $mail = "";
+            }
+        }
+        # End of last entry - save the concatenated data
+        if($uniqueid ne "" && $cn ne "" && $mail ne "" ) {
+	    $entries{$uniqueid} = $mail . ' ' . $cn;
+	    $n++;
+        }
+        close(LDAP);
+	if($?) {
+            ldap_debug "Close of '$server' failed ($?)";
+	    next;
+	}
+	last;
+    }
+
+    &send_error("$n entries matched. Narrow search criteria and try again.") 
+        if $n > 100;
+    &send_error("No matching entries found for '$target'")
+	if $n == 0;
+
+    if ($n > 1) {
+        # Multiple matches. Send HTML list of entries indexed to lookup
+	# by uniqieID which will provide a unique name
+        &send_header("Matching Entries in X.500: <$target>");
+	print "$tbl_start";
+	print "<TR><TD VALIGN=TOP ALIGN=CENTER>";
+        foreach $uniqueid (sort keys(%entries)) {
+	    ($mail, $cn) = split(/ /, $entries{$uniqueid}, 2);
+            print "<A HREF='$url?action=$arg{'action'}".
+                "&siteaddr=$uniqueid".
+		"&criteria=$arg{'criteria'}".
+                "&list_match=$arg{'list_match'}".
+		"'>$mail ($cn)</A><BR>\n";
+        }
+	print "$tbl_end";
+	&send_footer();
+	&send_done();
+    }
+
+    # Found one matching entry.
+    return ($cn, "$mail", "");
+}
+
+#-----------------------------------------------------------------------------
+# by_siteaddr()
+#
+# Compare the passed variables $a and $b, returning an integer less than,
+# equal to, or greater than 0 depending on how the two elements are to 
+# be sorted.
+# DO NOT MODIFY $a or $b as they are passed by reference.
+#-----------------------------------------------------------------------------
+sub by_siteaddr {
+    #
+    # NCR employees will be subscribed to lists as:
+    #    login@host.Domain (First Last)
+    #
+    # This implementation sorts on the name portion
+    # by last name.
+    # Note that this fails on multi-word last names.
+    # The solution would be to use login@host.Domain (Last, First) but many
+    # people including myself find this unfriendly.
+    #
+
+    # Make lowercase
+    local($x) = $a; $x =~ tr/A-Z/a-z/; chop $x;
+    local($y) = $b; $y =~ tr/A-Z/a-z/; chop $y;
+
+    # Allow for address with no comment (for now)
+    # Order those last.
+    return   1 if ($x !~ /\(/ && $y =~ /\(/);
+    return  -1 if ($y !~ /\(/ && $x =~ /\(/);
+
+    # login@host.Domain (First Last) -> Last First
+    $x =~ s/.*\((.*) (.*)\)$/$2 $1/;
+    $y =~ s/.*\((.*) (.*)\)$/$2 $1/;
+    #$x =~ s/@.*//; $x =~ s/(.*)\.(.*)/$2.$1/;    # Sort ROLO by last name
+    #$y =~ s/@.*//; $y =~ s/(.*)\.(.*)/$2.$1/;
+    ldap_debug "x: $x, y: $y";
+
+    $x cmp $y;
+}
+
+1;    # keep require happy
+

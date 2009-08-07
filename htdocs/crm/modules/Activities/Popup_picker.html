@@ -1,0 +1,55 @@
+<!--
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+-->
+<!-- $Id: Popup_picker.html,v 1.7 2005/08/08 14:39:45 roger Exp $ -->
+<!-- BEGIN: history -->
+<table cellpadding="0" cellspacing="0" width="100%" border="0" class="listView">
+	<tr height="20" class="listViewThS1">
+	<td width="2%" class="listViewThS1"><img src="include/images/blank.gif" width="1" height="1" alt=""></td>
+	<td width="28%" class="listViewThS1">{MOD.LBL_LIST_SUBJECT}</td>
+	<td width="10%" class="listViewThS1">{MOD.LBL_LIST_STATUS}</td>
+	<td width="20%" class="listViewThS1">{MOD.LBL_LIST_CONTACT}</td>
+	<td width="10%" class="listViewThS1" nowrap>{MOD.LBL_LIST_DATE}</td>
+	
+	</tr>
+
+<!-- BEGIN: row -->
+<tr height="20"  onmouseover="setPointer(this, '{ACTIVITY.ID}', 'over', '{BG_COLOR}', '{BG_HILITE}', '{BG_CLICK}');" onmouseout="setPointer(this, '{ACTIVITY.ID}', 'out', '{BG_COLOR}', '{BG_HILITE}', '{BG_CLICK}');" onmousedown="setPointer(this, '{ACTIVITY.ID}', 'click', '{BG_COLOR}', '{BG_HILITE}', '{BG_CLICK}');">
+		<td nowrap valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">{ACTIVITY_MODULE_PNG}</td>
+    	<td valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">{ACTIVITY.NAME}  {ACTIVITY.ATTACHMENT}</td>
+		<td nowrap valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">{ACTIVITY.TYPE} {ACTIVITY.STATUS}</td>
+		<td valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">{ACTIVITY.CONTACT_NAME}</td>
+    	<td nowrap valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">{ACTIVITY.DATE_TYPE}<img src="include/images/blank.gif" width="3" height="1" alt="">{ACTIVITY.DATE}</td>
+
+</tr>
+<tr>
+	<td colspan="1" valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1"></td>
+	<td colspan="4" valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">
+		<table><tr><td valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1"><img src="include/images/blank.gif" width="3" height="1" alt=""></td><td valign=TOP bgcolor="{BG_COLOR}" class="{ROW_COLOR}S1">{ACTIVITY.DESCRIPTION}
+		</td></tr></table>
+	</td>
+</tr>
+<tr><td colspan="20" class="listViewHRS1"></td></tr>
+<!-- END: row -->
+</table>
+<!-- END: history -->

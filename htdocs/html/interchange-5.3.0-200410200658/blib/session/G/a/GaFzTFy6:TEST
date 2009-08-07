@@ -1,0 +1,30 @@
+{
+  'path_alias' => {},
+  'spider' => undef,
+  'superuser' => undef,
+  'last_url' => '/catalog',
+  'ohost' => 'TEST',
+  'levies' => {
+    'main' => []
+  },
+  'groups' => undef,
+  'values' => {
+    'mv_shipmode' => 'default'
+  },
+  'login_table' => undef,
+  'admin' => undef,
+  'Filter' => undef,
+  'extension' => '',
+  'browser' => undef,
+  'carts' => {
+    'main' => []
+  },
+  'scratch' => {
+    'mv_locale' => ''
+  },
+  'arg' => undef,
+  'referer' => undef,
+  'time' => 1098277828,
+  'username' => undef,
+  'id' => 'GaFzTFy6'
+}

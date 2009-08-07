@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+	<title>Demo 2: Drag and drop</title>
+	<link rel="stylesheet" href="css/demos.css" media="screen" type="text/css">
+	<style type="text/css">
+	/* CSS for the demo. CSS needed for the scripts are loaded dynamically by the scripts */
+	#mainContainer{
+		width:600px;
+		margin:0 auto;
+		margin-top:10px;
+		border:1px solid #000;
+		padding:2px;
+	}
+	
+	#capitals{
+		width:200px;
+		float:left;
+		border:1px solid #000;
+		background-color:#E2EBED;
+		padding:3px;
+		height:400px;
+	}
+	#countries{
+		width:300px;
+		float:right;
+		margin:2px;
+		height:400px;
+	}	
+	.dragableBox,.dragableBoxRight{
+		width:80px;
+		height:20px;
+		border:1px solid #000;
+		background-color:#FFF;		
+		margin-bottom:5px;
+		padding:10px;
+		font-weight:bold;
+		text-align:center;
+	}
+	div.dragableBoxRight{
+		height:65px;
+		width:110px;
+		float:left;
+		margin-right:5px;
+		padding:5px;
+		background-color:#E2EBED;
+	}
+	.dropBox{
+		width:190px;
+		border:1px solid #000;
+		background-color:#E2EBED;
+		height:400px;
+		margin-bottom:10px;
+		padding:3px;
+		overflow:auto;
+	}		
+	a{
+		color:#F00;
+	}
+		
+	.clear{
+		clear:both;
+	}
+	img{
+		border:0px;
+	}	
+	</style>	
+	<script type="text/javascript" src="js/drag-drop-custom.js"></script>
+</head>
+<body>	
+	<div id="header"><a href="/index.html"><img src="/images/heading3.gif"></a></div>
+	<div id="mainContainer">
+		<h2>Drag and drop - demo 3</h2>
+		<div class="konaBody">
+			This is an example of how you can use this script to create your own "drag'n drop applications".
+		</div>
+		<div id="capitals">
+			<p><b>Capitals</b></p>
+			<div id="dropContent">
+				<div class="dragableBox" id="box0" param1="3">Oslo</div>
+				<div class="dragableBox" id="box1">Stockholm</div>
+				<div class="dragableBox" id="box2">Washington</div>
+				<div class="dragableBox" id="box3">Copenhagen</div>
+				<div class="dragableBox" id="box4">Seoul</div>
+				<div class="dragableBox" id="box5">Rome</div>
+				<div class="dragableBox" id="box6">Madrid</div>
+			</div>
+		</div>
+		<div id="countries">
+			<div id="box105" class="dragableBoxRight">Italy</div>
+			<div id="box106" class="dragableBoxRight">Spain</div>
+			<div id="box100" class="dragableBoxRight">Norway</div>
+			<div id="box103" class="dragableBoxRight">Denmark</div>
+			<div id="box104" class="dragableBoxRight">South Korea</div>
+			<div id="box101" class="dragableBoxRight">Sweden</div>
+			<div id="box102" class="dragableBoxRight">United States</div>
+		</div>
+		<div class="clear"></div>
+		<div class="konaBody"></div>
+	</div>
+
+<div id="debug"></div>
+
+<textarea id="data" style="width:400px; height:200px;"></textarea>
+<textarea id="data2" style="width:400px; height:200px;"></textarea>
+<input type="button" onclick="showResult();" value="get results">
+<script type="text/javascript">
+
+function showResult(){
+	var data = GetData();
+	if (data=="") return;
+	document.getElementById('data').value =  GetData();
+	document.getElementById('data2').value =  CreateQuery();
+}
+function _getValue(data, name){
+	var ar = data.split("&");
+	for (var i=0; i<ar.length; i++)
+		if (ar[i].split("=")[0]==name)
+			return ar[i].split("=")[1];
+	return "";		
+}
+function CreateQuery(){
+	var qry = "";
+	var data = GetData();
+	var count = parseInt(data.split("&")[0].split("=")[1]);
+	var params = new Array("id","targetId","param1","param2");
+	for (var i=0; i<count; i++){
+		var val = [];
+		for (var j=0; j<params.length; j++)
+			val[j] = "'" + _getValue(data, params[j]+"_"+i) + "'";
+		qry += "INSERT INTO table (" + params.join(",") + ") VALUES (" + val.join(",") + ")";  
+		qry +="\n\n";
+	}	
+	return qry;
+}
+function GetData(){
+	if (SourceDraggableElements_Selected < SourceDraggableElements.length){
+		alert("Select all the capitals at first.");
+		return "";
+	};
+	var result = "count=" + SourceDraggableElements.length;
+	for (var i=0; i<SourceDraggableElements.length; i++){
+		var el = SourceDraggableElements[i];
+		for (var j in el)
+			result += "&" + j + "_" + i + "=" + el[j];
+	}	
+	
+	return result;
+}
+
+// Custom drop action for the country boxes
+function dropItems(idOfDraggedItem,targetId,x,y){
+	var targetObj = document.getElementById(targetId);	// Creating reference to target obj
+	var sourceObj = document.getElementById(idOfDraggedItem);	// Creating reference to source, i.e. dragged object
+	var ind = findSourceById(idOfDraggedItem);
+	if (ind==-1) return;
+	
+	//we return it to start position. Decrease the SourceDraggableElements_Selected
+	if (targetObj.id == "capitals") {
+		document.getElementById("dropContent").appendChild(sourceObj);	
+		SourceDraggableElements[ind].targetId = "";
+		SourceDraggableElements_Selected--;
+		sourceObj.style.backgroundColor="";
+	}
+	// drop into the countries. Increase the SourceDraggableElements_Selected.
+	if (targetObj.className == "dragableBoxRight"){
+		var color = (SourceDraggableElements[ind].greenColorId==targetId)?"#0F0":"";
+		// Set green background color for dragged object
+		sourceObj.style.backgroundColor=color;	
+		// Append	
+		targetObj.appendChild(sourceObj);	
+		//save the target it
+		SourceDraggableElements[ind].targetId = targetId;
+		SourceDraggableElements_Selected++;
+	}
+}
+
+
+// find the index of source element by the id.
+function findSourceById(id){
+	for (var i=0; i<SourceDraggableElements.length; i++)
+		if (SourceDraggableElements[i].id==id)
+			return i;
+	return -1;		
+}
+
+// Collect the source information. Every item of an array can contain any count of parameters.
+var SourceDraggableElements_Selected = 0;
+var SourceDraggableElements = new Array();
+SourceDraggableElements[0] = {
+	id : "box0",
+	greenColorId : "box100",
+	param1: "param1",
+	param2: "param2"
+}
+SourceDraggableElements[1] = {
+	id : "box1",
+	greenColorId : "box101",
+	param1: "param1",
+	param2: "param2"
+}
+SourceDraggableElements[2] = {
+	id : "box2",
+	greenColorId : "box102",
+	param1: "param1",
+	param2: "param2"
+}
+SourceDraggableElements[3] = {
+	id : "box3",
+	greenColorId : "box103",
+	param1: "param1",
+	param2: "param2"
+}
+SourceDraggableElements[4] = {
+	id : "box4",
+	greenColorId : "box104",
+	param1: "param1",
+	param2: "param2"
+}
+SourceDraggableElements[5] = {
+	id : "box5",
+	greenColorId : "box105",
+	param1: "param1",
+	param2: "param2"
+}
+SourceDraggableElements[6] = {
+	id : "box6",
+	greenColorId : "box106",
+	param1: "param1",
+	param2: "param2"
+}
+
+var dragDropObj = new DHTMLgoodies_dragDrop();	// Creating drag and drop object
+// Assigning drag events to all the source elements
+for (var i=0; i<SourceDraggableElements.length; i++)
+	dragDropObj.addSource(SourceDraggableElements[i].id,true);	
+// add target events to all the right elements
+var countries = document.getElementById("countries").getElementsByTagName("DIV");
+for (var i=0; i<countries.length; i++)
+	dragDropObj.addTarget(countries[i].id,'dropItems');	
+// also add sorce container to the target items (when we want to return container to the beginning.
+dragDropObj.addTarget("capitals",'dropItems');
+
+
+dragDropObj.init();	// Initizlizing drag and drop object
+</script>
+</body>
+</html>

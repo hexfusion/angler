@@ -1,0 +1,323 @@
+echo x - README
+sed 's/^X//' >README <<'*-*-END-of-README-*-*'
+XThe following Majordomo 1.94.4 patches help to integrate Majordomo
+Xand MajorCool (or any other Web interface for that matter) by:
+X
+Xo  Adding a $whereami_url to the majordomo.cf.
+X
+Xo  Adding '$URL' ($whereami_url) to the list of variables that
+X   RESEND can substitute in message footers, fronters, etc.
+X
+Xo  Passing a reference to $whereami_url in the list welcome message.
+X
+Xo  Implementing an "Approval Queue", whereby BOUNCE messages can be
+X   stored locally on the list server (in $TMPDIR or the per-list
+X   $filedir if available). Per-list config variables 'bounce_action'
+X   and 'bounce_text' are used to determine proper action for BOUNCE
+X   messages. A Web interface such as MajorCool can then be used to
+X   approve postings via GUI. MajorCool already supports this Approval
+X   Queue as of version 1.0.3 or later.
+X
+XCaveat: these patches are for a locally modified 1.94.4, so some
+Xmay not apply successfully (since they don't "line up" correctly).
+XBe prepared to apply these by hand!
+X
+X--
+XBill Houle
+XBill.Houle@SanDiegoCA.NCR.COM
+X
+*-*-END-of-README-*-*
+echo x - diff.config_parse.pl
+sed 's/^X//' >diff.config_parse.pl <<'*-*-END-of-diff.config_parse.pl-*-*'
+X*** src/majordomo-1.94.4/config_parse.pl	Mon Nov 10 18:09:39 1997
+X--- config_parse.pl	Wed Mar  4 11:35:18 1998
+X***************
+X*** 76,81 ****
+X  # otherwise the value is the default value for the keyword.
+X  # if the value starts with #!, the rest of the value is eval'ed
+X  %known_keys = (
+X  	'who_sort',		"no\001alpha\001rolo\001no", # sort function for 'who'
+X  	'welcome',		'yes', # send welcome msg to new subscribers
+X  	'announcements',	'yes', # send sub/unsub audits to list owner
+X--- 76,83 ----
+X  # otherwise the value is the default value for the keyword.
+X  # if the value starts with #!, the rest of the value is eval'ed
+X  %known_keys = (
+X+ 	'bounce_action',	"mail\001store\001mail+store\001mail+store",
+X+ 	'bounce_text',		"",
+X  	'who_sort',		"no\001alpha\001rolo\001no", # sort function for 'who'
+X  	'welcome',		'yes', # send welcome msg to new subscribers
+X  	'announcements',	'yes', # send sub/unsub audits to list owner
+X***************
+X*** 149,154 ****
+X  # An associative array of comments for all of the keys
+X  # The text is wrapped and filled on output.
+X  %comments = (
+X  'who_sort',
+X  "Specifies whether the subscriber list should be sorted when
+X  retrieving via a 'who' command. 'no' will not perform any sorting;
+X--- 159,176 ----
+X  # An associative array of comments for all of the keys
+X  # The text is wrapped and filled on output.
+X  %comments = (
+X+ 'bounce_action',
+X+ "One of three possible values: mail, store, mail+store.
+X+ Specifies how resend bounces are to be handled: mailed to the
+X+ approval address for header-based approval, stored on the list
+X+ server for Web-based approval, or both.",
+X+ 
+X+ 'bounce_text',
+X+ "Prepend any bounced message with this text. Useful for
+X+ providing extra how-to instructions. Warning: use of any
+X+ text here will break the 'approve' script; if you use this
+X+ tool, you should not set any text message.",
+X+ 
+X  'who_sort',
+X  "Specifies whether the subscriber list should be sorted when
+X  retrieving via a 'who' command. 'no' will not perform any sorting;
+X***************
+X*** 455,459 ****
+X	'date_intro',		'majordomo',
+X! 	'archive_dir',		'majordomo',
+X  # stuff for resend below
+X          'moderate',		'resend',
+X          'moderator',		'resend,config',
+X--- 489,496 ----
+X	'date_intro',		'majordomo',
+X+ # stuff for archive below
+X! 	'archive_dir',		'archive',
+X  # stuff for resend below
+X+ 	'bounce_action',	'resend',
+X+ 	'bounce_text',		'resend',
+X          'moderate',		'resend',
+X          'moderator',		'resend,config',
+X***************
+X*** 513,518 ****
+X--- 551,558 ----
+X  	'date_intro',		'grab_bool',
+X  	'archive_dir',		'grab_absolute_dir',
+X  # stuff for resend below
+X+ 	'bounce_action',	'grab_enum',
+X+ 	'bounce_text',		'grab_string_array',
+X          'moderate',		'grab_bool',
+X          'moderator',		'grab_word',
+X          'approve_passwd', 	'grab_word',
+X***************
+X*** 1253,1258 ****
+X--- 1293,1299 ----
+X  	$string =~ s/\$LIST/$list/g;
+X  	$string =~ s/\$VERSION/$main'majordomo_version/g;
+X  	$string =~ s/\$SENDER/$main'from/g;
+X+ 	$string =~ s/\$URL/$main'whereami_url/g;
+X  
+X  	# replace the escaped $'s
+X  	$string =~ s/\002/\$/;
+*-*-END-of-diff.config_parse.pl-*-*
+echo x - diff.majordomo
+sed 's/^X//' >diff.majordomo <<'*-*-END-of-diff.majordomo-*-*'
+X*** src/majordomo-1.94.4/majordomo	Mon Nov 10 00:12:12 1997
+X--- majordomo	Wed Feb 18 22:58:59 1998
+X***************
+X*** 1462,1469 ****
+X--- 1478,1489 ----
+X  and unsubscribe to mailing lists, and to retrieve files from list
+X  archives.
+X  
+X+ There is a Web interface for this Majordomo server available at
+X+ $whereami_url.
+X+ 
+X  You can interact with the Majordomo software by sending it commands
+X  in the body of mail messages addressed to "$whoami".
+X+ 
+X  Please do not put your commands on the subject line; Majordomo does
+X  not process commands in the subject line.
+X
+X
+*-*-END-of-diff.majordomo-*-*
+echo x - diff.resend
+sed 's/^X//' >diff.resend <<'*-*-END-of-diff.resend-*-*'
+X*** src/majordomo-1.94.4/resend	Wed Aug 27 07:59:24 1997
+X--- resend	Wed Jan 21 19:01:18 1998
+X***************
+X*** 200,205 ****
+X--- 200,212 ----
+X      die("resend: must also specify '-a passwd' if using '-A' flag");
+X  }
+X  
+X+ # where do we look for files, by default?
+X+ if (!defined($filedir)) {
+X+     $filedir = $listdir;
+X+ }
+X+ if (!defined($filedir_suffix)) {
+X+     $filedir_suffix = ".archive";
+X+ }
+X  
+X  #
+X  # These are headers to skip
+X***************
+X*** 524,529 ****
+X--- 531,564 ----
+X  	unless ($sendmail_cmd =~ /sendmail/ && $? == $EX_NOUSER);
+X  };
+X  
+X+ # clean the Approval queue also; if this came via web, the file
+X+ #   is already gone; but if it came via mail, we need to clean
+X+ #   up the web side just to be nice
+X+ #
+X+ if ($config_opts{$opt_l, 'bounce_action'} =~ /store/) {
+X+
+X+	# allow global bouncedir to be set in majordomo.cf
+X+	# if not, use the per-list archive area
+X+	#
+X+	local($bouncepre) = "${list}.bounce";
+X+	unless ($bouncedir) {
+X+		$bouncedir = "$filedir/$list$filedir_suffix";
+X+		$bouncepre = "bounce";  # list ref in directory name
+X+	}
+X+	# something is not set up right! default to TMP area
+X+	unless (-d "$bouncedir") {
+X+		$bouncedir = "$TMPDIR";
+X+		$bouncepre = "${list}.bounce";
+X+	}
+X+ 
+X+ 	# Need a suffix for filenaming. Use a 'safe' version of
+X+ 	# Message-ID, or just give up. (Can't assume pid as before
+X+ 	# because this is another process!)
+X+ 	#
+X+ 	local($id) = $message_id;
+X+ 	$id =~ s/[^\-\.\w]//g;
+X+ 	unlink("${bouncedir}/${bouncepre}.$id") 
+X+ 		if -f "${bouncedir}/${bouncepre}.$id";
+X+ }
+X+ 
+X  # Seeya.
+X  #
+X  exit(0);
+X***************
+X*** 702,707 ****
+X--- 739,748 ----
+X  	#
+X  	$reply_to = $1 if /^reply-to:\s*(.+)/i;
+X  
+X+ 	# snag message-id field 
+X+ 	#
+X+ 	$message_id = $1 if /^message-id:\s*(.+)/i;
+X+ 
+X  	# snag from line
+X  	#
+X  	if ( /^from:\s*(.+)/i ) {
+X***************
+X*** 903,915 ****
+X  
+X      &send_bounce(BOUNCE, 
+X                     (( $config_opts{$opt_l, 'moderator'} ne "") ?
+X! 		       $config_opts{$opt_l, 'moderator'} : $sender),
+X  		      "BOUNCE $opt_l\@$opt_h: $reason");
+X      
+X!     seek(IN, 0, 0);
+X!     while (<IN>) {
+X! 	print BOUNCE $_;
+X!     }
+X      close(BOUNCE);
+X      unlink(&fileglob("$TMPDIR", "^resend\.$$\."));
+X  
+X--- 936,1003 ----
+X  
+X      &send_bounce(BOUNCE, 
+X                     (( $config_opts{$opt_l, 'moderator'} ne "") ?
+X! 		       $config_opts{$opt_l, 'moderator'} : "$opt_l-approval"),
+X  		      "BOUNCE $opt_l\@$opt_h: $reason");
+X      
+X!     # set default action if it somehow gets unset
+X!     local($action) = $config_opts{$opt_l, 'bounce_action'} || "mail";
+X!     if ($action =~ /store/) {
+X! 		# Stick the posting somewhere. The archive area is best.
+X! 		# However, TMPDIR is the fallback.
+X! 		#
+X! 		$bouncedir = "$filedir/$opt_l$filedir_suffix/";
+X! 		$bouncepre = "bounce";
+X! 		if (! -d "$bouncedir") {
+X! 			$bouncedir = "$TMPDIR";
+X! 			$bouncepre = "${opt_l}.bounce";
+X! 		}
+X! 
+X! 		# Need a suffix for filenaming. Use a 'safe' version of
+X! 		# Message-ID, or else just use the process-id.
+X! 		#
+X! 		$id = $message_id;
+X! 		$id =~ s/[^\-\.\w]//g;
+X! 		$id = $$ unless $id && ! -f "${bouncedir}/${bouncepre}.$id";
+X! 
+X! 		&open_temp(STORE, "${bouncedir}/${bouncepre}.$id") ||
+X!     		&abort("resend: Can't open ${bouncedir}/${bouncepre}.$id: $!");
+X! 	}
+X! 
+X! 	# If admin has a bounce message defined, use it.
+X! 	#
+X! 	if ($config_opts{$opt_l, "bounce_text"} ne '') {
+X!     	local($text) = &config'substitute_values (
+X! 	    	$config_opts{$opt_l,"bounce_text"}, $opt_l);#';
+X!     	$text =~ s/\001|$/\n/g;
+X!     	print BOUNCE $text;
+X! 	}
+X! 	# If no message and no copy by mail, we have to say *something*.
+X! 	# (A null message is not exactly helpful.)
+X! 	#
+X! 	elsif ($config_opts{$opt_l, 'bounce_action'} !~ /mail/) {
+X! 		print BOUNCE <<"EOM";
+X! A message that was sent to '$opt_l' requires your approval.
+X! The reason for the bounce is: $reason
+X! 
+X! It has been stored on the server as '${bouncepre}.$id'.
+X! 
+X! You may use the MajorCool web interface for approval:
+X!     <$whereami_url?module=modify&list=$opt_l&view=queue>
+X! 
+X! --
+X! EOM
+X! 	}
+X! 	seek(IN, 0, 0);
+X! 	while (<IN>) {
+X! 		# Owner requested message to be saved on the server.
+X! 		print STORE $_
+X! 			if $action =~ /store/;
+X! 		# Owner requested message to be mailed.
+X! 		print BOUNCE $_
+X! 			if $action =~ /mail/;
+X! 	}
+X!     close(IN);
+X! 	close(STORE);
+X      close(BOUNCE);
+X      unlink(&fileglob("$TMPDIR", "^resend\.$$\."));
+X  
+*-*-END-of-diff.resend-*-*
+echo x - diff.sample.cf
+sed 's/^X//' >diff.sample.cf <<'*-*-END-of-diff.sample.cf-*-*'
+X*** sample.cf	Sat Nov 15 20:14:56 1997
+X--- majordomo.cf	Wed Feb 18 23:29:26 1998
+X***************
+X*** 6,13 ****
+X  
+X  # $whereami -- What machine am I running on?
+X  #
+X  $whereami = "example.com";
+X  
+X  # $whoami -- Who do users send requests to me as?
+X  #
+X  $whoami = "Majordomo\@$whereami";
+X--- 6,17 ----
+X  
+X  # $whereami -- What machine am I running on?
+X  #
+X  $whereami = "example.com";
+X  
+X+ # $whereami_url -- Where do we keep the Web interface?
+X+ #
+X+ $whereami_url = "http://$whereami/cgi-bin/majordomo";
+X+ 
+X  # $whoami -- Who do users send requests to me as?
+X  #
+X  $whoami = "Majordomo\@$whereami";
+X
+*-*-END-of-diff.sample.cf-*-*
+exit

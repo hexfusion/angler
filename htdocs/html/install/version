@@ -1,0 +1,25 @@
+#!/usr/local/bin/perl
+#
+#
+# Parse the ChangeLog file to extract the latest released version
+# number in the development 'tree'.
+#
+# NOTE: Cannot use $version out of the majorcool.cf file because it
+# may reflect an in-progress version rather than a dated release.
+# Dated release info is only in the history file.
+#
+
+@path = split('/',$0); pop(@path);
+$history = join('/',@path) . "/../ChangeLog";
+
+open(LOG, $history) || die("Cannot open $history");
+while (<LOG>) {
+	chop;
+	if (/^\w+\s+\w+\s+\d+\s+\d+:\d+:\d+/) {
+		print $version;
+		last;
+	}
+	$version = $_ if /^\d\.\d\.\d$/;
+}
+close(LOG);
+

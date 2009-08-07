@@ -1,0 +1,584 @@
+<HTML>
+<HEAD>
+<!-- =================================================================== -->
+<META HTTP-EQUIV="EXPIRES" CONTENT="Fri, 02 Feb 1996 11:04:53 PDT 1996">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<META NAME="KEYWORDS" CONTENT="MajorCool, Majordomo, Web, CGI, mailing list">
+<META NAME="DESCRIPTION" CONTENT="MajorCool is a Web interface to Majordomo. This is an installed copy; the definitive site for MajorCool info is http://ncrinfo.ncr.com/pub/contrib/unix/MajorCool/">
+<!-- =================================================================== -->
+<TITLE>MajorCool Usage</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<DIV ALIGN=CENTER>
+<TABLE WIDTH=100% BORDER=0 ALIGN=CENTER VALIGN=TOP>
+<TR>
+<TD WIDTH=520 ALIGN=CENTER VALIGN=MIDDLE>
+  <DIV ALIGN=CENTER>
+  <IMG SRC="../icons/mc_cool_banner.gif" ALT="[MajorCool]" ALIGN=MIDDLE>
+  <H3 ALIGN=CENTER>MajorCool: A Web Interface To Majordomo</H3>
+  <FONT SIZE=-1><!--META-->(This is a copy of the <I>MajorCool</I> <A HREF="http://ncrinfo.ncr.com/pub/contrib/unix/MajorCool/">master</A> documentation set)</FONT>
+  </DIV>
+</TD>
+<TD ALIGN=RIGHT VALIGN=TOP>
+  <FONT SIZE=2>
+  <A HREF="index.htm">Introduction</A><BR>
+  <B>Usage</B><BR>
+  <A HREF="prereq.htm">System&nbsp;Requirements</A><BR>
+  <A HREF="install.htm">Installation</A><BR>
+  <A HREF="config.htm">Configuration</A><BR>
+  <A HREF="future.htm">Future&nbsp;Direction</A><BR>
+  <A HREF="support.htm">Licensing,&nbsp;FAQs,&nbsp;&amp;&nbsp;Credits</A><BR>
+  </FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+<HR>
+
+<A NAME="USAGE">
+<H2>Usage</H2>
+</A>
+
+<!--BEGIN INTRO-->
+
+<P><I>MajorCool</I> is a Web interface to the <I>Majordomo</I>
+mailing list management tool. Whereas <I>Majordomo</I> is a rather
+unforgiving command-driven application that utilizes e-mail for 
+effecting changes, <I>MajorCool</I> adds a Web-based front-end
+to provide a user-friendly interface to list manager operations.
+
+<P>Rather than focusing on command syntax, <I>MajorCool</I> is
+designed around the practical activities of mailing list access
+such as browsing, modifying, creating, renaming, and deleting.
+
+<UL>
+<LI>"Browsing" is an end-user activity, allowing users to examine
+lists and change their subscriptions.
+<LI>"Modifying" is a list-owner function, enabling users to change the
+behavior of the lists that they maintain.
+<LI>"Creating", "Renaming", and "Deleting" are site-maintenance actions
+for adding new lists, changing list names, or deleting those no longer 
+in use.
+</UL>
+
+<P>Each of these modes are optional, since the site administrator
+may elect to disable support for certain modules. They are accessed
+through the URL that <I>MajorCool</I> was installed as --
+<CODE><A HREF="/cgi-bin/majordomo">/cgi-bin/majordomo</A></CODE> by
+default. In addition, multiple installations of <I>MajorCool</I> can
+be supported on the same system, each with its own unique URL. For
+instance, it is not uncommon to see the BROWSE and MODIFY modules 
+split into separate <I>MajorCool</I> installations. (If some actions 
+are unavailable in your instance of <I>MajorCool</I>, check with your
+site administrator to see if there might be alternative URLs
+available.)
+
+<P>The selection of actions is made from a menu-based interface
+(with the desired modules chosen via a button-bar), or full-screen with
+all actions visible on the main page. 
+<IMG SRC="../icons/mc_scrncap_menu.gif" ALT="Screen Capture: ButtonBar Menu"
+  WIDTH="353" HEIGHT="37" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+The display of menu- vs. full-screen is defined by a per-user Preferences
+setting. Since the menu interface is the default presentation, all 
+references to <I>MajorCool</I> actions in this guide will be shown 
+relative to menu mode.
+Pressing a menu button will take you to the appropriate module;
+the current module is indicated by a "depressed" (gray) button.
+What follows is a description of each available mode. 
+
+<!--END INTRO-->
+<!--BEGIN BROWSE-->
+
+<A NAME="BROWSE">
+<H3>
+  <IMG SRC="../icons/mc_browse_banner.gif" ALT="[BROWSE]" ALIGN=MIDDLE>
+  <A HREF="../icons/mc_scrncap_full_browse1.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_browse1.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+  <A HREF="../icons/mc_scrncap_full_browse2.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_browse2.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+  <A HREF="../icons/mc_scrncap_full_browse3.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_browse3.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+</H3>
+</A>
+
+<P>BROWSE mode is the act of viewing list information and/or changing
+subscription status to the lists served by <I>Majordomo</I>. In
+order for the browsing process to begin, the user is first queried 
+for his/her e-mail address. The user also has the option at this 
+time to limit the browsing to:
+
+<UL>
+<LI>lists currently subscribed to by the user
+<LI>lists currently unsubscribed to by the user
+<LI>list names or descriptions matching a search string
+<LI>all available lists on the server
+</UL>
+
+<P>To say that the user is prompted for an e-mail address may be an
+over-simplification, depending upon the installation. Although an
+e-mail address is required, how that address information is obtained 
+is ultimately up to the site administrator.
+<IMG SRC="../icons/mc_scrncap_browse.gif" ALT="Screen Capture: Browsing"
+  WIDTH="148" HEIGHT="129" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+<I>MajorCool</I> has the ability to query external address mapping
+functions via it's <CODE>siteaddr()</CODE> interface, so it may be that
+a particular site prompts instead for a username, letting the defined
+mapping function produce a valid e-mail address in return.
+
+<P>When the "go" button is pressed, the e-mail address (or other
+appropriate value) is processed by the defined <CODE>siteaddr()</CODE>
+function to produce an address search string. This will be used to
+compare against the addresses in the <I>Majordomo</I> lists. A set 
+of valid list-names will be displayed as a result. Since a
+<CODE>siteaddr()</CODE> function can produce an address pattern as
+well as a fixed string, the matching method allows <I>MajorCool</I> 
+to catch multiple addresses that a user might be subscribed under
+rather than just a single address as is typical for <I>Majordomo</I>.
+
+<P>If "QuickView Mode" is selected prior to invoking the BROWSE,
+list subscription tests will be disabled, thus speeding access to
+the list overview at the cost of disabling subscription changes at
+the global list level. Even when in QuickView mode, the user will 
+still have the ability to alter subscription choices at each 
+individual List Detail view.
+
+<H4>Subscribe/Unsubscribe Screen</H4>
+
+<P>If the "Find" option is used with "Exact Match" enabled, and
+assuming such a list exists, the user is taken directly to the List
+Details screen. In all other cases,
+<IMG SRC="../icons/mc_scrncap_sub.gif" ALT="Screen Capture: Subscribe Checkbox"
+  WIDTH="177" HEIGHT="64" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+the result of a BROWSE action is to display a set of list names
+(matching the selected criteria) as a table of checkboxes, list names,
+and list descriptions.  The list names are hyperlinked to allow a
+drill-down to additional list details.
+
+<P>After modifying subscription selections via checkbox, the user
+applies the changes and the submission is compared against the last
+known subscription selections. Any changes will be converted into the
+appropriate <I>Majordomo</I> '<CODE>subscribe</CODE>' or
+'<CODE>unsubscribe</CODE>' commands using the user's "primary 
+address" (as defined by the <CODE>siteaddr()</CODE> results).
+
+<P>If subscription tests were disabled via the "QuickView" option,
+there will be no checkboxes on this screen to indicate membership or
+allow the user to toggle subscriptions. Subscription changes,
+however, are available at the Details view for each list.
+
+<H4>List Details</H4>
+
+<P>Drill-down to a particular list shows additional list information
+such as the list-owner address, access to the list's <CODE>info</CODE>
+and <CODE>intro</CODE> files, list membership, and other subscriber
+details. Depending on the security restrictions of the browsed list and
+how much the site administrator "trusts" its users, selected list details
+will either be presented onscreen or returned to the user via e-mail.
+
+<P>
+<IMG SRC="../icons/mc_scrncap_toggle.gif" ALT="Screen Capture: Subscribe Toggle"
+  WIDTH="320" HEIGHT="51" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+A button is available in the Detail view to toggle subscription
+status, allowing the user to subscribe using the primary address or
+unsubscribe the current subscribed-as address.
+
+<P>
+<IMG SRC="../icons/mc_scrncap_backdoor.gif" ALT="Screen Capture: Modify Access"
+  WIDTH="198" HEIGHT="50" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+If the user browsing the the list has knowledge of the admin
+password, the Details screen also provides an entry-point into the 
+MODIFY mode for the displayed list.
+
+<P>When viewing list subscribers, if the list contains other lists as
+members ("nested lists") the entries will be shown in bold or as
+hyperlinks, depending upon current preference settings. If linked, 
+further drill-down will access the detail or subscriber screen for that
+nested list (also controlled by preferences).
+
+<!--END BROWSE-->
+<!--BEGIN MODIFY-->
+
+<A NAME="MODIFY">
+<H3>
+  <IMG SRC="../icons/mc_modify_banner.gif" ALT="[MODIFY]" ALIGN=MIDDLE>
+  <A HREF="../icons/mc_scrncap_full_modify1.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_modify1.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+  <A HREF="../icons/mc_scrncap_full_modify2.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_modify2.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+  <A HREF="../icons/mc_scrncap_full_modify3.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_modify3.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+  <A HREF="../icons/mc_scrncap_full_modify4.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_modify4.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+  <A HREF="../icons/mc_scrncap_full_modify5.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_modify5.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+</H3>
+</A>
+
+<P>The MODIFY module provides access to the list-manager functions
+for a selected list. The user is prompted for a list name (via typed
+entry or pull-down menu) and the list password. The list administrator 
+has the option of choosing to modify the:
+
+<UL>
+<LI>list configuration options
+<LI>list subscribers
+<LI>list info file
+<LI>list intro file
+<LI>list approval queue
+</UL>
+
+<P>When the "go" button is pressed, the password is validated and,
+if successful, the user is given access to one of the following list
+configuration functions:
+
+<H4>Configuration Options</H4>
+
+<P>
+<IMG SRC="../icons/mc_scrncap_confkey.gif" ALT="Screen Capture: Config Entry"
+  WIDTH="286" HEIGHT="116" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+From the CONFIGURATION OPTIONS screen, administrators can change
+configuration items such as list description, subscription policy,
+approve password, and much more. HTML buttons and other elements are
+used to simplify configuration for the beginner. <I>Majordomo</I>
+configuration option keyword entries are heavily commented, and
+<I>MajorCool</I> provides onscreen display of this field-level "help".
+
+<P>
+<IMG SRC="../icons/mc_scrncap_keywords.gif" ALT="Screen Capture: Keyword Scope"
+  WIDTH="203" HEIGHT="156" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+Admins can access a simplified set
+of list config keywords (defined by the site owner), the entire
+set of <I>Majordomo</I> keywords, or only those pertaining to a
+specific subsystem.
+
+<P>Although it is not the intent of this guide to
+provide a <I>Majordomo</I> tutorial, here are some list-management
+concepts to be aware of when configuring your list. Options in the
+<I>Majordomo</I> list configuration file control behaviors such as:
+
+<!-- This section based loosely on previous work from Walt Haas. -->
+<!-- http://medstat.med.utah.edu/medstat_ops/ Operations Manual -->
+
+<UL>
+
+<LI><U><I>Majordomo</I> Access Control</U>
+
+<DL>
+<DT><B>Subscriber Control</B>
+<DD>List owners have the ability to define who may subscribe or
+unsubscribe to their lists. Options range from wide-open (allowing
+anyone to join) to closed (where any attempt requires your
+approval).<P>
+
+<DT><B>User Access</B>
+<DD>Various areas of a list configuration can be restricted from
+public view. Access to details such as list membership and
+<CODE>info</CODE> files can be disabled, granted only to list members, 
+or completely unrestricted. List names can even be hidden from view 
+based on the originating address.<P>
+
+<DT><B>Passwords</B>
+<DD>The administrator password controls who has the ability to alter
+list characteristics. Anyone with knowledge of this password can
+make configuration changes. The approval password overrides moderation
+and other checks &amp; balances when sending mail to a list. Anyone with
+knowledge of this password can post freely to the list.<P>
+</DL>
+
+<LI><U>Posting Checks &amp; Balances</U>
+
+<DL>
+<DT><B>Moderation</B>
+<DD>The practice of having one or more persons (the moderators) read
+and approve each message addressed to the list rather than allowing
+messages to pass freely. Posting is only allowed for those who know
+the password. This allows the moderator(s) to protect the subscribers
+from accidental or inappropriate messages.<P>
+
+<DT><B>Restrict Post</B>
+<DD>Similar to moderation, restricted posting limits who can send
+mail to a list. Posting is only allowed for those whose originating
+address matches the addresses in one or more "restrict_post" lists.
+A typical configuration might be to set the "restrict_post" list to 
+the list itself in order to restrict posting to list members only. 
+This prevents non-subscribers from interjecting into a forum.<P>
+
+<DT><B>Administrivia Filtering</B>
+<DD>Refers to a very limited form of moderation. The administrivia filter
+is a subsystem that attempts to detect <I>Majordomo</I> commands or
+requests that are intended for the list manager but are often sent
+by accident to the entire list. When the administrivia filter is in
+use, it examines each message addressed to the list for the presence
+of certain trigger words (such as '<CODE>help</CODE>' or
+'<CODE>unsubscribe</CODE>)' and forwards any such message to the
+moderator for a decision as to whether the message is actually
+intended for the list. Messages that do not trigger the administrivia
+filter are sent directly to the list with no intervention.<P>
+
+</DL>
+
+<LI><U>Message Processing</U>
+
+<DL>
+<DT><B>Headers &amp; Footers</B>
+<DD><I>Majordomo</I> can modify messages as they are being sent to
+include new mail headers, message footers &amp; fronters, and
+subject modifiers.<P>
+
+<DT><B>Archiving</B> 
+<DD>The practice of keeping old mail messages that were sent to the
+list in a disk file for future reference. Archives are accessible
+via the <I>Majordomo</I> '<CODE>index</CODE>' and '<CODE>get</CODE>'
+commands.<P>
+
+<DT><B>Digesting</B>
+<DD>The process of combining multiple messages sent to the list into
+a single mail message. Some people find it more convenient to receive
+a single consolidated message than each of the messages individually.
+Many lists have a regular and a <CODE>-digest</CODE> form, allowing
+users to subscribe to whichever delivery method they prefer.<P>
+</DL>
+
+</UL>
+
+<P>When changes are made to the config file and submitted, the update
+is carried out by sending a '<CODE>newconfig</CODE>' command to
+<I>Majordomo</I>.
+
+<P>
+<IMG SRC="../icons/mc_scrncap_modify.gif" ALT="Screen Capture: Modify Other"
+  WIDTH="290" HEIGHT="106" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+Additional buttons are provided on the Options screen that will take
+the administrator to the other areas that can be modified (e.g. the list
+<CODE>intro</CODE> file or the list itself).
+
+<H4>Subscriber Administration</H4>
+
+<P>The SUBSCRIBER ADMINISTRATION screen allows the list admin 
+to view and modify the members of the list. Any changes submitted 
+are converted to the appropriate '<CODE>subscribe</CODE>' or 
+'<CODE>unsubscribe</CODE>' command and issued to <I>Majordomo</I>
+with the '<CODE>approve</CODE>' qualifier.
+
+<H4>Info File</H4>
+
+<P>The <CODE>$list.info</CODE> file is sent to all new subscribers, 
+or returned by request via the '<CODE>info</CODE>' command. Presence
+of a <CODE>$list.intro</CODE> file will override the use of the
+<CODE>$list.info</CODE> in the new subscriber greeting.
+
+<P>The INFO FILE page allows the list admin to view and modify
+this <CODE>$list.info</CODE> file. If changes are submitted, a
+'<CODE>newinfo</CODE>' command is issued to <I>Majordomo</I>.
+
+<H4>Intro File</H4>
+
+<P>The <CODE>$list.intro</CODE> file is sent to all new subscribers, 
+or returned by request via the '<CODE>intro</CODE>' command. Presence
+of a <CODE>$list.intro</CODE> file will override the use of the
+<CODE>$list.info</CODE> in the new subscriber greeting.
+
+<P>The INTRO FILE page allows the list admin to view and modify
+the <CODE>$list.intro</CODE> file. If changes are submitted, a
+'<CODE>newintro</CODE>' command is issued to <I>Majordomo</I>.
+
+<H4>Approval Queue</H4>
+
+<P>If the installed version of <I>Majordomo</I> supports it,
+<I>MajorCool</I> will also provide an APPROVAL QUEUE option. The
+"approval queue" is where <I>Majordomo</I> stores messages that were
+sent to the list but require moderator approval before posting (e.g.
+moderated lists, administrivia checks, etc).
+
+<P>Normally, these messages are returned in their entirety to the
+moderator, who must then manipulate mail headers prior to sending
+the message back to the list. <I>MajorCool</I> eliminates the need
+to play with e-mail and instead offers push-button approval via the
+Web.
+
+<P>
+<IMG SRC="../icons/mc_scrncap_approval.gif" ALT="Screen Capture: Approval Queue"
+  WIDTH="239" HEIGHT="114" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+Access to the approval queue off the main screen is via the
+<CODE>admin_pass</CODE> or the <CODE>approve_pass</CODE> password
+(this is the only operation that accepts the moderator password in
+addition to that of the list owner). Examining the queue will show
+all pending messages as identified by the sender, subject, date,
+and message-id of the mail. 
+
+<P>The administrator has the option to View or Edit the content of
+the messages prior to taking action. Such actions include approving,
+deleting, rejecting, or holding the message:
+
+<UL>
+<LI>The act of approving the message simply sends the mail on to the
+list with the appropriate <CODE>Approved:</CODE> header line added. 
+Approved messages are removed from the queue once processed.
+<LI>Deleting a message from the queue removes the file; no message is
+sent to the list, and no acknowledgement is returned to the sender.
+<LI>Rejecting a message returns the message to the sender with a
+list of possible reasons for rejection. If an explicit reason is
+needed, the moderator should add via the Edit function.
+<LI>A message left in the Hold state will remain pending in the queue 
+until another actionable operation is selected.
+</UL>
+
+<P>When editing messages in the Approval Queue, it is important to
+understand that the functionality is largely browser dependent.
+Large files, when loaded into a browser window, can be a very
+memory-intensive operation for the client.
+
+<H4>Change List Password</H4>
+
+<P>If the site administrator has so chosen, the changing of the
+list-admin password can be moved to a "safer" double-entry method
+in this form. This section is not present if the option is disabled.
+
+<P>Normally, the password change is implemented as a config file
+update via the '<CODE>newconfig</CODE>' command. However, if
+<I>MajorCool</I> detects the presence of a legacy
+<CODE>list.pass</CODE> file, the deprecated '<CODE>password</CODE>'
+command is used instead. The exception to this is if <I>MajorCool</I>
+detects the implementation of the "master password file" technique
+of <CODE>list.pass</CODE> linked to a read-only
+<CODE>MASTER.PASSWD</CODE>.
+
+<H4>Initiating A Digest</H4>
+
+<P>If the list is a digest, the owner is provided with a button to
+create a digest -- combining all unsent messages into a digested
+collection -- and sending that mail to all digest subscribers.
+
+<H4>Send Full Config</H4>
+
+<P>The final form available at the list configuration level is the
+SEND FULL CONFIG BY EMAIL which simply issues a '<CODE>config</CODE>'
+command to retrieve the current configuration file in the user's name.
+
+<!--END MODIFY-->
+<!--BEGIN CREATE-->
+
+<A NAME="CREATE">
+<H3>
+  <IMG SRC="../icons/mc_create_banner.gif" ALT="[CREATE]" ALIGN=MIDDLE>
+  <A HREF="../icons/mc_scrncap_full_create1.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_create1.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+</H3>
+</A>
+
+<P>The CREATE form is provided to allow users and
+administrators to request that a new <I>Majordomo</I> list be created.
+The user is prompted for the list name, description, admin password,
+and list owner address.  This request will be sent to the
+<CODE>Majordomo-owner</CODE> address. Alternatively (depending on the
+setting of <CODE>list_create_cmd</CODE>), the collected data can be
+passed on to an external program for more flexible and automated
+request processing.
+
+<P>The list name should consist of alphanumeric characters (a-z, 0-9),
+underscores (_), and hyphens (-). Only lowercase names are allowed,
+since <I>sendmail</I> will convert any address to lowercase prior to
+delivery.
+
+<P>The list description is a one-line text phrase to help clarify the
+purpose of the new list, since the character restrictions imposed
+on list names can often make them appear quite cryptic.
+
+<P>Every list must have a password associated with it. This password
+controls access to the list maintenance functions. No one can make any
+changes to the list (approving the addition/removal of members,
+updating the configuration, etc) without knowing the password. Do
+not pick obvious words, and if you must write it down, keep it in a
+safe place.
+
+<P>There must be an email address for the list owner. The list owner
+is the person who will have the duties of controlling any aspects of
+list operation which are not handled automatically. At the most
+basic level, these duties will include dealing with errors and mail 
+delivery failures. Depending upon the configuration of the list,
+tasks may also include such actions as moderation and administrivia
+filtering.
+
+<!--END CREATE-->
+<!--BEGIN RENAME-->
+
+<A NAME="RENAME">
+<H3>
+  <IMG SRC="../icons/mc_rename_banner.gif" ALT="[RENAME]" ALIGN=MIDDLE>
+  <A HREF="../icons/mc_scrncap_full_rename1.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_rename1.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+</H3>
+</A>
+
+<P>The RENAME form is provided to allow administrators to request
+that an existing <I>Majordomo</I> list be renamed. The user is
+prompted for the list name and admin password. This request will
+be sent to the <CODE>Majordomo-owner</CODE> address. Alternatively
+(depending on the setting of <CODE>list_rename_cmd</CODE>), the
+collected data can be passed on to an external program for more
+flexible and automated request processing.
+
+<!--END RENAME-->
+<!--BEGIN DELETE-->
+
+<A NAME="DELETE">
+<H3>
+  <IMG SRC="../icons/mc_delete_banner.gif" ALT="[DELETE]" ALIGN=MIDDLE>
+  <A HREF="../icons/mc_scrncap_full_delete1.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_delete1.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+</H3>
+</A>
+
+<P>The DELETE form is provided to allow administrators to request
+that an existing <I>Majordomo</I> list be deleted. The user is
+prompted for the list name and admin password. This request will
+be sent to the <CODE>Majordomo-owner</CODE> address. Alternatively
+(depending on the setting of <CODE>list_delete_cmd</CODE>), the
+collected data can be passed on to an external program for more
+flexible and automated request processing.
+
+<!--END DELETE-->
+<!--BEGIN PREFS-->
+
+<A NAME="PREFS">
+<H3>
+  <IMG SRC="../icons/mc_prefs_banner.gif" ALT="[PREFS]" ALIGN=MIDDLE>
+  <A HREF="../icons/mc_scrncap_full_prefs1.gif"><IMG
+    SRC="../icons/mc_scrncap_mini_prefs1.gif" 
+    ALT="[Thumbnail]" ALIGN=MIDDLE BORDER=0></A>
+</H3>
+</A>
+
+<P>
+<IMG SRC="../icons/mc_scrncap_prefs.gif" ALT="Screen Capture: Preferences"
+  WIDTH="333" HEIGHT="85" ALIGN="right" BORDER=1 VSPACE=10 HSPACE=10>
+The PREFS module is used to provide per-user Preference settings
+to all <I>MajorCool</I> users. Preferences are implemented via HTTP
+"Cookies" and are persistent across sessions. Settings are
+available to control admin keyword help, sorting options, and even
+module presentation in full-screen or menu modes.
+
+<!--END PREFS-->
+
+<HR>
+<A HREF="index.htm">[Previous: Intro]</A>
+<A HREF="prereq.htm">[Next: Requirements]</A>
+<A HREF=".">[Top: Intro]</A>
+<A HREF="..">[Home]</A>
+<A HREF="mailto:Bill.Houle@SanDiegoCA.NCR.COM">[Feedback]</A>
+
+</BODY>
+</HTML>
+

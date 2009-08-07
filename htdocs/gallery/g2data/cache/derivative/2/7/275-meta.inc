@@ -1,0 +1,1 @@
+|a:5:{s:14:"derivativePath";s:81:"/home/virtual/site12/fst/var/www/html/gallery/g2data/cache/derivative/2/7/275.dat";s:14:"derivativeType";i:1;s:8:"mimeType";s:10:"image/jpeg";s:8:"parentId";i:274;s:14:"pseudoFileName";s:30:"Trout Louts group 2008 _2_.JPG";}

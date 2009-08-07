@@ -1,0 +1,43 @@
+Global
+$grouperconf
+$grouperoptions
+
+
+##################################
+Array=$grouperconf
+
+contenttype: The MIME type for Grouper's output. This applies only when calling GrouperShow with $showit set to 1 (the default value). If you do not want Grouper to output a Content-Type header, set this to '' (blank). 
+
+groupererrors: 1 to show Grouper's error messages, 0 to surpress them. Note that this setting does not affect PHP errors. Use the following setting for that. 
+
+phperrors: -1 to leave PHP's error reporting setting where it is. Otherwise, indicate the value you desire for error reporting. When using predefined PHP constants, be not NOT to put quote marks around the values. See the PHP documentation for more details and valid values. 
+
+source: Selects the news source to search. Valid values are: 'google', 'yahoo', and for Grouper Evolution: 'feedster', 'daypop', and 'blog'. With Grouper Evolution, GrouperLoadPlugin('desired source name.php'); does the same thing. 
+
+maxitems: The maximum number of news items to display. Google's search results generally include 10 items, and at present, setting this value higher than that will not produce more results. skipdups: Skip duplicate news items based on the headline (commercial version only). This feature is not supported with Feedster and Daypop. 
+
+proxyauth: If you are using a proxy server which requires authorization and accepts "Basic" authorization, enter your credentials here as "username:password". 
+
+timeout: The number of seconds to wait during the "CONNECT" phase of setting up a TCP/IP connection before aborting the attempt to execute the search
+
+skipdups: Skip duplicate news items based on the headline (commercial version only). This feature is not supported with Feedster and Daypop. 
+
+#####################################
+$k
+$v
+$n
+$v
+$grouperoldsources
+$i
+$a
+$groupersources
+$s
+$c
+$cachefile
+$cache
+$nowtime
+$searchterms
+$outputcache
+$showit
+$fromcache
+ 

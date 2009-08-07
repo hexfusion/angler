@@ -1,0 +1,64 @@
+<!--
+
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+
+/*********************************************************************************
+ * $Id: en_us.help.EditView.html,v 1.3 2006/08/22 23:25:28 awu Exp $
+ ********************************************************************************/
+
+-->
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<h1>Role</h1>
+
+<p>Use this page to create roles and grant them access to Sugar modules.</p>
+<p>To create a role, enter the following information:</p>
+<ul>
+<li><span class="helpButton">Name</span>: Enter a name for the role.</li>
+<li><span class="helpButton">Description</span>: Enter a brief description of the role.</li>
+<li>From the table below, specify access to a module. By default, access is enabled for all modules.
+<ul>
+<li>To deny access to a module, double-click the Access field corresponding to the module, and from the drop-down list, select <span class="helpButton">Disabled</span>.
+<li>To specify end-user privileges or administrator privileges, double-click the <span class="helpShortcut">User Type</span> field; select <span class="helpButton">Normal</span> or <span class="helpButton">Admin</span> respectively.
+<li>To allow a specific privilege for a module, such as editing or deleting records, double-click the appropriate Action field corresponding to the module, and select one of the following:
+<ul>
+<li>All: allows all users of the specified user type to delete a record in the module.
+<li>Owner: allows only the record owner to delete the record.
+<li>None. Prevents all users of the specified user type from deleting records in the module.
+</ul>
+Privileges are as follows:
+<ul>
+<li>Delete: Delete records in the module. If None is selected, the Delete button is disabled on the detail page. 
+<li>Edit: Edit records in the module. If None is selected, the Edit button is disabled on the detail page. Additionally, the user cannot use the Mass Update panel to update records for the module.
+<li>Export: Export record data in the module. The Export link located at the top of List views is removed when this privilege is not available to the user.
+<li>Import: Import record data in the module. The Import link in the navigation bar does not appear when this privilege is not available.
+<li>List: List views of records in the module. The user is unable to access the module's list view when this privilege is not available.
+<li>View: View records in the module. The user is unable to access the module detail view when this privilege is not available.
+</ul>
+<p>To create the role, click <span class="helpButton">Save</span>; click <span class="helpButton">Cancel</span> to exit the page without saving your changes.</p>
+
+
+

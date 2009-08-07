@@ -1,0 +1,1 @@
+<?php function GalleryFastDownload() { return $GLOBALS['gallery']->fastDownload('derivative/0/1/18.dat', '19 Inch Brown_White House Pool.JPG', 'Wed, 08 Mar 2006 22:10:57 GMT', 'image/jpeg', 3652);} ?>

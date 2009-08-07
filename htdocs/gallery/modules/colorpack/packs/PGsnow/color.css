@@ -1,0 +1,111 @@
+/* <?php $colorpackName = $gallery->i18n('PG Snow'); ?>
+ * $Revision: 1.2 $ $Date: 2005/09/05
+ */
+
+#gallery {
+  color: #aaa !important;
+  background-color: #fff !important;
+}
+body.gallery { background-color: #fff !important; }
+
+.gcBackground1 { background-color: #f9f9f9 !important; }
+.gcBackground2 { background-color: #f4f4f4 !important; }
+
+.gcBorder1 { border-color: #eaeaea !important; }
+.gcBorder2 { border-color: #dfdfdf !important; }
+
+#gallery a { color: #888 !important; }
+#gallery a:hover { color: #222 !important; }
+#gallery a:active { color: #aaa !important; }
+
+.giSuccess { color: #190 !important; }
+.giWarning { color: #b31 !important; }
+.giError { color: #d14 !important; }
+.giInfo { color: #aaa !important; }
+.block-core-PeerList .current { color: #ccc !important; }
+
+table.gbDataTable th { background-color: #aaa !important; }
+.gbEven { background-color: #eee !important; }
+.gbOdd { background-color: #ddd !important; }
+
+input.inputTypeSubmit, input.inputTypeButton { background-color: #fff !important; }
+#gallery select { background-color: #fff !important; }
+
+
+
+.giNew, .giUpdated {
+    padding: 2px 5px 3px 5px !important;
+    border-width: 1px 1px 1px 1px !important;
+    border-style: solid !important;
+    line-height: 3.0em !important;
+    color: #ff7777 !important;
+    border-color: #bbbbbb !important;
+}
+
+.giTitle, #gallery h2, #gallery h3, #gallery h4 {
+    color: #aaa !important;
+}
+
+div.gbTabBar span {
+   background: url('tab_left.gif') no-repeat left top !important; }
+
+#gallery div.gbTabBar span span {
+    background: url('tab_right.gif') no-repeat right top !important; }
+
+#gallery div.gbTabBar span.giSelected {
+   background-image: url('tab_left_on.gif') !important; }
+
+#gallery div.gbTabBar span.giSelected span {
+    color: #888 !important;
+    background-image: url('tab_right_on.gif') !important; }
+
+	
+.gbBlock li {
+    color: #aaa !important;
+}
+
+#gsSidebar ul span {
+    color: #aaa !important;
+}
+
+
+#gallery div.gbTabBar a {
+    color: #777 !important;
+    text-decoration: none!important;
+}
+
+#gallery div.gbTabBar a:hover {
+    color: #222 !important;
+}
+
+span.bsw_ButtonDisabled {
+  color: #ddd !important;
+}
+
+.NavBorder {
+    border: 0 solid #aaa !important;
+    border-top-width: 2px !important;
+}
+
+
+.menuoff {
+    color: #a0a0a0 !important;
+}
+
+#footer a { color: #999 !important;}
+#footer a:hover { color: #444 !important;}
+
+
+.descSeparator {
+    border-color: #ddd !important;
+}
+.comments {
+  background: url('images/addcomments.gif') left center no-repeat !important;
+    width: 20px;
+    height: 20px;
+}
+
+
+.giThumbnail {
+    background-color: #000 !important;
+}

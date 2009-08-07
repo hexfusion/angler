@@ -1,0 +1,2 @@
+UserTag set-cookie          Order        name value expire domain path
+UserTag set-cookie          MapRoutine   Vend::Util::set_cookie

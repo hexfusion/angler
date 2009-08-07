@@ -1,0 +1,19 @@
+*** config_parse.pl.orig	Mon Dec 23 09:03:24 1996
+--- config_parse.pl	Tue Apr 22 08:24:02 1997
+***************
+*** 1265,1270 ****
+--- 1265,1278 ----
+  #print @config'errors;
+  #
+  
++ 
++ #Add the "owner" keyword for MajorCool
++ &main'new_keyword("owner", "", "grab_word", "address",
++         "The owner of the list. The owner will receive all
++ list errors. This keyword is required in order for
++ the list to become active.");
++ 
++ 
+  1;  # keep require happy.
+  
+  ###############################################################

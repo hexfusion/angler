@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>Five Star Review Script - Setup</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.style3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+-->
+</style>
+</head>
+
+<body>
+<p class="style3">Thank you for your purchase of the Five Star Review Script! Follow the directions below and you'll be up and running in no time. If you prefer not to mess with this yourself, <a href="http://www.review-script.com/purchase.php" target="_blank">professional installation</a> is available for a small fee. </p>
+<p class="style3"><strong>UPGRADE Script Instructions </strong></p>
+<p class="style3">If you are upgrading from version 3, go to http://www.YOUR-SITE.com/review/admin/install/upgrade_to_4.php</p>
+<p class="style3">If you are upgrading from version 4 to version 5, go to http://www.YOUR-SITE.com/review/admin/install/install5.php</p>
+<p class="style3">If you are upgrading from version 5.0 to 5.1, go to http://www.YOUR-SITE.com/review/admin/install/upgrade5to51.php<br>
+Upload all files except body.php, config.php and functions.php</p>
+<p class="style3">################################################################</p>
+<p class="style3"><strong>Installation</strong></p>
+<p class="style3">1. Upload all files in this zip to 
+  a directory on your server called &quot;review&quot;. Any directory name can 
+  be used. If a name other than review is used, be sure to change the &quot;$directory&quot; variable in config.php to reflect your change. You'll also have to edit .htaccess to make sure the correct directory is used.</p>
+<p class="style3">You  have two options to install: Manual or with the Install Script.</p>
+<p class="style3"><strong>Install Script Instructions </strong></p>
+<p class="style3">1.<a href="http://www.google.com/search?hl=en&amp;lr=&amp;rls=GGLD%2CGGLD%3A2004-26%2CGGLD%3Aen&amp;q=how+do+i+chmod%3F+ftp" target="_blank">CHMOD</a> the following files to 666: config.php, functions.php, spell_checker/personal_dictionary/personal_dictionary.txt. CHMOD the following directories to 777: /review/usercp/upload/images, /review/images/items and /review/admin/images_uploaded. </p>
+<p class="style3">2. In your web browser, go to http://www.YOUR-SITE.com/review/admin/install/install5.php.</p>
+<p class="style3">3. Follow the prompts and you're done. </p>
+<p class="style3"><strong>Manual Installation</strong> </p>
+<p class="style3">1. Create the mysql database tables. 
+  Look in the admin directory for a directory called sql. Use five_star_review_script.sql to create your mysql tables using the unix command prompt or <a href="http://www.phpmyadmin.net" target="_blank">phpMyAdmin</a>.</p>
+<p class="style3">3. Open functions.php and change 
+  the information as documented in that file to match your database access information.</p>
+<p class="style3">4. Open config.php and make appropriate 
+  changes.</p>
+<p class="style3">5.<a href="http://www.google.com/search?hl=en&amp;lr=&amp;rls=GGLD%2CGGLD%3A2004-26%2CGGLD%3Aen&amp;q=how+do+i+chmod%3F+ftp" target="_blank">CHMOD</a> the following files to 666: config.php, functions.php, spell_checker/personal_dictionary/personal_dictionary.txt. CHMOD the following directories to 777: /review/usercp/upload/images, /review/images/items and /review/admin/images_uploaded. </p>
+<p class="style3">###############################################################</p>
+<p class="style3">Next steps for either method of installation: </p>
+<p class="style3">1. If your server has a version earlier 
+  than 4.1.0 do a search and replace for the following:</p>
+<p class="style3">Replace $_POST with $HTTP_POST_VARS<br />
+  Replace $_GET with $HTTP_GET_VARS</p>
+<p class="style3">2. Open your web browser to http://www.yoursite.com/review/admin/index.php. 
+  Log in with the following information:</p>
+<p class="style3">Username - webmaster<br />
+  Password - 4tugboat</p>
+<p class="style3">After you are sure the script is 
+  working correctly, you should change the username and password for security 
+  reasons!</p>
+<p class="style3">3. 
+  Your first step will be to click on the link for &quot;Add a Category&quot; and then &quot;Add Item for Review&quot;. 
+  Enter the appropriate information.</p>
+<p class="style3">4. You should now be able to go to 
+  http://www.yoursite.com/review/demo.php and see your product listed on the page.</p>
+<p class="style3"><strong>Usage</strong></p>
+<p class="style3">When you want a product to be reviewed, 
+  you log into the admin area and click a link that reads, &quot;Add Item for 
+  Review&quot;. After you add the item, you will be given a link code to use. </p>
+<p class="style3">Then you simply hyperlink your product 
+  or item using that specific url. When a user clicks the link or hyperlinked 
+  image, they will be taken to the review page for that item. </p>
+<p class="style3">You can rename demo.php. Just be 
+  sure that the extension remains .php. You really don't even have to use the 
+  demo.php page. You can use your own page and just place a link to each of the 
+  reviews. Some other layout options include those at http://www.YOUR-SITE.com/review/layouts.php. </p>
+<p class="style3">Optionally, you can have the review inserted into any php page but you must
+  append the item_id to the end of the url. For example, I have a page called
+  review_insert_sample.php and I want the reviews to appear for item_id number
+  11. This is how I would link to the page:</p>
+<p class="style3">http://www.review-script.com/review_insert_sample.php?item_id=11</p>
+<p class="style3">Must be a php page. Add a question mark after php, an equal sign and then
+  the item_id of the product you want on the page. Then insert the following
+  code into the page where you want the review to appear. </p>
+<p class="style3">&lt;?<br />
+  //if you're including this file in a directory other than the directory
+  that review_insert.php is in, you must put the full path below or the script
+  won't know where to find it.<br />
+  include (&quot;review_insert.php&quot;);<br />
+  ?&gt;</p>
+<p class="style3">&nbsp;</p>
+<p class="style3"><strong>Changing Appearance</strong></p>
+<p class="style3">Open the file named body.php. It 
+  is divided into two parts...the header or top of your page and the footer or 
+  the bottom of your page. This can and should be edited to match the appearance 
+  of your site.</p>
+<p class="style3">You can get more info <a href="http://www.review-script.com/forum/showthread.php?t=337">here</a> on editing body.php.</p>
+<p class="style3">If you have questions please post 
+  them on the forum at <a href="http://www.review-script.com/forum/">http://www.review-script.com/forum/</a></p>
+<p class="style3">&nbsp;</p>
+<p class="style3">We charge for installations, so please 
+  do not contact us unless you have checked all of the items above and are willing 
+  to pay the standard installation fee as posted on our web site. The standard 
+  installation fee is for standard installations that take less than one hour. 
+  Installations that take longer than one hour due to non-standard server setups, 
+  server misconfigurations, or for any other reason will incur additional fees.</p>
+</body>
+</html>

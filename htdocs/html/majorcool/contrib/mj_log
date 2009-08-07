@@ -1,0 +1,56 @@
+#!/usr/local/bin/perl
+#
+
+# Before doing anything else tell the world I am majordomo
+# The mj_ prefix is reserved for tools that are part of majordomo proper.
+$main'program_name = 'mj_log';
+
+# parse for config file or default list
+$cf = $ENV{"MAJORDOMO_CF"} || "/etc/majordomo.cf"; 
+if ($ARGV[0] eq "-C") {
+        $cf = $ARGV[1];
+        shift(@ARGV); 
+        shift(@ARGV); 
+}
+
+# Read and execute the .cf file
+die("$cf not readable; stopped") unless -r $cf;
+die("require of majordomo.cf failed $@") unless require $cf;
+
+# Go to the home directory specified by the .cf file
+chdir("$homedir");
+
+# All these should be in the standard PERL library
+unshift(@INC, $homedir);
+require "ctime.pl";		# To get MoY definitions for month abbrevs
+require "majordomo_version.pl";	# What version of Majordomo is this?
+require "majordomo.pl";		# all sorts of general-purpose Majordomo subs
+require "shlock.pl";		# NNTP-style file locking
+require "config_parse.pl";	# functions to parse the config files
+
+# Here's where the fun begins...
+
+# check to see if the cf file is valid
+die("listdir not defined. Is majordomo.cf being included correctly?")
+    if !defined($listdir);
+
+# who do we send the body to if we step on a landmine?
+# where do we look for files, by default?
+if (!defined($filedir)) {
+    $filedir = $listdir;
+}
+if (!defined($filedir_suffix)) {
+    $filedir_suffix = ".archive";
+}
+
+#----------------------------------------------------------------------------
+
+$list = $ARGV[0];
+
+if (open(LOG, ">$listdir/$list.last")) {        # per-alias log file
+        $line = <STDIN>;                        # get first line of mail
+        print LOG $line;                        # print From_ line (w/date)
+        close(LOG);                             # done with log
+}                                               # simple, eh?
+exit 0;                                         # always exit quietly
+

@@ -1,0 +1,12 @@
+var TREE_NODES = [
+	['Yahoo!', 'http://www.yahoo.com', null,
+		['Finance', 'http://finance.yahoo.com', null],
+		['Weather', 'http://weather.yahoo.com', null]
+	],
+	['JSCD', 'http://javascript.cooldev.com', null,
+		['COOLjsTree', 'http://javascript.cooldev.com/scripts/cooltree/', null],
+		['COOLjsTree Professional', 'http://javascript.cooldev.com/scripts/cooltreepro/', null],
+		['COOLjsMenu', 'http://javascript.cooldev.com/scripts/coolmenu/', null],
+		['COOLjsMenu Professional', 'http://javascript.cooldev.com/scripts/coolmenupro/', null]
+	]
+];

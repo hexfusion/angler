@@ -1,0 +1,1 @@
+<?php function GalleryFastDownload() { return $GLOBALS['gallery']->fastDownload('derivative/0/8/80.dat', 'My big brown #3 22_5 inches 5_18_06 on the D.JPG', 'Tue, 23 May 2006 16:11:49 GMT', 'image/jpeg', 3490);} ?>

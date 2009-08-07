@@ -1,0 +1,263 @@
+#~Uses the "rolo" program for name-to-address mapping.
+#~   Matches all ROLO name formats. Assumes sandiegoca/elsegundoca dual
+#~   local domain. RegExp used only on ROLO match.
+#
+#+ROLOPROGRAM
+
+#=============================================================================
+# ADDRESS LOOKUP CUSTOMIZATIONS
+#=============================================================================
+# %siteaddr is an array which defines the prompts (with suitable local
+# examples) associated with the opening form input.
+#
+# siteaddr() is an address-mapping function used to tie an address [or
+# possibly name] to a set of address regexp's. These regexp's will be
+# used to determine list membership.
+#
+# by_siteaddr() is a address-comparison function used for the sorting of
+# subscriber addresses.
+#-----------------------------------------------------------------------------
+
+%siteaddr = (
+	'prompt',
+		"Your Name or E-Mail Address",
+	'browse',
+		"<UL>
+    		<LI><B>$sitename users should enter their real name.</B>
+       		<BR>(e.g.: \"John Doe\")
+    		<LI><B>Non $sitename users should use their e-mail address.</B>
+       		<BR>(e.g.: \"John.Doe\@CityST.NCR.COM\")
+    		</UL>",
+	'create',
+		"<UL>
+		<LI><B>List names must be lower-case, although any manner
+		of mixed- or upper-case can be used when sending mail.</B>
+            	<LI><B>Mailing lists are for NCR business purposes only.</B>
+		<LI><B>You may find these list suffix conventions useful:</B>
+		  <UL>
+		  <LI>-org, -dept, -group, -team (directorate-level and down)
+		  <LI>-announce (low-volume, announcements only)
+		  <LI>-sig (Special Interest Group)
+		  </UL>
+		<LI><B>The list <I>description</I> is a title to help
+		users identify the purpose of a list.</B>
+            	</UL>",
+	'rename',
+		"<UL>
+		<LI><B>The list and all supporting files will be renamed.</B>
+		<LI><B>The contents of each file -- <U>including passwords</U>
+		    -- will be processed accordingly.</B>
+            	</UL>",
+);
+
+#-----------------------------------------------------------------------------
+# siteaddr()
+#
+# Function should return a 3-tuple list:
+#   user:     given "real name" of user
+#   address:  preferred address of user
+#   pattern:  regexp of address patterns to match
+#
+# The "pattern" regexp enables MajorCool to identify list members even if
+# they may be subscribed with multiple addresses.
+#
+#-----------------------------------------------------------------------------
+sub siteaddr {
+	local($target) = @_;
+	#
+	# NCR employees may be subscribed to lists as:
+	#	First.Last
+	#	First.Last@Domain
+	#	login@Domain
+	#	login@host.Domain
+	#
+	# This implementation example uses a 'ROLO' tool to map
+	# real "First Last" names to addresses. 'ROLO' can accept
+	# partial names and supply a list of matching candidates
+	# (thus the embedded HTML & recursive links).
+	#
+	local($rolo) = "ROLOPROGRAM";
+	local($n,@matches);
+
+	&send_error("No Name Or E-Mail Address Entered.") unless $target;
+
+	# Target is Email address
+	if ($target =~ /\@/) {
+		# weed out bogus attempts
+		&send_error("<$target> Is Not A Valid E-Mail Address.")
+			unless &valid_addr($target);
+		# Outside the domain -- no look-up possible
+		return ($target, $target, "") unless
+			($target =~ /sandiegoca\.ncr\.com/i ||
+			 $target =~ /elsegundoca\.ncr\.com/i);
+
+		# Inside the domain -- try to convert to real name
+		local($search);
+		local($user) = $target;
+		$user =~ s/^([^\@]+)\@.+$/$1/;	# strip host.domain qualifier
+		$search = "-l email $user\@";
+		$search = "-l name  $user" if $user =~ m/\./;
+		@matches = split(/\n/, `$rolo $search -p name 2>/dev/null`);
+		$n = @matches;
+		&send_error("User-id <$target> Not Found Within The".
+			" $sitename ROLODEX:", @matches,
+			"Try Again Using Your Real Name.") if $n < 1;
+		&send_error("User-id <$target> Is Not Unique Within The".
+			" $sitename ROLODEX:", @matches,
+			"Try Again Using Your Real Name.") if $n > 1;
+		# Now we have a real name!
+		#   We should either use the FQDN address format
+		#return ($user, $target, "^$user\$|^$target\$");
+		#   Or use the friendly name and build a better regexp
+		$target = $matches[0];
+	}
+
+	$target =~ s/\([^\)]*\)//g;		# remove nickname in ()
+	$target =~ s/\"//g;			# no quotes
+	$target =~ s/ +/./g; 			# change spaces to .
+	$target =~ s/\.+/./g;			# Bob.W..Smith --> Bob.W.Smith
+
+	# match exactly if possible
+	@matches = split(/\n/, `$rolo -u -n "$target" -p name 2>/dev/null`); 
+	$n = @matches;
+	goto ROLO_MATCH if $n == 1;		# we have a winner!
+
+	ROLO_SEARCH:
+	# match loosely and offer choice
+	@matches = split(/\n/, `$rolo -n "$target" -p name 2>/dev/null`); 
+	$n = @matches;
+
+	&send_error("$n Matches Found. Narrow Search Criteria And Try Again.") 
+		if $n > 50;
+	&send_error("No Matching Entries For <$target> Found".
+		" In The $sitename ROLODEX.") if $n == 0;
+
+	if ($n > 1) {
+		# Multiple matches. Send HTML list of entries. #
+		&send_header("Matching Entries in ROLO: <$target>");
+		print "$tbl_start";
+		print "<TR><TD VALIGN=TOP ALIGN=CENTER>";
+		foreach (@matches) {
+			local($roloname) = $_;
+			s/ +/./g;		# change spaces to .
+			s/\"//g;		# no quotes
+			s/\.+/./g;		# Bob.W..Smith --> Bob.W.Smith
+			print "<A HREF=\"$url?action=$arg{'action'}".
+				"&siteaddr=$_".
+				"&criteria=$arg{'criteria'}".
+				("$arg{'list_match'}" 
+				  ? "&list_match=$arg{'list_match'}"
+				  : "").
+				"\">$roloname</A><BR>\n";
+		}
+		print "</TD></TR>";
+		print "$tbl_end";
+		&send_footer;
+		&send_done;
+	}
+	ROLO_MATCH:
+	##########################################
+	# Found one matching entry. Let's do it! #
+	##########################################
+	local($addr,$roloname,$nickname);
+	$target = $roloname = $nickname = $matches[0];
+	$roloname =~ s/\([^\)]*\)//g; 		# remove nickname in ()
+	$nickname =~ s/.*\(([^\)]*)\)/$1/g;	# isolate nickname in ()
+	# change spaces to .
+	$roloname =~ s/ +/./g;		$nickname =~ s/ +/./g;
+	# no quotes
+	$roloname =~ s/\"//g;		$nickname =~ s/\"//g;
+	# Bob.W..Smith --> Bob.W.Smith
+	$roloname =~ s/\.+/./g;		$nickname =~ s/\.+/./g;
+
+	local($fqdn,$lhs);			# save deprecated email
+	chop($fqdn = `$rolo -u -n "$roloname" -p email 2>/dev/null`);
+	&send_error("The Name <$roloname> Has No Associated Mail Address")
+		unless $fqdn;
+	$lhs = $fqdn; $lhs =~ s/(.*)\@.*/$1/;	# reduce if fqdn
+
+	# Now we start to build the regexp
+	$addr .= "^$lhs\$|";			# match login-id
+	# SD and ES have shared addressing
+	$addr .= "^$lhs\@.*sandiegoca\.ncr\.com\$|";
+	$addr .= "^$lhs\@.*elsegundoca\.ncr\.com\$|";
+
+	# Match Rolo fullname forms
+	if ($roloname ne $lhs) {
+		$addr .= "^$roloname\@?|";
+		if ($roloname =~ /'/) {
+			local($unquote) = $roloname;
+			$unquote =~ s/\'//g;
+			$addr .= "^$unquote\@?|";
+		}
+	}
+
+	# Match Rolo nickname forms
+	if ($roloname ne $nickname) {
+		$addr .= "^$nickname\@?|";
+		if ($nickname =~ /'/) {
+			local($unquote) = $nickname;
+			$unquote =~ s/\'//g;
+			$addr .= "^$unquote\@?|";
+		}
+	}
+
+	# Match Rolo middlename forms
+	#
+	# If non-middle-name'd ROLO is a unique user, then
+	# match that also. ("John.L.Smith" == "John.Smith")
+	# We can't *always* assume this to be true, since
+	# "John.L.Smith" != "John.T.Smith". Uniqueness is
+	# the key.
+	#
+	if ($roloname =~ /(\w+)\.\w+\.(\w+)/) {
+		$shrolo = "$1.$2";
+		@matches = split(/\n/,
+			`$rolo -u "$shrolo" -p name 2>/dev/null`);
+		if (@matches == 1) {
+			$addr .= "^$shrolo\@?|";
+			if ($shrolo =~ /'/) {
+				local($unquote) = $shrolo;
+				$unquote =~ s/\'//g;
+				$addr .= "^$unquote\@?|";
+			}
+		}
+	}
+
+	chop($addr);				# remove trailing |
+	# default "subscribe" address is ROLO name
+	return ($target, "$roloname", $addr);
+	# use $fqdn for router efficiency (avoids lookup)
+	#return ($target, "$fqdn ($target)", $addr);
+}
+
+#-----------------------------------------------------------------------------
+# by_siteaddr()
+#
+# Function should return {-1,0,+1} depending on the comparison of the
+# two array elements.
+#-----------------------------------------------------------------------------
+sub by_siteaddr {
+	#
+	# NCR employees may be subscribed to lists as:
+	#	First.Last
+	#	First.Last@Domain
+	#	login@Domain
+	#	login@host.Domain
+	#
+	# This implementation sorts ROLO First.Last addresses
+	# by last name, putting name@host variants last.
+	#
+	local($x) = $a; $x =~ tr/A-Z/a-z/;			# Make lower case
+	local($y) = $b; $y =~ tr/A-Z/a-z/;
+	return  1 if ($x =~ /^[\w\d-_]*\@/			# Put name@host... last
+			   && $y !~ /^[\w\d-_]*\@/);
+	return -1 if ($x !~ /^[\w\d-_]*\@/
+			   && $y =~ /^[\w\d-_]*\@/);
+	$x =~ s/\@.*//; $x =~ s/(.*)\.(.*)/$2.$1/;	# Sort ROLO by last name
+	$y =~ s/\@.*//; $y =~ s/(.*)\.(.*)/$2.$1/;
+	$x cmp $y;
+}
+
+1;	# keep require happy
+

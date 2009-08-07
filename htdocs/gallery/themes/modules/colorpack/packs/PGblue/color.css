@@ -1,0 +1,103 @@
+/* <?php $colorpackName = $gallery->i18n('PG Blue'); ?>
+ * $Revision: 1.1 $ $Date: 2005/07/12 17:34:18 $
+ */
+
+#gallery {
+  color: #000 !important;
+  background-color: #babaf8 !important;
+}
+body.gallery { background-color: #babaf8 !important; }
+
+.gcBackground1 { background-color: #aaaae8 !important; }
+.gcBackground2 { background-color: #9a9ad8 !important; }
+
+.gcBorder1 { border-color: #8888c8 !important; }
+.gcBorder2 { border-color: #5555b8 !important; }
+
+#gallery a { color: #336 !important; }
+#gallery a:hover { color: #366 !important; }
+#gallery a:active { color: #399 !important; }
+
+.giSuccess { color: #190 !important; }
+.giWarning { color: #b31 !important; }
+.giError { color: #d14 !important; }
+.giInfo { color: #658 !important; }
+.block-core-PeerList .current { color: #67b !important; }
+
+table.gbDataTable th { background-color: #9a9ad8 !important; }
+.gbEven { background-color: #babaf8 !important; }
+.gbOdd { background-color: #aaaae8 !important; }
+
+input.inputTypeSubmit, input.inputTypeButton { background-color: #cce !important; }
+#gallery select { background-color: #ddf !important; }
+
+
+.giNew, .giUpdated {
+  color: #e3dEfC !important;
+  border-color: #e3dEfC !important;
+}
+
+.giTitle, #gallery h2, #gallery h3, #gallery h4 {
+    color: #e3dEfC !important;
+}
+
+div.gbTabBar span {
+   background: url('tab_left.gif') no-repeat left top !important; }
+
+#gallery div.gbTabBar span span {
+    background: url('tab_right.gif') no-repeat right top !important; }
+
+#gallery div.gbTabBar span.giSelected {
+   background-image: url('tab_left_on.gif') !important; }
+
+#gallery div.gbTabBar span.giSelected span {
+    color: #336 !important;
+    background-image: url('tab_right_on.gif') !important; }
+	
+.gbBlock li {
+    color: #eee !important;
+}
+
+#gsSidebar ul span {
+    color: #5555b8 !important;
+}
+
+
+#gallery div.gbTabBar a {
+    color: #77a !important;
+    text-decoration: none!important;
+}
+
+#gallery div.gbTabBar a:hover {
+    color: #eee !important;
+}
+
+span.bsw_ButtonDisabled {
+  color: #669 !important;
+}
+
+.NavBorder {
+    border: 0 solid #77a !important;
+    border-top-width: 2px !important;
+}
+
+
+.menuoff {
+    color: #9a9ad8 !important;
+}
+
+
+.descSeparator {
+    border-color: #669 !important;
+}
+
+.comments {
+  background: url('images/addcomments.gif') left center no-repeat !important;
+    width: 20px;
+    height: 20px;
+}
+
+
+.giThumbnail {
+    background-color: #000 !important;
+}

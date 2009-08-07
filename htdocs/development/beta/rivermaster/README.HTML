@@ -1,0 +1,67 @@
+<html><head><title>Installing Grouper</title>
+<style type="text/css">
+.odd {
+	background:#ccc;
+}
+</style>
+</head>
+<body bgcolor="white">
+
+<div style="float:right;margin-left:8px;padding:5px;border:2px dotted #03c;background:#def;width:200px;">
+	<b>Online manual:</b><br />
+	<a href="http://www.geckotribe.com/rss/grouper/manual/configure.php">Configuration</a><br />
+	<a href="http://www.geckotribe.com/rss/grouper/manual/functions.php">Function reference</a><br />
+	<a href="http://www.geckotribe.com/rss/grouper/plugins/">Evolution Plugins</a><br /><br />
+
+	<a href="http://www.geckotribe.com/help/grouper/">Grouper Tips</a> (blog)<br />
+	<a href="http://rss.geckotribe.com/rss/10.rss">Grouper Tips</a> (RSS)
+	<hr>
+	<b>Upgrade to Grouper Evolution and get these features:</b><br />
+	&bull; Output date elements in your RSS feeds<br />
+	&bull; Convert Atom and other XML formats to RSS<br />
+	&bull; Convert blogs and other regularly formatted web pages to RSS<br />
+	&bull; Extendable using plugins<br />
+	&bull; Access Feedster and Daypop<br />
+	&bull; Omit duplicate stories
+</div>
+
+<img src="img/grouper.jpeg" width="150" height="85" style="float:left;padding-right:8px;">
+
+<span style="color:#03c;">
+<span style="font-weight:bold;font-size:150%;">Grouper: RSS generator</span><br>
+&copy; 2003-4, Gecko Tribe, LLC</span><p>
+
+<span style="font-weight:bold;font-size:125%;">Installing Grouper</span><p>
+
+To install Grouper, please do the following:
+
+<ol>
+<li>Decide where you want to put the Grouper scripts on your webserver, and create a new folder for them if necessary.<br>
+	<b>Recommendations:</b>
+	<ul>
+	<li>We recommend that the folder be named "grouper".
+		This will make it more likely that the setup assistant will be able to locate it automatically.
+		If you are going to name it "grouper", you may create it by uploading the "grouper" folder from the installation archive and its contents (see next step).</li>
+	<li>It is good security practice to install scripts like Grouper in a location that cannot be accessed directly by a web browser.
+		For example, if your web folder is located at "/home/joe/public_html", a good location to install Grouper would be "/home/joe/grouper" rather than "/home/joe/public_html/grouper".
+		<b>However, if you see an error message about "safe mode", you may need to install Grouper inside your web directory.</b></li>
+	</ul>
+	<br />
+	</li>
+<li>Upload all of the contents of the "grouper" folder from the installation archive to the location chosen in the previous step.<br />&nbsp;</li>
+<li>Upload groupersetup.php to your webserver (in a location where you'll be able to load it in your web browser).<br>
+	<b>Recommendation:</b>
+	For simplicity, we recommend uploading groupersetup.php to the web server root directory.
+	For example, if your web directory is located at "/home/joe/public_html", upload it to there.<br />&nbsp;</li>
+<li>Load groupersetup.php in your web browser.
+	For example, if you uploaded it to "/home/joe/public_html/groupersetup.php" and your website address is http://www.webhost.com/~joe/,
+		load http://www.webhost.com/~joe/groupersetup.php in your web browser.<br />&nbsp;</li>
+<li>Follow the directions that are shown in that page.<br />&nbsp;</li>
+<li>Once you have successfully completed setup, delete groupersetup.php and groupersetupinc.php from your server.<br />&nbsp;</li>
+<li>You may also delete PHPTelnet.php--it is not used by Grouper.
+	However, if you are a PHP programmer, you may find it useful.
+	See the <a href="http://www.geckotribe.com/php-telnet/">PHP Telnet homepage</a> for more information.</li>
+</ol>
+
+
+</body></html>

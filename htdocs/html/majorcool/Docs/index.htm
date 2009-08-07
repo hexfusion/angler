@@ -1,0 +1,239 @@
+<HTML>
+<HEAD>
+<!-- =================================================================== -->
+<META HTTP-EQUIV="EXPIRES" CONTENT="Fri, 02 Feb 1996 11:04:53 PDT 1996">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<META NAME="KEYWORDS" CONTENT="MajorCool, Majordomo, Web, CGI, mailing list">
+<META NAME="DESCRIPTION" CONTENT="MajorCool is a Web interface to Majordomo. This is an installed copy; the definitive site for MajorCool info is http://ncrinfo.ncr.com/pub/contrib/unix/MajorCool/">
+<!-- =================================================================== -->
+<TITLE>MajorCool Introduction</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<DIV ALIGN=CENTER>
+<TABLE WIDTH=100% BORDER=0 ALIGN=CENTER VALIGN=TOP>
+<TR>
+<TD WIDTH=520 ALIGN=CENTER VALIGN=MIDDLE>
+  <DIV ALIGN=CENTER>
+  <IMG SRC="../icons/mc_cool_banner.gif" ALT="[MajorCool]" ALIGN=MIDDLE>
+  <H3 ALIGN=CENTER>MajorCool: A Web Interface To Majordomo</H3>
+  <FONT SIZE=-1><!--META-->(This is a copy of the <I>MajorCool</I> <A HREF="http://ncrinfo.ncr.com/pub/contrib/unix/MajorCool/">master</A> documentation set)</FONT>
+  </DIV>
+</TD>
+<TD ALIGN=RIGHT VALIGN=TOP>
+  <FONT SIZE=2>
+  <B>Introduction</B><BR>
+  <A HREF="usage.htm">Usage</A><BR>
+  <A HREF="prereq.htm">System&nbsp;Requirements</A><BR>
+  <A HREF="install.htm">Installation</A><BR>
+  <A HREF="config.htm">Configuration</A><BR>
+  <A HREF="future.htm">Future&nbsp;Direction</A><BR>
+  <A HREF="support.htm">Licensing,&nbsp;FAQs,&nbsp;&amp;&nbsp;Credits</A><BR>
+  </FONT>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+<HR>
+
+<H2>Introduction</H2>
+
+<P><A HREF="http://www.greatcircle.com/majordomo/"><I>Majordomo</I></A>
+is a mailing list manager written in Perl by Brent Chapman.  Chances 
+are, anyone who has ever subscribed to an Internet mailing list has
+likely used <I>Majordomo</I> to do it. List configuration, subscription
+management, identifying the purpose of a list or who is on it, or even
+finding what lists are available are all functions easily provided by
+commands sent in e-mail to a <I>Majordomo</I> server address.
+
+<P>But as popular as <I>Majordomo</I> is, the mail-based command 
+structure can be a difficult concept for novices to grasp. In addition,
+there are numerous other opportunities for users to encounter difficulties:
+being subscribed under multiple addresses, the word-wrapping behavior of
+some mailers, and even the "delayed gratification" nature of the mail-based
+interface can often confuse users. And if end-user functions such as
+"<CODE>subscribe</CODE>" and "<CODE>unsubscribe</CODE>" are confusing,
+imagine the novice list administrator staring at a 300+ line
+configuration file that was requested (and must be returned) via
+<I>Majordomo</I> mail commands!
+
+<P>By its very nature, <I>Majordomo</I> has always lacked a GUI tool to
+help simplify its usage for inexperienced users. However, with the World
+Wide Web providing the perfect foundation, it may be an appropriate time for
+just such an application.
+
+<P><I>MajorCool</I>, written in Perl, is a Web interface for
+<I>Majordomo</I> mailing list configuration and subscriber management.
+Unlike many Web-to-mailing-list interfaces currently available,
+<I>MajorCool</I> is uniquely different:
+
+<UL>
+
+<P>
+<LI>
+<B><I>MajorCool</I> provides an <U>administrative</U> interface for list
+owners.</B> Most previous attempts to gateway between the Web and list
+managers focused only on the end-user interface for subscription
+management and list browsing. Using <I>MajorCool</I>, however, list
+owners may access many of the more common list configuration actions
+via a Web browser GUI as opposed to requesting, modifying, and
+re-submitting a <I>Majordomo</I> list configuration file via e-mail.
+Especially noteworthy is the concept of an "Approval Queue", where
+moderated list messages can be approved, rejected, and even edited via
+the Web rather than relying on <I>Majordomo</I>'s difficult scheme
+of mail header manipulation.
+
+<P>
+<LI>
+<B>Other Web interfaces are "off-line".</B> Mailing list CGIs are not
+typically run on the list manager host and instead only go so far as to 
+help to format and send an e-mail message to the remote mailing list 
+service. There is no direct resource manipulation or immediate user
+feedback for even the simplest of actions. <I>MajorCool</I>, in contrast,
+is directly tied to the <I>Majordomo</I> service and is designed to be
+co-located with the <I>Majordomo</I> program suite.  <I>MajorCool</I>
+offers users immediate notification of current status and the ability 
+to interact directly for viewing lists and their various configurations.
+
+<P>
+<LI>
+<B>The <I>MajorCool</I> interface is highly tailorable.</B> It has the
+capability to support multiple instantiations or a <I>Majordomo</I> virtual
+server setup, each with their own unique configuration. These configurations
+control access to major functions, security parameters, and a variety of
+display options.
+
+<P>
+<LI>
+<B><I>MajorCool</I> makes extensive use of the <I>Majordomo</I> library
+code.</B> All keywords, data types, default values, and comments are
+accessed via the config file API -- there are no hardcoded values or
+assumptions about file formats or configurations. Thus, any local keyword
+enhancements or customizations are automatically available to
+<I>MajorCool</I> with no additional programming required.
+
+<P>
+<LI>
+<B><I>MajorCool</I> can utilize site-specific name-to-address conversion
+tools.</B> The ability to interface to external data sources allows
+users to be associated with multiple addresses rather than relying on
+a single address comparison as <I>Majordomo</I> does. (<I>MajorCool</I>
+may also be implemented without the address mapping functionality if
+there are no data equivalencies applicable.)
+
+<P>
+<LI>
+<B><I>MajorCool</I> does not require redundant setup.</B> Other Web
+interfaces require extra administration, since adding a new list to
+<I>Majordomo</I> requires adding the list to the configuration of the Web
+interface as well. With the server co-location, lists added to 
+<I>Majordomo</I> are automatically made available to <I>MajorCool</I>.
+
+<P>
+<LI>
+<B><I>MajorCool</I> processes commands safely and without e-mail delays.</B>
+Although query actions utilize direct access to <I>Majordomo</I> files,
+modifications are implemented via messages sent to <I>Majordomo</I>. However, 
+unlike Web interfaces that interact via e-mail, <I>MajorCool</I> (running
+on the same server as <I>Majordomo</I>), sends the commands directly to the
+application. The advantages of this are two-fold. Delays incurred by e-mail
+are eliminated, making for immediate interaction with <I>Majordomo</I>
+resources. At the same time, <I>Majordomo</I> ultimately controls what
+is done, so <I>MajorCool</I> is neither a re-invention of the wheel,
+nor will it ever do something that <I>Majordomo</I> permissions
+typically disallow.
+
+</UL>
+
+<P>
+Far be it for <I>MajorCool</I> to claim a monopoly -- there are a 
+number of other CGI applications available that are designed for the 
+end-user and/or list-administrator (
+<A HREF="http://iquest.com/~fitz/www/mailserv/">MailServ</A>,
+<A HREF="http://www.netspace.org/users/dwb/lwgate.html">LWGate</A>,
+<A HREF="http://gaia.gutierrez.com/majordomo/">Gutierrez'</A>,
+<A HREF="http://www.inf.utfsm.cl/~marcos/majordomo/www.html">Marcos'</A>,
+<A HREF="http://www.ed.umuc.edu/products/pandora.html">Pandora</A>,
+<A HREF="http://www.outer.net/wps/content2.htm#ch12">Maitre-d</A>,
+<A HREF="http://www.peak.org/peak_info/mlists/Majordomo.html">Regan's</A>
+). I encourage you to use the tool which best meets
+your needs.
+
+<H3><I>MajorCool</I> is not...</H3>
+
+<P><B><I>MajorCool</I> is not</B> a tool to access remotely hosted mailing
+lists. Nor is it primarily designed to provide a one-button subscribe 
+action for an individual mailing list (although that functionality
+<A HREF="config.htm#REMOTE">is supported</A>). Other more generic
+interfaces such as <A HREF="http://iquest.com/~fitz/www/mailserv/">MailServ</A>
+and <A HREF="http://www.netspace.org/users/dwb/lwgate.html">LWGate</A>
+do this much more efficiently than <I>MajorCool</I> ever could. 
+<I>MajorCool</I>'s distinctiveness lies in its support of administrative
+functions, and a key feature is its site-oriented method of providing
+access to all lists on a server.
+
+<P><B><I>MajorCool</I> is not</B> 100% secure. Remember: "security is
+inversely proportional to convenience", and <I>MajorCool</I> is first
+and foremost meant to make things easy for the list subscriber or
+administrator. Its unsecure nature stems from a lack of
+"authentication" in the subscribe/unsubscribe functionality -- there is
+no guarantee that the user entered a valid or "true" address. [NOTE:
+only the end-user functions should be considered unsafe; the list admin
+features are secure, and since the two can be accessed separately, you
+can choose to not provide the end-user support.]
+
+<H3><I>MajorCool</I> is...</H3>
+
+<P><B><I>MajorCool</I> is</B> a site management tool. It offers a
+complete view of all lists available on a server, allowing users
+to browse and subscribe as permissions allow.
+
+<P><B><I>MajorCool</I> is</B> an excellent intranet application. Its 
+use of <CODE>siteaddr</CODE> modules allow users within a specific
+environment to be identified by multiple addresses. This address
+mapping capability is less applicable for general Internet purposes
+due to the diversity of e-mail addresses (but if you have a database
+available, it can be done).
+
+<P><I>MajorCool</I> is currently enjoying heavy use at the Southern
+California campuses of NCR Corp, presently serving close to 2000 local
+users, countless remote subscribers, and over 500 active lists. It has 
+proven to be a most valuable service, and much preferred by users over 
+the standard <I>Majordomo</I> e-mail interface.
+
+<P>Many would-be implementors ask if they could see <I>MajorCool</I> 
+in operation before they elect to install it. Alas, the aforementioned
+NCR site is behind the company firewall. You might want to look at
+these sites instead:
+<UL>
+<LI><A HREF="http://www.webhostcme.com/cgi-bin/majordomo">
+	Crazy Mountain Enterprises</A>
+<LI><A HREF="http://mail.GAIANET.NET/cgi-bin/majordomo">
+	GAIANET</A>
+<LI><A HREF="http://www1.snunit.k12.il/htbin/majordomo">
+	Isreali English Teachers Network</A>
+<LI><A HREF="http://www.mailinglists.org/cgi-bin/majordomo/">
+	MailingLists.Org</A>
+<LI><A HREF="http://www.msstate.edu/cgi-bin/majordomo/">
+	Mississippi State University</A>
+<LI><A HREF="http://www.quality.org/cgi-bin/majordomo">
+	Quality Resources OnLine</A>
+<LI><A HREF="http://www.sportsurf.net/majorcool/majorcool.cgi">
+	SportSurf.Net</A>
+<LI><A HREF="http://www.atm.ch.cam.ac.uk/cgi-bin/majorcool_browse">
+	University of Cambridge, Centre for Atmospheric Science</A>
+<LI><A HREF="http://www.uow.edu.au/cgi-bin/majorcool">
+	University of Wollongong</A>
+</UL>
+Want your site to be listed among the faithful?
+<A HREF="mailto:bill.houle@sandiegoca.ncr.com">Send me</A>
+your URL to add...
+
+<HR>
+<A HREF="usage.htm">[Next: Usage]</A>
+<A HREF="..">[Home]</A>
+<A HREF="mailto:Bill.Houle@SanDiegoCA.NCR.COM">[Feedback]</A>
+
+</BODY>
+</HTML>
+

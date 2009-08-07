@@ -1,0 +1,1 @@
+|a:5:{s:14:"derivativePath";s:81:"/home/virtual/site12/fst/var/www/html/gallery/g2data/cache/derivative/2/5/252.dat";s:14:"derivativeType";i:1;s:8:"mimeType";s:10:"image/jpeg";s:8:"parentId";i:243;s:14:"pseudoFileName";s:11:"sp_2008.jpg";}

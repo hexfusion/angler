@@ -1,0 +1,31 @@
+<!-- This file is used to provide local information on Majordomo/MajorCool. -->
+<!-- The file is appended to the online Help file during installation.      -->
+
+<HR>
+<H3>Local Majordomo/MajorCool Notes</H3>
+
+<P>
+Be sure to check the local 
+<A HREF="http://infobahn.sandiegoca.ncr.com/wwis/depts/ia/faqs/messaging/mjdfaq.htm">
+FAQ</A> list!
+<P>
+SoCal users take note: <B>Majordomo</B> (the mail interface) is not able
+to correlate between host-based addresses <I>(user@host.sandiegoca.ncr.com)</I>
+and ROLO <I>First.Last</I> entries. <B>MajorCool</B>, however, is fully 
+aware of the relationship between host and ROLO addresses and will display 
+all personal subscriptions regardless of which address they were subscribed
+under.
+<P>
+End-users should refer to the 
+<A HREF="http://infobahn.sandiegoca.ncr.com/wwis/depts/ia/docs/messaging/mjduser.htm">
+User's Guide</A> for info about using mail-based Majordomo services.
+<P>
+List-owners are encouraged to see the
+<A HREF="http://infobahn.sandiegoca.ncr.com/wwis/depts/ia/docs/messaging/mjdadmin.htm">
+List Administration Guide</A> for configuration instructions and other 
+details.
+<P>
+This info and much more is available at the Majordomo 
+<A HREF="http://infobahn.sandiegoca.ncr.com/wwis/depts/ia/archives/projects/messaging/majordomo/">
+project archives</A>.
+

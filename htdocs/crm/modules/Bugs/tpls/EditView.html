@@ -1,0 +1,173 @@
+<!--
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version
+ * 1.1.3 ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.  See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * All copies of the Covered Code must include on each user interface screen:
+ *    (i) the "Powered by SugarCRM" logo and
+ *    (ii) the SugarCRM copyright notice
+ * in the same form as they appear in the distribution.  See full license for
+ * requirements.
+ *
+ * The Original Code is: SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) 2004-2006 SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+/*********************************************************************************
+ * {APP.LBL_CURRENCY_SYM}Header: /cvsroot/sugarcrm/sugarcrm/modules/Bugs/EditView.html,v 1.9 2004/07/11 20:08:51 sugarjacob Exp {APP.LBL_CURRENCY_SYM}
+ ********************************************************************************/
+-->
+<!-- BEGIN: main -->
+<script type="text/javascript" src="include/javascript/popup_parent_helper.js?s={SUGAR_VERSION}&c={JS_CUSTOM_VERSION}"></script>
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<form name="EditView" method="POST" action="index.php">
+			<input type="hidden" name="module" value="Bugs">
+			<input type="hidden" name="record" value="{ID}">
+			<input type="hidden" name="contact_id" value="{CONTACT_ID}">
+			<input type="hidden" name="email_id" value="{EMAIL_ID}">
+			<input type="hidden" name="action">
+			<input type="hidden" name="return_module" value="{RETURN_MODULE}">
+			<input type="hidden" name="return_id" value="{RETURN_ID}">
+			<input type="hidden" name="return_action" value="{RETURN_ACTION}">
+			<input type="hidden" name="account_id" value="{ACCOUNT_ID}">			
+			<input type="hidden" name="case_id" value="{CASE_ID}">
+			<!--// InboundEmail support //-->			
+			<input type="hidden" name="inbound_email_id" value="{INBOUND_EMAIL_ID}">
+			<input type="hidden" name="start" value="{START}">
+			<input type="hidden" name="type" value="{TYPE}">
+		<td style="padding-bottom: 2px;"><input title="{APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{APP.LBL_SAVE_BUTTON_KEY}" class="button" onclick="this.form.action.value='Save';return check_form('EditView');" type="submit" name="button" value="  {APP.LBL_SAVE_BUTTON_LABEL}  " > <input title="{APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{APP.LBL_CANCEL_BUTTON_KEY}" class="button" onclick="this.form.action.value='{RETURN_ACTION}'; this.form.module.value='{RETURN_MODULE}'; this.form.record.value='{RETURN_ID}'" type="submit" name="button" value="  {APP.LBL_CANCEL_BUTTON_LABEL}  "></td>
+	<td align="right" nowrap><span class="required">{APP.LBL_REQUIRED_SYMBOL}</span> {APP.NTC_REQUIRED}</td>
+	<td align='right'>{ADMIN_EDIT}</td>
+	</tr>
+</table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabForm">
+<tr>
+<td>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<td width="15%" class="dataLabel"><span sugar='slot1'>{MOD.LBL_BUG_NUMBER}</span sugar='slot'></td>
+	<td width="35%" class="dataField"><span sugar='slot1b'><div align="left">{BUG_NUMBER}</div></span sugar='slot'></td>
+	<td width="15%" class="dataLabel"><span sugar='slot2'>{APP.LBL_ASSIGNED_TO}</span sugar='slot'></td>
+	<td  class="dataField"><span sugar='slot2b'><input class="sqsEnabled" tabindex="2" autocomplete="off" id="assigned_user_name" name='assigned_user_name' type="text" value="{ASSIGNED_USER_NAME}"><input id='assigned_user_id' name='assigned_user_id' type="hidden" value="{ASSIGNED_USER_ID}" />
+	<input title="{APP.LBL_SELECT_BUTTON_TITLE}" accessKey="{APP.LBL_SELECT_BUTTON_KEY}" type="button" tabindex='2' class="button" value='{APP.LBL_SELECT_BUTTON_LABEL}' name=btn1
+			onclick='open_popup("Users", 600, 400, "", true, false, {encoded_users_popup_request_data});' /></span sugar='slot'>
+	</td>
+
+	
+	</tr>
+	<tr>
+	<td width="15%" class="dataLabel"><span sugar='slot3'>{MOD.LBL_PRIORITY}</span sugar='slot'></td>
+	<td width="35%" class="dataField"><span sugar='slot3b'><select tabindex='1' name="priority">{PRIORITY_OPTIONS}</select></span sugar='slot'></td>
+
+
+
+
+
+
+
+
+
+	<!-- BEGIN: open_source -->
+	<!-- END: open_source -->
+	</tr>
+	
+	<tr>
+	<td class="dataLabel"><span sugar='slot5'>{MOD.LBL_STATUS}</span sugar='slot'></td>
+	<td><span sugar='slot5b'><select tabindex='1' name='status'>{STATUS_OPTIONS}</select></span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot6'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot6b'>&nbsp;</span sugar='slot'></td>
+	</tr>
+	
+	<tr>
+	<td class="dataLabel"><span sugar='slot7'>{MOD.LBL_TYPE} </span sugar='slot'></td>
+	<td><span sugar='slot7b'><select tabindex='1' name='type'>{TYPE_OPTIONS}</select></span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot8'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot8b'>&nbsp;</span sugar='slot'></td>
+	</tr>
+
+	<tr>
+	
+	<td class="dataLabel"><span sugar='slot9'>{MOD.LBL_SOURCE} </span sugar='slot'></td>
+	<td><span sugar='slot9b'><select tabindex='1' name='source'>{SOURCE_OPTIONS}</select></span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot10'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot10b'>&nbsp;</span sugar='slot'></td>
+	</tr>	
+
+	<tr>
+	<td class="dataLabel"><span sugar='slot11'>{MOD.LBL_PRODUCT_CATEGORY} </span sugar='slot'></td>
+	<td><span sugar='slot11b'><select tabindex='1' name='product_category'>{PRODUCT_CATEGORY_OPTIONS}</select></span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot12'>{MOD.LBL_RESOLUTION}</span sugar='slot'></td>
+	<td ><span sugar='slot12b'><select tabindex='2' name='resolution'>{RESOLUTION_OPTIONS}</select></span sugar='slot'></td>
+	
+	</tr>
+
+	
+
+
+	<tr>
+	<td class="dataLabel"><span sugar='slot13'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot13b'>&nbsp;</span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot14'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot14b'>&nbsp;</span sugar='slot'></td>
+	</tr>
+
+	
+
+	<tr>
+	<td class="dataLabel"><span sugar='slot15'>{MOD.LBL_FOUND_IN_RELEASE} </span sugar='slot'></td>
+	<td ><span sugar='slot15b'><select tabindex='1' name='found_in_release'>{RELEASE_OPTIONS}</select></span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot16'>{MOD.LBL_FIXED_IN_RELEASE}</span sugar='slot'></td>
+	<td ><span sugar='slot16b'><select tabindex='2' name='fixed_in_release'>{FIXED_IN_RELEASE_OPTIONS}</select></span sugar='slot'></td>
+	
+	</tr>
+
+	
+
+
+
+
+	<tr>
+	<td class="dataLabel"><span sugar='slot17'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot17b'>&nbsp;</span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot18'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot18b'>&nbsp;</span sugar='slot'></td>
+	</tr><tr>
+	<td valign="top" class="dataLabel"><span sugar='slot19'>{MOD.LBL_SUBJECT} <span class="required">{APP.LBL_REQUIRED_SYMBOL}</span></span sugar='slot'></td>
+	<td colspan="4"><span sugar='slot19b'><textarea name='name' cols="70" tabindex='3' rows="1" maxlength='255'>{NAME}</textarea></span sugar='slot'></td>
+	</tr><tr>
+	<td valign="top" class="dataLabel"><span sugar='slot20'>{MOD.LBL_DESCRIPTION}</span sugar='slot'></td>
+	<td colspan="4"><span sugar='slot20b'><textarea name='description' tabindex='3' cols="80" rows="8">{DESCRIPTION}</textarea></span sugar='slot'></td>
+</tr>
+
+<tr>
+	<td class="dataLabel"><span sugar='slot21'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot21b'>&nbsp;</span sugar='slot'></td>
+	<td class="dataLabel"><span sugar='slot22'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot22b'>&nbsp;</span sugar='slot'></td>
+	</tr>
+
+<tr>
+	<td class="dataLabel"><span sugar='slot23'>{MOD.LBL_WORK_LOG}</span sugar='slot'></td>
+	<td colspan="4"><span sugar='slot23b'><textarea name='work_log' tabindex='3' cols="80" rows="2">{WORK_LOG}</textarea></span sugar='slot'></td>	
+	<td class="dataLabel"><span sugar='slot24'>&nbsp;</span sugar='slot'></td>
+	<td><span sugar='slot24b'>&nbsp;</span sugar='slot'></td>
+	</tr>
+
+
+</table>
+</td></tr></table>
+<div style="padding-top: 2px">
+<input title="{APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{APP.LBL_SAVE_BUTTON_KEY}" class="button" onclick="this.form.action.value='Save';return check_form('EditView');" type="submit" name="button" value="  {APP.LBL_SAVE_BUTTON_LABEL}  " > <input title="{APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{APP.LBL_CANCEL_BUTTON_KEY}" class="button" onclick="this.form.action.value='{RETURN_ACTION}'; this.form.module.value='{RETURN_MODULE}'; this.form.record.value='{RETURN_ID}'" type="submit" name="button" value="  {APP.LBL_CANCEL_BUTTON_LABEL}  ">
+</div>
+</form>
+{JAVASCRIPT}
+<!-- END: main -->

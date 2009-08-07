@@ -1,0 +1,6 @@
+AuthType Basic
+AuthName "Members Only"
+AuthUserFile /var/www/clients/client1/web15/.htpasswd_stats
+<limit GET PUT POST>
+require valid-user
+</limit>
