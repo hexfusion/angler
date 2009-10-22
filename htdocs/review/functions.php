@@ -1,12 +1,12 @@
 <?php
 //Set the name of the Table, Database, Username and Password for Mysql.
-$db_name = "test_site2";
+$db_name = "c1wba";
 
 //mysql database username
-$mysql_username = "root";
+$mysql_username = "c1wba";
 
 //mysql database password
-$mysql_password = "s1a2mayfly";
+$mysql_password = "mayfly6969";
 
 //mysql hostname - usually "localhost"
 $mysql_host = "localhost";

@@ -53,7 +53,7 @@ secure=1
 		se=[box-code]
 	"
 	]
-      <img src="http://www.westbranchresort.com/images/ecom-header/simms_fish.gif" width="15" height="9" align="left">&nbsp;[cat-exec bar_link]cat[/cat-exec]<BR>
+      <img src="[area no_session_id=1 no_count=1 secure=1]/images/ecom-header/simms_fish.gif" width="15" height="9" align="left">&nbsp;[cat-exec bar_link]cat[/cat-exec]<BR>
 [/loop]
 
     </td>

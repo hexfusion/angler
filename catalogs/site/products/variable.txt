@@ -12,9 +12,9 @@ PUBLISH_NO_PAGE_ROOT	0	Admin Control
 SHIP_MIN_WEIGHT		5	Shipping
 FORUM_ANON_NAME	Anonymous Coward	Forums
 CART_UPSELL	0	Cart/Checkout
+UI_ITEM_TABLES	products pricing inventory merchandising options:sku	Item display
 MV_PAYMENT_PARTNER		Payment
 PGP_KEY	9DF12A71	Encryption
-UI_ITEM_TABLES	products pricing inventory merchandising options:sku	Item display
 BAR_LINK_TEMPLATE	<A HREF="$URL$" CLASS="barlink">$ANCHOR$</A>	Template
 PGSQL		Database
 THEME_CSS               Template		
@@ -27,9 +27,10 @@ SHIP_FLAT_DOM_RATE	5	Shipping
 USPS_SIZE	REGULAR	Shipping
 LINKPORT		Admin Control
 TAXSHIPPING		Tax
+USPS_URL	http://Production.ShippingAPIs.com/ShippingAPI.dll	Shipping
 MV_PAYMENT_ID	a_fake_id	Payment
 UI_COMPONENT_DIR	templates/components	Directories and Paths
-USPS_URL	http://Production.ShippingAPIs.com/ShippingAPI.dll	Shipping
+GIFT_CERT_COUNTER	var/counters/pay_cert.number	Order
 TAXFIELD	state	Tax
 CHECKOUT_FORM_WIDTH	600	Cart/Checkout
 UI_ABOUT_NORMAL_URL	http://www.icdevgroup.org/	Admin Control
@@ -40,10 +41,11 @@ UI_PAGE_DIR	pages	Directories and Paths
 PAGE_EDITOR_STYLE	standard	Content Edit
 PUBLISH_PUT_IMAGES	images	Admin Control
 SHIP_DEFAULT_ZIP	90210	Shipping
+THEME_CSS		Template
 ORDER_ROUTES	log main copy_user	Order
 SHIP_DEFAULT_COUNTRY	US	Shipping
-MV_PAYMENT_MODE		Payment
 UI_BOTTOMIMG	poweredby.gif	Admin Control
+MV_PAYMENT_MODE		Payment
 TAXRATE	NY=8.0	Tax
 CHECKOUT_PAYMENT_HEIGHT	120	Cart/Checkout
 CGI_URL	/cgi-bin/site	Directories and Paths
@@ -83,11 +85,11 @@ UI_IMAGE_DIR	/interchange-5/	Admin Control
 MYSQL	1	Database
 COMPANY	WBA	Company
 CGIWRAP		Admin Control
-COD_ACCEPTED	0	Payment
-SETTLE_TRANSACTION		Payment
-TAXAREA	NY	Tax
 STYLE	blueyellow	Template
+COD_ACCEPTED	0	Payment
 USPS_PASSWORD	819KO64ZY870	Shipping
+TAXAREA	NY	Tax
+SETTLE_TRANSACTION		Payment
 USPS_CONTAINER	None	Shipping
 USPS_MAILTYPE	package	Shipping
 PHONE	(607) 467-5525	Company
@@ -96,4 +98,3 @@ DECREMENT_INVENTORY	1	Order
 SECURE_ENABLE	1	General
 UI_TEMPLATE_DIR	templates	Directories and Paths
 UPS_POSTCODE_FIELD	zip	Shipping
-GIFT_CERT_COUNTER	var/counters/pay_cert.number	Order

@@ -43,8 +43,8 @@ ui_label: Small cart for left/right display
   <br>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <th scope="col"><a href="http://www.westbranchangler.com/cgi-bin/site/ord/basket.html?id=NEuRYCXr&mv_pc=10649"><img src="http://www.westbranchangler.com/images/view_cart.jpg" alt="View Cart" width="73" height="20" border="0"></a></th>
-      <th scope="col"><a href="http://www.westbranchangler.com/cgi-bin/site/ord/checkout.html?id=NEuRYCXr&mv_pc=10650"><img src="http://www.westbranchangler.com/images/checkout.jpg" alt="Check Out" width="73" height="20" border="0"></a></th>
+      <th scope="col"><a href="[area no_session_id=1 no_count=1]cgi-bin/site/ord/basket.html?id=NEuRYCXr&mv_pc=10649"><img src="[area no_session_id=1 no_count=1]images/view_cart.jpg" alt="View Cart" width="73" height="20" border="0"></a></th>
+      <th scope="col"><a href="[area no_session_id=1 no_count=1]cgi-bin/site/ord/checkout.html?id=NEuRYCXr&mv_pc=10650"><img src="[area no_session_id=1 no_count=1]images/checkout.jpg" alt="Check Out" width="73" height="20" border="0"></a></th>
     </tr>
   </table>
   </div>

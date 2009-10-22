@@ -20,7 +20,7 @@ border-bottom-width: 0;
 }
 
 .glossymenu a.menuitem{
-background: black url(http://www.westbranchangler.com/images/glossyback.gif) repeat-x bottom left;
+background: black url([area no_session_id=1 no_count=1]images/glossyback.gif) repeat-x bottom left;
 font: bold 14px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
 color: white;
 display: block;
@@ -44,7 +44,7 @@ border: none;
 }
 
 .glossymenu a.menuitem:hover{
-background-image: url(http://www.westbranchangler.com/images/glossyback2.gif);
+background-image: url([area no_session_id=1 no_count=1]images/glossyback2.gif);
 }
 
 .glossymenu div.submenu{ /*DIV that contains each sub menu*/
@@ -79,15 +79,15 @@ colorz: white;
 
 
 
-<script type="text/javascript" src="http://www.westbranchangler.com/js/right_click.js"></script>
-<script type="text/javascript" src="http://www.westbranchangler.com/js/ecommerce.js"></script>
-<script type="text/javascript" src="http://www.westbranchangler.com/js/jquery-1.2.2.js"></script>
-<script type="text/javascript" src="http://www.westbranchangler.com/js/ddaccordion.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/right_click.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/ecommerce.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/jquery-1.2.2.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/ddaccordion.js"></script>
 		
 
-<script type="text/javascript" src="http://www.westbranchangler.com/js/avant_sfpc_10264.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/avant_sfpc_10264.js"></script>
 
-<link rel="stylesheet" type="text/css" href="http://www.westbranchangler.com/images/css/resort_template.css">
+<link rel="stylesheet" type="text/css" href="[area no_session_id=1 no_count=1]images/css/resort_template.css">
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -110,7 +110,7 @@ ddaccordion.init({
 	animatedefault: false, //Should contents open by default be animated into view?
 	persiststate: true, //persist state of opened contents within browser session?
 	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-	togglehtml: ["suffix", "<img src='http://www.westbranchangler.com/images/plus.gif' class='statusicon' />", "<img src='http://www.westbranchangler.com/images/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
+	togglehtml: ["suffix", "<img src='[area no_session_id=1 no_count=1]images/plus.gif' class='statusicon' />", "<img src='[area no_session_id=1 no_count=1]images/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
 	animatespeed: "normal", //speed of animation: "fast", "normal", or "slow"
 	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
 		//do nothing
@@ -182,7 +182,7 @@ ddaccordion.init({
 				  <input name="mv_searchspec" type="text" id="mv_searchspec" style="width:100;border: 1px solid #ABA69C; margin-left: 10px; background-color: #F4F0E4; height: 18px;" size="12" maxlength="30">                
 			      </td>
                   <td width="59"><div align="center">
-                    <input name="image" type="image" value="image" src="http://www.westbranchangler.com/images/button_search.gif">
+                    <input name="image" type="image" value="image" src="[area no_session_id=1 no_count=1]images/button_search.gif">
                   </div></td>
                 </tr>
               </table>
@@ -211,8 +211,8 @@ ddaccordion.init({
 <table width="1000" height="750" border="0" cellpadding="0" cellspacing="1" bgcolor="#333333">
   <tr>
   <!-- Start Column 1 Side Bar-->
-    <td width="160" background="http://www.westbranchangler.com/images/ecom-header/new-ecom-header_side.gif" valign="top">
-	<img src="http://www.westbranchangler.com/images/ecom-header/new-ecom-header_side.gif" width="160" height="1" alt=".">
+    <td width="160" background="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_side.gif" valign="top">
+	<img src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_side.gif" width="160" height="1" alt=".">
    [component group=vertical]
    [component group=vertical]
    [component group=vertical]

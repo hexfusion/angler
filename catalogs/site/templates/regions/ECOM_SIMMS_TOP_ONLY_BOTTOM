@@ -5,7 +5,7 @@
 __ADL_PAGE__
 <a href="http://www.instantssl.com" id="comodoTL">SSL</a>
 <script language="JavaScript" type="text/javascript">
-COT("https://secure.westbranchresort.com/images/cornertrust.gif", "SC2", "none");
+COT("[area no_session_id=1 no_count=1 secure=1]/images/cornertrust.gif", "SC2", "none");
 </script>
 </body>
 </html>

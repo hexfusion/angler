@@ -57,7 +57,7 @@ use LWP 5.64; # Loads all important LWP classes, and makes
 
 my $browser = LWP::UserAgent->new;
 
-my $url = "https://www.westbranchangler.com/test_code/xmlship_example.php?company=$to_company_name&name=$to_name&address_1=$to_address_1&address_2=$to_address_2&address_3=$to_address_3&city=$to_city&state=$to_state&zip=$to_zip&email=$to_email&phone=$to_phone&shipping_service=$pk_service&order=$pk_invoice&package_weight=$pk_weight&package_length=$pk_length&package_width=$pk_width&package_height=$pk_height&box=$pk_box&shipping_id=$pk_shipping_id";
+my $url = "[area no_session_id=1 no_count=1 secure=1]test_code/xmlship_example.php?company=$to_company_name&name=$to_name&address_1=$to_address_1&address_2=$to_address_2&address_3=$to_address_3&city=$to_city&state=$to_state&zip=$to_zip&email=$to_email&phone=$to_phone&shipping_service=$pk_service&order=$pk_invoice&package_weight=$pk_weight&package_length=$pk_length&package_width=$pk_width&package_height=$pk_height&box=$pk_box&shipping_id=$pk_shipping_id";
 
   my $response = $browser->get( $url );
   die "Can't get $url -- ", $response->status_line

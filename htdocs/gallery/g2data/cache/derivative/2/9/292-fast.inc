@@ -1,1 +1,0 @@
-<?php function GalleryFastDownload() { return $GLOBALS['gallery']->fastDownload('derivative/2/9/292.dat', '91_years_ols_sy_rosenthal_26_inch_brown.jpg', 'Sun, 29 Jun 2008 20:17:26 GMT', 'image/jpeg', 5529);} ?>
