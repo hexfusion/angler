@@ -50,7 +50,7 @@ Available placeholders for HTML Template:
 	{PRICE}		- processed product field
 	{IMAGE}		- processed product field, full image tag (item image)
 	{THUMB}		- processed product field, full image tag (thumb image)
-	{SALE}		- if item has sale_price shows sale
+    {SALE}		- if item has sale_price shows sale
 	{STOCK}		- Inventory check, returns text 'Yes' or link 'No' to function/stock_alert page
 	{PRODUCT_LINK}	- Represents the URL to products page. To be used in href 
 	{QUANTITY_BOX}	- Text input box to specify the quantity of product
@@ -143,7 +143,7 @@ Please send any comments or suggestions for improvement to:
 
 	### Definition of default template ###
 	#
-	my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
+my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
 <div style="border: solid 1px #DDDDDD;" width="100%">
   <table cellpadding=2 cellspacing=0 border=0 width="100%">
      <tr class="results_description"><td colspan=2><div align="center"><b>{MANUFACTURER} : <span class="barlink">[filter namecase]</span>{DESCRIPTION}</b><span class="barlink">[/filter]</span></div></td></tr>
@@ -168,9 +168,11 @@ EO_TMPL
 	$record->{price} = $Tag->price($sku);
 	$record->{image} = $Tag->image({
 					imagesubdir => "items",
-					makesize => "120x120",
-					check_date => "1",
 					src => $record->{image},
+check_date => "1",
+makesize => "120x120",
+
+
 					extra => "border=0",
 					title => "[L]Click for more information.[/L]",
 					alt => $record->{description},
@@ -193,18 +195,21 @@ EOF
 		$record->{sale} = <<EOF;
 EOF
 	}
-	
-$Tag->perl({tables => 'inventory'});
+
+$Tag->perl(); 
 	my $db = $Db{inventory};
 	my $qsku = $db->quote($sku);
 	my $ref = $db->query("SELECT SUM(i.quantity) FROM inventory i INNER JOIN variants v WHERE i.sku = v.code AND v.sku=$qsku");
 	my $quantity = $ref->[0]->[0];
 
 	if ($quantity > 0) {
+
+
 		$record->{stock} = <<EOF;
 <span style="color: #008000; font-size:10px; font-family: san-serif; font-weight: bold;">[L]Yes[/L]</span>
 EOF
 	}
+
 	else {
 		my $url = $Tag->area('function/stock_alert', $sku);
 		$record->{stock} = <<EOF;
@@ -215,11 +220,11 @@ EOF
 	$record->{product_link} = $Tag->area($sku);
 
 	$record->{buy_button} = <<EOF;
-input type=submit value="[L]BUY NOW[/L]" onClick="this.form.mv_oi$Scratch->{itemcount}.value='$sku'" class=button2>
+<input type=submit value="[L]BUY NOW[/L]" onClick="this.form.mv_oi$Scratch->{itemcount}.value='$sku'" class=button2>
 EOF
 
 	$record->{quantity_box} = <<EOF;
-input type=text name=mv_order_quantity size=2 value="" style="height:16px;font-size:10px;background-color:#eeeeee;">
+<input type=text name=mv_order_quantity size=2 value="" style="height:16px;font-size:10px;background-color:#eeeeee;">
 EOF
 	return $Tag->uc_attr_list($record,$tmpl);
 
@@ -254,5 +259,4 @@ EOF
 <br>
 
 <!-- END COMPONENT [control component results_grid] -->
-
 
