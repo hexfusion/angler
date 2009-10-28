@@ -122,7 +122,7 @@ ui_source: templates/components/dhtml_side_menu
 
 <a class="menuitem submenuheader">Fly Lines</a>
 <div class="submenu">
-<br><li><a href="[area no_session_id=1 no_count=1]cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sci%20Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sci Angler Lines</a></li>
+<br><li><a href="[area no_session_id=1 no_count=1]cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Scientific Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sci Angler Lines</a></li>
 <br><li><a href="[area no_session_id=1 no_count=1]cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Rio/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Rio Lines</a></li>
 <br><li><a href="[area no_session_id=1 no_count=1]cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Cortland/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Cortland Lines</a></li>
 <br><li><a href="[area no_session_id=1 no_count=1]cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sage Lines</a></li>
