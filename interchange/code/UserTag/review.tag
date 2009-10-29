@@ -15,8 +15,9 @@ sub {
 
 $itemid .= $_->{itemid};
 
+my $url = $::Vend::Cfg->{VendURL} . "review/test2.php?item_id=$itemid";
 
-my $url = "[area no_session_id=1 no_count=1]review/test2.php?item_id=$itemid" ;
+#my $url = "[area no_session_id=1 no_count=1]review/test2.php?item_id=$itemid" ;
 
 
   use LWP::Simple;

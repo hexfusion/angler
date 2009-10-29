@@ -21,3 +21,4 @@ interchange/var/run/*
 my.cnf
 mysql.yml
 mysql/
+nohup.out
