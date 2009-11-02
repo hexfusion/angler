@@ -91,15 +91,15 @@ colorz: white;
 
 
 
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/right_click.js"></script>
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/ecommerce.js"></script>
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/jquery-1.2.2.js"></script>
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/ddaccordion.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/right_click.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/ecommerce.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/jquery-1.2.2.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/ddaccordion.js"></script>
 		
 
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]js/avant_sfpc_10264.js"></script>
+<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/avant_sfpc_10264.js"></script>
 
-<link rel="stylesheet" type="text/css" href="[area no_session_id=1 no_count=1]images/css/resort_template.css">
+<link rel="stylesheet" type="text/css" href="[area no_session_id=1 no_count=1]assetstore/site/css/resort_template.css">
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

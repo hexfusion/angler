@@ -85,8 +85,8 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
 		 
 		 <span><center><h1 class="flypage">[item-field manufacturer] [filter namecase][item-description][/filter]</h1></center></span>
 		 <br>
-		 
-	  [if-item-field image] [image src="items/[item-field image]" makesize="325x325" check_date="1" alt="[item-filter encode_entities][item-description][/item-filter]" border="0"] [/if-item-field]    </td>
+         		 
+	  [if-item-field image] <a href="[image src="items/[item-field image]" makesize="975x975" check_date="1" src_only="1"]" rel="" title="[item-filter encode_entities][item-description][/item-filter]" class="MagicZoom">[image src="items/[item-field image]" makesize="325x325" check_date="1" alt="[item-filter encode_entities][item-description][/item-filter]" border="0"]</a> [/if-item-field]    </td>
     <td width="29%" valign="top" >
   <form action="[area href="ord/basket.html"]" method="POST">
   <input type="hidden" name="mv_action"  value="refresh">
@@ -212,15 +212,15 @@ COLOR="#990000"><b>Starting At : [item-price]</b></font>
 
 
 <div align="center" id="countrydivcontainer" style="border:1px solid gray; width:580px; margin-bottom: 1em; padding: 10px">
-<table width="75%" border="0" align="center" cellpadding="3" cellspacing="10">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="54" colspan="3"><h2>[filter uc][item-field manufacturer]: [item-description][/filter]</h2></td>
+    </tr>
+  </table>
+  <table width="85%" border="0" align="center" cellpadding="3" cellspacing="10">
   <tr>
-    <td colspan="3"><h2>[item-field manufacturer] [filter namecase][item-description][/filter]</h2>
-	<br>
-	<h3>[item-field comment_short]</h3>
-	<br>
-	[item-field comment]
-	
-	</td>
+    <td><h2>[item-field comment_short]</h2>
+      [item-field comment] </td>
   </tr>
 </table>
 </div>

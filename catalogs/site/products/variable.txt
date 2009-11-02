@@ -10,6 +10,7 @@ UI_HELP_WIDTH	650	Admin Control
 LOGO		Template
 PUBLISH_NO_PAGE_ROOT	0	Admin Control
 SHIP_MIN_WEIGHT		5	Shipping
+JS_DIR	/assetstore/site/js	Directories and Paths
 FORUM_ANON_NAME	Anonymous Coward	Forums
 CART_UPSELL	0	Cart/Checkout
 UI_ITEM_TABLES	products pricing inventory merchandising options:sku	Item display
@@ -17,9 +18,8 @@ MV_PAYMENT_PARTNER		Payment
 PGP_KEY	9DF12A71	Encryption
 BAR_LINK_TEMPLATE	<A HREF="$URL$" CLASS="barlink">$ANCHOR$</A>	Template
 PGSQL		Database
-THEME_CSS               Template		
 USPS_ORIGIN	13783	Shipping
-IMAGE_DIR	/site/images	Directories and Paths
+IMAGE_DIR	/assetstore/site/images	Directories and Paths
 MV_DEFAULT_SEARCH_DB	1	Database
 UPS_COUNTRY_FIELD	country	Shipping
 LINKMODE	UNIX	Admin Control
@@ -65,6 +65,7 @@ UI_TRAFFIC_STATS		Directories and Paths
 MV_PAYMENT_VENDOR		Payment
 USPS_MACHINABLE	FALSE	Shipping
 UI_ABOUT_LOGIN_URL	http://www.icdevgroup.org/	Admin Control
+CSS_DIR	/assetstore/site/css	Directories and Paths
 TOLLFREE	(800) 201-2557	Company
 POSTAL_ACCEPTED	0	Payment
 UI_IMAGE_DIR_SECURE	/interchange-5/	Admin Control

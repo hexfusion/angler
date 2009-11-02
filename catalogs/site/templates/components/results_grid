@@ -199,7 +199,7 @@ EOF
 EOF
 	}
 
-$Tag->perl() ;
+$Tag->perl({tables => 'inventory'});
 	my $db = $Db{inventory};
 	my $qsku = $db->quote($sku);
 	my $ref = $db->query("SELECT SUM(i.quantity) FROM inventory i INNER JOIN variants v WHERE i.sku = v.code AND v.sku=$qsku");
