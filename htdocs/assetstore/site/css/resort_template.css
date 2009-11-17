@@ -1,0 +1,265 @@
+
+body {
+  background-color: #666666;
+  font-family: Helvetica;
+  font-size: 12px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+td {
+  font-family: Helvetica;
+  font-size: 12px;
+}
+
+h1 {
+  font-family: Helvetica;
+  font-size: 14px;
+  colot: #CC0000
+  }
+
+h2 {
+  font-family: Helvetica;
+  font-size: 12px;
+  colot: #006600
+  } 
+  
+h3 {
+  font-family: Helvetica;
+  font-size: 10px;
+  colot: black
+  }
+
+li {
+list-style-image: url(/images/css/bullet_product_detail.gif);
+}   
+  
+ul#productdetails {
+	list-style-image: url(/images/css/bullet_product_detail.gif);
+	list-style-type: disc;
+	font-size: 11px;
+	margin-left: 0px;
+	padding-left: 49px;
+	background-color: #F5F1E4;
+	line-height: 1.3em;
+}
+
+  
+  /*DHTML Menu*/
+
+.glossymenu{
+margin: 5px 0;
+padding: 0;
+width: 170px; /*width of menu*/
+border: 1px solid #9A9A9A;
+border-bottom-width: 0;
+}
+
+.glossymenu a.menuitem{
+background: black url(http://www.westbranchangler.com/images/glossyback.gif) repeat-x bottom left;
+font: bold 14px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+color: white;
+display: block;
+position: relative; /*To help in the anchoring of the ".statusicon" icon image*/
+width: auto;
+padding: 4px 0;
+padding-left: 10px;
+text-decoration: none;
+}
+
+
+.glossymenu a.menuitem:visited, .glossymenu .menuitem:active{
+color: white;
+}
+
+.glossymenu a.menuitem .statusicon{ /*CSS for icon image that gets dynamically added to headers*/
+position: absolute;
+top: 5px;
+right: 5px;
+border: none;
+}
+
+.glossymenu a.menuitem:hover{
+background-image: url(http://www.westbranchangler.com/images/glossyback2.gif);
+}
+
+.glossymenu div.submenu{ /*DIV that contains each sub menu*/
+background: white;
+}
+
+.glossymenu div.submenu ul{ /*UL of each sub menu*/
+list-style-image: url(http://www.westbranchangler.com/images/css/bullet_product_detail.gif);
+margin: 0;
+padding: 0;
+}
+
+.glossymenu div.submenu ul li{
+border-bottom: 1px solid blue;
+}
+
+.glossymenu div.submenu ul li a{
+display: block;
+font: normal 13px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+color: black;
+text-decoration: none;
+padding: 2px 0;
+padding-left: 10px;
+}
+
+.glossymenu div.submenu ul li a:hover{
+background: #DFDCCB;
+colorz: white;
+}
+
+
+/* #########  DO NOT REMOVE CSS for Flypage product description menu DO NOT REMOVE ######### */
+
+.shadetabs{
+padding: 3px 0;
+margin-left: 0;
+margin-top: 1px;
+margin-bottom: 0;
+font: bold 12px Verdana;
+list-style-type: none;
+text-align: left; /*set to left, center, or right to align the menu as desired*/
+}
+
+.shadetabs li{
+display: inline;
+margin: 0;
+}
+
+.shadetabs li a{
+text-decoration: none;
+position: relative;
+z-index: 1;
+padding: 3px 7px;
+margin-right: 3px;
+border: 1px solid #778;
+color: #2d2b2b;
+background: white url(/test_code/ajax/ajaxtabs/shade.gif) top left repeat-x;
+}
+
+.shadetabs li a:visited{
+color: #2d2b2b;
+}
+
+.shadetabs li a:hover{
+text-decoration: underline;
+color: #2d2b2b;
+}
+
+.shadetabs li a.selected{ /*selected main tab style */
+position: relative;
+top: 1px;
+}
+
+.shadetabs li a.selected{ /*selected main tab style */
+background-image: url(/test_code/ajax/ajaxtabs/shadeactive.gif);
+border-bottom-color: white;
+}
+
+.shadetabs li a.selected:hover{ /*selected main tab style */
+text-decoration: none;
+}
+
+
+
+/*Sage Items */
+
+#col_md {
+	width: 580px;
+	height: 565px;
+	background: url(/images/bg_content.jpg) top left no-repeat #e8dbb0;
+	float: left;
+}
+#col_md_hdr {
+	width: 300px;
+	height: 20px;
+}
+#col_md_img {
+
+	width: 100px;
+	height: 120px;
+}
+#col_md_ctn {
+	overflow: auto;
+	width: 500px;
+	height: 415px;
+}
+#col_md_txt {
+	width: 420px;
+}
+.titletab_total {
+	font-weight: bold;
+	background-color: #CCCCCC;
+}
+.titletab_small {
+	background-color: #C78B6D;
+}
+#col_md_img2 {
+	position: relative;
+	width: 500px;
+	height: 60px;
+}
+#col_md_img_show
+{
+
+/*End Sage Items */.footer {
+	font-size: 10px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+.footer {
+	font-size: 10px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+.cartalt {
+	background-color: #DFDFDF;
+	}
+	
+.cartnorm {
+	background-color: #FFFFFF;
+	}
+
+.MagicZoom img {
+border: none !important;
+}
+
+/* Style of zoomed window */
+.MagicZoomBigImageCont {
+border: 1px solid #999;
+}
+
+/* Style of header, activated with "title" attribute in <a> tag */
+.MagicZoomHeader {
+font-size: 8pt !important;
+line-height: normal !important;
+color: #fff;
+background: #666;
+text-align: center !important;
+}
+
+/* Style of small square under mouse */
+.MagicZoomPup {
+border: 1px solid #aaa;
+background: #fff;
+cursor: move;
+}
+
+/* Style of message box while image is loading */
+.MagicZoomLoading {
+border: 1px solid #ccc;
+background: #fff url(/images/ajax-loader.gif) no-repeat 2px 50%;
+padding: 4px 4px 4px 24px !important;
+margin: 0;
+text-decoration: none;
+text-align: left;
+font-size: 8pt;
+font-family: sans-serif;
+color: #444;
+}
