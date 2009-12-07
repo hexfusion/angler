@@ -4,6 +4,7 @@ Allow: /
  Disallow: /ord/
  Disallow: /query/
  Disallow: /scan/
+ Disallow: /stats/
  Disallow: /account.html
  Disallow: /process.html
  Disallow: /search.html
