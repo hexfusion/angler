@@ -21,7 +21,6 @@ ui_source: pages/flypage_show_stock.html
 <meta name="generator" content="Custom Interchange Platform">
 <title>[item-field manufacturer] [filter namecase][item-description][/filter] Available At West Branch Angler</title>
 <script type="text/javascript" src="[area no_session_id=1 no_count=1]js/right_click.js"></script>
-
 <!-- END PREAMBLE -->
 [tmpn page_title][/tmpn]
 [tmpn page_banner][/tmpn]
@@ -85,7 +84,7 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
 		 <span><center><h1 class="flypage">[item-field manufacturer] [filter namecase][item-description][/filter]</h1></center></span>
 		 <br>
 		 
-	  [if-item-field image] [image src="items/[item-field image]" makesize="325x325" check_date="1" alt="[item-filter encode_entities][item-description][/item-filter]" border="0"] [/if-item-field]    </td>
+	  [if-item-field image] <a href="[image src="items/[item-field image]" makesize="975x975" check_date="1" src_only="1"]" rel="" title="[item-filter encode_entities][item-description][/item-filter]" class="MagicZoom">[image src="items/[item-field image]" makesize="325x325" check_date="1" alt="[item-filter encode_entities][item-description][/item-filter]" border="0"]</a> [/if-item-field]     </td>
     <td width="29%" valign="top" >
   <form action="[area href="ord/basket.html"]" method="POST">
   <input type="hidden" name="mv_action"  value="refresh">
@@ -172,7 +171,7 @@ COLOR="#990000"><b>Starting At : [item-price]</b></font>
 
 	<strong></strong>
     <p align="center"><br>
-    [review itemid=[item-field item_id]]</p></td>
+    [comment][review itemid='[item-field item_id]'][/comment]</p></td>
   </tr>
 </table>
 </form>
