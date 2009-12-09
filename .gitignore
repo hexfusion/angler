@@ -6,6 +6,7 @@ catalogs/site/products/.*.sql
 catalogs/site/var/*
 cgi-bin/site
 htdocs/site/images/items
+htdocs/assetstore/site/images/items
 httpd/
 interchange/error.log
 interchange/interchange.cfg.dist
@@ -17,7 +18,7 @@ interchange/src/syscfg
 interchange/src/tlink
 interchange/src/tlink.127.0.0.1.*
 interchange/src/vlink
-interchange/src/vlink._home_*_camp*_interchange_var_run_socket
+interchange/src/vlink._*
 interchange/var/log/*
 interchange/var/run/*
 my.cnf
