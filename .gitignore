@@ -7,6 +7,8 @@ catalogs/site/var/*
 cgi-bin/site
 htdocs/site/images/items
 httpd/
+interchange/error.log
+interchange/interchange.cfg.dist
 interchange/bin/interchange
 interchange/etc/varnames
 interchange/interchange_local.cfg
