@@ -82,7 +82,7 @@ buttons:
 			[order [loop-code]]
 		[/else]
 		[/if-loop-data]
-	    <img align="top" src="http://www.westbranchresort.com/site/images/blueyellow/buynow.gif" border="0"></A>
+	    <img align="top" src="/site/images/blueyellow/buynow.gif" border="0"></A>
 	  </td>
 	</tr>
 	<tr> 
