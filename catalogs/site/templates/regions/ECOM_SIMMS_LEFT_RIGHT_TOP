@@ -8,7 +8,7 @@
 
 <html>
 	<head>
-<link rel="shortcut icon" href="[area no_session_id=1 no_count=1]favicon.ico" >
+<link rel="shortcut icon" href="/favicon.ico" >
 <meta name="y_key" content="383aacdbb3fec9be">
 <meta name="author" content="In House Web Development Staff">
 <meta content=General name=rating>
@@ -32,7 +32,7 @@ border-bottom-width: 0;
  }
 
 .glossymenu a.menuitem{
-background: black url([area no_session_id=1 no_count=1]images/glossyback.gif) repeat-x bottom left;
+background: black url(/images/glossyback.gif) repeat-x bottom left;
 font: bold 14px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
 color: white;
 display: block;
@@ -56,7 +56,7 @@ border: none;
 }
 
 .glossymenu a.menuitem:hover{
-background-image: url([area no_session_id=1 no_count=1]images/glossyback2.gif);
+background-image: url(/images/glossyback2.gif);
 }
 
 .glossymenu div.submenu{ /*DIV that contains each sub menu*/
@@ -91,15 +91,15 @@ colorz: white;
 
 
 
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/right_click.js"></script>
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/ecommerce.js"></script>
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/jquery-1.2.2.js"></script>
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/ddaccordion.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/right_click.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/ecommerce.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/jquery-1.2.2.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/ddaccordion.js"></script>
 		
 
-<script type="text/javascript" src="[area no_session_id=1 no_count=1]assetstore/site/js/avant_sfpc_10264.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/avant_sfpc_10264.js"></script>
 
-<link rel="stylesheet" type="text/css" href="[area no_session_id=1 no_count=1]assetstore/site/css/resort_template.css">
+<link rel="stylesheet" type="text/css" href="/assetstore/site/css/resort_template.css">
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -122,7 +122,7 @@ ddaccordion.init({
 	animatedefault: false, //Should contents open by default be animated into view?
 	persiststate: true, //persist state of opened contents within browser session?
 	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-	togglehtml: ["suffix", "<img src='[area no_session_id=1 no_count=1]images/plus.gif' class='statusicon' />", "<img src='[area no_session_id=1 no_count=1]images/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
+	togglehtml: ["suffix", "<img src='/images/plus.gif' class='statusicon' />", "<img src='/images/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
 	animatespeed: "normal", //speed of animation: "fast", "normal", or "slow"
 	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
 		//do nothing
@@ -147,7 +147,7 @@ ddaccordion.init({
               <input type=hidden name=mv_substring_match value=1>
 
 <table border="0" cellpadding="0" cellspacing="0" width="1000">
-<!-- fwtable fwsrc="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header.png" fwbase="new-ecom-header.gif" fwstyle="Dreamweaver" fwdocid = "1219976001" fwnested="0" -->
+<!-- fwtable fwsrc="/images/ecom-header/new-ecom-header.png" fwbase="new-ecom-header.gif" fwstyle="Dreamweaver" fwdocid = "1219976001" fwnested="0" -->
   <tr>
    <td><img src="spacer.gif" width="3" height="1" border="0" alt="" /></td>
    <td><img src="spacer.gif" width="1" height="1" border="0" alt="" /></td>
@@ -167,22 +167,22 @@ ddaccordion.init({
   </tr>
 
   <tr>
-   <td colspan="5"><img name="newecomheader_r1_c1" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r1_c1.gif" width="347" height="20" border="0" id="newecomheader_r1_c1" alt="" /></td>
-   <td colspan="5"><img name="newecomheader_r1_c6" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r1_c6.gif" width="449" height="20" border="0" id="newecomheader_r1_c6" alt="" /></td>
-   <td colspan="2"><a href="http://www.westbranchresort.com/" target="_blank"><img name="newecomheader_r1_c11" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r1_c11.gif" width="123" height="20" border="0" id="newecomheader_r1_c11" alt="" /></a></td>
-   <td colspan="2"><a href="http://www.westbranchresort.com/cgi-bin/forum/YaBB.pl"><img name="newecomheader_r1_c13" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r1_c13.gif" width="81" height="20" border="0" id="newecomheader_r1_c13" alt="" /></a></td>
+   <td colspan="5"><img name="newecomheader_r1_c1" src="/images/ecom-header/new-ecom-header_r1_c1.gif" width="347" height="20" border="0" id="newecomheader_r1_c1" alt="" /></td>
+   <td colspan="5"><img name="newecomheader_r1_c6" src="/images/ecom-header/new-ecom-header_r1_c6.gif" width="449" height="20" border="0" id="newecomheader_r1_c6" alt="" /></td>
+   <td colspan="2"><a href="http://www.westbranchresort.com/" target="_blank"><img name="newecomheader_r1_c11" src="/images/ecom-header/new-ecom-header_r1_c11.gif" width="123" height="20" border="0" id="newecomheader_r1_c11" alt="" /></a></td>
+   <td colspan="2"><a href="http://www.westbranchresort.com/cgi-bin/forum/YaBB.pl"><img name="newecomheader_r1_c13" src="/images/ecom-header/new-ecom-header_r1_c13.gif" width="81" height="20" border="0" id="newecomheader_r1_c13" alt="" /></a></td>
    <td><img src="spacer.gif" width="1" height="20" border="0" alt="" /></td>
   </tr>
   <tr>
-   <td colspan="5"><img name="newecomheader_r2_c1" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r2_c1.gif" width="347" height="69" border="0" id="newecomheader_r2_c1" alt="" /></td>
-   <td colspan="5"><img name="newecomheader_r2_c6" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r2_c6.gif" width="449" height="69" border="0" id="newecomheader_r2_c6" alt="" /></td>
-   <td colspan="4"><img name="newecomheader_r2_c11" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r2_c11.gif" width="204" height="69" border="0" id="newecomheader_r2_c11" alt="" /></td>
+   <td colspan="5"><img name="newecomheader_r2_c1" src="/images/ecom-header/new-ecom-header_r2_c1.gif" width="347" height="69" border="0" id="newecomheader_r2_c1" alt="" /></td>
+   <td colspan="5"><img name="newecomheader_r2_c6" src="/images/ecom-header/new-ecom-header_r2_c6.gif" width="449" height="69" border="0" id="newecomheader_r2_c6" alt="" /></td>
+   <td colspan="4"><img name="newecomheader_r2_c11" src="/images/ecom-header/new-ecom-header_r2_c11.gif" width="204" height="69" border="0" id="newecomheader_r2_c11" alt="" /></td>
    <td><img src="spacer.gif" width="1" height="69" border="0" alt="" /></td>
   </tr>
   <tr>
-   <td><img name="newecomheader_r3_c1" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c1.gif" width="3" height="20" border="0" id="newecomheader_r3_c1" alt="" /></td>
-   <td><img name="newecomheader_r3_c2" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c2.gif" width="1" height="20" border="0" id="newecomheader_r3_c2" alt="" /></td>
-   <td background="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c2.gif">
+   <td><img name="newecomheader_r3_c1" src="/images/ecom-header/new-ecom-header_r3_c1.gif" width="3" height="20" border="0" id="newecomheader_r3_c1" alt="" /></td>
+   <td><img name="newecomheader_r3_c2" src="/images/ecom-header/new-ecom-header_r3_c2.gif" width="1" height="20" border="0" id="newecomheader_r3_c2" alt="" /></td>
+   <td background="/images/ecom-header/new-ecom-header_r3_c2.gif">
          
 			      <table width="169" border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -190,23 +190,23 @@ ddaccordion.init({
 				  <input name="mv_searchspec" type="text" id="mv_searchspec" style="width:100;border: 1px solid #ABA69C; margin-left: 10px; background-color: #F4F0E4; height: 18px;" size="12" maxlength="30">                
 			      </td>
                   <td width="59"><div align="center">
-                    <input name="image" type="image" value="image" src="[area no_session_id=1 no_count=1]images/button_search.gif">
+                    <input name="image" type="image" value="image" src="/images/button_search.gif">
                   </div></td>
                 </tr>
               </table>
 			  
 	        
     </td>
-   <td valign="top"><a href="[area href="index.html"]"><img name="newecomheader_r3_c4" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c4.gif" width="70" height="20" border="0" id="newecomheader_r3_c4" alt="" /></a></td>
-   <td valign="top"><a href="[area href="wba_about_us.html"]"><img name="newecomheader_r3_c5" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c5.gif" width="82" height="20" border="0" id="newecomheader_r3_c5" alt="" /></a></td>
-   <td valign="top"><a href="[area href="advancedsearch.html"]"><img name="newecomheader_r3_c6" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c6.gif" width="70" height="20" border="0" id="newecomheader_r3_c6" alt="" /></a></td>
-   <td valign="top"><img name="newecomheader_r3_c7" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c7.gif" width="81" height="20" border="0" id="newecomheader_r3_c7" alt="" /></td>
-   <td valign="top"><a href="[area href="customerservice.html"]"><img name="newecomheader_r3_c8" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c8.gif" width="98" height="20" border="0" id="newecomheader_r3_c8" alt="" /></a></td>
-   <td valign="top"><a href="[area href="shipping.html"]"><img name="newecomheader_r3_c9" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c9.gif" width="128" height="20" border="0" id="newecomheader_r3_c9" alt="" /></a></td>
-   <td valign="top"><a href="[area href="contact.html"]"><img name="newecomheader_r3_c10" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c10.gif" width="72" height="20" border="0" id="newecomheader_r3_c10" alt="" /></a></td>
-   <td valign="top"><img name="newecomheader_r3_c11" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c11.gif" width="83" height="20" border="0" id="newecomheader_r3_c11" alt="" /></td>
-   <td colspan="2" valign="top"><a href="[area href="customerservice.html"]"><img name="newecomheader_r3_c12" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c12.gif" width="88" height="20" border="0" id="newecomheader_r3_c12" alt="" /></a></td>
-   <td valign="top"><img name="newecomheader_r3_c14" src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_r3_c14.gif" width="33" height="20" border="0" id="newecomheader_r3_c14" alt="" /></td>
+   <td valign="top"><a href="[area href="index.html"]"><img name="newecomheader_r3_c4" src="/images/ecom-header/new-ecom-header_r3_c4.gif" width="70" height="20" border="0" id="newecomheader_r3_c4" alt="" /></a></td>
+   <td valign="top"><a href="[area href="wba_about_us.html"]"><img name="newecomheader_r3_c5" src="/images/ecom-header/new-ecom-header_r3_c5.gif" width="82" height="20" border="0" id="newecomheader_r3_c5" alt="" /></a></td>
+   <td valign="top"><a href="[area href="advancedsearch.html"]"><img name="newecomheader_r3_c6" src="/images/ecom-header/new-ecom-header_r3_c6.gif" width="70" height="20" border="0" id="newecomheader_r3_c6" alt="" /></a></td>
+   <td valign="top"><img name="newecomheader_r3_c7" src="/images/ecom-header/new-ecom-header_r3_c7.gif" width="81" height="20" border="0" id="newecomheader_r3_c7" alt="" /></td>
+   <td valign="top"><a href="[area href="customerservice.html"]"><img name="newecomheader_r3_c8" src="/images/ecom-header/new-ecom-header_r3_c8.gif" width="98" height="20" border="0" id="newecomheader_r3_c8" alt="" /></a></td>
+   <td valign="top"><a href="[area href="shipping.html"]"><img name="newecomheader_r3_c9" src="/images/ecom-header/new-ecom-header_r3_c9.gif" width="128" height="20" border="0" id="newecomheader_r3_c9" alt="" /></a></td>
+   <td valign="top"><a href="[area href="contact.html"]"><img name="newecomheader_r3_c10" src="/images/ecom-header/new-ecom-header_r3_c10.gif" width="72" height="20" border="0" id="newecomheader_r3_c10" alt="" /></a></td>
+   <td valign="top"><img name="newecomheader_r3_c11" src="/images/ecom-header/new-ecom-header_r3_c11.gif" width="83" height="20" border="0" id="newecomheader_r3_c11" alt="" /></td>
+   <td colspan="2" valign="top"><a href="[area href="customerservice.html"]"><img name="newecomheader_r3_c12" src="/images/ecom-header/new-ecom-header_r3_c12.gif" width="88" height="20" border="0" id="newecomheader_r3_c12" alt="" /></a></td>
+   <td valign="top"><img name="newecomheader_r3_c14" src="/images/ecom-header/new-ecom-header_r3_c14.gif" width="33" height="20" border="0" id="newecomheader_r3_c14" alt="" /></td>
    <td><img src="spacer.gif" width="1" height="20" border="0" alt="" /></td>
   </tr>
  </form>
@@ -216,8 +216,8 @@ ddaccordion.init({
 <table width="1000" height="450" border="0" cellpadding="0" cellspacing="1" bgcolor="#333333">
   <tr>
   <!-- Start Column 1 Side Bar-->
-    <td width="160" background="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_side.gif" valign="top">
-	<img src="[area no_session_id=1 no_count=1]images/ecom-header/new-ecom-header_side.gif" width="160" height="1" alt=".">
+    <td width="160" background="/images/ecom-header/new-ecom-header_side.gif" valign="top">
+	<img src="/images/ecom-header/new-ecom-header_side.gif" width="160" height="1" alt=".">
    [component group=vertical]
    [component group=vertical]
    [component group=vertical]
