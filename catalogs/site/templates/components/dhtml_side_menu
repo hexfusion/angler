@@ -130,47 +130,47 @@ ui_source: templates/components/dhtml_side_menu
 
 <a class="menuitem submenuheader">Fly Lines</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Scientific Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Scientific Anglers</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Rio/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Rio</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Cortland/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Cortland</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sage</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Orvis</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">View All Lines</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Scientific Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=10">Scientific Anglers</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Rio/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=10">Rio</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Cortland/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=10">Cortland</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=10">Sage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=10">Orvis</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=10">View All Lines</a></li>
 <br>
 </ul></div>
 
 <a class="menuitem submenuheader">Accessories</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Nets/op=rm/nu=0/ml=10.html?submenuheader=2">Landing Nets</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Pliers-Forcepts/op=rm/nu=0/ml=10.html?submenuheader=2">Nippers / Pliers</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=2">Fly Lines</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Reels/op=rm/nu=0/ml=10.html?submenuheader=2">Reels</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/se=Sunglasses/sf=category/op=rm/nu=0/ml=10.html?submenuheader=2">Sunglasses</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Wading/op=rm/nu=0/ml=10.html?submenuheader=2">Wading</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Nets/op=rm/nu=0/ml=10.html?submenuheader=11">Landing Nets</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Pliers-Forcepts/op=rm/nu=0/ml=10.html?submenuheader=11">Nippers / Pliers</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=11">Fly Lines</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Reels/op=rm/nu=0/ml=10.html?submenuheader=11">Reels</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/se=Sunglasses/sf=category/op=rm/nu=0/ml=10.html?submenuheader=11">Sunglasses</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Wading/op=rm/nu=0/ml=10.html?submenuheader=11">Wading</a></li>
 <br>
 </ul></div>
 
 <a class="menuitem submenuheader">Luggage</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Simms/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=7">Simms Luggage</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=7">Orvis Luggage</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Fish%20Pond/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=7">Fish Pond Luggage</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=7">Sage Luggage</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=7">View All Luggage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Simms/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=12">Simms Luggage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=12">Orvis Luggage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Fish%20Pond/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=12">Fish Pond Luggage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=12">Sage Luggage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Luggage/op=rm/nu=0/ml=10.html?submenuheader=12">View All Luggage</a></li>
 <br>
 </ul></div>
 
 
 <a class="menuitem submenuheader">Books & DVD's</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=Books/op=rm/nu=0/ml=50.html?submenuheader=3">Books</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/se=DVD/op=rm/nu=0/ml=10.html?submenuheader=3">DVDs</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=Books/op=rm/nu=0/ml=50.html?submenuheader=13">Books</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/se=DVD/op=rm/nu=0/ml=10.html?submenuheader=13">DVDs</a></li>
 <br>
 </ul></div>
 
 <a class="menuitem submenuheader">Pets Accessories</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=Dogs/op=rm/nu=0/ml=50.html?submenuheader=3">Dogs</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=Dogs/op=rm/nu=0/ml=50.html?submenuheader=14">Dogs</a></li>
 <br>
 </ul></div>
 
