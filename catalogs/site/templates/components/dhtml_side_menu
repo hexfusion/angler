@@ -120,13 +120,21 @@ ui_source: templates/components/dhtml_side_menu
 <br>
 </ul></div>
 
+<a class="menuitem submenuheader">Fly Boxes</a>
+<div class="submenu">
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Scientific Angler/op=rm/nu=/sf=category/se=Fly Boxes/op=rm/nu=0/ml=10.html?submenuheader=9">Scientific Anglers</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=C&F/op=rm/nu=/sf=category/se=Fly Boxes/op=rm/nu=0/ml=10.html?submenuheader=9">C&F Designs</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Fly Boxes/op=rm/nu=0/ml=10.html?submenuheader=9">View All Fly Boxes</a></li>
+<br>
+</ul></div>
+
 <a class="menuitem submenuheader">Fly Lines</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Scientific Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sci Angler Lines</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Rio/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Rio Lines</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Cortland/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Cortland Lines</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sage Lines</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Orvis Lines</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Scientific Angler/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Scientific Anglers</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Rio/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Rio</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Cortland/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Cortland</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Sage/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Sage</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=Orvis/op=rm/nu=/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">Orvis</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Lines/op=rm/nu=0/ml=10.html?submenuheader=9">View All Lines</a></li>
 <br>
 </ul></div>
