@@ -7,42 +7,6 @@ ui_version: 5.6.1
 ui_page_version: 5.6.1
 ui_source: pages/flypage_show_stock.html
 [/comment]
-[if-item-field inactive]
-[tag op=header]
-Status: 404 Not found
-Content-type: text/html
-[/tag]
-[tmpn page_title]Sorry, the page was not found[/tmpn]
-[control reset=1]
-[control-set]
-        [component]verticle_simms[/component]
-[/control-set]
-[control-set]
-        [component]dhtml_side_menu[/component]
-[/control-set]
-[control-set]
-        [component][/component]
-[/control-set]
-[control-set]
-        [component][/component]
-[/control-set]
-[control-set]
-        [component][/component]
-[/control-set]
-[control-set]
-        [component]cart_tiny[/component]
-[/control-set]
-[control-set]
-        [component]newsletter[/component]
-[/control-set]
-[control reset=1]
-
-
-@_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_TOP_@
-<h1>[scratch page_title]</h1>
-<p>The requested item is no longer available</p>
-@_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_BOTTOM_@
-[else]
 
 <!-- BEGIN PREAMBLE -->
 <html>
@@ -57,7 +21,6 @@ Content-type: text/html
 <meta name="generator" content="Custom Interchange Platform">
 <title>[item-field manufacturer] [filter namecase][item-description][/filter] Available At West Branch Angler</title>
 <script type="text/javascript" src="/js/right_click.js"></script>
-
 <!-- END PREAMBLE -->
 [tmpn page_title][/tmpn]
 [tmpn page_banner][/tmpn]
@@ -81,10 +44,10 @@ Content-type: text/html
 	[component][/component]
 [/control-set]
 [control-set]
-	[component]saved_carts_list_small[/component]
+	[component]cart_tiny[/component]
 [/control-set]
 [control-set]
-	[component]mailing_list[/component]
+	[component]newsletter[/component]
 [/control-set]
 [control reset=1]
 
@@ -136,12 +99,8 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
       <tr bgcolor="#dfdfdf">
         <th bgcolor="#D6CEC3" scope="col"><table width="241" border="0" align="center" cellpadding="0" cellspacing="10">
           <tr>
-            <td width="241" colspan="2" valign="top" >
-  [if-item-data inventory quantity < 1]
-              <strong>Availability:</strong> [L]Out Of Stock[/L]<br />
-                    <a href="[area function/stock_alert [item-code]]">Notify When Available</a> [else] <strong>Availability:</strong> Usually ships the same business day 
-              [/else]
-              [/if-item-data] </td>
+            <td width="241" colspan="2" valign="top" >[perl inventory variants] my $db = $Db{inventory}; my $qsku = $db->quote([item-field sku]); my $ref = $db->query("SELECT SUM(i.quantity) FROM inventory i INNER JOIN variants v WHERE i.sku = v.code AND v.sku=$qsku"); my $quantity = $ref->[0]->[0]; $Tag->tmp('instock', $quantity); [/perl] [if type="scratch" term="instock" op="<" compare="1"] Availability: [L]Out Of Stock[/L]
+Notify When Available [else] Availability: Usually ships the same business day [/else] [/if]  </td>
           </tr>
           
           
@@ -246,6 +205,3 @@ countries.init()
 <p>[/fly-list]</p>
 <!-- END CONTENT -->
 @_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_BOTTOM_@
-[/else]
-[/if-item-field]
-

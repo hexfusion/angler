@@ -25,3 +25,5 @@ my.cnf
 mysql.yml
 mysql/
 nohup.out
+
+tmp/
