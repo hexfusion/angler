@@ -80,16 +80,16 @@ ui_source: templates/components/dhtml_side_menu
 
 <a class="menuitem submenuheader">Clothing</a>
 <div class="submenu">
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Outerwear/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Outerwear/ Rain</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Layering/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Layering</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Sportswear/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Sportswear</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Waders/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Waders</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Boots/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Boots</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Vests/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Vests</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Packs/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Packs</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Gloves/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Gloves</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Hats/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Hats</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=Discontinued/op=ne/nu=0/sf=category/se=Socks/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Socks</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Outerwear/op=rm/nu=0/ml=12/tf=price/to=r.html?submenuheader=6">Outerwear/ Rain</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Layering/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Layering</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Sportswear/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Sportswear</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Waders/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Waders</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Boots/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Boots</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Vests/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Vests</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Packs/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Packs</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Gloves/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Gloves</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Hats/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Hats</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Socks/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=6">Socks</a></li>
 <br>
 </ul></div>
 
