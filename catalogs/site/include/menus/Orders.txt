@@ -2,3 +2,4 @@ code	mgroup	msort	next_line	indicator	exclude_on	depends_on	page	form	name	super
 001	Orders	x001		showpending			admin/order_new	showpending=1	Pending Orders		0							
 002	Orders	x002		showarchive			admin/order	showarchive=1	Archived Orders		0							
 003	Orders	x003					admin/entry		Enter Order		0							
+004	Orders	x004					admin/flex_editor	item_id=%5Bcgi%20order%5D&mv_data_table=transactions&ui_return_table=transactions&page_title=Edit%20order%20%5Bcgi%20order%5D&ui_return_to=admin/order&order=%5Bcgi%20order%5D	Edit Order		0							

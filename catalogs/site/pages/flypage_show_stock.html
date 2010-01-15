@@ -19,7 +19,7 @@ ui_source: pages/flypage_show_stock.html
 <meta content=INDEX,FOLLOW name=robots>
 <meta name="revisit-after" content="7 days">
 <meta name="generator" content="Custom Interchange Platform">
-<title>[filter op="uc lookup.manufacturer.c_name"][item-field manufacturer][/filter] [filter namecase][item-description][/filter] Available At West Branch Angler</title>
+<title>[filter op=&quot;uc lookup.manufacturer.c_alias&quot;][item-field manufacturer][/filter] [filter namecase][item-description][/filter] Available At West Branch Angler</title>
 <script type="text/javascript" src="/js/right_click.js"></script>
 <!-- END PREAMBLE -->
 [tmpn page_title][/tmpn]
@@ -66,7 +66,7 @@ ui_source: pages/flypage_show_stock.html
       <tr>
         <td ><div class="barlink" align="left">&nbsp;&nbsp;<a href="[area href="index.html"]"><font color="#333333">Products</font></a> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=prod_group/se=[item-field  prod_group]/op=rm/nu=0/ml=50.html"><font color="#333333">[item-field prod_group] </font></a><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=prod_group/se=[item-field 
 prod_group]/op=rm/nu=0/ml=50.html"><font color="#333333"></font></a><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=[item-field 
-category]/op=rm/nu=0/ml=50.html"><font color="#333333"></font></a> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=[item-field  category]/op=rm/nu=0/ml=50.html"><font color="#333333">[item-field category]</font></a></font> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=[filter op="uc lookup.manufacturer.c_name"][item-field manufacturer][/filter]/op=rm/nu=0/ml=50.html"><font color="#333333">[filter op="uc lookup.manufacturer.c_name"][item-field manufacturer][/filter]</font></a> &gt;&gt; [filter namecase][item-description][/filter]</div></td>
+category]/op=rm/nu=0/ml=50.html"><font color="#333333"></font></a> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=[item-field  category]/op=rm/nu=0/ml=50.html"><font color="#333333">[item-field category]</font></a></font> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=[filter op="uc lookup.manufacturer.c_name"][item-field manufacturer][/filter]/op=rm/nu=0/ml=50.html"><font color="#333333">[filter op=&quot;uc lookup.manufacturer.c_alias&quot;][item-field manufacturer][/filter]</font></a> &gt;&gt; [filter namecase][item-description][/filter]</div></td>
       </tr>
     </table></td>
   </tr>
@@ -81,7 +81,7 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
          [/else]
          [/if-item-field]</span>
 		 
-		 <span><center><h1 class="flypage">[filter op="uc lookup.manufacturer.c_name"][item-field manufacturer][/filter] [filter namecase][item-description][/filter]</h1></center></span>
+		 <span><center><h1 class="flypage">[filter op=&quot;uc lookup.manufacturer.c_alias&quot;][item-field manufacturer][/filter] [filter namecase][item-description][/filter]</h1></center></span>
 		 <br>
 		 
 	  [if-item-field image] <a href="[image src="items/[item-field image]" makesize="975x975" check_date="1" src_only="1"]" rel="" title="[item-filter encode_entities][item-description][/item-filter]" class="MagicZoom">[image src="items/[item-field image]" makesize="325x325" check_date="1" alt="[item-filter encode_entities][item-description][/item-filter]" border="0"]</a> [/if-item-field]     </td>
