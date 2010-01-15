@@ -146,7 +146,7 @@ Please send any comments or suggestions for improvement to:
 my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
 <div style="border: solid 1px #DDDDDD;" width="100%">
   <table cellpadding=2 cellspacing=0 border=0 width="100%">
-     <tr class="results_description"><td colspan=2><div align="center"><b>[filter op="uc lookup.manufacturer.c_name"]{MANUFACTURER}[/filter]</b></div></td></tr>
+     <tr class="results_description"><td colspan=2><div align="center"><b>[filter uc]{MANUFACTURER}[/filter]</b></div></td></tr>
      <tr class="results_description">
        <td colspan=2><div align="center"><b>{DESCRIPTION}</b></div></td>
      </tr>
@@ -199,7 +199,7 @@ EOF
 EOF
 	}
 
-$Tag->perl();
+$Tag->perl({tables => 'inventory'});
 	my $db = $Db{inventory};
 	my $qsku = $db->quote($sku);
 	my $ref = $db->query("SELECT SUM(i.quantity) FROM inventory i INNER JOIN variants v WHERE i.sku = v.code AND v.sku=$qsku");
