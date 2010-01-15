@@ -222,6 +222,8 @@ EOF
 			'Cross-sell;merchandising:cross_sell:r',
 			'Promo;merchandising:featured:r',
 			'Inventory;inventory:quantity:r',
+			'Manufacturer;products:manufacturer:r',
+            'Inactive;products:inactive:r',
 			);
 	}
 	@special = grep $_ !~ /^none$/i, @special;
@@ -434,6 +436,18 @@ sub {
 }
 [/item-sub]
 [item-exec show_line]
+Inactive
+%%
+<TD ALIGN=CENTER> [if-item-field inactive][L]Yes[/L][else][L]No[/L][/else][/if-item-field]
+</TD>
+%%
+Manufacturer
+%%
+<TD ALIGN=CENTER>[page href=__UI_BASE__/item_feature form="
+        item_id=[item-code]
+"][filter op="uc lookup.manufacturer.c_name"][item-field manufacturer][/filter]</a>
+</TD>
+%%
 Options
 %%
 <TD ALIGN=CENTER>[page href=__UI_BASE__/item_option form="
