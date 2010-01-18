@@ -40,7 +40,7 @@ ui_source: templates/components/dhtml_side_menu
 <a class="menuitem submenuheader">Rods</a>
 <div class="submenu">
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=SG/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=3">Sage Fly Rods</a></li>
-<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=WF/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=3">WF Fly Rods</a></li>
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=WR/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=3">Winston Fly Rods</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=OR/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=3">Orvis Fly Rods</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=HH/op=rm/nu=/sf=category/se=Rods/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=3">Hardy Fly Rods</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/sf=category/se=Rods/op=rm/nu=0/ml=12/tf=price/to=nr.html?submenuheader=10">View All Fly Rods</a></li>
