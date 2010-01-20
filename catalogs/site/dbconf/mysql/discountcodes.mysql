@@ -1,0 +1,7 @@
+Database  discountcodes  discountcodes.txt __SQLDSN__
+Database  discountcodes  DEFAULT_TYPE text
+Database  discountcodes  COLUMN_DEF   "discount_code=VARCHAR(50) NOT NULL PRIMARY KEY"
+Database  discountcodes  COLUMN_DEF   "discount_amt=VARCHAR(10) NOT NULL"
+Database  discountcodes  COLUMN_DEF   "discount_percentage=VARCHAR(10) NOT NULL"
+Database  discountcodes  COLUMN_DEF   "discount_description=VARCHAR(255) NOT NULL"
+Database  discountcodes  INDEX		discount_code
