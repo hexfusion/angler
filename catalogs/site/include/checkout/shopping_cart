@@ -1,3 +1,4 @@
+
 <table width="80%" border=0 align="center" cellpadding=5 cellspacing=1 bgcolor="#000000">
         <tr class="titletab_small">
           <td class="titletab_small"><div align="center">&nbsp;<b>[L]Remove[/L]</b></div></td>
@@ -5,7 +6,7 @@
           <td class="titletab_small"><div align="center"><b>[L]Product Description[/L]</b></div></td>
           <td class="titletab_small"><div align="center"><b>[L]Quantity[/L]</b></div></td>
           <td class="titletab_small"><div align="center"><b>[L]Price[/L]</b></div></td>
-          <td class="titletab_small"><div align="center"><b>[L]Sub Total[/L]&nbsp;</b></div></td>
+         
         </tr>
         <tbody>
 
@@ -50,15 +51,13 @@
             [item-discount-price]
             [if discount [item-code]]<br>
             [msg arg.0="[item-discount]"]Item is discounted %s[/msg][/if]
-          </td>
-          <td bgcolor="#FFFFFF">[item-subtotal]</td>
-        </tr>
+         
 
         [/item-list]
         [/then]
         [else]
         <tr>
-          <td align=center colspan=6 class="titletab_small">
+          <td align=center colspan=5 class="titletab_small">
             [L]No items at the moment.[/L]
           </td>
         </tr>
@@ -69,7 +68,7 @@
 
         <br>
 
-        <table border=0 cellspacing=0 cellpadding=0 width="50%">
+<table border=0 cellspacing=0 cellpadding=0 width="50%">
         <tr>
           <td align=left>
                         [if items]
@@ -114,5 +113,21 @@
             </table>
           </td>
         </tr>
-        </table>
+</table>
 
+<FORM ACTION="[process secure=1]" METHOD="POST" name="validate">
+        <p>[form-session-id]
+  <input type=hidden name=mv_click VALUE="couponcompare">
+          
+          
+          
+          
+  <input type="text" name="coupon" value="[evalue coupon]" size="20" maxlength="40" />
+          [button
+          
+          
+          text="Submit Coupon Code"
+          ]
+          [/button]
+          
+        </p>

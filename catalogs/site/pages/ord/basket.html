@@ -29,9 +29,13 @@ ui_template_name: leftonly
 [/control-set]
 [control reset=1]
 
+
+
+
 @_ECOM_SIMMS_LEFT_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
-<!-- BEGIN CONTENT -->
+
+ 
 
 [error auto=1 style="color: red"]
 
@@ -52,7 +56,13 @@ ui_template_name: leftonly
 [/calc]
 [/if]
 
+
 <br><b>[L]Your Current Shopping Cart[/L]:</b><br>
+[if type=data term="discountcodes::discount_code::[evalue coupon]"]
+[discount code=ALL_ITEMS] $s * .80 [/discount]
+<br><b>[L]You Just Saved 20% Nice Going![/L]</b><br>
+[else][discount code=ALL_ITEMS][/discount][/else]
+[/if]
 
 <table width="100%" cellspacing="0">
 <tr>
@@ -130,7 +140,7 @@ ui_template_name: leftonly
 [/if-item-param]
 	  	</TD>
 	  	<TD valign="top"><b>[item-sku]</b></TD>
-	  	<td><a href="[area href="[item-sku]"]" class="cartlink"><b>[item-description]</b></A><br>
+	  	<td><a href="[area href="[item-sku]"]" class="cartlink"><b>[item-description]</b></A><br><br>
 
 	[if scratch dealer]
 	[if-item-data pricing sku]
@@ -143,14 +153,14 @@ ui_template_name: leftonly
 	[/if-item-field]
 	[if-item-param mv_min_under]
 		<br>
-		<span style="color: red; font-size: 8pt">
+		<span style="color: __CONTRAST__; font-size: 8pt">
 		[msg arg.0="[item-param mv_min_quantity]"]Minimum order quantity of %s enforced.[/msg]
 		</span>
 	[/if-item-param]
 	[if-item-param mv_max_over]
 		<br>
-		<span style="color: red; font-size: 8pt">
-		[msg arg.0="[item-param mv_max_quantity]"]You have ordered more items than are in stock the cart has been changed to %s reflecting available stock.[/msg]
+		<span style="color: __CONTRAST__; font-size: 8pt">
+		[msg arg.0="[item-param mv_max_quantity]"]Maximum order quantity of %s enforced.[/msg]
 		</span>
 	[/if-item-param]
 
@@ -235,7 +245,7 @@ EOF
 	  <TD ALIGN=right valign="top">
 	    [L]Regular price[/L] <STRIKE>[item-price]</STRIKE>
 	    <BR>
-	    <B>[L]Your price[/L]: [discount-price]<br>
+	    <B>[L]Your price[/L]: $0.00<br>
 	    [L]You save[/L]: [item-difference]
 	  </TD>
 	  <TD ALIGN=right valign="top">
@@ -314,80 +324,7 @@ EOF
 	  </td>
 	</tr>
 	<tr>
-	  <td colspan="4" align="center">
-	    <br>
-  [set Save Cart]
-   mv_todo=return
-   mv_nextpage=ord/basket
-   save_cart=none
-   [save_cart nickname="[value c_nickname]" recurring="[value c_recurring]"]
-  [/set]
-
-[if !scratch just_nickname]
-  [seti just_nickname][tag time]%b-%d-%Y[/tag][/seti]
-[/if]
-
-[if session logged_in][then]
-  [if value save_cart eq 'recurring']
-		</FORM>
-    	    <FORM ACTION="[process]" METHOD=POST>
-    	    [L]To save this recurring order, give it a nickname, then press 'Save Cart'.[/L]<br>
-    	    [L]Nickname[/L]:
-    	    <INPUT TYPE=TEXT NAME="c_nickname" SIZE=11 VALUE="[scratch just_nickname]">
-    	    [form-session-id]
-	    <INPUT TYPE=HIDDEN NAME="c_recurring" VALUE="1">
-    	    <INPUT TYPE=HIDDEN NAME="save_cart" VALUE="recurring">
-    	    <INPUT TYPE=HIDDEN NAME="mv_todo" VALUE="return">
-    	    <INPUT TYPE=HIDDEN NAME="mv_check" VALUE="Save Cart">
-    	    <INPUT TYPE=SUBMIT VALUE="[L]Save Cart[/L]">
-    	    </FORM>
-  [elsif value save_cart eq 'cart']
-		</FORM>
-    	    <FORM ACTION="[process]" METHOD=POST>
-    	    [L]To save this cart, give it a nickname, then press 'Save Cart'.[/L]<br>
-    	    [L]Nickname[/L]:
-    	    <INPUT TYPE=TEXT NAME="c_nickname" SIZE=11 VALUE="[scratch just_nickname]">
-    	    <INPUT TYPE=HIDDEN NAME="c_recurring" VALUE="0">
-    	    <INPUT TYPE=HIDDEN NAME="save_cart" VALUE="cart">
-    	    <INPUT TYPE=HIDDEN NAME="mv_todo" VALUE="return">
-    	    <INPUT TYPE=HIDDEN NAME="mv_check" VALUE="Save Cart">
-            [form-session-id]
-    	    <input type=submit value="[L]Save Cart[/L]" class=button3>
-			
-	    </FORM>
-  [/elsif]
-  [else]
-      [button
-          text="[L]Save This Cart[/L]"
-          class=button3
-          form=basket
-          mv_check="Save This Cart"
-      ]
-          mv_todo=return
-          mv_nextpage=ord/basket
-          save_cart=cart
-      [/button]
-      [button
-          text="[L]Set As Recurring Order[/L]"
-          class=button3
-          form=basket
-          mv_check="Set As Recurring Order"
-      ]
-          [set save_cart]recurring[/set]
-          mv_todo=return
-          mv_nextpage=ord/basket
-          save_cart=recurring
-      [/button]
-    </FORM>
-  [/else]
-  [/if]
-[/then]
-[else]
-    </FORM>
-[/else]
-[/if]
-						
-	  </td>					
+	  
         </tr>
         </table>
 
@@ -395,12 +332,28 @@ EOF
     </tr>
     </TABLE>
 
-  </td>
-</tr>
-</table>
+<FORM ACTION="[process secure=1]" METHOD="POST" name="validate">
+        [form-session-id]
+   <input type=hidden name=mv_click VALUE="couponcompare">
+    
+
+
+
+<input type="text" name="coupon" value="[evalue coupon]" size="20" maxlength="40" />
+[button
+
+                 
+                 text="Submit Coupon Code"
+                 ]
+         [/button]
+
+
+</form>
+
+	</table>
 
 <br><br>
 
-<!-- END CONTENT -->
+
 <!-- END CONTENT -->
 @_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@

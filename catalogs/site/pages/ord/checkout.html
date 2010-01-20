@@ -78,6 +78,13 @@ ui_template_name: noleft
 		  [L]Please fill in the information below and click the <b>'Place Order'</b> button to process your order.[/L]
 		  [/else]
 		  [/if]
+          
+          <br>
+[if type=data term="discountcodes::discount_code::[evalue coupon]"]
+[discount code=ALL_ITEMS] $s * .80 [/discount]
+<br><b>[L]You Just Saved 20% Nice Going![/L]</b><br>
+[else][discount code=ALL_ITEMS][/discount][/else]
+[/if]
 		</td>
 	  </tr>
 	  <tr>
