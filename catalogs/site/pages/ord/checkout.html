@@ -22,6 +22,11 @@ ui_template_name: noleft
 
 @_ECOM_SIMMS_TOP_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
+    [set couponcompare]
+[if type=data term="discountcodes::discount_code::[evalue coupon]"]
+[discount code=ALL_ITEMS] $s * .80 [/discount]
+[/if]
+[/set]
 <br>
 <div align="center"><h1>One Step Secure Checkout</h1>
  <span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=DRhxzTELXHF2A7aBarXWirLbmaVyUH0ybRUXNlZtvKhR8LZ68LFsk"></script><br/><a style="font-family:arial;font-size:9px" href="https://www.godaddy.com/gdshop/ssl/ssl.asp" target="_blank">Secure Site</a></span>
@@ -49,8 +54,8 @@ ui_template_name: noleft
         </blockquote>
         </p>
         <p>
-    [msg arg.0="<FONT color='__CONTRAST__'>" arg.1="</FONT>"]Please correct the areas listed above which are highlighted in %sthis color%s in the form.[/msg]</B>
-    </p>
+    [msg arg.0="<FONT color='__CONTRAST__'>" arg.1="</FONT>"]Please correct the areas listed above which are highlighted in %sthis color%s in the form.[/msg]</p>
+    </B>
     [/if]
 
 
