@@ -25,7 +25,7 @@
 			<input type=text name=company value="[evalue company]" size="20" maxlength="40">		  </td>
 		</tr>
 		<tr>
-		  <td align="right" class="contentbar1">[L]Address[/L]" required=1]		</td>
+		  <td align="right" class="contentbar1">[error name=address1 std_label="[L]Address[/L]" required=1]		</td>
 		<td align="left" colspan=3 class="contentbar1">
 		  <input type=text name=address1 value="[evalue address1]" size="40" maxlength="64">		</td>
 	  </tr>
