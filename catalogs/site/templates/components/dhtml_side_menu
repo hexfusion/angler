@@ -146,6 +146,12 @@ ui_source: templates/components/dhtml_side_menu
 <br>
 </ul></div>
 
+<a class="menuitem submenuheader">Film Tour Tickets</a>
+<div class="submenu">
+<br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=ne/nu=0/sf=category/se=Events/op=rm/nu=0/ml=50.html?submenuheader=14">Tickets</a></li>
+<br>
+</ul></div>
+
 
 
 
