@@ -15,11 +15,11 @@
 
 [if cgi newarea]
 <!-- Creating area: 
-[value name=area set="[counter file=var/counters/area.recordnumber start=1000]" hide=1]
+[value name=area set="[counter file=etc/area.recordnumber start=1000]" hide=1]
 [data table=area column=name key="[value area]" value="[cgi newarea]"] -->
 [elsif cgi newcat]
 <!-- Creating category: 
-[value name=cat set="[counter file=var/counters/cat.recordnumber start=1000]" hide=1]
+[value name=cat set="[counter file=etc/cat.recordnumber start=1000]" hide=1]
 [data table=cat column=name key="[value cat]" value="[cgi newcat]"]
 [data table=cat column=sel key="[value cat]" value="[value area]"] -->
 [/elsif]

@@ -1,8 +1,6 @@
 # Vend::Util - Interchange utility functions
 #
-# $Id: Util.pm,v 2.118 2008-03-27 15:56:49 ton Exp $
-# 
-# Copyright (C) 2002-2008 Interchange Development Group
+# Copyright (C) 2002-2010 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -46,6 +44,7 @@ require Exporter;
 	generate_key
 	get_option_hash
 	hash_string
+	header_data_scrub
 	hexify
 	is_hash
 	is_no
@@ -1113,10 +1112,17 @@ sub readin {
 		logError( "Too many .. in file path '%s' for security.", $file );
 		$file = find_special_page('violation');
 	}
-	$file =~ s#//+#/#g;
-	$file =~ s#/+$##g;
-	($pathdir = $file) =~ s#/[^/]*$##;
-	$pathdir =~ s:^/+::;
+
+	if(index($file, '/') < 0) {
+		$pathdir = '';
+	}
+	else {
+		$file =~ s#//+#/#g;
+		$file =~ s#/+$##g;
+		($pathdir = $file) =~ s#/[^/]*$##;
+		$pathdir =~ s:^/+::;
+	}
+
 	my $try;
 	my $suffix = $Vend::Cfg->{HTMLsuffix};
 	my $db_tried;
@@ -1655,7 +1661,7 @@ sub logDebug {
 		$debug{tag} = $Vend::CurrentTag;
 		$debug{host} = $CGI::host || $CGI::remote_addr;
 		$debug{remote_addr} = $CGI::remote_addr;
-		$debug{catalog} = $Vend::Catalog;
+		$debug{catalog} = $Vend::Cat;
         if($tpl =~ /\{caller\d+\}/i) {
             my @caller = caller();
             for(my $i = 0; $i < @caller; $i++) {
@@ -1818,22 +1824,29 @@ sub logError {
 	$Vend::Errors .= $msg
 		if $Vend::Cfg->{DisplayErrors} || $Global::DisplayErrors;
 
-    eval {
-		open(MVERROR, ">> $opt->{file}")
-											or die "open\n";
-		lockfile(\*MVERROR, 1, 1)		or die "lock\n";
-		seek(MVERROR, 0, 2)				or die "seek\n";
-		print(MVERROR $msg, "\n")		or die "write to\n";
-		unlockfile(\*MVERROR)			or die "unlock\n";
-		close(MVERROR)					or die "close\n";
-    };
+    my $reason;
+    if (! allowed_file($opt->{file}, 1)) {
+        $@ = 'access';
+        $reason = 'prohibited by global configuration';
+    }
+    else {
+        eval {
+            open(MVERROR, ">> $opt->{file}")
+                                        or die "open\n";
+            lockfile(\*MVERROR, 1, 1)   or die "lock\n";
+            seek(MVERROR, 0, 2)         or die "seek\n";
+            print(MVERROR $msg, "\n")   or die "write to\n";
+            unlockfile(\*MVERROR)       or die "unlock\n";
+            close(MVERROR)              or die "close\n";
+        };
+    }
     if ($@) {
 		chomp $@;
 		logGlobal ({ level => 'info' },
 					"Could not %s error file %s: %s\nto report this error: %s",
 					$@,
 					$opt->{file},
-					$!,
+					$reason || $!,
 					$msg,
 				);
     }
@@ -2281,6 +2294,16 @@ sub backtrace {
 
     ::logGlobal($msg);
     undef;
+}
+
+sub header_data_scrub {
+	my ($head_data) = @_;
+
+	## "HTTP Response Splitting" Exploit Fix
+	## http://www.securiteam.com/securityreviews/5WP0E2KFGK.html
+	$head_data =~ s/(?:%0[da]|[\r\n]+)+//ig;
+
+	return $head_data;
 }
 
 ### Provide stubs for former Vend::Util functions relocated to Vend::File

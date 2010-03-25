@@ -157,7 +157,7 @@ EOF
 $Global::mod_perl = 1;
 
 package main;
-require '/usr/local/interchange/bin/interchange';
+require '/home/sam/camp23/interchange/bin/interchange';
 #require '~_~INSTALLARCHLIB~_~/bin/interchange';
 
 

@@ -30,13 +30,6 @@
 	by copying to CATROOT/include.
 [/comment]
 
-#allow page to use htmlarea
-[tmp tmp_hpath][either]__HTMLAREA_PATH__[or]/htmlarea/[/either][/tmp]
-               <script type="text/javascript">
-                  _editor_url = "[scratch tmp_hpath]";
-               </script>
-               <script type="text/javascript" src="[scratch tmp_hpath]fckeditor.js"></script>
-
 [perl tables=mv_metadata]
 	#open this puppy for [page-calc];
 	#probably returning from meta

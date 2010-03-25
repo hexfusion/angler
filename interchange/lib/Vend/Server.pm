@@ -1,6 +1,6 @@
 # Vend::Server - Listen for Interchange CGI requests as a background server
 #
-# $Id: Server.pm,v 2.91.2.1 2008-09-17 23:28:16 jon Exp $
+# $Id: Server.pm,v 2.91.2.2 2009-01-23 14:51:53 jon Exp $
 #
 # Copyright (C) 2002-2008 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
@@ -26,7 +26,7 @@
 package Vend::Server;
 
 use vars qw($VERSION);
-$VERSION = substr(q$Revision: 2.91.2.1 $, 10);
+$VERSION = substr(q$Revision: 2.91.2.2 $, 10);
 
 use Cwd;
 use POSIX qw(setsid strftime);
@@ -539,7 +539,12 @@ sub respond {
 	# $body is now a reference
     my ($s, $body) = @_;
 #show_times("begin response send") if $Global::ShowTimes;
-	my $response_charset = Vend::CharSet->default_charset();
+
+	# Safe kludge: duplicate Vend::CharSet->default_charset method here
+	# so that $Document->send() will work from within Safe
+	#my $response_charset = Vend::CharSet->default_charset();
+	my $c = $Global::Selector{$CGI::script_name};
+	my $response_charset = $c->{Variable}{MV_HTTP_CHARSET} || $Global::Variable->{MV_HTTP_CHARSET};
 
 	my $status;
 	return if $Vend::Sent;
@@ -560,8 +565,16 @@ sub respond {
 	$Vend::StatusLine =~ s/\s*$/\r\n/ if $Vend::StatusLine;
 
 	if(! $s and $Vend::StatusLine) {
-		$Vend::StatusLine .= ($Vend::StatusLine =~ /^Content-Type:/im)
-							? '' : "\r\nContent-Type: text/html; charset=$response_charset\r\n";
+	    if ($Vend::StatusLine !~ /^Content-Type:/im) {
+		$Vend::StatusLine .= "\r\nContent-Type: text/html";
+		if ($response_charset) {
+		     $Vend::StatusLine .= "; charset=$response_charset\r\n";
+		}
+
+		else {
+		     $Vend::StatusLine .= "\r\n";
+		}
+	    }
 
 # TRACK
         $Vend::StatusLine .= "X-Track: " . $Vend::Track->header() . "\r\n"
@@ -676,7 +689,13 @@ sub respond {
 		print $fh canon_status($Vend::StatusLine);
 	}
 	elsif(! $Vend::ResponseMade) {        
-		print $fh canon_status("Content-Type: text/html; charset=$response_charset");
+		if ($response_charset) {
+            print $fh canon_status("Content-Type: text/html; charset=$response_charset");
+            
+		}
+        else {
+            print $fh canon_status("Content-Type: text/html");
+        }
 # TRACK        
         print $fh canon_status("X-Track: " . $Vend::Track->header())
 			if $Vend::Track and $Vend::Cfg->{UserTrack};
@@ -1015,31 +1034,20 @@ my ($Sig_inc, $Sig_dec, $Counter);
 sub sig_int_or_term {
 	$Signal_Terminate = 1;
 
-	my $term_count = 0;
-	TERM: {
-		my %seen;
-		my @pids =
-			grep { !$seen{$_}++ }
-				(keys %Page_pids, keys %Starting_pids);
+	my (%seen, $all_gone);
 
-		last TERM unless @pids;
+	my @pids =
+		grep { !$seen{$_}++ }
+			(keys %Page_pids, keys %Starting_pids);
 
-		kill TERM => $_ for @pids;
-		sleep 1;
-
-		redo TERM unless ++$term_count > 3;
+	for (1..3) {
+		$all_gone = ! kill TERM => @pids
+			and last;
+		select (undef, undef, undef, 0.5);
 	}
 
-	KILL: {
-		my %seen;
-		my @pids =
-			grep { !$seen{$_}++ }
-				(keys %Page_pids, keys %Starting_pids);
-
-		last KILL unless @pids;
-
-		kill KILL => $_ for @pids;
-	}
+	kill KILL => @pids
+		unless $all_gone;
 
 	return;
 }

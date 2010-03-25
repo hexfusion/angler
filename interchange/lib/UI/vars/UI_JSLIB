@@ -1,5 +1,4 @@
 Variable UI_JSLIB <<EOJSLIB
-<script type="text/javascript" src="http://www.westbranchangler.com/js/drag-drop-custom.js"></script>
 <script language="JavaScript">
 <!--
 function open_help(url) {

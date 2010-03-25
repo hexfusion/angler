@@ -26,9 +26,9 @@ eval 'exec /usr/local/bin/perl  -S $0 ${1+"$@"}'
 # Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
 # MA  02110-1301  USA.
 
-use lib '/usr/local/interchange/lib';
+use lib '/home/sam/camp23/interchange/lib';
 #use lib '~_~INSTALLPRIVLIB~_~';
-use lib '/usr/local/interchange';
+use lib '/home/sam/camp23/interchange';
 #use lib '~_~INSTALLARCHLIB~_~';
 
 use strict;
@@ -40,7 +40,7 @@ BEGIN {
 	($Global::VendRoot = $ENV{MINIVEND_ROOT})
 		if defined $ENV{MINIVEND_ROOT};
 
-	$Global::VendRoot = $Global::VendRoot || '/usr/local/interchange';
+	$Global::VendRoot = $Global::VendRoot || '/home/sam/camp23/interchange';
 #	$Global::VendRoot = $Global::VendRoot || '~_~INSTALLARCHLIB~_~';
 	$Global::ErrorFile = "$Global::VendRoot/error.log";
 

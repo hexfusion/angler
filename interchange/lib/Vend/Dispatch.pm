@@ -1,8 +1,6 @@
 # Vend::Dispatch - Handle Interchange page requests
 #
-# $Id: Dispatch.pm,v 1.101 2008-04-25 09:08:03 racke Exp $
-#
-# Copyright (C) 2002-2008 Interchange Development Group
+# Copyright (C) 2002-2010 Interchange Development Group
 # Copyright (C) 2002 Mike Heins <mike@perusion.net>
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -26,7 +24,7 @@
 package Vend::Dispatch;
 
 use vars qw($VERSION);
-$VERSION = substr(q$Revision: 1.101 $, 10);
+$VERSION = '1.101.2.3';
 
 use POSIX qw(strftime);
 use Vend::Util;
@@ -713,7 +711,7 @@ sub run_in_catalog {
 	
 	$g = $Global::Catalog{$cat};
 	unless (defined $g) {
-		logGlobal( "Can't find catalog '%s'" , $cat );
+		logGlobal( "Can't find catalog '%s' for jobs group %s" , $cat, $job );
 		return undef;
 	}
 
@@ -728,16 +726,17 @@ sub run_in_catalog {
 	my $dir;
 	my @itl;
 	if($job) {
-		my ($d, $global_dir, $tmp);
 		my @jobdirs = ([$jobscfg->{base_directory} || 'etc/jobs', 0]);
 
 		if (is_yes($jobscfg->{use_global}) || is_yes($Global::Jobs->{UseGlobal})) {
 			push (@jobdirs, ["$Global::ConfDir/jobs", 1]);
 		}
 
+		my $global_dir;
 		for my $r (@jobdirs) {
-#::logGlobal("check directory=$d for $job");
+			my $d;
 			($d, $global_dir) = @$r;
+#::logGlobal("check directory=$d for $job");
 			next unless $d;
 			next unless -d "$d/$job";
 			$dir = "$d/$job";
@@ -745,9 +744,10 @@ sub run_in_catalog {
 		}
 
 		if($dir) {
+			my $tmp;
 			if ($global_dir) {
-				$tmp = $Vend::Cfg->{AllowedFileRegex};
-				$Vend::Cfg->{AllowedFileRegex} = qr{^$dir};
+				$tmp = $Global::AllowedFileRegex->{$cat};
+				$Global::AllowedFileRegex->{$cat} = qr{^$dir};
 			}
 			
 			my @f = glob("$dir/*");
@@ -760,7 +760,7 @@ sub run_in_catalog {
 			}
 
 			if ($global_dir) {
-				$Vend::Cfg->{AllowedFileRegex} = $tmp;
+				$Global::AllowedFileRegex->{$cat} = $tmp;
 			}
 		}
 	}
@@ -1453,8 +1453,10 @@ EOF
 		my $form =
 			join '',
 			map { "$_=$CGI::values{$_}\n" }
-			sort keys %$CGI::values;
-		my $url = vendUrl($path, undef, undef, { form => $form, match_security => 1 });
+			grep !/^mv_(?:pc|source)$/,
+			sort keys %CGI::values;
+		my $url = vendUrl($path eq '' ? $Vend::Cfg->{DirectoryIndex} : $path, undef, undef, { form => $form, match_security => 1 });
+		$url = header_data_scrub($url);
 		my $msg = get_locale_message(
 			301,
 			"Redirected to %s.",
@@ -1592,6 +1594,8 @@ EOF
 #::logDebug("request_uri=$CGI::request_uri script_path=$CGI::script_path");
         if($CGI::request_uri !~ /^$CGI::script_path/) {
             $Vend::FinalPath = $CGI::request_uri;
+            # remove any trailing query string
+            $Vend::FinalPath =~ s/\?.*//;
 #::logDebug("FinalPath now $CGI::request_uri");
         }
         else {

@@ -26,9 +26,9 @@ eval 'exec /usr/local/bin/perl  -S $0 ${1+"$@"}'
 # Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
 # MA  02110-1301  USA.
 
-use lib '/usr/local/interchange/lib';
+use lib '/home/sam/camp23/interchange/lib';
 #use lib '~_~INSTALLPRIVLIB~_~';
-use lib '/usr/local/interchange';
+use lib '/home/sam/camp23/interchange';
 #use lib '~_~INSTALLARCHLIB~_~';
 
 use strict;
@@ -38,26 +38,26 @@ use Getopt::Long;
 
 use vars qw/$Self/;
 
-Getopt::Long::config(qw/permute/);
+Getopt::Long::config(qw/permute no_ignore_case/);
 
 BEGIN {
 	$::Self = {
 		LINK_HOST      => '127.0.0.1',
 		LINK_PORT      => 7786,
 		LINK_TIMEOUT   => 30,
-		LINK_FILE      => '/usr/local/interchange/etc/socket',
+		LINK_FILE      => '/home/sam/camp23/interchange/etc/socket',
 #		LINK_FILE      => '~_~INSTALLARCHLIB~_~/etc/socket',
-		SRC_DIR        => '/usr/local/interchange/src',
+		SRC_DIR        => '/home/sam/camp23/interchange/src',
 #		SRC_DIR        => '~_~INSTALLARCHLIB~_~/src',
-		INSTALLPRIVLIB => '/usr/local/interchange/lib',
+		INSTALLPRIVLIB => '/home/sam/camp23/interchange/lib',
 #		INSTALLPRIVLIB => '~_~INSTALLPRIVLIB~_~',
-		INSTALLARCHLIB => '/usr/local/interchange',
+		INSTALLARCHLIB => '/home/sam/camp23/interchange',
 #		INSTALLARCHLIB => '~_~INSTALLARCHLIB~_~',
-		INSTALLMAN1DIR => '/usr/local/interchange/man',
+		INSTALLMAN1DIR => '/home/sam/camp23/interchange/man',
 #		INSTALLMAN1DIR => '~_~INSTALLMAN1DIR~_~',
-		INSTALLSCRIPT => '/usr/local/interchange/bin',
+		INSTALLSCRIPT => '/home/sam/camp23/interchange/bin',
 #		INSTALLSCRIPT => '~_~INSTALLARCHLIB~_~/bin',
-		INSTALLBIN => '/usr/local/interchange/bin',
+		INSTALLBIN => '/home/sam/camp23/interchange/bin',
 #		INSTALLBIN => '~_~INSTALLBIN~_~',
 	};
 }

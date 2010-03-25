@@ -31,9 +31,9 @@ use strict;
 BEGIN {
 	($Global::VendRoot = $ENV{MINIVEND_ROOT})
 		if defined $ENV{MINIVEND_ROOT};
-	$Global::VendRoot = $Global::VendRoot || '/usr/local/interchange';
+	$Global::VendRoot = $Global::VendRoot || '/home/sam/camp23/interchange';
 #	$Global::VendRoot = $Global::VendRoot || '~_~INSTALLARCHLIB~_~';
-	$Global::VendBin = $Global::VendBin || '/usr/local/interchange/bin';
+	$Global::VendBin = $Global::VendBin || '/home/sam/camp23/interchange/bin';
 #	$Global::VendBin = $Global::VendBin || '~_~INSTALLBIN~_~';
 }
 
