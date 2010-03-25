@@ -132,7 +132,7 @@
 .\" ========================================================================
 .\"
 .IX Title "Vend::Payment::PRI 3"
-.TH Vend::Payment::PRI 3 "2010-03-24" "perl v5.10.0" "User Contributed Perl Documentation"
+.TH Vend::Payment::PRI 3 "2010-03-25" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -163,9 +163,7 @@ Only one of these need be present and working.
 .IX Header "DESCRIPTION"
 The Vend::Payment::PRI module implements the \s-1\fIPRI\s0()\fR routine for using
 Payment Resources International payment services with Interchange. It is
-compatible on a call level with the other Interchange payment modules \*(-- in
-theory (and even usually in practice) you could switch from CyberCash to \s-1PRI\s0
-with a few configuration file changes.
+compatible on a call level with the other Interchange payment modules.
 .PP
 To enable this module, place this directive in \f(CW\*(C`interchange.cfg\*(C'\fR:
 .PP
@@ -273,7 +271,6 @@ A good way to test this module is to set \s-1PRI_TEST_MODE\s0 to 3, then 2, then
 .IP "generate_error" 4
 .IX Item "generate_error"
 To generate errors in test mode (while using your test \s-1ID\s0 and regkey) simply enter transactions with bad data and see what happens.  \s-1PRI\s0 will supply you with a list of test credit card numbers and amounts that they are good for.
-.RS 4
 .IP "submit_url" 4
 .IX Item "submit_url"
 \&\s-1PRI\s0 uses different URLs depending on what type of transaction you are requesting, Sale, Recurring, Void etc..  The default \s-1URL\s0 for single sale transactions is
@@ -283,9 +280,6 @@ To generate errors in test mode (while using your test \s-1ID\s0 and regkey) sim
 .Ve
 .Sp
 At this time, this is the only \s-1URL\s0 supported by this \s-1PRI\s0 module
-.RE
-.RS 4
-.RE
 .Sh "Troubleshooting"
 .IX Subsection "Troubleshooting"
 If nothing works:
@@ -359,9 +353,3 @@ Interchange implementation by Mike Heins.
 	Changed default refid to mode 2.
 	Fixed bug where \s-1PRI\s0.pm would not recognize a successful transaction with a mix of digits and letters.  Now checks for \*(L"Declined\*(R", <space> or <null> to determine declined transaction, all others succeed.
 	Cleaned up some code.
-.SH "POD ERRORS"
-.IX Header "POD ERRORS"
-Hey! \fBThe above document had some coding errors, which are explained below:\fR
-.IP "Around line 171:" 4
-.IX Item "Around line 171:"
-You forgot a '=back' before '=head2'

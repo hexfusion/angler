@@ -132,7 +132,7 @@
 .\" ========================================================================
 .\"
 .IX Title "Vend::Payment::Linkpoint 3"
-.TH Vend::Payment::Linkpoint 3 "2010-03-24" "perl v5.10.0" "User Contributed Perl Documentation"
+.TH Vend::Payment::Linkpoint 3 "2010-03-25" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -157,9 +157,7 @@ Vend::Payment::Linkpoint \- Interchange Linkpoint Support
 .IX Header "DESCRIPTION"
 The Vend::Payment::Linkpoint module implements the \fIlinkpoint()\fR routine
 for use with Interchange. It is compatible on a call level with the other
-Interchange payment modules \*(-- in theory (and even usually in practice) you
-could switch from CyberCash to Linkpoint with a few configuration 
-file changes.
+Interchange payment modules.
 .PP
 To enable this module, place this directive in \f(CW\*(C`interchange.cfg\*(C'\fR:
 .PP
@@ -220,11 +218,12 @@ Store number assigned to your merchant account.
 .IX Item "transaction"
 The type of transaction to be run. Valid values are:
 .Sp
-.Vb 4
+.Vb 5
 \&    Interchange         Linkpoint
 \&    \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-    \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-\&        auth            preauth
-\&        sale            sale
+\&        auth            PREAUTH
+\&        sale            SALE
+\&        settle_prior    POSTAUTH
 .Ve
 .Sp
 Default is \f(CW\*(C`sale\*(C'\fR.
@@ -236,38 +235,45 @@ passed into the subroutine, and it should return true (in the Perl truth
 sense) if its checks were successful, or false if not.
 .Sp
 This can come in handy since LinkPoint has no option to decline a charge
-when \s-1AVS\s0 data come back negative.
+when \s-1AVS\s0 or \s-1CVV\s0 data come back negative.
 .Sp
-If you want to fail based on a bad \s-1AVS\s0 check, make sure you're only
+If you want to fail based on a bad \s-1AVS/CVV\s0 check, make sure you're only
 doing an auth \*(-- \fBnot a sale\fR, or your customers would get charged on
-orders that fail the \s-1AVS\s0 check and never get logged in your system!
+orders that fail the \s-1AVS/CVV\s0 check and never get logged in your system!
 .Sp
 Add the parameters like this:
 .Sp
 .Vb 1
-\&        Route  linkpoint  check_sub  avs_check
+\&        Route  linkpoint  check_sub  link_check
 .Ve
 .Sp
 This is a matching sample subroutine you could put in interchange.cfg:
 .Sp
-.Vb 12
+.Vb 10
 \&        GlobalSub <<EOR
-\&        sub avs_check {
+\&        sub link_check {
 \&                my ($result) = @_;
 \&                my $avs = $result\->{r_avs};
-\&                my ($addr, $zip) = split m{}, $avs;
+\&                my ($addr, $zip, $nothing, $cvv) = split m{}, $avs;
+\&#::logDebug("avs=$avs, addr=$addr zip=$zip banks=$nothing cvv=$cvv");
 \&                return 1 if $addr eq \*(AqY\*(Aq or $zip eq \*(AqY\*(Aq;
 \&                return 1 if $addr eq \*(AqX\*(Aq and $zip eq \*(AqX\*(Aq;
+\&                return 1 if $cvv =~ /^[MPSUX]$/;
 \&                $result\->{MStatus} = \*(Aqfailure\*(Aq;
-\&                $result\->{r_error} = $result\->{MErrMsg} = "The billing address you entered does not match the cardholder\*(Aqs billing address";
-\&                return 0; 
+\&                if ($cvv eq \*(AqN\*(Aq || \*(Aq\*(Aq) {
+\&                        $result\->{r_error} = "The card security code you entered does not match. Additional failed attempts may hold your available funds.";
+\&                }
+\&                else {
+\&                        $result\->{r_error} = "The billing address you entered does not match the cardholder\*(Aqs billing address. Additional failed attempts may hold your available funds.";
+\&                }
 \&        }
 \&        EOR
 .Ve
 .Sp
 That would work equally well as a Sub in catalog.cfg. It will succeed if
-either the address or zip is 'Y', or if both are unknown. If it fails,
-it sets the error message in the result hash.
+either the address or zip is 'Y', or if both are unknown, or if the \s-1CVV\s0
+matches or is unknown. If it fails, it sets the error message in the
+result hash.
 .Sp
 Of course you can use this sub to do any other post-processing you
 want as well.

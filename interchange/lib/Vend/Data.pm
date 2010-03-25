@@ -1,8 +1,6 @@
 # Vend::Data - Interchange databases
 #
-# $Id: Data.pm,v 2.67 2008-05-05 15:14:00 markj Exp $
-# 
-# Copyright (C) 2002-2008 Interchange Development Group
+# Copyright (C) 2002-2009 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -1154,7 +1152,7 @@ sub export_database {
 
 	$db = $db->ref();
 
-	if ($Vend::Cfg->{NoExportExternal}) {
+	if ($Vend::Cfg->{NoExportExternal} and !$opt->{force}) {
 		# Skip export only for "external" tables (currently SQL and LDAP),
 		# just like NoImportExternal does
 		my $class = $db->config('Class');
@@ -1164,7 +1162,7 @@ sub export_database {
 
 	my $table_name = $db->config('name');
 
-	return 1 if $Vend::Cfg->{NoExport}->{$table_name};
+	return 1 if $Vend::Cfg->{NoExport}{$table_name} and !$opt->{force};
 
 	my $qual;
 	if($qual = $opt->{where}) {
@@ -2145,7 +2143,7 @@ sub update_data {
 			$safe = $Vend::Interpolate::ready_safe;
 		}
 		else {
-			$safe = new Safe;
+			$safe = new Vend::Safe;
 		}
 		$base_db->column_exists($blob_ptr)
 			or undef $blob_ptr;

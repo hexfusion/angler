@@ -132,7 +132,7 @@
 .\" ========================================================================
 .\"
 .IX Title "Vend::Interpolate 3"
-.TH Vend::Interpolate 3 "2010-03-24" "perl v5.10.0" "User Contributed Perl Documentation"
+.TH Vend::Interpolate 3 "2010-03-25" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -159,5 +159,5 @@ the lists used in the widely employed [loop ..], [search\-region ...],
 .PP
 This module makes heavy use of precompiled regexes. You will notice variables
 being used in the regular expression constructs. For example, \f(CW$All\fR is a
-a synonym for \f(CW\*(C`[\e000\-\e377]*\*(C'\fR, \f(CW$Some\fR is equivalent to \f(CW\*(C`[\e000\-\e377]*?\*(C'\fR, etc.
+a synonym for \f(CW\*(C`(?s:.)*\*(C'\fR, \f(CW$Some\fR is equivalent to \f(CW\*(C`(?s:.)*?\*(C'\fR, etc.
 This is not only for clarity of the regular expression, but for speed.

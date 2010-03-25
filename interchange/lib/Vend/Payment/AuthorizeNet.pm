@@ -3,9 +3,7 @@
 # Connection routine for AuthorizeNet version 3 using the 'ADC Direct Response'
 # method.
 #
-# $Id: AuthorizeNet.pm,v 2.19 2007-11-15 00:16:16 jon Exp $
-#
-# Copyright (C) 2003-2007 Interchange Development Group, http://www.icdevgroup.org/
+# Copyright (C) 2003-2009 Interchange Development Group, http://www.icdevgroup.org/
 # Copyright (C) 1999-2002 Red Hat, Inc.
 #
 # Authors:
@@ -60,9 +58,7 @@ Only one of these need be present and working.
 
 The Vend::Payment::AuthorizeNet module implements the authorizenet() routine
 for use with Interchange. It is compatible on a call level with the other
-Interchange payment modules -- in theory (and even usually in practice) you
-could switch from CyberCash to Authorize.net with a few configuration 
-file changes.
+Interchange payment modules.
 
 To enable this module, place this directive in C<interchange.cfg>:
 
@@ -135,7 +131,7 @@ the C<Payment Settings> heading in the Interchange documentation for use.
 =item test
 
 Set this to C<TRUE> if you wish to operate in test mode, i.e. set the Authorize.net
-C<x_Test_Request> query paramter to TRUE.i
+C<x_Test_Request> query parameter to TRUE.
 
 Examples: 
 
@@ -276,7 +272,9 @@ sub authorizenet {
 
 	my $opt;
 	my $secret;
-	
+	my $shipping;
+	my $salestax;
+
 	if(ref $user) {
 		$opt = $user;
 		$user = $opt->{id} || undef;
@@ -400,17 +398,37 @@ sub authorizenet {
         $amount = Vend::Util::round_to_frac_digits($amount,$precision);
     }
 
+	$shipping = $opt->{shipping} if $opt->{shipping};
+
+	if(! $shipping) {
+		$shipping = Vend::Interpolate::tag_shipping();
+		$shipping = Vend::Util::round_to_frac_digits($shipping,$precision);
+	}
+
+	$salestax = $opt->{salestax} if $opt->{salestax};
+
+	if(! $salestax) {
+		$salestax = Vend::Interpolate::salestax();
+		$salestax = Vend::Util::round_to_frac_digits($salestax,$precision);
+	}
+
 	my $order_id = gen_order_id($opt);
 
 #::logDebug("auth_code=$actual->{auth_code} order_id=$opt->{order_id}");
+	my $accttype = $actual->{check_accttype};
+	my $echeck_type = 'WEB';
+	if($accttype eq 'Business Checking') { $echeck_type = 'CCD'; }
 	my %echeck_params = (
 		x_bank_aba_code    => $actual->{check_routing},
 		x_bank_acct_num    => $actual->{check_account},
 		x_bank_acct_type   => $actual->{check_accttype},
 		x_bank_name        => $actual->{check_bankname},
 		x_bank_acct_name   => $actual->{check_acctname},
+		x_echeck_type      => $echeck_type,
 		x_Method => 'ECHECK',
 	);
+
+	my $tax_exempt = ($salestax > 0) ? 'FALSE' : 'TRUE';
 
     my %query = (
 		x_Test_Request			=> $opt->{test} || charge_param('test'),
@@ -434,6 +452,10 @@ sub authorizenet {
 		x_Phone					=> $actual->{phone_day},
 		x_Type					=> $transtype,
 		x_Amount				=> $amount,
+		x_Tax					=> $salestax,
+		x_Freight				=> $shipping,
+		x_PO_Num				=> $actual->{po_number},
+		x_Tax_Exempt			=> $tax_exempt,
 		x_Method				=> 'CC',
 		x_Card_Num				=> $actual->{mv_credit_card_number},
 		x_Exp_Date				=> $exp,
@@ -441,7 +463,7 @@ sub authorizenet {
 		x_Customer_IP			=> $Vend::Session->{ohost},
 		x_Trans_ID				=> $actual->{order_id},
 		x_Auth_Code				=> $actual->{auth_code},
-		x_Invoice_Num			=> $actual->{mv_order_number},
+		x_Invoice_Num			=> $actual->{mv_order_number} || $actual->{mv_transaction_id},
 		x_Password				=> $secret,
 		x_Login					=> $user,
 		x_Version				=> '3.1',

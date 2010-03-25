@@ -1,6 +1,6 @@
 # Vend::File - Interchange file functions
 #
-# Copyright (C) 2002-2010 Interchange Development Group
+# Copyright (C) 2002-2009 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -48,19 +48,29 @@ use strict;
 use Config;
 use Fcntl;
 use Errno;
-use Encode qw( is_utf8 );
+
+unless( $ENV{MINIVEND_DISABLE_UTF8} ) {
+	require Encode;
+	import Encode qw( is_utf8 );
+}
+
 use Vend::Util;
 use File::Path;
 use File::Copy;
 use subs qw(logError logGlobal);
 use vars qw($VERSION @EXPORT @EXPORT_OK $errstr);
-$VERSION = '2.28.2.1';
+$VERSION = '2.33';
 
 sub writefile {
     my($file, $data, $opt) = @_;
+	my($encoding, $fallback);
 
-	my $is_utf8;
-	$is_utf8 = is_utf8(ref $data ? $$data : $data) if $::Variable->{MV_UTF8};
+	if ($::Variable->{MV_UTF8}) {
+		$encoding = $opt->{encoding} ||= 'utf-8';
+		undef $encoding if $encoding eq 'raw';
+		$fallback = $opt->{fallback};
+		$fallback = Encode::PERLQQ() unless defined $fallback;
+	}
 
 	$file = ">>$file" unless $file =~ /^[|>]/;
 	if (ref $opt and $opt->{umask}) {
@@ -84,7 +94,11 @@ sub writefile {
 			}
 			# We have checked for beginning > or | previously
 			open(MVLOGDATA, $file) or die "open\n";
-			binmode(MVLOGDATA, ":utf8") if $is_utf8;
+            if ($encoding) {
+                local $PerlIO::encoding::fallback = $fallback;
+                binmode(MVLOGDATA, ":encoding($encoding)");
+            }
+
 			lockfile(\*MVLOGDATA, 1, 1) or die "lock\n";
 			seek(MVLOGDATA, 0, 2) or die "seek\n";
 			if(ref $data) {
@@ -98,7 +112,10 @@ sub writefile {
 		else {
             my (@args) = grep /\S/, Text::ParseWords::shellwords($file);
 			open(MVLOGDATA, "|-") || exec @args;
-			binmode(MVLOGDATA, ":utf8") if $is_utf8;
+            if ($encoding) {
+                local $PerlIO::encoding::fallback = $fallback;
+                binmode(MVLOGDATA, ":encoding($encoding)");
+            }
 			if(ref $data) {
 				print(MVLOGDATA $$data) or die "pipe to\n";
 			}
@@ -174,10 +191,19 @@ sub readfile_db {
 # the file from the database.
 
 sub readfile {
-    my($ifile, $no, $loc) = @_;
-    my($contents);
+    my($ifile, $no, $loc, $opt) = @_;
+    my($contents,$encoding,$fallback);
     local($/);
 
+	$opt ||= {};
+	
+	if ($::Variable->{MV_UTF8}) {
+		$encoding = $opt->{encoding} ||= 'utf-8';
+		$fallback = $opt->{fallback};
+		$fallback = Encode::PERLQQ() unless defined $fallback;
+		undef $encoding if $encoding eq 'raw';
+	}
+	
 	unless(allowed_file($ifile)) {
 		log_file_violation($ifile);
 		return undef;
@@ -199,6 +225,7 @@ sub readfile {
 	}
 
 	if(! $file) {
+
 		$contents = readfile_db($ifile);
 		return undef unless defined $contents;
 	}
@@ -207,10 +234,19 @@ sub readfile {
 		$Global::Variable->{MV_FILE} = $file;
 
 		binmode(READIN) if $Global::Windows;
-		binmode(READIN, ":utf8") if $::Variable->{MV_UTF8};
+
+        if ($encoding) {
+            local $PerlIO::encoding::fallback = Encode::PERLQQ();
+            binmode(READIN, ":encoding($encoding)");
+        }
+
 		undef $/;
 		$contents = <READIN>;
 		close(READIN);
+#::logDebug("done reading contents");
+
+        # at this point, $contents should be either raw if encoding is
+        # not specified or PerlUnicode.
 	}
 
 	if (
@@ -722,7 +758,7 @@ sub log_file_violation {
 	}
 
 	::logError($msg);
-	::logGlobal({ level => 'auth'}, $msg);
+	::logGlobal({ level => 'warning' }, $msg);
 }
 
 1;

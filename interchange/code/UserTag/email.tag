@@ -5,7 +5,7 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.  See the LICENSE file for details.
 # 
-# $Id: email.tag,v 1.14.2.1 2009-01-23 11:46:56 racke Exp $
+# $Id: email.tag,v 1.15 2009-01-23 11:48:51 racke Exp $
 
 UserTag email Order to subject reply from extra
 UserTag email hasEndTag

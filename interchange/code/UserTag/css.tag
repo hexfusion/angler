@@ -1,4 +1,4 @@
-# Copyright 2003-2010 Interchange Development Group and others
+# Copyright 2003-2009 Interchange Development Group and others
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -7,7 +7,7 @@
 
 UserTag css Order   name
 UserTag css addAttr
-UserTag css Version $Revision: 1.8 $
+UserTag css Version $Revision: 1.9 $
 UserTag css Routine <<EOR
 sub {
 	my ($name, $opt) = @_;
@@ -70,9 +70,7 @@ sub {
 		elsif($opt->{timed}) {
 			my $now = time();
 			$opt->{timed} .= ' min' if $opt->{timed} =~ /^\d+$/;
-			my $secs = Vend::Config::time_to_seconds($opt->{timed});
-#::logDebug("timed seconds = $secs");
-			my $fliptime = $stat[9] + $secs;
+			my $fliptime = adjust_time($opt->{timed}, $stat[9]);
 #::logDebug("fliptime=$fliptime now=$now");
 			if ($fliptime <= $now) {
 				$write = 1;

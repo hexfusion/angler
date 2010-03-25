@@ -1,15 +1,10 @@
 # Vend::Order - Interchange order routing routines
 #
-# $Id: Order.pm,v 2.100.2.2 2008-10-24 10:19:06 pajamian Exp $
-#
-# Copyright (C) 2002-2008 Interchange Development Group
+# Copyright (C) 2002-2009 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
 # Copyright 1995 by Andrew M. Wilcox <amw@wilcoxsolutions.com>
-#
-# CyberCash 3 native mode enhancements made by and
-# Copyright 1998 by Michael C. McCune <mmccune@ibm.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +24,7 @@
 package Vend::Order;
 require Exporter;
 
-$VERSION = substr(q$Revision: 2.100.2.2 $, 10);
+$VERSION = '2.109';
 
 @ISA = qw(Exporter);
 
@@ -1331,45 +1326,6 @@ sub _email {
 	}
 }
 
-# Contributed by Ton Verhagen -- April 15, 2000
-sub _isbn {
-	# $ref is to $::Values hash (well, actually ref to %CGI::values)
-	# $var is the passed name of the variable
-	# $val is current value of checked variable
-	# This routine will return 1 if isbn is ok, else returns 0
-	# Rules:
-	# isbn number must contain exactly 10 digits.
-	# isbn number:		0   9   4   0   0   1   6   3   3   8
-	# weighting factor:	10  9   8   7   6   5   4   3   2   1
-	# Values (product)	0 +81 +32 + 0 + 0 + 5 +24 + 9 + 6 + 8 --> sum is: 165
-	# Sum must be divisable by 11 without remainder: 165/11=15 (no remainder)
-	# Result: isbn 0-940016-33-8 is a valid isbn number.
-	# Note: the last "digit" could be a "X", which would be treated as 10 in the above
-	
-	my($ref, $var, $val) = @_;
-	$val =~ s/[^\dXx]//g;	# weed out non-digits
-	if( $val && length($val) == 10 ) {
-	  my @digits = split("", $val);
-	  my $sum=0;
-	  for(my $i=10; $i > 0; $i--) {
-	  	my $d = $digits[10 - $i];
-		if ($d =~ /[Xx]/) {
-		    if ($i == 1) {
-			$d = 10;
-		    }
-		    else {
-			return (undef, $var, errmsg("'%s' not a valid isbn number", $val));
-		    }
-		}
-		$sum += $d * $i;
-	  }
-	  return ( $sum%11 ? 0 : 1, $var, '' );
-	}
-	else {
-	  return (undef, $var, errmsg("'%s' not a valid isbn number", $val));
-	}
-}
-
 sub _mandatory {
 	my($ref,$var,$val) = @_;
 	return (1, $var, '')
@@ -2010,17 +1966,15 @@ sub route_order {
 						$main->{rollback}
 			);
 		}
+        $Vend::Session->{order_error} = $errors;
+        ::logError("ERRORS on ORDER %s:\n%s", $::Values->{mv_order_number}, $errors);
+
 		if ($main->{errors_to}) {
-			$Vend::Session->{order_error} = $errors;
 			send_mail(
 				$main->{errors_to},
 				errmsg("ERRORS on ORDER %s", $::Values->{mv_order_number}),
 				$errors
 				);
-		}
-		else {
-			$Vend::Session->{order_error} = $errors;
-			::logError("ERRORS on ORDER %s:\n%s", $::Values->{mv_order_number}, $errors);
 		}
 	}
 
@@ -2261,6 +2215,51 @@ sub update_quantity {
 
 }
 
+## This routine loads AutoModifier values
+## The $recalc parameter indicates it is a recalc load and not 
+## an initial load, so that you don't reload all parameters only ones
+## that should change based on an option setting (different SKU)
+
+sub auto_modifier {
+	my ($item, $recalc) = @_;
+	my $code = $item->{code};
+	for my $mod (@{$Vend::Cfg->{AutoModifier}}) {
+		my $attr;
+		my ($table,$key,$foreign) = split /:+/, $mod, 3;
+
+		if($table =~ s/^!\s*//) {
+			# This is an auto-recalculating attribute
+		}
+		elsif($recalc) {
+			# Don't want to reload non-auto-recalculating attributes
+			next;
+		}
+
+		if($table =~ /=/) {
+			($attr, $table) = split /\s*=\s*/, $table, 2;
+		}
+
+		if(! $key and ! $foreign) {
+			$attr ||= $table;
+			$item->{$attr} = item_common($item, $table);
+			next;
+		}
+
+		unless ($key) {
+			$key = $table;
+			$table = $item->{mv_ib};
+		}
+
+		$attr ||= $key;
+
+
+		my $select = $foreign ? $item->{$foreign} : $code;
+		$select ||= $code;
+
+		$item->{$attr} = ::tag_data($table, $key, $select);
+	}
+}
+
 sub add_items {
 	my($items,$quantities) = @_;
 
@@ -2414,7 +2413,23 @@ sub add_items {
 			}
 		}
 		if (! $base ) {
-			logError( "Attempt to order missing product code: %s", $code);
+			my ($subname, $sub, $ret);
+			
+			if ($subname = $Vend::Cfg->{SpecialSub}{order_missing}) {
+				$sub = $Vend::Cfg->{Sub}{$subname} || $Global::GlobalSub->{$subname};
+				eval {
+					$ret = $sub->($code, $quantity);
+				};
+
+				if ($@) {
+					::logError("Error running %s subroutine %s: %s", 'order_missing', $subname, $@);
+				}
+			}
+
+			unless ($ret) {
+				logError( "Attempt to order missing product code: %s", $code);
+			}
+
 			next;
 		}
 
@@ -2475,37 +2490,8 @@ sub add_items {
 					$item->{$i} = $attr{$i}->[$j];
 				}
 			}
-			if($Vend::Cfg->{AutoModifier}) {
-				foreach $i (@{$Vend::Cfg->{AutoModifier}}) {
-					my $attr;
-					my ($table,$key,$foreign) = split /:+/, $i, 3;
 
-					if($table =~ /=/) {
-						($attr, $table) = split /\s*=\s*/, $table, 2;
-					}
-
-					if(! $key and ! $foreign) {
-						$attr ||= $table;
-						$item->{$attr} = item_common($item, $table);
-						next;
-					}
-
-					unless ($key) {
-						$key = $table;
-						$table = $item->{mv_ib};
-					}
-
-					$attr ||= $key;
-
-
-					my $select = $foreign ? $item->{$foreign} : $code;
-					$select ||= $code;
-
-#::logDebug("attr=$attr table=$table key=$key select=$select foreign=$foreign");
-					$item->{$attr} = ::tag_data($table, $key, $select);
-#::logDebug("item->$attr=$item->{$attr}");
-				}
-			}
+			auto_modifier($item) if $Vend::Cfg->{AutoModifier};
 
 			if(my $oe = $Vend::Cfg->{OptionsAttribute}) {
 			  eval {

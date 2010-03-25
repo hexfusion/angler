@@ -132,7 +132,7 @@
 .\" ========================================================================
 .\"
 .IX Title "Vend::Payment::BusinessOnlinePayment 3"
-.TH Vend::Payment::BusinessOnlinePayment 3 "2010-03-24" "perl v5.10.0" "User Contributed Perl Documentation"
+.TH Vend::Payment::BusinessOnlinePayment 3 "2010-03-25" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -270,3 +270,24 @@ Copyright 2004 Ivan Kohler.  All rights reserved.
 .PP
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
+.SH "Extra query parameters"
+.IX Header "Extra query parameters"
+.ie n .IP "extra_query_params ""customer_id  their_param=our_param""" 4
+.el .IP "extra_query_params ``customer_id  their_param=our_param''" 4
+.IX Item "extra_query_params customer_id  their_param=our_param"
+This allows you to map a passed parameter to the transaction query
+of your module. Obviously the module must support it.
+.Sp
+The parameter comes from the parameters passed to the [charge ..] tag
+or the route.
+.Sp
+The above id passes the customer_id parameter on with a key of the
+same name, while the second sets their param \f(CW\*(C`their_param\*(C'\fR with 
+\&\f(CW\*(C`our_param\*(C'\fR.
+.SH "Extra result parameters"
+.IX Header "Extra result parameters"
+.ie n .IP "extra_result_params ""transid=weird.module.name""" 4
+.el .IP "extra_result_params ``transid=weird.module.name''" 4
+.IX Item "extra_result_params transid=weird.module.name"
+This allows you to map a returned parameter to the payment result 
+hash of Interchange.

@@ -132,7 +132,7 @@
 .\" ========================================================================
 .\"
 .IX Title "Vend::Payment::AuthorizeNet 3"
-.TH Vend::Payment::AuthorizeNet 3 "2010-03-24" "perl v5.10.0" "User Contributed Perl Documentation"
+.TH Vend::Payment::AuthorizeNet 3 "2010-03-25" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -163,9 +163,7 @@ Only one of these need be present and working.
 .IX Header "DESCRIPTION"
 The Vend::Payment::AuthorizeNet module implements the \fIauthorizenet()\fR routine
 for use with Interchange. It is compatible on a call level with the other
-Interchange payment modules \*(-- in theory (and even usually in practice) you
-could switch from CyberCash to Authorize.net with a few configuration 
-file changes.
+Interchange payment modules.
 .PP
 To enable this module, place this directive in \f(CW\*(C`interchange.cfg\*(C'\fR:
 .PP
@@ -242,7 +240,7 @@ the \f(CW\*(C`Payment Settings\*(C'\fR heading in the Interchange documentation 
 .IP "test" 4
 .IX Item "test"
 Set this to \f(CW\*(C`TRUE\*(C'\fR if you wish to operate in test mode, i.e. set the Authorize.net
-\&\f(CW\*(C`x_Test_Request\*(C'\fR query paramter to \s-1TRUE\s0.i
+\&\f(CW\*(C`x_Test_Request\*(C'\fR query parameter to \s-1TRUE\s0.
 .Sp
 Examples:
 .Sp

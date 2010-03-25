@@ -132,7 +132,7 @@
 .\" ========================================================================
 .\"
 .IX Title "Vend::UserDB 3"
-.TH Vend::UserDB 3 "2010-03-24" "perl v5.10.0" "User Contributed Perl Documentation"
+.TH Vend::UserDB 3 "2010-03-25" "perl v5.10.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -196,10 +196,10 @@ Save, restore filed user information:
 .Vb 2
 \&    $obj\->get_shipping();
 \&    $obj\->set_shipping();
-\& 
+\&
 \&    $obj\->get_billing();
 \&    $obj\->set_billing();
-\& 
+\&
 \&    $obj\->get_preferences();
 \&    $obj\->set_preferences();
 \&
@@ -258,3 +258,70 @@ Preferences are miscellaneous session information. They include
 by default the fields \f(CW\*(C`email\*(C'\fR, \f(CW\*(C`fax\*(C'\fR, \f(CW\*(C`phone_night\*(C'\fR,
 and \f(CW\*(C`fax_order\*(C'\fR. The field \f(CW\*(C`p_nickname\*(C'\fR acts as a key to select
 the preference set.
+.Sh "Locations"
+.IX Subsection "Locations"
+There are several database locations that have special purposes. These
+fields are not saved as user values.
+.IP "\s-1USERNAME\s0				default: username" 4
+.IX Item "USERNAME				default: username"
+The username or key field of the database table.
+.IP "\s-1BILLING\s0				default: accounts" 4
+.IX Item "BILLING				default: accounts"
+Billing address hash field.
+.IP "\s-1SHIPPING\s0				default: address_book" 4
+.IX Item "SHIPPING				default: address_book"
+Shipping address hash field.
+.IP "\s-1PREFERENCES\s0			default: preferences" 4
+.IX Item "PREFERENCES			default: preferences"
+Miscellaneous information hash field.
+.IP "\s-1FEEDBACK\s0				default: feedback" 4
+.IX Item "FEEDBACK				default: feedback"
+Customer feedback hash field.
+.IP "\s-1PRICING\s0				default: price_level" 4
+.IX Item "PRICING				default: price_level"
+Customer pricing level marker.
+.IP "\s-1CARTS\s0					default: carts" 4
+.IX Item "CARTS					default: carts"
+Saved carts hash field.
+.IP "\s-1PASSWORD\s0				default: password" 4
+.IX Item "PASSWORD				default: password"
+Customer password info. If \f(CW\*(C`crypt\*(C'\fR is set, may be encrypted.
+.IP "\s-1LAST\s0					default: mod_time" 4
+.IX Item "LAST					default: mod_time"
+Last login time
+.IP "\s-1EXPIRATION\s0			default: expiration" 4
+.IX Item "EXPIRATION			default: expiration"
+Expiration of account.
+.IP "\s-1OUTBOARD_KEY\s0  		default: (none)" 4
+.IX Item "OUTBOARD_KEY  		default: (none)"
+Key information for linking to another table of address or other info.
+.IP "\s-1GROUPS\s0				default: groups" 4
+.IX Item "GROUPS				default: groups"
+Groups they should be logged into.
+.IP "\s-1SUPER\s0					default: super" 4
+.IX Item "SUPER					default: super"
+Whether they are a superuser (admin).
+.IP "\s-1ACL\s0					default: acl" 4
+.IX Item "ACL					default: acl"
+.PD 0
+.IP "\s-1FILE_ACL\s0				default: file_acl" 4
+.IX Item "FILE_ACL				default: file_acl"
+.IP "\s-1DB_ACL\s0				default: db_acl" 4
+.IX Item "DB_ACL				default: db_acl"
+.PD
+Location of access control information.
+.IP "\s-1CREATED_DATE_ISO\s0		default: (none)" 4
+.IX Item "CREATED_DATE_ISO		default: (none)"
+.PD 0
+.IP "\s-1CREATED_DATE_UNIX\s0		default: (none)" 4
+.IX Item "CREATED_DATE_UNIX		default: (none)"
+.IP "\s-1UPDATED_DATE_ISO\s0		default: (none)" 4
+.IX Item "UPDATED_DATE_ISO		default: (none)"
+.IP "\s-1UPDATED_DATE_UNIX\s0		default: (none)" 4
+.IX Item "UPDATED_DATE_UNIX		default: (none)"
+.PD
+Date fields.
+.IP "\s-1MERGED_USER\s0			default: (none)" 4
+.IX Item "MERGED_USER			default: (none)"
+The user id of another account this was merged into. If present, and data (should
+be a valid user id) is present in the field, the user will be logged as that username.

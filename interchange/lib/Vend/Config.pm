@@ -1,8 +1,6 @@
 # Vend::Config - Configure Interchange
 #
-# $Id: Config.pm,v 2.238 2008-04-22 18:54:24 jon Exp $
-#
-# Copyright (C) 2002-2008 Interchange Development Group
+# Copyright (C) 2002-2009 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -46,15 +44,16 @@ use vars qw(
 			$GlobalRead  $SystemCodeDone $SystemGroupsDone $CodeDest
 			$SystemReposDone $ReposDest @include
 			);
-use Safe;
+use Vend::Safe;
 use Fcntl;
 use Vend::Parse;
 use Vend::Util;
 use Vend::File;
 use Vend::Data;
 use Vend::Cron;
+use Vend::CharSet ();
 
-$VERSION = '2.238';
+$VERSION = '2.247';
 
 my %CDname;
 my %CPname;
@@ -468,6 +467,7 @@ sub global_directives {
 	['GlobalSub',		 'subroutine',       ''],
 	['Database',		 'database',         ''],
 	['FullUrl',			 'yesno',            'No'],
+	['FullUrlIgnorePort', 'yesno',           'No'],
 	['Locale',			 'locale',            ''],
 	['HitCount',		 'yesno',            'No'],
 	['IpHead',			 'yesno',            'No'],
@@ -492,11 +492,12 @@ sub global_directives {
 	['SafeTrap',         'array',            ':base_io'],
 	['NoAbsolute',		 'yesno',			 'No'],
 	['AllowGlobal',		 'boolean',			 ''],
+	['PerlNoStrict',	 'boolean',			 ''],
+	['PerlAlwaysGlobal', 'boolean',			 ''],
 	['AddDirective',	 'directive',		 ''],
 	['UserTag',			 'tag',				 ''],
 	['CodeDef',			 'mapped_code',		 ''],
 	['HotDBI',			 'boolean',			 ''],
-	['AdminUser',		  undef,			 ''],
 	['HammerLock',		 'time',     	 30],
 	['DataTrace',		 'integer',     	 0],
 	['ShowTimes',		 'yesno',	     	 0],
@@ -511,9 +512,11 @@ sub global_directives {
 	['SubCatalog',		 'catalog',     	 ''],
 	['AutoVariable',	 'autovar',     	 'UrlJoiner'],
 	['XHTML',			 'yesno',	     	 'No'],
+	['UTF8',			 'yesno',	     	 $ENV{MINIVEND_DISABLE_UTF8} ? 'No' : 'Yes'],
 	['External',		 'yesno',	     	 'No'],
 	['ExternalFile',	 'root_dir',	     "$Global::RunDir/external.structure"],
 	['ExternalExport',	 undef,				 'Global::Catalog=Catalog'],
+	['DowncaseVarname',   undef,           ''],
 
 	];
 	return $directives;
@@ -710,6 +713,13 @@ sub catalog_directives {
     ['UserTrack',        'yesno',            'no'],
 	['DebugHost',	     'ip_address_regexp',	''],
 	['BounceReferrals',  'yesno',            'no'],
+	['BounceRobotSessionURL',		 'yesno', 'no'],
+	['OrderCleanup',     'routine_array',    ''],
+	['SessionCookieSecure', 'yesno',         'no'],
+	['SessionHashLength', 'integer',         1],
+	['SessionHashLevels', 'integer',         2],
+	['SourcePriority', 'array_complete', 'mv_pc mv_source'],
+	['SourceCookie', sub { &parse_ordered_attributes(@_, [qw(name expire domain path secure)]) }, '' ],
 
 	];
 
@@ -959,7 +969,7 @@ sub evaluate_ifdef {
 	}
 	elsif ($cond) {
 		my $val = $var_ref->{$var} || '';
-		my $safe = new Safe;
+		my $safe = new Vend::Safe;
 		my $code = "q{$val}" . " " . $cond;
 		$status = $safe->reval($code);
 		if($@) {
@@ -1336,6 +1346,11 @@ CONFIGLOOP:
 		}
 	}
 
+	# Set up hash of keys to hide for BounceReferrals
+	$C->{BounceReferrals_hide} = { map { ($_, 1) } grep { !(/^cookie-/ or /^session(?:$|-)/) } @{$C->{SourcePriority}} };
+	my @exclude = qw( mv_form_charset mv_session_id mv_tmp_session );
+	@{$C->{BounceReferrals_hide}}{@exclude} = (1) x @exclude;
+
 	finalize_mapped_code();
 
 	set_readonly_config();
@@ -1382,7 +1397,7 @@ sub read_container {
 	}
 	return undef unless $foundeot;
 	#untaint
-	$value =~ /([\000-\377]*)/;
+	$value =~ /((?s:.)*)/;
 	$value = $1;
 	return $value;
 }
@@ -1402,7 +1417,7 @@ sub read_here {
 	}
 	return undef unless $foundeot;
 	#untaint
-	$value =~ /([\000-\377]*)/;
+	$value =~ /((?s:.)*)/;
 	$value = $1;
 	return $value;
 }
@@ -2158,8 +2173,18 @@ sub parse_action {
 	}
 	my ($name, $sub) = split /\s+/, $value, 2;
 
+	## Determine if we are in a catalog config, and if 
+	## perl should be global and/or strict
+	my $nostrict;
+	my $perlglobal = 1;
+
+	if($C) {
+		$nostrict = $Global::PerlNoStrict->{$C->{CatalogName}};
+		$perlglobal = $Global::AllowGlobal->{$C->{CatalogName}};
+	}
+
 	# Untaint and strip this pup
-	$sub =~ s/^\s*([\000-\377]*\S)\s*//;
+	$sub =~ s/^\s*((?s:.)*\S)\s*//;
 	$sub = $1;
 
 	if($sub !~ /\s/) {
@@ -2198,9 +2223,15 @@ EOF
 			$c->{$name} = eval $code;
 		}
 	}
-	elsif (! $C or $Global::AllowGlobal->{$C->{CatalogName}}) {
+	elsif ($perlglobal) {
 		package Vend::Interpolate;
-		$c->{$name} = eval $sub;
+		if($nostrict) {
+			no strict;
+			$c->{$name} = eval $sub;
+		}
+		else {
+			$c->{$name} = eval $sub;
+		}
 	}
 	else {
 		package Vend::Interpolate;
@@ -2675,6 +2706,14 @@ sub parse_require {
 			. ($C ? 'catalog' : 'Interchange daemon') . '.';
 	}
 
+	my $nostrict;
+	my $perlglobal = 1;
+
+	if($C) {
+		$nostrict = $Global::PerlNoStrict->{$C->{CatalogName}};
+		$perlglobal = $Global::AllowGlobal->{$C->{CatalogName}};
+	}
+
 	my $vref = $C ? $C->{Variable} : $Global::Variable;
 	my $require;
 	my $testsub = sub { 0 };
@@ -2729,7 +2768,7 @@ sub parse_require {
 				$oldtype = '.pl';
 			}
 			$module =~ /[^\w:]/ and return undef;
-			if(! $C or $Global::AllowGlobal->{$C->{CatalogName}}) {
+			if($perlglobal) {
 				if ($pathinfo) {
 					unshift(@INC, $pathinfo);
 				}
@@ -3042,7 +3081,7 @@ sub parse_locale {
 		$settings =~ /^\s*{/
 			and $settings =~ /}\s*$/
 				and $eval = 1;
-		$eval and ! $safe and $safe = new Safe;
+		$eval and ! $safe and $safe = new Vend::Safe;
 		if(! defined $store->{$name} and $item eq 'Locale') {
 		    my $past = POSIX::setlocale(POSIX::LC_ALL);
 			if(POSIX::setlocale(POSIX::LC_ALL, $name) ) {
@@ -3198,7 +3237,13 @@ my @Cleanups;
 
 	Autoload => sub {
 #::logDebug("Doing Autoload dispatch...");
-		Vend::Dispatch::run_macro($Vend::Cfg->{Autoload});
+		my ($subname, $inspect_sub);
+
+		if ($subname = $Vend::Cfg->{SpecialSub}{autoload_inspect}) {
+			$inspect_sub = $Vend::Cfg->{Sub}{$subname} || $Global::GlobalSub->{$subname};
+		}
+		
+		Vend::Dispatch::run_macro($Vend::Cfg->{Autoload}, undef, $inspect_sub);
 	},
 
 	CookieLogin => sub {
@@ -3471,11 +3516,6 @@ sub set_default_search {
 						if $Global::SOAP and ! $Global::SOAP_Socket;
 					return 1;
 				},
-		SocketFile => sub {
-					@$Global::SocketFile = "$Global::VendRoot/etc/socket"
-						unless @$Global::SocketFile and $Global::SocketFile->[0];
-					return 1;
-				},
 		TcpMap => sub {
 					return 1 if defined $Have_set_global_defaults;
 					my (@sets) = keys %{$Global::TcpMap};
@@ -3643,6 +3683,22 @@ sub set_defaults {
 	for(@Cleanups) {
 		push @{ $C->{CleanupRoutines} ||= [] }, $Cleanup_code{$_};
 	}
+
+    # check MV_HTTP_CHARSET against a valid encoding
+    if ( !$ENV{MINIVEND_DISABLE_UTF8} &&
+         (my $enc = $C->{Variable}->{MV_HTTP_CHARSET}) ) {
+        if (my $norm_enc = Vend::CharSet::validate_encoding($enc)) {
+            if ($norm_enc ne uc($enc)) {
+                config_warn("Provided MV_HTTP_CHARSET '$enc' resolved to '$norm_enc'.  Continuing.");
+                $C->{Variable}->{MV_HTTP_CHARSET} = $norm_enc;
+            }
+        }
+        else {
+            config_error("Unrecognized/unsupported MV_HTTP_CHARSET: '%s'.", $enc);
+            delete $C->{Variable}->{MV_HTTP_CHARSET};
+        }
+    }
+
 	$Have_set_global_defaults = 1;
 	return;
 }
@@ -4751,6 +4807,32 @@ sub parse_profile {
 	return $c;
 }
 
+# Parse ordered or named attributes just like in a usertag.  Needs to have the routine specified as follows:
+# ['Foo', sub { &parse_ordered_attributes(@_, [qw(foo bar baz)]) }, 'foo bar baz'],
+# If called directly in the normal fashion then you cannot specify the attribute order, but you can
+# still use it for parsing named attributes.  The results are stored as a hashref (think $opt)
+sub parse_ordered_attributes {
+	my ($var, $value, $order) = @_;
+
+	return {} if $value !~ /\S/;
+
+	my @settings = Text::ParseWords::shellwords($value);
+	my %opt;
+	if ($settings[0] =~ /=/) {
+		%opt = map { (split /=/, $_, 2)[0, 1] } @settings;
+	}
+
+	elsif (ref $order eq 'ARRAY') {
+		@opt{@$order} = @settings;
+	}
+
+	else {
+		config_error("$var only accepts named attributes.");
+	}
+
+	return \%opt;
+}
+
 # Designed to parse catalog subroutines and all vars
 sub save_variable {
 	my ($var, $value) = @_;
@@ -5054,7 +5136,7 @@ sub parse_tag {
 		my $sub;
 		$c->{Source}->{$tag}->{$p} = $val;
 		unless(!defined $C or $Global::AllowGlobal->{$C->{CatalogName}}) {
-			my $safe = new Safe;
+			my $safe = new Vend::Safe;
 			my $code = $val;
 			$code =~ s'$Vend::Session->'$foo'g;
 			$code =~ s'$Vend::Cfg->'$bar'g;
@@ -5219,18 +5301,34 @@ sub parse_subroutine {
 		);
 	}
 
+	## Determine if we are in a catalog config, and if 
+	## perl should be global and/or strict
+	my $nostrict;
+	my $perlglobal = 1;
+
+	if($C) {
+		$nostrict = $Global::PerlNoStrict->{$C->{CatalogName}};
+		$perlglobal = $Global::AllowGlobal->{$C->{CatalogName}};
+	}
+
 	$name =~ s/\s+//g;
 
 	# Untainting
-	$value =~ /([\000-\377]*)/;
+	$value =~ /((?s:.)*)/;
 	$value = $1;
 
 	if(! defined $C) {
 		$c->{$name} = eval $value;
 	}
-	elsif($Global::AllowGlobal->{$C->{CatalogName}}) {
+	elsif($perlglobal) {
 		package Vend::Interpolate;
-		$c->{$name} = eval $value;
+		if($nostrict) {
+			no strict;
+			$c->{$name} = eval $value;
+		}
+		else {
+			$c->{$name} = eval $value;
+		}
 	}
 	else {
 		package Vend::Interpolate;

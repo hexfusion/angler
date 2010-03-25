@@ -1,6 +1,6 @@
 # Vend::DbSearch - Search indexes with Interchange
 #
-# $Id: DbSearch.pm,v 2.26 2007-08-09 13:40:53 pajamian Exp $
+# $Id: DbSearch.pm,v 2.27 2008-09-06 05:22:56 mheins Exp $
 #
 # Adapted for use with Interchange from Search::TextSearch
 #
@@ -27,7 +27,7 @@ require Vend::Search;
 
 @ISA = qw(Vend::Search);
 
-$VERSION = substr(q$Revision: 2.26 $, 10);
+$VERSION = substr(q$Revision: 2.27 $, 10);
 
 use Search::Dict;
 use strict;
@@ -232,7 +232,20 @@ sub search {
 	}
 
 	$s->save_specs();
-	foreach $searchfile (@searchfiles) {
+
+	# set max_matches based on the lower of the pragma & the search parameter
+	# (so end-users can further restrict the size of the result set, but not increase it)
+	my $max_matches;
+	{
+		no warnings 'uninitialized';
+		$max_matches = $::Pragma->{max_matches};
+		undef $max_matches if $max_matches < 1;
+		my $search_mm = $s->{mv_max_matches};
+		$max_matches = $search_mm
+			if $search_mm > 0 and (!$max_matches or $search_mm < $max_matches);
+	}
+
+	SEARCHFILE: for $searchfile (@searchfiles) {
 		my $lqual = $qual || '';
 		$searchfile =~ s/\..*//;
 		my $db;
@@ -250,8 +263,9 @@ sub search {
 
 		if(! $s->{mv_no_hide} and my $hf = $dbref->config('HIDE_FIELD')) {
 #::logDebug("found hide_field $hf");
-			$lqual =~ s/^\s*WHERE\s+/ WHERE $hf <> 1 AND /
-				or $lqual = " WHERE $hf <> 1";
+			my $ss = $dbref->quote(1, $hf);
+			$lqual =~ s/^\s*WHERE\s+/ WHERE $hf <> $ss AND /
+				or $lqual = " WHERE $hf <> $ss";
 #::logDebug("lqual now '$lqual'");
 		}
 		$s->hash_fields(\@fn);
@@ -275,6 +289,7 @@ sub search {
 			while($ref = $dbref->each_nokey($lqual) ) {
 				next unless $limit_sub->($ref);
 				push @out, $return_sub->($ref);
+				last SEARCHFILE if $max_matches and @out >= $max_matches;
 			}
 		}
 		elsif(defined $limit_sub) {
@@ -286,6 +301,7 @@ sub search {
 				next unless &$f();
 				next unless $limit_sub->($ref);
 				push @out, $return_sub->($ref);
+				last SEARCHFILE if $max_matches and @out >= $max_matches;
 			}
 		}
 		elsif (!defined $f) {
@@ -300,6 +316,7 @@ sub search {
 				$_ = join "\t", @$ref;
 				next unless &$f();
 				push @out, $return_sub->($ref);
+				last SEARCHFILE if $max_matches and @out >= $max_matches;
 			}
 		}
 		$s->restore_specs();
@@ -328,9 +345,7 @@ sub search {
 		@out = grep ! $seen{$_->[0]}++, @out;
 	}
 
-	if($s->{mv_max_matches} and $s->{mv_max_matches} > 0) {
-		splice @out, $s->{mv_max_matches};
-	}
+	splice @out, $max_matches if $max_matches;
 
 	$s->{matches} = scalar(@out);
 

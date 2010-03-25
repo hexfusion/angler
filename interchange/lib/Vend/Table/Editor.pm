@@ -829,6 +829,7 @@ sub display {
 								height
 								help
 								help_url
+								id
 								label
 								js_check
 								lookup
@@ -2913,6 +2914,7 @@ EOF
 						ui_meta_specific
 						ui_hide_key
 						ui_meta_view
+						ui_new_item
 						ui_data_decode
 						mv_blob_field
 						mv_blob_label
