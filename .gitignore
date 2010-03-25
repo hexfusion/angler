@@ -3,6 +3,7 @@ catalogs/site/products/*.gdbm
 catalogs/site/products/.*.autonumber
 catalogs/site/products/.*.gdbm
 catalogs/site/products/.*.sql
+catalogs/site/products/*.txt
 catalogs/site/var/*
 cgi-bin/site
 htdocs/site/images/items
