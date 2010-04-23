@@ -197,7 +197,7 @@ AND sku = '[ITEM-CODE]' ORDER BY description"
          type=list]
 		 <SELECT NAME="mv_sku">
       [list]
-	  <OPTION VALUE="[sql-param code]">[sql-param description] $[sql-param price]
+	  <OPTION VALUE="[sql-param code]">[sql-param description] ($[sql-param price])
       [/list]
 	  </SELECT>
   [/query]
