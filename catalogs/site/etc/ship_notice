@@ -71,7 +71,7 @@ Quan  Item No.    Description                            Price       Extension
 	}
 	$status = uc $status;
 	my $mesg = q{[data
-					table=inventory
+					table=variants
 					column=stock_message
 					key="[item-data orderline sku]"
 					]};

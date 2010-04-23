@@ -13,7 +13,7 @@ SHIP_MIN_WEIGHT		5	Shipping
 JS_DIR	/assetstore/site/js	Directories and Paths
 FORUM_ANON_NAME	Anonymous Coward	Forums
 CART_UPSELL	0	Cart/Checkout
-UI_ITEM_TABLES	products pricing inventory merchandising options:sku	Item display
+UI_ITEM_TABLES	products pricing variants merchandising options:sku	Item display
 MV_PAYMENT_PARTNER		Payment
 PGP_KEY	9DF12A71	Encryption
 BAR_LINK_TEMPLATE	<A HREF="$URL$" CLASS="barlink">$ANCHOR$</A>	Template
@@ -74,7 +74,7 @@ PUBLISH_PUT_PAGES	pages	Admin Control
 CHECKOUT_PAGE	ord/checkout	Cart/Checkout
 USPS_MODULO	80	Shipping
 DEFAULT_LOCALE	en_US	Internationalization
-UI_CLONE_TABLES	products* pricing* inventory merchandising options:sku	Item display
+UI_CLONE_TABLES	products* pricing* variants:quantity merchandising options:sku	Item display
 CHECK_ACCEPTED	0	Payment
 CITY	Hancock, NY 13783	Company
 CHECKOUT_MAIL_LIST	1	Cart/Checkout

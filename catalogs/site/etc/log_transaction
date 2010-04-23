@@ -12,7 +12,7 @@
 [/comment]
 
 [tmpn auto_create][/tmpn]
-[loop list="transactions orderline inventory userdb"]
+[loop list="transactions orderline variants userdb"]
 [flag type=write table="[loop-code]"]
 [/loop]
 Total order: [total-cost]
@@ -450,7 +450,7 @@ description: [filter mac][item-description][/filter]
 
 [if variable DECREMENT_INVENTORY]Inventory of [item-code] now:
 	[data
-		table=inventory
+		table=variants
 		col=quantity
 		key="[item-code]"
 		increment=1
