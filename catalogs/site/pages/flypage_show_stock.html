@@ -8,6 +8,45 @@ ui_page_version: 5.6.1
 ui_source: pages/flypage_show_stock.html
 [/comment]
 
+
+[if-item-field inactive]
+[tag op=header]
+Status: 404 Not found
+Content-type: text/html
+[/tag]
+[tmpn page_title]Sorry, the page was not found[/tmpn]
+
+[control reset=1]
+[control-set]
+        [component]verticle_simms[/component]
+[/control-set]
+[control-set]
+        [component]dhtml_side_menu[/component]
+[/control-set]
+[control-set]
+        [component][/component]
+[/control-set]
+[control-set]
+        [component][/component]
+[/control-set]
+[control-set]
+        [component][/component]
+[/control-set]
+[control-set]
+        [component]cart_tiny[/component]
+[/control-set]
+[control-set]
+        [component]newsletter[/component]
+[/control-set]
+[control reset=1]
+
+
+@_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_TOP_@
+<h1>[scratch page_title]</h1>
+<p>The requested item is no longer available</p>
+@_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_BOTTOM_@
+[else]
+
 <!-- BEGIN PREAMBLE -->
 <html>
 	<head>
@@ -221,3 +260,5 @@ countries.init()
 <p>[/fly-list]</p>
 <!-- END CONTENT -->
 @_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_BOTTOM_@
+[/else]
+[/if-item-field]
