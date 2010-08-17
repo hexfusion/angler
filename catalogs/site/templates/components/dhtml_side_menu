@@ -16,6 +16,7 @@ ui_source: templates/components/dhtml_side_menu
 <br><li><a href="/discontinued_waders.html?submenuheader=0">Discontinued Waders</a></li>
 <br><li><a href="/discontinued_wading_boots.html?submenuheader=0">Discontinued Boots</a></li>
 <br><li><a href="/discontinued_outerwear.html?submenuheader=0">Discontinued Outerwear</a></li>
+<br><li><a href="/discontinued_layering.html?submenuheader=0">Discontinued Layering</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=rm/nu=0/sf=category/se=reels/op=rm/nu=0/ml=50/tf=price/to=nr.html?submenuheader=0">Discontinued Reels</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=rm/nu=0/sf=category/se=sportswear/op=rm/nu=0/ml=50/tf=price/to=nr.html?submenuheader=0">Discontinued Sportswear</a></li>
 <br><li><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=merchandising/se=discontinued/op=rm/nu=0/ml=50/tf=price/to=nr.html?submenuheader=0">View All Discontinued</a></li>
