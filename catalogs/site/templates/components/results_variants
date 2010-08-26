@@ -1,12 +1,11 @@
 [comment]
-ui_component: sliding_variants
+ui_component: results_variants
 ui_type: component
-ui_name: sliding_variants
+ui_name: results_variants
 ui_class: content
 ui_group: search
-ui_help: Configurable results page with Buy List.
-ui_label: Search Results (configurable grid) with Buy List
-ui_source: templates/components/sliding_variants
+ui_label: Search Results by variants
+ui_source: templates/components/results_variants
 
 [/comment]
  <div align="left" style="width:720px">
@@ -70,4 +69,4 @@ Sale Price: [sql-param sale_price]<br/>
      
   </div>
 
-<!-- END COMPONENT [control component sliding_variants] -->
+<!-- END COMPONENT [control component results_variants] -->
