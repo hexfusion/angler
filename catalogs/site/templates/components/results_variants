@@ -15,7 +15,7 @@ ui_source: templates/components/results_variants
        type=list
        more=1
        ml=12
-       sql="select variants.code, variants.size, variants.season, variants.sku, variants.quantity, variants.price, variants.sale_price, variants.attribute, products.description from variants inner join products on products.sku = variants.sku where
+       sql="select variants.code, variants.size, variants.image, variants.season, variants.sku, variants.quantity, variants.price, variants.sale_price, variants.attribute, products.description from variants inner join products on products.sku = variants.sku where
                variants.size = '[cgi size]'
                and
                products.category = '[cgi category]'
