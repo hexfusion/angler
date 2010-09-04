@@ -30,7 +30,7 @@ ui_source: templates/components/results_variants
    
  <div align="center" style="width:167px; position: relative; float:left; border:1px #dfdfdf; margin:5px">
  
-<a href="http://www.westbranchangler.com/[sql-param sku]"><img src="/assetstore/site/images/items/120x120/[sql-param code]" border="0" alt="[item-filter encode_entities][sql-param description][/item-filter]"></a> <br />
+<a href="http://www.westbranchangler.com/[sql-param sku]"><img src="/assetstore/site/images/items/120x120/[sql-param image]" border="0" alt="[item-filter encode_entities][sql-param description][/item-filter]"></a> <br />
 <a href="http://www.westbranchangler.com/[sql-param sku]">[sql-param description]</a><br /><br>
 Sku: [sql-param code]<br />
 Size: [sql-param size] Color: [sql-param attribute]<br />
