@@ -1,6 +1,9 @@
 [set page_title][L]Ebay manager[/L]: [L]Add Item[/L][/set]
 
+
   @_UI_STD_HEAD_@
+
+
   <!-- ----- BEGIN REAL STUFF ----- -->
   <br>
   <br>
@@ -18,7 +21,8 @@
 	  
 	  <tr class="rowalt">
 	    <td width="15%" style="padding: 5px"><strong>Category :</strong></td>
-	    <td width="34%" style="padding: 5px"><select name="category" id="category">
+	    <td width="34%" style="padding: 5px">
+        <select name="category" id="category">
 	      
 		[query type=list sql="SELECT * FROM ebay_listing_cat "]
 		[sql-list]		
@@ -41,6 +45,7 @@
 	      
 	      
 	      
+	      
 [query type=list sql="SELECT * FROM ebay_listing_cat "]
 		
 [sql-list]		
@@ -49,7 +54,9 @@
 	      
 	      
 	      
-	      <option value="[sql-param cat_id]" selected="selected">[sql-param description]</option>
+	      
+	      <option value="[sql-param con_id]" selected="selected">[sql-param description]</option>
+	      
 	      
 	      
 	      
@@ -57,7 +64,9 @@
 
 	      
 	      
-	      <option value="[sql-param cat_id]">[sql-param description]</option>
+	      
+	      <option value="[sql-param con_id]">[sql-param description]</option>
+	      
 	      
 	      
 	      
@@ -68,9 +77,51 @@
 
 	      
 	      
-	      </select>	    </td>
+	      
+        </select></td>
       </tr>
-      <tr class="rownorm">
+	  <tr class="rownorm">
+	    <td width="15%" style="padding: 5px"><strong>Item Condition : </strong></td>
+	    <td style="padding: 5px"><select name="condition_id" id="condition_id">
+          
+	      
+	      
+	      
+[query type=list sql="SELECT * FROM ebay_listing_condition "]
+		
+[sql-list]		
+	[if term='[sql-param default]' op='eq' compare='1']
+
+	      
+	      
+	      
+	      
+        <option value="[sql-param cat_id]" selected="selected">[sql-param description]</option>
+	        
+	      
+	      
+	      
+[else]
+
+	      
+	      
+	      
+	        <option value="[sql-param cat_id]">[sql-param description]</option>
+	        
+	      
+	      
+	      
+[/else]
+[/if]
+[/sql-list]
+[/query]
+
+	      
+	      
+	      
+        </select></td>
+    </tr>
+      <tr class="rowalt">
         <td style="padding: 5px"><strong>Title :</strong></td>
 		[query prefix=item sql="SELECT * FROM products WHERE sku ='[cgi item_id]'" type=list][set description][item-param description][/set][set comment][item-param comment][/set][set comment_short][item-param comment_short][/set][seti price][item-param price][/seti][set image][item-param image][/set][set manufacturer][item-param manufacturer][/set][/query]
         <td style="padding: 5px"><input name="title" type="text" id="title" value="[scratch filter=uc name=manufacturer] [scratch filter=uc name=description]" size="50"></td>
@@ -80,7 +131,9 @@
         <td style="padding: 5px"><input name="subtitletext" type="text" id="subtitletext" size="50" maxlength="50"></td>
       </tr>
       <tr class="rowalt">
-        <td colspan="2" style="padding: 5px"><textarea name="description" cols="100" rows="20" id="description">[scratch filter=textarea_put name=comment_short]<br />[scratch filter=textarea_put name=comment] <p><p>Please note that the picture shown may not be the exact size and color of the item that is in auction please be sure to review the information regarding size and color.<p><p> West Branch Angler is a fully operational Fly Shop and Resort located on the West Branch of the Delaware River.  We have been in business since 1991 and stand behind our products if you have any questions or concerns please feel free to contact us (800) 201-2557.  Bid with confidence and good luck!</textarea></td>
+
+      
+        <td colspan="2" style="padding: 5px"> [display type="htmlarea" name="description" height="20" width="100" interpolate="1" value="[scratch name=comment_short]<br />[scratch name=comment] <p><p>Please note that the picture shown may not be the exact size and color of the item that is in auction please be sure to review the information regarding size and color.<p><p> West Branch Angler is a fully operational Fly Shop and Resort located on the West Branch of the Delaware River.  We have been in business since 1991 and stand behind our products if you have any questions or concerns please feel free to contact us (800) 201-2557.  Bid with confidence and good luck!"][/display]</td>
         </tr>
       <tr class="rownorm">
         <td style="padding: 5px"><strong>Buy It Now Price :</strong></td>
@@ -177,11 +230,11 @@
     </tr>
       <tr class="rownorm">
         <td style="padding: 5px"><strong>Gallery Pic URL:</strong></td>
-        <td style="padding: 5px"><input name="gallery_url" type="text" id="gallery_url" value="http://www.westbranchangler.com/site/images/items/120x120/[scratch image]"></td>
+        <td style="padding: 5px"><input name="gallery_url" type="text" id="gallery_url" value="http://www.westbranchangler.com/site/images/items/120x120/[scratch image]" size="100" /></td>
         </tr>
       <tr class="rowalt">
         <td style="padding: 5px"><strong>Image URL : </strong></td>
-        <td style="padding: 5px"><input name="image_url" type="text" id="image_url" value="http://www.westbranchangler.com/site/images/items/325x325/[scratch image]"></td>
+        <td style="padding: 5px"><input name="image_url" type="text" id="image_url" value="http://www.westbranchangler.com/site/images/items/325x325/[scratch image]" size="100"></td>
         </tr>
       <tr class="rowalt">
         <td colspan="2" style="padding: 5px"><div align="center"><strong>Domestic Shipping Details </strong></div></td>

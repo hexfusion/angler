@@ -1,4 +1,4 @@
-# Interchange UserTag ebay_additem v1.5
+# Interchange UserTag ebay_additem v1.6
 #
 # Copyright (C) 2005  Grant
 #
@@ -20,10 +20,11 @@
 # 02111-1307, USA.
 #
 # 02-11-2009 updated XML to comply with newest API examples -Sam
+# 09-08-2010 updated to include item condition 
 
-# See http://developer.ebay.com for more information.
+#See http://developer.ebay.com for more information.
 
-Usertag ebay_additem Order buy_it_now best_offer category description domestic_shipping_type domestic_shipping_rate duration int_shipping_type int_shipping_rate payment gallery gallery_url image_url price quantity insurance_fee storecategory subtitletext title type
+Usertag ebay_additem Order buy_it_now best_offer category condition_id condition_display description domestic_shipping_type domestic_shipping_rate duration int_shipping_type int_shipping_rate payment gallery gallery_url image_url price quantity insurance_fee storecategory subtitletext title type
 Usertag ebay_additem Routine <<EOR
 use Data::UUID;
 use HTTP::Request::Common;
@@ -31,7 +32,7 @@ use LWP::UserAgent;
 use XML::Simple;
 $XML::Simple::PREFERRED_PARSER = 'XML::Parser';
 sub {
-	my ( $buy_it_now,$best_offer,$category,$description,$domestic_shipping_type,$domestic_shipping_rate,$duration,$int_shipping_type,$int_shipping_rate,$payment,$gallery,$gallery_url,$image_url,$price,$quantity,$insurance_fee,$storecategory,$subtitletext,$title,$type) = @_;
+	my ( $buy_it_now,$best_offer,$category,$condition_id,$condition_display,$description,$domestic_shipping_type,$domestic_shipping_rate,$duration,$int_shipping_type,$int_shipping_rate,$payment,$gallery,$gallery_url,$image_url,$price,$quantity,$insurance_fee,$storecategory,$subtitletext,$title,$type) = @_;
 	my $user_agent = new LWP::UserAgent(
 		timeout => 30,
 		agent => 'ebay_additem',
@@ -40,6 +41,8 @@ sub {
 $buy_it_now .= $_->{buy_it_now};
 $best_offer .= $_->{best_offer};
 $category .= $_->{category};
+$condition_id .= $_->{condition_id};
+$condition_display .= $_->{condition_display};
 $description .= $_->{description};
 $domestic_shipping_type .= $_->{domestic_shipping_type};
 $domestic_shipping_rate .= $_->{domestic_shipping_rate};
@@ -57,7 +60,7 @@ $subtitletext .= $_->{subtitletext};
 $title .= $_->{title};
 $type .= $_->{type};
 
-my @strings=( $buy_it_now,$best_offer,$category,$description,$domestic_shipping_type,$domestic_shipping_rate,$duration,$int_shipping_type,$int_shipping_rate,$payment,$gallery,$gallery_url,$image_url,$price,$quantity,$insurance_fee,$storecategory,$subtitletext,$title,$type);
+my @strings=( $buy_it_now,$best_offer,$category,$condition_id,$condition_display,$description,$domestic_shipping_type,$domestic_shipping_rate,$duration,$int_shipping_type,$int_shipping_rate,$payment,$gallery,$gallery_url,$image_url,$price,$quantity,$insurance_fee,$storecategory,$subtitletext,$title,$type);
 
 foreach my $string(@strings){
         trim($string);
@@ -147,6 +150,8 @@ sub trim{
                         "  <PictureURL>$image_url</PictureURL>" .
                         " </PictureDetails>" .
 			" <UUID>$uuid</UUID>" .
+			" <ConditionID>$condition_id</ConditionID>" .
+			" <ConditionDisplayName>$condition_display</ConditionDisplayName>" .
                         "</Item>" .
                         "</AddItemRequest>";
 	
