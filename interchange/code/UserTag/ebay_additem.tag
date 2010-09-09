@@ -60,6 +60,9 @@ $subtitletext .= $_->{subtitletext};
 $title .= $_->{title};
 $type .= $_->{type};
 
+#This is needed if you are using htmlarea to view the description in ebay_additem.html
+$description = $Tag->filter('textarea_get', $description);
+
 my @strings=( $buy_it_now,$best_offer,$category,$condition_id,$condition_display,$description,$domestic_shipping_type,$domestic_shipping_rate,$duration,$int_shipping_type,$int_shipping_rate,$payment,$gallery,$gallery_url,$image_url,$price,$quantity,$insurance_fee,$storecategory,$subtitletext,$title,$type);
 
 foreach my $string(@strings){
