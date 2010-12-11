@@ -1,37 +1,14 @@
 [comment]
-ui_page: discontinued_sportswear.html
+ui_page: discontinued_sportswear_variants_variants.html
 ui_type: page
-ui_name: discontinued_sportswear.html
+ui_name: discontinued_sportswear_variants.html
 ui_page_template: simms_ecom_static_left
 ui_version: 5.6.1
 ui_page_version: 5.6.1
-ui_source: pages/discontinued_sportswear.html
+ui_source: pages/discontinued_sportswear_variants.html
 [/comment]
 
 <!-- BEGIN PREAMBLE -->
-[search-region search=|
-		
-		fi=products
-		st=db
-		
-		co=1
-		
-		sf=merchandising
-		se=Discontinued
-		op=rm
-		nu=0
-		
-		sf=category
-		se=Sportswear
-		op=rm
-		nu=0
-		
-		ml=25
-		tf=price
-		to=r
-	|
-]
-[/search-region]
 <html>
 <title>Discontinued Simms Sportswear Superlight Shirt, Guide Shirt, Tournament Shirt, Bluewater, Headwaters Shirt</title>
 
@@ -69,22 +46,9 @@ ui_source: pages/discontinued_sportswear.html
 [/control-set]
 
 
-[if type=cgi term=variants op=eq compare=1]
 [control-set]
 [component]results_variants[/component]
 [/control-set]
-
-[else]
-[control-set]
-	[component]results_grid[/component]
-	[buylist_button][/buylist_button]
-	[cols]4[/cols]
-	[columnize][/columnize]
-	[htmltmpl][/htmltmpl]
-	[output][/output]
-[/control-set]
-[/else]
-[/if]
 
 [control reset=1]
 
@@ -97,11 +61,11 @@ ui_source: pages/discontinued_sportswear.html
     <td colspan="5" align="center" bgcolor="#B06128"><font color="#FFFFFF">Sort By Size</font></td>
   </tr>
   <tr>
-    <td width="30" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html&category=sportswear&size=S&submenuheader=0">S</a></td>
-    <td width="35" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html&category=sportswear&size=M&submenuheader=0">M</a></td>
-    <td width="35" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html&category=sportswear&size=L&submenuheader=0">L</a></td>
-    <td width="41" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html&category=sportswear&size=XL&submenuheader=0">XL</a></td>
-    <td width="55" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html&category=sportswear&size=XXL&submenuheader=0">XXL</a></td>
+    <td width="30" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html?variants=1&category=sportswear&size=S&submenuheader=0">S</a></td>
+    <td width="35" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html?variants=1&category=sportswear&size=M&submenuheader=0">M</a></td>
+    <td width="35" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html?variants=1&category=sportswear&size=L&submenuheader=0">L</a></td>
+    <td width="41" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html?variants=1&category=sportswear&size=XL&submenuheader=0">XL</a></td>
+    <td width="55" align="center" bgcolor="#FFFFFF"><a href="/discontinued_sportswear_variants.html?variants=1&category=sportswear&size=XXL&submenuheader=0">XXL</a></td>
   </tr>
 </table>
   <!-- END CONTENT -->
