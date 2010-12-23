@@ -56,6 +56,7 @@ MV_DEMO_MODE		General
 CONTRAST		Template
 FAX	(607) 467-2215	Company
 UI_WIDGET_TYPES		Admin Control
+PAYPAL_ACCEPTED	0	Payment
 PO_ACCEPTED	0	Payment
 PUBLISH_QUIT_ON_RCS_ERROR	0	Admin Control
 LOCALES		Internationalization
