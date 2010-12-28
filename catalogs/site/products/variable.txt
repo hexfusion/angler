@@ -1,5 +1,6 @@
 code	Variable	pref_group
 UI_META_LINK	1	Admin Control
+PAYPAL_EXPRESS_RETURN_URL	/ord/paypalgetrequest	Paypal
 MV_PAYMENT_HOST		Payment
 MAILING_MAX_DIRECT	50	Mailings
 SHIP_FLAT_INTL_RATE	10	Shipping
@@ -19,7 +20,9 @@ PGP_KEY	9DF12A71	Encryption
 BAR_LINK_TEMPLATE	<A HREF="$URL$" CLASS="barlink">$ANCHOR$</A>	Template
 PGSQL		Database
 USPS_ORIGIN	13783	Shipping
+PAYPAL_ACCEPTED	1	Payment
 IMAGE_DIR	/assetstore/site/images	Directories and Paths
+PAYPAL_EXPRESS_HOST	api-3t.paypal.com	Paypal
 MV_DEFAULT_SEARCH_DB	1	Database
 UPS_COUNTRY_FIELD	country	Shipping
 LINKMODE	UNIX	Admin Control
@@ -46,6 +49,7 @@ ORDER_ROUTES	log main copy_user	Order
 SHIP_DEFAULT_COUNTRY	US	Shipping
 UI_BOTTOMIMG	poweredby.gif	Admin Control
 MV_PAYMENT_MODE		Payment
+PAYPAL_EXPRESS_PASSWORD	A6P245FA72XWKFGY	Paypal
 TAXRATE	NY=8.0	Tax
 CHECKOUT_PAYMENT_HEIGHT	120	Cart/Checkout
 CGI_URL	/cgi-bin/site	Directories and Paths
@@ -56,7 +60,7 @@ MV_DEMO_MODE		General
 CONTRAST		Template
 FAX	(607) 467-2215	Company
 UI_WIDGET_TYPES		Admin Control
-PAYPAL_ACCEPTED	0	Payment
+PAYPAL_EXPRESS_PAGESTYLE	West_Branch_Angler_Custom	Paypal
 PO_ACCEPTED	0	Payment
 PUBLISH_QUIT_ON_RCS_ERROR	0	Admin Control
 LOCALES		Internationalization
@@ -67,17 +71,23 @@ MV_PAYMENT_VENDOR		Payment
 USPS_MACHINABLE	FALSE	Shipping
 UI_ABOUT_LOGIN_URL	http://www.icdevgroup.org/	Admin Control
 CSS_DIR	/assetstore/site/css	Directories and Paths
+PAYPAL_EXPRESS_ID	ebay_api1.westbranchresort.comi	Paypal
+PAYPAL_EXPRESS_PAYMENT_ACTION	Sale	Paypal
 TOLLFREE	(800) 201-2557	Company
+PAYPAL_EXPRESS_CURRENCY	USD	Paypal
 POSTAL_ACCEPTED	0	Payment
 UI_IMAGE_DIR_SECURE	/interchange-5/	Admin Control
 ADDRESS	150 Faulkner Rd.	Company
+PAYPAL_EXPRESS_HEADER_IMG		Paypal
 PUBLISH_PUT_PAGES	pages	Admin Control
 CHECKOUT_PAGE	ord/checkout	Cart/Checkout
 USPS_MODULO	80	Shipping
 DEFAULT_LOCALE	en_US	Internationalization
 UI_CLONE_TABLES	products* pricing* variants:quantity merchandising options:sku	Item display
+PAYPAL_EXPRESS_CANCEL_URL	/paypal_cancel	Paypal
 CHECK_ACCEPTED	0	Payment
 CITY	Hancock, NY 13783	Company
+PAYPAL_EXPRESS_SIGNATURE	AwUBuh4i3xE3XCnZzKhfJcrZFC9YA3HErGPljpWqSQ5PFJU1gRgFj3qX	Paypal
 CHECKOUT_MAIL_LIST	1	Cart/Checkout
 ENCRYPTOR		Encryption
 MAILING_TO	{FNAME} {LNAME} <{EMAIL}>	Mailings
