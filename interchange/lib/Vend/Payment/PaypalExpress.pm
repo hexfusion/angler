@@ -191,6 +191,9 @@ Testing: while the obvious test choice is to use their sandbox, I've always foun
 
 =head1 Changelog
 
+version 1.0.8 July 2010
+	- bugfix in handling of PP error messages
+
 version 1.0.7 December 2009
 	- another variation in Canadian Province names has just come to light, whereby they sometimes send
 	  the 2 letter code with periods, eg B.C. as well as BC. Thanks to Steve Graham for finding this
@@ -255,7 +258,7 @@ BEGIN {
 		die $msg;
 	}
 
-	::logGlobal("%s v1.0.7 payment module loaded",__PACKAGE__)
+	::logGlobal("%s v1.0.8 payment module loaded",__PACKAGE__)
 		unless $Vend::Quiet or ! $Global::VendRoot;
 }
 
@@ -272,92 +275,92 @@ sub paypalexpress {
 		    	   }
 	}
 
-my $pprequest   = $in->{'pprequest'} || charge_param('pprequest') || 'setrequest'; # 'setrequest' must be the default for standard Paypal. 
-my $username    = charge_param('id') or die "No username id\n";
-my $password    = charge_param('password') or die "No password\n";
-my $signature   = charge_param('signature') or die "No signature found\n"; # use this as certificate is broken
-my $ppcheckreturn = $::Values->{ppcheckreturn} || 'ord/checkout';
-my $checkouturl = $Tag->area({ href => "$ppcheckreturn" });
+	my $pprequest   = $in->{'pprequest'} || charge_param('pprequest') || 'setrequest'; # 'setrequest' must be the default for standard Paypal. 
+	my $username    = charge_param('id') or die "No username id\n";
+	my $password    = charge_param('password') or die "No password\n";
+	my $signature   = charge_param('signature') or die "No signature found\n"; # use this as certificate is broken
+	my $ppcheckreturn = $::Values->{ppcheckreturn} || 'ord/checkout';
+	my $checkouturl = $Tag->area({ href => "$ppcheckreturn" });
 
-# ISO currency code, from the page for a multi-currency site or fall back to config files.
-my $currency = $::Values->{currency_code} || $Vend::Cfg->{Locale}{iso_currency_code} ||
-                charge_param('currency')  || $::Variable->{MV_PAYMENT_CURRENCY} || 'USD';
+	# ISO currency code, from the page for a multi-currency site or fall back to config files.
+	my $currency = $::Values->{currency_code} || $Vend::Cfg->{Locale}{iso_currency_code} ||
+					charge_param('currency')  || $::Variable->{MV_PAYMENT_CURRENCY} || 'USD';
 
-my $amount =  charge_param('amount') || Vend::Interpolate::total_cost() || $::Values->{amount}; # required
-   $amount =~ s/^\D*//g;
-   $amount =~ s/\s*//g;
-   $amount =~ s/,//g;
+	my $amount =  charge_param('amount') || Vend::Interpolate::total_cost() || $::Values->{amount}; # required
+	   $amount =~ s/^\D*//g;
+	   $amount =~ s/\s*//g;
+	   $amount =~ s/,//g;
 
-# for a SET request
-my $sandbox            = $::Values->{ppsandbox} || charge_param('sandbox') || ''; # 1 or yes to use for testing
-   $sandbox            = "sandbox." if $sandbox;
-my $host               = charge_param('host') ||  'api-3t.paypal.com'; #  testing 3-token system is 'api-3t.sandbox.paypal.com'.
-   $host               = 'api-3t.sandbox.paypal.com' if $sandbox;
-my $invoiceID          = $::Values->{inv_no} || $::Values->{mv_transaction_id} || $::Values->{order_number} || ''; # optional
-my $returnURL          = $::Values->{returnurl} || charge_param('returnurl') or die "No return URL found\n"; # required
-my $cancelURL          = $::Values->{cancelurl} || charge_param('cancelurl') or die "No cancel URL found\n"; # required
-my $maxAmount          = $::Values->{maxamount} || '';  # optional
-   $maxAmount          = sprintf '%.2f', $maxAmount;
-my $orderDescription   = '';
-my $address            = '';
-my $reqConfirmShipping = $::Values->{reqconfirmshipping} || charge_param('reqconfirmshipping') || ''; # you require that the customer's address must be "confirmed"
-my $returnFMFdetails   = $::Values->{returnfmfdetails} || charge_param('returnfmfdetails') || '0'; # set '1' to return FraudManagementFilter details
-my $noShipping         = $::Values->{noshipping} || charge_param('noshipping') || ''; # no shipping displayed on Paypal pages
-my $addressOverride    = $::Values->{addressoverride} || charge_param('addressoverride') || ''; # if '1', Paypal displays address given in SET request, not the one on Paypal's file
-my $localeCode         = $::Values->{localecode} || $::Session->{mv_locale} || charge_param('localecode') || 'en_US';
-my $pageStyle          = $::Values->{pagestyle} || charge_param('pagestyle') || ''; # set in Paypal account
-my $headerImg          = $::Values->{headerimg} || charge_param('headerimg') || ''; # from your secure site
-my $headerBorderColor  = $::Values->{headerbordercolor} || charge_param('headerbordercolor') || '';
-my $headerBackColor    = $::Values->{headerbackcolor} || charge_param('headerbackcolor') || '';
-my $payflowColor       = $::Values->{payflowcolor} || charge_param('payflowcolor') || '';
-my $paymentAction      = $::Values->{paymentaction} || charge_param('paymentaction') || 'Sale'; # others: 'Order', 'Authorization'
-my $buyerEmail         = $::Values->{buyeremail} || '';
-my $custom             = $Session->{id}; # should not be needed
-# these next taken from IC after customer has logged in, and used in '$addressOverride'
-my $usebill  = $::Values->{use_billing_override} || charge_param('use_billing_override');
-my $name     = $usebill ? "$::Values->{b_fname} $::Values->{b_lname}" || '' : "$::Values->{fname} $::Values->{lname}" || '';
-my $address1 = $usebill ? $::Values->{b_address1} : $::Values->{address1};
-my $address2 = $usebill ? $::Values->{b_address2} : $::Values->{address2};
-my $city     = $usebill ? $::Values->{b_city} : $::Values->{city};
-my $state    = $usebill ? $::Values->{b_state} : $::Values->{state};
-my $zip      = $usebill ? $::Values->{b_zip} : $::Values->{zip};
-my $country  = $usebill ? $::Values->{b_country} : $::Values->{country};
-   $country = 'GB' if ($country eq 'UK'); # plonkers reject UK
-   
-# for a DO request
-my $itemTotal     = $::Values->{itemtotal} || Vend::Interpolate::subtotal() || '';
-   $itemTotal     = sprintf '%.2f', $itemTotal;
-my $shipTotal     = $::Values->{shiptotal} || Vend::Interpolate::tag_shipping() || '';
-   $shipTotal     = sprintf '%.2f', $shipTotal;
-my $taxTotal      = $::Values->{taxtotal} || Vend::Interpolate::salestax() || '';
-   $taxTotal      = sprintf '%.2f', $taxTotal;
-my $handlingTotal = $::Values->{handlingtotal} || Vend::Ship::tag_handling() || '';
-   $handlingTotal = sprintf '%.2f', $handlingTotal;
+	# for a SET request
+	my $sandbox            = $::Values->{ppsandbox} || charge_param('sandbox') || ''; # 1 or yes to use for testing
+	   $sandbox            = "sandbox." if $sandbox;
+	my $host               = charge_param('host') ||  'api-3t.paypal.com'; #  testing 3-token system is 'api-3t.sandbox.paypal.com'.
+	   $host               = 'api-3t.sandbox.paypal.com' if $sandbox;
+	my $invoiceID          = $::Values->{inv_no} || $::Values->{mv_transaction_id} || $::Values->{order_number} || ''; # optional
+	my $returnURL          = $::Values->{returnurl} || charge_param('returnurl') or die "No return URL found\n"; # required
+	my $cancelURL          = $::Values->{cancelurl} || charge_param('cancelurl') or die "No cancel URL found\n"; # required
+	my $maxAmount          = $::Values->{maxamount} || '';  # optional
+	   $maxAmount          = sprintf '%.2f', $maxAmount;
+	my $orderDescription   = '';
+	my $address            = '';
+	my $reqConfirmShipping = $::Values->{reqconfirmshipping} || charge_param('reqconfirmshipping') || ''; # you require that the customer's address must be "confirmed"
+	my $returnFMFdetails   = $::Values->{returnfmfdetails} || charge_param('returnfmfdetails') || '0'; # set '1' to return FraudManagementFilter details
+	my $noShipping         = $::Values->{noshipping} || charge_param('noshipping') || ''; # no shipping displayed on Paypal pages
+	my $addressOverride    = $::Values->{addressoverride} || charge_param('addressoverride') || ''; # if '1', Paypal displays address given in SET request, not the one on Paypal's file
+	my $localeCode         = $::Values->{localecode} || $::Session->{mv_locale} || charge_param('localecode') || 'en_US';
+	my $pageStyle          = $::Values->{pagestyle} || charge_param('pagestyle') || ''; # set in Paypal account
+	my $headerImg          = $::Values->{headerimg} || charge_param('headerimg') || ''; # from your secure site
+	my $headerBorderColor  = $::Values->{headerbordercolor} || charge_param('headerbordercolor') || '';
+	my $headerBackColor    = $::Values->{headerbackcolor} || charge_param('headerbackcolor') || '';
+	my $payflowColor       = $::Values->{payflowcolor} || charge_param('payflowcolor') || '';
+	my $paymentAction      = $::Values->{paymentaction} || charge_param('paymentaction') || 'Sale'; # others: 'Order', 'Authorization'
+	my $buyerEmail         = $::Values->{buyeremail} || '';
+	my $custom             = $Session->{id}; # should not be needed
+	# these next taken from IC after customer has logged in, and used in '$addressOverride'
+	my $usebill  = $::Values->{use_billing_override} || charge_param('use_billing_override');
+	my $name     = $usebill ? "$::Values->{b_fname} $::Values->{b_lname}" || '' : "$::Values->{fname} $::Values->{lname}" || '';
+	my $address1 = $usebill ? $::Values->{b_address1} : $::Values->{address1};
+	my $address2 = $usebill ? $::Values->{b_address2} : $::Values->{address2};
+	my $city     = $usebill ? $::Values->{b_city} : $::Values->{city};
+	my $state    = $usebill ? $::Values->{b_state} : $::Values->{state};
+	my $zip      = $usebill ? $::Values->{b_zip} : $::Values->{zip};
+	my $country  = $usebill ? $::Values->{b_country} : $::Values->{country};
+	   $country = 'GB' if ($country eq 'UK'); # plonkers reject UK
+	   
+	# for a DO request
+	my $itemTotal     = $::Values->{itemtotal} || Vend::Interpolate::subtotal() || '';
+	   $itemTotal     = sprintf '%.2f', $itemTotal;
+	my $shipTotal     = $::Values->{shiptotal} || Vend::Interpolate::tag_shipping() || '';
+	   $shipTotal     = sprintf '%.2f', $shipTotal;
+	my $taxTotal      = $::Values->{taxtotal} || Vend::Interpolate::salestax() || '';
+	   $taxTotal      = sprintf '%.2f', $taxTotal;
+	my $handlingTotal = $::Values->{handlingtotal} || Vend::Ship::tag_handling() || '';
+	   $handlingTotal = sprintf '%.2f', $handlingTotal;
 
-my $notifyURL           = $::Values->{notifyurl} || charge_param('notifyurl') || ''; # for IPN
-my $buttonSource        = $::Values->{buttonsource} || charge_param('buttonsource') || ''; # for third party source
-my $paymentDetailsItem  = $::Values->{paymentdetailsitem} || charge_param('paymentdetailsitem') || ''; # set '1' to include item details
-my $transactionID       = $::Values->{transactionid} || ''; # returned upon success
-my $correlationID       = $::Values->{correlationid} || ''; # use for any dispute with Paypal
-my $refundtransactionID = $::Values->{refundtransactionid} || ''; # log for reference
-my $quantity            = $::Tag->nitems() || '1';
+	my $notifyURL           = $::Values->{notifyurl} || charge_param('notifyurl') || ''; # for IPN
+	my $buttonSource        = $::Values->{buttonsource} || charge_param('buttonsource') || ''; # for third party source
+	my $paymentDetailsItem  = $::Values->{paymentdetailsitem} || charge_param('paymentdetailsitem') || ''; # set '1' to include item details
+	my $transactionID       = $::Values->{transactionid} || ''; # returned upon success
+	my $correlationID       = $::Values->{correlationid} || ''; # use for any dispute with Paypal
+	my $refundtransactionID = $::Values->{refundtransactionid} || ''; # log for reference
+	my $quantity            = $::Tag->nitems() || '1';
 
-# if $paymentDetailsItem is set, then need to pass an item amount to keep Paypal happy
-my $itemAmount   = $amount / $quantity;
-   $itemAmount   = sprintf '%.2f', $itemAmount;
-   $amount       = sprintf '%.2f', $amount;
-my $receiverType = $::Values->{receiverType} || charge_param('receivertype') || 'EmailAddress'; # used in MassPay
-my $version      = '2.0';
-#::logDebug("PP".__LINE__.": amount=$amount, itemamount=$itemAmount; tax=$taxTotal, ship=$shipTotal, hdl=$handlingTotal");
-my $order_id  = gen_order_id($opt);
+	# if $paymentDetailsItem is set, then need to pass an item amount to keep Paypal happy
+	my $itemAmount   = $amount / $quantity;
+	   $itemAmount   = sprintf '%.2f', $itemAmount;
+	   $amount       = sprintf '%.2f', $amount;
+	my $receiverType = $::Values->{receiverType} || charge_param('receivertype') || 'EmailAddress'; # used in MassPay
+	my $version      = '2.0';
+	#::logDebug("PP".__LINE__.": amount=$amount, itemamount=$itemAmount; tax=$taxTotal, ship=$shipTotal, hdl=$handlingTotal");
+	my $order_id  = gen_order_id($opt);
 
-#-----------------------------------------------------------------------------------------------
-# for operations through the payment terminal, eg 'masspay', 'refund' etc
-my  $refundType    = $::Values->{refundtype} || 'Full'; # either 'Full' or 'Partial'
-my  $memo          = $::Values->{memo} || '';
-my  $orderid       = $::Values->{mv_order_id} || '';
-my  $emailSubject  = $::Values->{emailsubject} || ''; # subject line of email
-my  $receiverEmail = $::Values->{receiveremail} || ''; # address of refund recipient
+	#-----------------------------------------------------------------------------------------------
+	# for operations through the payment terminal, eg 'masspay', 'refund' etc
+	my  $refundType    = $::Values->{refundtype} || 'Full'; # either 'Full' or 'Partial'
+	my  $memo          = $::Values->{memo} || '';
+	my  $orderid       = $::Values->{mv_order_id} || '';
+	my  $emailSubject  = $::Values->{emailsubject} || ''; # subject line of email
+	my  $receiverEmail = $::Values->{receiveremail} || ''; # address of refund recipient
 
     my %result;
 
@@ -447,18 +450,22 @@ my  $receiverEmail = $::Values->{receiveremail} || ''; # address of refund recip
  	    $method = SOAP::Data->name('SetExpressCheckoutReq')->attr({xmlns=>$xmlns});
 	    $response = $service->call($header, $method => $request);
 	    %result = %{$response->valueof('//SetExpressCheckoutResponse')};
-		$::Scratch->{token} = $result{Token};
- 
-   if (!$result{Token}) {
-    if ($result{Ack} eq 'Failure') {
-     foreach my $i ($result{Errors}) {
-     	  $::Session->{errors}{PaypalExpress} .= "$i->{LongMessage}, ";
-        		}
-          $::Session->{errors}{PaypalExpress} =~ s/, $//;
-             }
-    else {
-       my $accepted = uc($::Variable->{CREDIT_CARDS_ACCEPTED});
-       $::Session->{errors}{PaypalExpress} = errmsg("Paypal is currently unavailable - please use our secure payment system instead. We accept $accepted cards");
+		$::Scratch->{'token'} = $result{'Token'};
+
+	if (!$result{'Token'}) {
+	  if ($result{'Ack'} eq 'Failure') {
+			if ($result{'Errors'} =~ /ARRAY/) {
+			for my $i (0 .. 5) {
+			  $::Session->{'errors'}{'PaypalExpress'} .= " $result{Errors}[$i]{LongMessage}";
+					}
+				  }
+			else {
+				 $::Session->{'errors'}{'PaypalExpress'} = $result{Errors}{LongMessage};
+				}
+			 }
+	  else {
+		 my $accepted = uc($::Variable->{'CREDIT_CARDS_ACCEPTED'});
+		 $::Session->{'errors'}{'PaypalExpress'} = errmsg("Paypal is currently unavailable - please use our secure payment system instead. We accept $accepted cards");
              }
 return $Tag->deliver({ location => $checkouturl }) 
       }
@@ -478,7 +485,7 @@ return $Tag->deliver({ location => $redirecturl })
 	    $request = SOAP::Data->name("GetExpressCheckoutDetailsRequest" =>
 			 \SOAP::Data->value(
 		 	  SOAP::Data->name("Version" => $version)->type("xs:string"),
-		         SOAP::Data->name("Token" => $::Scratch->{token})->type("xs:string")
+		         SOAP::Data->name("Token" => $::Scratch->{'token'})->type("xs:string")
 			 )
 		   ) ->attr({xmlns=>"urn:ebay:apis:eBLBaseComponents"});
 	     $method = SOAP::Data->name('GetExpressCheckoutDetailsReq')->attr({xmlns=>$xmlns});
@@ -490,7 +497,7 @@ return $Tag->deliver({ location => $redirecturl })
 # another address, eg it is a wish list.
 	  if (($result{Ack} eq "Success") and ($::Values->{pp_use_billing_address} == 1)) {
 		$::Values->{b_phone_day}      = $result{GetExpressCheckoutDetailsResponseDetails}{ContactPhone};
-		$::Values->{email}          = $result{GetExpressCheckoutDetailsResponseDetails}{PayerInfo}{Payer};
+		$::Values->{email}            = $result{GetExpressCheckoutDetailsResponseDetails}{PayerInfo}{Payer};
 		$::Values->{payerid}          = $result{GetExpressCheckoutDetailsResponseDetails}{PayerInfo}{PayerID};
 		$::Values->{payerstatus}      = $result{GetExpressCheckoutDetailsResponseDetails}{PayerInfo}{PayerStatus};
 		$::Values->{payerbusiness}    = $result{GetExpressCheckoutDetailsResponseDetails}{PayerInfo}{PayerBusiness};
@@ -800,3 +807,4 @@ delete $::Values->{returnurl};
 package Vend::Payment::PaypalExpress;
 
 1;
+
