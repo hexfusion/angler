@@ -94,7 +94,8 @@ mv_credit_card_cvv2=required
 &final = yes
 &setcheck = end_profile 1
 &setcheck = payment_method credit_card
-
+&set=psp __MV_PAYMENT_PSP__
+[comment]&set=mv_payment_route [/comment]
 __END__
 
 __NAME__                            purchase_order

@@ -119,7 +119,7 @@ ui_template_name: noleft
 				[include include/checkout/payment_select]
         </div></td>
 	  </tr>
-	  <tr>
+	    <tr>
 		<td>
 				<div align="center"><br>
 				[if scratch old_browser]
@@ -146,7 +146,8 @@ ui_template_name: noleft
 					  class=button3
 					  style="font-weight: bold"
 			  ]
-					  mv_todo=submit
+				mv_order_profile=credit_card	  
+				mv_todo=submit
 			  [/button]
 			  </td>
 			</tr>

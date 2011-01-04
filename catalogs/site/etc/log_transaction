@@ -162,14 +162,20 @@ Payment processing...payment_method=[value mv_order_profile]
 [/elsif]
 [elsif variable MV_PAYMENT_MODE]
 	[calc]
+	    undef $Session->{payment_result}{MStatus};
 		return if $Scratch->{tmp_total} == $Scratch->{tmp_remaining};
 		my $msg = sprintf "Your credit card was charged %.2f", $Scratch->{tmp_remaining};
 		$Scratch->{pay_cert_total} = $Scratch->{tmp_total} - $Scratch->{tmp_remaining};
 		$Scratch->{charge_total_message} = $msg;
 		return "Credit card will be charged $Scratch->{tmp_remaining}";
 	[/calc]
-	Charging with payment mode=[var MV_PAYMENT_MODE]
-	[tmp name="charge_succeed"][charge route="[var MV_PAYMENT_MODE]" amount="[scratch tmp_remaining]" order_id="[value mv_transaction_id]"][/tmp]
+	Charging with payment mode=[value mv_payment_route]
+	[if scratchd mstatus eq success]
+	[tmp name="charge_succeed"][scratch order_id][/tmp]
+	[else]
+	[/else]
+	[/if]
+	[tmp name="charge_succeed"][charge route="[value mv_payment_route]" pprequest="dorequest" amount="[scratch tmp_remaining]" order_id="[value mv_transaction_id]"][/tmp]
 	[if scratch charge_succeed]
 	[then]
 	[set do_invoice]1[/set]
