@@ -83,10 +83,11 @@ mv_credit_card_cvv2=required
 [value name=mv_payment_realtime set=""]
 &credit_card=standard keep __CREDIT_CARDS_ACCEPTED__
 &set=mv_payment Real-time Credit Card (%c -- [var MV_PAYMENT_MODE])
-&set=mv_payment_realtime 1
+&set=mv_payment_realtime 0
 [else]
 &credit_card=standard __CREDIT_CARDS_ACCEPTED__
 &set=mv_payment Credit Card (%c)
+&set=mv_payment_realtime 0
 [/else]
 [/if]
 
