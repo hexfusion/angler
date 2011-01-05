@@ -80,10 +80,10 @@ mv_credit_card_cvv2=required
 &set = mv_payment Incomplete
 
 [if variable MV_PAYMENT_MODE]
-[value name=mv_payment_realtime set="0"]
+[value name=mv_payment_realtime set=""]
 &credit_card=standard keep __CREDIT_CARDS_ACCEPTED__
 &set=mv_payment Real-time Credit Card (%c -- [var MV_PAYMENT_MODE])
-&set=mv_payment_realtime 0 
+&set=mv_payment_realtime 
 [else]
 &credit_card=standard __CREDIT_CARDS_ACCEPTED__
 &set=mv_payment Credit Card (%c)
