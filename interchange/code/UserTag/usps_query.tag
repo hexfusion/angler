@@ -149,6 +149,12 @@ $xml .= <<EOXML;
 <Ounces>$ounces</Ounces>
 <Container>$container</Container>
 <Size>$size</Size>
+<Container>NONRECTANGULAR</Container>
+<Size>LARGE</Size>
+<Width>15</Width>
+<Length>30</Length>
+<Height>15</Height>
+<Girth>55</Girth>
 <Machinable>$machinable</Machinable>
 </Package>
 </RateRequest>
