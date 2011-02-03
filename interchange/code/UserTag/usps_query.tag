@@ -139,8 +139,9 @@ RATEQUOTE: {
 EOXML
     }
     else {
-	$xml = qq{API=RateV4\&XML=<RateRequest USERID="$userid" PASSWORD="$passwd">};
+	$xml = qq{API=RateV4\&XML=<RateV4Request USERID="$userid" PASSWORD="$passwd">};
 	$xml .= <<EOXML;
+	<Revision>2</Revision>
 	<Package ID="0">
 	    <Service>$service</Service>
 	    <ZipOrigination>$origin</ZipOrigination>
@@ -151,7 +152,7 @@ EOXML
 	    <Size>$size</Size>
 	    <Machinable>$machinable</Machinable>
 	</Package>
-	</RateRequest>
+	</RateV4Request>
 EOXML
     }
 
