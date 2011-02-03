@@ -56,6 +56,11 @@ sub {
     my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
     my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'RECTANGULAR';
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
+    my $length = $opt->{length} || $::Variable->{USPS_Length} || '15';
+    my $width = $opt->{width} || $::Variable->{USPS_Width} || '15';
+    my $height = $opt->{height} || $::Variable->{USPS_Height} || '6';
+    my $girth = $opt->{height} || $::Variable->{USPS_Girth} || '60';
+
 
     $service = uc $service;
     if (! $supported_services{$service}) {
@@ -150,6 +155,10 @@ EOXML
 	    <Ounces>$ounces</Ounces>
 	    <Container>$container</Container>
 	    <Size>$size</Size>
+	    <Width>$width</Width>
+	    <Length>$length</Length>
+	    <Height>$height</Height>
+	    <Girth>$girth</Girth>
 	    <Machinable>$machinable</Machinable>
 	</Package>
 	</RateV4Request>
