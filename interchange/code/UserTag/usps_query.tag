@@ -146,7 +146,7 @@ EOXML
     else {
 	$xml = qq{API=RateV4\&XML=<RateV4Request USERID="$userid" PASSWORD="$passwd">};
 	$xml .= <<EOXML;
-	<Revision>2</Revision>
+	</Revision>
 	<Package ID="0">
 	    <Service>$service</Service>
 	    <ZipOrigination>$origin</ZipOrigination>
@@ -198,7 +198,7 @@ EOXML
 	    }
 	}
 	else {
-	    $resp =~ m|<Postage>(.+)</Postage>|;
+	    $resp =~ m|<Postage CLASSID="0">(.+)</Postage>|;
 	    $rate += $1;
 	    undef $error_msg;
 	}
