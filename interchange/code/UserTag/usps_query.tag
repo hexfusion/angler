@@ -14,9 +14,9 @@ sub {
     my ($service, $weight, $opt) = @_;
     my ($rate, $resp, $xml, $mailtype, @intl, $m_rep, $m_mod);
     my %supported_services = (
-'EXPRESS' => 1,
+'Express Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt;' => 1,
 'FIRST CLASS' => 1,
-'PRIORITY' => 1,
+'Priority Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt;' => 1,
 'PARCEL' => 1,
 'BPM' => 1,
 'LIBRARY' => 1,
@@ -139,7 +139,7 @@ $xml .= <<EOXML;
 EOXML
     }
     else {
-$xml = qq{API=Rate\&XML=<RateRequest USERID="$userid" PASSWORD="$passwd">};
+$xml = qq{API=RateV4\&XML=<RateV4Request USERID="$userid" PASSWORD="$passwd">};
 $xml .= <<EOXML;
 <Package ID="0">
 <Service>$service</Service>
@@ -149,7 +149,7 @@ $xml .= <<EOXML;
 <Ounces>$ounces</Ounces>
 <Container>$container</Container>
 <Size>$size</Size>
-<Container>NONRECTANGULAR</Container>
+<Container>RECTANGULAR</Container>
 <Size>LARGE</Size>
 <Width>15</Width>
 <Length>30</Length>
@@ -157,7 +157,7 @@ $xml .= <<EOXML;
 <Girth>55</Girth>
 <Machinable>$machinable</Machinable>
 </Package>
-</RateRequest>
+</RateV4Request>
 EOXML
     }
 
@@ -194,7 +194,7 @@ last;
 }
 }
 else {
-$resp =~ m|<Rate>(.+)</Rate>|;
+$resp =~ m|<Postage>(.+)</Postage>|;
 $rate += $1;
 undef $error_msg;
 }
