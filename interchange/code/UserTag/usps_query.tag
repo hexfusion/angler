@@ -56,10 +56,10 @@ sub {
     my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
     my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'RECTANGULAR';
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
-    my $length = $opt->{length} || $::Variable->{USPS_Length} || '15';
-    my $width = $opt->{width} || $::Variable->{USPS_Width} || '15';
-    my $height = $opt->{height} || $::Variable->{USPS_Height} || '6';
-    my $girth = $opt->{height} || $::Variable->{USPS_Girth} || '60';
+    my $length = $opt->{length} || $::Variable->{USPS_LENGTH} || '15';
+    my $width = $opt->{width} || $::Variable->{USPS_WIDTH} || '15';
+    my $height = $opt->{height} || $::Variable->{USPS_HEIGHT} || '6';
+    my $girth = $opt->{girth || $::Variable->{USPS_GIRTH} || '60';
 
 
     $service = uc $service;
@@ -68,7 +68,7 @@ sub {
 	return;
     }
 
-    my $size = uc ($opt->{size} || $::Variable->{USPS_SIZE} || 'REGULAR');
+    my $size = uc ($opt->{size} || $::Variable->{USPS_SIZE} || 'LARGE');
     if (! $package_sizes{$size}) {
 	$error_msg .= "unknown package size $size.";
 	return;
