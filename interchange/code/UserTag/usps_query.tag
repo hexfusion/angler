@@ -12,30 +12,14 @@ UserTag usps-query Routine <<EOR
 
 sub {
     my ($service, $weight, $opt) = @_;
-    my ($rate, $resp, $xml, $mailtype, @intl, $m_rep, $m_mod);
+    my ($rate, $supported_services, $resp, $xml, $mailtype, @intl, $m_rep, $m_mod);
     my %supported_services = (
-'Express Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt;' => 1,
-'FIRST CLASS' => 1,
-'Priority Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt;' => 1,
-'PARCEL' => 1,
-'BPM' => 1,
-'LIBRARY' => 1,
-'MEDIA' => 1,
-'GLOBAL EXPRESS GUARANTEED' => 1,
-'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' => 1,
-'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' => 1,
-'USPS GXG ENVELOPES' => 1,
-'EXPRESS MAIL INTERNATIONAL (EMS)' => 1,
-'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' => 1,
-'PRIORITY MAIL INTERNATIONAL' => 1,
-'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' => 1,
-'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' => 1,
-'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' => 1,
-'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' => 1,
-'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' => 1,
-'FIRST CLASS MAIL INTERNATIONAL PACKAGE' => 1,
-'MATTER FOR THE BLIND - ECONOMY MAIL' => 1,
+'EXPRESS' => 'Express Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt;',
+'PRIORITY'=> 'Priority Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt;',
+'EXPRESS MAIL INTERNATIONAL (EMS)' => 'Express Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt; International',
+'PRIORITY MAIL INTERNATIONAL' => 'Priority Mail&amp;lt;sup&amp;gt;&amp;amp;reg;&amp;lt;/sup&amp;gt; International',
 );
+
     my %package_sizes = (
 'REGULAR' => 1,
 'LARGE' => 1,
@@ -56,8 +40,9 @@ sub {
     my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
     my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'None';
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
-
+    
     $service = uc $service;
+    $supported_services =$supported_services{$service};
     if (! $supported_services{$service}) {
 $error_msg .= "unknown service type $service.";
 return;
@@ -184,8 +169,8 @@ if ($opt->{country}) {
 @intl = split /<Service/, $resp;
 foreach (@intl) {
 m|<SvcDescription>(.+)</SvcDescription>|;
-$resp = uc $1;
-if ($resp eq $service) {
+$resp = $1;
+if ($resp eq $supported_services) {
 m|<Postage>(.+)</Postage>|;
 $rate += $1;
 undef $error_msg;
