@@ -194,7 +194,7 @@ last;
 }
 }
 else {
-$resp =~ m|<Postage>(.+)</Postage>|;
+$resp =~ m|<Rate>(.+)</Rate>|;
 $rate += $1;
 undef $error_msg;
 }
