@@ -54,7 +54,7 @@ sub {
     my $userid = $opt->{userid} || $::Variable->{USPS_ID};
     my $passwd = $opt->{passwd} || $::Variable->{USPS_PASSWORD};
     my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
-    my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'None';
+    my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'RECTANGULAR';
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
 
     $service = uc $service;
