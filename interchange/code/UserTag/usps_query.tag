@@ -132,15 +132,25 @@ RATEQUOTE: {
         my $usps_country = $map{ $opt->{country} }
             || $opt->{country};
 
-	$xml = qq{API=IntlRateV2\&XML=<IntlRateRequest USERID="$userid" PASSWORD="$passwd">};
+	$xml = qq{API=IntlRateV2\&XML=<IntlRateV2Request USERID="$userid" PASSWORD="$passwd">};
 	$xml .= <<EOXML;
 	<Package ID="0">
 	    <Pounds>$weight</Pounds>
 	    <Ounces>$ounces</Ounces>
 	    <MailType>$mailtype</MailType>
+	    <GXG>
+          	<POBoxFlag>N</POBoxFlag>
+          	<GiftFlag>N</GiftFlag>
+	    </GXG>
 	    <Country>$usps_country</Country>
+	    <Container>$container</Container>
+            <Size>$size</Size>
+            <Width>$width</Width>
+            <Length>$length</Length>
+            <Height>$height</Height>
+            <Girth>$girth</Girth>
 	</Package>
-	</IntlRateRequest>
+	</IntlRateV2Request>
 EOXML
     }
     else {
