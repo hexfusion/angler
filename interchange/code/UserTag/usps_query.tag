@@ -1,98 +1,93 @@
 # Copyright 2002-2009 Interchange Development Group and others
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.  See the LICENSE file for details.
+# (at your option) any later version. See the LICENSE file for details.
 
-UserTag  usps-query  Order   service weight
-UserTag  usps-query  addAttr
-UserTag  usps-query  Version 1.10
-UserTag  usps-query  Routine <<EOR
+UserTag usps-query Order service weight
+UserTag usps-query addAttr
+UserTag usps-query Version 1.10
+UserTag usps-query Routine <<EOR
 
 sub {
     my ($service, $weight, $opt) = @_;
     my ($rate, $resp, $xml, $mailtype, @intl, $m_rep, $m_mod);
     my %supported_services = (
-			      'EXPRESS'     => 1,
-			      'FIRST CLASS' => 1,
-			      'PRIORITY'    => 1,
-			      'PARCEL'      => 1,
-			      'BPM'         => 1,
-			      'LIBRARY'     => 1,
-			      'MEDIA'       => 1,
-			      'GLOBAL EXPRESS GUARANTEED'                              => 1,
-			      'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR'     => 1,
-			      'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' => 1,
-			      'USPS GXG ENVELOPES'                                     => 1,
-			      'EXPRESS MAIL INTERNATIONAL (EMS)'                       => 1,
-			      'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE'    => 1,
-			      'PRIORITY MAIL INTERNATIONAL'                            => 1,
-			      'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE'         => 1,
-			      'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES'    => 1,
-			      'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX'        => 1,
-			      'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX'        => 1,
-			      'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE'          => 1,
-			      'FIRST CLASS MAIL INTERNATIONAL PACKAGE'                 => 1,
-			      'MATTER FOR THE BLIND - ECONOMY MAIL'            => 1,
-			      );
+'EXPRESS' => 1,
+'FIRST CLASS' => 1,
+'PRIORITY' => 1,
+'PARCEL' => 1,
+'BPM' => 1,
+'LIBRARY' => 1,
+'MEDIA' => 1,
+'GLOBAL EXPRESS GUARANTEED' => 1,
+'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' => 1,
+'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' => 1,
+'USPS GXG ENVELOPES' => 1,
+'EXPRESS MAIL INTERNATIONAL (EMS)' => 1,
+'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' => 1,
+'PRIORITY MAIL INTERNATIONAL' => 1,
+'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' => 1,
+'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' => 1,
+'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' => 1,
+'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' => 1,
+'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' => 1,
+'FIRST CLASS MAIL INTERNATIONAL PACKAGE' => 1,
+'MATTER FOR THE BLIND - ECONOMY MAIL' => 1,
+);
     my %package_sizes = (
-			 'REGULAR'  => 1,
-			 'LARGE'    => 1,
-			 'OVERSIZE' => 1,
-			 );
+'REGULAR' => 1,
+'LARGE' => 1,
+'OVERSIZE' => 1,
+);
     my %mailtypes = (
-		     'Package'                  => 1,
-		     'Postcards or aerogrammes' => 1,
-		     'Matter for the blind'     => 1,
-		     'Envelope'                 => 1,
-		     );
+'package' => 1,
+'postcards or aerogrammes' => 1,
+'matter for the blind' => 1,
+'envelope' => 1,
+);
 
     my $error_msg = 'USPS: ';
     my $origin = $opt->{origin} || $::Variable->{USPS_ORIGIN} || $::Variable->{UPS_ORIGIN};
     my $destination = $opt->{destination} || $::Values->{zip} || $::Variable->{SHIP_DEFAULT_ZIP};
     my $userid = $opt->{userid} || $::Variable->{USPS_ID};
     my $passwd = $opt->{passwd} || $::Variable->{USPS_PASSWORD};
-    my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://production.shippingapis.com/ShippingAPI.dll';
-    my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'RECTANGULAR';
+    my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
+    my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'None';
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
-    my $length = $opt->{length} || $::Variable->{USPS_LENGTH} || '15';
-    my $width = $opt->{width} || $::Variable->{USPS_WIDTH} || '15';
-    my $height = $opt->{height} || $::Variable->{USPS_HEIGHT} || '6';
-    my $girth = $opt->{girth} || $::Variable->{USPS_GIRTH} || '60';
-
 
     $service = uc $service;
     if (! $supported_services{$service}) {
-	$error_msg .= "unknown service type $service.";
-	return;
+$error_msg .= "unknown service type $service.";
+return;
     }
 
-    my $size = uc ($opt->{size} || $::Variable->{USPS_SIZE} || 'LARGE');
+    my $size = uc ($opt->{size} || $::Variable->{USPS_SIZE} || 'REGULAR');
     if (! $package_sizes{$size}) {
-	$error_msg .= "unknown package size $size.";
-	return;
-	}
+$error_msg .= "unknown package size $size.";
+return;
+}
 
     if ($service eq 'PARCEL') {
-	if ($weight < .375 or $weight > 35) {
-	    $machinable = 'False';
-	}
+if ($weight < .375 or $weight > 35) {
+$machinable = 'False';
+}
     }
 
     if ($opt->{country}) {
-	$mailtype = lc ($opt->{mailtype} || $::Variable->{USPS_MAILTYPE} || 'Package');
-	unless ($mailtypes{$mailtype}) {
-	    $error_msg = "unknown mail type '$mailtype'.";
-	    return;
-	}
+$mailtype = lc ($opt->{mailtype} || $::Variable->{USPS_MAILTYPE} || 'package');
+unless ($mailtypes{$mailtype}) {
+$error_msg = "unknown mail type '$mailtype'.";
+return;
+}
     }
 
     my $modulo = $opt->{modulo} || $::Variable->{USPS_MODULO};
     if ($modulo and ($modulo < $weight)) {
-	$m_rep = int $weight / $modulo;
-	$m_mod = $weight % $modulo;
-	$weight = $modulo;
+$m_rep = int $weight / $modulo;
+$m_mod = $weight % $modulo;
+$weight = $modulo;
     }
 
 
@@ -132,41 +127,31 @@ RATEQUOTE: {
         my $usps_country = $map{ $opt->{country} }
             || $opt->{country};
 
-	$xml = qq{API=IntlRateV2\&XML=<IntlRateV2Request USERID="$userid" PASSWORD="$passwd">};
-	$xml .= <<EOXML;
-	<Package ID="0">
-	    <Pounds>$weight</Pounds>
-	    <Ounces>$ounces</Ounces>
-	    <MailType>$mailtype</MailType>
-	    <Country>$usps_country</Country>
-	    <Container>$container</Container>
-            <Size>$size</Size>
-            <Width>$width</Width>
-            <Length>$length</Length>
-            <Height>$height</Height>
-            <Girth>$girth</Girth>
-	</Package>
-	</IntlRateV2Request>
+$xml = qq{API=IntlRate\&XML=<IntlRateRequest USERID="$userid" PASSWORD="$passwd">};
+$xml .= <<EOXML;
+<Package ID="0">
+<Pounds>$weight</Pounds>
+<Ounces>$ounces</Ounces>
+<MailType>$mailtype</MailType>
+<Country>$usps_country</Country>
+</Package>
+</IntlRateRequest>
 EOXML
     }
     else {
-	$xml = qq{API=RateV4\&XML=<RateV4Request USERID="$userid" PASSWORD="$passwd">};
-	$xml .= <<EOXML;
-	<Revision/>
-	<Package ID="0">
-	    <Service>$service</Service>
-	    <ZipOrigination>$origin</ZipOrigination>
-	    <ZipDestination>$destination</ZipDestination>
-	    <Pounds>$weight</Pounds>
-	    <Ounces>$ounces</Ounces>
-	    <Container>$container</Container>
-	    <Size>$size</Size>
-	    <Width>$width</Width>
-	    <Length>$length</Length>
-	    <Height>$height</Height>
-	    <Girth>$girth</Girth>
-	</Package>
-	</RateV4Request>
+$xml = qq{API=Rate\&XML=<RateRequest USERID="$userid" PASSWORD="$passwd">};
+$xml .= <<EOXML;
+<Package ID="0">
+<Service>$service</Service>
+<ZipOrigination>$origin</ZipOrigination>
+<ZipDestination>$destination</ZipDestination>
+<Pounds>$weight</Pounds>
+<Ounces>$ounces</Ounces>
+<Container>$container</Container>
+<Size>$size</Size>
+<Machinable>$machinable</Machinable>
+</Package>
+</RateRequest>
 EOXML
     }
 
@@ -178,48 +163,44 @@ EOXML
 
     $error_msg = 'USPS: ';
     if ($response->is_success) {
-	$resp = $response->content;
-    } 
+$resp = $response->content;
+    }
     else {
-	$error_msg .= 'Error obtaining rate quote from usps.com.';
+$error_msg .= 'Error obtaining rate quote from usps.com.';
     }
 
     if ($resp =~ /<Error>/i) {
-	$resp =~ m|<Description>(.+)</Description>|;
-	$error_msg .=  $1;
+$resp =~ m|<Description>(.+)</Description>|;
+$error_msg .= $1;
     }
     else {
-	if ($opt->{country}) {
-	    @intl = split /<Service/, $resp;
-	    foreach (@intl) {
-		m|<SvcDescription>(.+)</SvcDescription>|;
-		$resp = uc $1;
-		if ($resp eq $service) {
-		    m|<Postage>(.+)</Postage>|;
-		    $rate += $1;
-		    undef $error_msg;
-		    last;
-		}
-	    }
-	}
-	else {
-	    $resp =~ m|<Postage CLASSID="1">(.+)</Postage>|;
-		    $resp = uc $1;
-		    if ($resp eq $service) {
-                    m|<Rate>(.+)</Rate>|;
-	    	    $rate += $1;
-	    	    undef $error_msg;
-		    last;
-	}
+if ($opt->{country}) {
+@intl = split /<Service/, $resp;
+foreach (@intl) {
+m|<SvcDescription>(.+)</SvcDescription>|;
+$resp = uc $1;
+if ($resp eq $service) {
+m|<Postage>(.+)</Postage>|;
+$rate += $1;
+undef $error_msg;
+last;
+}
+}
+}
+else {
+$resp =~ m|<Postage>(.+)</Postage>|;
+$rate += $1;
+undef $error_msg;
+}
     }
 }
 
     if ($m_rep) {
-	$rate *= $m_rep; undef $m_rep;
-    } 
+$rate *= $m_rep; undef $m_rep;
+    }
     if ($m_mod) {
-	$weight = $m_mod; undef $m_mod;
-	goto RATEQUOTE;
+$weight = $m_mod; undef $m_mod;
+goto RATEQUOTE;
     }
 
     $::Session->{ship_message} .= " $error_msg" if $error_msg;
@@ -227,7 +208,7 @@ EOXML
 }
 EOR
 
-UserTag  usps-query  Documentation <<EOD
+UserTag usps-query Documentation <<EOD
 
 =head1 NAME
 
@@ -251,13 +232,13 @@ usps-query tag -- calculate USPS costs via www
     country="Country name"*
     modulo="NN"*
   ]
-	
+
 =head1 DESCRIPTION
 
 Calculates USPS costs via the WWW using the United States Postal Service Rate
 Rate Calculator API. You *MUST* register with USPS in order to use this service.
 Visit http://www.usps.com/webtools and follow the link(s) to register. You will
-receive a confirmation email upon completing the registration process. You 
+receive a confirmation email upon completing the registration process. You
 *MUST* follow the instructions in this email to obtain access to the production
 rate quote server. THIS USERTAG WILL NOT WORK WITH USPS's TEST SERVER.
 
@@ -309,7 +290,7 @@ way to set this parameter.
 =item passwd
 
 Your USPS webtools passwd, which was obtained by registering.
-This will default to $Variable->{USPS_PASSWORD}, which is the 
+This will default to $Variable->{USPS_PASSWORD}, which is the
 preferred way to set this parameter.
 
 =back
@@ -326,12 +307,12 @@ or 'http://Production.ShippingAPIs.com/ShippingAPI.dll'.
 
 =item modulo
 
-Enables a rudimentary method of obtaining rate quotes for multi-box shipments. 
-'modulo' is a number which represents the maximum weight per box; the default 
-is $Variable->{USPS_MODULO}. When modulo > 0, the shipping weight will be divided 
-into the number of individual parcels of max. weight 'modulo' which will accommodate 
-the whole shipment, and the total rate will be calculated accordingly. 
-Example: with modulo = 10, a 34.5lbs. shipment will be calculated as 3 parcels 
+Enables a rudimentary method of obtaining rate quotes for multi-box shipments.
+'modulo' is a number which represents the maximum weight per box; the default
+is $Variable->{USPS_MODULO}. When modulo > 0, the shipping weight will be divided
+into the number of individual parcels of max. weight 'modulo' which will accommodate
+the whole shipment, and the total rate will be calculated accordingly.
+Example: with modulo = 10, a 34.5lbs. shipment will be calculated as 3 parcels
 weighing 10lbs. each, plus one parcel weighing 4lbs. 8oz.
 
 =back
@@ -360,7 +341,7 @@ list of container types.
 
 The USPS-defined package size for the shipment. Valid choices are
 'REGULAR', 'LARGE', and 'OVERSIZE'. The default is $Variable->{USPS_SIZE} or
-'REGULAR'. Please see the Technical Guide to the Domestic Rates Calculator 
+'REGULAR'. Please see the Technical Guide to the Domestic Rates Calculator
 Application Programming Interface for a definition of package sizes.
 
 =item machinable (for PARCEL service only)
@@ -385,7 +366,7 @@ The USPS-defined mail type for the shipment. Valid choices are:
     matter for the blind
     envelope
 
-Default is $Variable->{USPS_MAILTYPE} or 'package'. See the USPS international 
+Default is $Variable->{USPS_MAILTYPE} or 'package'. See the USPS international
 service guides for more information on this topic.
 
 =item country (required for international services)
@@ -411,3 +392,5 @@ We shall see....
 
 =cut
 EOD
+
+
