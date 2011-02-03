@@ -42,10 +42,10 @@ sub {
 			 'OVERSIZE' => 1,
 			 );
     my %mailtypes = (
-		     'package'                  => 1,
-		     'postcards or aerogrammes' => 1,
-		     'matter for the blind'     => 1,
-		     'envelope'                 => 1,
+		     'Package'                  => 1,
+		     'Postcards or aerogrammes' => 1,
+		     'Matter for the blind'     => 1,
+		     'Envelope'                 => 1,
 		     );
 
     my $error_msg = 'USPS: ';
@@ -53,7 +53,7 @@ sub {
     my $destination = $opt->{destination} || $::Values->{zip} || $::Variable->{SHIP_DEFAULT_ZIP};
     my $userid = $opt->{userid} || $::Variable->{USPS_ID};
     my $passwd = $opt->{passwd} || $::Variable->{USPS_PASSWORD};
-    my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
+    my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://production.shippingapis.com/ShippingAPI.dll';
     my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'RECTANGULAR';
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
     my $length = $opt->{length} || $::Variable->{USPS_LENGTH} || '15';
@@ -81,7 +81,7 @@ sub {
     }
 
     if ($opt->{country}) {
-	$mailtype = lc ($opt->{mailtype} || $::Variable->{USPS_MAILTYPE} || 'package');
+	$mailtype = lc ($opt->{mailtype} || $::Variable->{USPS_MAILTYPE} || 'Package');
 	unless ($mailtypes{$mailtype}) {
 	    $error_msg = "unknown mail type '$mailtype'.";
 	    return;
@@ -138,10 +138,6 @@ RATEQUOTE: {
 	    <Pounds>$weight</Pounds>
 	    <Ounces>$ounces</Ounces>
 	    <MailType>$mailtype</MailType>
-	    <GXG>
-          	<POBoxFlag>N</POBoxFlag>
-          	<GiftFlag>N</GiftFlag>
-	    </GXG>
 	    <Country>$usps_country</Country>
 	    <Container>$container</Container>
             <Size>$size</Size>
@@ -156,7 +152,7 @@ EOXML
     else {
 	$xml = qq{API=RateV4\&XML=<RateV4Request USERID="$userid" PASSWORD="$passwd">};
 	$xml .= <<EOXML;
-	</Revision>
+	<Revision/>
 	<Package ID="0">
 	    <Service>$service</Service>
 	    <ZipOrigination>$origin</ZipOrigination>
@@ -169,7 +165,6 @@ EOXML
 	    <Length>$length</Length>
 	    <Height>$height</Height>
 	    <Girth>$girth</Girth>
-	    <Machinable>$machinable</Machinable>
 	</Package>
 	</RateV4Request>
 EOXML
@@ -208,7 +203,7 @@ EOXML
 	    }
 	}
 	else {
-	    $resp =~ m|<Postage CLASSID="0">(.+)</Postage>|;
+	    $resp =~ m|<Postage CLASSID="1">(.+)</Postage>|;
 	    $rate += $1;
 	    undef $error_msg;
 	}
