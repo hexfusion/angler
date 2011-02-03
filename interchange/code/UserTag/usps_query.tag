@@ -127,7 +127,7 @@ RATEQUOTE: {
         my $usps_country = $map{ $opt->{country} }
             || $opt->{country};
 
-	$xml = qq{API=IntlRate\&XML=<IntlRateRequest USERID="$userid" PASSWORD="$passwd">};
+	$xml = qq{API=IntlRateV2\&XML=<IntlRateRequest USERID="$userid" PASSWORD="$passwd">};
 	$xml .= <<EOXML;
 	<Package ID="0">
 	    <Pounds>$weight</Pounds>
@@ -139,7 +139,7 @@ RATEQUOTE: {
 EOXML
     }
     else {
-	$xml = qq{API=Rate\&XML=<RateRequest USERID="$userid" PASSWORD="$passwd">};
+	$xml = qq{API=RateV4\&XML=<RateRequest USERID="$userid" PASSWORD="$passwd">};
 	$xml .= <<EOXML;
 	<Package ID="0">
 	    <Service>$service</Service>
