@@ -59,7 +59,7 @@ sub {
     my $length = $opt->{length} || $::Variable->{USPS_LENGTH} || '15';
     my $width = $opt->{width} || $::Variable->{USPS_WIDTH} || '15';
     my $height = $opt->{height} || $::Variable->{USPS_HEIGHT} || '6';
-    my $girth = $opt->{girth || $::Variable->{USPS_GIRTH} || '60';
+    my $girth = $opt->{girth} || $::Variable->{USPS_GIRTH} || '60';
 
 
     $service = uc $service;
