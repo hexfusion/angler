@@ -38,7 +38,11 @@ sub {
     my $userid = $opt->{userid} || $::Variable->{USPS_ID};
     my $passwd = $opt->{passwd} || $::Variable->{USPS_PASSWORD};
     my $url = $opt->{url} || $::Variable->{USPS_URL} || 'http://Production.ShippingAPIs.com/ShippingAPI.dll';
-    my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'None';
+    my $container = $opt->{container} || $::Variable->{USPS_CONTAINER} || 'RECTANGULAR';
+    my $length = $opt->{length} || $::Variable->{USPS_LENGTH} || '15';
+    my $width = $opt->{width} || $::Variable->{USPS_WIDTH} || '15';
+    my $height = $opt->{height} || $::Variable->{USPS_HEIGHT} || '6';
+    my $girth = $opt->{girth} || $::Variable->{USPS_GIRTH} || '60';    
     my $machinable = $opt->{machinable} || $::Variable->{USPS_MACHINABLE} || 'False';
     
     $service = uc $service;
@@ -112,38 +116,36 @@ RATEQUOTE: {
         my $usps_country = $map{ $opt->{country} }
             || $opt->{country};
 
-$xml = qq{API=IntlRate\&XML=<IntlRateRequest USERID="$userid" PASSWORD="$passwd">};
-$xml .= <<EOXML;
-<Package ID="0">
-<Pounds>$weight</Pounds>
-<Ounces>$ounces</Ounces>
-<MailType>$mailtype</MailType>
-<Country>$usps_country</Country>
-</Package>
-</IntlRateRequest>
-EOXML
+	$xml = qq{API=IntlRate\&XML=<IntlRateRequest USERID="$userid" PASSWORD="$passwd">};
+		$xml .= <<EOXML;
+			<Package ID="0">
+			<Pounds>$weight</Pounds>
+			<Ounces>$ounces</Ounces>
+			<MailType>$mailtype</MailType>
+			<Country>$usps_country</Country>
+			</Package>
+			</IntlRateRequest>
+		EOXML
     }
     else {
-$xml = qq{API=RateV4\&XML=<RateV4Request USERID="$userid" PASSWORD="$passwd">};
-$xml .= <<EOXML;
-<Package ID="0">
-<Service>$service</Service>
-<ZipOrigination>$origin</ZipOrigination>
-<ZipDestination>$destination</ZipDestination>
-<Pounds>$weight</Pounds>
-<Ounces>$ounces</Ounces>
-<Container>$container</Container>
-<Size>$size</Size>
-<Container>RECTANGULAR</Container>
-<Size>LARGE</Size>
-<Width>15</Width>
-<Length>30</Length>
-<Height>15</Height>
-<Girth>55</Girth>
-<Machinable>$machinable</Machinable>
-</Package>
-</RateV4Request>
-EOXML
+	$xml = qq{API=Rate\&XML=<RateRequest USERID="$userid" PASSWORD="$passwd">};
+		$xml .= <<EOXML;
+			<Package ID="0">
+			<Service>$service</Service>
+			<ZipOrigination>$origin</ZipOrigination>
+			<ZipDestination>$destination</ZipDestination>
+			<Pounds>$weight</Pounds>
+			<Ounces>$ounces</Ounces>
+			<Container>$container</Container>
+			<Size>$size</Size>
+			<Width>$width</Width>
+			<Length>$length</Length>
+			<Height>$height</Height>
+			<Girth>$girth</Girth>
+			<Machinable>$machinable</Machinable>
+			</Package>
+			</RateRequest>
+		EOXML
     }
 
     my $ua = new LWP::UserAgent;
