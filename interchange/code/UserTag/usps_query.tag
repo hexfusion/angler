@@ -204,8 +204,12 @@ EOXML
 	}
 	else {
 	    $resp =~ m|<Postage CLASSID="1">(.+)</Postage>|;
-	    $rate += $1;
-	    undef $error_msg;
+		    $resp = uc $1;
+		    if ($resp eq $service) {
+                    m|<Rate>(.+)</Rate>|;
+	    	    $rate += $1;
+	    	    undef $error_msg;
+		    last;
 	}
     }
 }
