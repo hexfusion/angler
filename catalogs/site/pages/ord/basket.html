@@ -35,7 +35,6 @@ ui_template_name: leftonly
 @_ECOM_SIMMS_LEFT_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
 
- 
 
 [error auto=1 style="color: red"]
 
@@ -276,6 +275,12 @@ EOF
 	</TR>
         
         </table>
+       <table width="80%">
+         		<tr>
+          <td align="right" class="contentbar1"> [L]<strong>Country*</strong>[/L] </td>
+		  <td colspan="4" class="contentbar1"> [display name=country type=country_select value="[evalue country]" extra='onchange="this.form.submit()"'] </td>
+	    </tr>
+        </table> 
 
       </td>
     </tr>
@@ -294,7 +299,8 @@ EOF
             <tr>
               <td width="50%"><a href="http://www.westbranchangler.com/"><img src="/assetstore/site/images/btn_continue_shopping_westbranch.gif" alt="continue shopping" width="140" height="28" border="0" /></a></td>
               <td width="50%" align="right">
-              		[button
+              		[if type=evalue term=country op="eq" compare="US"]
+                    [button
               src='/assetstore/site/images/btn_checkout_westbranch.gif'
 			  text="check out with West Branch"
               hidetext=1
@@ -305,6 +311,7 @@ EOF
 			mv_todo=return
 			mv_nextpage=__CHECKOUT_PAGE__
 		[/button]
+        [/if]
               </td>
             </tr>
             <tr>
@@ -373,6 +380,8 @@ EOF
     </TABLE>
 
 	</table>
+
+
 
 <!-- END CONTENT -->
 @_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@

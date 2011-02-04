@@ -44,7 +44,20 @@
 		<td class="contentbar1" align=right>
 			[error name=state std_label="[L]State/Province[/L]" required=1]		</td>
 		<td align="left" class="contentbar1" colspan=3>
-		  [display name=state type=state_select value="[evalue state]"]		</td>
+		  <select name=state>
+<option value="" selected>--select state--</option>
+   [query
+       prefix=sql
+       type=list
+       ml=1000
+       sql="select name, state from state where
+               country = 'US'
+           "]
+   [sql-list]
+     <option value="[sql-param state]">[sql-param name]</option>
+   [/sql-list]
+
+[/query]		</td>
 	  </tr>
 	  		<tr>
           <td align="right" class="contentbar1"> [error name=zip std_label="[L]Zip/Postal Code[/L]" required=1] </td>
@@ -70,12 +83,18 @@
 		  <input type=text name=phone_night value="[evalue phone_night]" size="12" maxlength="20">		</td>
 	  </tr>
 	  		<tr>
-          <td align="right" class="contentbar1"> [L]<strong>Country*</strong>[/L] </td>
-		  <td colspan="4" class="contentbar1"> [display name=country type=country_select value="[evalue country]" extra='onchange="this.form.submit()"'] </td>
+          <td align="right" class="contentbar1"> [L]<strong>Country</strong>[/L] </td>
+		  <td colspan="4" class="contentbar1">
+          
+         <input type="hidden" name="country" value="US">
+       <strong>United States</strong>
+
+
+ </td>
 	    </tr>
 	  		<tr>
 	  		  <td align="right" class="contentbar1">&nbsp;</td>
-	  		  <td colspan="4" class="contentbar1">&nbsp;</td>
+	  		  <td colspan="4" class="contentbar1"><font color="red">Note:</font> If you need to ship to another Country choose correct Country in your <a href="[area ord/basket]">basket</a></td>
 	    </tr>
 
 	  <tr>
