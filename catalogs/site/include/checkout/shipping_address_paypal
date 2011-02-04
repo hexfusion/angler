@@ -15,12 +15,12 @@
 			[error name=fname std_label="[L]First Name:[/L]" required=1]		  </td>
 		  <td align=left class="contentbar1">
 			<input type=hidden name=fname value="[evalue fname]">[evalue fname]</td>
-		  <td align="right" class="contentbar1">[error name=lname std_label="[L]Last Name[/L]" required=1]</td>
+		  <td align="right" class="contentbar1">[error name=lname std_label="[L]Last Name:[/L]" required=1]</td>
 		  <td align="left" class="contentbar1"><input type=hidden name=lname value="[evalue lname]">[evalue lname]</td>
 		</tr>
 		<tr>
 		  <td align="right" class="contentbar1">
-			[error name=company std_label="[L]Company[/L]" required="[scratch dealer]"]		  </td>
+			[error name=company std_label="[L]Company:[/L]" required="[scratch dealer]"]		  </td>
 		  <td align="left" class="contentbar1" colspan=3>
 			<input type=text name=company value="[evalue company]" size="20" maxlength="40">		  </td>
 		</tr>
@@ -36,7 +36,7 @@
 	  </tr>
 	  <tr class="contentbar1">
 		<td align="right" class="contentbar1">
-		  [error name=city std_label="[L]City[/L]" required=1]		</td>
+		  [error name=city std_label="[L]City:[/L]" required=1]		</td>
 		<td class="contentbar1" colspan=3>
 		  <input type=hidden name=city value="[evalue city]">[evalue city]</td>
 	  </tr>
@@ -60,11 +60,11 @@
 	  </tr>
 	  <tr>
 		<td align="right" class="contentbar1">
-		  [error name=phone_day std_label="[L]Daytime Phone[/L]" required=1]		</td>
+		  [error name=phone_day std_label="[L]Daytime Phone:[/L]" required=1]		</td>
 		<td class="contentbar1">
 		  <input type=text name=phone_day value="[evalue phone_day]" size="12" maxlength="20">		</td>
 		<td align="right" class="contentbar1">
-		  [error name=phone_night std_label="[L]Evening Phone[/L]"]		</td>
+		  [error name=phone_night std_label="[L]Evening Phone:[/L]"]		</td>
 		<td align="left" class="contentbar1">
 		  <input type=text name=phone_night value="[evalue phone_night]" size="12" maxlength="20">		</td>
 	  </tr>
