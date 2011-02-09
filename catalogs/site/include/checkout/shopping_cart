@@ -20,7 +20,7 @@
           <td bgcolor="#FFFFFF"><b>[item-sku]</b></td>
           <td bgcolor="#FFFFFF">
 		  
-		    <div align="left">[if-item-field image] [image src="items/[item-field image]" makesize="50x50" check_date="1" alt="[item-filter encode_entities][item-description][/item-filter]" align="left" border="0"] 
+		    <div align="left">[if-item-field image] [image src="items/50x50/[item-field image]" alt="[item-filter encode_entities][item-description][/item-filter]" align="left" border="0"] 
 		      <br>
 		  [/if-item-field] 
 		  

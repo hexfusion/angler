@@ -67,7 +67,7 @@ ui_template_name: leftonly
 [else][discount code=ALL_ITEMS][/discount][/else]
 [/if]
 
-<table width="100%" cellspacing="0" border="0">
+<table width="600px" cellspacing="0" border="0">
 <tr>
 	<td align="center">
 
@@ -100,12 +100,12 @@ ui_template_name: leftonly
       		<td>
         	<table cellspacing="0" cellpadding="4" border="0" style="border-collapse: collapse">
 				<tr style="border: 1px solid black;">
-          			<td class="titletab_small"><b>&nbsp;[L]Remove[/L]</b></td>
-			        <td class="titletab_small" align="center"><b>[L]SKU[/L]</b></td>
-          			<td class="titletab_small"><b>[L]Description[/L]</b></td>
-          			<td class="titletab_small"><b>[L]Quantity[/L]</b></td>
-          			<td class="titletab_small" align="center"><b>[L]Price[/L]</b></td>
-          			<td class="titletab_small"><b>[L]Total[/L]&nbsp;</b></td>
+          			<td width="104" class="titletab_small"><b>&nbsp;[L]Remove[/L]</b></td>
+			        <td width="94" align="center" class="titletab_small"><b>[L]SKU[/L]</b></td>
+          			<td width="680" class="titletab_small"><b>[L]Description[/L]</b></td>
+          			<td width="69" class="titletab_small"><b>[L]Qty[/L]</b></td>
+          			<td width="78" align="center" class="titletab_small"><b>[L]Price[/L]</b></td>
+          			<td width="82" class="titletab_small"><b>[L]Total[/L]&nbsp;</b></td>
 				</tr>
 			<tbody>
 	
@@ -138,13 +138,15 @@ ui_template_name: leftonly
 [/item-calc]
 
 	<TR class="[item-calc]$row_class || 'cartnorm'[/item-calc]">
-		<TD align=center valign="top">
+		<TD align=center>
 [if-item-param !mv_si]
 	    		<INPUT TYPE=checkbox NAME="[item-quantity-name]" onClick="this.form.action='[process]', this.form.submit()" VALUE=0>
 [/if-item-param]
 	  	</TD>
-	  	<TD valign="top"><b>[item-sku]</b></TD>
-	  	<td><a href="[area href="[item-sku]"]" class="cartlink"><b>[item-description]</b></A><br><br>
+	  	<TD><b>[item-sku]</b></TD>
+	  	<td>   <div align="left">[if-item-field image] [image src="items/50x50/[item-field image]" alt="[item-filter encode_entities][item-description][/item-filter]" align="left" border="0"] 
+		      <br>
+		  [/if-item-field]&nbsp;&nbsp; <a href="[area href="[item-sku]"]" class="cartlink"><b>[item-description]</b></A><br><br>
 
 	[if scratch dealer]
 	[if-item-data pricing sku]
@@ -234,24 +236,24 @@ EOF
 
 [input-filter name="[item-quantity-name]" op="nullselect digits_dot"][/input-filter]
 
-	  <TD ALIGN=CENTER valign="top">
+	  <TD ALIGN=CENTER>
 	    <INPUT TYPE=text NAME="[item-quantity-name]" VALUE="[item-quantity]" SIZE=3>
 	  </TD>
 	[if discount [item-code]]
-	  <TD ALIGN=right valign="top">
+	  <TD ALIGN=right>
 	    [L]Regular price[/L] <STRIKE>[item-price]</STRIKE>
 	    <BR>
 	    <B>[L]Your price[/L]: $0.00<br>
 	    [L]You save[/L]: [item-difference]
 	  </TD>
-	  <TD ALIGN=right valign="top">
+	  <TD ALIGN=right>
 	    <strike>[item-subtotal]</strike><br>
 	    <B>[item-discount-subtotal]<BR>
 	    [L]You save[/L]: [item-discount]</b>
 	  </TD>
 	[else]
-	  <TD ALIGN=right valign="top">[item-price]</TD>
-	  <TD ALIGN=right valign="top">[item-subtotal]</TD>
+	  <TD width="39" ALIGN=right>[item-price]</TD>
+	  <TD width="59" ALIGN=right>[item-subtotal]</TD>
 	[/else]
 	[/if]
 	</TR>
