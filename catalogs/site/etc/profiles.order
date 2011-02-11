@@ -54,6 +54,19 @@ have_cert=mandatory Must present payment certificate code.
 __END__
 
 
+__NAME__                            paypalexpress
+
+&set=mv_payment Paypal
+&set=psp Paypal
+&set=mv_payment_route paypalexpress
+&set=mv_order_route default
+&final = yes
+&setcheck = payment_method paypalexpress
+&fatal = yes
+
+__END__
+
+
 __NAME__                            credit_card
 
 __COMMON_ORDER_PROFILE__
@@ -69,7 +82,7 @@ mv_credit_card_cvv2=required
 [if variable MV_PAYMENT_MODE]
 [value name=mv_payment_realtime set=""]
 &credit_card=standard keep __CREDIT_CARDS_ACCEPTED__
-&set=mv_payment Real-time Credit Card (%c -- [var MV_PAYMENT_MODE])
+&set=mv_payment Credit Card (%c -- [var MV_PAYMENT_PSP])
 &set=mv_payment_realtime 1
 [else]
 &credit_card=standard __CREDIT_CARDS_ACCEPTED__
@@ -81,7 +94,8 @@ mv_credit_card_cvv2=required
 &final = yes
 &setcheck = end_profile 1
 &setcheck = payment_method credit_card
-
+&set=psp __MV_PAYMENT_PSP__
+[comment]&set=mv_payment_route [/comment]
 __END__
 
 __NAME__                            purchase_order

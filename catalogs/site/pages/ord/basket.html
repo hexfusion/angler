@@ -35,7 +35,6 @@ ui_template_name: leftonly
 @_ECOM_SIMMS_LEFT_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
 
- 
 
 [error auto=1 style="color: red"]
 
@@ -68,7 +67,7 @@ ui_template_name: leftonly
 [else][discount code=ALL_ITEMS][/discount][/else]
 [/if]
 
-<table width="100%" cellspacing="0">
+<table width="600px" cellspacing="0" border="0">
 <tr>
 	<td align="center">
 
@@ -93,6 +92,7 @@ ui_template_name: leftonly
     	<INPUT TYPE=hidden NAME=mv_doit      VALUE=refresh>
     	<INPUT TYPE=hidden NAME=mv_orderpage VALUE="ord/basket">
     	<INPUT TYPE=hidden NAME=mv_nextpage  VALUE=index>
+<input type=hidden name=mv_order_profile value=credit_card>
     	<br>
 
 	<table>
@@ -100,12 +100,12 @@ ui_template_name: leftonly
       		<td>
         	<table cellspacing="0" cellpadding="4" border="0" style="border-collapse: collapse">
 				<tr style="border: 1px solid black;">
-          			<td class="titletab_small"><b>&nbsp;[L]Remove[/L]</b></td>
-			        <td class="titletab_small" align="center"><b>[L]SKU[/L]</b></td>
-          			<td class="titletab_small"><b>[L]Description[/L]</b></td>
-          			<td class="titletab_small"><b>[L]Quantity[/L]</b></td>
-          			<td class="titletab_small" align="center"><b>[L]Price[/L]</b></td>
-          			<td class="titletab_small"><b>[L]Total[/L]&nbsp;</b></td>
+          			<td width="104" class="titletab_small"><b>&nbsp;[L]Remove[/L]</b></td>
+			        <td width="94" align="center" class="titletab_small"><b>[L]SKU[/L]</b></td>
+          			<td width="680" class="titletab_small"><b>[L]Description[/L]</b></td>
+          			<td width="69" class="titletab_small"><b>[L]Qty[/L]</b></td>
+          			<td width="78" align="center" class="titletab_small"><b>[L]Price[/L]</b></td>
+          			<td width="82" class="titletab_small"><b>[L]Total[/L]&nbsp;</b></td>
 				</tr>
 			<tbody>
 	
@@ -138,13 +138,15 @@ ui_template_name: leftonly
 [/item-calc]
 
 	<TR class="[item-calc]$row_class || 'cartnorm'[/item-calc]">
-		<TD align=center valign="top">
+		<TD align=center>
 [if-item-param !mv_si]
 	    		<INPUT TYPE=checkbox NAME="[item-quantity-name]" onClick="this.form.action='[process]', this.form.submit()" VALUE=0>
 [/if-item-param]
 	  	</TD>
-	  	<TD valign="top"><b>[item-sku]</b></TD>
-	  	<td><a href="[area href="[item-sku]"]" class="cartlink"><b>[item-description]</b></A><br><br>
+	  	<TD><b>[item-sku]</b></TD>
+	  	<td>   <div align="left">[if-item-field image] [image src="items/50x50/[item-field image]" alt="[item-filter encode_entities][item-description][/item-filter]" align="left" border="0"] 
+		      <br>
+		  [/if-item-field]&nbsp;&nbsp; <a href="[area href="[item-sku]"]" class="cartlink"><b>[item-description]</b></A><br><br>
 
 	[if scratch dealer]
 	[if-item-data pricing sku]
@@ -234,24 +236,24 @@ EOF
 
 [input-filter name="[item-quantity-name]" op="nullselect digits_dot"][/input-filter]
 
-	  <TD ALIGN=CENTER valign="top">
+	  <TD ALIGN=CENTER>
 	    <INPUT TYPE=text NAME="[item-quantity-name]" VALUE="[item-quantity]" SIZE=3>
 	  </TD>
 	[if discount [item-code]]
-	  <TD ALIGN=right valign="top">
+	  <TD ALIGN=right>
 	    [L]Regular price[/L] <STRIKE>[item-price]</STRIKE>
 	    <BR>
 	    <B>[L]Your price[/L]: $0.00<br>
 	    [L]You save[/L]: [item-difference]
 	  </TD>
-	  <TD ALIGN=right valign="top">
+	  <TD ALIGN=right>
 	    <strike>[item-subtotal]</strike><br>
 	    <B>[item-discount-subtotal]<BR>
 	    [L]You save[/L]: [item-discount]</b>
 	  </TD>
 	[else]
-	  <TD ALIGN=right valign="top">[item-price]</TD>
-	  <TD ALIGN=right valign="top">[item-subtotal]</TD>
+	  <TD width="39" ALIGN=right>[item-price]</TD>
+	  <TD width="59" ALIGN=right>[item-subtotal]</TD>
 	[/else]
 	[/if]
 	</TR>
@@ -275,6 +277,12 @@ EOF
 	</TR>
         
         </table>
+       <table width="80%">
+         		<tr>
+          <td align="right" class="contentbar1"> [L]<strong>Country*</strong>[/L] </td>
+		  <td colspan="4" class="contentbar1"> [display name=country type=country_select value="[evalue country]" extra='onchange="this.form.submit()"'] </td>
+	    </tr>
+        </table> 
 
       </td>
     </tr>
@@ -293,44 +301,29 @@ EOF
             <tr>
               <td width="50%"><a href="http://www.westbranchangler.com/"><img src="/assetstore/site/images/btn_continue_shopping_westbranch.gif" alt="continue shopping" width="140" height="28" border="0" /></a></td>
               <td width="50%" align="right">
-              		[button
+              		[if type=evalue term=country op="eq" compare="US"]
+                    [button
               src='/assetstore/site/images/btn_checkout_westbranch.gif'
 			  text="check out with West Branch"
               hidetext=1
 	  	      class=button3
 			  form=basket
 		  ]
+			mv_order_profile=credit_card
 			mv_todo=return
 			mv_nextpage=__CHECKOUT_PAGE__
 		[/button]
+        [else]
+        <div><strong>All International Orders Must Be Processed Through PayPal.</strong></div>
+        [/else]
+        [/if]
               </td>
             </tr>
             <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>
-            <tr>
-              <td colspan="2" align="center">
-              [button
-          name="mv_click"
-          src='/assetstore/site/images/pp_xpressCheckout.gif'
-          text="Paypal"
-          hidetext=1
-    	  form=basket
-		  ]
-          [run-profile name=paypalexpress]
-          [if type=explicit compare="[error all=1 show_var=1 keep=1]"]
-          mv_nextpage=ord/checkout
-          [else]
-          [charge route="paypalexpress" pprequest="setrequest"]
-          [/else]
-          [/if]
-          mv_todo=return
-      [/button]
-
-              </td>
-              </tr>
-          </table></td>
+           </table></td>
           <td width="37%" align="Right">
             <table cellspacing="0" cellpadding="4" border="0">
               <tr> 
@@ -345,23 +338,55 @@ EOF
                   </td>
                 <td class="titletab_small" align=right><b>[subtotal]</b></td>
                 </tr>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td align=right class="">&nbsp;</td>
-              </tr>
-              <tr>
+               <tr>
                 <td colspan="2" align="right">  <INPUT type="submit" value="[L]Recalculate[/L]" class="button3"></td>
                 </tr>
               </table>
           </td>
         </tr>
+
         </table>
 
       </td>
     </tr>
+	</form>
+	
+	  <form action="[process secure=1]" method="POST" name="paypal">
+    [form-session-id]
+    <input type=hidden NAME=mv_doit       value=refresh>
+    <input type=hidden NAME=mv_nextpage   value="ord/basket">
+    <input type=hidden name=mv_check      value="Save_database">
+	<input type=hidden name=mv_successpage value="ord/paypalsetrequest">
+    <input type=hidden name=mv_session_id value="[data session id]">
+
+<tr>
+              <td colspan="2" style="padding-left: 30%;">
+              [button
+          name="mv_click"
+          src='/assetstore/site/images/pp_xpressCheckout.gif'
+          text="Paypal"
+          hidetext=1
+    	  form=paypal
+		  ]
+          [run-profile name=paypalexpress]
+          [if type=explicit compare="[error all=1 show_var=1 keep=1]"]
+          mv_nextpage=ord/checkout
+          [else]
+          [charge route="paypalexpress" pprequest="setrequest"]
+          [/else]
+          [/if]
+          mv_todo=return
+      [/button]
+
+              </td>
+              </tr>
+ </form>
+
     </TABLE>
 
 	</table>
+
+
 
 <!-- END CONTENT -->
 @_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@

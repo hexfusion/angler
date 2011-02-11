@@ -1,0 +1,49 @@
+[timed-build force=1 file=pages/testpage.html minutes=".16"]
+Built at [time]%c[/time].
+[set found_cat][/set]
+[loop
+	prefix=box
+	search="
+		fi=area
+		st=db
+		tf=sort
+		ac=0
+		ac=0
+		co=yes
+		secure=1
+		sf=sel
+		op=eq
+		se=[control set_selector left]
+
+		sf=which_page
+		op=rm
+		se=[control page_class all|@@MV_PAGE@@]
+"]
+<a class="menuitem submenuheader">[box-exec bar_link]area[/box-exec]</a>
+<div class="submenu">
+<br>
+
+[set found_cat]1[/set]
+[loop prefix=cat
+	search="
+		
+        fi=cat
+        secure=1
+		st=db
+		co=yes
+		tf=sort
+		tf=name
+		rf=code,name
+		sf=sel
+		se=[box-code]
+	"
+	]
+    <li>[cat-exec bar_link]cat[/cat-exec]</li><br>
+[/loop]
+</ul>
+
+
+</div>
+[/loop]
+
+[/timed-build]

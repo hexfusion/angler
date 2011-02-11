@@ -1,0 +1,6 @@
+Database  area_sub  area_sub.txt     __SQLDSN__
+Database  area_sub  DEFAULT_TYPE text
+Database  area_sub  COLUMN_DEF   "code=char(8) NOT NULL PRIMARY KEY"
+Database  area_sub  COLUMN_DEF   "name=char(128) DEFAULT '' NOT NULL"
+Database  area_sub  COLUMN_DEF   "sort=char(3) DEFAULT '00' NOT NULL"
+Database  area_sub  INDEX		  name sort

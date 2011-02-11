@@ -1,10 +1,10 @@
 [comment]
-ui_page: ord/checkout.html
+ui_page: ord/paypalcheckout.html
 ui_type: page
-ui_name: ord/checkout.html
+ui_name: ord/paypalcheckout.html
 ui_page_template: ecom_simms_top_only
 ui_version: 5.6.1
-ui_source: pages/ord/checkout.html
+ui_source: pages/ord/paypalcheckout.html
 ui_template: Yes
 ui_template_name: noleft
 [/comment]
@@ -22,14 +22,9 @@ ui_template_name: noleft
 
 @_ECOM_SIMMS_TOP_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
-    [set couponcompare]
-[if type=data term="discountcodes::discount_code::[evalue coupon]"]
-[discount code=ALL_ITEMS] $s * .90 [/discount]
-[/if]
-[/set]
 <br>
-<div align="center"><h1>One Step Secure Checkout</h1>
- <span id="siteseal"><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=DRhxzTELXHF2A7aBarXWirLbmaVyUH0ybRUXNlZtvKhR8LZ68LFsk"></script><br/><a style="font-family:arial;font-size:9px" href="https://www.godaddy.com/gdshop/ssl/ssl.asp" target="_blank">Secure Site</a></span>
+<div align="center">
+ <h1>Paypal Checkout</h1>
 </div>
 <br>
 <table width="90%" align="center">
@@ -79,12 +74,7 @@ ui_template_name: noleft
 		  [/else]
 		  [/if]
           
-          <br>
-[if type=data term="discountcodes::discount_code::[evalue coupon]"]
-[discount code=ALL_ITEMS] $s * .90 [/discount]
-<br><b>[L]<font color="#CC0000">Congratulations You Just Caught a Great Deal!: 10% OFF</font>[/L]</b><br>
-[else][discount code=ALL_ITEMS][/discount][/else]
-[/if]
+
 		</td>
 	  </tr>
 	  <tr>
@@ -98,37 +88,8 @@ ui_template_name: noleft
 	  <tr>
 		<td>
 				<br>
-				[include include/checkout/shipping_address]
+				[include include/checkout/shipping_address_paypal]
 		</td>
-	  </tr>
-	  <tr>
-		<td>
-				<br>
-				[include include/checkout/mailing_status]				
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-				<br>
-				[include include/checkout/billing_address]
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-				<div align="center"><br>
-				[include include/checkout/payment_select]
-        </div></td>
-	  </tr>
-	    <tr>
-		<td>
-				<div align="center"><br>
-				[if scratch old_browser]
-				[include include/checkout/old_browser_payment]
-				[else]
-				[include include/checkout/new_browser_payment]
-				[/else]
-				[/if]
-        </div></td>
 	  </tr>
 
 			[if items]
@@ -146,10 +107,8 @@ ui_template_name: noleft
 					  class=button3
 					  style="font-weight: bold"
 			  ]
-					mv_payment_route=offlinepayment
-					mv_order_profile=credit_card
-					mv_todo=submit
-
+		      mv_order_profile=paypalexpress
+			  mv_todo=submit
 			  [/button]
 			  </td>
 			</tr>

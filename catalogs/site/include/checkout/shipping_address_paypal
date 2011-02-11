@@ -12,78 +12,64 @@
 		
 		<tr>
 		  <td align=right class="contentbar1">
-			[error name=fname std_label="[L]First Name[/L]" required=1]		  </td>
+			[error name=fname std_label="[L]First Name:[/L]" required=1]		  </td>
 		  <td align=left class="contentbar1">
-			<input type=text name=fname value="[evalue fname]" size="20" maxlength="20">		  </td>
-		  <td align="right" class="contentbar1">[error name=lname std_label="[L]Last Name[/L]" required=1]</td>
-		  <td align="left" class="contentbar1"><input type=text name=lname value="[evalue lname]" size="20"></td>
+			<input type=hidden name=fname value="[evalue fname]">[evalue fname]</td>
+		  <td align="right" class="contentbar1">[error name=lname std_label="[L]Last Name:[/L]" required=1]</td>
+		  <td align="left" class="contentbar1"><input type=hidden name=lname value="[evalue lname]">[evalue lname]</td>
 		</tr>
 		<tr>
 		  <td align="right" class="contentbar1">
-			[error name=company std_label="[L]Company[/L]" required="[scratch dealer]"]		  </td>
+			[error name=company std_label="[L]Company:[/L]" required="[scratch dealer]"]		  </td>
 		  <td align="left" class="contentbar1" colspan=3>
 			<input type=text name=company value="[evalue company]" size="20" maxlength="40">		  </td>
 		</tr>
 		<tr>
-		  <td align="right" class="contentbar1">[error name=address1 std_label="[L]Address[/L]" required=1]		</td>
+		  <td align="right" class="contentbar1">[error name=address1 std_label="[L]Address:[/L]" required=1]		</td>
 		<td align="left" colspan=3 class="contentbar1">
-		  <input type=text name=address1 value="[evalue address1]" size="40" maxlength="64">		</td>
+		  <input type=hidden name=address1 value="[evalue address1]">[evalue address1]</td>
 	  </tr>
 	  <tr>
 		<td class="contentbar1">&nbsp;</td>
 		<td class="contentbar1" align="left" colspan=3>
-		  <input type=text name=address2 value="[evalue address2]" size="40" maxlength="64">		</td>
+		  <input type=hidden name=address2 value="[evalue address2]">[evalue address2]</td>
 	  </tr>
 	  <tr class="contentbar1">
 		<td align="right" class="contentbar1">
-		  [error name=city std_label="[L]City[/L]" required=1]		</td>
+		  [error name=city std_label="[L]City:[/L]" required=1]		</td>
 		<td class="contentbar1" colspan=3>
-		  <input type=text name=city value="[evalue city]" size="20" maxlength="20">		</td>
+		  <input type=hidden name=city value="[evalue city]">[evalue city]</td>
 	  </tr>
 	  <tr>
 		<td class="contentbar1" align=right>
-			[error name=state std_label="[L]State/Province[/L]" required=1]		</td>
+			[error name=state std_label="[L]State/Province:[/L]" required=1]	</td>
 		<td align="left" class="contentbar1" colspan=3>
-		  <select name=state>
-<option value="" selected>--select state--</option>
-   [query
-       prefix=sql
-       type=list
-       ml=1000
-       sql="select name, state from state where
-               country = 'US'
-           "]
-   [sql-list]
-     <option value="[sql-param state]">[sql-param name]</option>
-   [/sql-list]
-
-[/query]		</td>
+        <input type=hidden name=state value="[evalue state]">[evalue state]	</td>
 	  </tr>
 	  		<tr>
-          <td align="right" class="contentbar1"> [error name=zip std_label="[L]Zip/Postal Code[/L]" required=1] </td>
-		  <td class="contentbar1" colspan=3><input type=text onchange="this.form.submit()" name=zip value="[evalue zip]" size="10" maxlength="10"> 
-		  note: page will auto refresh after you enter zipcode to calculate shipping</td>
+          <td align="right" class="contentbar1"> [error name=zip std_label="[L]Zip/Postal Code:[/L]" required=1] </td>
+		  <td class="contentbar1" colspan=3><input type=hidden name=zip value="[evalue zip]">[evalue zip]</td>
 	    </tr>
 		       
 
 	  <tr>
 		<td align="right" class="contentbar1">
-		  [error name=email std_label="[L]Email Address[/L]" required=1]		</td>
+		  [error name=email std_label="[L]Email Address:[/L]" required=1]		</td>
 		<td class="contentbar1" colspan=3>
-		  <input type=text name=email value="[evalue email]" size="30">		</td>
+		  <input type=hidden name=email value="[evalue email]">[evalue email]</td>
 	  </tr>
 	  <tr>
 		<td align="right" class="contentbar1">
-		  [error name=phone_day std_label="[L]Daytime Phone[/L]" required=1]		</td>
+		  [error name=phone_day std_label="[L]Daytime Phone:[/L]" required=1]		</td>
 		<td class="contentbar1">
 		  <input type=text name=phone_day value="[evalue phone_day]" size="12" maxlength="20">		</td>
 		<td align="right" class="contentbar1">
-		  [error name=phone_night std_label="[L]Evening Phone[/L]"]		</td>
+		  [error name=phone_night std_label="[L]Evening Phone:[/L]"]		</td>
 		<td align="left" class="contentbar1">
 		  <input type=text name=phone_night value="[evalue phone_night]" size="12" maxlength="20">		</td>
 	  </tr>
 	  		<tr>
-          <td align="right" class="contentbar1"> [L]<strong>Country</strong>[/L] </td>
+          <td align="right" class="contentbar1"> [L]<strong>Country:</strong>[/L] </td>
 		  <td colspan="4" class="contentbar1">
           
          <input type="hidden" name="country" value="US">
@@ -94,7 +80,7 @@
 	    </tr>
 	  		<tr>
 	  		  <td align="right" class="contentbar1">&nbsp;</td>
-	  		  <td colspan="4" class="contentbar1"><font color="red">Note:</font> If you need to ship to another Country choose correct Country in your <a href="[area ord/basket]">basket</a></td>
+	  		  <td colspan="4" class="contentbar1">&nbsp;</td>
 	    </tr>
 
 	  <tr>

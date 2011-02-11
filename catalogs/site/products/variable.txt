@@ -1,6 +1,6 @@
 code	Variable	pref_group
 UI_META_LINK	1	Admin Control
-PAYPAL_EXPRESS_RETURN_URL	/ord/paypalgetrequest	Paypal
+PAYPAL_EXPRESS_RETURN_URL	http://29.camp.westbranchangler.com:9029/ord/paypalgetrequest	Paypal
 MV_PAYMENT_HOST		Payment
 MAILING_MAX_DIRECT	50	Mailings
 SHIP_FLAT_INTL_RATE	10	Shipping
@@ -71,7 +71,7 @@ MV_PAYMENT_VENDOR		Payment
 USPS_MACHINABLE	FALSE	Shipping
 UI_ABOUT_LOGIN_URL	http://www.icdevgroup.org/	Admin Control
 CSS_DIR	/assetstore/site/css	Directories and Paths
-PAYPAL_EXPRESS_ID	ebay_api1.westbranchresort.comi	Paypal
+PAYPAL_EXPRESS_ID	ebay_api1.westbranchresort.com	Paypal
 PAYPAL_EXPRESS_PAYMENT_ACTION	Sale	Paypal
 TOLLFREE	(800) 201-2557	Company
 PAYPAL_EXPRESS_CURRENCY	USD	Paypal
@@ -84,7 +84,7 @@ CHECKOUT_PAGE	ord/checkout	Cart/Checkout
 USPS_MODULO	80	Shipping
 DEFAULT_LOCALE	en_US	Internationalization
 UI_CLONE_TABLES	products* pricing* variants:quantity merchandising options:sku	Item display
-PAYPAL_EXPRESS_CANCEL_URL	/paypal_cancel	Paypal
+PAYPAL_EXPRESS_CANCEL_URL	http://29.camp.westbranchangler.com:9029/paypal_cancel	Paypal
 CHECK_ACCEPTED	0	Payment
 CITY	Hancock, NY 13783	Company
 PAYPAL_EXPRESS_SIGNATURE	AwUBuh4i3xE3XCnZzKhfJcrZFC9YA3HErGPljpWqSQ5PFJU1gRgFj3qX	Paypal
@@ -102,7 +102,7 @@ COD_ACCEPTED	0	Payment
 USPS_PASSWORD	819KO64ZY870	Shipping
 TAXAREA	NY	Tax
 SETTLE_TRANSACTION		Payment
-USPS_CONTAINER	None	Shipping
+USPS_CONTAINER	RECTANGULAR	Shipping
 USPS_MAILTYPE	package	Shipping
 PHONE	(607) 467-5525	Company
 UI_HELP_HEIGHT	480	Admin Control
