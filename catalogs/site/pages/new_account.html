@@ -22,15 +22,15 @@ ui_template_name: leftonly
 
 [control reset=1]
 
-@_LEFTONLY_TOP_@
+@_ECOM_SIMMS_LEFT_ONLY_TOP_@
 
 <!-- BEGIN CONTENT -->
 
 <br>
 
-[if session logged_in][bounce href="[area account]"][/if]
+[if session logged_in][bounce href="[area member/account]"][/if]
 [if !scratch new]
-				  
+
 [if session failure]
   <P>
   <b>[data session failure]</b>
@@ -61,48 +61,48 @@ mv_nextpage=new_account
 <input type="hidden" name="function" value="new_account">
 <input type="hidden" name="mv_nextpage" value="ord/basket">
 
-<tr> 
-  <td> 
+<tr>
+  <td>
     <table border="0" cellspacing="0" cellpadding="2">
-    <tr> 
+    <tr>
       <td align="right" class="titletab_small">
         <b>[L]Username[/L]:</b>
       </td>
-      <td class="titletab_small" align="left"> 
+      <td class="titletab_small" align="left">
         <input type="text" name="mv_username" value="">
       </td>
     </tr>
-    <tr> 
-      <td align="right" class="titletab_small"> 
+    <tr>
+      <td align="right" class="titletab_small">
         <b>[L]Password[/L]:</b>
       </td>
-      <td align="left" class="titletab_small"> 
+      <td align="left" class="titletab_small">
         <input type="password" name="mv_password" value="">
       </td>
     </tr>
-    <tr> 
-      <td align="right" class="titletab_small"> 
+    <tr>
+      <td align="right" class="titletab_small">
         <b>[L]Verify Password[/L]:</b>
       </td>
-      <td align="left" class="titletab_small"> 
+      <td align="left" class="titletab_small">
         <input type="password" name="mv_verify" value="">
       </td>
     </tr>
     <tr class="contentbar1">
       <td>&nbsp;</td>
-      <td> 
+      <td>
         <input type="submit" value="[L]Create Account[/L]">
       </td>
     </tr>
-	[if config CookieLogin]
-    <tr class="contentbar1"> 
-      <td align="right"> 
+[if config CookieLogin]
+    <tr class="contentbar1">
+      <td align="right">
         <input type="checkbox" name="mv_cookie_password" value="1">
       </td>
       <td>[L]Log me in automatically (sets cookie)[/L]</td>
     </tr>
-	[/if]
-    <tr class="contentbar1"> 
+[/if]
+    <tr class="contentbar1">
       <td align="right" colspan="2">&nbsp;</td>
     </tr>
     </table>
@@ -117,4 +117,4 @@ mv_nextpage=new_account
 
 <!-- END CONTENT -->
 
-@_LEFTONLY_BOTTOM_@
+@_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@

@@ -1,0 +1,49 @@
+[comment]
+ui_component: drop_down_cart
+ui_type: component
+ui_name: drop_down_cart
+ui_component_version: 5.7.6
+ui_label: Header Drop Down Cart
+ui_source: templates/components/drop_down_cart
+
+
+[/comment]
+<div class="glossymenu">
+<a class="menuitem submenuheader">View Cart</a>
+<div class="submenu">
+  [if items]
+  <div padding="2" align="center">
+  <div align="center" class="item_header"><strong>Shopping Cart</strong></div>
+  <div class="carttiny">
+
+  <table width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+		<td align=left class=ctiny_heading><strong>Description</strong></td>
+		<td align=right class=ctiny_heading><strong>Quantity</strong></td>
+      </tr>
+[item-list]
+	[item-next][item-modifier mv_si][/item-next]
+      <tr>
+		<td valign=top align=left>
+		  <a href="[area [item-sku]]" class="ctiny_text">[item-filter 8][item-data products description]...[/item-filter]</A>
+		</td>
+		<td align=right valign=top class="ctiny_text">
+		  [item-quantity]&nbsp;x&nbsp;[item-discount-price]
+		</TD>
+      </tr>
+[/item-list]
+  </table>
+  <br>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th scope="col"><a href="[area ord/basket]"><img src="[area no_session_id=1 no_count=1]images/view_cart.jpg" alt="View Cart" width="73" height="20" border="0"></a></th>
+      <th scope="col"><a href="[area ord/checkout]"><img src="[area no_session_id=1 no_count=1]images/checkout.jpg" alt="Check Out" width="73" height="20" border="0"></a></th>
+    </tr>
+  </table>
+  </div>
+  </div>
+  [/if]
+</div>
+
+
+</div>
