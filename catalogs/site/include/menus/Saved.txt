@@ -1,2 +1,3 @@
 code	mgroup	msort	next_line	indicator	exclude_on	depends_on	page	form	name	super	inactive	description	help_name	img_dn	img_up	img_sel	img_icon	url	member
 001		x001							Saved links		0								
+002		x002					admin/order_new.html	showpending=1mv_form_charset=UTF-8			Orders: Pending Orders					Saved admin/order_new.html at Dec  2, 2010 14:50 with showpending=1mv_form_charset=UTF-8
