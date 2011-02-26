@@ -7,6 +7,7 @@ ui_version: 5.7.6
 ui_page_version: 5.7.6
 ui_source: pages/fly_fishing_waders.html
 [/comment]
+[tmp c_name] [data table=cat column=name foreign=code key="[cgi catcode]"][/tmp]
 
 [tmp meta_keywords][loop prefix=keywords search="
 fi=products 
@@ -23,7 +24,7 @@ os=0
                 nu=0
                 
                 sf=category
-                se=Waders
+                se=Packs
                 op=rm
                 nu=0
 tf=price
@@ -48,8 +49,13 @@ to=nr
 		op=ne
 		nu=0
 
+                sf=prod_group
+                se=Gear
+                op=rm
+                nu=0
+                
                 sf=category
-                se=Waders
+                se=Packs
                 op=rm
                 nu=0
 
@@ -75,9 +81,6 @@ to=nr
 	[component][/component]
 [/control-set]
 [control-set]
-	[component][/component]
-[/control-set]
-[control-set]
 	[component]results_grid[/component]
 	[buylist_button][/buylist_button]
 	[cols]4[/cols]
@@ -85,29 +88,13 @@ to=nr
 	[htmltmpl][/htmltmpl]
 	[output][/output]
 [/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
 [control reset=1]
 
 @_SIMMS_ECOM_STATIC_LEFT_TOP_@
 <!-- BEGIN CONTENT -->
-<br /><br />
-<table width="600px" border="0" align="center" cellpadding="5" cellspacing="0">
-  <tr>
-    <td width="100%" align="center"><img src="/assetstore/site/template/banners/category/waders.jpg" width="700" height="142" alt="Men's Clothing" /><br /></td>
-  </tr>
-  <tr>
-    <td align="left">By far the most important part of equipment you can own. A solid pair of waders will keep you fishing for hours in comfort. Why spend a trip of a lifetime miserable, invest in a good pair of waders and you won't be disappointed.</td>
-  </tr>
-  <tr>
-    <td align="center"><table width="80%" border="0">
-        <tr>
-          <td width="49%" align="center"><img src="/assetstore/site/template/logos/simms.jpg" alt="Simms" width="138" height="44" border="0" /></td>
-          <td width="51%"align="center"><img src="/assetstore/site/template/logos/orvis.jpg" alt="Orvis" width="138" height="44" border="0" /></td>
-        </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td align="left"><hr /></td>
-  </tr>
-</table>
+
 <!-- END CONTENT -->
 @_SIMMS_ECOM_STATIC_LEFT_BOTTOM_@

@@ -1,0 +1,154 @@
+[comment]
+ui_page: fly_fishing_waders.html
+ui_type: page
+ui_name: fly_fishing_waders.html
+ui_page_template: simms_ecom_static_left
+ui_version: 5.7.6
+ui_page_version: 5.7.6
+ui_source: pages/fly_fishing_waders.html
+[/comment]
+[tmp c_name] [data table=cat column=name foreign=code key="[cgi catcode]"][/tmp]
+
+[tmp meta_keywords][loop prefix=keywords search="
+fi=products 
+st=db 
+co=1
+sf=merchandising
+se=discontinued
+op=ne
+nu=0
+os=0
+                sf=prod_group
+                se=Sportswear
+                op=rm
+                nu=0
+
+tf=price
+to=nr
+"][filter namecase][keywords-data products description][/filter], [/loop][/tmp]
+[tmp search_meta_keywords][scratch meta_keywords][/tmp]
+
+[tmp meta_description]Category: [scratch c_name], Manufacturer: [scratch manf], Models: [scratch filter='85' name='search_meta_keywords']...[/tmp]
+[tmp page_title][data table=cat column=meta_title foreign=code key="[cgi catcode]"][/tmp]
+
+
+<!-- BEGIN PREAMBLE -->
+[search-region search=|
+
+                fi=products
+                st=db
+
+                co=1
+
+	        sf=merchandising
+		se=discontinued
+		op=ne
+		nu=0
+
+                sf=prod_group
+                se=Sportswear
+                op=rm
+                nu=0
+                
+
+                ml=50
+                tf=price
+                to=nr
+        |
+]
+[/search-region]
+
+@_SIMMS_ECOM_STATIC_LEFT_HEAD_@
+
+<!-- END PREAMBLE -->
+
+[control reset=1]
+[control-set]
+	[component]verticle_simms[/component]
+[/control-set]
+[control-set]
+	[component]dhtml_side_menu[/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control reset=1]
+
+@_SIMMS_ECOM_STATIC_LEFT_TOP_@
+<!-- BEGIN CONTENT -->
+<br /><br />
+<table width="600px" border="0" align="center" cellpadding="5" cellspacing="0">
+  <tr>
+    <td colspan="6" align="center"><img src="/assetstore/site/template/banners/category/mensclothing.jpg" width="700" height="142" alt="Men's Clothing" /><br /></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="left">Proper layering choices are critical to an enjoyable fishind adventure. We carry the best in fly fishing clothing from Simms and Orvis.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="left">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><table width="80%" border="0">
+        <tr>
+          <td width="49%" align="center"><a href="/mens_simms_clothing.html"><img src="/assetstore/site/template/logos/simms.jpg" alt="Simms" width="138" height="44" border="0" /></a></td>
+          <td width="51%"align="center"><a href="/mens_orvis_clothing.html"><img src="/assetstore/site/template/logos/orvis.jpg" alt="Orvis" width="138" height="44" border="0" /></a></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="left"><hr /></td>
+  </tr>
+  <tr>
+    <td width="9%"><a href="/mens_clothing_pants.html"><img src="/assetstore/site/template/icons/category_pants.gif" alt="Men's Pants" width="50" height="50" border="0" /></a></td>
+    <td width="28%"><a href="/mens_clothing_pants.html">Men's Pants</a></td>
+    <td width="8%"><a href="/mens_clothing_layering.html"><img src="/assetstore/site/template/icons/category_layering.gif" alt="Layering" width="50" height="50" border="0" /></a></td>
+    <td width="24%"><a href="/mens_clothing_layering.html">Men's Layering</a></td>
+    <td width="8%"><a href="/mens_clothing_shorts.html"><img src="/assetstore/site/template/icons/category_shorts.gif" alt="Shorts" width="50" height="50" border="0" /></a></td>
+    <td width="23%"><a href="/mens_clothing_shortshtml">Men's Shorts</a></td>
+  </tr>
+  <tr>
+    <td colspan="6"><hr /></td>
+  </tr>
+  <tr>
+    <td><a href="/mens_clothing_gloves.html"><img src="/assetstore/site/template/icons/category_gloves.gif" alt="Gloves" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_gloves.html">Men's Gloves</a></td>
+    <td><a href="/mens_clothing_outerwear.html"><img src="/assetstore/site/template/icons/category_outerwear.gif" alt="Outerwear" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_outerwear.html">Men's Outerwear</a></td>
+    <td><a href="/mens_clothing_shirts.html"><img src="/assetstore/site/template/icons/category_shirts.gif" alt="Shirts" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_shirts.html">Men's Shirts</a></td>
+  </tr>
+  <tr>
+    <td colspan="6"><hr /></td>
+  </tr>
+  <tr>
+    <td><a href="/mens_clothing_socks.html"><img src="/assetstore/site/template/icons/category_socks.gif" alt="Socks" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_shortshtml"></a><a href="/mens_clothing_socks.html">Men's Socks</a></td>
+    <td><a href="/mens_clothing_footwear.html"><img src="/assetstore/site/template/icons/category_shoes.gif" alt="Shoes" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_footwear.html">Men's Footwear</a><a href="/mens_clothing_shirts.html"></a></td>
+    <td><a href="/mens_clothing_tshirts.html"><img src="/assetstore/site/template/icons/category_t-shirts.gif" alt="T Shirts" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_tshirts.html">Men's T-Shirts</a></td>
+  </tr>
+  <tr>
+    <td colspan="6"><hr /></td>
+  </tr>
+  <tr>
+    <td><a href="/mens_clothing_belts.html"><img src="/assetstore/site/template/icons/category_belts.gif" alt="Belts" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_belts.html">Men's Belts</a></td>
+    <td><a href="/mens_clothing_hats.html"><img src="/assetstore/site/template/icons/category_hats.gif" alt="Hats" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_hats.html">Men's Hats</a></td>
+    <td><a href="/mens_clothing_all.html"><img src="/assetstore/site/template/icons/category_mens_all.gif" alt="Men's Clothing All" width="50" height="50" border="0" /></a></td>
+    <td><a href="/mens_clothing_all.html">All Men's Clothing</a></td>
+  </tr>
+  <tr>
+    <td colspan="6"><hr /></td>
+  </tr>
+</table>
+<br />
+<!-- END CONTENT -->
+@_SIMMS_ECOM_STATIC_LEFT_BOTTOM_@
