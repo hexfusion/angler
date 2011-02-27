@@ -1,11 +1,11 @@
 [comment]
-ui_page: fly_fishing_waders.html
+ui_page: mens_clothing_shorts.html
 ui_type: page
-ui_name: fly_fishing_waders.html
+ui_name: mens_clothing_shorts.html
 ui_page_template: simms_ecom_static_left
 ui_version: 5.7.6
 ui_page_version: 5.7.6
-ui_source: pages/fly_fishing_waders.html
+ui_source: pages/mens_clothing_shorts.html
 [/comment]
 [tmp c_name] [data table=cat column=name foreign=code key="[cgi catcode]"][/tmp]
 
@@ -19,12 +19,17 @@ op=ne
 nu=0
 os=0
                 sf=prod_group
-                se=Gear
+                se=Sportswear
                 op=rm
                 nu=0
                 
                 sf=category
-                se=Packs
+                se=Shorts
+                op=rm
+                nu=0
+                
+                sf=gender
+                se=mn
                 op=rm
                 nu=0
 tf=price
@@ -50,12 +55,17 @@ to=nr
 		nu=0
 
                 sf=prod_group
-                se=Gear
+                se=Sportswear
                 op=rm
                 nu=0
                 
                 sf=category
-                se=Packs
+                se=Shorts
+                op=rm
+                nu=0
+                
+                sf=gender
+                se=mn
                 op=rm
                 nu=0
 
@@ -81,6 +91,9 @@ to=nr
 	[component][/component]
 [/control-set]
 [control-set]
+	[component][/component]
+[/control-set]
+[control-set]
 	[component]results_grid[/component]
 	[buylist_button][/buylist_button]
 	[cols]4[/cols]
@@ -88,13 +101,10 @@ to=nr
 	[htmltmpl][/htmltmpl]
 	[output][/output]
 [/control-set]
-[control-set]
-	[component][/component]
-[/control-set]
 [control reset=1]
 
 @_SIMMS_ECOM_STATIC_LEFT_TOP_@
 <!-- BEGIN CONTENT -->
-
+[file /pages/menus/mensclothing]
 <!-- END CONTENT -->
 @_SIMMS_ECOM_STATIC_LEFT_BOTTOM_@

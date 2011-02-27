@@ -1,0 +1,72 @@
+[comment]
+ui_component: html_head
+ui_type: component
+ui_name: html_head
+ui_component_version: 5.7.6
+ui_source: templates/components/html_head
+[/comment]
+
+<!-- BEGIN COMPONENT [control component html_head] -->
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="y_key" content="383aacdbb3fec9be">
+<meta name="verify-v1" content="ZN2rgJYVpPSJuHi+9VOSLYaHa4t7WfsTvPJzwkETaC0=" />
+<meta name="keywords" content="[scratch meta_keywords]"/>
+<meta name="description" content="[scratch meta_description]"/>
+<meta name="author" content="West Branch Resort" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<title>[scratch page_title]</title>
+<link rel="stylesheet" type="text/css" href="/assetstore/site/css/main.css">
+
+[strip reparse=0]
+<!--[if lt IE 7]>
+
+<style type="text/css">
+div.contentContainer {
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='/assetstore/site/template/background/60p_white.png');
+}
+</style>
+
+<![endif]-->
+[/strip]
+[scratch head_js]
+<script language="JavaScript" src="/assetstore/site/js/head.load.min.js">
+head.js("/assetstore/site/js/20100505.js");
+head.js("/assetstore/site/js/jquery-1.2.2.js");
+head.js("/assetstore/site/js/ddaccordion.js");
+</script>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3855542-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+<script type="text/javascript">
+ddaccordion.init({
+	headerclass: "submenuheader", //Shared CSS class name of headers group
+	contentclass: "submenu", //Shared CSS class name of contents group
+	collapseprev: true, //Collapse previous content (so only one open at any time)? true/false 
+	defaultexpanded: [], //index of content(s) open by default [index1, index2, etc] [] denotes no content
+	animatedefault: false, //Should contents open by default be animated into view?
+	persiststate: true, //persist state of opened contents within browser session?
+	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
+	togglehtml: ["suffix", "<img src='/assetstore/site/template/forms/view_cart.png' class='statusicon' />", "<img src='/assetstore/site/template/forms/close_cart.png' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
+	animatespeed: "normal", //speed of animation: "fast", "normal", or "slow"
+	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
+		//do nothing
+	},
+	onopenclose:function(header, index, state, isclicked){ //custom code to run whenever a header is opened or closed
+		//do nothing
+	}
+})
+</script>
+</head>
+<!-- END COMPONENT [control component category_vertical] -->
