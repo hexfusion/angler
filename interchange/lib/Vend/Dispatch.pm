@@ -1666,7 +1666,12 @@ EOF
 
 	for my $routine (@{$Vend::Cfg->{DispatchRoutines}}) {
 		$routine->();
-		return if $Vend::Sent;
+	
+	if ($Vend::Sent) {
+	 close_cat();
+          return;
+}
+
 	}
 #show_times("end DispatchRoutines") if $Global::ShowTimes;
 
