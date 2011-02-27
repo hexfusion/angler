@@ -24,5 +24,6 @@ Database  products  COLUMN_DEF   "related=text"
 Database  products  COLUMN_DEF   "featured=VARCHAR(32)"
 Database  products  COLUMN_DEF	 "inactive=TINYINT(1) DEFAULT '0' NOT NULL"
 Database  products  COLUMN_DEF	 "manufacturer=VARCHAR(50)"
+Database  products  COLUMN_DEF   "bounce=VARCHAR(64)"
 Database  products  INDEX         manufacturer
 Database  products  NUMERIC      price
