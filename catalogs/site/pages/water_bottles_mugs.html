@@ -1,0 +1,100 @@
+[comment]
+ui_page: water_bottles_mugs.html
+ui_type: page
+ui_name: water_bottles_mugs.html
+ui_page_template: simms_ecom_static_left
+ui_version: 5.7.6
+ui_page_version: 5.7.6
+ui_source: pages/water_bottles_mugs.html
+[/comment]
+[tmp c_name] [data table=cat column=name foreign=code key="[cgi catcode]"][/tmp]
+
+[tmp meta_keywords][loop prefix=keywords search="
+fi=products 
+st=db 
+co=1
+sf=merchandising
+se=discontinued
+op=ne
+nu=0
+os=0
+                sf=prod_group
+                se=Accessories
+                op=rm
+                nu=0
+                
+                sf=category
+                se=WaterBottles
+                op=rm
+                nu=0
+tf=price
+to=nr
+"][filter namecase][keywords-data products description][/filter], [/loop][/tmp]
+[tmp search_meta_keywords][scratch meta_keywords][/tmp]
+
+[tmp meta_description]Category: [scratch c_name], Manufacturer: [scratch manf], Models: [scratch filter='85' name='search_meta_keywords']...[/tmp]
+[tmp page_title][data table=cat column=meta_title foreign=code key="[cgi catcode]"][/tmp]
+
+
+<!-- BEGIN PREAMBLE -->
+[search-region search=|
+
+                fi=products
+                st=db
+
+                co=1
+
+	        sf=merchandising
+		se=discontinued
+		op=ne
+		nu=0
+
+                sf=prod_group
+                se=Accessories
+                op=rm
+                nu=0
+                
+                sf=category
+                se=WaterBottles
+                op=rm
+                nu=0
+
+                ml=50
+                tf=price
+                to=nr
+        |
+]
+[/search-region]
+
+@_SIMMS_ECOM_STATIC_LEFT_HEAD_@
+
+<!-- END PREAMBLE -->
+
+[control reset=1]
+[control-set]
+	[component]verticle_simms[/component]
+[/control-set]
+[control-set]
+	[component]dhtml_side_menu[/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component]results_grid[/component]
+	[buylist_button][/buylist_button]
+	[cols]4[/cols]
+	[columnize][/columnize]
+	[htmltmpl][/htmltmpl]
+	[output][/output]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control reset=1]
+
+@_SIMMS_ECOM_STATIC_LEFT_TOP_@
+<!-- BEGIN CONTENT -->
+
+<!-- END CONTENT -->
+@_SIMMS_ECOM_STATIC_LEFT_BOTTOM_@
