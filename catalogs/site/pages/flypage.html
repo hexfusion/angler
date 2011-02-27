@@ -8,6 +8,11 @@ ui_source: pages/flypage.html
 ui_template: Yes
 ui_template_name: leftonly
 [/comment]
+
+[if-item-field bounce]
+[area href="[item-field bounce].html" no_session_id="1" no_count="1"]
+[/if]
+
 [if-item-field inactive]
 [tag op=header]
 Status: 404 Not found
