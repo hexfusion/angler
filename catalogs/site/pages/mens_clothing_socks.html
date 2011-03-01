@@ -7,6 +7,7 @@ ui_version: 5.7.6
 ui_page_version: 5.7.6
 ui_source: pages/mens_clothing_socks.html
 [/comment]
+
 [tmp c_name] [data table=cat column=name foreign=code key="[cgi catcode]"][/tmp]
 
 [tmp meta_keywords][loop prefix=keywords search="
@@ -18,6 +19,11 @@ se=discontinued
 op=ne
 nu=0
 os=0
+
+                sf=bounce
+                op=rm
+                se=none
+                nu=0
                 sf=prod_group
                 se=Sportswear
                 op=rm
@@ -50,6 +56,11 @@ to=nr
 		se=discontinued
 		op=ne
 		nu=0
+        
+                        sf=bounce
+                op=rm
+                se=none
+                nu=0
 
                 sf=prod_group
                 se=Sportswear
