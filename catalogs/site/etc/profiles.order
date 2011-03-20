@@ -195,6 +195,14 @@ email=email
 
 __END__
 
+__NAME__                            check_opt
+
+expired=always_fail This page is expired. Try again.
+
+__END__
+
+
+
 __NAME__                            online_check
 
  __COMMON_ORDER_PROFILE__
