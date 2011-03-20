@@ -18,17 +18,25 @@ se=discontinued
 op=ne
 nu=0
 os=0
-
                 sf=bounce
                 op=rm
                 se=none
                 nu=0
                 
                 sf=prod_group
-                se=Sportswear
+                se=Gear
                 op=rm
                 nu=0
-
+                
+                sf=category
+                se=Rods
+                op=rm
+                nu=0
+                
+                sf=manufacturer
+                se=OR
+                op=rm
+                nu=0
 tf=price
 to=nr
 "][filter namecase][keywords-data products description][/filter], [/loop][/tmp]
@@ -50,18 +58,26 @@ to=nr
 		se=discontinued
 		op=ne
 		nu=0
-        
                         sf=bounce
                 op=rm
                 se=none
                 nu=0
 
                 sf=prod_group
-                se=Sportswear
+                se=Gear
                 op=rm
                 nu=0
                 
-
+                sf=category
+                se=Rods
+                op=rm
+                nu=0
+                
+                sf=manufacturer
+                se=OR
+                op=rm
+                nu=0
+                
                 ml=50
                 tf=price
                 to=nr
@@ -84,7 +100,12 @@ to=nr
 	[component][/component]
 [/control-set]
 [control-set]
-	[component][/component]
+	[component]results_grid[/component]
+	[buylist_button][/buylist_button]
+	[cols]4[/cols]
+	[columnize][/columnize]
+	[htmltmpl][/htmltmpl]
+	[output][/output]
 [/control-set]
 [control-set]
 	[component][/component]
@@ -93,23 +114,6 @@ to=nr
 
 @_SIMMS_ECOM_STATIC_LEFT_TOP_@
 <!-- BEGIN CONTENT -->
-<br /><br />
-<table width="600px" border="0" align="center" cellpadding="5" cellspacing="0">
-  <tr>
-    <td colspan="6" align="center"><img src="/assetstore/site/template/banners/category/mensclothing.jpg" width="700" height="142" alt="Men's Clothing" /><br /></td>
-  </tr>
-  <tr>
-    <td colspan="6" align="left">Proper layering choices are critical to an enjoyable fishing adventure. We carry the best in fly fishing clothing from Simms and Orvis.</td>
-  </tr>
-  <tr>
-    <td colspan="6" align="center"><table width="80%" border="0">
-        <tr>
-          <td width="49%" align="center"><a href="/mens_simms_clothing.html"><img src="/assetstore/site/template/logos/simms.jpg" alt="Simms" width="138" height="44" border="0" /></a></td>
-          <td width="51%"align="center"><a href="/mens_orvis_clothing.html"><img src="/assetstore/site/template/logos/orvis.jpg" alt="Orvis" width="138" height="44" border="0" /></a></td>
-        </tr>
-    </table></td>
-  </tr>
-  </table>
- [file /pages/menus/mensclothing]
+
 <!-- END CONTENT -->
 @_SIMMS_ECOM_STATIC_LEFT_BOTTOM_@
