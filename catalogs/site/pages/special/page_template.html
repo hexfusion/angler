@@ -1,0 +1,42 @@
+[seti page_id][cgi page_id][/seti]
+
+
+<!-- BEGIN QUERY -->
+
+[file name=/pages/menus/search/search-region-page-build interpolate=1]
+
+<!-- END QUERY -->
+
+
+
+@_SIMMS_ECOM_STATIC_LEFT_HEAD_@
+
+[file name=/pages/menus/navigation/side interpolate=1]
+
+@_SIMMS_ECOM_STATIC_LEFT_TOP_@
+<!-- BEGIN CONTENT -->
+[query prefix="s2" sql="SELECT menu, header_text, header_html_file FROM pages WHERE pid='[scratch page_id]'" type="list"]
+[s2-list]
+
+[if-s2-param header_html_file]
+<br /><br />
+[file /pages/menus/headers/[s2-param header_html_file]]
+[/if-s2-param]
+
+
+[if-s2-param menu]
+[file /pages/menus/[s2-param menu]]
+[/if-s2-param]
+
+[if-s2-param header_text]
+<br />
+<h1>[s2-param header_text]</h1>
+<br />
+[/if-s2-param]
+[/s2-list]
+
+[/query]
+
+<!-- END CONTENT -->
+@_SIMMS_ECOM_STATIC_LEFT_BOTTOM_@
+
