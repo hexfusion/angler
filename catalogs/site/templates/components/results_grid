@@ -170,7 +170,7 @@ EO_TMPL
 
 	$record->{price} = $Tag->price($sku);
 	$record->{image} = $Tag->image({
-					imagesubdir => "items/120x120",
+					imagesubdir => "/assetstore/site/images/items/120x120/",
 					src => $record->{image},
 					extra => "border=0",
 					title => "[L]Click for more information.[/L]",
