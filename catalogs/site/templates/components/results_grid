@@ -151,7 +151,7 @@ my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
        <td colspan=2><div align="center"><b>{DESCRIPTION}</b></div></td>
      </tr>
      <tr>
-	<td width="8%"><a href="{PRODUCT_LINK}?submenuheader=[cgi submenuheader]">{IMAGE}</a></td>
+	<td width="8%"><a href="/{SKU}.html?submenuheader=[cgi submenuheader]&catcode=[cgi catcode]">{IMAGE}</a></td>
 	<td valign=top bgcolor="#eeeeee" width="92%">
 		<div style="padding-left:5px;">	
 			<span style="font-size:10px; color: black">
@@ -161,13 +161,16 @@ my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
 				[L]Price[/L]: {PRICE}<br>
 				[L]Stock[/L]: {STOCK}<br>
 			</span>
-			<p align=right><a href="{PRODUCT_LINK}?expandable=[cgi expandable]" style="text-decoration:none; font-size:10px;" title="[L]Click here for more information on this product[/L]">[L]More info...[/L]</a></p>
+			<p align=right><a href="/{SKU}.html?submenuheader={SUBMENUHEADER}&catcode={CATCODE}" style="text-decoration:none; font-size:10px;" title="[L]Click here for more information on this product[/L]">[L]More info...[/L]</a></p>
 		</div>	</td>
     </tr>
   </table>
 </div>
 EO_TMPL
 
+
+    $record->{submenuheader} = $CGI->{submenuheader};
+    $record->{catcode} = $CGI->{catcode};
 	$record->{price} = $Tag->price($sku);
 	$record->{image} = $Tag->image({
 					imagesubdir => "/assetstore/site/images/items/120x120/",
@@ -216,8 +219,8 @@ EOF
 EOF
 	}
 
-	$record->{product_link} = $Tag->area($sku);
-
+	$record->{product_link} = ('/$sku');
+    
 	$record->{buy_button} = <<EOF;
 <input type=submit value="[L]BUY NOW[/L]" onClick="this.form.mv_oi$Scratch->{itemcount}.value='$sku'" class=button2>
 EOF
