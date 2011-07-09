@@ -1,0 +1,47 @@
+[comment]
+ui_page: sitemap_builder.html
+ui_type: page
+ui_name: sitemap_builder.html
+ui_page_template: ecom_simms_left_only
+ui_version: 5.6.1
+ui_page_version: 5.3.0-200410200658
+ui_source: pages/special/sitemap_builder.html
+[/comment]
+
+<!-- BEGIN PREAMBLE -->
+<title>West Branch Angler Fly Fishing Products Simms Sage Winston Orvis</title>
+<!-- END PREAMBLE -->
+[tmpn page_title][/tmpn]
+[tmpn page_banner][/tmpn]
+[tmpn display_class][/tmpn]
+[tmpn members_only][/tmpn]
+
+[control reset=1]
+[control-set]
+[component]verticle_simms[/component]
+[/control-set]
+[control-set]
+	[component]category_build[/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control reset=1]
+
+@_ECOM_SIMMS_LEFT_ONLY_TOP_@
+<!-- BEGIN CONTENT -->
+ [loop search="
+                 fi=products
+                 st=db
+                ra=yes
+                ml=10000
+                "]
+        <A HREF="http://www.westbranchangler.com/[loop-code].html">
+                [filter op="lookup.manufacturer.c_alias"][loop-field manufacturer][/filter] [filter namecase][loop-field description][/filter]
+         </A><br>
+      [/loop]
+<!-- END CONTENT -->
+@_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@
