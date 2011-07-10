@@ -1,17 +1,5 @@
-[comment]
-ui_page: sitemap_xml.html
-ui_type: page
-ui_name: sitemap_xml.html
-ui_page_template: none
-ui_version: 5.6.1
-ui_body:  
-ui_page_version: 5.6.1
-ui_source: pages/special/sitemap_xml.html
-[/comment]
-
-<?xml version="1.0"?>
-<rss version="2.0" 
-xmlns:g="http://base.google.com/ns/1.0">
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
 <channel>
 <title>West Branch Angler Google Datafeed</title>
 <link>http://www.westbranchangler.com</link>
@@ -24,7 +12,7 @@ xmlns:g="http://base.google.com/ns/1.0">
 <g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[products-data products image]</g:image_link>
 <g:price>[if-products-param sale_price][else][products-data products price][/else][/if-products-param]</g:price>
 <g:condition>new</g:condition>
-<g:id>1a</g:id>
+<g:id>[products-data products sku]</g:id>
 </item>
 [/loop]
 
