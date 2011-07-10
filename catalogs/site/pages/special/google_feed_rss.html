@@ -20,9 +20,9 @@ xmlns:g="http://base.google.com/ns/1.0">
 <item>
 <title>[products-data products description]</title>
 <link> http://www.westbranchangler.com/[products-data products sku].html</link>
-<description>[products-data products comment_short]</description>
+[if-products-param comment_short]<description>[products-data products comment_short]</description>[/if-products-param]
 <g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[products-data products image]</g:image_link>
-<g:price>[products-data products price]</g:price>
+<g:price>[if-products-param sale_price][else][products-data products price][/else][/if-products-param]</g:price>
 <g:condition>new</g:condition>
 <g:id>1a</g:id>
 </item>
