@@ -6,13 +6,15 @@
 <description>Fly fishing equipment from Simms, Sage, Orvis, Hardy, Winston, Ross, Hatch and many more</description>
 [loop prefix="products" search="ra=yes/fi=products/ml=1000"]
 <item>
-<title>[filter space_to_underscore word underscore_to_space namecase][products-data products description][/filter]</title>
+<title>[filter op="lookup.manufacturer.c_alias"][loop-field manufacturer][/filter] [filter space_to_underscore word underscore_to_space namecase][products-data products description][/filter]</title>
 <link> http://www.westbranchangler.com/[products-data products sku].html</link>
 [if-products-param ! comment_short]<description>[filter space_to_underscore word underscore_to_space][products-data products comment_short][/filter]</description>[/if-products-param]
 <g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[products-data products image]</g:image_link>
 <g:price>[if-products-param sale_price][else][products-data products price][/else][/if-products-param]</g:price>
 <g:condition>new</g:condition>
 <g:id>[products-data products sku]</g:id>
+<g:brand>[filter op="lookup.manufacturer.c_alias"][loop-field manufacturer][/filter]</g:brand>
+<g:shipping_weight>[products-data products weight] pounds</g:shipping_weight>
 </item>
 [/loop]
 
