@@ -5,7 +5,7 @@
 <link>http://www.westbranchangler.com</link>
 <description>Fly fishing equipment from Simms, Sage, Orvis, Hardy, Winston, Ross, Hatch and many more</description>
 [loop prefix="products" search="ra=yes/fi=products/ml=1000"]
-[set manf][filter op="lookup.manufacturer.c_alias"][loop-field manufacturer][/filter][/set]
+[set manf][filter op="lookup.manufacturer.c_alias"]products-data products[/filter][/set]
 <item>
 <title>[scratch manf] [filter space_to_underscore word underscore_to_space namecase][products-data products description][/filter]</title>
 <link> http://www.westbranchangler.com/[products-data products sku].html</link>
