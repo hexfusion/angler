@@ -7,10 +7,13 @@
 [loop prefix="products" search="ra=yes/fi=products/ml=1000"]
 [seti manf_abv][products-data products manufacturer][/seti]
 [seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias"][scratch manf_abv][/filter][/seti]
+[seti clean_title interpolate="1"][filter space_to_underscore utf8 word underscore_to_space namecase][products-data products description][/filter][/seti]
+[seti new_url interpolate="1"][filter space_to_underscore utf8 word][products-data products description][/filter][/seti]
 <item>
-<title>[scratch manf] [filter space_to_underscore word underscore_to_space namecase][products-data products description][/filter]</title>
-<link> http://www.westbranchangler.com/[products-data products sku].html</link>
-[if-products-param ! comment_short]<description>[filter space_to_underscore word underscore_to_space][products-data products comment_short][/filter]</description>[/if-products-param]
+<title>[scratch manf] [scratch clean_title]</title>
+<link> http://www.westbranchangler.com/[products-data products sku]/[scratch new_url].html</link>
+[if-products-param ! comment_short]
+<description>[filter space_to_underscore utf8 word underscore_to_space][products-data products comment_short][/filter]</description>[/if-products-param]
 <g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[products-data products image]</g:image_link>
 <g:price>[if-products-param sale_price][else][products-data products price][/else][/if-products-param]</g:price>
 <g:condition>new</g:condition>
