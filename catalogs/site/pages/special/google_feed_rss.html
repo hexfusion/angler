@@ -8,7 +8,7 @@
 [seti manf_abv][products-data products manufacturer][/seti]
 [seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias"][scratch manf_abv][/filter][/seti]
 [seti clean_title][filter interpolate="1" space_to_underscore utf8 word underscore_to_space namecase][products-data products description][/filter][/seti]
-[seti new_url][filter interpolate="1" space_to_underscore utf8 word][products-data products description][/filter][/seti]
+[seti new_url][filter interpolate="1" utf8 word space_to_underscore][products-data products description][/filter][/seti]
 <item>
 <title>[scratch manf] [scratch clean_title]</title>
 <link> http://www.westbranchangler.com/[products-data products sku]/[scratch new_url].html</link>
