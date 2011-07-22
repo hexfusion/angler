@@ -33,13 +33,18 @@ ui_source: pages/special/sitemap_builder.html
 
 @_ECOM_SIMMS_LEFT_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
- [loop search="
+ [loop prefix="products" search="
                  fi=products
                  st=db
                 ra=yes
                 ml=10000
                 "]
-        <A HREF="http://www.westbranchangler.com/[loop-code].html">
+[seti manf_abv][products-data products manufacturer][/seti]
+[seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias"][scratch manf_abv][/filter][/seti]
+[seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][products-data products description][/filter][/seti]
+[seti clean_title][filter interpolate="1" op="underscore_to_space namecase"][scratch title_underline][/filter][/seti]
+
+        <A HREF="http://www.westbranchangler.com/[products-data products sku]/[scratch manf]_[scratch title_underline].html">
                 [filter op="lookup.manufacturer.c_alias"][loop-field manufacturer][/filter] [filter namecase][loop-field description][/filter]
          </A><br>
       [/loop]
