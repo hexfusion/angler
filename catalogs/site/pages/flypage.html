@@ -180,7 +180,7 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
 COLOR="#000000"><b>REGULAR PRICE: [item-field price]</b></font><br>
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
-COLOR="#990000"><b>SALE PRICE: [item-field sale_price]</b></font>
+COLOR="#990000"><b>SALE PRICE STARTING AT: [item-field sale_price]</b></font>
          [else]
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
 COLOR="#990000"><b>Starting At : [item-price]</b></font>
@@ -209,7 +209,8 @@ AND sku = '[ITEM-CODE]' ORDER BY description"
          type=list]
 		 <SELECT NAME="mv_sku">
       [list]
-	  <OPTION VALUE="[sql-param code]">[sql-param description] ($[sql-param price])
+      [seti avail][sql-param quantity][/seti]
+	  <OPTION VALUE="[sql-param code]">[sql-param description] [if type="scratch" term="avail" op="<" compare="1"]($[sql-param price])[else] SOLDOUT [/else][/if]
       [/list]
 	  </SELECT>
   [/query]
