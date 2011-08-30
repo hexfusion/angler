@@ -204,17 +204,32 @@ COLOR="#990000"><b>Starting At : [item-price]</b></font>
                 <input type=hidden name=mv_form_profile value=check_opt>
 [/if-item-field]
 
-		  [query sql="select code, description, price from variants where quantity > 0
+[if-item-field merchandising eq discontinued]
+		  [query sql="select code, description, price, quantity from variants where quantity > 0
 AND sku = '[ITEM-CODE]' ORDER BY description"
          type=list]
 		 <SELECT NAME="mv_sku">
       [list]
       [seti avail][sql-param quantity][/seti]
-	  <OPTION VALUE="[sql-param code]">[sql-param description] [if type="scratch" term="avail" op="<" compare="1"]($[sql-param price])[else] SOLDOUT [/else][/if]
+	  <OPTION VALUE="[sql-param code]">[sql-param description] ($[sql-param price]) - [scratch avail] LEFT!
       [/list]
 	  </SELECT>
   [/query]
-
+  
+  [else]
+  
+	  [query sql="select code, description, price, quantity from variants
+where sku = '[ITEM-CODE]' ORDER BY description"
+         type=list]
+		 <SELECT NAME="mv_sku">
+      [list]
+      [seti avail][sql-param quantity][/seti]
+	  <OPTION VALUE="[sql-param code]">[sql-param description] [if type="scratch" term="avail" op=">" compare="0"]($[sql-param price])[else] SOLDOUT [/else][/if]
+      [/list]
+	  </SELECT>
+  [/query]
+  [/else]
+  [/if-item-field]
 
    
           
