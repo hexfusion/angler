@@ -50,6 +50,35 @@ ui_template_name: leftonly
 [/calc]
 [/if]
 
+[comment]Adjust cart contents to match stock on hand[/comment]
+
+[tmp outofstock][/tmp]
+
+[perl tables="variants"]
+	my $item;
+	foreach my $item ( @{$Carts->{main}} )
+	{
+		delete $item->{changed_qty};
+		if ($item->{quantity} > $Tag->data(variants, quantity, $item->{code}) ) {
+			$item->{changed_qty} = $item->{quantity};
+			$item->{quantity} = $Tag->data(variants, quantity, $item->{code});
+		}
+		if ($Tag->data(variants, quantity, $item->{code}) <= 0 ) {
+			$Scratch->{outofstock} = "<br /> <font color=#FF0000><strong>Sorry, item $item->{description} is out of stock and has been removed from your cart.</font></strong><br />";
+		}
+	}
+	return;
+[/perl]
+
+[update cart]
+
+[if scratch outofstock]
+	[scratch outofstock]
+	[tmp outofstock][/tmp]
+[/if]
+
+
+
 <br><b>[L]Your Current Shopping Cart[/L]:</b><br>
 <br />
 <font color="#990000">Free shipping orders over $100* </font>
@@ -129,7 +158,7 @@ ui_template_name: leftonly
 	    		<INPUT TYPE=checkbox NAME="[item-quantity-name]" onClick="this.form.action='[process]', this.form.submit()" VALUE=0>
 [/if-item-param]
 	  	</TD>
-	  	<TD valign="top"><b>[item-code]</b></TD>
+	  	<TD valign="top"><b>[item-sku]</b></TD>
 	  	<td>
  <div align="left">[if-item-field image] [image src="items/50x50/[item-field image]" alt="[item-filter encode_entities][item-description][/item-filter]" align="left" border="0"] 
 		      <br>
@@ -143,6 +172,8 @@ ui_template_name: leftonly
 	[if-item-field weight]
 	[seti weight][summary amount=`[item-quantity] * [item-field weight]`][/seti]
 	[/if-item-field]
+    
+    [comment]
 	[if-item-param mv_min_under]
 		<br>
 		<span style="color: __CONTRAST__; font-size: 8pt">
@@ -155,6 +186,13 @@ ui_template_name: leftonly
 		[msg arg.0="[item-param mv_max_quantity]"]Maximum order quantity of %s enforced.[/msg]
 		</span>
 	[/if-item-param]
+    
+    [/comment]
+    
+    [if-item-modifier changed_qty]
+	Quantity changed from [item-modifier changed_qty] to [item-quantity] to fit current inventory.
+[/if-item-modifier]
+
 
 [if-item-data merchandising others_bought]
   [if compare="__CART_OTHERS_BOUGHT__"]
