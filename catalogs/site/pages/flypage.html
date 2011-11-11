@@ -205,7 +205,7 @@ COLOR="#990000"><b>Starting At : [item-price]</b></font>
 [/if-item-field]
 
 [if-item-field merchandising eq discontinued]
-		  [query sql="select code, description, price, quantity from variants where quantity > 0
+		  [query sql="select code, description, price, sale_price, quantity from variants where quantity > 0
 AND sku = '[ITEM-CODE]' ORDER BY description"
          type=list]
 		 <SELECT NAME="mv_sku">
