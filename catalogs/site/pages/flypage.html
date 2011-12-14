@@ -187,7 +187,7 @@ COLOR="#990000"><b>Starting At : [item-price]</b></font>
          [/else]
          [/if-item-field]</span></td>
           </tr>
-   [if type="scratch" term="instock" op=">" compare="1"]
+   [if type="scratch" term="instock" op=">" compare="0"]
        
           <tr>
             <td>[if ordered [item-code]]
@@ -242,7 +242,7 @@ where sku = '[ITEM-CODE]' ORDER BY description"
           <tr>
             <td height="31"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                                                              [if type="scratch" term="instock" op=">" compare="1"]
+                                                              [if type="scratch" term="instock" op=">" compare="0"]
 
                   <td width="21%" height="29"><div align="right">[L]<strong>Qty</strong>[/L]:</div>
                     <div align="center"></div></td>
