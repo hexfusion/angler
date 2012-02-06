@@ -1,0 +1,10 @@
+Database  cat_google  cat_google.txt      __SQLDSN__
+Database  cat_google  DEFAULT_TYPE text
+Database  cat_google  COLUMN_DEF   "id=int(6) NOT NULL PRIMARY KEY"
+Database  cat_google  COLUMN_DEF   "l1=VARCHAR(128) DEFAULT '' NOT NULL, index(l1)"
+Database  cat_google  COLUMN_DEF   "l2=VARCHAR(128) DEFAULT '' NOT NULL, index(l2)"
+Database  cat_google  COLUMN_DEF   "l3=VARCHAR(128) DEFAULT '' NOT NULL, index(l3)"
+Database  cat_google  COLUMN_DEF   "l4=VARCHAR(128) DEFAULT '' NOT NULL, index(l4)"
+Database  cat_google  COLUMN_DEF   "l5=VARCHAR(128) DEFAULT '' NOT NULL, index(l5)"
+Database  cat_google  COLUMN_DEF   "l6=VARCHAR(128) DEFAULT '' NOT NULL, index(l6)"
+Database  cat_google  COLUMN_DEF   "inactive=TINYINT(4) DEFAULT '' NOT NULL, index(inactive)"
