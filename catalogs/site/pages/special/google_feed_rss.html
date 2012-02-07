@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+
+<rss version ="2.0" xmlns:g="http://base.google.com/ns/1.0">
+
 <channel>
-<title>West Branch Angler Google Datafeed</title>
-<link>http://www.westbranchangler.com</link>
-<description>Fly fishing equipment from Simms, Sage, Orvis, Hardy, Winston, Ross, Hatch and many more</description>
+	<title>West Branch Angler Google Datafeed.</title>
+	<description>Fly fishing equipment from Simms, Sage, Orvis, Hardy, Winston, Ross, Hatch and many more.</description>
+	<link>http://www.westbranchangler.com</link>
 
  [query sql = "SELECT * FROM products WHERE inactive <> '1' AND bounce = 'none' AND merchandising <> 'discontinued'" ml=1500 type=list]
  
@@ -13,20 +15,24 @@
 [seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][sql-param description][/filter][/seti]
 [seti clean_title][filter interpolate="1" op="underscore_to_space namecase"][scratch title_underline][/filter][/seti]
 <item>
-<g:id>[sql-param sku]</g:id>
 <title>[filter op="uc namecase" interpolate="1"][scratch manf] [scratch clean_title][/filter]</title>
-<description>[filter space_to_underscore utf8 word underscore_to_space][sql-param comment_short][/filter]</description>
-<g:google_product_category>[filter op="lookup.cat_google.full"][sql-param cat_google][/filter]</g:google_product_category>
-<g:product_type>[sql-param prod_group] &gt; [sql-param category]</g:product_type>
-<link> http://www.westbranchangler.com/[sql-param sku].html</link>
-<g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[sql-param image]</g:image_link>
-<g:condition>new</g:condition>
-<g:availability>in stock</g:availability>
-<g:price>[sql-param price]</g:price>
 <g:brand>[scratch manf]</g:brand>
-<g:shipping_weight>[sql-param weight] pounds</g:shipping_weight>
+<g:condition>new</g:condition>
+<description>[filter space_to_underscore utf8 word underscore_to_space][sql-param comment_short][/filter]</description>
+<g:id>[sql-param sku]</g:id>
+<g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[sql-param image]</g:image_link>
+<link> http://www.westbranchangler.com/[sql-param sku].html</link>
+<g:price>[sql-param price]</g:price>
+<g:product_type>[sql-param prod_group] &gt; [sql-param category]</g:product_type>
+
+<g:google_product_category>[filter op="lookup.cat_google.full"][sql-param cat_google][/filter]</g:google_product_category>
+<g:availability>in stock</g:availability>
+<g:shipping_weight>[sql-param weight] lb</g:shipping_weight>
 </item>
 [/list]
 [/query]
+
 </channel>
 </rss>
+
+
