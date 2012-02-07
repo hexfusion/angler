@@ -14,6 +14,7 @@
 <link> http://www.westbranchangler.com/[products-data products sku]/[scratch manf]_[scratch title_underline].html</link>
 [if-products-param ! comment_short]
 <description>[filter space_to_underscore utf8 word underscore_to_space][products-data products comment_short][/filter]</description>[/if-products-param]
+<g:google_product_category>[filter op="lookup.cat_google.full"][products-data products cat_google][/filter]</g:google_product_category>
 <g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[products-data products image]</g:image_link>
 <g:price>[if-products-param sale_price][else][products-data products price][/else][/if-products-param]</g:price>
 <g:condition>new</g:condition>
