@@ -4,29 +4,31 @@
 <title>West Branch Angler Google Datafeed</title>
 <link>http://www.westbranchangler.com</link>
 <description>Fly fishing equipment from Simms, Sage, Orvis, Hardy, Winston, Ross, Hatch and many more</description>
-[loop prefix="products" search="ra=yes/fi=products/ml=1000"]
-[seti manf_abv][products-data products manufacturer][/seti]
+
+ [query sql = "SELECT * FROM products WHERE inactive <> '1'" ml=1500 type=list]
+ 
+[list]
+[seti manf_abv][sql-param manufacturer][/seti]
 [seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias"][scratch manf_abv][/filter][/seti]
-[seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][products-data products description][/filter][/seti]
+[seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][sql-param description][/filter][/seti]
 [seti clean_title][filter interpolate="1" op="underscore_to_space namecase"][scratch title_underline][/filter][/seti]
 <item>
-<g:id>[products-data products sku]</g:id>
+<g:id>[sql-param sku]</g:id>
 <title>[scratch manf] [scratch clean_title]</title>
 [if-products-param ! comment_short]
-<description>[filter space_to_underscore utf8 word underscore_to_space][products-data products comment_short][/filter]</description>[/if-products-param]
-<g:google_product_category>[filter op="lookup.cat_google.full"][products-data products cat_google][/filter]</g:google_product_category>
-<g:product_type>[products-data products prod_group] &gt; [products-data products category]</g:product_type>
-<link> http://www.westbranchangler.com/[products-data products sku]/[scratch manf]_[scratch title_underline].html</link>
-<g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[products-data products image]</g:image_link>
+<description>[filter space_to_underscore utf8 word underscore_to_space][sql-param comment_short][/filter]</description>[/if-products-param]
+<g:google_product_category>[filter op="lookup.cat_google.full"][sql-param cat_google][/filter]</g:google_product_category>
+<g:product_type>[sql-param prod_group] &gt; [sql-param category]</g:product_type>
+<link> http://www.westbranchangler.com/[sql-param sku]/[scratch manf]_[scratch title_underline].html</link>
+<g:image_link>http://www.westbranchangler.com/assetstore/site/images/items/325x325/[sql-param image]</g:image_link>
 <g:condition>new</g:condition>
 <g:availability>in stock</g:availability>
-<g:price>[if-products-param sale_price][else][products-data products price][/else][/if-products-param]</g:price>
+<g:price>[sql-param price]</g:price>
 [if-products-param sale_price]<g:sale_price>[products-data products sale_price] USD</g:sale_price>[/if-products-param]
 <g:brand>[scratch manf]</g:brand>
-<g:shipping_weight>[products-data products weight] pounds</g:shipping_weight>
-[if-products-param upc]<g:gtin>[products-data products upc]</g:gtin>[/if-products-param]
+<g:shipping_weight>[sql-param weight] pounds</g:shipping_weight>
 </item>
-[/loop]
-
+[/list]
+[/query]
 </channel>
 </rss>
