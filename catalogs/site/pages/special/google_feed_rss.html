@@ -5,7 +5,7 @@
 <link>http://www.westbranchangler.com</link>
 <description>Fly fishing equipment from Simms, Sage, Orvis, Hardy, Winston, Ross, Hatch and many more</description>
 
- [query sql = "SELECT * FROM products WHERE inactive <> '1' AND bounce <> 'none'" ml=1500 type=list]
+ [query sql = "SELECT * FROM products WHERE inactive <> '1' AND bounce <> 'none' AND merchandising <> 'discontinued'" ml=1500 type=list]
  
 [list]
 [seti manf_abv][sql-param manufacturer][/seti]
@@ -23,7 +23,6 @@
 <g:condition>new</g:condition>
 <g:availability>in stock</g:availability>
 <g:price>[sql-param price]</g:price>
-[if-sql-param sale_price]<g:sale_price>[sql-param sale_price] USD</g:sale_price>[/if-sql-param]
 <g:brand>[scratch manf]</g:brand>
 <g:shipping_weight>[sql-param weight] pounds</g:shipping_weight>
 </item>
