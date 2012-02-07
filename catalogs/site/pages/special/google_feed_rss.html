@@ -15,7 +15,7 @@
 <item>
 <g:id>[sql-param sku]</g:id>
 <title>[filter op="uc namecase" interpolate="1"][scratch manf] [scratch clean_title][/filter]</title>
-[if-products-param ! comment_short]
+[if-sql-param ! comment_short]
 <description>[filter space_to_underscore utf8 word underscore_to_space][sql-param comment_short][/filter]</description>[/if-sql-param]
 <g:google_product_category>[filter op="lookup.cat_google.full"][sql-param cat_google][/filter]</g:google_product_category>
 <g:product_type>[sql-param prod_group] &gt; [sql-param category]</g:product_type>
