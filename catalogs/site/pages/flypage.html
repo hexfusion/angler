@@ -58,12 +58,10 @@ Content-type: text/html
     [seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][item-description][/filter][/seti]
 [seti clean_title][filter interpolate="1" op="underscore_to_space namecase"][scratch title_underline][/filter][/seti]
 <link rel="shortcut icon" href="/favicon.ico" >
-<base href="[area no_session_id=1 no_count=1]">
 <meta content=General name=rating>
 <meta content=english name=language>
 <meta content=Global name=distribution>
 <meta content=INDEX,FOLLOW name=robots>
-<meta name="revisit-after" content="7 days">
 <meta name="Description" content="Product: [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Manufacturer: [scratch manf], Category: [item-field category], Price: [item-price]">
 <title>[scratch manf] [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Available At West Branch Angler</title>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
