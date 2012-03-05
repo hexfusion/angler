@@ -1,0 +1,11 @@
+ [query sql = "SELECT * FROM products WHERE inactive <> '1' AND bounce = 'none' AND merchandising <> 'discontinued'" ml=1500 type=list]
+ 
+[list]
+[seti manf_abv][sql-param manufacturer][/seti]
+[seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias space_to_underscore"][scratch manf_abv][/filter][/seti]
+[seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][sql-param description][/filter][/seti]
+
+[path_redirect function='add' source='[sql-param sku].html' target='[sql-param sku]/[scratch manf]_[scratch title_underline].html']
+
+[/list]
+[/query]

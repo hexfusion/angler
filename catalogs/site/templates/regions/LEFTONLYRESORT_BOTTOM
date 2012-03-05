@@ -1,5 +1,0 @@
-<!-- BEGIN LEFTONLYRESORT_BOTTOM -->[if cgi pdf] [create-pdf] [/if]
-<td valign="top" width="1" height="100%">
-    <img src="__THEME_IMG_DIR__littlebar.gif" width="1" height="100%">
-  </td>
-<!-- END LEFTONLYRESORT_BOTTOM -->
