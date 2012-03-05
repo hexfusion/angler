@@ -54,7 +54,7 @@
                country = 'US'
            "]
    [sql-list]
-     <option value="[sql-param state]">[sql-param name]</option>
+     <option value="[sql-param state]" [selected state [sql-param state]]>[sql-param name]</option>
    [/sql-list]
 
 [/query]		</td>
