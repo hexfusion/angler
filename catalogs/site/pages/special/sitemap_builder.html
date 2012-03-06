@@ -34,15 +34,16 @@ ui_source: pages/special/sitemap_builder.html
 @_ECOM_SIMMS_LEFT_ONLY_TOP_@
 <!-- BEGIN CONTENT -->
  [loop prefix="products" search="
-                 fi=products
-                 st=db
-                ra=yes
-                co=1
-                sf=inactive
-                se=1
-                op=eq
-                nu=0
-ml=10000
+		fi=products
+		st=db
+		
+		co=1
+		
+		sf=inactive
+		se=1
+		op=lt
+		nu=0
+                ml=10000
                 "]
 
 [seti manf_abv][products-data products manufacturer][/seti]
