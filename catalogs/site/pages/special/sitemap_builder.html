@@ -37,8 +37,14 @@ ui_source: pages/special/sitemap_builder.html
                  fi=products
                  st=db
                 ra=yes
-                ml=10000
+                co=1
+                sf=inactive
+                se=1
+                op=eq
+                nu=0
+ml=10000
                 "]
+
 [seti manf_abv][products-data products manufacturer][/seti]
 [seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias space_to_underscore"][scratch manf_abv][/filter][/seti]
 [seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][products-data products description][/filter][/seti]
