@@ -151,7 +151,7 @@ my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
        <td colspan=2><div align="center"><b>{DESCRIPTION}</b></div></td>
      </tr>
      <tr>
-	<td width="8%"><a href="/{SKU}.html?submenuheader=[cgi submenuheader]&catcode=[cgi catcode]">{IMAGE}</a></td>
+	<td width="8%"><a href="/{SKU}/[filter lookup.manufacturer.c_alias space_to_underscore]{MANUFACTURER}[/filter]_[filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"]{DESCRIPTION}[/filter].html">{IMAGE}</a></td>
 	<td valign=top bgcolor="#eeeeee" width="92%">
 		<div style="padding-left:5px;">	
 			<span style="font-size:10px; color: black">
@@ -161,7 +161,7 @@ my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
 				[L]Price[/L]: {PRICE}<br>
 				[L]Stock[/L]: {STOCK}<br>
 			</span>
-			<p align=right><a href="/{SKU}.html?submenuheader={SUBMENUHEADER}&catcode={CATCODE}" style="text-decoration:none; font-size:10px;" title="[L]Click here for more information on this product[/L]">[L]More info...[/L]</a></p>
+			<p align=right><a href="/{SKU}/[filter lookup.manufacturer.c_alias space_to_underscore]{MANUFACTURER}[/filter]_[filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"]{DESCRIPTION}[/filter].html" style="text-decoration:none; font-size:10px;" title="[L]Click here for more information on this product[/L]">[L]More info...[/L]</a></p>
 		</div>	</td>
     </tr>
   </table>
@@ -170,6 +170,7 @@ EO_TMPL
 
 
     $record->{submenuheader} = $CGI->{submenuheader};
+    $record->{description} = $Tag->data('products','description', $sku);
     $record->{catcode} = $CGI->{catcode};
 	$record->{price} = $Tag->price($sku);
 	$record->{image} = $Tag->image({
