@@ -40,10 +40,16 @@
 [/loop]
 
 [loop prefix="products" search="
-                 fi=products
-                 st=db
-                ra=yes
-                ml=10000
+                fi=products
+                st=db
+
+                co=1
+
+                sf=inactive
+                se=1
+                op=lt
+                nu=0
+                ml=10000                
                 "]
                 [seti manf_abv][products-data products manufacturer][/seti]
 [seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias space_to_underscore"][scratch manf_abv][/filter][/seti]
