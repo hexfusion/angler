@@ -9,47 +9,13 @@ ui_template: Yes
 ui_template_name: leftonly
 [/comment]
 
-[tmp try_bounce][item-field bounce][/tmp]
-[if scratch try_bounce ne none]
-[bounce href=[area href="[item-field bounce].html" no_session_id="1" no_count="1"]" status="301 moved"]
-[/if]
+
+
+
 
 
 [if-item-field inactive]
-[tag op=header]
-Status: 404 Not found
-Content-type: text/html
-[/tag]
-[tmpn page_title]Sorry, the page was not found[/tmpn]
-[control reset=1]
-[control-set]
-        [component]verticle_simms[/component]
-[/control-set]
-[control-set]
-        [component]category_build[/component]
-[/control-set]
-[control-set]
-        [component][/component]
-[/control-set]
-[control-set]
-        [component][/component]
-[/control-set]
-[control-set]
-        [component][/component]
-[/control-set]
-[control-set]
-        [component]cart_tiny[/component]
-[/control-set]
-[control-set]
-        [component]newsletter[/component]
-[/control-set]
-[control reset=1]
-
-
-@_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_TOP_@
-<h1>[scratch page_title]</h1>
-<p>The requested item is no longer available</p>
-@_ECOM_SIMMS_LEFT_RIGHT_FLYPAGE_BOTTOM_@
+[bounce href="/" status="301 moved"]
 [else]
 <!-- BEGIN PREAMBLE -->
 <html>
