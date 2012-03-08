@@ -7,27 +7,22 @@
     [/if]
 [/if]
 
-<html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta name="author" content="Sam Batschelet aka tranceport185">
-<meta content=General name=rating>
-<meta content=never name=expires>
-<meta content=english name=language>
-<meta content=ISO-8859-1 name=charset>
-<meta content=Global name=distribution>
-<meta content=INDEX,FOLLOW name=robots>
-<meta name="revisit-after" content="7 days">
-<META NAME="keywords" content="Deposit NY, West Branch Angler, Delaware River, Orvis Endorsed Fly Fishing Resort, West Branch of the Delaware River, Guided Trips, Sporting Clays, Log Cabins">
-<meta name="generator" content="hand made">
-<META NAME="description" content="The Orvis Endorsed West Branch Angler Resort is nestled in the wooded foothills of the Catskills on the banks of the West Branch of the Delaware River, offering guests front door access to the best wild trout fishery in the East.">
+<title>[scratch page_title]</title>
+<meta name="description" content="[scratch meta_description]"/>
+<meta name="keywords" content="[scratch meta_keywords]"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="y_key" content="383aacdbb3fec9be">
+<meta name="verify-v1" content="ZN2rgJYVpPSJuHi+9VOSLYaHa4t7WfsTvPJzwkETaC0=" />
 
-<script type="text/javascript" src="/assetstore/site/js/ecommerce.js"></script>
-
-<script type="text/javascript" src="/assetstore/site/js/menu_tree.js"></script>
-
+<link rel="shortcut icon" href="/favicon.ico" />
 
 <link rel="stylesheet" type="text/css" href="/assetstore/site/css/resort_template.css">
+
+<script type="text/javascript" src="/assetstore/site/js/ecommerce.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/jquery-1.2.2.js"></script>
+<script type="text/javascript" src="/assetstore/site/js/ddaccordion.js"></script>
+<script src="/assetstore/site/js/ddaccordion_init.js"></script>
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -42,9 +37,6 @@ pageTracker._trackPageview();
 </head>
 
 <body>
-
-
-
 
    <form action="[area search]" method=post>
             <input type=hidden name=mv_session_id value="[data session id]">

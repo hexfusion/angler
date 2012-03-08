@@ -1,10 +1,6 @@
 <!-- BEGIN SIMMS_ECOM_STATIC_LEFT_TOP -->
 	<body>
 
-
-
-
-
    <form action="[area search]" method=post>
             <input type=hidden name=mv_session_id value="[data session id]">
 			<INPUT TYPE=hidden NAME=mv_searchtype VALUE=db> 
