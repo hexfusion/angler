@@ -9,27 +9,25 @@ ui_template: Yes
 ui_template_name: leftonly
 [/comment]
 
-
-
-
-
-
 [if-item-field inactive]
 [bounce href="/" status="301 moved"]
 [else]
-<!-- BEGIN PREAMBLE -->
-<html>
-	<head>
-    [seti manf][filter op="lookup.manufacturer.c_alias"][item-field manufacturer][/filter][/seti]
+
+ [seti manf][filter op="lookup.manufacturer.c_alias"][item-field manufacturer][/filter][/seti]
     [seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][item-description][/filter][/seti]
 [seti clean_title][filter interpolate="1" op="underscore_to_space namecase"][scratch title_underline][/filter][/seti]
-<link rel="shortcut icon" href="/favicon.ico" >
-<meta content=General name=rating>
-<meta content=english name=language>
-<meta content=Global name=distribution>
-<meta content=INDEX,FOLLOW name=robots>
-<meta name="Description" content="Product: [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Manufacturer: [scratch manf], Category: [item-field category], Price: [item-price]">
-<title>[scratch manf] [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Available At West Branch Angler</title>
+<!-- BEGIN PREAMBLE -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html>
+	<head>
+    <title>[scratch manf] [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Available At West Branch Angler</title>
+<meta name="description" content="Product: [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Manufacturer: [scratch manf], Category: [item-field category], Price: [item-price]">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="y_key" content="383aacdbb3fec9be">
+<meta name="verify-v1" content="ZN2rgJYVpPSJuHi+9VOSLYaHa4t7WfsTvPJzwkETaC0=" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 
 
@@ -242,10 +240,12 @@ where sku = '[ITEM-CODE]' ORDER BY description"
 
 <ul id="countrytabs" class="shadetabs">
 <li><a href="#" rel="#default" class="selected">Overview </a></li>
+<!--
 <li><a href="[area product_details]" rel="countrycontainer">Details</a></li>
 <li><a href="[area product_images]" rel="countrycontainer">Images</a></li>
 <li><a href="[area product_reviews]" rel="countrycontainer">Reviews</a></li>
 <li><a href="[area product_accessories.html]" rel="countrycontainer">Accessories</a></li>
+-->
 </ul>
 
 
