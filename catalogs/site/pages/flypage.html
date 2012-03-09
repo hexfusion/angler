@@ -10,7 +10,7 @@ ui_template_name: leftonly
 [/comment]
 
 [if-item-field inactive]
-[bounce href="/" status="301 moved"]
+[bounce href="" status="301 moved"]
 [else]
 
  [seti manf][filter op="lookup.manufacturer.c_alias"][item-field manufacturer][/filter][/seti]
@@ -76,9 +76,7 @@ ui_template_name: leftonly
   <tr valign="middle">
     <td align=center valign="middle" bgcolor="#BEBAAF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td ><div class="barlink" align="left">&nbsp;&nbsp;<a href="[area href="index.html"]"><font color="#333333">Products</font></a> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=prod_group/se=[item-field  prod_group]/op=rm/nu=0/ml=50.html"><font color="#333333">[item-field prod_group] </font></a><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=prod_group/se=[item-field 
-prod_group]/op=rm/nu=0/ml=50.html"><font color="#333333"></font></a><a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=[item-field 
-category]/op=rm/nu=0/ml=50.html"><font color="#333333"></font></a> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=category/se=[item-field  category]/op=rm/nu=0/ml=50.html"><font color="#333333">[item-field category]</font></a></font> &gt;&gt; <a href="/cgi-bin/site/scan/fi=products/st=db/co=1/sf=manufacturer/se=[item-field manufacturer]/op=rm/nu=0/ml=50.html"><font color="#333333">[filter op="uc lookup.manufacturer.c_alias"][item-field manufacturer][/filter]</font></a> &gt;&gt; [filter namecase][item-description][/filter]</div></td>
+        <td ><div class="barlink" align="left">&nbsp;&nbsp;<a href="[area href=""]"><font color="#333333">Home</font></a> &gt;&gt; Fly Fishing Gear &gt;&gt;  <font color="#333333">[filter op="uc lookup.manufacturer.c_alias"][item-field manufacturer][/filter]</font> &gt;&gt; <font color="#333333">[item-field prod_group]</font> &gt;&gt; [item-field category]</font></font> &gt;&gt; [filter namecase][item-description][/filter]</div></td>
       </tr>
     </table></td>
   </tr>
