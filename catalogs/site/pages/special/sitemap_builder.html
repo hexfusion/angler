@@ -8,10 +8,9 @@ ui_page_version: 5.3.0-200410200658
 ui_source: pages/special/sitemap_builder.html
 [/comment]
 
-<!-- BEGIN PREAMBLE -->
-<title>West Branch Angler Fly Fishing Products Simms Sage Winston Orvis</title>
-<!-- END PREAMBLE -->
-[tmpn page_title][/tmpn]
+[tmpn page_title]West Branch Angler's Fly Fishing Gear Sitemap[/tmpn]
+[tmpn page_description]West Branch Angler Sitemap find the best in fly fishing gear and equipment from the top manufactures like Simms, Sage, Hatch, Orvis, Patagonia, Winston, Hardy and more![/tmpn]
+[tmpn page_keywords]shipping policy,returns,West Branch Angler[/tmpn]
 [tmpn page_banner][/tmpn]
 [tmpn display_class][/tmpn]
 [tmpn members_only][/tmpn]
@@ -50,7 +49,7 @@ ui_source: pages/special/sitemap_builder.html
 [seti manf][filter interpolate="1" op="lookup.manufacturer.c_alias space_to_underscore"][scratch manf_abv][/filter][/seti]
 [seti title_underline][filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"][products-data products description][/filter][/seti]
 [seti clean_title][filter interpolate="1" op="underscore_to_space namecase"][scratch title_underline][/filter][/seti]
-<A HREF="http://www.westbranchangler.com/[products-data products sku]/[scratch manf]_[scratch title_underline].html">[scratch manf] [scratch clean_title]</A><br>
+<A HREF="http://www.westbranchangler.com/[products-data products sku]/[scratch manf]_[scratch title_underline].html">[if products-data products merchandising eq discontinued]Discontinued[/if][scratch manf] [scratch clean_title]</A><br>
       [/loop]
 <!-- END CONTENT -->
 @_ECOM_SIMMS_LEFT_ONLY_BOTTOM_@
