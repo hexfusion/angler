@@ -1,27 +1,28 @@
+[if type=explicit compare=`q{[subject]} =~ m{^admin/}` ]
+[set ui_failure]<h2>[msg arg.0="[subject]"]Sorry, the page (%s) was not 
+found[/msg]</h2>[/set]
+[include admin/error.html]
+[else]
+[tmp page_title]
+[msg arg.0="[subject]"]Sorry, the page (%s) was not found[/msg]
+[/tmp]
+[tag op=header]
+Status: 404 Not found
+Content-type: text/html
+[/tag]
+@_ECOM_SIMMS_TOP_ONLY_TOP_@
 
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="824.44">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 14.0px 0.0px; font: 18.0px Times}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times}
-    p.p4 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times}
-    p.p5 {margin: 0.0px 0.0px 16.0px 0.0px; font: 24.0px Times}
-    p.p6 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; min-height: 14.0px}
-    span.s1 {font: 12.0px Times}
-  </style>
-</head>
-<body>
-<p class="p1">[tmpn missing_subject][subject][/tmpn][if scratch missing_subject =~ /^admin/]<span class="s1"> [set ui_failure]</span></p>
-<h2 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 18.0px Times"><b>[msg arg.0="[subject]"]Sorry, the page (%s) was not found[/msg]</b></h2>
-<p class="p3">[/set] [include admin/error.html] [else] [tmp page_title] [msg arg.0="[subject]"]Sorry, the page (%s) was not found[/msg] [/tmp] @_ECOM_SIMMS_TOP_ONLY_TOP_@</p>
-<p class="p4"> </p>
-<h1 style="margin: 0.0px 0.0px 16.0px 0.0px; font: 24.0px Times"><b>[scratch page_title]</b></h1>
-<p class="p4">Sorry, the page @@MV_PREV_PAGE@@ was not found.</p>
-<p class="p3">[msg arg.0="[subject]" arg.1="[page index]" arg.2=""]The requested page (%s) was not found. You can %sreturn to browsing our catalog%s, if you wish.[/msg]</p>
-<p class="p6"><br></p>
+<p>&nbsp;</p>
 
-<p class="p3">@_ECOM_SIMMS_TOP_ONLY_BOTTOM_@ [/else] [/if]</p>
+<H1>[scratch page_title]</H1>
+
+<p>
+[msg arg.0="[subject]" arg.1="[page index]" arg.2="</a>"]The requested 
+page (%s) was not found. You can %sreturn to browsing our catalog%s, if 
+you wish.[/msg]
+</p>
+
+@_ECOM_SIMMS_TOP_ONLY_BOTTOM_@ 
+<!-- current page: @@MV_PAGE@@ -->
+[/else] 
+[/if]
