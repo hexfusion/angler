@@ -1,100 +1,21 @@
-[if scratch members_only]
-    [set members_only][/set]
-    [if !session logged_in]
-    [seti mv_successpage][var MV_PAGE 1][/seti]
-    [bounce page=login]
-    [/if]
-[/if]
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 	<head>
-<link rel="shortcut icon" href="/favicon.ico" >
-<meta name="y_key" content="383aacdbb3fec9be">
-<meta content=english name=language>
-<meta content=INDEX,FOLLOW name=robots>
-<meta name="revisit-after" content="7 days">
-<meta name="keywords" content="simms waders,sage fly rods,discontinued simms waders,discontinued simms boots,hardy reels,orvis helios,hardy rods,sage zaxis,simms streamtread,simms g4 waders,sage zxl,flyfihing reels,used fly rods,winston biix,winston biit,winston spey rods,orvis reels,fishpond,fishpond bags">
-<meta name="description" content="Fly Fishing Equipment New, Used, Discontinued From Simms, Orvis, Sage, Winston, Hardy, Fishpond at West Branch Angler's Online Fly Shop.">
-<meta name="verify-v1" content="ZN2rgJYVpPSJuHi+9VOSLYaHa4t7WfsTvPJzwkETaC0=" >
 <title>[scratch page_title]</title>
-<style type="text/css">
+<meta name="description" content="[scratch page_description]">
+<meta name="keywords" content="[scratch page_keywords]">
+<meta name="y_key" content="383aacdbb3fec9be">
+<meta name="verify-v1" content="ZN2rgJYVpPSJuHi+9VOSLYaHa4t7WfsTvPJzwkETaC0=" >
 
-.glossymenu{
-margin: 5px 0;
-padding: 0;
-width: 160px; /*width of menu*/
-border: 1px solid #9A9A9A;
-border-bottom-width: 0;
-}
-
-.glossymenu a.menuitem{
-background: black url(/images/glossyback.gif) repeat-x bottom left;
-font: bold 14px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
-color: white;
-display: block;
-position: relative; /*To help in the anchoring of the ".statusicon" icon image*/
-width: auto;
-padding: 4px 0;
-padding-left: 10px;
-text-decoration: none;
-}
-
-
-.glossymenu a.menuitem:visited, .glossymenu .menuitem:active{
-color: white;
-}
-
-.glossymenu a.menuitem .statusicon{ /*CSS for icon image that gets dynamically added to headers*/
-position: absolute;
-top: 5px;
-right: 5px;
-border: none;
-}
-
-.glossymenu a.menuitem:hover{
-background-image: url(/images/glossyback2.gif);
-}
-
-.glossymenu div.submenu{ /*DIV that contains each sub menu*/
-background: white;
-}
-
-.glossymenu div.submenu ul{ /*UL of each sub menu*/
-list-style-type: none;
-margin: 0;
-padding: 0;
-}
-
-.glossymenu div.submenu ul li{
-border-bottom: 1px solid blue;
-}
-
-.glossymenu div.submenu ul li a{
-display: block;
-font: normal 13px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
-color: black;
-text-decoration: none;
-padding: 2px 0;
-padding-left: 10px;
-}
-
-.glossymenu div.submenu ul li a:hover{
-background: #DFDCCB;
-colorz: white;
-}
-
-</style>
-
-
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="/assetstore/site/css/resort_template.css">
 
 <script type="text/javascript" src="/assetstore/site/js/ecommerce.js"></script>
+
 <script type="text/javascript" src="/assetstore/site/js/jquery-1.2.2.js"></script>
 <script type="text/javascript" src="/assetstore/site/js/ddaccordion.js"></script>
-		
-
+<script src="/assetstore/site/js/ddaccordion_init.js"></script>
 <script type="text/javascript" src="/assetstore/site/js/avant_sfpc_10264.js"></script>
-
-<link rel="stylesheet" type="text/css" href="/assetstore/site/css/resort_template.css">
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -106,35 +27,8 @@ pageTracker._initData();
 pageTracker._trackPageview();
 </script>
 
-<script type="text/javascript">
-
-
-ddaccordion.init({
-	headerclass: "submenuheader", //Shared CSS class name of headers group
-	contentclass: "submenu", //Shared CSS class name of contents group
-	collapseprev: true, //Collapse previous content (so only one open at any time)? true/false 
-	defaultexpanded: [], //index of content(s) open by default [index1, index2, etc] [] denotes no content
-	animatedefault: false, //Should contents open by default be animated into view?
-	persiststate: true, //persist state of opened contents within browser session?
-	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-	togglehtml: ["suffix", "<img src='/images/plus.gif' class='statusicon' />", "<img src='/images/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
-	animatespeed: "normal", //speed of animation: "fast", "normal", or "slow"
-	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
-		//do nothing
-	},
-	onopenclose:function(header, index, state, isclicked){ //custom code to run whenever a header is opened or closed
-		//do nothing
-	}
-})
-
-
-</script>
-
 	</head>
 	<body>
-
-
-
 
 
    <form action="[area search]" method=post>
