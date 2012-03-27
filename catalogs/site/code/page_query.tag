@@ -23,8 +23,8 @@ sub {
                 }
         }
 
-        # bounce condition
-        push (@conds, q{bounce = 'none'});
+        # inactive condition
+        push (@conds, q{inactive = 0});
 
         $query = q{select * from products where } 
 		. join(' AND ', @conds)
