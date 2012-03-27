@@ -42,7 +42,7 @@ sub {
 	else {
                 $first = $curpage = 1;
         }
-Log("Calling sweet baby for $curpage.");
+
 	if ($r =~ /\[more\]/) {
 		# check for [more] replacement
 		$replace = 1;
@@ -53,7 +53,7 @@ Log("Calling sweet baby for $curpage.");
 
 		$range_start = $first;
 		$range_end = $first + $ml - 1;
-Log("Matches $range_start and $range_end from F $first and ML $ml.");
+
 		if ($range_end > $matches) {
 			$range_end = $matches;
 		}
@@ -99,9 +99,8 @@ Log("Matches $range_start and $range_end from F $first and ML $ml.");
 	$link_prefix = (exists $opt->{link_prefix}) ? $opt->{link_prefix} : '<li>';
 	$link_suffix = (exists $opt->{link_suffix}) ? $opt->{link_suffix} : '</li>';
 
-	# $first = $q->{mv_first_match} || 0;
 	$Scratch->{paging_first_match} = $first;
-Log("PFM is $first.");
+
 	$session = $q->{mv_cache_key};
 
         if ($replace) {
