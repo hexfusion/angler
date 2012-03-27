@@ -1,0 +1,39 @@
+Sub <<EOS
+sub lookup_pages {
+	my ($url, $url_qtd);
+
+        $url = $Session->{last_url};
+        $url =~ s%^/%%;
+
+        # extract page number if present
+	if ($url =~ s%/([1-9][0-9]*)(\.html)$%$2%) {
+        	$CGI->{category_page} = $1;
+        }
+        else {
+                $CGI->{category_page} = 1;
+        }
+
+        if ($CGI->{category_page} > 1) {
+		# determine first match to display
+		$CGI->{category_jump} = ($CGI->{category_page} - 1) * $Variable->{MATCHES_PER_PAGE} + 1;
+        }
+        else {
+		$CGI->{category_jump} = 0;
+        }
+
+        $Tag->perl({tables => 'pages'});
+
+        $url_qtd = $Db{pages}->quote($url);
+        $set = $Db{pages}->query({sql => qq{select * from pages where url = $url_qtd}, hashref => 1});
+
+        if (@$set == 1) {
+        	$Tag->tmp('page_id', $set->[0]->{pid});
+		$Tag->tmp('subject', 'category');
+                $Scratch->{page_query} = $Tag->page_query({hash => $set->[0]});
+         	return (1, 'special/page_template.html');
+        }
+ 
+        return;
+}
+EOS
+

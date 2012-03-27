@@ -12,7 +12,7 @@
 	[component][/component]
 [/control-set]
 [control-set]
-		[component]results_grid[/component]
+		[component]results_cat_grid[/component]
 	[buylist_button][/buylist_button]
 	[cols]4[/cols]
 	[columnize][/columnize]

@@ -114,3 +114,4 @@ MAILING_MAX_DIRECT	50	Mailings
 USPS_MODULO	80	Shipping
 BAR_LINK_TEMPLATE	<A HREF="$URL$" CLASS="barlink">$ANCHOR$</A>	Template
 PAYPAL_EXPRESS_ID	ebay_api1.westbranchresort.com	Paypal
+MATCHES_PER_PAGE	50	Search

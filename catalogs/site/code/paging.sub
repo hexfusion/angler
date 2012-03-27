@@ -1,0 +1,270 @@
+Sub paging <<EOS
+sub {
+	my ($next, $prev, $page, $border, $border_selected, $opt, $r) = @_;
+	my ($q, $pages, $first, $curpage, $url, @links, @labels, @more, $base_url, 
+	    $prefix, $suffix, $session, $form_arg, $nav, $ml, $matches, $replace, 
+            $out, $link_prefix, $link_suffix, $redux, %active, %indirect);
+	
+	$q = $opt->{object} || $::Instance->{SearchObject}{$opt->{label}};
+	return '' unless $q->{matches} > $q->{mv_matchlimit}
+		and $q->{mv_matchlimit} > 0;
+
+	# turn form parameter into a hash	
+	my %form;
+
+	if ($opt->{form}) {
+		my (@params, $key, $val);
+
+		@params = split /\n+/, $opt->{form};
+
+		for (@params) {
+			($key, $val) = split /=/, $_, 2;
+			$form{$key} = $val;
+		}
+	}
+
+	$ml = $q->{mv_matchlimit};
+	$matches = $q->{matches};
+	$pages = int($matches / $ml);
+	if ($matches % $ml) {
+        	$pages++;
+	}
+
+        $curpage = $opt->{paging_page} || $CGI->{category_page};
+
+	if ($curpage) {
+		$first = ($curpage - 1) * $ml + 1;
+	}
+	elsif ($q->{mv_first_match}) {
+		$first = $q->{mv_first_match} || 1;
+                $curpage = (int($q->{mv_first_match} / 20)) + 1;
+	}
+	else {
+                $first = $curpage = 1;
+        }
+Log("Calling sweet baby for $curpage.");
+	if ($r =~ /\[more\]/) {
+		# check for [more] replacement
+		$replace = 1;
+	}
+
+	if ($r =~ /\[match/) {
+		my ($range_start, $range_end);
+
+		$range_start = $first;
+		$range_end = $first + $ml - 1;
+Log("Matches $range_start and $range_end from F $first and ML $ml.");
+		if ($range_end > $matches) {
+			$range_end = $matches;
+		}
+
+		$r =~ s/\[matches]/$range_start-$range_end/;
+		$r =~ s/\[match-count]/$matches/;
+
+		return $r unless $replace;
+	}
+
+	# extract anchor labels
+	my %anchor_labels;
+
+	for my $anchor qw(first prev next last) {
+	    if ($r =~ s:\[$anchor[-_]anchor\](.*?)\[/$anchor[-_]anchor\]::i) {
+	       $anchor_labels{$anchor} = $1;
+
+	       if ($anchor eq 'first') {
+                   $indirect{1} = 1;
+               }
+	       elsif ($anchor eq 'prev') {
+                   $indirect{$curpage - 1} = 1;
+	       }
+	       elsif ($anchor eq 'next') {
+                   $indirect{$curpage + 1} = 1;
+               }
+	       elsif ($anchor eq 'last') {
+                   $indirect{$pages} = 1;
+               }
+            }
+        }
+
+	%active = %indirect;
+
+	# extract decade(s)
+	my (%decade_labels, %decade_links);
+
+	while ($r =~ s:\[decade[-_](next|prev)\](.*?)\[/decade[-_]\1\]::i) {
+            $decade_labels{$1} = $2;
+        }
+
+        # link prefix / link suffix
+	$link_prefix = (exists $opt->{link_prefix}) ? $opt->{link_prefix} : '<li>';
+	$link_suffix = (exists $opt->{link_suffix}) ? $opt->{link_suffix} : '</li>';
+
+	# $first = $q->{mv_first_match} || 0;
+	$Scratch->{paging_first_match} = $first;
+Log("PFM is $first.");
+	$session = $q->{mv_cache_key};
+
+        if ($replace) {
+            $prefix = $suffix = '';
+        }
+        else {
+	    $prefix = q{<div id="pagenumbers"><ul>};
+	    $suffix = q{</ul></div>};
+        }
+
+	$search_page = $q->{mv_search_page} || $Tag->var('MV_PAGE',1);
+
+	$form_arg = qq{mv_more_ip=1\nmv_nextpage=$search_page};
+	$form_arg .= "\npf=$q->{prefix}" if $q->{prefix};
+	$form_arg .= "\n$opt->{form}" if $opt->{form};
+
+	$base_url = $Session->{last_url};
+	$base_url =~ s%^/%%;
+	$base_url =~ s%(/\d+)?(\.html)?$%%;
+
+	if (keys %decade_labels && $pages > 10) {
+	    # calculating pages to be displayed
+	    my ($range_start, $range_end);
+
+            $start = int(($first + 1) / $ml) + 1;
+	    $range_start = (int(($start - 1) / 10) * 10) + 1;
+	    $range_end = $range_start + 9;
+
+	    if ($range_end > $pages) {
+	        $range_end = $pages;
+            }
+
+	    for my $pos ($range_start .. $range_end) {
+	    	$active{$pos} = 1;
+                delete $indirect{$pos};
+            }  
+
+	    if ($range_start > 1) {
+	    	 $nav = join(':', $session, ($range_start - 11) * $ml, 
+                                            ($range_start - 10) * $ml - 1, $ml);
+	         $decade_links{prev} = $Tag->area({href => "scan/MM=$nav", form => $form_arg});
+            }
+
+ 	    $nav = join(':', $session, $range_end * $ml, 
+                                       ($range_end + 1) * $ml - 1, $ml);
+	         $decade_links{next} = $Tag->area({href => "scan/MM=$nav", form => $form_arg});
+
+	    $redux = 1;
+	}
+
+	for (my $i = 1; $i <= $pages; $i++) {
+	    	# inside paging ranges?
+		next if $redux && ! $active{$i};
+
+    		$start = ($i - 1) * $ml;
+		if ($start eq $first) {
+			# current page
+			$curpage = $i;
+			$links[$i] = '';
+			next;
+		}
+		$end = $start + $ml - 1;
+		if ($end > $matches) {
+			$end = matches;
+		}
+	    	$nav = join(':', $session, $start, $start + ($ml-1), $ml);
+
+                if ($Scratch->{subject} eq 'category' || $form{category}) {
+			if ($i > 1) {
+				$url = $Tag->area({href => "$base_url/$i"});
+			}
+			else {
+				$url = $Tag->area({href => "$base_url"});
+			}
+                }
+		elsif ($form{category}) {
+			$url = $Tag->area({href => "$base_url/$i"});
+		}
+		else {
+			$url = $Tag->area({href => "scan/MM=$nav", form => $form_arg});
+		}
+	    	$links[$i] = $url;
+		$labels[$i] = $i;
+	}
+
+	# current page
+	$links[$curpage] = '';
+	$labels[$curpage] = $curpage;	
+
+	for (my $i = 1; $i <= $pages; $i++) {
+	        next if $redux && exists $indirect{$i};
+
+    		if ($links[$i]) {
+			push(@more, qq{$link_prefix<a href="$links[$i]">$labels[$i]</a>$link_suffix});
+		}
+		else {
+			push(@more, qq{$link_prefix$labels[$i]$link_suffix});
+		}
+    	}
+
+	if ($decade_labels{prev} && $curpage > 10) {
+            $url = $decade_links{prev};
+   
+	    unshift(@more, qq{$link_prefix<a href="$url">$decade_labels{prev}</a>$link_suffix});
+	}
+
+	unless ($curpage == 1) {	
+                # previous page
+		$url = $links[$curpage-1];
+
+	        if ($anchor_labels{prev}) {
+		    unshift(@more, qq{$link_prefix<a href="$url">$anchor_labels{prev}</a>$link_suffix});
+                }
+		else {
+		    unshift(@more, qq{$link_prefix<a href="$url">previous &lt;</a>$link_suffix});
+                }
+
+                # first page
+                $url = $links[1];
+
+		if ($anchor_labels{first}) {
+		    unshift(@more, qq{$link_prefix<a href="$url">$anchor_labels{first}</a>$link_suffix});
+                }
+		else {
+		    unshift(@more, qq{$link_prefix<a href="$url">first</a>$link_suffix});
+                }
+	}
+
+	if ($decade_labels{next} && int(($curpage - 1) / 10) < int(($pages - 1) / 10)) {
+            $url = $decade_links{next};
+   
+	    push(@more, qq{$link_prefix<a href="$url">$decade_labels{next}</a>$link_suffix});
+	}
+
+	unless ($curpage == int($pages)) {
+                # next page
+		$url = $links[$curpage+1];
+
+                if ($anchor_labels{next}) {
+		    push(@more, qq{$link_prefix<a href="$url">$anchor_labels{next}</a>$link_suffix});
+                }
+                else {
+		    push(@more, qq{$link_prefix<a href="$url">next &gt;</a>$link_suffix});
+                }
+
+                # last page
+                $url = $links[$pages];
+
+		if ($anchor_labels{last}) {
+		    push(@more, qq{$link_prefix<a href="$url">$anchor_labels{last}</a>$link_suffix});
+                }
+		else {
+		    push(@more, qq{$link_prefix<a href="$url">$more</a>$link_suffix});
+                }
+	}
+
+	$out = $prefix . join(' ', @more) . $suffix;
+
+	if ($replace) {
+		$r =~ s/\[more\]/$out/g;
+		return $r;
+	}
+
+	return $out;
+}
+EOS
