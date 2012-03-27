@@ -18,7 +18,7 @@ sub lookup_pages {
 		$CGI->{category_jump} = ($CGI->{category_page} - 1) * $Variable->{MATCHES_PER_PAGE} + 1;
         }
         else {
-		$CGI->{category_jump} = 0;
+		$CGI->{category_jump} = 1;
         }
 
         $Tag->perl({tables => 'pages'});
