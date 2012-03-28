@@ -171,7 +171,7 @@ AND sku = '[ITEM-CODE]' ORDER BY description"
 		 <SELECT NAME="mv_sku">
       [list]
       [seti avail][sql-param quantity][/seti]
-	  <OPTION VALUE="[sql-param code]">[sql-param description] ($[sql-param sale_price]) - [scratch avail] LEFT!
+	  <OPTION VALUE="[sql-param code]"[selected mv_sku [sql-param code]]>[sql-param description] ($[sql-param sale_price]) - [scratch avail] LEFT!
       [/list]
 	  </SELECT>
   [/query]
@@ -184,7 +184,7 @@ where sku = '[ITEM-CODE]' ORDER BY description"
 		 <SELECT NAME="mv_sku">
       [list]
       [seti avail][sql-param quantity][/seti]
-	  <OPTION VALUE="[sql-param code]">[sql-param description] [if type="scratch" term="avail" op=">" compare="0"]($[sql-param price])[else] SOLD-OUT! [/else][/if]
+	  <OPTION VALUE="[sql-param code]"[selected mv_sku [sql-param code]]>[sql-param description] [if type="scratch" term="avail" op=">" compare="0"]($[sql-param price])[else] SOLD-OUT! [/else][/if]
       [/list]
 	  </SELECT>
   [/query]
