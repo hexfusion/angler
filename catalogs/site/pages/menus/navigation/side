@@ -6,7 +6,7 @@
 	[component]category_build[/component]
 [/control-set]
 [control-set]
-	[component][/component]
+	[component]newsletter[/component]
 [/control-set]
 [control-set]
 	[component][/component]
