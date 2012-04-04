@@ -161,7 +161,7 @@ my $tmpl = $Tag->control('htmltmpl') || <<EO_TMPL;
 				[L]Price[/L]: {PRICE}<br>
 				[L]Stock[/L]: {STOCK}<br>
 			</span>
-			<p align=right><a href="/{SKU}/[filter lookup.manufacturer.c_alias space_to_underscore]{MANUFACTURER}[/filter]_[filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"]{DESCRIPTION}[/filter].html" style="text-decoration:none; font-size:10px;" title="[L]Click here for more information on this product[/L]">[L]More info...[/L]</a></p>
+			<p align=right><a href="/{SKU}/[filter lookup.manufacturer.c_alias space_to_underscore]{MANUFACTURER}[/filter]_[filter interpolate="1" op="compress_space lc space_to_underscore utf8 word space_to_underscore"]{DESCRIPTION}[/filter].html" style="text-decoration:none; font-size:10px;" alt="[filter interpolate=1 op=utf8]{DESCRIPTION}[/filter]" title="[filter interpolate=1 op=utf8]{DESCRIPTION}[/filter]">[L]More info...[/L]</a></p>
 		</div>	</td>
     </tr>
   </table>
@@ -177,14 +177,14 @@ EO_TMPL
 					imagesubdir => "/assetstore/site/images/items/120x120/",
 					src => $record->{image},
 					extra => "border=0",
-					title => "[L]Click for more information.[/L]",
+					title => $Tag->filter('utf8',$record->{description}),
 					alt => $record->{description},
 				});
 	$record->{thumb} = $Tag->image({
 					imagesubdir => "thumb",
 					src => $record->{thumb},
 					extra => "border=0",
-					title => "[L]Click for more information.[/L]",
+					title => $Tag->filter({op => 'lc',interpolate => '1',{description} }),
 					alt => $record->{description},
 				});
 
