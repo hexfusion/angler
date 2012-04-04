@@ -178,14 +178,14 @@ EO_TMPL
 					src => $record->{image},
 					extra => "border=0",
 					title => $Tag->filter('utf8',$record->{description}),
-					alt => $record->{description},
+					alt => $Tag->filter('utf8',$record->{description}),
 				});
 	$record->{thumb} = $Tag->image({
 					imagesubdir => "thumb",
 					src => $record->{thumb},
 					extra => "border=0",
-					title => $Tag->filter({op => 'lc',interpolate => '1',{description} }),
-					alt => $record->{description},
+					title => $Tag->filter('utf8',$record->{description}),
+					alt => $Tag->filter('utf8',$record->{description}),
 				});
 
 	my $s = $Tag->data('products','sale_price', $sku);
