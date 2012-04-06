@@ -1,5 +1,5 @@
 
- [query sql = "select products.sku, products.manufacturer, products.description from products LEFT JOIN path_redirect ON products.sku=path_redirect.sku where path_redirect.sku is NULL and products.inactive != '1' and products.bounce = 'none'" ml=1500 type=list
+ [query sql = "select products.sku, products.manufacturer, products.description from products LEFT JOIN path_redirect ON products.sku=path_redirect.sku where path_redirect.sku is NULL and products.inactive != '1' and products.bounce = 'none'" ml=1500 type=list]
 
 
 [list]
@@ -10,7 +10,7 @@
 [seti target][sql-param sku]/[scratch manf]_[scratch title_underline].html[/seti]
 [seti source][sql-param sku].html[/seti]
 
-[query sql="insert into path_redirect (sku,path_type,path_source,path_target,status_code) values('[scratch sku]','item','[scratch source]','[scratch target]','301')"] 
+[query sql="insert into path_redirect (sku,path_type,path_source,path_target,status_code) values('[scratch sku]','item','[scratch source]','[scratch target]','301')"][/query] 
 
 [/list]
 [/query]
