@@ -5,7 +5,6 @@ Database path_redirect COLUMN_DEF	"path_source=varchar(255) NOT NULL PRIMARY KEY
 Database path_redirect COLUMN_DEF	"path_target=varchar(255) NOT NULL"
 Database path_redirect COLUMN_DEF	"status_code=int NOT NULL"
 Database path_redirect COLUMN_DEF	"last_used=int NOT NULL"
-Database path_redirect INDEX        sku
 Database path_redirect INDEX        path_source
 Database path_redirect INDEX        path_target
 
