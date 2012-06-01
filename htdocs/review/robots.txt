@@ -1,6 +1,0 @@
-User-agent: *
-Disallow: recommend.php
-Disallow: recommend2.php
-Disallow: report.php
-Disallow: report2.php
-User-agent: Googlebot
