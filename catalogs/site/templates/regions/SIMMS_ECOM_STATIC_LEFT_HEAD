@@ -3,7 +3,7 @@
 
 <head>
 <title>[scratch page_title][if scratch page_number gt 1] (Page [scratch page_number])[/if]</title>
-<meta name="description" content="scratch meta_description] [if scratch page_number gt 1] (Page [scratch page_number])[/if]"/>
+<meta name="description" content="[if scratch page_number gt 1] (Search Results Page [scratch page_number])[/if] [scratch meta_description]"/>
 <meta name="keywords" content="[scratch meta_keywords]"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="y_key" content="383aacdbb3fec9be">
