@@ -1,0 +1,88 @@
+@charset "utf-8";
+/* CSS Document */
+
+.tab1_shadow1 {
+	float:left;
+	position: relative;
+	left:13px;
+}
+.tab1_shadow2 {
+	float:left;
+	position: relative;
+	left:9px;
+	z-index:-9
+}
+.image_carousel {
+	padding: 0px 0 0px 33px;
+	float:left;
+	position: relative;
+	width:952px;
+}
+.image_carousel img {
+	border: 1px solid #ccc;
+	background-color: none;
+	padding: 7px;
+	margin: 0px 0px 0px 0px;
+	display: block;
+	float: left;
+}
+.image_carousel .carousel_link {
+	float:left;
+	padding:0px;
+	margin:0px 0px 0px 40px;
+}
+a.prev, a.next {
+	background: url(../images/miscellaneous_sprite.png) no-repeat transparent;
+	width: 21px;
+	height: 44px;
+	display: block;
+	position: absolute;
+	top: 71px;
+}
+a.prev {
+	left: -9px;
+	background-position:  -8px 0;
+}
+a.prev:hover {
+	background-position: -8px -50px;
+}
+a.prev.disabled {
+	background-position: -8px -106px !important;
+}
+a.next {
+	right: -30px;
+	background-position: -66px 0;
+}
+a.next:hover {
+	background-position: -67px -50px;
+}
+a.next.disabled {
+	background-position: -67px -106px !important;
+}
+a.prev.disabled, a.next.disabled {
+	cursor: default;
+}
+a.prev span, a.next span {
+	display: none;
+}
+.pagination {
+	text-align: center;
+}
+.pagination a {
+	background:url(../images/miscellaneous_sprite.png) 0 -300px no-repeat transparent;
+	width: 15px;
+	height: 15px;
+	margin: 0 5px 0 0;
+	display: inline-block;
+}
+.pagination a.selected {
+	background-position: -25px -300px;
+	cursor: default;
+}
+.pagination a span {
+	display: none;
+}
+.clearfix {
+	float: none;
+	clear: both;
+}
