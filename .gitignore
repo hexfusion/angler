@@ -27,5 +27,6 @@ my.cnf
 mysql.yml
 mysql/
 nohup.out
-
+etc/
+var/
 tmp/
