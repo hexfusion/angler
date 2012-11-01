@@ -1,7 +1,7 @@
-#!/usr/local/bin/perl
+##!/usr/local/bin/perl
 
-eval 'exec /usr/local/bin/perl  -S $0 ${1+"$@"}'
-    if 0; # not running under some shell
+#eval 'exec /usr/local/bin/perl  -S $0 ${1+"$@"}'
+#    if 0; # not running under some shell
 ##!~_~perlpath~_~
 #
 # Interchange version 5.7.6
