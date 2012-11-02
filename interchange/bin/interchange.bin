@@ -1,9 +1,4 @@
-##!/usr/local/bin/perl
-
-#eval 'exec /usr/local/bin/perl  -S $0 ${1+"$@"}'
-#    if 0; # not running under some shell
-##!~_~perlpath~_~
-#
+ 
 # Interchange version 5.7.6
 #
 # Copyright (C) 2002-2010 Interchange Development Group
@@ -33,26 +28,42 @@
 use strict;
 
 BEGIN {
-	select STDERR;
-	$| = 1;
-	select STDOUT;
-	$| = 1;
+        select STDERR;
+        $| = 1;
+        select STDOUT;
+        $| = 1;
 
-	if ($ENV{INTERCHANGE_INSTALLPRIVLIB}) {
-		unshift @INC, $ENV{INTERCHANGE_INSTALLPRIVLIB};
-	}
-	else {
-		unshift @INC, '/home/sam/camp23/interchange/lib';
-#		unshift @INC, '~_~INSTALLPRIVLIB~_~';
-	}
+	 if ($ENV{INTERCHANGE_CARTONLIB}) {
+                unshift @INC, $ENV{INTERCHANGE_CARTONLIB};
+        }
+        else {
+                unshift @INC, '/home/sam/camp24/local';
+#               unshift @INC, '~_~INSTALLPRIVLIB~_~';
+        }
 
-	if ($ENV{INTERCHANGE_INSTALLARCHLIB}) {
-		unshift @INC, $ENV{INTERCHANGE_INSTALLARCHLIB};
-	}
-	else {
-		unshift @INC, '/home/sam/camp23/interchange';
-#		unshift @INC, '~_~INSTALLARCHLIB~_~';
-	}
+         if ($ENV{INTERCHANGE_CARTONLIB2}) {
+                unshift @INC, $ENV{INTERCHANGE_CARTONLIB2};
+        }
+        else {
+                unshift @INC, '/home/sam/camp24/local';
+#               unshift @INC, '~_~INSTALLPRIVLIB~_~';
+        }
+
+        if ($ENV{INTERCHANGE_INSTALLPRIVLIB}) {
+                unshift @INC, $ENV{INTERCHANGE_INSTALLPRIVLIB};
+        }
+        else {
+                unshift @INC, '/home/sam/camp24/interchange/lib';
+#               unshift @INC, '~_~INSTALLPRIVLIB~_~';
+        }
+
+        if ($ENV{INTERCHANGE_INSTALLARCHLIB}) {
+                unshift @INC, $ENV{INTERCHANGE_INSTALLARCHLIB};
+        }
+        else {
+                unshift @INC, '/home/sam/camp24/interchange';
+#               unshift @INC, '~_~INSTALLARCHLIB~_~';
+        }
 }
 
 use Config;
