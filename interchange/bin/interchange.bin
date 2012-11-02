@@ -33,16 +33,15 @@ BEGIN {
         select STDOUT;
         $| = 1;
 
-	 if ($ENV{INTERCHANGE_CARTONLIB}) {
-                unshift @INC, $ENV{INTERCHANGE_CARTONLIB};
+	 if ($ENV{INTERCHANGE_BASECARTONLIB}) {
+                unshift @INC, $ENV{INTERCHANGE_BASECARTONLIB};
         }
         else {
                 unshift @INC, '/home/sam/camp24/local';
-#               unshift @INC, '~_~INSTALLPRIVLIB~_~';
         }
 
-         if ($ENV{INTERCHANGE_CARTONLIB2}) {
-                unshift @INC, $ENV{INTERCHANGE_CARTONLIB2};
+         if ($ENV{INTERCHANGEx86_64CARTONLIB}) {
+                unshift @INC, $ENV{INTERCHANGEx86_64CARTONLIB};
         }
         else {
                 unshift @INC, '/home/sam/camp24/local';
