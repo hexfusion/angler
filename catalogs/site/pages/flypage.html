@@ -9,6 +9,8 @@ ui_template: Yes
 ui_template_name: leftonly
 [/comment]
 
+ [tmp merchandising][item-field merchandising][/tmp]
+
 [if-item-field inactive]
 [bounce href="http://www.westbranchangler.com" status="301 moved"]
 [else]
@@ -164,7 +166,7 @@ COLOR="#990000"><b>Starting At : [item-price]</b></font>
                 <input type=hidden name=mv_form_profile value=check_opt>
 [/if-item-field]
 
-[if-item-field merchandising eq discontinued]
+[if scratch merchandising eq discontinued]
 		  [query sql="select code, description, price, sale_price, quantity from variants where quantity > 0
 AND sku = '[ITEM-CODE]' ORDER BY description"
          type=list]
@@ -176,8 +178,26 @@ AND sku = '[ITEM-CODE]' ORDER BY description"
 	  </SELECT>
   [/query]
   
-  [else]
-  
+  [elsif scratch merchandising eq sale]
+[query sql="select code, description, price, sale_price, quantity from variants where quantity > 0
+AND sku = '[ITEM-CODE]' ORDER BY description"
+         type=list]
+                 <SELECT NAME="mv_sku">
+      [list]
+      [seti avail][sql-param quantity][/seti]
+      [seti sale_price][sql-param sale_price][/seti]
+	[if type="scratch" term="sale_price" op=">" compare="0"]
+          <OPTION VALUE="[sql-param code]"[selected mv_sku [sql-param code]]>[sql-param description] ($[sql-param sale_price]) - [scratch avail] LEFT!
+        [else]
+          <OPTION VALUE="[sql-param code]"[selected mv_sku [sql-param code]]>[sql-param description] ($[sql-param price]) - [scratch avail] LEFT!
+	[/else]
+	[/if]
+	[/list]
+          </SELECT>
+  [/query]
+
+[/elsif]
+[else]  
 	  [query sql="select code, description, price, quantity from variants
 where sku = '[ITEM-CODE]' ORDER BY description"
          type=list]
@@ -189,7 +209,7 @@ where sku = '[ITEM-CODE]' ORDER BY description"
 	  </SELECT>
   [/query]
   [/else]
-  [/if-item-field]
+  [/if]
 
    
           
