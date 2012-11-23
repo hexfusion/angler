@@ -19,12 +19,12 @@
 
 [if-s2-param header_html_file]
 <br /><br />
-[file /pages/menus/headers/[s2-param header_html_file]]
+[file name=/pages/menus/headers/[s2-param header_html_file] interpolate=1]
 [/if-s2-param]
 
 
 [if-s2-param menu]
-[file /pages/menus/[s2-param menu]]
+[file name=/pages/menus/[s2-param menu] interpolate=1]
 [/if-s2-param]
 
 [if-s2-param header_text]
