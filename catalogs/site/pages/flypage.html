@@ -86,7 +86,7 @@ ui_template_name: leftonly
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="10">
   <tr>
     <td width="71%" align="center" valign="top" >
-     <span>[if-item-field sale_price]
+     <span>[if-item-field merchandising eq discontinued]
          <center><FONT face=helvetica, arial sans serif style="font-size: 20pt;" 
 COLOR="#990000"><b>ON SALE!!!</b></font></center><br>       
          [else]
@@ -137,15 +137,33 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
           
           <tr>
             <td align="left" valign="top"><span class="item_price">
+       [perl products, variants]    
+        my $db = $Db{products};
+	    my $qsku = $db->quote('[item-field sku]');
 
-[if-item-field sale_price]
+        my $ref2 = $db->query("select min(variants.price), min(variants.sale_price) from variants, products where variants.sku = products.sku and variants.quantity > '0' and variants.sku=$qsku GROUP BY variants.sku");
+
+	my $price = $ref2->[0]->[0];
+	my $sale_price = $ref2->[0]->[1]; 
+    
+    
+	$price = sprintf "\$%.2f", $price;
+    $sale_price = sprintf "\$%.2f", $sale_price;
+    
+
+        	$Tag->tmp('fly_price', $price);
+            $Tag->tmp('fly_sale_price', $sale_price);
+        
+[/perl]
+
+[if-item-field merchandising eq discontinued]
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
-COLOR="#000000"><b>REGULAR PRICE: [item-field price]</b></font><br>
+COLOR="#000000"><b><del>REGULAR PRICE: [scratch fly_price] </del></b></font><br>
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
-COLOR="#990000"><b>SALE PRICE STARTING AT: [item-field sale_price]</b></font>
+COLOR="#990000"><b>SALE PRICE STARTING AT: [scratch fly_sale_price]</b></font>
          [else]
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
-COLOR="#990000"><b>Starting At : [item-price]</b></font>
+COLOR="#990000"><b>Starting At : [scratch fly_price]</b></font>
          [/else]
          [/if-item-field]</span></td>
           </tr>
