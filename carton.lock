@@ -1,5 +1,48 @@
 {
    "modules" : {
+      "CLASS" : {
+         "dist" : "CLASS-1.00",
+         "mymeta" : {
+            "abstract" : "Alias for __PACKAGE__",
+            "author" : [
+               "unknown"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.31, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "CLASS",
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Test::More" : "0.07"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "1.00"
+         },
+         "name" : "CLASS",
+         "pathname" : "M/MS/MSCHWERN/CLASS-1.00.tar.gz",
+         "provides" : {
+            "CLASS" : {
+               "file" : "CLASS.pm",
+               "version" : "1.00"
+            }
+         },
+         "target" : "CLASS",
+         "version" : "1.00"
+      },
       "CPAN::Meta" : {
          "dist" : "CPAN-Meta-2.120921",
          "mymeta" : {
@@ -299,6 +342,98 @@
          "target" : "CPAN::Meta::YAML",
          "version" : "0.008"
       },
+      "Class::Accessor" : {
+         "dist" : "Class-Accessor-0.34",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "Marty Pauley <marty+perl@kasei.com>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.42, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Class-Accessor",
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "base" : "1.01"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "0.34"
+         },
+         "name" : "Class::Accessor",
+         "pathname" : "K/KA/KASEI/Class-Accessor-0.34.tar.gz",
+         "provides" : {
+            "Class::Accessor" : {
+               "file" : "Class/Accessor.pm",
+               "version" : "0.34"
+            },
+            "Class::Accessor::Fast" : {
+               "file" : "Class/Accessor/Fast.pm",
+               "version" : "0.34"
+            },
+            "Class::Accessor::Faster" : {
+               "file" : "Class/Accessor/Faster.pm",
+               "version" : "0.34"
+            }
+         },
+         "target" : "Class::Accessor",
+         "version" : "0.34"
+      },
+      "Class::Data::Inheritable" : {
+         "dist" : "Class-Data-Inheritable-0.08",
+         "mymeta" : {
+            "abstract" : "Inheritable, overridable class data",
+            "author" : [
+               "unknown"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.42, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Class-Data-Inheritable",
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {}
+               }
+            },
+            "release_status" : "stable",
+            "version" : "0.08"
+         },
+         "name" : "Class::Data::Inheritable",
+         "pathname" : "T/TM/TMTM/Class-Data-Inheritable-0.08.tar.gz",
+         "provides" : {
+            "Class::Data::Inheritable" : {
+               "file" : "Class/Data/Inheritable.pm",
+               "version" : "0.08"
+            }
+         },
+         "target" : "Class::Data::Inheritable",
+         "version" : "0.08"
+      },
       "Class::Inspector" : {
          "dist" : "Class-Inspector-1.28",
          "mymeta" : {
@@ -444,6 +579,61 @@
          },
          "target" : "Class::Load",
          "version" : "0.20"
+      },
+      "Class::Loader" : {
+         "dist" : "Class-Loader-2.03",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "Vipul Ved Prakash <mail@vipul.net>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Class-Loader",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {}
+               }
+            },
+            "release_status" : "stable",
+            "version" : "2.03"
+         },
+         "name" : "Class::Loader",
+         "pathname" : "V/VI/VIPUL/Class-Loader-2.03.tar.gz",
+         "provides" : {
+            "Class::Loader" : {
+               "file" : "Class/Loader.pm",
+               "version" : "2.03"
+            },
+            "Class::LoaderTest" : {
+               "file" : "Class/LoaderTest.pm"
+            }
+         },
+         "target" : "Class::Loader",
+         "version" : "2.03"
       },
       "Class::Singleton" : {
          "dist" : "Class-Singleton-1.4",
@@ -593,6 +783,79 @@
          },
          "target" : "Compress::Raw::Zlib",
          "version" : "2.056"
+      },
+      "Crypt::Random" : {
+         "dist" : "Crypt-Random-1.25",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "Vipul Ved Prakash <mail@vipul.net>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Crypt-Random",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Class::Loader" : "2.00",
+                     "Math::Pari" : "2.001804"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "1.25"
+         },
+         "name" : "Crypt::Random",
+         "pathname" : "V/VI/VIPUL/Crypt-Random-1.25.tar.gz",
+         "provides" : {
+            "Crypt::Random" : {
+               "file" : "Crypt/Random.pm",
+               "version" : "1.25"
+            },
+            "Crypt::Random::Generator" : {
+               "file" : "Crypt/Random/Generator.pm"
+            },
+            "Crypt::Random::Provider::File" : {
+               "file" : "Crypt/Random/Provider/File.pm"
+            },
+            "Crypt::Random::Provider::devrandom" : {
+               "file" : "Crypt/Random/Provider/devrandom.pm"
+            },
+            "Crypt::Random::Provider::devurandom" : {
+               "file" : "Crypt/Random/Provider/devurandom.pm"
+            },
+            "Crypt::Random::Provider::egd" : {
+               "file" : "Crypt/Random/Provider/egd.pm"
+            },
+            "Crypt::Random::Provider::rand" : {
+               "file" : "Crypt/Random/Provider/rand.pm"
+            }
+         },
+         "target" : "Crypt::Random",
+         "version" : "1.25"
       },
       "DBD::mysql" : {
          "dist" : "DBD-mysql-4.022",
@@ -1294,6 +1557,74 @@
          },
          "target" : "Data::OptList",
          "version" : "0.107"
+      },
+      "Data::SimplePassword" : {
+         "dist" : "Data-SimplePassword-0.07",
+         "mymeta" : {
+            "abstract" : "Simple random password generator",
+            "author" : [
+               "Ryo Okamoto <ryo at aquahill dot net>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Data-SimplePassword",
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "List::MoreUtils" : 0,
+                     "Test::More" : "0.88"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "Module::Build" : "0.36"
+                  }
+               },
+               "runtime" : {
+                  "recommends" : {
+                     "Math::Random::MT" : 0
+                  },
+                  "requires" : {
+                     "CLASS" : 0,
+                     "Class::Accessor" : 0,
+                     "Class::Data::Inheritable" : 0,
+                     "Crypt::Random" : 0,
+                     "Math::Random::MT::Perl" : 0,
+                     "UNIVERSAL::require" : 0
+                  }
+               }
+            },
+            "provides" : {
+               "Data::SimplePassword" : {
+                  "file" : "lib/Data/SimplePassword.pm",
+                  "version" : "0.07"
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "license" : [
+                  "http://dev.perl.org/licenses/"
+               ]
+            },
+            "version" : "0.07"
+         },
+         "name" : "Data::SimplePassword",
+         "pathname" : "R/RY/RYOCHIN/Data-SimplePassword/Data-SimplePassword-0.07.tar.gz",
+         "provides" : {
+            "Data::SimplePassword" : {
+               "file" : "Data/SimplePassword.pm",
+               "version" : "0.07"
+            }
+         },
+         "target" : "Data::SimplePassword",
+         "version" : "0.07"
       },
       "Data::UUID" : {
          "dist" : "Data-UUID-1.218",
@@ -7531,7 +7862,7 @@
                "Gisle Aas <gisle@activestate.com>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "ExtUtils::MakeMaker version 6.57_05, CPAN::Meta::Converter version 2.112150",
+            "generated_by" : "ExtUtils::MakeMaker version 6.57_05, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
             "license" : [
                "perl_5"
             ],
@@ -7620,7 +7951,7 @@
                "Andy Lester <andy@petdance.com>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "ExtUtils::MakeMaker version 6.42, CPAN::Meta::Converter version 2.112150",
+            "generated_by" : "ExtUtils::MakeMaker version 6.42, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
             "license" : [
                "unknown"
             ],
@@ -8741,7 +9072,7 @@
                "version" : "6.04"
             }
          },
-         "target" : "LWP::UserAgent",
+         "target" : "LWP",
          "version" : "6.04"
       },
       "LWP::MediaTypes" : {
@@ -8859,6 +9190,116 @@
          },
          "target" : "List::MoreUtils",
          "version" : "0.33"
+      },
+      "Math::Pari" : {
+         "dist" : "Math-Pari-2.01080605",
+         "mymeta" : {
+            "abstract" : "Perl interface to PARI.",
+            "author" : [
+               "Ilya Zakharevich <ilyaz@cpan.org>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.54, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Math-Pari",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {}
+               }
+            },
+            "release_status" : "stable",
+            "version" : "2.01080605"
+         },
+         "name" : "Math::Pari",
+         "pathname" : "I/IL/ILYAZ/modules/Math-Pari-2.01080605.tar.gz",
+         "provides" : {
+            "Math::Pari" : {
+               "file" : "Math/Pari.pm",
+               "version" : "2.01080605"
+            },
+            "Math::Pari::Arr" : {
+               "file" : "Math/Pari.pm"
+            }
+         },
+         "target" : "Math::Pari",
+         "version" : "2.01080605"
+      },
+      "Math::Random::MT::Perl" : {
+         "dist" : "Math-Random-MT-Perl-1.1",
+         "mymeta" : {
+            "abstract" : "Pure Perl Mersenne Twister Random Number Generator",
+            "author" : [
+               "Dr James Freeman"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "artistic_2"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Math-Random-MT-Perl",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Test::More" : 0,
+                     "Test::Number::Delta" : 0
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "1.1"
+         },
+         "name" : "Math::Random::MT::Perl",
+         "pathname" : "F/FA/FANGLY/Math-Random-MT-Perl-1.1.tar.gz",
+         "provides" : {
+            "Math::Random::MT::Perl" : {
+               "file" : "Math/Random/MT/Perl.pm",
+               "version" : "1.1"
+            }
+         },
+         "target" : "Math::Random::MT::Perl",
+         "version" : "1.1"
       },
       "Math::Round" : {
          "dist" : "Math-Round-0.06",
@@ -10562,6 +11003,7 @@
                   "requires" : {
                      "Class::Inspector" : 0,
                      "Compress::Zlib" : 0,
+                     "HTTP::Daemon" : 0,
                      "IO::File" : 0,
                      "LWP::UserAgent" : 0,
                      "MIME::Base64" : 0,
@@ -11680,6 +12122,58 @@
          "target" : "Test::Manifest",
          "version" : "1.23"
       },
+      "Test::Number::Delta" : {
+         "dist" : "Test-Number-Delta-1.03",
+         "mymeta" : {
+            "abstract" : "Compare the difference between numbers against a given tolerance",
+            "author" : [
+               "David A. Golden <dagolden@cpan.org>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Test-Number-Delta",
+            "prereqs" : {
+               "runtime" : {
+                  "requires" : {
+                     "Test::Builder" : "0.32",
+                     "Test::Builder::Tester" : "1.02",
+                     "Test::More" : "0.45",
+                     "perl" : "5.004"
+                  }
+               }
+            },
+            "provides" : {
+               "Test::Number::Delta" : {
+                  "file" : "lib/Test/Number/Delta.pm",
+                  "version" : "1.03"
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "license" : [
+                  "http://dev.perl.org/licenses/"
+               ]
+            },
+            "version" : "1.03"
+         },
+         "name" : "Test::Number::Delta",
+         "pathname" : "D/DA/DAGOLDEN/Test-Number-Delta-1.03.tar.gz",
+         "provides" : {
+            "Test::Number::Delta" : {
+               "file" : "Test/Number/Delta.pm",
+               "version" : "1.03"
+            }
+         },
+         "target" : "Test::Number::Delta",
+         "version" : "1.03"
+      },
       "Test::Output" : {
          "dist" : "Test-Output-1.01",
          "mymeta" : {
@@ -12017,6 +12511,77 @@
          "target" : "Try::Tiny",
          "version" : "0.11"
       },
+      "UNIVERSAL::require" : {
+         "dist" : "UNIVERSAL-require-0.13",
+         "mymeta" : {
+            "abstract" : "require() modules from a variable",
+            "author" : [
+               "Michael G Schwern <schwern@pobox.com>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.50, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "UNIVERSAL-require",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ],
+               "package" : [
+                  "UNIVERSAL"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Test::More" : "0.47"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "bugtracker" : {
+                  "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=UNIVERSAL-require"
+               },
+               "license" : [
+                  "http://dev.perl.org/licenses/"
+               ],
+               "repository" : {
+                  "url" : "http://svn.schwern.org/repos/CPAN/UNIVERSAL-require/trunk/"
+               }
+            },
+            "version" : "0.13"
+         },
+         "name" : "UNIVERSAL::require",
+         "pathname" : "M/MS/MSCHWERN/UNIVERSAL-require-0.13.tar.gz",
+         "provides" : {
+            "UNIVERSAL" : {
+               "file" : "UNIVERSAL/require.pm"
+            },
+            "UNIVERSAL::require" : {
+               "file" : "UNIVERSAL/require.pm",
+               "version" : "0.13"
+            }
+         },
+         "target" : "UNIVERSAL::require",
+         "version" : "0.13"
+      },
       "URI" : {
          "dist" : "URI-1.60",
          "mymeta" : {
@@ -12210,7 +12775,7 @@
                "file" : "URI/urn/oid.pm"
             }
          },
-         "target" : "URI",
+         "target" : "URI::Escape",
          "version" : "1.60"
       },
       "WWW::RobotRules" : {
@@ -12813,7 +13378,7 @@
                "Ingy döt Net <ingy@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112150",
+            "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.112150",
             "license" : [
                "perl_5"
             ],
