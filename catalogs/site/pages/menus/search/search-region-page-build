@@ -36,6 +36,11 @@ Keuwords are basically a list of products
                 se=none
                 nu=0
 				
+                sf=inactive
+                op=ne
+                se=1
+                nu=0
+                
 [if-s3-param prod_group]
                 sf=prod_group
                 se=[s3-param prod_group]
