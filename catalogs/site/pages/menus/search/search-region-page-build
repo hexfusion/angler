@@ -2,8 +2,9 @@
 This code autogenerates meta data for search pages
 Keuwords are basically a list of products
 [/comment]
-[query prefix="s3" sql="SELECT discontinued, gender, prod_group, category, manufacturer FROM pages WHERE pid='[scratch page_id]'" type="list" more_routine="paging"]
+[query prefix="s3" sql="SELECT discontinued, gender, prod_group, category, description, manufacturer FROM pages WHERE pid='[scratch page_id]'" type="list" more_routine="paging"]
 [s3-list]
+[tmp meta_description][s3-param description][/tmp]
 
 [tmp meta_keywords][loop prefix=keywords search="
 
@@ -65,5 +66,4 @@ Keuwords are basically a list of products
 "][filter namecase][keywords-data products description][/filter], [/loop][/tmp]
 [tmp search_meta_keywords][scratch meta_keywords][/tmp]
 
-[tmp meta_description]Category: [data table=pages column=category key="[scratch page_id]"] Models: [scratch filter='95' name='search_meta_keywords']...[/tmp]
 [tmp page_title][data table=pages column=meta_title key="[scratch page_id]"][/tmp]
