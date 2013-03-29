@@ -116,7 +116,7 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
 	[perl variants]
 
 	my $db = $Db{variants};
-	my $qsku = $db->quote([item-field sku]);
+	my $qsku = $db->quote('[item-field sku]');
 	my $ref = $db->query("SELECT SUM(quantity) FROM variants WHERE sku = $qsku");
 	my $quantity = $ref->[0]->[0];
 	$Tag->tmp('instock', $quantity);
@@ -137,7 +137,7 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
           
           <tr>
             <td align="left" valign="top"><span class="item_price">
-       [perl products, variants]    
+[perl products, variants]    
         my $db = $Db{products};
 	    my $qsku = $db->quote('[item-field sku]');
 
