@@ -156,16 +156,27 @@ COLOR="#990000"><b>ON SALE!!!</b></font></center><br>
         
 [/perl]
 
-[if-item-field merchandising eq discontinued]
+	[if scratch merchandising eq discontinued]
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
 COLOR="#000000"><b><del>REGULAR PRICE: [scratch fly_price] </del></b></font><br>
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
 COLOR="#990000"><b>SALE PRICE STARTING AT: [scratch fly_sale_price]</b></font>
-         [else]
+	
+     [elsif scratch merchandising eq sale]
+<FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
+COLOR="#000000"><b><del>REGULAR PRICE: [scratch fly_price] </del></b></font><br>
+         <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
+COLOR="#990000"><b>SALE PRICE STARTING AT: [scratch fly_sale_price]</b></font>
+      [/elsif]
+		[else]
          <FONT face=helvetica, arial sans serif style="font-size: 9pt;" 
 COLOR="#990000"><b>Starting At : [scratch fly_price]</b></font>
+         
+        
          [/else]
-         [/if-item-field]</span></td>
+         [/if]
+         
+         </span></td>
           </tr>
    [if type="scratch" term="instock" op=">" compare="0"]
        
