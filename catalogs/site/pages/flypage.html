@@ -22,7 +22,7 @@ ui_template_name: leftonly
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <html>
 	<head>
-    <title>[if-item-field merchandising eq discontinued]Discontinued[/if-item-field] [scratch manf] [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] Available At West Branch Angler</title>
+    <title>[if-item-field merchandising eq discontinued]Discontinued[/if-item-field][scratch manf][if-item-field title] [item-field title] [else] [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter][/else][/if-item-field]</title>
 <meta name="description" content="Find[if-item-field merchandising eq discontinued] Discontinued[/if-item-field] [scratch manf] [item-field category] like [filter op="uc namecase" interpolate="1"][scratch clean_title][/filter] and other great fly fishing gear at West Branch Angler">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="y_key" content="383aacdbb3fec9be">
