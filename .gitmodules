@@ -7,4 +7,9 @@
 [submodule "nitesi-dancer"]
 	path = nitesi-dancer
 	url = git://github.com/racke/Dancer-Plugin-Nitesi.git
-
+[submodule "src/Plack"]
+	path = src/Plack
+	url = git://github.com/plack/Plack
+[submodule "src/Nginx"]
+	path = src/Nginx
+	url = git://github.com/git-mirror/nginx.git
