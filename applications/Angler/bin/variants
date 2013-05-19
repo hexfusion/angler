@@ -1,0 +1,15 @@
+#!/usr/bin/env perl
+
+use FindBin;
+use lib "$FindBin::Bin/../../../nitesi/lib", 
+	"$FindBin::Bin/../../../nitesi-dancer/lib";
+use Dancer ':script';
+use Dancer::Plugin::Nitesi;
+
+set logger => 'console';
+set logger_format => '%m';
+set log => 'debug';
+
+my $variants = query->select(table => 'variants');
+
+debug "Variants: ", $variants;
