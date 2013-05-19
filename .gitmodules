@@ -13,3 +13,6 @@
 [submodule "src/Nginx"]
 	path = src/Nginx
 	url = git://github.com/git-mirror/nginx.git
+[submodule "src/Pcre"]
+	path = src/Pcre
+	url = git://github.com/AndreLouisCaron/pcre.git
