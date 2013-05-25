@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use FindBin;
-use lib "$FindBin::Bin/../../../nitesi/lib", 
+ use lib "$FindBin::Bin/../../../nitesi/lib", 
 	"$FindBin::Bin/../../../nitesi-dancer/lib";
 use Dancer ':script';
 use Dancer::Plugin::Nitesi;
@@ -12,4 +12,51 @@ set log => 'debug';
 
 my $variants = query->select(table => 'variants');
 
-debug "Variants: ", $variants;
+for my $record (@$variants) {
+    # delete entries from product attributes
+    query->delete(table => 'product_attributes',
+                  where => {sku => $record->{code}},
+                  );
+
+    if (! $record->{size} && ! $record->{attribute}) {
+        warning "No attribute found for variant: ", $record;
+        next;
+    }
+
+    # add size of variant to product attributes
+    if ($record->{size}) {
+        query->insert('product_attributes',
+                       {sku => $record->{code},
+                        name => 'size',
+                        value => $record->{size},
+                        original_sku => $record->{sku},
+                       });
+    }
+
+    # add color of variant to product attributes
+    if ($record->{attribute}) {
+        query->insert('product_attributes',
+                       {sku => $record->{code},
+                        name => 'color',
+                        value => $record->{attribute},
+                        original_sku => $record->{sku},
+                       });
+    }
+
+    # delete entry from products
+    query->delete(table => 'products',
+                  where => {sku => $record->{code}},
+                  );
+
+    # create new product
+    my %product;
+
+    for (qw/description sale_price weight wholesale image inactive price season/) {
+        $product{$_} = $record->{$_};
+    }
+
+    $product{sku} = $record->{code};
+    $product{canonical_sku} = $record->{sku};
+
+    query->insert('products', \%product);
+}
