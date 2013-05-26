@@ -2283,7 +2283,7 @@
                "Ryo Okamoto <ryo at aquahill dot net>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -2405,7 +2405,7 @@
                "Dave Rolsky <autarch@urth.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "artistic_2"
             ],
@@ -2506,7 +2506,7 @@
                "Maintained by Dave Rolsky <autarch@urth.org>."
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -2631,7 +2631,7 @@
                "Dave Rolsky <autarch@urth.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -8638,6 +8638,97 @@
          "target" : "File::Which",
          "version" : "1.09"
       },
+      "File::pushd" : {
+         "dist" : "File-pushd-1.005",
+         "mymeta" : {
+            "abstract" : "change directory temporarily for a limited scope",
+            "author" : [
+               "David Golden <dagolden@cpan.org>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Dist::Zilla version 4.300031, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "apache_2_0"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "File-pushd",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "xt",
+                  "examples",
+                  "corpus"
+               ],
+               "package" : [
+                  "DB"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0,
+                     "File::Basename" : 0,
+                     "File::Find" : 0,
+                     "File::Spec::Functions" : 0,
+                     "List::Util" : 0,
+                     "Test::More" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.30"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Carp" : 0,
+                     "Cwd" : 0,
+                     "Exporter" : 0,
+                     "File::Path" : 0,
+                     "File::Spec" : 0,
+                     "File::Temp" : 0,
+                     "overload" : 0,
+                     "strict" : 0,
+                     "warnings" : 0
+                  }
+               }
+            },
+            "provides" : {
+               "File::pushd" : {
+                  "file" : "lib/File/pushd.pm",
+                  "version" : "1.005"
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "bugtracker" : {
+                  "web" : "https://github.com/dagolden/file-pushd/issues"
+               },
+               "homepage" : "https://metacpan.org/release/File-pushd",
+               "repository" : {
+                  "type" : "git",
+                  "url" : "git://github.com/dagolden/file-pushd.git"
+               }
+            },
+            "version" : "1.005",
+            "x_contributors" : [
+               "Diab Jerius <djerius@cfa.harvard.edu>"
+            ]
+         },
+         "name" : "File::pushd",
+         "pathname" : "D/DA/DAGOLDEN/File-pushd-1.005.tar.gz",
+         "provides" : {
+            "File::pushd" : {
+               "file" : "File/pushd.pm",
+               "version" : "1.005"
+            }
+         },
+         "target" : "File::pushd",
+         "version" : "1.005"
+      },
       "Getopt::Long::Descriptive" : {
          "dist" : "Getopt-Long-Descriptive-0.093",
          "mymeta" : {
@@ -9751,7 +9842,7 @@
                "version" : "6.03"
             }
          },
-         "target" : "HTTP::Status",
+         "target" : "HTTP::Headers",
          "version" : "6.06"
       },
       "HTTP::Negotiate" : {
@@ -11966,7 +12057,7 @@
                "file" : "Nitesi/Query/DBI.pm"
             }
          },
-         "target" : "Nitesi::Query::DBI",
+         "target" : "Nitesi::DBI",
          "version" : "0.0060"
       },
       "Package::DeprecationManager" : {
@@ -15534,7 +15625,7 @@
                "David A. Golden <dagolden@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -16290,7 +16381,7 @@
                "file" : "URI/urn/oid.pm"
             }
          },
-         "target" : "URI::Escape",
+         "target" : "URI",
          "version" : "1.60"
       },
       "Variable::Magic" : {
@@ -16589,7 +16680,7 @@
                "Shlomi Fish <shlomif@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
             "keywords" : [
                "feed",
                "feeds",
@@ -17190,6 +17281,82 @@
          },
          "target" : "YAML",
          "version" : "0.84"
+      },
+      "YAML::Syck" : {
+         "dist" : "YAML-Syck-1.27",
+         "mymeta" : {
+            "abstract" : "Fast, lightweight YAML loader and dumper",
+            "author" : [
+               "Audrey Tang <cpan@audreyt.org>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "mit"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "YAML-Syck",
+            "no_index" : {
+               "directory" : [
+                  "inc",
+                  "t"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.59"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.59"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "perl" : "5.006"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "bugtracker" : {
+                  "web" : "https://rt.cpan.org/Public/Dist/Display.html?Name=YAML-Syck"
+               },
+               "homepage" : "http://search.cpan.org/dist/YAML-Syck",
+               "license" : [
+                  "http://opensource.org/licenses/mit-license.php"
+               ],
+               "repository" : {
+                  "url" : "http://github.com/toddr/YAML-Syck"
+               }
+            },
+            "version" : "1.27"
+         },
+         "name" : "YAML::Syck",
+         "pathname" : "T/TO/TODDR/YAML-Syck-1.27.tar.gz",
+         "provides" : {
+            "JSON::Syck" : {
+               "file" : "JSON/Syck.pm",
+               "version" : "1.27"
+            },
+            "YAML::Dumper::Syck" : {
+               "file" : "YAML/Dumper/Syck.pm"
+            },
+            "YAML::Loader::Syck" : {
+               "file" : "YAML/Loader/Syck.pm"
+            },
+            "YAML::Syck" : {
+               "file" : "YAML/Syck.pm",
+               "version" : "1.27"
+            }
+         },
+         "target" : "YAML::Syck",
+         "version" : "1.27"
       },
       "YAML::Tiny" : {
          "dist" : "YAML-Tiny-1.51",
