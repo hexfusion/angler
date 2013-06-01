@@ -23,6 +23,7 @@ interchange/src/vlink
 interchange/src/vlink._*
 interchange/var/log/*
 interchange/var/run/*
+applications/Angler/bin/app.pl
 my.cnf
 mysql.yml
 mysql/
