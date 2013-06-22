@@ -2057,6 +2057,83 @@
          "target" : "Dancer::Plugin::Database",
          "version" : "2.04"
       },
+      "Dancer::Plugin::Nitesi" : {
+         "dist" : "Dancer-Plugin-Nitesi-0.0091",
+         "mymeta" : {
+            "abstract" : "Dancer Plugin for Nitesi Open Source Shop Machine",
+            "author" : [
+               "Stefan Hornburg (Racke) <racke@linuxia.de>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Dancer-Plugin-Nitesi",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Dancer" : "1.3098",
+                     "Dancer::Plugin::Database" : 0,
+                     "Nitesi" : "0.009",
+                     "Nitesi::DBI" : "0.009",
+                     "Test::Database" : 0,
+                     "Test::More" : 0,
+                     "YAML" : 0
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "repository" : {
+                  "url" : "https://github.com/racke/Dancer-Plugin-Nitesi.git"
+               }
+            },
+            "version" : "0.0091"
+         },
+         "name" : "Dancer::Plugin::Nitesi",
+         "pathname" : "H/HO/HORNBURG/Dancer-Plugin-Nitesi-0.0091.tar.gz",
+         "provides" : {
+            "Dancer::Plugin::Nitesi" : {
+               "file" : "Dancer/Plugin/Nitesi.pm",
+               "version" : "0.0091"
+            },
+            "Dancer::Plugin::Nitesi::Cart::DBI" : {
+               "file" : "Dancer/Plugin/Nitesi/Cart/DBI.pm"
+            },
+            "Dancer::Plugin::Nitesi::Cart::Session" : {
+               "file" : "Dancer/Plugin/Nitesi/Cart/Session.pm"
+            },
+            "Dancer::Plugin::Nitesi::Routes" : {
+               "file" : "Dancer/Plugin/Nitesi/Routes.pm"
+            },
+            "Dancer::Plugin::Nitesi::Routes::Cart" : {
+               "file" : "Dancer/Plugin/Nitesi/Routes/Cart.pm"
+            }
+         },
+         "target" : "Dancer::Plugin::Nitesi",
+         "version" : "0.0091"
+      },
       "Dancer::Template::TemplateFlute" : {
          "dist" : "Dancer-Template-TemplateFlute-0.0061",
          "mymeta" : {
@@ -12984,7 +13061,7 @@
                "file" : "Net/Server.pm"
             }
          },
-         "target" : "Net::Server::PreFork",
+         "target" : "Net::Server",
          "version" : "2.007"
       },
       "Nitesi" : {
@@ -13092,14 +13169,14 @@
          "version" : "0.0070"
       },
       "Nitesi::DBI" : {
-         "dist" : "Nitesi-DBI-0.0060",
+         "dist" : "Nitesi-DBI-0.0090",
          "mymeta" : {
             "abstract" : "DBI bundle for Nitesi shop machine",
             "author" : [
                "Stefan Hornburg (Racke) <racke@linuxia.de>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -13129,17 +13206,22 @@
                },
                "runtime" : {
                   "requires" : {
-                     "Nitesi" : "0.006",
+                     "Nitesi" : "0.009",
                      "SQL::Abstract" : 0,
                      "SQL::Abstract::More" : 0
                   }
                }
             },
             "release_status" : "stable",
-            "version" : "0.0060"
+            "resources" : {
+               "repository" : {
+                  "url" : "https://github.com/racke/Nitesi-DBI"
+               }
+            },
+            "version" : "0.0090"
          },
          "name" : "Nitesi::DBI",
-         "pathname" : "H/HO/HORNBURG/Nitesi-DBI-0.0060.tar.gz",
+         "pathname" : "H/HO/HORNBURG/Nitesi-DBI-0.0090.tar.gz",
          "provides" : {
             "Dancer::Plugin::Nitesi::Backend::DBI" : {
                "file" : "Dancer/Plugin/Nitesi/Backend/DBI.pm"
@@ -13152,14 +13234,14 @@
             },
             "Nitesi::DBI" : {
                "file" : "Nitesi/DBI.pm",
-               "version" : "0.0060"
+               "version" : "0.0090"
             },
             "Nitesi::Query::DBI" : {
                "file" : "Nitesi/Query/DBI.pm"
             }
          },
          "target" : "Nitesi::DBI",
-         "version" : "0.0060"
+         "version" : "0.0090"
       },
       "Package::DeprecationManager" : {
          "dist" : "Package-DeprecationManager-0.13",
