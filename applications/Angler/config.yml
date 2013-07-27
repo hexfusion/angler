@@ -28,3 +28,12 @@ template: "template_flute"
 #     end_tag:   '%]'
 
 behind_proxy: "true"
+
+plugins:
+  Nitesi:
+     Product:
+      attributes: 
+        name: description
+        short_description: comment_short
+     Query:
+       log: 1
