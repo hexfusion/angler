@@ -6,7 +6,7 @@ use Dancer::Plugin::Nitesi::Routes;
 our $VERSION = '0.1';
 
 get '/' => sub {
-    template 'index';
+    template 'home';
 };
 
 shop_setup_routes;
