@@ -24,3 +24,24 @@
       key(sku,navigation)
     );
 
+-- carts and cart_products
+
+   CREATE TABLE carts (
+      code integer NOT NULL,
+      name character varying(255) DEFAULT '' NOT NULL,
+      uid integer DEFAULT 0 NOT NULL,
+      session_id character varying(255) DEFAULT '' NOT NULL,
+      created integer DEFAULT 0 NOT NULL,
+      last_modified integer DEFAULT 0 NOT NULL,
+      type character varying(32) DEFAULT '' NOT NULL,
+      approved boolean,
+      status character varying(32) DEFAULT '' NOT NULL
+   );
+
+   CREATE TABLE cart_products (
+      cart integer NOT NULL,
+      sku character varying(32) NOT NULL,
+      position integer NOT NULL,
+      quantity integer DEFAULT 1 NOT NULL,
+      priority integer DEFAULT 0 NOT NULL
+    );
