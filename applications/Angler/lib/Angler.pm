@@ -5,6 +5,12 @@ use Dancer::Plugin::Nitesi::Routes;
 
 our $VERSION = '0.1';
 
+hook 'before_layout_render' => sub {
+    my $tokens = shift;
+
+    $tokens->{cart_count} = cart->count;
+};
+
 get '/' => sub {
     template 'home';
 };
