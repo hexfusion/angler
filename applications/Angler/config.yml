@@ -46,3 +46,11 @@ plugins:
         Backend: DBI
      Query:
        log: 1
+  Nitesi::Routes:
+    product:
+      template: flypage
+    checkout:
+      template: cart_checkout
+    navigation:
+      template: product-listing
+
