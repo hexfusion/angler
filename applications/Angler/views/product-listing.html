@@ -104,9 +104,14 @@
           <img src="/img/i_star-empty.png" />
           <img src="/img/i_star-empty.png" />
         </div>
+        <form action="/" method="GET" class="product-more-info">
         <button class="btn btn-small">More info</button>
+        </form>
         <div class="hover-addto">
+          <form action="/cart" method="POST">
+          <input type="hidden" name="sku" class="sku" value="">
           <button class="btn btn-success">Add to cart</button>
+          </form>
         </div>
       </div>
       <div class="product-image">
