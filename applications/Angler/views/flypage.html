@@ -68,7 +68,7 @@
     </div>
   </div>
   <div class="span9">
-    <h1>Simms Fisherman Hat</h1>
+    <h1 class="name">Simms Fisherman Hat</h1>
     <div class="row">
       <div class="span4">
         <div class="produst-image-wrap">
@@ -97,7 +97,8 @@
             <img src="/img/i_facebook.png" />
           </a>
         </p>
-        <form>
+        <form method="POST" action="cart" name="product">
+          <input type="hidden" name="sku" id="sku" value="">
           <div class="product-options-list">
             <ul class="form-inline">
               <li><span>Size</span><select class="input-small"><option>11</option></select> <a class="text-info" href="">Size help</a></li>

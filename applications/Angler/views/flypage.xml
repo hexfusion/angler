@@ -1,2 +1,4 @@
 <specification>
+<value name="name"/>
+<value name="sku" id="sku"/>
 </specification>
