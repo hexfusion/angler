@@ -1,3 +1,5 @@
 environments
 logs
-
+sessions
+MYMETA.*
+Makefile
