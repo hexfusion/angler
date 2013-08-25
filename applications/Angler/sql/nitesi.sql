@@ -45,3 +45,23 @@
       quantity integer DEFAULT 1 NOT NULL,
       priority integer DEFAULT 0 NOT NULL
     );
+
+    CREATE TABLE addresses (
+      aid serial NOT NULL,
+      uid integer NOT NULL DEFAULT 0,
+      type varchar(16) NOT NULL DEFAULT '',
+      archived boolean NOT NULL DEFAULT FALSE,
+      first_name varchar(255) NOT NULL DEFAULT '',
+      last_name varchar(255) NOT NULL DEFAULT '',
+      company varchar(255) NOT NULL DEFAULT '',
+      street_address varchar(255) NOT NULL DEFAULT '',
+      zip varchar(255) NOT NULL DEFAULT '',
+      city varchar(255) NOT NULL DEFAULT '',
+      phone varchar(32) NOT NULL DEFAULT '',
+      state_code char(2) NOT NULL DEFAULT '',
+      country_code char(2) NOT NULL DEFAULT '',
+      created datetime NOT NULL,
+      modified datetime NOT NULL,
+      CONSTRAINT transactions_pkey PRIMARY KEY (aid)
+    );
+
