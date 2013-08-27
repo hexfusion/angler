@@ -1,2 +1,4 @@
 <specification>
+<container name="receipt" value="order_number" class="rightbar-widget">
+</container>
 </specification>
