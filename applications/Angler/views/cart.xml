@@ -1,2 +1,9 @@
 <specification>
+<list name="cart" class="cartitem" iterator="cart">
+<param name="name"/>
+<param name="price" filter="currency"/>
+<param name="qty" field="quantity"/>
+</list>
+<value name="subtotal" field="cart_subtotal" filter="currency"/>
 </specification>
+
