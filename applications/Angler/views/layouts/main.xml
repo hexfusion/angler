@@ -1,3 +1,7 @@
 <specification>
+<value name="cart_count"/>
 <value name="content" class="content" op="hook"/>
+<list name="navigation" class="nav-top" iterator="navigation">
+<param name="name" class="nav-top-link"/>
+</list>
 </specification>
