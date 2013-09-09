@@ -1,6 +1,6 @@
 <div class="row">
   <div class="span9">
-    <form action="/checkout" method="POST">
+    <form name="cart" action="/checkout" method="POST">
     <h1>Shopping Cart</h1>
     <table class="table table-bordered shopping-cart">
       <thead>
@@ -77,7 +77,7 @@
             <div class="clear"></div>
             <div class="align-left" style="margin-right: 5px;">
               <label>Country</label>
-              <select style="height: auto; padding: 2px; width: 120px; font-size: 11px;">
+              <select name="country" class="country" style="height: auto; padding: 2px; width: 120px; font-size: 11px;">
                 <option>United Kingdom</option>
               </select>
             </div>
