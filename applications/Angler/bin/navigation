@@ -1,0 +1,28 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use FindBin;
+ use lib "$FindBin::Bin/../../../nitesi/lib", 
+	"$FindBin::Bin/../../../nitesi-dancer/lib";
+use Dancer ':script';
+use Dancer::Plugin::Nitesi;
+
+query->delete('navigation');
+query->delete('navigation_products');
+
+my $ret;
+my %navigation_codes;
+
+$ret = shop_navigation->create(name => 'Fly Fishing Gear',
+                        uri => 'Fly-Fishing-Gear',
+                        description => 'Gear for fly fishing');
+$navigation_codes{'flyfishing'} = $ret->code;
+
+$ret = shop_navigation->create(name => 'Rods',
+                        uri => 'Fly-Fishing-Gear/Rods',
+                        description => 'Rods for fly fishing',
+                        parent => $navigation_codes{'flyfishing'});
+
+$ret->assign(shop_product('WBORHELIOS2'));
