@@ -1,4 +1,20 @@
 <specification>
+<form name="checkout" class="account-info">
+<!-- Shipping -->
+<field name="email" id="inputEmail"/>
+<field name="first_name" id="inputFirstName"/>
+<field name="last_name" id="inputLastName"/>
+<field name="company" id="inputCompany"/>
+<field name="country" id="inputCountry" iterator="countries"/>
+<!-- Billing -->
+<field name="billing_email" id="inputBillingEmail"/>
+<field name="billing_first_name" id="inputBillingFirstName"/>
+<field name="billing_last_name" id="inputBillingLastName"/>
+<field name="billing_company" id="inputBillingCompany"/>
+<field name="billing_country" id="inputBillingCountry" iterator="countries"/>
+<!-- Payment -->
+<field name="card_number" id="inputCardNumber"/>
+</form>
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>
 </specification>
