@@ -423,6 +423,73 @@
          "target" : "B::Hooks::EndOfScope",
          "version" : "0.12"
       },
+      "Business::OnlinePayment" : {
+         "dist" : "Business-OnlinePayment-3.02",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "Ivan Kohler <ivan-business-onlinepayment@420.am>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.56, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Business-OnlinePayment",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Net::HTTPS::Any" : 0,
+                     "Tie::IxHash" : 0
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "3.02"
+         },
+         "name" : "Business::OnlinePayment",
+         "pathname" : "I/IV/IVAN/Business-OnlinePayment-3.02.tar.gz",
+         "provides" : {
+            "Business::FraudDetect" : {
+               "file" : "Business/FraudDetect.pm",
+               "version" : "0.01"
+            },
+            "Business::FraudDetect::preCharge" : {
+               "file" : "Business/FraudDetect/preCharge.pm",
+               "version" : "0.02"
+            },
+            "Business::OnlinePayment" : {
+               "file" : "Business/OnlinePayment.pm",
+               "version" : "3.02"
+            },
+            "Business::OnlinePayment::HTTPS" : {
+               "file" : "Business/OnlinePayment/HTTPS.pm",
+               "version" : "0.10"
+            }
+         },
+         "target" : "Business::OnlinePayment",
+         "version" : "3.02"
+      },
       "CLASS" : {
          "dist" : "CLASS-1.00",
          "mymeta" : {
@@ -2057,6 +2124,146 @@
          "target" : "Dancer::Plugin::Database",
          "version" : "2.04"
       },
+      "Dancer::Plugin::Nitesi" : {
+         "dist" : "Dancer-Plugin-Nitesi-0.0094",
+         "mymeta" : {
+            "abstract" : "Dancer Plugin for Nitesi Open Source Shop Machine",
+            "author" : [
+               "Stefan Hornburg (Racke) <racke@linuxia.de>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Dancer-Plugin-Nitesi",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Business::OnlinePayment" : "3.02",
+                     "Dancer" : "1.3098",
+                     "Dancer::Plugin::Database" : 0,
+                     "Nitesi" : "0.009",
+                     "Nitesi::DBI" : "0.0091",
+                     "Test::Database" : 0,
+                     "Test::More" : 0,
+                     "YAML" : 0
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "repository" : {
+                  "url" : "https://github.com/racke/Dancer-Plugin-Nitesi.git"
+               }
+            },
+            "version" : "0.0094"
+         },
+         "name" : "Dancer::Plugin::Nitesi",
+         "pathname" : "H/HO/HORNBURG/Dancer-Plugin-Nitesi-0.0094.tar.gz",
+         "provides" : {
+            "Dancer::Plugin::Nitesi" : {
+               "file" : "Dancer/Plugin/Nitesi.pm",
+               "version" : "0.0094"
+            },
+            "Dancer::Plugin::Nitesi::Business::OnlinePayment" : {
+               "file" : "Dancer/Plugin/Nitesi/Business/OnlinePayment.pm"
+            },
+            "Dancer::Plugin::Nitesi::Cart::DBI" : {
+               "file" : "Dancer/Plugin/Nitesi/Cart/DBI.pm"
+            },
+            "Dancer::Plugin::Nitesi::Cart::Session" : {
+               "file" : "Dancer/Plugin/Nitesi/Cart/Session.pm"
+            },
+            "Dancer::Plugin::Nitesi::Routes" : {
+               "file" : "Dancer/Plugin/Nitesi/Routes.pm"
+            },
+            "Dancer::Plugin::Nitesi::Routes::Cart" : {
+               "file" : "Dancer/Plugin/Nitesi/Routes/Cart.pm"
+            },
+            "Dancer::Plugin::Nitesi::Routes::Checkout" : {
+               "file" : "Dancer/Plugin/Nitesi/Routes/Checkout.pm"
+            }
+         },
+         "target" : "Dancer::Plugin::Nitesi",
+         "version" : "0.0094"
+      },
+      "Dancer::Session::Storable" : {
+         "dist" : "Dancer-Session-Storable-0.06",
+         "mymeta" : {
+            "abstract" : "Storable-file-based session backend for Dancer",
+            "author" : [
+               "David Precious <davidp@preshweb.co.uk>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Dancer-Session-Storable",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "Dancer" : 0,
+                     "Storable" : 0,
+                     "Test::More" : 0
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "0.06"
+         },
+         "name" : "Dancer::Session::Storable",
+         "pathname" : "B/BI/BIGPRESH/Dancer-Session-Storable-0.06.tar.gz",
+         "provides" : {
+            "Dancer::Session::Storable" : {
+               "file" : "Dancer/Session/Storable.pm",
+               "version" : "0.06"
+            }
+         },
+         "target" : "Dancer::Session::Storable",
+         "version" : "0.06"
+      },
       "Dancer::Template::TemplateFlute" : {
          "dist" : "Dancer-Template-TemplateFlute-0.0061",
          "mymeta" : {
@@ -2579,7 +2786,7 @@
                "Dave Rolsky <autarch@urth.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "artistic_2"
             ],
@@ -2680,7 +2887,7 @@
                "Maintained by Dave Rolsky <autarch@urth.org>."
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -2805,7 +3012,7 @@
                "Dave Rolsky <autarch@urth.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -9865,7 +10072,7 @@
                "Jeff Fearn <jfearn@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -11184,70 +11391,6 @@
          "target" : "IO::HTML",
          "version" : "0.04"
       },
-      "IO::Socket::SSL" : {
-         "dist" : "IO-Socket-SSL-1.77",
-         "mymeta" : {
-            "abstract" : "Nearly transparent SSL encapsulation for IO::Socket::INET.",
-            "author" : [
-               "Steffen Ullrich & Peter Behroozi & Marko Asplund"
-            ],
-            "dynamic_config" : 0,
-            "generated_by" : "ExtUtils::MakeMaker version 6.57_05, CPAN::Meta::Converter version 2.112621",
-            "license" : [
-               "perl_5"
-            ],
-            "meta-spec" : {
-               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
-               "version" : "2"
-            },
-            "name" : "IO-Socket-SSL",
-            "no_index" : {
-               "directory" : [
-                  "t",
-                  "inc"
-               ]
-            },
-            "prereqs" : {
-               "build" : {
-                  "requires" : {
-                     "ExtUtils::MakeMaker" : 0
-                  }
-               },
-               "configure" : {
-                  "requires" : {
-                     "ExtUtils::MakeMaker" : 0
-                  }
-               },
-               "runtime" : {
-                  "requires" : {
-                     "Net::SSLeay" : "1.21",
-                     "Scalar::Util" : 0
-                  }
-               }
-            },
-            "release_status" : "stable",
-            "version" : "1.77"
-         },
-         "name" : "IO::Socket::SSL",
-         "pathname" : "S/SU/SULLR/IO-Socket-SSL-1.77.tar.gz",
-         "provides" : {
-            "IO::Socket::SSL" : {
-               "file" : "IO/Socket/SSL.pm",
-               "version" : "1.77"
-            },
-            "IO::Socket::SSL::SSL_Context" : {
-               "file" : "IO/Socket/SSL.pm"
-            },
-            "IO::Socket::SSL::SSL_HANDLE" : {
-               "file" : "IO/Socket/SSL.pm"
-            },
-            "IO::Socket::SSL::Session_Cache" : {
-               "file" : "IO/Socket/SSL.pm"
-            }
-         },
-         "target" : "IO::Socket::SSL",
-         "version" : "1.77"
-      },
       "IPC::Run3" : {
          "dist" : "IPC-Run3-0.045",
          "mymeta" : {
@@ -12465,7 +12608,7 @@
                "Andrew Main (Zefram) <zefram@fysh.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -12787,15 +12930,15 @@
          "target" : "Net::HTTP",
          "version" : "6.03"
       },
-      "Net::SSLeay" : {
-         "dist" : "Net-SSLeay-1.49",
+      "Net::HTTPS::Any" : {
+         "dist" : "Net-HTTPS-Any-0.10",
          "mymeta" : {
-            "abstract" : "Perl extension for using OpenSSL",
+            "abstract" : "Simple HTTPS class using whichever underlying SSL module is available",
             "author" : [
-               "Maintained by Mike McCauley and Florian Ragwitz since November 2005"
+               "Ivan Kohler <ivan-net-https-any@freeside.biz>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "ExtUtils::MakeMaker version 6.55_02, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "unknown"
             ],
@@ -12803,60 +12946,45 @@
                "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
                "version" : "2"
             },
-            "name" : "Net-SSLeay",
+            "name" : "Net-HTTPS-Any",
             "no_index" : {
                "directory" : [
-                  "examples",
-                  "ext",
-                  "helper_script",
-                  "inc",
-                  "t"
+                  "t",
+                  "inc"
                ]
             },
             "prereqs" : {
                "build" : {
                   "requires" : {
-                     "ExtUtils::MakeMaker" : "6.36"
+                     "ExtUtils::MakeMaker" : 0
                   }
                },
                "configure" : {
                   "requires" : {
-                     "ExtUtils::MakeMaker" : "6.36"
+                     "ExtUtils::MakeMaker" : 0
                   }
                },
                "runtime" : {
                   "requires" : {
-                     "MIME::Base64" : 0,
-                     "Test::More" : "0.60_01",
-                     "perl" : "5.005"
+                     "Test::More" : 0,
+                     "Tie::IxHash" : 0,
+                     "URI::Escape" : 0
                   }
                }
             },
             "release_status" : "stable",
-            "resources" : {
-               "bugtracker" : {
-                  "web" : "https://rt.cpan.org/Public/Dist/Display.html?Name=net-ssleay"
-               },
-               "repository" : {
-                  "url" : "http://svn.debian.org/wsvn/net-ssleay"
-               }
-            },
-            "version" : "1.49"
+            "version" : "0.10"
          },
-         "name" : "Net::SSLeay",
-         "pathname" : "M/MI/MIKEM/Net-SSLeay-1.49.tar.gz",
+         "name" : "Net::HTTPS::Any",
+         "pathname" : "I/IV/IVAN/Net-HTTPS-Any-0.10.tar.gz",
          "provides" : {
-            "Net::SSLeay" : {
-               "file" : "Net/SSLeay.pm",
-               "version" : "1.49"
-            },
-            "Net::SSLeay::Handle" : {
-               "file" : "Net/SSLeay/Handle.pm",
-               "version" : "0.61"
+            "Net::HTTPS::Any" : {
+               "file" : "Net/HTTPS/Any.pm",
+               "version" : "0.10"
             }
          },
-         "target" : "Net::SSLeay",
-         "version" : "1.49"
+         "target" : "Net::HTTPS::Any",
+         "version" : "0.10"
       },
       "Net::Server" : {
          "dist" : "Net-Server-2.007",
@@ -13092,14 +13220,14 @@
          "version" : "0.0070"
       },
       "Nitesi::DBI" : {
-         "dist" : "Nitesi-DBI-0.0060",
+         "dist" : "Nitesi-DBI-0.0091",
          "mymeta" : {
             "abstract" : "DBI bundle for Nitesi shop machine",
             "author" : [
                "Stefan Hornburg (Racke) <racke@linuxia.de>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -13129,17 +13257,22 @@
                },
                "runtime" : {
                   "requires" : {
-                     "Nitesi" : "0.006",
+                     "Nitesi" : "0.009",
                      "SQL::Abstract" : 0,
                      "SQL::Abstract::More" : 0
                   }
                }
             },
             "release_status" : "stable",
-            "version" : "0.0060"
+            "resources" : {
+               "repository" : {
+                  "url" : "https://github.com/racke/Nitesi-DBI"
+               }
+            },
+            "version" : "0.0091"
          },
          "name" : "Nitesi::DBI",
-         "pathname" : "H/HO/HORNBURG/Nitesi-DBI-0.0060.tar.gz",
+         "pathname" : "H/HO/HORNBURG/Nitesi-DBI-0.0091.tar.gz",
          "provides" : {
             "Dancer::Plugin::Nitesi::Backend::DBI" : {
                "file" : "Dancer/Plugin/Nitesi/Backend/DBI.pm"
@@ -13152,14 +13285,14 @@
             },
             "Nitesi::DBI" : {
                "file" : "Nitesi/DBI.pm",
-               "version" : "0.0060"
+               "version" : "0.0091"
             },
             "Nitesi::Query::DBI" : {
                "file" : "Nitesi/Query/DBI.pm"
             }
          },
          "target" : "Nitesi::DBI",
-         "version" : "0.0060"
+         "version" : "0.0091"
       },
       "Number::Format" : {
          "dist" : "Number-Format-1.73",
@@ -14002,7 +14135,7 @@
                "Dave Rolsky, <autarch@urth.org> and Ilya Martynov <ilya@martynov.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "artistic_2"
             ],
@@ -14096,7 +14229,7 @@
                "Jeremy T. Braun <JTBRAUN@CPAN.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "unknown"
             ],
@@ -14356,7 +14489,6 @@
                      "Compress::Zlib" : 0,
                      "HTTP::Daemon" : 0,
                      "IO::File" : 0,
-                     "IO::Socket::SSL" : 0,
                      "LWP::UserAgent" : 0,
                      "MIME::Base64" : 0,
                      "Scalar::Util" : 0,
@@ -15086,7 +15218,7 @@
                "Todd Rinaldo <toddr@cpan.org> (Maintenance)"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -16061,7 +16193,7 @@
                "Philippe Bruhat (BooK) <book@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -16386,7 +16518,7 @@
                "Adrian Howard <adrianh@quietstars.com>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "perl_5"
             ],
@@ -17420,6 +17552,64 @@
          "target" : "Test::Warn",
          "version" : "0.24"
       },
+      "Tie::IxHash" : {
+         "dist" : "Tie-IxHash-1.23",
+         "mymeta" : {
+            "abstract" : "ordered associative arrays for Perl",
+            "author" : [
+               "Gurusamy Sarathy        gsar@umich.edu"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Tie-IxHash",
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "Test::More" : 0
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "perl" : "5.005"
+                  }
+               }
+            },
+            "provides" : {
+               "Tie::IxHash" : {
+                  "file" : "lib/Tie/IxHash.pm",
+                  "version" : "1.23"
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "license" : [
+                  "http://dev.perl.org/licenses/"
+               ],
+               "repository" : {
+                  "type" : "git",
+                  "url" : "git://github.com/chorny/Tie-IxHash.git"
+               }
+            },
+            "version" : "1.23"
+         },
+         "name" : "Tie::IxHash",
+         "pathname" : "C/CH/CHORNY/Tie-IxHash-1.23.tar.gz",
+         "provides" : {
+            "Tie::IxHash" : {
+               "file" : "Tie/IxHash.pm",
+               "version" : "1.23"
+            }
+         },
+         "target" : "Tie::IxHash",
+         "version" : "1.23"
+      },
       "Tree::DAG_Node" : {
          "dist" : "Tree-DAG_Node-1.11",
          "mymeta" : {
@@ -17428,7 +17618,7 @@
                "Sean M. Burke <sburke@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "license" : [
                "artistic_2"
             ],
@@ -18097,7 +18287,7 @@
                "Shlomi Fish <shlomif@cpan.org>"
             ],
             "dynamic_config" : 0,
-            "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.112621",
+            "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
             "keywords" : [
                "feed",
                "feeds",
