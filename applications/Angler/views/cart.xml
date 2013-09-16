@@ -4,10 +4,7 @@
 <param name="price" filter="currency"/>
 <param name="qty" field="quantity"/>
 </list>
-<value name="subtotal" field="cart_subtotal" filter="currency"/>
-<form name="cart" link="name">
-<field name="country" iterator="countries"/>
-</form>
+<value name="cart-subtotal" field="cart_subtotal" filter=""/>
 <value name="country" iterator="countries"/>
 </specification>
 
