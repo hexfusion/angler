@@ -19,6 +19,7 @@ hook 'before_product_display' => sub {
     my ($product) = @_;
     
     debug "Before product display: ", $product->sku;
+    $product->{name} = $product->{description};
 };
 
 hook 'before_cart_display' => sub {
