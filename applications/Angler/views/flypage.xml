@@ -2,4 +2,5 @@
 <value name="name"/>
 <value name="sku" id="sku"/>
 <value name="short_description"/>
+<value name="category_name" id="category-name"/>
 </specification>
