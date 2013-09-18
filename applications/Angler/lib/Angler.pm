@@ -11,6 +11,12 @@ hook 'before_layout_render' => sub {
     # display cart count
     $tokens->{cart_count} = cart->count;
 
+    # menus
+    $tokens->{menu_top} = query->select(table => 'navigation',
+                                        where => {type => 'menu',
+                                                  scope => 'top',
+                                                 });
+
     # navigation elements
     $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
