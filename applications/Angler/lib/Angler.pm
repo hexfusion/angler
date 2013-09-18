@@ -33,6 +33,13 @@ hook 'before_product_display' => sub {
 
     if (@$categories) {
         $product->{category_name} = $categories->[0]->{name};
+
+        # get other products for this category
+        my $category_products = query->select(join => [qw/navigation_products sku=sku products/],
+                                   fields => [qw/products.sku products.description products.price/],
+                                   where => {navigation => $categories->[0]->{code}});
+
+        $product->{category_products} = $category_products;
     }
 };
 
