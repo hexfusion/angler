@@ -1,7 +1,15 @@
 <specification>
 <value name="cart_count"/>
 <value name="content" class="content" op="hook"/>
+<!-- Top Menu -->
+<list name="menu_top" class="nav-top-menu" iterator="menu_top">
+<param name="label" class="nav-top-menu-link" field="name"/>
+<param name="uri" class="nav-top-menu-link" target="href" op="append"/>
+</list>
+<!-- Navigation Dropdown -->
+<!--
 <list name="navigation" class="nav-top" iterator="navigation">
 <param name="name" class="nav-top-link"/>
 </list>
+-->
 </specification>
