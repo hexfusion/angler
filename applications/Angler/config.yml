@@ -31,6 +31,9 @@ session: Storable
 #     start_tag: '[%'
 #     end_tag:   '%]'
 
+# log to a file by default
+logger: file
+
 # use better log format than default
 logger_format: "%t [%P] %L @%D> %m in %f l. %l"
 
