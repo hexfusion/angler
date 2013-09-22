@@ -45,6 +45,7 @@ plugins:
       attributes: 
         name: description
         short_description: comment_short
+        description: comment
      Cart:
         Backend: DBI
      Query:
