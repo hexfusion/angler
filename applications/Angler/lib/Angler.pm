@@ -25,7 +25,6 @@ hook 'before_product_display' => sub {
     my ($product) = @_;
     
     debug "Before product display: ", $product->sku;
-    $product->{name} = $product->{description};
 
     # determine category for product
     my $categories = query->select(join => [qw/navigation code=navigation navigation_products/],
