@@ -2,12 +2,36 @@
 <value name="cart_count"/>
 <value name="content" class="content" op="hook"/>
 <!-- Top Menu -->
+<!-- Left -->
 <list name="menu_top" class="nav-top-menu" iterator="menu_top">
 <param name="label" class="nav-top-menu-link" field="name"/>
 <param name="uri" class="nav-top-menu-link" target="href" op="append"/>
 </list>
+<!-- Our Sites -->
+<list name="menu_top_users" class="nav-top-user" iterator="menu_top_user">
+<param name="label" class="nav-top-user-link" field="name"/>
+<param name="uri" class="nav-top-user-link" target="href" op="append"/>
+<param name="src" class="nav-top-user-link" target="src"/>
+
+</list>
+
+<!-- Gear Navigation Left -->
+<list name="nav_gear_left" class="nav-gear-left" iterator="nav_gear_left">
+<param name="label" class="nav-gear-left-link" field="name"/>
+<param name="uri" class="nav-gear-left-link" target="href" op="append"/>
+
+
+</list>
+<!-- Gear Navigation Right -->
+<list name="nav_gear_right" class="nav-gear-right" iterator="nav_gear_right">
+<param name="label" class="nav-gear-right-link" field="name"/>
+<param name="uri" class="nav-gear-right-link" target="href" op="append"/>
+
+
+</list>
+
 <!-- Navigation Dropdown -->
-<!--
+<!--ew
 <list name="navigation" class="nav-top" iterator="navigation">
 <param name="name" class="nav-top-link"/>
 </list>

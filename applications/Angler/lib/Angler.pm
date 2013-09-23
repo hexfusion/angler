@@ -7,15 +7,36 @@ our $VERSION = '0.1';
 
 hook 'before_layout_render' => sub {
     my $tokens = shift;
+	 my ($new_results,$encoded) = shift;
 
     # display cart count
     $tokens->{cart_count} = cart->count;
 
     # menus
+	
+	#top-menu
     $tokens->{menu_top} = query->select(table => 'navigation',
                                         where => {type => 'menu',
-                                                  scope => 'top',
-                                                 });
+                                                  scope => 'nav-top',
+												   });
+  
+    #top-menu-user
+    $tokens->{menu_top_user} = query->select(table => 'navigation',
+                                        where => {type => 'menu',
+                                                  scope => 'nav-user',
+												   });
+												   
+    #drop_cat
+    $tokens->{nav_gear_left} = query->select(table => 'navigation',
+                                        where => {type => 'menu',
+                                                  scope => 'cat-gear',
+												   });
+	#drop_cat
+    $tokens->{nav_gear_right} = query->select(table => 'navigation',
+                                        where => {type => 'menu',
+                                                  scope => 'cat-gear-r',
+												   });											   
+												   
 
     # navigation elements
     $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
