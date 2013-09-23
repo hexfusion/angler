@@ -30,6 +30,22 @@
 
 </list>
 
+<!-- Gear Navigation Left -->
+<list name="nav_clothing_left" class="nav-clothing-left" iterator="nav_clothing_left">
+<param name="label" class="nav-clothing-left-link" field="name"/>
+<param name="uri" class="nav-clothing-left-link" target="href" op="append"/>
+
+
+</list>
+<!-- Gear Navigation Right -->
+<list name="nav_clothing_right" class="nav-clothing-right" iterator="nav_clothing_right">
+<param name="label" class="nav-clothing-right-link" field="name"/>
+<param name="uri" class="nav-clothing-right-link" target="href" op="append"/>
+
+
+</list>
+
+
 <!-- Navigation Dropdown -->
 <!--ew
 <list name="navigation" class="nav-top" iterator="navigation">

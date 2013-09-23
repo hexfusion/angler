@@ -7,7 +7,6 @@ our $VERSION = '0.1';
 
 hook 'before_layout_render' => sub {
     my $tokens = shift;
-	 my ($new_results,$encoded) = shift;
 
     # display cart count
     $tokens->{cart_count} = cart->count;
@@ -26,17 +25,34 @@ hook 'before_layout_render' => sub {
                                                   scope => 'nav-user',
 												   });
 												   
-    #drop_cat
+    #drop_cat gear left
     $tokens->{nav_gear_left} = query->select(table => 'navigation',
                                         where => {type => 'menu',
                                                   scope => 'cat-gear',
-												   });
-	#drop_cat
+												   },
+												   order => 'priority'
+												   );
+	#drop_cat gear left
     $tokens->{nav_gear_right} = query->select(table => 'navigation',
                                         where => {type => 'menu',
                                                   scope => 'cat-gear-r',
-												   });											   
-												   
+												    },
+												   order => 'priority'
+												   );											   
+	#drop_cat gear left
+    $tokens->{nav_clothing_left} = query->select(table => 'navigation',
+                                        where => {type => 'menu',
+                                                  scope => 'cat-clothing',
+												   },
+												   order => 'priority'
+												   );
+	#drop_cat gear left
+    $tokens->{nav_clothing_right} = query->select(table => 'navigation',
+                                        where => {type => 'menu',
+                                                  scope => 'cat-clothing-r',
+												    },
+												   order => 'priority'
+												   );													   
 
     # navigation elements
     $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
