@@ -27,7 +27,7 @@
 -- carts and cart_products
 
    CREATE TABLE carts (
-      code integer NOT NULL,
+      code serial NOT NULL,
       name character varying(255) DEFAULT '' NOT NULL,
       uid integer DEFAULT 0 NOT NULL,
       session_id character varying(255) DEFAULT '' NOT NULL,
