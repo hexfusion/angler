@@ -1,4 +1,5 @@
 <specification>
+<value name="name" class="category-name"/>
 <list name="results" class="product-box" iterator="products">
 <param name="sku"/>
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
