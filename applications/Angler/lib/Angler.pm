@@ -7,53 +7,24 @@ our $VERSION = '0.1';
 
 hook 'before_layout_render' => sub {
     my $tokens = shift;
-
+   
     # display cart count
     $tokens->{cart_count} = cart->count;
-
-    # menus
 	
-	#top-menu
-    $tokens->{menu_top} = query->select(table => 'navigation',
-                                        where => {type => 'menu',
-                                                  scope => 'nav-top',
-												   });
-  
-    #top-menu-user
-    $tokens->{menu_top_user} = query->select(table => 'navigation',
-                                        where => {type => 'menu',
-                                                  scope => 'nav-user',
-												   });
-												   
-    #drop_cat gear left
-    $tokens->{nav_gear_left} = query->select(table => 'navigation',
-                                        where => {type => 'menu',
-                                                  scope => 'cat-gear',
-												   },
-												   order => 'priority'
+    #create menu/nav iderators
+	my $menu = query->select(table => 'navigation',
+                                   where => {type => 'menu',
+											 },
+										order => 'priority'
 												   );
-	#drop_cat gear left
-    $tokens->{nav_gear_right} = query->select(table => 'navigation',
-                                        where => {type => 'menu',
-                                                  scope => 'cat-gear-r',
-												    },
-												   order => 'priority'
-												   );											   
-	#drop_cat gear left
-    $tokens->{nav_clothing_left} = query->select(table => 'navigation',
-                                        where => {type => 'menu',
-                                                  scope => 'cat-clothing',
-												   },
-												   order => 'priority'
-												   );
-	#drop_cat gear left
-    $tokens->{nav_clothing_right} = query->select(table => 'navigation',
-                                        where => {type => 'menu',
-                                                  scope => 'cat-clothing-r',
-												    },
-												   order => 'priority'
-												   );													   
-
+		 											   
+	 #create menu/nav for main.xml iterators
+	 											   
+		 for my $record (@$menu) {	
+		push @{$tokens->{"menu_$record->{scope}"}}, $record;
+		};
+								   
+	
     # navigation elements
     $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };

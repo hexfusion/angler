@@ -3,12 +3,12 @@
 <value name="content" class="content" op="hook"/>
 <!-- Top Menu -->
 <!-- Left -->
-<list name="menu_top" class="nav-top-menu" iterator="menu_top">
+<list name="menu_top" class="nav-top-menu" iterator="menu_nav-top">
 <param name="label" class="nav-top-menu-link" field="name"/>
 <param name="uri" class="nav-top-menu-link" target="href" op="append"/>
 </list>
 <!-- Our Sites -->
-<list name="menu_top_users" class="nav-top-user" iterator="menu_top_user">
+<list name="menu_top_users" class="nav-top-user" iterator="menu_nav-user">
 <param name="label" class="nav-top-user-link" field="name"/>
 <param name="uri" class="nav-top-user-link" target="href" op="append"/>
 <param name="src" class="nav-top-user-link" target="src"/>
@@ -16,14 +16,14 @@
 </list>
 
 <!-- Gear Navigation Left -->
-<list name="nav_gear_left" class="nav-gear-left" iterator="nav_gear_left">
+<list name="nav_gear_left" class="nav-gear-left" iterator="menu_cat-gear">
 <param name="label" class="nav-gear-left-link" field="name"/>
 <param name="uri" class="nav-gear-left-link" target="href" op="append"/>
 
 
 </list>
 <!-- Gear Navigation Right -->
-<list name="nav_gear_right" class="nav-gear-right" iterator="nav_gear_right">
+<list name="nav_gear_right" class="nav-gear-right" iterator="menu_cat-gear-r">
 <param name="label" class="nav-gear-right-link" field="name"/>
 <param name="uri" class="nav-gear-right-link" target="href" op="append"/>
 
@@ -31,14 +31,14 @@
 </list>
 
 <!-- Gear Navigation Left -->
-<list name="nav_clothing_left" class="nav-clothing-left" iterator="nav_clothing_left">
+<list name="nav_clothing_left" class="nav-clothing-left" iterator="menu_cat-clothing">
 <param name="label" class="nav-clothing-left-link" field="name"/>
 <param name="uri" class="nav-clothing-left-link" target="href" op="append"/>
 
 
 </list>
 <!-- Gear Navigation Right -->
-<list name="nav_clothing_right" class="nav-clothing-right" iterator="nav_clothing_right">
+<list name="nav_clothing_right" class="nav-clothing-right" iterator="menu_cat-clothing-r">
 <param name="label" class="nav-clothing-right-link" field="name"/>
 <param name="uri" class="nav-clothing-right-link" target="href" op="append"/>
 
