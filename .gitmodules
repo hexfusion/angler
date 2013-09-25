@@ -1,12 +1,3 @@
-[submodule "nitesi"]
-	path = nitesi
-	url = git://github.com/racke/Nitesi.git
-[submodule "nitesi-dbi"]
-	path = nitesi-dbi
-	url = git://github.com/racke/Nitesi-DBI.git
-[submodule "nitesi-dancer"]
-	path = nitesi-dancer
-	url = git://github.com/racke/Dancer-Plugin-Nitesi.git
 [submodule "src/Plack"]
 	path = src/Plack
 	url = git://github.com/plack/Plack
