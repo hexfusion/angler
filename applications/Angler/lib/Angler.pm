@@ -7,24 +7,21 @@ our $VERSION = '0.1';
 
 hook 'before_layout_render' => sub {
     my $tokens = shift;
-   
+
     # display cart count
     $tokens->{cart_count} = cart->count;
-	
-    #create menu/nav iderators
+
+    # create menu iterators
 	my $menu = query->select(table => 'navigation',
-                                   where => {type => 'menu',
-											 },
-										order => 'priority'
-												   );
-		 											   
-	 #create menu/nav for main.xml iterators
-	 											   
-		 for my $record (@$menu) {	
+                             where => {type => 'menu',
+                                      },
+                             order => 'priority'
+                            );
+
+    for my $record (@$menu) {
 		push @{$tokens->{"menu_$record->{scope}"}}, $record;
-		};
-								   
-	
+    };
+
     # navigation elements
     $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
