@@ -31,6 +31,24 @@ hook 'before_product_display' => sub {
     
     debug "Before product display: ", $product->sku;
 
+    # determine variants for product
+    my $variants = query->select(table => 'product_attributes',
+                                 where => {original_sku => $product->sku},
+                                 );
+
+    my %variant_types;
+
+    for (@$variants) {
+        $variant_types{$_->{name}}->{$_->{value}} = 1;
+    }
+
+    # create iterators
+    while (my ($name, $ref) = each %variant_types) {
+        for my $value (keys %$ref){
+            push (@{$product->{"attribute_$name"}}, {value => $value});
+        }
+    }
+
     # determine category for product
     my $categories = query->select(join => [qw/navigation code=navigation navigation_products/],
                                    where => {sku => $product->sku});
