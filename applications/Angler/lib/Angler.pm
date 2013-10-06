@@ -31,6 +31,9 @@ hook 'before_product_display' => sub {
     
     debug "Before product display: ", $product->sku;
 
+    # add image
+    $product->{image_src} = 'http://www.westbranchangler.com/site/images/items/325x325/' . $product->image;
+
     # determine variants for product
     my $variants = query->select(table => 'product_attributes',
                                  where => {original_sku => $product->sku},
