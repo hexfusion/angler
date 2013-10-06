@@ -450,10 +450,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006
-  Dancer-Plugin-Nitesi-0.0097
-    pathname: H/HO/HORNBURG/Dancer-Plugin-Nitesi-0.0097.tar.gz
+  Dancer-Plugin-Nitesi-0.0098
+    pathname: H/HO/HORNBURG/Dancer-Plugin-Nitesi-0.0098.tar.gz
     provides:
-      Dancer::Plugin::Nitesi 0.0097
+      Dancer::Plugin::Nitesi 0.0098
       Dancer::Plugin::Nitesi::Business::OnlinePayment undef
       Dancer::Plugin::Nitesi::Cart::DBI undef
       Dancer::Plugin::Nitesi::Cart::Session undef
@@ -465,8 +465,8 @@ DISTRIBUTIONS
       Dancer 1.3098
       Dancer::Plugin::Database 0
       ExtUtils::MakeMaker 0
-      Nitesi 0.009
-      Nitesi::DBI 0.0091
+      Nitesi 0.0092
+      Nitesi::DBI 0.0092
       Test::Database 0
       Test::More 0
       YAML 0
