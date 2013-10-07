@@ -20,6 +20,7 @@ requires 'DBI';
 requires 'Dancer';
 requires 'Dancer::Plugin::Database';
 requires 'Dancer::Plugin::Nitesi';
+requires 'Dancer::Plugin::Dropbox';
 requires 'Dancer::Session::Storable';
 requires 'Dancer::Template::TemplateFlute';
 requires 'Data::Dump';
