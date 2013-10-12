@@ -30,4 +30,5 @@ mysql/
 nohup.out
 etc/
 var/
+src/*
 tmp/
