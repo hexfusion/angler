@@ -16,3 +16,6 @@
 [submodule "src/Libfcgi"]
         path = src/Libfcgi
         url = git://github.com/toshic/libfcgi.git
+[submodule "src/Openssl"]
+	path = src/Openssl
+	url = git://git.openssl.org/openssl.git
