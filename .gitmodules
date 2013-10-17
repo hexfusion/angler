@@ -13,6 +13,4 @@
 [submodule "src/Fcgiwrap"]
         path = src/Fcgiwrap
         url = git://github.com/gnosek/fcgiwrap.git
-[submodule "src/Libfcgi"]
-        path = src/Libfcgi
-        url = git://github.com/toshic/libfcgi.git
+
