@@ -1,6 +1,6 @@
 # Vend::Server - Listen for Interchange CGI requests as a background server
 #
-# Copyright (C) 2002-2009 Interchange Development Group
+# Copyright (C) 2002-2013 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -24,7 +24,7 @@
 package Vend::Server;
 
 use vars qw($VERSION);
-$VERSION = '2.106';
+$VERSION = '2.107';
 
 use Cwd;
 use POSIX qw(setsid strftime);
@@ -127,25 +127,37 @@ sub populate {
 
 	# try to get originating host's IP address if request was
 	# forwarded through a trusted proxy
-	my $ip;
-	if ($Global::TrustProxy
-		and ($CGI::remote_addr =~ $Global::TrustProxy
-			or $CGI::remote_host =~ $Global::TrustProxy)
-		and $ip = $cgivar->{HTTP_X_FORWARDED_FOR}) {
-		# trim off intermediate proxies in comma-separated list
-		$ip =~ s/,.*//;
-		$ip =~ s/^\s+//; $ip =~ s/\s+$//;
-		if ($ip =~ /^\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?$/) {
+	if (
+		$Global::TrustProxy
+		and (
+			$CGI::remote_addr =~ $Global::TrustProxy
+			or $CGI::remote_host =~ $Global::TrustProxy
+		)
+		and my $forwarded_for = $cgivar->{HTTP_X_FORWARDED_FOR}
+	) {
+		# multiple source IP addresses may appear in X-Forwarded-For header
+		# in a comma-separated list
+		for my $ip (reverse grep /\S/, split /\s*,\s*/, $forwarded_for) {
+			# do we have a valid-looking IP address?
+			if ($ip !~ /^\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?$/) {
+				# if not, log error and ignore X-Forwarded-For header
+				::logGlobal(
+					{ level => 'info' },
+					"Unknown X-Forwarded-For header set from trusted proxy %s: %s",
+					$CGI::remote_addr,
+					$forwarded_for,
+				);
+				last;
+			}
+
+			# skip any other upstream trusted proxies
+			next if $ip =~ $Global::TrustProxy;
+
+			# rightmost IP address that's not a trusted proxy is the customer IP
+			# address as far as we're concerned, so keep that and exit loop
 			$CGI::remote_addr = $ip;
 			undef $CGI::remote_host;
-		}
-		else {
-			::logGlobal(
-				{ level => 'info' },
-				"Unknown HTTP_X_FORWARDED_FOR header set from trusted proxy %s: '%s'",
-				$CGI::remote_addr,
-				$cgivar->{HTTP_X_FORWARDED_FOR},
-			);
+			last;
 		}
 	}
 }
@@ -284,7 +296,7 @@ sub store_cgi_kv {
 
 	$key = lc ($key) if
 		$Global::DowncaseVarname
-		&& $Global::DowncaseVarname =~ /\b$key\b/i;
+		&& $Global::DowncaseVarname =~ /\b\Q$key\E\b/i;
 
 	$key = $::IV->{$key} if defined $::IV->{$key};
 	if(defined $CGI::values{$key} and ! defined $::SV{$key}) {
@@ -302,6 +314,7 @@ sub parse_cgi {
 
 	my $request_method = "\U$CGI::request_method";
 	if ($request_method eq 'POST') {
+        $::Instance->{Volatile} = 1;
 #::logDebug("content type header: " . $CGI::content_type);
 		## check for valid content type
 		if ($CGI::content_type =~ m{^(?:multipart/form-data|application/x-www-form-urlencoded|application/xml|application/json)\b}i) {
@@ -396,7 +409,7 @@ sub parse_post {
 #::logDebug("incoming --> $key");
 		$key = lc ($key) if
 			$Global::DowncaseVarname
-			&& $Global::DowncaseVarname =~ /\b$key\b/i;
+			&& $Global::DowncaseVarname =~ /\b\Q$key\E\b/i;
 
 		$key = $::IV->{$key} if defined $::IV->{$key};
 
@@ -466,12 +479,12 @@ sub parse_multipart {
 			}
 
 #::logDebug("Content-Disposition: " .  $header{'Content-Disposition'});
-			my($param)= $header{'Content-Disposition'}=~/ name="?([^\";]*)"?/;
+			my($param)= $header{'Content-Disposition'}=~/ name="?([^\";]+)"?/;
 
 			# Bug:  Netscape doesn't escape quotation marks in file names!!!
 			my($filename) = $header{'Content-Disposition'}=~/ filename="?([^\";]*)"?/;
 #::logDebug("param='$param' filename='$filename'" );
-			if(! $param) {
+			if(not defined $param) {
 				::logGlobal({ level => 'debug' }, "unsupported multipart header: \n%s\n", $header);
 				next;
 			}
@@ -482,7 +495,7 @@ sub parse_multipart {
 			$content_type ||= 'text/plain';
 			$charset ||= default_charset();
 			
-			if ($content_type =~ m{^text/}i && $::Variable->{MV_UTF8}) {
+			if ($content_type =~ m{^text/}i && ($::Variable->{MV_UTF8} || $Global::Variable->{MV_UTF8})) {
 				Vend::CharSet::to_internal($charset, \$data);
 				# use our character set instead of the client's one
 				# to store the file
@@ -510,7 +523,20 @@ sub parse_multipart {
 sub create_cookie {
 	my($domain,$path) = @_;
 	my  $out;
-	return '' if $Vend::tmp_session;
+
+	if ($Vend::suppress_cookies) {
+#::logDebug('explicitly clearing the cookie jar (nom nom nom)');
+		undef $::Instance->{Cookies};
+	}
+
+	return '' if $Vend::tmp_session || $Vend::suppress_cookies;
+
+	if (my $sub = $Vend::Cfg->{Sub}{$Vend::Cfg->{OutputCookieHook}}
+				  || $Global::GlobalSub->{$Vend::Cfg->{OutputCookieHook}}
+	) {
+		$sub->();
+	}
+
 	my @jar;
 	push @jar, [
 				($::Instance->{CookieName} || 'MV_SESSION_ID'),
@@ -549,6 +575,7 @@ sub create_cookie {
 			$out .= $expstring;
 		}
 		$out .= '; secure' if $secure;
+		$out .= '; HttpOnly' if $::Pragma->{set_httponly};
 		$out .= "\r\n";
 	}
 	return $out;
@@ -561,6 +588,25 @@ sub canon_status {
 	s:\s+$::;
 	s:\s*\n\s*:\r\n:g;
 	return "$_\r\n";
+}
+
+sub get_cache_headers {
+	my @headers;
+
+	my $cc = $::Pragma->{cache_control};
+	push @headers, "Cache-Control: $cc" if $cc;
+
+	push @headers, "Pragma: no-cache" if delete $::Scratch->{mv_no_cache};
+
+	return @headers;
+}
+
+sub add_cache_headers {
+	return unless my @headers = get_cache_headers();
+
+	$Vend::StatusLine .= "\r\n" unless $Vend::StatusLine =~ /\n\z/;
+	$Vend::StatusLine .= "$_\r\n" for @headers;
+	return 1;
 }
 
 sub respond {
@@ -624,8 +670,9 @@ sub respond {
 		$Vend::StatusLine .= "X-Track: " . $Vend::Track->header() . "\r\n"
 			if $Vend::Track and $Vend::Cfg->{UserTrack};
 # END TRACK
-		$Vend::StatusLine .= "Pragma: no-cache\r\n"
-			if delete $::Scratch->{mv_no_cache};
+
+		add_cache_headers();
+
 		print MESSAGE canon_status($Vend::StatusLine);
 		print MESSAGE "\r\n";
 		print MESSAGE $$body;
@@ -673,9 +720,10 @@ sub respond {
 		select $save;
 		$Vend::StatusLine .= "\r\nX-Track: " . $Vend::Track->header() . "\r\n"
 			if $Vend::Track and $Vend::Cfg->{UserTrack};
-# END TRACK                            
-		$Vend::StatusLine .= "Pragma: no-cache\r\n"
-			if delete $::Scratch->{mv_no_cache};
+# END TRACK
+
+		add_cache_headers();
+
 		$status = '200 OK' if ! $status;
 		if(defined $Vend::StatusLine) {
 			$Vend::StatusLine = "HTTP/1.0 $status\r\n$Vend::StatusLine"
@@ -687,13 +735,43 @@ sub respond {
 		else { print $fh "HTTP/1.0 $status\r\n"; }
 	}
 
+	# Here we decide if we are going to suppress cookie output for the
+	# page; note that this is more-or-less equivalent to saying that
+	# this content is cacheable, and thus we expect (and enforce) that
+	# the effect of hitting this page both with and without a session
+	# (i.e., cache miss or cache hit).  We enforce this by ensuring
+	# that a cacheable page does not set cookies (even if it tries),
+	# and by additionally preventing a session write.
+
+	# The rationale here is that since a user with a session who
+	# fetches from the cache would not have their session altered at
+	# all, we should ensure that the same (lack of) effect will befall
+	# the user who happens to hit the page itself.
+
+	# We ensure that POSTs are never suppressed (i.e., cacheable), and
+	# we also allow this option to be configured per catalog, as not
+	# every catalog may be be setup to properly handle these
+	# assumptions and affects.
+
+	$Vend::suppress_cookies =
+		$CGI::request_method !~ /POST/i &&
+		$Vend::Cfg->{SuppressCachedCookies} &&
+		(
+			(defined $::Pragma->{cache_control} && ($::Pragma->{cache_control} !~ /no-cache/i)) ||
+			($Vend::StatusLine =~ /^Cache-Control:\s+(?!no-cache)\s*$/im)
+		)
+	;
+
 	if ( ! $Vend::tmp_session
 		and (
 			! $Vend::CookieID && ! $::Instance->{CookiesSet}
 			or defined $Vend::Expire
 			or defined $::Instance->{Cookies}
+			or $Vend::Cfg->{OutputCookieHook}
 		  )
 			and $Vend::Cfg->{Cookies}
+			and !$Vend::suppress_cookies
+			and $status !~ /^4\d\d/
 		)
 	{
 		my @domains;
@@ -743,8 +821,8 @@ sub respond {
 			if $Vend::Track and $Vend::Cfg->{UserTrack};
 # END TRACK
 	}
-	print $fh canon_status("Pragma: no-cache")
-		if delete $::Scratch->{mv_no_cache};
+
+	print $fh canon_status($_) for get_cache_headers();
 
 	print $fh "\r\n";
 	print $fh $$body;
@@ -761,9 +839,11 @@ sub _read {
     vec($rin,fileno($fh),1) = 1;
 
     do {
-	if (($r = select($rin, undef, undef, $Global::SocketReadTimeout || 1)) > 0) {
-	    $r = sysread($fh, $$in, $r, length($$in));
-	}
+        if (($r = select($rin, undef, undef, $Global::SocketReadTimeout || 1)) > 0) {
+            # read up to an arbitrary 1 MiB at a time for efficiency
+            # (though the operating system may provide far less than that at a time anyway)
+            $r = sysread($fh, $$in, 1_048_576, length($$in));
+        }
     } while ((!defined($r) || $r == -1) && ($!{eintr} || $!{eagain}));
 
     die "read: $!" unless defined $r;
@@ -1892,7 +1972,7 @@ sub start_soap {
 #::logDebug("starting soap");
 
 	$number = $Global::SOAP_StartServers if ! $number; 
-	if ($number > 50) {
+	if ($number > 150) {
 		  die ::errmsg(
 		   "Ridiculously large number of SOAP_StartServers: %s",
 		   $number,

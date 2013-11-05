@@ -1,6 +1,6 @@
 # Vend::Order - Interchange order routing routines
 #
-# Copyright (C) 2002-2009 Interchange Development Group
+# Copyright (C) 2002-2013 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -24,7 +24,7 @@
 package Vend::Order;
 require Exporter;
 
-$VERSION = '2.109';
+$VERSION = '2.110';
 
 @ISA = qw(Exporter);
 
@@ -126,6 +126,7 @@ my %Parse = (
 								my($ref,$params) = @_;
 								my ($var, $value) = split /\s+/, $params, 2;
 								$::Values->{$var} = $value;
+								return 1;
 							},
 	'&setcheck'			=>	sub {		
 								my($ref,$params) = @_;
@@ -441,7 +442,6 @@ sub build_cc_info {
 			{MV_CREDIT_CARD_TYPE}
 			{MV_CREDIT_CARD_NUMBER}
 			{MV_CREDIT_CARD_EXP_MONTH}/{MV_CREDIT_CARD_EXP_YEAR}
-			{MV_CREDIT_CARD_CVV2}
 		)) . "\n";
 
 	$cardinfo->{MV_CREDIT_CARD_TYPE} ||=
@@ -455,7 +455,7 @@ sub guess_cc_type {
 	my ($ccnum) = @_;
 	$ccnum =~ s/\D+//g;
 
-	my $country = $::Values->{$::Variable->{MV_COUNTRY_FIELD} || 'country'} || '';
+	my $country = uc($::Values->{$::Variable->{MV_COUNTRY_FIELD} || 'country'} || '');
 
 	if(my $subname = $Vend::Cfg->{SpecialSub}{guess_cc_type}) {
 		my $sub = $Vend::Cfg->{Sub}{$subname} || $Global::GlobalSub->{$subname};
@@ -466,52 +466,65 @@ sub guess_cc_type {
 	}
 
 	# based on logic from Business::CreditCard
-	if ($ccnum eq '')										{ '' }
-	elsif (
-		$ccnum =~ /^4(?:\d{12}|\d{15})$/
-	)			
-	{
-		return 'visa';
-	}
-	elsif (
-		$ccnum =~ /^5[1-5]\d{14}$/
-			or
-		( $ccnum =~ /^36\d{12}/ && $country =~ /^(US|CA)$/oi )
-	)
-	{ return 'mc' }
-	elsif (
-		$ccnum =~ /^6011\d{12}$/
-			or
-		$ccnum =~ /^65\d{14}$/o
-	    or
-		( $ccnum =~ /^622\d{13}$/o && $country !~ /^CN$/i )
+	if ($ccnum eq '')
+	{ return '' }
 
-		)
+	elsif ($ccnum =~ /^4(?:\d{12}|\d{15})$/)
+	{ return 'visa' }
+
+	elsif ($ccnum =~ /^5[1-5]\d{14}$/)
+	{ return 'mc' }
+
+	elsif (
+		$ccnum =~ /^30[0-5]\d{11}(?:\d{2})?$/   # Diners Club: 300-305
+		or $ccnum =~ /^3095\d{10}(?:\d{2})?$/   # Diners Club: 3095
+		or $ccnum =~ /^3[68]\d{12}(?:\d{2})?$/  # Diners Club: 36
+		or $ccnum =~ /^6011\d{12}$/
+		or $ccnum =~ /^64[4-9]\d{13}$/
+		or $ccnum =~ /^65\d{14}$/
+		or ( $ccnum =~ /^62[24-68]\d{13}$/ and $country ne 'CN' )  # China Unionpay
+		or ( $ccnum =~ /^35(?:2[89]|[3-8]\d)\d{10}$/ and $country eq 'US' )  # JCB
+	)
 	{ return 'discover' }
-	elsif ($ccnum =~ /^3[47]\d{10,13}$/)
+
+	elsif ($ccnum =~ /^3[47]\d{13}$/)
 	{ return 'amex' }
+
 	elsif ($ccnum =~ /^3(?:6\d{12}|0[0-5]\d{11})$/)
 	{ return 'dinersclub' }
+
 	elsif ($ccnum =~ /^38\d{12}$/)
 	{ return 'carteblanche' }
+
 	elsif ($ccnum =~ /^2(?:014|149)\d{11}$/)
 	{ return 'enroute' }
+
 	elsif ($ccnum =~ /^(?:3\d{15}|2131\d{11}|1800\d{11})$/)
 	{ return 'jcb' }
-    elsif (
-		$ccnum =~ /^49(03(0[2-9]|3[5-9])|11(0[1-2]|7[4-9]|8[1-2])|36[0-9]{2})\d{10}(\d{2,3})?$/
-      or $ccnum =~ /^564182\d{10}(\d{2,3})?$/
-      or $ccnum =~ /^6(3(33[0-4][0-9])|759[0-9]{2})\d{10}(\d{2,3})?$/) 
+
+	elsif (
+		$ccnum =~ /^49(?:03(?:0[2-9]|3[5-9])|11(?:0[1-2]|7[4-9]|8[1-2])|36[0-9]{2})\d{10}(?:\d{2,3})?$/
+		or $ccnum =~ /^564182\d{10}(?:\d{2,3})?$/
+		or $ccnum =~ /^6(?:3(?:33[0-4][0-9])|759[0-9]{2})\d{10}(?:\d{2,3})?$/
+	)
 	{ return 'switch' }
-	elsif ($ccnum =~ /^56\d{14}$/)
+
+	elsif ($ccnum =~ /^56(?:10\d\d|022[1-5])\d{10}$/)
 	{ return 'bankcard' }
-    elsif ($ccnum =~ /^6(3(34[5-9][0-9])|767[0-9]{2})\d{10}(\d{2,3})?$/)
+
+	elsif ($ccnum =~ /^6(?:3(?:34[5-9][0-9])|767[0-9]{2})\d{10}(?:\d{2,3})?$/)
 	{ return 'solo' }
-    elsif ($ccnum =~ /^622\d{13}$/)
+
+	elsif ($ccnum =~ /^62[24-68]\d{13}$/)
 	{ return 'chinaunionpay' }
 
-	else { return $::Variable->{MV_PAYMENT_OTHER_CARD} || 'other' }
+	elsif ($ccnum =~ /^6(?:304|7(?:06|09|71))\d{12,15}$/)
+	{ return 'laser' }
+
+	else
+	{ return $::Variable->{MV_PAYMENT_OTHER_CARD} || 'other' }
 }
+
 
 # Takes a reference to a hash (usually %CGI::values) that contains
 # the following:
@@ -1117,7 +1130,7 @@ $state_template{CA} = <<EOF;
 EOF
 
 $zip_error{US} = "'%s' not a US zip code";
-$zip_routine{US} = sub { $_[0] =~ /^\s*\d\d\d\d\d(?:-?\d\d\d\d)?$/ };
+$zip_routine{US} = sub { $_[0] =~ /^\s*\d\d\d\d\d(?:-?\d\d\d\d)?\s*$/ };
 
 $zip_error{CA} = "'%s' not a Canadian postal code";
 $zip_routine{CA} = sub {
@@ -1999,6 +2012,8 @@ sub route_order {
 
 # Order an item
 sub do_order {
+	$::Instance->{Volatile} = 1 if ! defined $::Instance->{Volatile}; # Allow non-volatility if previously defined
+
     my($path) = @_;
 	my $code        = $CGI::values{mv_arg};
 #::logDebug("do_order: path=$path");

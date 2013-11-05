@@ -1,6 +1,6 @@
 # Vend::Dispatch - Handle Interchange page requests
 #
-# Copyright (C) 2002-2009 Interchange Development Group
+# Copyright (C) 2002-2013 Interchange Development Group
 # Copyright (C) 2002 Mike Heins <mike@perusion.net>
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -24,7 +24,7 @@
 package Vend::Dispatch;
 
 use vars qw($VERSION);
-$VERSION = '1.113';
+$VERSION = '1.114';
 
 use POSIX qw(strftime);
 use Vend::Util;
@@ -581,6 +581,7 @@ $form_action{go} = $form_action{return};
 # Process the completed order or search page.
 
 sub do_process {
+	$::Instance->{Volatile} = 1 if ! defined $::Instance->{Volatile}; # Allow non-volatility if previously defined
 
 	# Prevent using keys operation more than once
     my @cgikeys = keys %CGI::values;
@@ -723,7 +724,7 @@ sub run_in_catalog {
 
 	open_cat($cat);
 
-	logError("Run jobs group=%s pid=$$", $job || 'INTERNAL');
+	logError("Run jobs group=%s pid=%s", $job || 'INTERNAL', $$);
 
 	Vend::Server::set_process_name("job $cat $job");
 	
@@ -824,7 +825,7 @@ sub run_in_catalog {
 			$errors = 1;
 
 			$failure = errmsg('Job terminated with an error: %s', $@);
-			logError ("Job group=%s pid=$$ terminated with an error: %s", $job || 'INTERNAL', $@);
+			logError ("Job group=%s pid=%s terminated with an error: %s", $job || 'INTERNAL', $$, $@);
 			
 			# remove flag for this job
 			Vend::Server::flag_job($$, $cat, 'furl');
@@ -846,7 +847,7 @@ sub run_in_catalog {
 	}
 	$out .= full_dump() if is_yes($jobscfg->{add_session});
 
-	logError("Finished jobs group=%s pid=$$", $job || 'INTERNAL');
+	logError("Finished jobs group=%s pid=%s", $job || 'INTERNAL', $$);
 	
 	close_cat();
 
@@ -1280,23 +1281,24 @@ sub dispatch {
 		$::Instance->{ExternalCookie} = $sessionid || 1;
 		$Vend::CookieID = $Vend::Cookie = 1;
 	}
-	elsif (defined $CGI::cookie and
-		 $CGI::cookie =~ /\bMV_SESSION_ID=(\w{8,32})
-								[:_] (
-									(	\d{1,3}\.   # An IP ADDRESS
-										\d{1,3}\.
-										\d{1,3}\.
-										\d{1,3})
-									# A user name or domain
-									|	([A-Za-z0-9][-\@A-Za-z.0-9]+) )?
-									\b/x)
-	{
-		$sessionid = $1
-			unless defined $CGI::values{mv_pc} and $CGI::values{mv_pc} eq 'RESET';
-		$CGI::cookiehost = $3;
-		$CGI::cookieuser = $4;
-		$Vend::CookieID = $Vend::Cookie = 1;
-    }
+	elsif (defined $CGI::cookie and $CGI::cookie =~ /\bMV_SESSION_ID=(\w{8,32})[:_]([-\@.:A-Za-z0-9]+?)\b/) {
+	  SESSION_COOKIE: {
+	      my $id = $1;
+	      my $host = $2;
+	      if (is_ipv4($host) || is_ipv6($host)) {
+		  $CGI::cookiehost = $host;
+	      }
+	      elsif ($host =~ /[A-Za-z0-9][-\@A-Za-z.0-9]+/) {
+		  $CGI::cookieuser = $host;
+	      }
+	      else {
+		  last SESSION_COOKIE;
+	      }
+
+	      $sessionid = $id;
+	      $Vend::CookieID = $Vend::Cookie = 1;
+	    }
+	}
 
 	Vend::Server::set_process_name("$Vend::Cat $CGI::host $sessionid");
 
@@ -1486,7 +1488,9 @@ EOF
          if ($_ eq 'mv_pc') {
 #::logDebug('$CGI::values{mv_pc} is %s', $CGI::values{mv_pc});
             if ($CGI::values{mv_pc} and $CGI::values{mv_pc} =~ /\D/) {
-                $new_source = $Vend::Session->{source} = $CGI::values{mv_pc};
+                $new_source = $CGI::values{mv_pc};
+		$new_source =~ s/[\r\n\t]//g;
+		$Vend::Session->{source} = $new_source;
                 last SOURCEPRIORITY;
             }
          }
@@ -1495,6 +1499,7 @@ EOF
              my $cookie_source = Vend::Util::read_cookie($1);
 #::logDebug("Cookie $1 is $cookie_source");
              if (length $cookie_source) {
+		 $cookie_source =~ s/[\r\n\t]//g;
                  $Vend::Session->{source} = $cookie_source;
                  last SOURCEPRIORITY;
             }
@@ -1517,7 +1522,9 @@ EOF
          else {
 #::logDebug('$CGI::values{%s} is %s', $_, $CGI::values{$_});
             if (length $CGI::values{$_}) {
-                $new_source = $Vend::Session->{source} = $CGI::values{$_};
+                $new_source = $CGI::values{$_};
+		$new_source =~ s/[\r\n\t]//g;
+		$Vend::Session->{source} = $new_source;
                 last SOURCEPRIORITY;
             }
          }
@@ -1567,11 +1574,12 @@ EOF
             @{$sc}{qw(expire domain path secure)}
         );
     }
- 
+
 	if (
 		($new_source
 		and $CGI::request_method eq 'GET'
-		and $Vend::Cfg->{BounceReferrals}) or
+		and ($Vend::Cfg->{BounceReferrals} or
+             ($Vend::Robot and $Vend::Cfg->{BounceReferralsRobot}))) or
 		($Vend::Robot and $sessionid_from_cgi and $Vend::Cfg->{BounceRobotSessionURL})
 	) {
 		my $path = $CGI::path_info;
@@ -1666,12 +1674,10 @@ EOF
 
 	for my $routine (@{$Vend::Cfg->{DispatchRoutines}}) {
 		$routine->();
-	
-	if ($Vend::Sent) {
-	 close_cat();
-          return;
-}
-
+		if ($Vend::Sent) {
+			close_cat();
+			return;
+		}
 	}
 #show_times("end DispatchRoutines") if $Global::ShowTimes;
 

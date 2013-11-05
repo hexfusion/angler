@@ -1,11 +1,9 @@
-# Copyright 2002-2007 Interchange Development Group and others
+# Copyright 2002-2012 Interchange Development Group and others
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.  See the LICENSE file for details.
-# 
-# $Id: email.tag,v 1.15 2009-01-23 11:48:51 racke Exp $
 
 UserTag email Order to subject reply from extra
 UserTag email hasEndTag
@@ -13,18 +11,31 @@ UserTag email addAttr
 UserTag email Interpolate
 UserTag email Routine <<EOR
 
-my $Have_mime_lite;
+my ($Have_mime_lite, $Have_encode);
 BEGIN {
 	eval {
 		require MIME::Lite;
 		$Have_mime_lite = 1;
 	};
+    unless ($ENV{MINIVEND_DISABLE_UTF8}) {
+        $Have_encode = 1;
+	};
+}
+
+sub utf8_to_other {
+	my ($string, $encoding) = @_;
+	return $string unless $Have_encode; # nop if no Encode
+
+	unless(Encode::is_utf8($string)){
+		$string = Encode::decode('utf-8', $string);
+	}
+	return Encode::encode($encoding, $string);
 }
 
 sub {
     my ($to, $subject, $reply, $from, $extra, $opt, $body) = @_;
     my $ok = 0;
-    my ($cc, $bcc, @extra);
+    my ($cc, $bcc, @extra, $utf8);
 
 	use vars qw/ $Tag /;
 
@@ -39,6 +50,9 @@ sub {
 	$cc = $opt->{cc};
 	$bcc = $opt->{bcc};
 
+	# See if UTF-8 support is required
+	$utf8 = $::Variable->{MV_UTF8} || $Global::Variable->{MV_UTF8};
+
 	# Prevent header injections from spammers' hostile content
 	for ($to, $subject, $reply, $from, $cc, $bcc) {
 		# unfold valid RFC 2822 "2.2.3. Long Header Fields"
@@ -48,8 +62,6 @@ sub {
 			and ::logError("Header injection attempted in email tag: %s", $1);
 	}
 
-    $reply = '' unless defined $reply;
-    $reply = "Reply-to: $reply\n" if $reply;
 
 	for (grep /\S/, split /[\r\n]+/, $extra) {
 		# require header conformance with RFC 2822 section 2.2
@@ -57,6 +69,12 @@ sub {
 		::logError("Invalid header given to email tag: %s", $_);
 	}
 	unshift @extra, "From: $from" if $from;
+
+	# force utf8 email through MIME as attachment
+	unless (($opt->{attach} || $opt->{html}) && $utf8){
+		$opt->{body_mime} = $opt->{mimetype};
+		$body = utf8_to_other($body, 'utf-8');
+	}	
 
 	my $sent_with_attach = 0;
 
@@ -70,18 +88,47 @@ sub {
 		}
 
 		my $att1_format;
-		if($opt->{html}) {
-			$opt->{mimetype} ||= 'multipart/alternative';
-			$att1_format = 'flowed';
-		}
-		else {
-			$opt->{mimetype} ||= 'multipart/mixed';
-		}
-
 		my $att = $opt->{attach};
 		my @attach;
 		my @extra_headers;
 
+		# encode values if utf8 is supported
+		if($utf8){
+			$to = utf8_to_other($to, 'MIME-Header');
+			$from = utf8_to_other($from, 'MIME-Header');
+			$subject = utf8_to_other($subject, 'MIME-Header');
+			$cc = utf8_to_other($cc, 'MIME-Header');
+			$bcc = utf8_to_other($bcc, 'MIME-Header');
+			$reply = utf8_to_other($reply, 'MIME-Header');
+		}
+
+        my %msg_args = (To => $to,
+                        From => $from,
+                        Subject => $subject,
+                        Type => $opt->{mimetype},
+                        Cc => $cc,
+                        Bcc => $bcc,
+                        'Reply-To' => $reply,
+                           );
+
+
+        if($opt->{html}) {
+            if ($body =~ /\S/) {
+                $msg_args{Type} ||= 'multipart/alternative';
+            }
+            else {
+                $msg_args{Type} ||= 'text/html'  . ($utf8 ? '; charset=UTF-8' : '');
+                $msg_args{Data} ||=  ($utf8 ? utf8_to_other($opt->{html}, 'utf-8') : $opt->{html});
+            }
+
+			$att1_format = 'flowed';
+		}
+		else {
+			$msg_args{Type} ||= 'multipart/mixed';
+		}
+
+        my $msg = MIME::Lite->new(%msg_args);
+        
 		for(@extra) {
 			m{(.*?):\s+(.*)};
 			my $name = $1 or next;
@@ -89,27 +136,22 @@ sub {
 			my $content = $2 or next;
 			$name =~ s/[-_]+/-/g;
 			$name =~ s/\b(\w)/\U$1/g;
-			push @extra_headers, "$name:", $content;
+			$msg->add($name, ($utf8 ? utf8_to_other($content, 'UTF-8')
+									: $content)) 
+				if $name && $content;
 		}
 
-		my $msg = new MIME::Lite 
-					To => $to,
-					From => $from,
-					Subject => $subject,
-					Type => $opt->{mimetype},
-					Cc => $cc,
-					Bcc => $bcc,
-					@extra_headers,
-				;
-		$opt->{body_mime} ||= 'text/plain';
-		$opt->{body_encoding} ||= '8bit';
-		$msg->attach(
-				Type => $opt->{body_mime},
-				Encoding => $opt->{body_encoding},
-				Data => $body,
-				Disposition => $opt->{body_disposition} || 'inline',
-				Format => $opt->{body_format} || $att1_format,
-			);
+        if ($body =~ /\S/) {
+            $opt->{body_mime} ||= 'text/plain' . ($utf8 ? '; charset=UTF-8' : '');
+            $opt->{body_encoding} ||= 'quoted-printable';
+            $msg->attach(
+                         Type => $opt->{body_mime},
+                         Encoding => $opt->{body_encoding},
+                         Data => $body,
+                         Disposition => $opt->{body_disposition} || 'inline',
+                         Format => $opt->{body_format} || $att1_format,
+                        );
+        }
 
 		if(! ref($att) ) {
 			my $fn = $att;
@@ -118,19 +160,34 @@ sub {
 		elsif(ref($att) eq 'HASH') {
 			$att = [ $att ];
 		}
+		elsif(ref($att) eq 'ARRAY') {
+			# turn array of file names into array of hash references
+			my $new_att = [];
+
+			for (@$att) {
+				if (ref($_)) {
+					push (@$new_att, $_);
+				}
+				else {
+					push (@$new_att, {path => $_});
+				}
+			}
+
+			$att = $new_att;
+		}
 
 		$att ||= [];
 
-		if($opt->{html}) {
-			unshift @$att, {
-								type => 'text/html',
-								data => $opt->{html},
-								disposition => 'inline',
+		if($opt->{html} && $body =~ /\S/) {
+			unshift @$att, {type => 'text/html' 
+							.($utf8 ? '; charset=UTF-8': ''),
+							data => ($utf8 ? utf8_to_other($opt->{html}, 'UTF-8') : $opt->{html}),
+							disposition => 'inline',
 							};
 		}
 
 		my %encoding_types = (
-			'text/plain' => '8bit',
+			'text/plain' => ($utf8 ? 'quoted-printable' : '8bit'),
 			'text/html' => 'quoted-printable',
 		);
 
@@ -153,6 +210,7 @@ sub {
 				$msg->attach(
 					Type => $ref->{type},
 					Path => $ref->{path},
+					ReadNow => 1,
 					Data => $ref->{data},
 					Filename => $ref->{filename},
 					Encoding => $ref->{encoding},
@@ -161,26 +219,29 @@ sub {
 			};
 			if($@) {
 				::logError("email tag: failed to attach %s: %s", $ref->{path}, $@);
-				next;
+				$Tag->error({name => 'email', 
+					set => errmsg('Failed to attach %s', $ref->{path})});
+				return;
 			}
 		}
 
-		my $body = $msg->as_string;
-#::logDebug("Mail body: \n$body");
+		my $body = $msg->body_as_string;
+		my $header = $msg->header_as_string;
+#::logDebug("[email] Mail: \n$header\n$body");
 		if($opt->{test}) {
-			return $body;
+			return "$header\n$body";
 		}
 		else {
-			$body =~ s/^(.+?)(?:\r?\n){2}//s;
-			my $headers = $1;
-			last SEND unless $headers;
-			my @head = split(/\r?\n/,$headers);
-
+			last ATTACH unless $header;
+			my @head = split(/\r?\n/,$header);
 			$ok = send_mail(\@head,$body);
 
 			$sent_with_attach = 1;
 		}
 	}
+
+    $reply = '' unless defined $reply;
+    $reply = "Reply-to: $reply\n" if $reply;
 
 	if ($cc) {
 		push(@extra, "Cc: $cc");
@@ -190,6 +251,12 @@ sub {
 		push(@extra, "Bcc: $bcc");
 	}
 
+	if ($utf8 && ! $opt->{mimetype}) {
+		push(@extra, 'MIME-Version: 1.0');
+		push(@extra, 'Content-Type: text/plain; charset=UTF-8');
+		push(@extra, 'Content-Transfer-Encoding: 8bit');
+	}
+	
 	$ok = send_mail($to, $subject, $body, $reply, 0, @extra)
 			unless $sent_with_attach;
 

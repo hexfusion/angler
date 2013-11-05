@@ -1,17 +1,15 @@
-# Copyright 2002-2008 Interchange Development Group and others
+# Copyright 2002-2011 Interchange Development Group and others
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.  See the LICENSE file for details.
-# 
-# $Id: image.tag,v 1.24 2008-06-22 02:53:11 jon Exp $
 
 UserTag image Order     src
 UserTag image AttrAlias geometry makesize
 UserTag image AttrAlias resize makesize
 UserTag image AddAttr
-UserTag image Version   $Revision: 1.24 $
+UserTag image Version   1.25
 UserTag image Routine   <<EOR
 sub {
 	my ($src, $opt) = @_;
@@ -63,7 +61,8 @@ sub {
 
 	return $imagedircurrent if $opt->{dir_only};
 
-	$opt->{getsize} = 1 unless defined $opt->{getsize};
+	$opt->{getsize} = 1 unless defined $opt->{getsize}
+		or (defined($opt->{height}) and defined($opt->{width}));
 	$opt->{imagesubdir} ||= $::Scratch->{mv_imagesubdir}
 		if defined $::Scratch->{mv_imagesubdir};
 	$opt->{default} ||= $::Scratch->{mv_imagedefault}
@@ -172,7 +171,8 @@ sub {
 						last MOGIT;
 					};
 
-				$dir .= "/$siz";
+				(my $siz_path = $siz) =~ s:[^\dx]::g;
+				$dir .= "/$siz_path";
 				
 				my $newpath = "$dir/$fn";
 				if(-f $newpath) {
@@ -180,13 +180,13 @@ sub {
 						my $mod1 = -M $newpath;
 						my $mod2 = -M $path;
 						unless ($mod2 < $mod1) {
-							$image =~ s:(/?)([^/]+$):$1$siz/$2:;
+							$image =~ s:(/?)([^/]+$):$1$siz_path/$2:;
 							$path = $newpath;
 							last MOGIT;
 						}
 					}
 					else {
-						$image =~ s:(/?)([^/]+$):$1$siz/$2:;
+						$image =~ s:(/?)([^/]+$):$1$siz_path/$2:;
 						$path = $newpath;
 						last MOGIT;
 					}
@@ -219,7 +219,7 @@ sub {
 					}
 				}
 				last MOGIT unless $exec;
-				system "$exec -geometry $siz '$newpath'";
+				system qq{$exec -geometry "$siz" '$newpath'};
 				if($?) {
 					logError("%s: Unable to mogrify image '%s'", 'image tag', $newpath);
 					last MOGIT;
@@ -229,7 +229,7 @@ sub {
 					rename $mgkpath, $newpath
 						or die "Could not overwrite image with new one!";
 				}
-				$image =~ s:(/?)([^/]+$):$1$siz/$2:;
+				$image =~ s:(/?)([^/]+$):$1$siz_path/$2:;
 				$path = $newpath;
 			}
 		}
@@ -240,8 +240,10 @@ sub {
 			eval {
 				require Image::Size;
 				my ($width, $height) = Image::Size::imgsize($path);
-				($opt->{width}, $opt->{height}) = ($width, $height)
-					if $width and $height;
+				$opt->{height} = $height
+					if defined($height) and not exists($opt->{height});
+				$opt->{width} = $width
+					if defined($width) and not exists($opt->{width});
 				if ($opt->{size_scratch_prefix}) {
 					Vend::Interpolate::set_tmp($opt->{size_scratch_prefix} . '_' . $_, $opt->{$_})
 						for qw/width height/;

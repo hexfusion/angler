@@ -3175,16 +3175,39 @@ sub find_sort {
 		$more_id,
 		$session,
 		$link_template,
+		$pretty_url,
+		$incl_pageno,
 		);
 
 sub more_link_template {
-	my ($anchor, $arg, $form_arg) = @_;
+	my ($anchor, $arg, $form_arg, $pageno) = @_;
 
-	my $url = tag_area(undef, undef, {
-	    search         => "MM=$arg",
-	    form           => $form_arg,
-	    match_security => 1,
-	});
+#::logDebug('$pretty_url is %s', $pretty_url);
+    my $this_pretty = $pretty_url || '';
+
+    if ($incl_pageno && $pageno) {
+        my $pg_tmpl = $incl_pageno eq '1' ? 'page %d' : $incl_pageno;
+        $this_pretty .= sprintf ("/$pg_tmpl", $pageno);
+    }
+
+    for ($this_pretty) {
+        s{[^\w/]+}{-}g;
+        s{/{2,}}{/}g;
+        s{^[-/]+}{}g;
+        s{[-/]+$}{}g;
+    }
+
+#::logDebug('$this_pretty after regexes: %s', $this_pretty);
+    $this_pretty &&= "$this_pretty/";
+
+    my $url = tag_area(
+        "scan/${this_pretty}MM=$arg",
+        undef,
+        {
+            form           => $form_arg,
+            match_security => 1,
+        }
+    );
 
 	my $lt = $link_template;
 	$lt =~ s/\$URL\$/$url/g;
@@ -3215,7 +3238,7 @@ sub more_link {
 	else {
 		$pa =~ s/__BORDER__/$border/e;
 		$arg = "$session:$next:$last:$chunk$perm";
-		$list .= more_link_template($pa, $arg, $form_arg) . ' ';
+		$list .= more_link_template($pa, $arg, $form_arg, $inc) . ' ';
 	}
 	return $list;
 }
@@ -3245,6 +3268,14 @@ sub tag_more_list {
 	my($first_anchor,$last_anchor);
 	my %hash;
 
+    ($pretty_url, $incl_pageno) = ();
+    if ($r =~ m{\[more[-_]pretty[-_]url\]}i) {
+#::logDebug('$r matched on more-pretty-url');
+        $r =~ s{\[more[-_]pretty[-_]url\]($All)\[/more[-_]pretty[-_]url\]}{}i
+            and $pretty_url = $q->{more_pretty_url} ||= ::interpolate_html($1);
+        $r =~ s{\[more[-_]incl[-_]pageno\]($All)\[/more[-_]incl[-_]pageno\]}{}i
+            and $incl_pageno = $q->{more_incl_pageno} ||= $1 || '1';
+    }
 
 	$session = $q->{mv_cache_key};
 	my $first = $q->{mv_first_match} || 0;
@@ -3310,7 +3341,7 @@ sub tag_more_list {
 			$arg .= ':0:';
 			$arg .= $chunk - 1;
 			$arg .= ":$chunk$perm";
-			$hash{first_link} = more_link_template($first_anchor, $arg, $form_arg);
+			$hash{first_link} = more_link_template($first_anchor, $arg, $form_arg, 1);
 		}
 
 		unless ($prev_anchor) {
@@ -3331,7 +3362,7 @@ sub tag_more_list {
 			$arg .= ':';
 			$arg .= $first - 1;
 			$arg .= ":$chunk$perm";
-			$hash{prev_link} = more_link_template($prev_anchor, $arg, $form_arg);
+			$hash{prev_link} = more_link_template($prev_anchor, $arg, $form_arg, $current && $current - 1);
 		}
 
 	}
@@ -3355,7 +3386,7 @@ sub tag_more_list {
 		$last = $next + $chunk - 1;
 		$last = $last > ($total - 1) ? $total - 1 : $last;
 		$arg = "$session:$next:$last:$chunk$perm";
-		$hash{next_link} = more_link_template($next_anchor, $arg, $form_arg);
+		$hash{next_link} = more_link_template($next_anchor, $arg, $form_arg, $current && $current + 1);
 
  		# Last link can appear when next link is valid
 		if($r =~ s:\[last[-_]anchor\]($All)\[/last[-_]anchor\]::i) {
@@ -3368,7 +3399,7 @@ sub tag_more_list {
 			$last = $total - 1;
 			my $last_beg_idx = $total - ($total % $chunk || $chunk);
 			$arg = "$session:$last_beg_idx:$last:$chunk$perm";
-			$hash{last_link} = more_link_template($last_anchor, $arg, $form_arg);
+			$hash{last_link} = more_link_template($last_anchor, $arg, $form_arg, $chunk && ceil($total / $chunk));
 		}
 	}
 	else {
@@ -3622,6 +3653,7 @@ sub labeled_list {
 	}
 	elsif (defined $opt->{fm}) {
 		$i = $opt->{fm} - 1;
+		$obj->{mv_first_match} = $i;
 	}
 
 	$count = $obj->{mv_first_match} || $i;
@@ -4289,6 +4321,19 @@ sub iterate_hash_list {
 	$nc and local(@Hash_code{keys %$nc}) = values %$nc;
 
 #::logDebug("iterating hash $i to $end. count=$count opt_select=$opt_select hash=" . uneval($hash));
+
+    $text =~ s{
+        $B$QR{_include}
+    }{
+        my $filename = $1;
+
+        $Data_cache{"/$filename"} or do {
+            my $content = Vend::Util::readfile($filename);
+            vars_and_comments(\$content);
+            $Data_cache{"/$filename"} = $content;
+        };
+    }igex;
+
 	1 while $text =~ s#$IB$QR{_header_param_if}$IE[-_]header[-_]param\1\]#
 			  (defined $opt->{$3} ? $opt->{$3} : '')
 				  					?	pull_if($5,$2,$4,$opt->{$3})
@@ -4725,6 +4770,7 @@ sub region {
 
 #::logDebug("region: opt:\n" . uneval($opt) . "\npage:" . substr($page,0,100));
 
+	my $save_more;
 	if($opt->{ml} and ! defined $obj->{mv_matchlimit} ) {
 		$obj->{mv_matchlimit} = $opt->{ml};
 		$obj->{mv_more_decade} = $opt->{md};
@@ -4734,9 +4780,7 @@ sub region {
 		$obj->{mv_first_match} = $opt->{fm} if $opt->{fm};
 		$obj->{mv_search_page} = $opt->{sp} if $opt->{sp};
 		$obj->{prefix} = $opt->{prefix} if $opt->{prefix};
-		my $out = delete $obj->{mv_results};
-		Vend::Search::save_more($obj, $out);
-		$obj->{mv_results} = $out;
+		$save_more = 1;
 	}
 
 	$opt->{prefix} = $obj->{prefix} if $obj->{prefix};
@@ -4774,6 +4818,11 @@ sub region {
 	$page =~ s:\[($lprefix)\]($Some)\[/\1\]:labeled_list($opt,$2,$obj):ige
 		or $page = labeled_list($opt,$page,$obj);
 #::logDebug("past labeled_list");
+    if ($save_more) {
+        my $out = delete $obj->{mv_results};
+        Vend::Search::save_more($obj, $out);
+        $obj->{mv_results} = $out;
+    }
 
     return $page;
 }
@@ -4907,7 +4956,7 @@ sub tag_loop_list {
 			my @items = split /\s*,\s*/, $list;
 			for(@items) {
 				my ($o, $l) = split /=/, $_;
-				$l = $o unless $l;
+				$l = $o unless defined $l && $l =~ /\S/;
 				push @rows, [ $o, $l ];
 			}
 		};
@@ -5365,11 +5414,11 @@ sub taxable_amount {
 		$item =	$Vend::Items->[$i];
 		next if is_yes( $item->{mv_nontaxable} );
 		next if is_yes( item_field($item, $Vend::Cfg->{NonTaxableField}) );
-		unless (%$::Discounts) {
-			$taxable += item_subtotal($item);
+		if (%$::Discounts or $item->{mv_discount}) {
+			$taxable += apply_discount($item);
 		}
 		else {
-			$taxable += apply_discount($item);
+			$taxable += item_subtotal($item);
 		}
     }
 
@@ -5730,7 +5779,7 @@ sub salestax {
 # Returns just subtotal of items ordered, with discounts
 # applied
 sub subtotal {
-	my($cart, $dspace) = @_;
+	my($cart, $dspace, $nodiscount) = @_;
 	
 	### If the user has assigned to salestax,
 	### we use their value come what may, no rounding
@@ -5747,41 +5796,50 @@ sub subtotal {
 	}
 
 	levies() unless $Vend::Levying;
+
+	$subtotal = 0;
 	
-	# Use switch_discount_space unconditionally to guarantee existance of proper discount structures.
-	$oldspace = switch_discount_space($dspace || $Vend::DiscountSpaceName);
-	
-	my $discount = (ref($::Discounts) eq 'HASH' and %$::Discounts);
-
-    $subtotal = 0;
-
-    foreach $i (0 .. $#$Vend::Items) {
-        $item = $Vend::Items->[$i];
-        if($discount || $item->{mv_discount}) {
-            $subtotal += apply_discount($item);
-        }
-        else {
-            $subtotal += Vend::Data::item_subtotal($item);
-        }
-	}
-
-	if (defined $::Discounts->{ENTIRE_ORDER}) {
-		$formula = $::Discounts->{ENTIRE_ORDER};
-		$formula =~ s/\$q\b/tag_nitems()/eg; 
-		$formula =~ s/\$s\b/$subtotal/g; 
-		$cost = $Vend::Interpolate::ready_safe->reval($formula);
-		if($@) {
-			logError
-				"Discount ENTIRE_ORDER has bad formula. Returning normal subtotal.\n$@";
-			$cost = $subtotal;
+	if ($nodiscount) {
+		foreach $i (0 .. $#$Vend::Items) {
+			$item = $Vend::Items->[$i];
+			$subtotal += Vend::Data::item_subtotal($item);
 		}
-		$subtotal = $cost;
 	}
-	$Vend::Items = $save if defined $save;
-	$Vend::Session->{latest_subtotal} = $subtotal;
+	else {
+		# Use switch_discount_space unconditionally to guarantee existance of proper discount structures.
+		$oldspace = switch_discount_space($dspace || $Vend::DiscountSpaceName);
+	
+		my $discount = (ref($::Discounts) eq 'HASH' and %$::Discounts);
 
-	# Switch to original discount space if an actual switch occured.
-	switch_discount_space($oldspace) if $dspace and defined $oldspace;
+		foreach $i (0 .. $#$Vend::Items) {
+			$item = $Vend::Items->[$i];
+			if ($discount || $item->{mv_discount}) {
+				$subtotal += apply_discount($item);
+			} else {
+				$subtotal += Vend::Data::item_subtotal($item);
+			}
+		}
+
+		if (defined $::Discounts->{ENTIRE_ORDER}) {
+			$formula = $::Discounts->{ENTIRE_ORDER};
+			$formula =~ s/\$q\b/tag_nitems()/eg; 
+			$formula =~ s/\$s\b/$subtotal/g; 
+			$cost = $Vend::Interpolate::ready_safe->reval($formula);
+			if ($@) {
+				logError
+					"Discount ENTIRE_ORDER has bad formula. Returning normal subtotal.\n$@";
+				$cost = $subtotal;
+			}
+			$subtotal = $cost;
+		}
+
+		$Vend::Session->{latest_subtotal} = $subtotal;
+		
+		# Switch to original discount space if an actual switch occured.
+		switch_discount_space($oldspace) if $dspace and defined $oldspace;
+	}
+	
+	$Vend::Items = $save if defined $save;
 
     return $subtotal;
 }
