@@ -92,6 +92,8 @@ requires 'PadWalker';
 requires 'Params::Util';
 requires 'Params::Validate';
 requires 'Parse::RecDescent';
+requires 'Plack';
+requires 'Plack::Handler::Starman';
 requires 'Probe::Perl';
 requires 'Role::Tiny';
 requires 'SOAP::Lite';
