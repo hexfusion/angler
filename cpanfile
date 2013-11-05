@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 requires 'Faker';
 requires 'Term::ReadLine';
 requires 'Tie::IxHash';
@@ -61,3 +62,4 @@ requires 'XML::Twig', '3.46';
 requires 'YAML::Syck';
 requires 'Business::PayPal::API', 0.70;
 requires 'File::MimeInfo';
+
