@@ -2,16 +2,29 @@
 <value name="cart_count"/>
 <value name="content" class="content" op="hook"/>
 <!-- Top Menu -->
+
 <!-- Left -->
 <list name="menu_top" class="nav-top-menu" iterator="menu_nav-top">
 <param name="label" class="nav-top-menu-link" field="name"/>
 <param name="uri" class="nav-top-menu-link" target="href" op="append"/>
 </list>
+
 <!-- Our Sites -->
 <list name="menu_top_users" class="nav-top-user" iterator="menu_nav-user">
 <param name="label" class="nav-top-user-link" field="name"/>
 <param name="uri" class="nav-top-user-link" target="href" op="append"/>
+</list>
 
+<!-- top navigation login/logout -->
+<list name="nav-top-login" class="auth-top-login" iterator="auth-top-login">
+<param name="label" class="auth-top-login-link" field="name"/>
+<param name="uri" class="auth-top-login-link" target="href" op="append"/>
+</list>
+
+<!-- top navigation login/logout -->
+<list name="nav-top-logout" class="auth-top-logout" iterator="auth-top-logout">
+<param name="label" class="auth-top-logout-link" field="name"/>
+<param name="uri" class="auth-top-logout-link" target="href" op="append"/>
 </list>
 
 <!-- Gear Navigation Left -->
@@ -19,14 +32,11 @@
 <param name="label" class="nav-gear-left-link" field="name"/>
 <param name="uri" class="nav-gear-left-link" target="href" op="append"/>
 
-
 </list>
 <!-- Gear Navigation Right -->
 <list name="nav_gear_right" class="nav-gear-right" iterator="menu_cat-gear-r">
 <param name="label" class="nav-gear-right-link" field="name"/>
 <param name="uri" class="nav-gear-right-link" target="href" op="append"/>
-
-
 </list>
 
 <!-- Gear Navigation Left -->
@@ -34,14 +44,11 @@
 <param name="label" class="nav-clothing-left-link" field="name"/>
 <param name="uri" class="nav-clothing-left-link" target="href" op="append"/>
 
-
 </list>
 <!-- Gear Navigation Right -->
 <list name="nav_clothing_right" class="nav-clothing-right" iterator="menu_cat-clothing-r">
 <param name="label" class="nav-clothing-right-link" field="name"/>
 <param name="uri" class="nav-clothing-right-link" target="href" op="append"/>
-
-
 </list>
 
 

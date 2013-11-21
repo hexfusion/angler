@@ -2,17 +2,20 @@ package Angler;
 use Dancer ':syntax';
 use Dancer::Plugin::Form;
 use Dancer::Plugin::Nitesi;
-use Dancer::Plugin::Nitesi::Routes;
+#use Dancer::Plugin::Nitesi::Routes;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
 
+use Angler::Routes::Account;
+
 our $VERSION = '0.1';
 
 hook 'before_layout_render' => sub {
     my $tokens = shift;
+    my $action ='';
 
     # display cart count
     $tokens->{cart_count} = cart->count;
@@ -29,10 +32,26 @@ hook 'before_layout_render' => sub {
     while (my $record = $nav->next) {
          push @{$tokens->{'menu_' . $record->scope}}, $record;
     };
-    # navigation elements
-    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
+
+# login/logout button
+    if (! logged_in_user){
+        $action = 'top-login';
+    } else {
+        $action ='top-logout';
 };
 
+   my $auth = schema->resultset('Navigation')->search(
+         {
+          scope => $action,
+         },
+    );
+    while (my $record= $auth->next) {
+         push @{$tokens->{'auth-' . $action}}, $record;
+    };
+
+    # navigation elements
+#    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
+};
 hook 'before_product_display' => sub {
     my ($product) = @_;
     
@@ -100,9 +119,26 @@ sub countries {
 }
 
 get '/' => sub {
+session foo => 'bar';
     template 'home';
 };
 
-shop_setup_routes;
+#shop_setup_routes;
+
+get '/login/denied' => sub {
+    template 'login_denied';
+};
+
+get '/login' => sub {
+    template 'login';
+};
+
+get '/forum' => require_login sub {
+    template 'forum';
+     };
+
+get '/account' => require_role admin => sub {
+    template 'account_my-account';
+};
 
 true;
