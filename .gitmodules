@@ -1,15 +1,1 @@
-[submodule "src/Plack"]
-	path = src/Plack
-	url = git://github.com/plack/Plack
-[submodule "src/Nginx"]
-	path = src/Nginx
-	url = git://github.com/git-mirror/nginx.git
-[submodule "src/Pcre"]
-        path = src/Pcre
-        url = git://github.com/AndreLouisCaron/pcre.git
-[submodule "src/Starman"]
-	path = src/Starman
-	url = git://github.com/miyagawa/Starman.git
-[submodule "src/Fcgiwrap"]
-	path = src/Fcgiwrap
-	url = git://github.com/gnosek/fcgiwrap.git
+
