@@ -11,7 +11,6 @@
 <list name="menu_top_users" class="nav-top-user" iterator="menu_nav-user">
 <param name="label" class="nav-top-user-link" field="name"/>
 <param name="uri" class="nav-top-user-link" target="href" op="append"/>
-<param name="src" class="nav-top-user-link" target="src"/>
 
 </list>
 
