@@ -1,7 +1,13 @@
 package Angler;
 use Dancer ':syntax';
+use Dancer::Plugin::Form;
 use Dancer::Plugin::Nitesi;
-use Dancer::Plugin::Nitesi::Routes;
+#use Dancer::Plugin::Nitesi::Routes;
+use Dancer::Plugin::DBIC;
+use Dancer::Plugin::Auth::Extensible qw(
+logged_in_user authenticate_user user_has_role require_role
+require_login require_any_role
+);
 
 our $VERSION = '0.1';
 
@@ -12,16 +18,17 @@ hook 'before_layout_render' => sub {
     $tokens->{cart_count} = cart->count;
 
     # create menu iterators
-	my $menu = query->select(table => 'navigation',
-                             where => {type => 'menu',
-                                      },
-                             order => 'priority'
-                            );
-
-    for my $record (@$menu) {
-		push @{$tokens->{"menu_$record->{scope}"}}, $record;
+    my $nav = schema->resultset('Navigation')->search(
+         {
+          type => 'menu',
+         },
+         {
+          order_by => { -asc => 'priority'},
+         }
+    );
+    while (my $record = $nav->next) {
+         push @{$tokens->{'nav-' . $record->scope}}, $record;
     };
-
     # navigation elements
     $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
@@ -96,6 +103,6 @@ get '/' => sub {
     template 'home';
 };
 
-shop_setup_routes;
+#shop_setup_routes;
 
 true;
