@@ -21,6 +21,18 @@
 <param name="uri" class="auth-top-login-link" target="href" op="append"/>
 </list>
 
+<!-- top fb login -->
+<list name="nav-fb-login" class="auth-fb-login" iterator="fb-top-login">
+<param name="label" class="auth-fb-login-link" field="name"/>
+<param name="uri" class="auth-fb-login-link" target="href" op="append"/>
+</list>
+
+<!-- top fb logout -->
+<list name="nav-fb-logout" class="auth-fb-logout" iterator="fb-top-logout">
+<param name="label" class="auth-fb-logout-link" field="name"/>
+<param name="uri" class="auth-fb-logout-link" target="href" op="append"/>
+</list>
+
 <!-- top navigation login/logout -->
 <list name="nav-top-logout" class="auth-top-logout" iterator="auth-top-logout">
 <param name="label" class="auth-top-logout-link" field="name"/>
