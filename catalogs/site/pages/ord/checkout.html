@@ -21,6 +21,9 @@ ui_template_name: noleft
 [control reset=1]
 
 @_ECOM_SIMMS_TOP_ONLY_TOP_@
+
+[include include/checkout/initialization]
+
 <!-- BEGIN CONTENT -->
     [set couponcompare]
 [if type=data term="discountcodes::discount_code::[evalue coupon]"]
