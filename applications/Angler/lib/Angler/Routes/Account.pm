@@ -1,7 +1,6 @@
 package Angler::Routes::Account;
 
 use Dancer ':syntax';
-use Dancer::Plugin::Nitesi;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Auth::Extensible qw(

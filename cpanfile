@@ -8,7 +8,7 @@ requires 'Dancer::Plugin::DBIC';
 requires 'Dancer::Plugin::Auth::Extensible';
 requires 'Dancer::Plugin::Auth::Extensible::Provider::DBIC';
 requires 'Dancer';
-requires 'Dancer::Plugin::Nitesi';
+requires 'Dancer::Plugin::Interchange6';
 requires 'Dancer::Session::Storable';
 requires 'Dancer::Template::TemplateFlute';
 requires 'Facebook::Graph';

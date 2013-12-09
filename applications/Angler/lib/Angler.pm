@@ -1,8 +1,8 @@
 package Angler;
 use Dancer ':syntax';
 use Dancer::Plugin::Form;
-use Dancer::Plugin::Nitesi;
-#use Dancer::Plugin::Nitesi::Routes;
+use Dancer::Plugin::Interchange6;
+use Dancer::Plugin::Interchange6::Routes;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
@@ -133,7 +133,7 @@ session foo => 'bar';
     template 'home';
 };
 
-#shop_setup_routes;
+shop_setup_routes;
 
 
 true;
