@@ -10,8 +10,8 @@
 -->
 <value name="category_name" id="category-name"/>
 <list name="other_products" class="product-sidebar" iterator="category_products">
-<param name="name" class="product-sidebar-link" field="description"/>
+<param name="name" class="product-sidebar-link"/>
 <param name="uri" class="product-sidebar-link" field="sku" target="href" op="append"/>
-<param name="price" class="product-sidebar-price" field="price" filter="currency"/>
+<param name="price" class="product-sidebar-price" field="price" filter=""/>
 </list>
 </specification>
