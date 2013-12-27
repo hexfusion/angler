@@ -4,8 +4,10 @@
 <value name="short_description" field="product.short_description"/>
 <value name="description" field="product.description" op="hook"/>
 <value name="image_src" class="product-image"/> 
+<!--
 <value name="attribute_size" class="attribute-size" iterator="attribute_size"/>
 <value name="attribute_color" class="attribute-color" iterator="attribute_color"/>
+-->
 <value name="category_name" id="category-name"/>
 <list name="other_products" class="product-sidebar" iterator="category_products">
 <param name="name" class="product-sidebar-link" field="description"/>
