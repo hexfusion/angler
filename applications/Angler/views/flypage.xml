@@ -1,8 +1,8 @@
 <specification>
-<value name="name"/>
-<value name="sku" id="sku"/>
-<value name="short_description"/>
-<value name="description" op="hook"/>
+<value name="name" field="product.name"/>
+<value name="sku" id="sku" field="product.sku"/>
+<value name="short_description" field="product.short_description"/>
+<value name="description" field="product.description" op="hook"/>
 <value name="image_src" class="product-image"/> 
 <value name="attribute_size" class="attribute-size" iterator="attribute_size"/>
 <value name="attribute_color" class="attribute-color" iterator="attribute_color"/>
