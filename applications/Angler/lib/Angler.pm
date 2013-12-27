@@ -74,7 +74,7 @@ hook 'before_product_display' => sub {
     my $path = $product->path;
     my $current_nav = pop @$path;
 
-    my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {active => 1});
+    my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
     my @other_products;
 
     while (my $product = $same_category->next) {
