@@ -22,7 +22,7 @@ template: "template_flute"
 
 # session engine
 
-session: Storable
+session: DBIC
 
 # template: "template_toolkit"
 # engines:
