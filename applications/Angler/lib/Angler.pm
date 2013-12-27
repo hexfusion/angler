@@ -66,9 +66,42 @@ hook 'before_layout_render' => sub {
 #    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
 hook 'before_product_display' => sub {
-    my ($product) = @_;
-    
+    my ($tokens) = @_;
+    my $product = $tokens->{product};
+
     debug "Before product display: ", $product->sku;
+
+    my $path = $product->path;
+    my $current_nav = pop @$path;
+
+    my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {active => 1});
+    my @other_products;
+
+    while (my $product = $same_category->next) {
+        debug "Found other: ", $product->sku, " with price: ", $product->price;
+        push @other_products, $product;
+    }
+
+    $tokens->{category_products} = \@other_products;
+
+return;
+
+        # determine category for product
+    my $categories = query->select(join => [qw/navigation code=navigation navigation_products/],
+                                   where => {sku => $product->sku});
+
+    if (@$categories) {
+        $product->{category_name} = $categories->[0]->{name};
+
+        # get other products for this category
+        my $category_products = query->select(join => [qw/navigation_products sku=sku products/],
+                                   fields => [qw/products.sku products.description products.price/],
+                                   where => {navigation => $categories->[0]->{code}});
+
+        $product->{category_products} = $category_products;
+    }
+
+    return;
 
     # add image
     $product->{image_src} = 'http://www.westbranchangler.com/site/images/items/325x325/' . $product->image;
@@ -91,20 +124,6 @@ hook 'before_product_display' => sub {
         }
     }
 
-    # determine category for product
-    my $categories = query->select(join => [qw/navigation code=navigation navigation_products/],
-                                   where => {sku => $product->sku});
-
-    if (@$categories) {
-        $product->{category_name} = $categories->[0]->{name};
-
-        # get other products for this category
-        my $category_products = query->select(join => [qw/navigation_products sku=sku products/],
-                                   fields => [qw/products.sku products.description products.price/],
-                                   where => {navigation => $categories->[0]->{code}});
-
-        $product->{category_products} = $category_products;
-    }
 };
 
 hook 'before_cart_display' => sub {
@@ -122,13 +141,7 @@ hook 'before_checkout_display' => sub {
 };
 
 sub countries {
-    return query->select(
-                join => "country",
-                fields => [
-                        "selector AS value", "name AS label"
-                ],
-                order => "name"
-        );
+    return [shop_country->search({active => 1})];
 }
 
 get '/' => sub {
