@@ -73,13 +73,15 @@ hook 'before_product_display' => sub {
 
     my $path = $product->path;
     my $current_nav = pop @$path;
-
-    my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
     my @other_products;
 
-    while (my $product = $same_category->next) {
-        debug "Found other: ", $product->sku, " with price: ", $product->price;
-        push @other_products, $product;
+    if ($current_nav) {
+        my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
+
+        while (my $product = $same_category->next) {
+            debug "Found other: ", $product->sku, " with price: ", $product->price;
+            push @other_products, $product;
+        }
     }
 
     $tokens->{category_products} = \@other_products;
