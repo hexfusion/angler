@@ -1,0 +1,59 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Dancer ':script';
+use Dancer::Plugin::Interchange6;
+
+# fish skirt product
+my $product;
+my %canonical = (sku => 'FISKIRT',
+                 name => 'Fish skirt',
+                 description => 'Bla bla',
+                 uri => 'FISKIRT',
+                 price => '20');
+
+if ($product = shop_product->find($canonical{sku})) {
+    $product->delete;
+}
+
+$product = shop_product->create(\%canonical);
+
+# navigation for fish skirts
+my $skirts;
+
+if ($skirts = shop_navigation->find({uri => 'Clothing/Men/Skirts'})) {
+    $skirts->delete;
+}
+
+$skirts = shop_navigation->create({uri => 'Clothing/Men/Skirts',
+                                   name => 'Fishing Skirts',
+                                     });
+
+$product->NavigationProduct->create({navigation_id => $skirts->id});
+
+# add more attributes
+my $color_data =
+    {name => 'color', title => 'Color',
+     AttributeValue =>
+         [{value => 'black', title => 'Black'},
+          {value => 'white', title => 'White'},
+          {value => 'green', title => 'Green'},
+          {value => 'red', title => 'Red'},
+          {value => 'yellow', title => 'Yellow'},
+          {value => 'pink', title => 'Pink'},
+      ]};
+
+my $color_att = shop_schema->resultset('Attribute')->create($color_data);
+my $pink_value = $color_att->search_related('AttributeValue', {value => 'pink'})->single;
+
+
+my $prod_color_data =
+    {attributes_id => $color_att->id,
+     ProductAttributeValue =>
+         [{attribute_values_id => $pink_value->id}],
+ };
+
+my $prod_color_att = $product->ProductAttribute->create($prod_color_data);
+
