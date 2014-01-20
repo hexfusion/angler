@@ -21,8 +21,8 @@ charset: "UTF-8"
 template: "template_flute"
 
 # session engine
-
-session: DBIC
+session: "DBIC"
+session_expires: "2 hours"
 
 # template: "template_toolkit"
 # engines:
@@ -47,6 +47,8 @@ plugins:
       template: cart_checkout
     navigation:
       template: product-listing
+    cart:
+      template: cart
   Auth::Extensible:
     disable_roles: 0
     no_login_handler: 1
@@ -60,8 +62,8 @@ plugins:
         provider: 'DBIC'
         db_connection_name: 'default'
         users_resultset: User
-        roles_relationship: roles
-        role_column: name
+#        roles_relationship: roles
+#        role_column: name
         username_column: username
         password_column: password
         password_check: check_password
