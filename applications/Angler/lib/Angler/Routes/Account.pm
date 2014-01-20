@@ -60,13 +60,13 @@ post '/registration' => sub {
     else {
     # create account
     #debug("Register account: $values->{email}.");
-    $acct = rset('User')->create( $user_data );
+    $user = rset('User')->create( $user_data );
 
     # add user role
-    $role = rset('UserRole')->create( { users_id => $acct->id, roles_id => $user_role_id  } );
+    $role = rset('UserRole')->create( { users_id => $user->id, roles_id => $user_role_id  } );
 
     # add user attribute
-    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'facebook', value => '0' } );
+    $user->add_attribute('facebook','0');
 #    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'fb_token', value => '' } );
 
     #debug("Register result: ", $acct || 'N/A');
@@ -101,10 +101,10 @@ get '/facebook/login' => sub {
         ->uri_as_string;
 };
 get '/facebook/postback/' => sub {
-    my ( $attr, $avail,  $user, $user_email, $fb, $token_response_object, $authorization_code, $role, $acct, $user_role_id, $pass, $secret, $user_data);
+    my ( $attr, $avail,  $user, $fb_user, $user_email, $fb, $token_response_object, $authorization_code, $role, $acct, $user_role_id, $pass, $secret, $user_data);
 
     $authorization_code = params->{code};
-    $fb                 = Facebook::Graph->new( config->{facebook} );
+    $fb = Facebook::Graph->new( config->{facebook} );
     $user_role_id = '3';
     $pass = new String::Random;
     # create password for facebook user
@@ -112,36 +112,36 @@ get '/facebook/postback/' => sub {
     $token_response_object = $fb->request_access_token($authorization_code);
 
     # get fb user information
-    $user = $fb->fetch('me');
+    $fb_user = $fb->fetch('me');
     $user_email = $user->{email}; 
     $avail = rset('User')->find({ email => $user_email });
 
     # if the customer is not already registered with this email then DO IT.
     if ( !$avail ) {
 
-    $user_data = { username => $user->{email},
-                   first_name => $user->{first_name},
-                   last_name => $user->{last_name},
+    $user_data = { username => $fb_user->{email},
+                   first_name => $fb_user->{first_name},
+                   last_name => $fb_user->{last_name},
                    email    => $user_email,
                    password => $secret,
                    created => $now
     };
 
     # create new user
-    $acct = rset('User')->create( $user_data );
+    $user = rset('User')->create( $user_data );
 
     # add user role
     $role = rset('UserRole')->create( { users_id => $acct->id, roles_id => $user_role_id  } );
 
     # add user attribute
-    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'facebook', value => '1' } );
-    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'fb_token', value => $token_response_object->token } );
-    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'fb_token_exp', value => $token_response_object->expires } );
-    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'fb_id', value => $user->{id} } );
-    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'fb_password', value => $secret } );
+    $user->add_attribute('facebook','1');
+    $user->add_attribute('fb_token', $token_response_object->token);
+    $user->add_attribute('fb_token_exp', $token_response_object->expires);
+    $user->add_attribute('fb_id', $fb_user->{id});
+    $user->add_attribute('fb_password', $secret);
 }
     # log person in with DPAE
-    session logged_in_user => $user->{email};
+    session logged_in_user => $fb_user->{email};
     session logged_in_user_realm => 'users';
 
     # TODO lets email the user now with login information
