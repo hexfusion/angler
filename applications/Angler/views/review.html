@@ -5,31 +5,42 @@
                <form class="frm-default" name="review" action="/review" method="POST">
                         <fieldset>
                         <div class="reg-info">Submit review.</div>
+                        <input type="hidden" name="sku" />
                         <ul>
                                 <li>
-                                        <label>Rating</label>
-                                        <input type="text" name="rating"/>
+                                       <label>Rating
+                                         <select name="rating" id="rating">
+                                           <option value="1">1</option>
+                                           <option value="2">2</option>
+                                           <option value="3">3</option>
+                                           <option value="4">4</option>
+                                           <option value="5">5</option>
+                                         </select>
+                                       </label>
                                 </li>
                                 <li>
                                         <label>Title</label>
                                         <input type="text" name="title"/>
                                 </li>
-                                <li>
+                               <!-- <li>
                                         <label>Sku</label>
                                         <input type="text" name="sku"/>
-                                </li>
+                                </li> -->
                                  <li>
                                         <label>Alias</label>
                                         <input type="text" name="user_alias"/>
                                 </li>
                                  <li>
-                                        <label>Use Alias?</label>
+                                        <label>Use Alias?
                                         <input type="checkbox" name="user_alias_visable" value="1"/>
+                                        </label>
                                 </li>
-                                 <li>
-                                        <label>Recommend</label>
+                                <li>
+                                        <label>Recommend?
                                         <input type="checkbox" name="recommend" value="1"/>
+                                        </label>
                                 </li>
+                                <br />
                                 <li>
                                         <label>Content</label>
                                         <textarea name="content" placeholder="Enter text..."></textarea>
