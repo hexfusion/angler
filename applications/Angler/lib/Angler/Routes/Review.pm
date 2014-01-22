@@ -11,9 +11,12 @@ require_login require_any_role
 use Data::Transpose::Validator;
 use Try::Tiny;
 
-get '/review' => require_login sub {
+get '/review/:sku' => require_login sub {
+    my $sku = params->{sku};
     my $form = form('review');
      $form->reset;
+     $form->action('/review/' . $sku);
+     $form->fill({sku => $sku,});
     template 'review', {form => $form };
 };
 get '/review_thank-you' => sub {
@@ -21,9 +24,7 @@ get '/review_thank-you' => sub {
     template 'review_thank-you', {form => $form };
 };
 
-
-
-post '/review' => require_login sub {
+post '/review/:sku' => require_login sub {
     my $form = form('review');
     my $values = $form->values;
     my $user = logged_in_user;
@@ -44,12 +45,17 @@ post '/review' => require_login sub {
         my $review = rset('Review')->create( $review_data );
 
         # add/use display name
-        $user->add_attribute('user_alias',$values->{user_alias});
-        $user->add_attribute('user_alias_visable',$values->{user_alias_visable});
+        if ($values->{user_alias}) {
+            $user->add_attribute('user_alias',$values->{user_alias});
+        }
+        elsif ($values->{user_alias_visable}){
+            $user->add_attribute('user_alias_visable',$values->{user_alias_visable});
+        }
 
         return redirect '/review_thank-you';
     }
     else {
+    $form->action('/review/' . $values->{sku});
     template 'review', {form => $form_validate,
                     errors => $error_string};
     }
@@ -64,10 +70,6 @@ sub validate_review {
     $validator->field('rating' => "String");
     $validator->field('title' => "String");
     $validator->field('sku' => "String");
-#    $validator->field('sku' => "ProductSku");
-#    $validator->field('user_alias' => "String");
-#    $validator->field('user_alias_visable' => "String");
-#    $validator->field('recommend' => "String");
     $validator->field('content' => "String");
 
     my $clean = $validator->transpose($values);
@@ -90,7 +92,6 @@ sub validate_review {
             #$form->errors({sku => "A review for $sku already exists for this user!"});
             #$error_string=({sku => 'Valid sku required for review'});
         }
-#     $form->fill($values);
     }
     return ($form, $error_string);
 };
