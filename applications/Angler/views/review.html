@@ -1,0 +1,43 @@
+<div class="main-full">
+ <div class="form-errors">
+          Errors
+        </div>
+               <form class="frm-default" name="review" action="/review" method="POST">
+                        <fieldset>
+                        <div class="reg-info">Submit review.</div>
+                        <ul>
+                                <li>
+                                        <label>Rating</label>
+                                        <input type="text" name="rating"/>
+                                </li>
+                                <li>
+                                        <label>Title</label>
+                                        <input type="text" name="title"/>
+                                </li>
+                                <li>
+                                        <label>Sku</label>
+                                        <input type="text" name="sku"/>
+                                </li>
+                                 <li>
+                                        <label>Alias</label>
+                                        <input type="text" name="user_alias"/>
+                                </li>
+                                 <li>
+                                        <label>Use Alias?</label>
+                                        <input type="checkbox" name="user_alias_visable" value="1"/>
+                                </li>
+                                 <li>
+                                        <label>Recommend</label>
+                                        <input type="checkbox" name="recommend" value="1"/>
+                                </li>
+                                <li>
+                                        <label>Content</label>
+                                        <textarea name="content" placeholder="Enter text..."></textarea>
+                                </li>
+                                <li>
+                                        <input type="submit" value="Submit" class="btn-submit" />
+                                </li>
+                         </ul>
+         </fieldset>
+  </form>
+        </div> <!-- end main -->
