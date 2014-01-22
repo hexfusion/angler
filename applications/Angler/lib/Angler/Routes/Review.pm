@@ -48,8 +48,8 @@ post '/review/:sku' => require_login sub {
         if ($values->{user_alias}) {
             $user->add_attribute('user_alias',$values->{user_alias});
         }
-        elsif ($values->{user_alias_visable}){
-            $user->add_attribute('user_alias_visable',$values->{user_alias_visable});
+        elsif ($values->{user_alias_visible}){
+            $user->add_attribute('user_alias_visible',$values->{user_alias_visible});
         }
 
         return redirect '/review_thank-you';
