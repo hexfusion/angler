@@ -99,15 +99,13 @@
         </p>
         <form method="POST" action="cart" name="product">
           <input type="hidden" name="sku" id="sku" value="">
+<div class="variant-error form-error">
+                Sorry, the current selection isn't available.
+                Please choose a different combination.
+                </div>
           <div class="product-options-list">
             <ul class="form-inline">
-              <li><span>Size</span><select class="input-small attribute-size"><option>11</option></select> <a class="text-info" href="">Size help</a></li>
-              <li>
-                <span>Color</span>
-                <select class="input-small attribute-color">
-                  <option>Green</option>
-                </select>
-              </li>
+              <li class="product-attributes-item"><span class="product-attributes-name">Size</span><select class="input-small attribute-size product-attributes-name"><option class="product-attributes-values-item product-attributes-value">11</option></select> <a class="text-info" href="">Size help</a></li>
               <li>
                 <span>Quantity</span>
                 <select class="input-small">
