@@ -11,6 +11,9 @@ require_login require_any_role
 use Facebook::Graph;
 
 use Angler::Routes::Account;
+#use Angler::Routes::User;
+use Angler::Routes::Review;
+#use Angler::Routes::Test;
 
 our $VERSION = '0.1';
 
@@ -65,15 +68,30 @@ hook 'before_layout_render' => sub {
     # navigation elements
 #    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
+
+hook 'before_navigation_display' => sub {
+     my $nav_tokens = shift;
+
+#     debug "Info: ", $nav_tokens->{navigation}->uri;
+
+#     debug "Products: ", scalar @{$nav_tokens->{products}};
+#     for my $product (@{$nav_tokens->{products}}) {
+#         debug "Price: ", $product->price;
+#     }
+};
+
 hook 'before_product_display' => sub {
     my ($tokens) = @_;
     my $product = $tokens->{product};
-
+    
     debug "Before product display: ", $product->sku;
-
+    my $status = logged_in_user;
     my $path = $product->path;
     my $current_nav = pop @$path;
     my @other_products;
+
+    # review link
+    $tokens->{review_link} = '/review/' . $product->sku;
 
     if ($current_nav) {
         my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
@@ -85,7 +103,7 @@ hook 'before_product_display' => sub {
     }
 
     $tokens->{category_products} = \@other_products;
-
+debug "Attributes: ", $product->attribute_iterator;
 return;
 
         # determine category for product
@@ -132,6 +150,8 @@ hook 'before_cart_display' => sub {
     my ($values) = @_;
 
     $values->{countries} = countries();
+
+debug "Country: ", ref($values->{countries}->[0]);
     $values->{country} = 'US';
 };
 

@@ -1,6 +1,7 @@
 package Angler::Routes::Account;
 
 use Dancer ':syntax';
+use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Auth::Extensible qw(
@@ -9,7 +10,7 @@ require_login require_any_role
 );
 use String::Random;
 use Facebook::Graph;
-use Input::Validator;
+use Data::Transpose::Validator;
 use DateTime qw();
 use DateTime::Duration qw();
 
@@ -43,21 +44,31 @@ post '/registration' => sub {
                       created => $now
         };
     # validate form input
-    $validator = new Input::Validator;
+    $validator = Data::Transpose::Validator->new(requireall => 1);
+    $validator->field('email' => "EmailValid");
+    $validator->field('password' => 'PasswordPolicy');
+    $validator->field('password')->username($values->{email});
+    $validator->field('verify' => "String");
+    $validator->field('test' => "String");
+    $validator->group(passwords => ("verify", "password"));
 
-    $validator->field('email')->required(1)->email();
-    $validator->field('password')->required(1);
-    $validator->field('verify')->required(1);
+    my $clean = $validator->transpose($values);
+    my $error_string;
+    if (!$clean || $validator->errors) {
+        $error_ref = $validator->errors;
+        debug("Register errors: ", $error_ref);
 
-    $validator->validate($values);
+        $error_string = $validator->packed_errors;
 
-    if ($validator->has_errors) {
-    $error_ref = $validator->errors;
-    debug("Register errors: ", $error_ref);
-    $form->errors($error_ref);
-    $form->fill($values);
-    }
-    else {
+        my %form_errors;
+        for my $error_info (@$error_ref) {
+            $form_errors{$error_info->{field}}
+                = $error_info->{errors};
+        }
+
+        my $form_error_ref = $form->errors(\%form_errors);
+        $form->fill($values);
+    }    else {
     # create account
     #debug("Register account: $values->{email}.");
     $user = rset('User')->create( $user_data );
@@ -74,7 +85,7 @@ post '/registration' => sub {
     }
 
     template 'registration', {form => $form,
-                  errors => $error_ref,
+                  errors => $error_string,
                   layout_noleft => 1,
                   layout_noright => 1};
 

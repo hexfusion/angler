@@ -24,8 +24,14 @@ interchange/src/vlink._*
 interchange/var/log/*
 interchange/var/run/*
 applications/Angler/bin/app.pl
+applications/Angler/sql/*
+solr/conf/db-connection.xml
+solr/conf/scripts.conf
 my.cnf
 mysql.yml
+nginx/
+local/
+bin/
 mysql/
 nohup.out
 etc/
