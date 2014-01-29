@@ -3,7 +3,7 @@
     <xi:include href="db-connection.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude"/>
     <document name="products">
-       <entity dataSource="c1wba6" name="entity1" query="select sku from product">
+       <entity dataSource="c1wba6" name="entity1" query="select sku from products">
             <field column="name" name="name" />
             <field column="price" name="price" />
             <field column="sku" name="sku" />
