@@ -14,6 +14,7 @@ use Angler::Routes::Account;
 #use Angler::Routes::User;
 use Angler::Routes::Review;
 #use Angler::Routes::Test;
+use Angler::Routes::Search;
 
 our $VERSION = '0.1';
 

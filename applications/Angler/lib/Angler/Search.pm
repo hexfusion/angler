@@ -1,0 +1,77 @@
+package Angler::Search;
+
+use Moo;
+use MooX::Types::MooseLike::Base qw/ArrayRef/;
+
+use WebService::Solr;
+
+has solr_url => (
+    is => 'ro',
+    required => 1,
+);
+
+has solr_object => (
+    is => 'ro',
+    lazy => 1,
+    builder => '_get_object',
+);
+
+has words => (
+    is => 'rw',
+#    isa => 'ArrayRef',
+    default => sub {[]},
+);
+
+sub solr_query {
+    my ( $self ) = @_;
+    my (@filters);
+
+    my @spec_words = map {"$_*"} @{$self->words};
+
+    if (@spec_words) {
+        push @filters, q/_query_:"{!edismax qf='sku name description'}/
+            . join(' AND ', @spec_words)
+                . '"';
+    }
+
+    my $query;
+
+    if (@filters) {
+        $query = join( " AND ", map { "($_)" } @filters );
+    }
+    else {
+        $query = '*:*';
+    }
+    
+    Dancer::Logger::debug("Query: ", $query);
+    
+    my $solr = $self->solr_object;
+
+	my $response = $solr->search($query);
+	my @matches;
+
+	for my $doc ( $response->docs ) {
+		my (%record, $name);
+
+        for my $fld ($doc->fields) {
+            $name = $fld->name;
+            next if $name =~ /^_/;
+
+            $record{$name} = $fld->value;
+        }
+
+        push  @matches, \%record;
+	}
+
+    return \@matches;
+}
+
+sub _get_object {
+    my ($self) = @_;
+
+    my $solr = WebService::Solr->new( $self->solr_url );
+
+    return $solr;
+}
+
+1;

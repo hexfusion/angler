@@ -35,6 +35,9 @@ requires 'DateTime::Locale';
 requires 'Input::Validator';
 requires 'Business::OnlinePayment';
 requires 'Moo';
+# Angler::Search
+requires 'MooX::Types::MooseLike';
+requires 'WebService::Solr';
 requires 'Math::Pari';
 requires 'Net::SSLeay';
 requires 'AnyEvent::TLS';
