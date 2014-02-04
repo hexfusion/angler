@@ -3,10 +3,16 @@
     <xi:include href="db-connection.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude"/>
     <document name="products">
-       <entity dataSource="c1wba6" name="entity1" query="select sku from products">
+       <entity dataSource="c1wba6" name="entity1" query="select sku, name, price, active, canonical_sku, description from products">
             <field column="name" name="name" />
             <field column="price" name="price" />
             <field column="sku" name="sku" />
+            <field column="active" name="active" />
+            <field column="canonical_sku" name="canonical_sku" />
+            <field column="description" name="description" />
+            <field column="gtin" name="gtin" />
+            <field column="created" name="created" />
+            <field column="last_modified" name="last_modified" />
         </entity>
     </document>
 
