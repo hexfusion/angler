@@ -36,13 +36,15 @@ sub solr_query {
 
     my $query;
 
-    if (@filters) {
-        $query = join( " AND ", map { "($_)" } @filters );
+    # only search for active products
+    if (! @filters) {
+        @filters = '*:*';
     }
-    else {
-        $query = '*:*';
-    }
-    
+
+    unshift @filters, q{canonical_sku:['' TO *]};
+
+    $query = join( " AND ", map { "($_)" } @filters );
+     
     Dancer::Logger::debug("Query: ", $query);
     
     my $solr = $self->solr_object;
