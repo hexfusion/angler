@@ -15,10 +15,12 @@ get '/search' => sub {
         words => \@words);
 
     my $results = $search->solr_query;
+    my $count = $search->count;
 
     debug "Results: ", $results;
     
-    template 'product-listing', {products => $results};
+    template 'product-listing', {products => $results,
+                                 count => $count};
 };
   
 1;

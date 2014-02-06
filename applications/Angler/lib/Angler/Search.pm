@@ -16,6 +16,12 @@ has solr_object => (
     builder => '_get_object',
 );
 
+has count => (
+    is => 'rwp',
+    lazy => 1,
+    default => sub {0},
+);
+
 has words => (
     is => 'rw',
 #    isa => 'ArrayRef',
@@ -51,6 +57,11 @@ sub solr_query {
 
 	my $response = $solr->search($query);
 	my @matches;
+
+    my $count = $response->pager->total_entries;
+
+    # save count in our object
+    $self->_set_count($count);
 
 	for my $doc ( $response->docs ) {
 		my (%record, $name);
