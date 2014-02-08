@@ -22,6 +22,11 @@ has count => (
     default => sub {0},
 );
 
+has page_size => (
+    is => 'rw',
+    default => sub {20},
+);
+
 has words => (
     is => 'rw',
 #    isa => 'ArrayRef',
@@ -55,7 +60,9 @@ sub solr_query {
     
     my $solr = $self->solr_object;
 
-	my $response = $solr->search($query);
+	my $response = $solr->search($query, {start => 0,
+                                          rows => $self->page_size});
+
 	my @matches;
 
     my $count = $response->pager->total_entries;
