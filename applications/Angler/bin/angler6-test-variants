@@ -1,59 +1,117 @@
 #! /usr/bin/env perl
+#
+# Update products from old live database.
 
 use strict;
 use warnings;
 
 use Dancer ':script';
 use Dancer::Plugin::Interchange6;
+use Dancer::Plugin::Database;
 
-# fish skirt product
-my $product;
-my %canonical = (sku => 'FISKIRT',
-                 name => 'Fish skirt',
-                 description => 'Bla bla',
-                 uri => 'FISKIRT',
-                 price => '20');
+set logger => 'console';
+set logger_format => '%m';
+set log => 'debug';
 
-if ($product = shop_product->find($canonical{sku})) {
-    $product->delete;
+my $dbh = database;
+
+# $dbh->quick_delete('products', {});
+
+my @products = $dbh->quick_select('products', {});
+
+#shop_product->search()->delete;
+
+my %navigation_map = ('Rods' => 'Fly Rods',
+    'Waders' => 'Waders',
+    'Reels' => 'Fly Reels',
+    'Boxes' => 'Fly Boxes',
+    'Raingear' => 'Jackets',
+    'Softshell' => 'Jackets',
+    'Nets' => 'Landing Nets',
+    'Vests' => 'Packs & Vests',
+    'Luggage' => 'Bags & Luggage',
+    'Bags' => 'Bags & Luggage',
+    'Socks' => 'Socks',
+    'Layering' => 'Layering',
+    'Pants' => 'Pants',
+    'Gadgets' => 'Tools & Gadgets',
+    'Lines' => 'Fly Line & Backing',
+    'Underwear' => 'Underwear',
+    'Hats' => 'Hats',
+    'Shorts' => 'Shorts',
+    'Shirt' => 'Shirts',
+    'Shirts' => 'Shirts',
+    'Headlamps' => 'Tools & Gadgets',
+    'Dvd' => 'Books & DVDs',
+    'Books' => 'Books & DVDs',
+    );
+
+# create size attribute
+my $size_data = {name => 'size', title => 'Size', type => 'variant', priority => 1,
+                 AttributeValue =>
+                     [{value => 'L', title => 'L'},
+                  ]};
+
+my $size_att = shop_schema->resultset('Attribute')->find_or_create($size_data);
+
+for my $product (@products) {
+    my $object;
+
+    my %record = (sku => $product->{sku},
+                  name => $product->{description},
+                  short_description => $product->{comment_short} || '',
+                  price => $product->{price},
+                  active => ! $product->{inactive},
+              );
+    
+    if (! ($object = shop_product->find($product->{sku}))) {
+#        debug "Product $product->{sku} missing.\n";
+
+        $object = shop_product->create(\%record);
+    }
+    else {
+        $object->update(\%record);
+    }
+
+    if ($product->{category} && exists $navigation_map{$product->{category}}) {
+        if (my $nav = shop_navigation->find({name => $navigation_map{$product->{category}}})) {
+            shop_schema->resultset('NavigationProduct')->find_or_create({sku => $product->{sku},
+                                                                         navigation_id => $nav->id});
+        }
+        else {
+            warning "Category $navigation_map{$product->{category}} not found.";
+        }
+    }
+
+    # get all variants for this product
+    my @variants = $dbh->quick_select('variants', {sku => $product->{sku}});
+    my @var_data;
+
+    for my $var (@variants) {
+        if ($var->{size}) {
+#            debug "Variant $var->{code} for SKU $product->{sku} with size $var->{size}";
+            push @var_data, {size => $var->{size},
+                             sku => $var->{code},
+                         };
+        }
+    }
+
+    if (@var_data) {
+#        $object->add_variants(@var_data);
+    }
 }
 
-$product = shop_product->create(\%canonical);
+exit 0;
 
-# navigation for fish skirts
-my $skirts;
+my @variants = $dbh->quick_select('variants', {});
 
-if ($skirts = shop_navigation->find({uri => 'Clothing/Men/Skirts'})) {
-    $skirts->delete;
+#debug "V ", $variants;
+
+for my $var (@variants) {
+    debug "Variant: ", $var;
+
+    if (! shop_product->find($var->{sku})) {
+        debug "Product $var->{sku} missing.\n";
+    }
 }
-
-$skirts = shop_navigation->create({uri => 'Clothing/Men/Skirts',
-                                   name => 'Fishing Skirts',
-                                     });
-
-$product->NavigationProduct->create({navigation_id => $skirts->id});
-
-# add more attributes
-my $color_data =
-    {name => 'color', title => 'Color',
-     AttributeValue =>
-         [{value => 'black', title => 'Black'},
-          {value => 'white', title => 'White'},
-          {value => 'green', title => 'Green'},
-          {value => 'red', title => 'Red'},
-          {value => 'yellow', title => 'Yellow'},
-          {value => 'pink', title => 'Pink'},
-      ]};
-
-my $color_att = shop_schema->resultset('Attribute')->create($color_data);
-my $pink_value = $color_att->search_related('AttributeValue', {value => 'pink'})->single;
-
-
-my $prod_color_data =
-    {attributes_id => $color_att->id,
-     ProductAttributeValue =>
-         [{attribute_values_id => $pink_value->id}],
- };
-
-my $prod_color_att = $product->ProductAttribute->create($prod_color_data);
 
