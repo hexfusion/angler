@@ -13,7 +13,6 @@ use Facebook::Graph;
 use Angler::Routes::Account;
 #use Angler::Routes::User;
 use Angler::Routes::Review;
-#use Angler::Routes::Test;
 use Angler::Routes::Search;
 
 our $VERSION = '0.1';
@@ -84,15 +83,27 @@ hook 'before_navigation_display' => sub {
 hook 'before_product_display' => sub {
     my ($tokens) = @_;
     my $product = $tokens->{product};
-    
+    my $user = logged_in_user;
     debug "Before product display: ", $product->sku;
     my $status = logged_in_user;
     my $path = $product->path;
     my $current_nav = pop @$path;
     my @other_products;
 
-    # review link
-    $tokens->{review_link} = '/review/' . $product->sku;
+    # set form review defaults
+    my $form = form('review');
+
+    $form->{values}->{rating} //= '0';
+    my $values = $form->{values};
+    $form->fill($values);
+    $form->action('/review/' . $product->sku);
+
+    $tokens->{form} = $form;
+
+    if ($user) {
+        # review link
+        $tokens->{review_link} = '#open';
+    }
 
     if ($current_nav) {
         my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
