@@ -11,14 +11,6 @@ require_login require_any_role
 use Data::Transpose::Validator;
 use Try::Tiny;
 
-get '/review/:sku' => require_login sub {
-    my $sku = params->{sku};
-    my $form = form('review');
-     $form->reset;
-     $form->action('/review/' . $sku);
-     $form->fill({sku => $sku,});
-    template 'review', {form => $form };
-};
 get '/review_thank-you' => sub {
     my $form = form('review');
     template 'review_thank-you', {form => $form };
@@ -29,71 +21,56 @@ post '/review/:sku' => require_login sub {
     my $values = $form->values;
     my $user = logged_in_user;
     my $users_id = $user->users_id;
+    my $sku = params->{sku};
 
-    my ($form_validate, $error_string) = validate_review($form, $values, $users_id);
+    #validate input
+    my ($error_string) = validate_review($values);
 
     unless ($error_string) {
         my $review_data = { rating => $values->{rating},
                             title => $values->{title},
-                            sku => $values->{sku},
+                            sku => $sku,
                             content => $values->{content},
                             recommend => $values->{recommend},
                             users_id => $users_id,
         };
 
-        # add review
-        my $review = rset('Review')->create( $review_data );
+        # check if review for product already exist for this user
+        my $review_exist = rset('Review')->find({sku => $sku, users_id => $users_id});
 
-        # add/use display name
-        if ($values->{user_alias}) {
-            $user->add_attribute('user_alias',$values->{user_alias});
+        if ($review_exist) {
+            die "A review for $sku already exists for this user!";
         }
-        elsif ($values->{user_alias_visible}){
-            $user->add_attribute('user_alias_visible',$values->{user_alias_visible});
+        else {
+            my $review = rset('Review')->create( $review_data );
+            $form->reset;
+            $form->to_session;
+            return redirect '/review_thank-you';
         }
-
-        return redirect '/review_thank-you';
     }
     else {
-    $form->action('/review/' . $values->{sku});
-    template 'review', {form => $form_validate,
-                    errors => $error_string};
+        $form->errors($error_string);
+        $form->to_session;
+
+        return redirect "/$sku#review";
     }
 };
 
 sub validate_review {
-    my ( $form, $values, $users_id) = @_;
-
+    my ($form, $values) = @_;
+    my ($clean, $error_string);
     # validate form input
     my $validator = Data::Transpose::Validator->new(requireall => 1);
 
     $validator->field('rating' => "String");
     $validator->field('title' => "String");
-    $validator->field('sku' => "String");
     $validator->field('content' => "String");
 
-    my $clean = $validator->transpose($values);
-    my $error_string;
-
+    $clean = $validator->transpose($values);
     if (!$clean || $validator->errors) {
-        my $error_ref = $validator->errors;
-        debug("Register errors: ", $error_ref);
-        $error_string = $validator->packed_errors;
-        debug("Error string: ", $error_string);
-        $form->errors($error_string);
-        debug to_dumper($error_ref);
-        $form->fill($values);
+        $error_string = $validator->errors_as_hashref;
     }
-    else { 
-        my $sku = $values->{sku};
-        my $review_exist = rset('Review')->find({sku => $sku, users_id => $users_id});
-        if ($review_exist) {
-            die "A review for $sku already exists for this user!";
-            #$form->errors({sku => "A review for $sku already exists for this user!"});
-            #$error_string=({sku => 'Valid sku required for review'});
-        }
-    }
-    return ($form, $error_string);
+    return ($error_string);
 };
 
 
