@@ -10,6 +10,7 @@ require_login require_any_role
 );
 use String::Random;
 use Facebook::Graph;
+use Data::Transpose::PasswordPolicy;
 use Data::Transpose::Validator;
 use DateTime qw();
 use DateTime::Duration qw();
@@ -43,32 +44,45 @@ post '/registration' => sub {
                       password => $values->{password},
                       created => $now
         };
+
     # validate form input
     $validator = Data::Transpose::Validator->new(requireall => 1);
-    $validator->field('email' => "EmailValid");
-    $validator->field('password' => 'PasswordPolicy');
-    $validator->field('password')->username($values->{email});
-    $validator->field('verify' => "String");
-    $validator->field('test' => "String");
-    $validator->group(passwords => ("verify", "password"));
+    $validator->prepare(email => {validator => 'EmailValid'},
+                        password => {
+                            validator => {
+                                class => 'PasswordPolicy',
+                                options => {
+                                    username => $values->{email},
+                                    minlength => 8,
+                                    maxlength => 50,
+                                    patternlength => 4,
+                                    mindiffchars => 5,
+                                    disabled => {
+                                        digits => 1,
+                                        mixed => 1,
+                                        specials => 1,
+                                    }
+                                }
+                            }
+                        },
+                        confirm_password => {
+                            validator => 'String',
+                        },
+                        passwords_matching => {
+                            validator => 'Group',
+                            fields => [ "password", "confirm_password" ],
+                        },
 
+);
     my $clean = $validator->transpose($values);
-    my $error_string;
+    my $errors;
+
     if (!$clean || $validator->errors) {
-        $error_ref = $validator->errors;
-        debug("Register errors: ", $error_ref);
-
-        $error_string = $validator->packed_errors;
-
-        my %form_errors;
-        for my $error_info (@$error_ref) {
-            $form_errors{$error_info->{field}}
-                = $error_info->{errors};
-        }
-
-        my $form_error_ref = $form->errors(\%form_errors);
+        $errors = $validator->errors_hash;
+        # debug("Register errors: ", $error_ref);
         $form->fill($values);
-    }    else {
+    }
+    else {
     # create account
     #debug("Register account: $values->{email}.");
     $user = rset('User')->create( $user_data );
@@ -85,7 +99,7 @@ post '/registration' => sub {
     }
 
     template 'registration', {form => $form,
-                  errors => $error_string,
+                  errors => $errors,
                   layout_noleft => 1,
                   layout_noright => 1};
 
@@ -124,7 +138,7 @@ get '/facebook/postback/' => sub {
 
     # get fb user information
     $fb_user = $fb->fetch('me');
-    $user_email = $user->{email}; 
+    $user_email = $fb_user->{email}; 
     $avail = rset('User')->find({ email => $user_email });
 
     # if the customer is not already registered with this email then DO IT.
@@ -137,7 +151,7 @@ get '/facebook/postback/' => sub {
                    password => $secret,
                    created => $now
     };
-
+    debug 'facebook users data', $user_data;
     # create new user
     $user = rset('User')->create( $user_data );
 
