@@ -10,18 +10,21 @@ require_login require_any_role
 );
 use String::Random;
 use Facebook::Graph;
-use Data::Transpose::PasswordPolicy;
 use Data::Transpose::Validator;
+use Data::UUID;
+use Dancer::Plugin::Email;
+use Try::Tiny;
 use DateTime qw();
 use DateTime::Duration qw();
 
 my $now = DateTime->now;
 
 # add default admin user for testing
-#my $admin_user =
-#        rset('User')
-#        ->create(
-#        { username => 'admin', password => 'admin', email => 'admin@localhost', created => $now } );
+#my $admin_user = shop_user->create({ username => 'admin', 
+#                                      password => 'admin', 
+#                                      email => 'admin@localhost',
+#                                      created => $now
+# });
 
 get '/registration' => sub {
     my $form = form('registration');
@@ -83,16 +86,11 @@ post '/registration' => sub {
         $form->fill($values);
     }
     else {
-    # create account
-    #debug("Register account: $values->{email}.");
-    $user = rset('User')->create( $user_data );
-
-    # add user role
-    $role = rset('UserRole')->create( { users_id => $user->id, roles_id => $user_role_id  } );
+    # create new user and role
+    my $user = add_user($user_data);
 
     # add user attribute
     $user->add_attribute('facebook','0');
-#    $attr = rset('UserAttribute')->create( { users_id => $acct->id, name => 'fb_token', value => '' } );
 
     #debug("Register result: ", $acct || 'N/A');
     return redirect '/login';
@@ -122,15 +120,23 @@ get '/facebook/login' => sub {
     #redirect $fb->authorize->uri_as_string;
         redirect $fb
         ->authorize
-        ->extend_permissions( qw(offline_access email publish_stream) )
+        ->extend_permissions( qw(offline_access email) )
         ->uri_as_string;
 };
 get '/facebook/postback/' => sub {
-    my ( $attr, $avail,  $user, $fb_user, $user_email, $fb, $token_response_object, $authorization_code, $role, $acct, $user_role_id, $pass, $secret, $user_data);
+    my $user = facebook_auth();
+    redirect '/';
+};
+
+get '/confirmation/conf_id:' => sub {
+    my $conf_id = params->{conf_id};
+};
+
+sub facebook_auth {
+    my ($attr, $avail, $user, $username, $fb_user, $fb_user_email, $user_exist, $fb, $token_response_object, $authorization_code, $user_id, $pass, $secret, $user_data);
 
     $authorization_code = params->{code};
     $fb = Facebook::Graph->new( config->{facebook} );
-    $user_role_id = '3';
     $pass = new String::Random;
     # create password for facebook user
     $secret = $pass->randpattern("CCcn!Ccn");
@@ -138,40 +144,74 @@ get '/facebook/postback/' => sub {
 
     # get fb user information
     $fb_user = $fb->fetch('me');
-    $user_email = $fb_user->{email}; 
-    $avail = rset('User')->find({ email => $user_email });
+    $fb_user_email = $fb_user->{email};
+    $user_exist = shop_user->find({ email => $fb_user_email });
 
     # if the customer is not already registered with this email then DO IT.
-    if ( !$avail ) {
-
-    $user_data = { username => $fb_user->{email},
-                   first_name => $fb_user->{first_name},
-                   last_name => $fb_user->{last_name},
-                   email    => $user_email,
-                   password => $secret,
-                   created => $now
-    };
-    debug 'facebook users data', $user_data;
-    # create new user
-    $user = rset('User')->create( $user_data );
-
-    # add user role
-    $role = rset('UserRole')->create( { users_id => $acct->id, roles_id => $user_role_id  } );
+    unless ( $user_exist ) {
+        $user_data = { username => $fb_user_email,
+                       first_name => $fb_user->{first_name},
+                       last_name => $fb_user->{last_name},
+                       email    => $fb_user_email,
+                       password => $secret,
+                       created => $now
+        };
+        #debug 'facebook users data', $user_data;
+        # create new user and role
+        $user = add_user($user_data);
+        $user_id = $user->id;
+        $username = $user->username;
+    }
+    else {
+        $user_id = $user_exist->id;
+        $username = $user_exist->username;
+        $user = $user_exist;
+    }
 
     # add user attribute
     $user->add_attribute('facebook','1');
     $user->add_attribute('fb_token', $token_response_object->token);
     $user->add_attribute('fb_token_exp', $token_response_object->expires);
     $user->add_attribute('fb_id', $fb_user->{id});
-    $user->add_attribute('fb_password', $secret);
-}
-    # log person in with DPAE
-    session logged_in_user => $fb_user->{email};
+    # $user->add_attribute('fb_password', $secret);
+
+    # set session login for DPAE 
+    session logged_in_user_id => $user_id;
+    session logged_in_user => $username;
     session logged_in_user_realm => 'users';
 
-    # TODO lets email the user now with login information
-
-    redirect '/';
-
+    return ($user);
 };
+
+sub reg_conf_email {
+    my ($data) = @_;
+    my $message = template('email/reg_conf_email', $data, {layout => undef});
+        email ({
+            from    => 'ic6test@westbranchangler.com',
+            to      => 'sam@westbranchresort.com',
+            subject => 'You have created an account with West Branch Angler.',
+            type    => 'html',
+            body => $message,
+        });
+ };
+
+
+sub add_user {
+    my ($user_data) = @_;
+    my ($user, $role);
+    my $user_role_id = config->{user_role_id};
+
+     debug("Create user data: ", $user_data);
+    # create account
+    $user = shop_user->create( $user_data );
+
+    # add user role
+    $role = $user->create_related('UserRole', { users_id => $user->id, roles_id => $user_role_id  } );
+
+    # email confirmation
+    reg_conf_email();
+
+    return ($user);
+};
+
 1;
