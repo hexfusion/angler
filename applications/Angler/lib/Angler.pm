@@ -95,14 +95,17 @@ hook 'before_product_display' => sub {
 
     $form->{values}->{rating} //= '0';
     my $values = $form->{values};
+#    debug "Errors: ", $form->{errors};
     $form->fill($values);
     $form->action('/review/' . $product->sku);
-
     $tokens->{form} = $form;
+    debug "Form: ", \$tokens->{form};
 
     if ($user) {
-        # review link
-        $tokens->{review_link} = '#open';
+    $tokens->{review_link} = '#open';
+    }
+    else {
+    $tokens->{review_link} = '/login';
     }
 
     if ($current_nav) {
