@@ -29,4 +29,25 @@
 <param name="uri" class="product-sidebar-link" field="sku" target="href" op="append"/>
 <param name="price" class="product-sidebar-price" field="price" filter=""/>
 </list>
+<!-- <list name="links" class="link" iterator="review_link"> -->
+<value name="review_link" class="review_link" iterator="review_link" target="href"/>
+
+<form name="review" link="name">
+<field name="rating"/>
+<field name="title"/>
+<field name="nickname"/>
+<field name="recommend"/>
+<field name="content"/>
+</form>
+
+<value name="form-errors" field="errors" op="toggle" />
+<list name="error-rating" iterator="errors.rating">
+<param name="value" class="rating-msg"/>
+</list>
+<list name="error-title" iterator="errors.title">
+<param name="value" class="title-msg"/>
+</list>
+<list name="error-content" iterator="errors.content">
+<param name="value" class="content-msg"/>
+</list>
 </specification>
