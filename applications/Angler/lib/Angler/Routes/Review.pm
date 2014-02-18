@@ -75,7 +75,7 @@ sub validate_review {
     if (!$clean || $validator->errors) {
         $error_hash = $validator->errors_hash;
     }
-    return ($error_hash);
+    return $error_hash;
 };
 
 sub review_email {
