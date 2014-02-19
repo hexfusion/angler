@@ -84,6 +84,8 @@ hook 'before_product_display' => sub {
     my ($tokens) = @_;
     my $product = $tokens->{product};
     my $user = logged_in_user;
+    my $user_id = session('logged_in_user_id');
+
     debug "Before product display: ", $product->sku;
     my $status = logged_in_user;
     my $path = $product->path;
@@ -102,10 +104,11 @@ hook 'before_product_display' => sub {
     debug "Form: ", \$tokens->{form};
 
     if ($user) {
-    $tokens->{review_link} = '#open';
+        $tokens->{review_link} = '#open';
+        $tokens->{review_nickname} = shop_user($user_id)->nickname;
     }
     else {
-    $tokens->{review_link} = '/login';
+        $tokens->{review_link} = '/login';
     }
 
     if ($current_nav) {

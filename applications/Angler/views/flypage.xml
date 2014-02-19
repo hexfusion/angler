@@ -32,6 +32,16 @@
 <!-- <list name="links" class="link" iterator="review_link"> -->
 <value name="review_link" class="review_link" iterator="review_link" target="href"/>
 
+<!-- nickname hint -->
+<value id="nickname-hint" name="nickname_hint"
+       field="review_nickname" op="toggle" args="static"/>
+
+<!-- nickname display -->
+<container name="nickname-container" value="review_nickname">
+<value id="nickname-display" name="nickname_display"
+       field="review_nickname"/>
+</container>
+
 <form name="review" link="name">
 <field name="rating"/>
 <field name="title"/>
