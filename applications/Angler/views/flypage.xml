@@ -42,6 +42,9 @@
        field="review_nickname"/>
 </container>
 
+<!-- nickname form field -->
+<container name="review-nickname" value="!review_nickname"/>
+
 <form name="review" link="name">
 <field name="rating"/>
 <field name="title"/>
