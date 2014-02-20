@@ -120,6 +120,7 @@ hook 'before_product_display' => sub {
         }
     }
 
+    $tokens->{category_name} = 'Other ' . $current_nav->name;
     $tokens->{category_products} = \@other_products;
 debug "Attributes: ", $product->attribute_iterator;
 return;
