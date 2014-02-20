@@ -31,7 +31,7 @@ my.cnf
 mysql.yml
 nginx/
 local/
-bin/
+/bin/
 mysql/
 nohup.out
 etc/
