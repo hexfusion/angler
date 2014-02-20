@@ -45,24 +45,50 @@ my $pop_roles = $schema->resultset("Role")->populate([
     { roles_id => '7', name => 'staff', label => 'Shop Staff' },
   ]);
 
-my $pop_users = $schema->resultset("User")->populate([
-  { username => 'john', password => 'john', first_name => 'John', last_name => 'Miller', email => 'sam@westbranchresort.com', created => $now, UserRole => [
-        { roles_id => '3' },
-        { roles_id => '6' },
+my %users;
+
+# Create user john
+$users{john} = shop_user->create(
+    { username => 'john', password => 'john', first_name => 'John',
+      last_name => 'Miller', email => 'sam@westbranchresort.com',
+      created => $now,
+      UserRole => [
+          { roles_id => '3' },
+          { roles_id => '6' },
       ],
-    },
-    { username => 'ben', password => 'ben', first_name => 'Ben', last_name => 'Sheard', email => 'sam@westbranchresort.com', created => $now, UserRole => [
-	{ roles_id => '3' },
-        { roles_id => '7' }, 
+  });
+
+shop_address->create({
+    users_id => $users{john}->id,
+    type => 'shipping',
+    address => 'Test Road',
+    postal_code => '13783',
+    city => 'Hancock',
+    state_iso_code => 'NY',
+    country_iso_code => 'US',
+});
+
+# Create user ben
+$users{ben} = shop_user->create(
+    { username => 'ben', password => 'ben', first_name => 'Ben',
+      last_name => 'Sheard', email => 'sam@westbranchresort.com',
+      created => $now,
+      UserRole => [
+          { roles_id => '3' },
+          { roles_id => '7' },
       ],
-    },
-    { username => 'sam', password => 'sam', nickname => 'trout lover', first_name => 'Sam', last_name => 'Batschelet', email => 'sbatschelet@mac.com', created => $now, UserRole => [
+  });
+
+# Create user sam
+$users{sam} = shop_user->create(
+    { username => 'sam', password => 'sam', nickname => 'trout lover',
+      first_name => 'Sam', last_name => 'Batschelet',
+      email => 'sbatschelet@mac.com', created => $now,
+      UserRole => [
         { roles_id => '3' },
         { roles_id => '7' },
-        { roles_id => '4' },
-    ],
-   },	
-  ]);
+      ],
+  });
 
 # create default navigation array
 my @navigation = (
