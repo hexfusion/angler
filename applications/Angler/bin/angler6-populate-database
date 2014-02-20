@@ -1,0 +1,259 @@
+#! /usr/bin/env perl
+# By Sam Batschelet
+# Version 0.013
+# 1/27/2014
+
+use strict;
+use warnings;
+
+use Dancer ':script';
+use Dancer::Plugin::Interchange6;
+
+set logger => 'console';
+set logger_format => '%m';
+
+use Locale::SubCountry;
+#use Interchange6::Schema;
+#use Dancer::Plugin::DBIC;
+
+use DateTime qw();
+
+my $now = DateTime->now;
+my $schema = shop_schema;
+
+shop_schema->deploy({add_drop_table => 1,
+                     producer_args => {
+                         mysql_version => 5,
+                     },
+                 });
+
+# countries array
+use Interchange6::Schema::Populate::CountryLocale;
+my $pop_countries = Interchange6::Schema::Populate::CountryLocale->new->records;
+ 
+# states array
+use Interchange6::Schema::Populate::StateLocale;
+my $pop_states = Interchange6::Schema::Populate::StateLocale->new->records;
+
+my $pop_roles = $schema->resultset("Role")->populate([
+    { roles_id => '1', name => 'anonymous', label => 'Anonymous Users' },
+    { roles_id => '2', name => 'authenticated', label => 'Authenticated Users' },
+    { roles_id => '3', name => 'user', label => 'User' },
+    { roles_id => '4', name => 'admin', label => 'Admin' },
+    { roles_id => '5', name => 'editor', label => 'Editor' },
+    { roles_id => '6', name => 'pro', label => 'Industry Pro' },
+    { roles_id => '7', name => 'staff', label => 'Shop Staff' },
+  ]);
+
+my $pop_users = $schema->resultset("User")->populate([
+  { username => 'john', password => 'john', first_name => 'John', last_name => 'Miller', email => 'sam@westbranchresort.com', created => $now, UserRole => [
+        { roles_id => '3' },
+        { roles_id => '6' },
+      ],
+    },
+    { username => 'ben', password => 'ben', first_name => 'Ben', last_name => 'Sheard', email => 'sam@westbranchresort.com', created => $now, UserRole => [
+	{ roles_id => '3' },
+        { roles_id => '7' }, 
+      ],
+    },
+    { username => 'sam', password => 'sam', nickname => 'trout lover', first_name => 'Sam', last_name => 'Batschelet', email => 'sbatschelet@mac.com', created => $now, UserRole => [
+        { roles_id => '3' },
+        { roles_id => '7' },
+        { roles_id => '4' },
+    ],
+   },	
+  ]);
+
+# create default navigation array
+my @navigation = (
+['', 'Fly-Fishing-Gear', 'menu', '', '', 'Gear for fly fishing', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens', 'menu', '', '', 'Clothing for fly fishing', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Tying', 'menu', '', '', 'Materials for fly tying', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Flies', 'menu', '', '', 'Flies for fishing', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Fly-Rods', 'menu', 'cat-gear', 'Fly Rods', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Fly-Reels', 'menu', 'cat-gear', 'Fly Reels', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Fly-Line', 'menu', 'cat-gear', 'Fly Line & Backing', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Waders', 'menu', 'cat-gear', 'Waders', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Wading-Boots', 'menu', 'cat-gear', 'Wading Boots', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Fly-Boxes', 'menu', 'cat-gear', 'Fly Boxes', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Packs-Vests', 'menu', 'cat-gear', 'Packs & Vests', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'contact', 'menu', 'nav-top', 'Contact', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'about-us', 'menu', 'nav-top', 'About Us', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'shipping', 'menu', 'nav-top', 'Shipping', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'login', 'nav', 'top-login', 'Login', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'registration', 'nav', 'top-login', 'Sign Up', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Leader-Tippet', 'menu', 'cat-gear-r', 'Leader & Tippet', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Tools-Gadgets', 'menu', 'cat-gear-r', 'Tools & Gadgets', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Bags-Luggage', 'menu', 'cat-gear-r', 'Bags & Luggage', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Nets', 'menu', 'cat-gear-r', 'Landing Nets', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Watercraft-Boats', 'menu', 'cat-gear-r', 'Watercraft & Boats', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Books-DVDs', 'menu', 'cat-gear-r', 'Books & DVDs', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/Fly-Rod-Combos', 'menu', 'cat-gear', 'Fly Rod Combos', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Fly-Fishing-Gear/New', 'menu', 'cat-gear', 'New Products!', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Jackets', 'menu', 'cat-clothing', 'Jackets', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Fleece', 'menu', 'cat-clothing', 'Fleece', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Layering', 'menu', 'cat-clothing', 'Layering', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Shirts', 'menu', 'cat-clothing', 'Shirts', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/T-Shirts', 'menu', 'cat-clothing', 'T-Shirts', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Pants', 'menu', 'cat-clothing', 'Pants', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Underwear', 'menu', 'cat-clothing', 'Underwear', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Hats', 'menu', 'cat-clothing', 'Hats', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing', 'menu', '', 'Clothing Men\'s', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/WBA-Logo', 'menu', 'cat-clothing', 'WBA Logo Gear', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Shorts', 'menu', 'cat-clothing-r', 'Shorts', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'Clothing/Mens/Socks', 'menu', 'cat-clothing-r', 'Socks', '', '0', '0', undef, '0', '0', '0', '2013-12-08 10:16:53'],
+['', 'logout', 'nav', 'top-logout', 'Logout', '', '0', '0', undef, '0', '0', '1', '2013-12-08 10:16:53'],
+['', 'account', 'nav', 'top-logout', 'My Account', '', '0', '0', undef, '0', '0', '1', '2013-12-08 10:16:53'],
+['', 'fb-login', 'fb', 'top-login', '', '', '0', '0', undef, '0', '0', '1', '2013-12-08 10:16:53'],
+['', 'fb-logout', 'fb', 'top-logout', '', '', '0', '0', undef, '0', '0', '1', '2013-12-08 10:16:53']
+);
+
+# populate products array
+my @products = (
+['WBA0003', 'Orvis Helios Fly Rod Series', 'I am master product WBA0003', 'test', '0.00', 'orvis-helios-2-fly-rod', '0.00', '0', undef, undef, '1', '1'],
+['WBA0001', 'Orvis Helios 2 9FT 5WT Mid Flex Fly Rod', 'I am child product WBA0001 my parent is WBA0003', '', '795.00', 'orvis-helios-2-590-4-mid-flex', '5.00', '0', '6000123123123', 'WBA0003', '1', '0'],
+['WBA0002', 'Orvis Helios 2 9FT 6WT Mid Flex Fly Rod', 'I am child product WBA0002 my parent is WBA0003', '', '795.00', 'orvis-helios-2-690-4-mid-flex', '5.00', '0', '6000123123124', 'WBA0003', '1', '0'],
+['WBA0004', 'Orvis Helios 2 9FT 5WT Tip Flex Fly Rod', 'I am child product WBA0004 my parent is WBA0003', '', '795.00', 'orvis-helios-2-590-4-tip-flex', '5.00', '0', '6000123123125', 'WBA0003', '1', '0'],
+['WBA0005', 'Orvis Helios 2 8FT 6IN 5WT Tip Flex Fly Rod', 'I am child product WBA0005 my parent is WBA0003', '', '795.00', 'orvis-helios-2-586-4-tip-flex', '5.00', '0', '6000123123126', 'WBA0003', '1', '0'],
+['WBA0006', 'Orvis Helios 2 8FT 6IN 6WT Tip Flex Fly Rod', 'I am child product WBA0006 my parent is WBA0003', '', '795.00', 'orvis-helios-2-686-4-tip-flex', '5.00', '0', '6000123123127', 'WBA0003', '1', '0'],
+['WBA0007', 'Orvis Helios 2 9FT 6WT Tip Flex Fly Rod', 'I am child product WBA0007 my parent is WBA0003', '', '795.00', 'orvis-helios-2-690-4-tip-flex', '5.00', '0', '6000123123128', 'WBA0003', '1', '0'],
+);
+
+my @product_attributes;
+my $count = 0;
+
+for my $product (@products) {
+    for my $id (1,2,4) {
+        push @product_attributes, [++$count, $product->[0], $id, 1];
+    }
+}
+
+# populate attributes array
+my @attributes = (
+['1', 'length', 'Choose Length', 2],
+['2', 'weight', 'Choose Weight', 1],
+['3', 'handle', 'Choose Handle', 0],
+['4', 'action', 'Choose Action', 0]
+);
+
+# populate navigation_products array
+my @navigation_products = (
+['WBA0003', '5', 'item'],
+);
+
+my @products_attributes_values = (
+    # 9FT
+    [1, 4, 1],
+    [2, 7, 1],
+    [3, 10, 1],
+    [4, 19, 1],
+    # 8FT
+    [5, 13, 6],
+    [6, 16, 6],
+    # 5WT
+    [7, 5, 2],
+    [8, 11, 2],
+    [9, 14, 2],
+    # 6WT
+    [10, 8, 4],
+    [11, 17, 4],
+    [12, 20, 4],
+    # Tip flex
+    [13, 6, 3],
+    [14, 9, 3],
+    # Mid flex
+    [15, 12, 5],
+    [16, 15, 5],
+    [17, 18, 5],
+    [18, 21, 5],
+    );
+
+my @attribute_value = (
+['1', '1', '9', '9FT', '0'],
+['2', '2', '5', '5WT', '0'],
+['3', '4', 'tip', 'Tip Flex', '0'],
+['4', '2', '6', '6WT', '0'],
+['5', '4', 'mid', 'Mid Flex', '0'],
+['6', '1', '8.5', '8FT 6IN', '0'],
+);
+
+# populate navigation table
+$schema->populate('Navigation', [
+  [ 'navigation_id', 'uri', 'type', 'scope', 'name', 'description', 'template', 'alias', 'parent_id', 'priority', 'product_count', 'active', 'created' ],
+  @navigation,
+]);
+
+# populate products table
+$schema->populate('Product', [
+  [ 'sku', 'name', 'short_description', 'description', 'price', 'uri', 'weight', 'priority', 'gtin', 'canonical_sku', 'active', 'inventory_exempt' ],
+@products,
+]);
+
+# populate attributes table
+$schema->populate('Attribute', [
+  [ 'attributes_id', 'name', 'title', 'priority' ],
+  @attributes,
+]);
+
+# populate product_attributes table
+$schema->populate('ProductAttribute', [
+  [ 'product_attributes_id', 'sku', 'attributes_id', 'canonical' ],
+  @product_attributes,
+]);
+
+#populate attribute_values
+$schema->populate('AttributeValue', [
+  [ 'attribute_values_id', 'attributes_id', 'value', 'title', 'priority' ],
+  @attribute_value,
+]);
+
+# populate product_attributes_values table
+$schema->populate('ProductAttributeValue', [
+  [ 'product_attributes_values_id', 'product_attributes_id', 'attribute_values_id' ],
+  @products_attributes_values,
+]);
+
+# populate navigation_products table
+$schema->populate('NavigationProduct', [
+  [ 'sku', 'navigation_id', 'type' ],
+  @navigation_products,
+]);
+
+# populate countries table
+$schema->populate(Country => $pop_countries);
+
+# populate states table
+$schema->populate(State => $pop_states);
+
+$schema->resultset("Review")->populate([
+    { 
+	sku => 'WBA0003',
+	title => 'Great Product',
+	content => 'I can not say enough about this fly rod it is the best I have ever owned by far.',
+	users_id => '1',
+	rating => '5',
+	recommend => '1',
+        public => '1',
+	approved => '1',
+    },
+    {
+        sku => 'WBA0003',
+        title => 'A Fantastic Rod and a Great Price',
+        content => 'If I were a fly rod maker this would be the rod that I would build.  By the people for the people.',
+        users_id => '2',
+        rating => '4',
+        recommend => '1',
+        public => '1',
+        approved => '1',
+    },
+    {
+        sku => 'WBA0003',
+        title => 'Horrible Customer Service',
+        content => 'I broke this rod and called for help.  They told me I was a goat hearding hick and should take up kniting.',
+        users_id => '3',
+        rating => '1',
+        recommend => '1',
+        public => '1',
+        approved => '1',
+    },
+]);
