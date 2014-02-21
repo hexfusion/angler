@@ -63,7 +63,7 @@ plugins:
         db_connection_name: 'default'
         users_resultset: User
         roles_relationship: roles
-        role_column: roles_id
+        role_column: name
         username_column: username
         password_column: password
         password_check: check_password
