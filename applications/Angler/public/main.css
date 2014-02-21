@@ -1196,7 +1196,16 @@ legend {
 	padding-left: 180px;
 }
 
-
+.form-error {
+background: #dd0b0b;
+font-size: 10px;
+font-weight: bold;
+color: #ffffff;
+padding: 2px 4px;
+border-radius: 3px;
+display: block;
+width: 200px;
+}
 
 
 
@@ -1212,4 +1221,31 @@ input, textarea, .uneditable-input {
 	width: auto;
 }
 
+.contact-images img {
+    margin-bottom: 10px;
+}
+
+.about-employee img {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+
+.about-employee {
+    padding: 5px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0px 0px 5px #ccc;
+    margin-bottom: 20px;
+    }
+
+    .about-employee h4 {
+        margin-bottom: 2px;
+        }
+    
+    .about-employee p {
+        font-size: 12px;
+        padding: 5px 0 0 0;
+        border-top: 1px solid #eee;
+        }
 

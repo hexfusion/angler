@@ -9,6 +9,7 @@ logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
 
+use Angler::Routes::About;
 use Angler::Routes::Account;
 use Angler::Routes::Contact;
 use Angler::Routes::Review;
