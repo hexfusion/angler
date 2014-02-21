@@ -8,10 +8,9 @@ use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
-use Facebook::Graph;
 
 use Angler::Routes::Account;
-#use Angler::Routes::User;
+use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
 
