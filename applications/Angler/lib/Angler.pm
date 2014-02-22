@@ -118,9 +118,10 @@ hook 'before_product_display' => sub {
             debug "Found other: ", $product->sku, " with price: ", $product->price;
             push @other_products, $product;
         }
+
+        $tokens->{category_name} = 'Other ' . $current_nav->name;
     }
 
-    $tokens->{category_name} = 'Other ' . $current_nav->name;
     $tokens->{category_products} = \@other_products;
 debug "Attributes: ", $product->attribute_iterator;
 return;
