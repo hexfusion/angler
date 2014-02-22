@@ -46,6 +46,8 @@ my %navigation_map = ('Rods' => 'Fly Rods',
     'Books' => 'Books & DVDs',
     );
 
+my $mf_map = setup_manufacturers($dbh, shop_schema);
+
 my @variants = $dbh->quick_select('variants', {});
 my %sizes;
 my @size_values;
@@ -102,6 +104,13 @@ for my $product (@products) {
         }
     }
 
+    # add link for manufacturer
+    if ($product->{manufacturer}) {
+        $object->create_related('NavigationProduct', {
+            navigation_id => $mf_map->{$product->{manufacturer}},
+        })
+    }
+
     # get rid of existing variants
     my $old_variants = $object->search_related('Variant');
 
@@ -125,3 +134,32 @@ for my $product (@products) {
     }
 }
 
+sub setup_manufacturers {
+    my ($dbh, $schema) = @_;
+    my (%nav_map, $nav);
+
+    my @mf = $dbh->quick_select(
+        'manufacturer',
+        {},
+        {columns => [qw/c_code c_alias/],
+         order_by => {
+             'ASC' => 'c_alias',
+         },
+     });
+
+    $nav = $schema->resultset('Navigation');
+
+    $nav->search({type => 'manufacturer'})->delete;
+
+    for my $manufacturer (@mf) {
+        # create navigation object
+        my $nav_obj = $nav->create({uri => $manufacturer->{c_alias},
+                                    name => $manufacturer->{c_alias},
+                                    type => 'manufacturer',
+                                });
+
+        $nav_map{$manufacturer->{c_code}} = $nav_obj->id;
+    }
+
+    return \%nav_map;
+}
