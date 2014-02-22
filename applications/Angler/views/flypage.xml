@@ -63,4 +63,13 @@
 <list name="error-content" iterator="errors.content">
 <param name="value" class="content-msg"/>
 </list>
+
+<!-- Reviews -->
+<list name="review_list" class="product-comment" iterator="review_list">
+<param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>
+<param name="title" class="product-comment-title" field="title"/>
+<param name="author" class="product-comment-author" field="reviewer"/>
+<param name="content" class="product-comment-content" field="content"/>
+<param name="avatar" class="product-comment-avatar" field="avatar" target="src"/>
+</list>
 </specification>
