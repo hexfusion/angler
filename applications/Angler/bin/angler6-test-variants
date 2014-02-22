@@ -46,13 +46,32 @@ my %navigation_map = ('Rods' => 'Fly Rods',
     'Books' => 'Books & DVDs',
     );
 
+my @variants = $dbh->quick_select('variants', {});
+my %sizes;
+my @size_values;
+
+for my $var (@variants) {
+    if ($var->{size} && ! exists $sizes{$var->{size}}) {
+        $sizes{$var->{size}} = 1;
+        push @size_values, {value => $var->{size},
+                            title => $var->{size},
+                        }
+    }
+}
+
+# delete size attribute
+my $size_att = shop_schema->resultset('Attribute')->find({name => 'size'});
+
+if ($size_att) {
+    $size_att->delete;
+};
+
 # create size attribute
 my $size_data = {name => 'size', title => 'Size', type => 'variant', priority => 1,
-                 AttributeValue =>
-                     [{value => 'L', title => 'L'},
-                  ]};
+                 AttributeValue => \@size_values,
+             };
 
-my $size_att = shop_schema->resultset('Attribute')->find_or_create($size_data);
+my $size_att = shop_schema->resultset('Attribute')->create($size_data);
 
 for my $product (@products) {
     my $object;
@@ -65,7 +84,7 @@ for my $product (@products) {
               );
     
     if (! ($object = shop_product->find($product->{sku}))) {
-#        debug "Product $product->{sku} missing.\n";
+        debug "Product $product->{sku} missing.\n";
 
         $object = shop_product->create(\%record);
     }
@@ -83,6 +102,11 @@ for my $product (@products) {
         }
     }
 
+    # get rid of existing variants
+    my $old_variants = $object->search_related('Variant');
+
+    $old_variants->delete;
+
     # get all variants for this product
     my @variants = $dbh->quick_select('variants', {sku => $product->{sku}});
     my @var_data;
@@ -97,21 +121,7 @@ for my $product (@products) {
     }
 
     if (@var_data) {
-#        $object->add_variants(@var_data);
-    }
-}
-
-exit 0;
-
-my @variants = $dbh->quick_select('variants', {});
-
-#debug "V ", $variants;
-
-for my $var (@variants) {
-    debug "Variant: ", $var;
-
-    if (! shop_product->find($var->{sku})) {
-        debug "Product $var->{sku} missing.\n";
+        $object->add_variants(@var_data);
     }
 }
 
