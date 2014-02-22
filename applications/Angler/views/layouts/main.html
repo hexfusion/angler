@@ -165,7 +165,6 @@
     <script src="/js/application.js"></script>
     <script src="js/jquery.rateit.min.js"></script>
 
-
 <script type="text/javascript">
 var collapsedSize = '36px';
 $('.item').each(function() {
@@ -195,27 +194,7 @@ $('.item').each(function() {
         });
     }
 
-});
+});</script>
 
-$('a.write').click(function(){
-	$('.review-write').show();
-	$('.review-preview').hide();
-	$('a.write').parent().addClass('active');
-	$('a.preview').parent().removeClass('active');
-	return false;
-});
-
-$('a.preview').click(function(){
-	$('.review-write').hide();
-	$('.review-preview').text()
-	$('.review-preview').html(
-			'<h3>'+$('.review-title').val()+'</h3>'+
-			$('.review-text').val().replace(/\n/g, "<br />")
-		);
-	$('.review-preview').show();
-	$('a.preview').parent().addClass('active');
-	$('a.write').parent().removeClass('active');
-	return false;
-});
-</script></body>
+</body>
 </html>
