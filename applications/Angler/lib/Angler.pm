@@ -186,8 +186,10 @@ sub countries {
 }
 
 get '/' => sub {
-session foo => 'bar';
-    template 'home';
+    # get all manufacturers
+    my $mf = shop_navigation->search({type => 'manufacturer'});
+
+    template 'home', {manufacturer => [$mf->all]};
 };
 
 shop_setup_routes;

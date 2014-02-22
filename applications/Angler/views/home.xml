@@ -1,2 +1,6 @@
 <specification>
+<list name="manufacturer" iterator="manufacturer">
+<param name="name" class="manufacturer-link"/>
+<param name="uri" class="manufacturer-link" target="href" op="append"/>
+</list>
 </specification>
