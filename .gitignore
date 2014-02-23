@@ -38,3 +38,9 @@ etc/
 var/
 src/*
 tmp/
+
+# Backup files
+*.bak
+*.old
+*.swp
+
