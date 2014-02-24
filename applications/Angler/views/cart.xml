@@ -4,7 +4,13 @@
 <param name="price" filter=""/>
 <param name="qty" field="quantity"/>
 </list>
-<value name="cart-subtotal" field="cart_subtotal" filter=""/>
-<value name="country" iterator="countries"/>
+
+<form name="cart" target="name">
+<field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
+</form>
+
+<value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
+
+<!-- <value name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> -->
 </specification>
 
