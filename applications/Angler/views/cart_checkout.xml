@@ -1,4 +1,4 @@
- <specification>
+<specification>
 <form name="checkout" class="account-info">
 <!-- Shipping -->
 <field name="email" id="inputEmail"/>
@@ -24,6 +24,17 @@
 <!-- Payment -->
 <field name="card_number" id="inputCardNumber"/>
 </form>
+<!-- Error fields -->
+<value name="first_name_error" id="errorFirstName"
+       field="errors.first_name" op="toggle"/>
+<value name="last_name_error" id="errorLastName"
+       field="errors.last_name" op="toggle"/>
+<value name="address_error" id="errorAddress"
+       field="errors.address" op="toggle"/>
+<value name="city_error" id="errorCity"
+       field="errors.city" op="toggle"/>
+<value name="postal_code_error" id="errorPostalCode"
+       field="errors.postal_code" op="toggle"/>
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>
 </specification>
