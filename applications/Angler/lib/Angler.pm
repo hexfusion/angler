@@ -11,6 +11,7 @@ require_login require_any_role
 
 use Angler::Routes::About;
 use Angler::Routes::Account;
+use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
