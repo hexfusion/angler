@@ -176,13 +176,6 @@ debug "Country: ", ref($values->{countries}->[0]);
     $values->{country} = 'US';
 };
 
-hook 'before_checkout_display' => sub {
-    my ($values) = @_;
-
-    $values->{countries} = countries();
-    $values->{country} = 'US';
-};
-
 sub countries {
     return [shop_country->search({active => 1})];
 }
