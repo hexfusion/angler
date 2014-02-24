@@ -70,14 +70,13 @@ hook 'before_layout_render' => sub {
 };
 
 hook 'before_navigation_display' => sub {
-     my $nav_tokens = shift;
+    my $nav_tokens = shift;
 
-#     debug "Info: ", $nav_tokens->{navigation}->uri;
+    # load list of brands
+    my $brands = shop_navigation->search({type => 'manufacturer',
+                                          active => 1});
 
-#     debug "Products: ", scalar @{$nav_tokens->{products}};
-#     for my $product (@{$nav_tokens->{products}}) {
-#         debug "Price: ", $product->price;
-#     }
+    $nav_tokens->{brands} = [$brands->all];
 };
 
 hook 'before_product_display' => sub {

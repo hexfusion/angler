@@ -7,4 +7,8 @@
 <param name="name" class="product-title"/>
 <param name="price" class="product-price"/>
 </list>
+<!-- Brands -->
+<value name="brands" iterator="brands"  iterator_value_key="name"
+keep="empty_value"/>
 </specification>
+
