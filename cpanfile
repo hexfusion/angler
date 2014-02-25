@@ -7,7 +7,7 @@ requires 'Pod::Manual';
 requires 'Class::XSAccessor' , '1.18';
 requires 'Time::Duration::Parse';
 requires 'Date::Parse';
-requires 'Data::Transpose::Validator';
+requires 'Data::Transpose', 0.0007;
 requires 'DBD::mysql';
 requires 'DBI';
 requires 'DBIx::Class';
