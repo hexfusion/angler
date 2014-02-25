@@ -158,14 +158,17 @@
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="inputCVC">Security code (CVV)</label>
+                <label class="control-label" for="inputCardCVC">Security code (CVV)</label>
                 <div class="controls">
-                  <input class="input-small" name="card_cvc" id="inputCVC" placeholder="" type="text" />
+                  <input class="input-small" name="card_cvc" id="inputCardCVC" placeholder="" type="text" />
+                  <span class="form-error" id="errorCardCVC">Error</span>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputExpire">Expiration date</label>
-                <div class="controls"><select class="input-small"><option>12</option></select> <select class="input-small"><option>2013</option></select></div>
+                <div class="controls"><select class="input-small" name="card_month" id="inputCardMonth"><option>12</option></select> <select class="input-small" name="card_year" id="inputCardYear"><option>2013</option></select>
+                  <span class="form-error" id="errorCardExpire">Error</span>
+                </div>
               </div>
             </div>
             <div class="tab-pane" id="tab2">

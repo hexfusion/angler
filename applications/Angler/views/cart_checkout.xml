@@ -23,8 +23,11 @@
 <field name="billing_country" id="inputBillingCountry" iterator="countries"/>
 <!-- Payment -->
 <field name="card_number" id="inputCardNumber"/>
+<field name="card_month" id="inputCardMonth" iterator="card_months"/>
+<field name="card_year" id="inputCardYear" iterator="card_years"/>
+<field name="card_cvc" id="inputCardCVC"/>
 </form>
-<!-- Error fields -->
+<!-- Shipping field errors -->
 <value name="first_name_error" id="errorFirstName"
        field="errors.first_name" op="toggle"/>
 <value name="last_name_error" id="errorLastName"
@@ -36,8 +39,13 @@
 <value name="postal_code_error" id="errorPostalCode"
        field="errors.postal_code" op="toggle"/>
 
+<!-- Credit card errors -->
 <value name="card_number_error" id="errorCardNumber"
        field="errors.card_number" op="toggle"/>
+<value name="card_expire_error" id="errorCardExpire"
+       field="errors.card_month" op="toggle"/>
+<value name="card_cvc" id="errorCardCVC"
+       field="errors.card_cvc" op="toggle"/>
 
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>
