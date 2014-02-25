@@ -51,6 +51,9 @@ sub validate_checkout {
     $validator->field('postal_code' => "String");
     $validator->field('city' => 'String');
 
+    # credit card data
+    $validator->field('card_number' => 'CreditCard');
+
     if (! $validator->transpose($values)) {
         my ($v_hash, %errors);
 

@@ -35,6 +35,10 @@
        field="errors.city" op="toggle"/>
 <value name="postal_code_error" id="errorPostalCode"
        field="errors.postal_code" op="toggle"/>
+
+<value name="card_number_error" id="errorCardNumber"
+       field="errors.card_number" op="toggle"/>
+
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>
 </specification>
