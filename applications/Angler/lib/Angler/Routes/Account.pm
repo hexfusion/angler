@@ -115,6 +115,10 @@ get '/account' => require_role user => sub {
     template 'account_my-account';
 };
 
+get '/orders' => require_role user => sub {
+    template 'account_your-orders';
+};
+
 get '/facebook/login' => sub {
     my $fb = Facebook::Graph->new( config->{facebook} );
     #redirect $fb->authorize->uri_as_string;
