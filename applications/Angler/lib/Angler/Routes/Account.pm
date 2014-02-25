@@ -111,7 +111,7 @@ get '/forum' => require_login sub {
     template 'forum';
      };
 
-get '/account' => require_role users => sub {
+get '/account' => require_role user => sub {
     template 'account_my-account';
 };
 
