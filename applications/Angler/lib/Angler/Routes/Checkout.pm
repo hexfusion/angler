@@ -50,6 +50,12 @@ post '/checkout' => sub {
 
         if ($tx->is_success) {
             debug "Payment successful: ", $tx->authorization;
+
+            generate_order($form);
+
+            debug("Order complete.");
+            
+            return template 'cart_receipt', checkout_tokens($form);
         }
         else {
             debug "Payment failed: ", $tx->error_message;
@@ -58,9 +64,14 @@ post '/checkout' => sub {
         
         # ...
 
-        debug("Order complete.");
+
+
+        
+
     }
 
+    debug "Fill form with: ", $values;
+    
     $form->fill($values);
 
     template 'cart_checkout', checkout_tokens($form, $error_hash);
@@ -138,6 +149,92 @@ sub checkout_tokens {
 
     return $tokens;
 };
+
+sub generate_order {
+    my ($form) = @_;
+    my ($ship_address, $bill_address, $ship_obj, $bill_obj);
+
+    my $users_id = session('logged_in_user_id');
+
+    # create delivery address from gift info form
+    my $addr_form = $form;
+    my $addr_values = $addr_form->values('session');
+
+    while (my ($name, $value) = each %$addr_values) {
+        if ($name =~ s/^(billing_)//) {
+            $bill_address->{$name} = $value;
+        }
+        elsif ($name =~ /^card_/) {
+            # skip credit card data
+        }
+        else {
+            $ship_address->{$name} = $value;
+        }
+    }
+
+    $ship_address->{users_id} = $users_id;
+    delete $ship_address->{email};
+    $ship_address->{country_iso_code} = delete $ship_address->{country};
+    $ship_address->{state_iso_code} = '';
+    delete $ship_address->{state};
+    $ship_address->{type} = 'shipping';
+
+    $ship_address->{type} = 'billing';
+
+    debug("Delivery address values: ", $ship_address);
+
+    $ship_obj = shop_address->create($ship_address);
+
+    if ($addr_values->{billing_enabled}) {
+        # create billing address
+        $bill_obj = shop_address->create($addr_values);
+    }
+    else {
+        $bill_obj = $ship_obj;
+    }
+
+    # order date
+    my $order_date = DateTime->now->iso8601;
+
+    # create orderlines
+    my @orderlines;
+    my $position = 1;
+    my $cart_items = cart->items;
+
+    for my $item (@$cart_items) {
+        debug "Items: ", $item;
+        my $ol_prod = shop_product($item->{sku});
+        my %orderline_product = (
+            sku => $ol_prod->sku,
+            order_position => $position++,
+            name => $ol_prod->name,
+            short_description => $ol_prod->short_description,
+            description => $ol_prod->description,
+            weight => $ol_prod->weight,
+            quantity => $item->{quantity},
+            price => $ol_prod->price,
+            subtotal => $ol_prod->price * $item->{quantity},
+        );
+
+        push @orderlines, \%orderline_product;
+    }
+
+    # create transaction
+    my %order_info = (users_id => session('logged_in_user_id'),
+                      billing_addresses_id => $bill_obj->id,
+                      shipping_addresses_id => $ship_obj->id,
+                      subtotal => cart->subtotal,
+                      total_cost => cart->total,
+                      order_date => $order_date,
+                      order_number => $order_date,
+                      Orderline => \@orderlines);
+
+    my $order = shop_order->create(\%order_info);
+
+    cart->clear;
+
+    return $order;
+}
 
 # iterators for credit card expiration
 sub card_months {
