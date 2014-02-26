@@ -32,7 +32,6 @@ requires 'String::Random';
 requires 'Number::Format';
 requires 'DateTime';
 requires 'DateTime::Locale';
-requires 'Input::Validator';
 requires 'Business::OnlinePayment';
 requires 'Moo';
 # Angler::Search
