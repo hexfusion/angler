@@ -33,6 +33,7 @@ requires 'Number::Format';
 requires 'DateTime';
 requires 'DateTime::Locale';
 requires 'Business::OnlinePayment';
+requires 'Business::OnlinePayment::Braintree';
 requires 'Moo';
 # Angler::Search
 requires 'MooX::Types::MooseLike';
