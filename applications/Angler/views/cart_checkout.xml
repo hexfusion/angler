@@ -19,14 +19,17 @@
 <field name="billing_address" id="inputBillingAddress"/>
 <field name="billing_address_2" id="inputBillingAddress2"/>
 <field name="billing_city" id="inputBillingCity"/>
-<field name="billing_state" id="inputBillingState" iterator="states"/>
-<field name="billing_country" id="inputBillingCountry" iterator="countries"/>
+<field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="state_iso_code" iterator_name_key="name"/>
+<field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
 <!-- Payment -->
 <field name="card_number" id="inputCardNumber"/>
 <field name="card_month" id="inputCardMonth" iterator="card_months"/>
 <field name="card_year" id="inputCardYear" iterator="card_years"/>
 <field name="card_cvc" id="inputCardCVC"/>
 </form>
+<!-- Email errors -->
+<value name="email_error" id="errorEmail"
+       field="errors.email" op="toggle"/>
 <!-- Shipping field errors -->
 <value name="first_name_error" id="errorFirstName"
        field="errors.first_name" op="toggle"/>

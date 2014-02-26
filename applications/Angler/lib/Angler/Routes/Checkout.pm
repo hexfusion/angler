@@ -3,7 +3,7 @@ package Angler::Routes::Checkout;
 use Dancer ':syntax';
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Form;
-
+use Dancer::Plugin::Auth::Extensible;
 use DateTime;
 
 get '/checkout' => sub {
@@ -71,6 +71,11 @@ sub validate_checkout {
 
     # validate form input
     my $validator = Data::Transpose::Validator->new(requireall => 1);
+
+    # email for guest users
+    if (! logged_in_user) {
+        $validator->field('email' => 'EmailValid');
+    }
 
     # shipping address
     $validator->field('first_name' => "String");
