@@ -39,25 +39,24 @@ sub solr_query {
 
     my @spec_words = map {"$_*"} @{$self->words};
 
+    # search terms from customer
     if (@spec_words) {
         push @filters, q/_query_:"{!edismax qf='sku name description'}/
             . join(' AND ', @spec_words)
                 . '"';
     }
-
-    my $query;
-
-    # only search for active products
-    if (! @filters) {
-        @filters = '*:*';
+    else {
+        push @filters, '*:*';
     }
 
-    unshift @filters, q{canonical_sku:['' TO *]};
+    # only search for active and canonical products
+    unshift @filters, q{*:* NOT canonical_sku:['' TO *]};
+    unshift @filters, 'active:true';
 
-    $query = join( " AND ", map { "($_)" } @filters );
-     
-    Dancer::Logger::debug("Query: ", $query);
-    
+    my $query = join( " AND ", map { "($_)" } @filters );
+
+#    Dancer::Logger::debug("Query: ", $query);
+
     my $solr = $self->solr_object;
 
 	my $response = $solr->search($query, {start => 0,
