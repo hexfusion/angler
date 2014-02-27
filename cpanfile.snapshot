@@ -554,10 +554,10 @@ DISTRIBUTIONS
       SQL::Translator 0
       Test::More 0
       ok 0
-  DBIx-Class-0.08250
-    pathname: R/RI/RIBASUSHI/DBIx-Class-0.08250.tar.gz
+  DBIx-Class-0.08270
+    pathname: R/RI/RIBASUSHI/DBIx-Class-0.08270.tar.gz
     provides:
-      DBIx::Class 0.08250
+      DBIx::Class 0.08270
       DBIx::Class::AccessorGroup undef
       DBIx::Class::Admin undef
       DBIx::Class::CDBICompat undef
@@ -657,19 +657,17 @@ DISTRIBUTIONS
       Data::Page 2.00
       Devel::GlobalDestruction 0.09
       ExtUtils::MakeMaker 6.59
-      File::Spec 3.30
       File::Temp 0.22
       Hash::Merge 0.12
       List::Util 1.16
       MRO::Compat 0.12
       Module::Find 0.07
-      Moo 1.000006
+      Moo 1.002
       Package::Stash 0.28
       Path::Class 0.18
-      SQL::Abstract 1.73
+      SQL::Abstract 1.77
       Scope::Guard 0.03
       Sub::Name 0.04
-      Test::Builder 0.94
       Test::Deep 0.101
       Test::Exception 0.31
       Test::More 0.94
@@ -810,10 +808,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.42
       Test::Exception 0
       perl 5.008001
-  Dancer-1.3120
-    pathname: Y/YA/YANICK/Dancer-1.3120.tar.gz
+  Dancer-1.3121
+    pathname: Y/YA/YANICK/Dancer-1.3121.tar.gz
     provides:
-      Dancer 1.3120
+      Dancer 1.3121
       Dancer::App undef
       Dancer::Config undef
       Dancer::Config::Object undef
@@ -930,18 +928,23 @@ DISTRIBUTIONS
       base 0
       strict 0
       warnings 0
-  Dancer-Plugin-DBIC-0.1803
-    pathname: I/IR/IRONCAMEL/Dancer-Plugin-DBIC-0.1803.tar.gz
+  Dancer-Plugin-DBIC-0.1901
+    pathname: I/IR/IRONCAMEL/Dancer-Plugin-DBIC-0.1901.tar.gz
     provides:
-      Dancer::Plugin::DBIC 0.1803
+      Dancer::Plugin::DBIC 0.1901
       Foo undef
       Foo::Result::User undef
       t::lib::TestApp undef
     requirements:
       DBIx::Class 0
       Dancer 1.3098
+      Dancer::Plugin 0
       ExtUtils::MakeMaker 6.30
       Module::Load 0
+      SQL::Translator 0.11016
+      strict 0
+      utf8 0
+      warnings 0
   Dancer-Plugin-Email-1.0100
     pathname: I/IR/IRONCAMEL/Dancer-Plugin-Email-1.0100.tar.gz
     provides:
@@ -964,15 +967,15 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Storable 0
       Test::More 0
-  Dancer-Template-TemplateFlute-0.0092
-    pathname: H/HO/HORNBURG/Dancer-Template-TemplateFlute-0.0092.tar.gz
+  Dancer-Template-TemplateFlute-0.0099
+    pathname: H/HO/HORNBURG/Dancer-Template-TemplateFlute-0.0099.tar.gz
     provides:
       Dancer::Plugin::Form 0.0061
-      Dancer::Template::TemplateFlute 0.0092
+      Dancer::Template::TemplateFlute 0.0099
     requirements:
       Dancer 0
       ExtUtils::MakeMaker 0
-      Template::Flute 0.0092
+      Template::Flute 0.0099
       Test::More 0
   Data-Compare-1.23
     pathname: D/DC/DCANTRELL/Data-Compare-1.23.tar.gz
@@ -1026,13 +1029,23 @@ DISTRIBUTIONS
       Module::Build 0.35
       Test::Exception 0
       Test::More 0
-  Data-Transpose-0.0005
-    pathname: H/HO/HORNBURG/Data-Transpose-0.0005.tar.gz
+  Data-Pageset-1.06
+    pathname: L/LL/LLAP/Data-Pageset-1.06.tar.gz
     provides:
-      Data::Transpose 0.0005
+      Data::Pageset 1.06
+    requirements:
+      Data::Page 2
+      ExtUtils::MakeMaker 0
+      Test::More 0.1
+  Data-Transpose-0.0006
+    pathname: H/HO/HORNBURG/Data-Transpose-0.0006.tar.gz
+    provides:
+      Data::Transpose 0.0006
       Data::Transpose::EmailValid undef
       Data::Transpose::Field undef
       Data::Transpose::Group undef
+      Data::Transpose::Iterator::Base undef
+      Data::Transpose::Iterator::Errors undef
       Data::Transpose::PasswordPolicy 0.02
       Data::Transpose::Validator undef
       Data::Transpose::Validator::Base undef
@@ -1054,16 +1067,23 @@ DISTRIBUTIONS
       Test::More 0
       Test::Warn 0
       Try::Tiny 0
-  DateTime-1.06
-    pathname: D/DR/DROLSKY/DateTime-1.06.tar.gz
+  Data-UUID-1.219
+    pathname: R/RJ/RJBS/Data-UUID-1.219.tar.gz
     provides:
-      DateTime 1.06
-      DateTime::Duration 1.06
-      DateTime::Helpers 1.06
-      DateTime::Infinite 1.06
-      DateTime::Infinite::Future 1.06
-      DateTime::Infinite::Past 1.06
-      DateTime::LeapSecond 1.06
+      Data::UUID 1.219
+    requirements:
+      Digest::MD5 0
+      ExtUtils::MakeMaker 0
+  DateTime-1.07
+    pathname: D/DR/DROLSKY/DateTime-1.07.tar.gz
+    provides:
+      DateTime 1.07
+      DateTime::Duration 1.07
+      DateTime::Helpers 1.07
+      DateTime::Infinite 1.07
+      DateTime::Infinite::Future 1.07
+      DateTime::Infinite::Past 1.07
+      DateTime::LeapSecond 1.07
       inc::MyModuleBuild undef
     requirements:
       Carp 0
@@ -2827,6 +2847,19 @@ DISTRIBUTIONS
       File::Temp 0
       Scalar::Util 0
       Test::More 0.88
+  IO-Socket-SSL-1.967
+    pathname: S/SU/SULLR/IO-Socket-SSL-1.967.tar.gz
+    provides:
+      IO::Socket::SSL 1.967
+      IO::Socket::SSL::Intercept 1.93
+      IO::Socket::SSL::SSL_Context 1.967
+      IO::Socket::SSL::SSL_HANDLE 1.967
+      IO::Socket::SSL::Session_Cache 1.967
+      IO::Socket::SSL::Utils 0.02
+    requirements:
+      ExtUtils::MakeMaker 0
+      Net::SSLeay 1.46
+      Scalar::Util 0
   IO-stringy-2.110
     pathname: D/DS/DSKOLL/IO-stringy-2.110.tar.gz
     provides:
@@ -2903,6 +2936,14 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  JSON-XS-3.01
+    pathname: M/ML/MLEHMANN/JSON-XS-3.01.tar.gz
+    provides:
+      JSON::XS 3.01
+    requirements:
+      ExtUtils::MakeMaker 0
+      Types::Serialiser 0
+      common::sense 0
   LWP-MediaTypes-6.02
     pathname: G/GA/GAAS/LWP-MediaTypes-6.02.tar.gz
     provides:
@@ -3480,6 +3521,15 @@ DISTRIBUTIONS
       Test::More 0
       Tie::IxHash 0
       URI::Escape 0
+  Net-SMTP-SSL-1.01
+    pathname: C/CW/CWEST/Net-SMTP-SSL-1.01.tar.gz
+    provides:
+      Net::SMTP::SSL 1.01
+    requirements:
+      ExtUtils::MakeMaker 0
+      IO::Socket::SSL 0
+      Net::SMTP 0
+      Test::More 0.47
   Net-SSLeay-1.58
     pathname: M/MI/MIKEM/Net-SSLeay-1.58.tar.gz
     provides:
@@ -3621,6 +3671,20 @@ DISTRIBUTIONS
       Module::Runtime 0.013
       Test::Fatal 0
       strictures 1
+  Params-Classify-0.013
+    pathname: Z/ZE/ZEFRAM/Params-Classify-0.013.tar.gz
+    provides:
+      Params::Classify 0.013
+    requirements:
+      Exporter 0
+      ExtUtils::ParseXS 2.2006
+      Module::Build 0
+      Scalar::Util 1.01
+      Test::More 0
+      parent 0
+      perl 5.006001
+      strict 0
+      warnings 0
   Params-Util-1.07
     pathname: A/AD/ADAMK/Params-Util-1.07.tar.gz
     provides:
@@ -3895,11 +3959,11 @@ DISTRIBUTIONS
       Exporter 5.57
       Test::Fatal 0.003
       Test::More 0.96
-  SQL-Abstract-1.74
-    pathname: R/RI/RIBASUSHI/SQL-Abstract-1.74.tar.gz
+  SQL-Abstract-1.77
+    pathname: R/RI/RIBASUSHI/SQL-Abstract-1.77.tar.gz
     provides:
       DBIx::Class::Storage::Debug::PrettyPrint undef
-      SQL::Abstract 1.74
+      SQL::Abstract 1.77
       SQL::Abstract::Test undef
       SQL::Abstract::Tree undef
     requirements:
@@ -4086,15 +4150,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  String-Random-0.25
-    pathname: S/SH/SHLOMIF/String-Random-0.25.tar.gz
+  String-Random-0.26
+    pathname: S/SH/SHLOMIF/String-Random-0.26.tar.gz
     provides:
-      String::Random 0.25
+      String::Random 0.26
     requirements:
       Carp 0
       Exporter 0
       Module::Build 0.36
       Test::More 0
+      perl 5.006
       strict 0
       vars 0
       warnings 0
@@ -4171,10 +4236,10 @@ DISTRIBUTIONS
       constant 0
       strict 0
       warnings 0
-  Template-Flute-0.0096
-    pathname: H/HO/HORNBURG/Template-Flute-0.0096.tar.gz
+  Template-Flute-0.0099
+    pathname: H/HO/HORNBURG/Template-Flute-0.0099.tar.gz
     provides:
-      Template::Flute 0.0096
+      Template::Flute 0.0099
       Template::Flute::Config undef
       Template::Flute::Container undef
       Template::Flute::Database::Rose undef
@@ -4393,6 +4458,39 @@ DISTRIBUTIONS
       Test::Harness 3.30
     requirements:
       ExtUtils::MakeMaker 0
+  Test-Mock-LWP-0.08
+    pathname: L/LU/LUKEC/Test-Mock-LWP-0.08.tar.gz
+    provides:
+      Test::Mock::HTTP::Request 0.01
+      Test::Mock::HTTP::Response 0.01
+      Test::Mock::LWP 0.08
+      Test::Mock::LWP::UserAgent 0.01
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::MockObject 1.08
+      Test::More 0.42
+  Test-MockObject-1.20120301
+    pathname: C/CH/CHROMATIC/Test-MockObject-1.20120301.tar.gz
+    provides:
+      Test::MockObject 1.20120301
+      Test::MockObject::Extends 1.20120301
+    requirements:
+      CGI 0
+      Carp 0
+      Devel::Peek 0
+      ExtUtils::MakeMaker 6.30
+      Scalar::Util 0
+      Test::Builder 0
+      Test::Exception 0.31
+      Test::More 0.98
+      Test::Warn 0.23
+      UNIVERSAL::can 1.20110617
+      UNIVERSAL::isa 1.20110614
+      base 0
+      overload 0
+      strict 0
+      vars 0
+      warnings 0
   Test-NoWarnings-1.04
     pathname: A/AD/ADAMK/Test-NoWarnings-1.04.tar.gz
     provides:
@@ -4709,6 +4807,43 @@ DISTRIBUTIONS
       constant 0
       strict 0
       warnings 0
+  Types-Serialiser-1.0
+    pathname: M/ML/MLEHMANN/Types-Serialiser-1.0.tar.gz
+    provides:
+      JSON::PP::Boolean 1.0
+      Types::Serialiser 1.0
+      Types::Serialiser::BooleanBase 1.0
+      Types::Serialiser::Error 1.0
+    requirements:
+      ExtUtils::MakeMaker 0
+      common::sense 0
+  UNIVERSAL-can-1.20140124
+    pathname: C/CH/CHROMATIC/UNIVERSAL-can-1.20140124.tar.gz
+    provides:
+      Test::SmallWarn undef
+      UNIVERSAL::can 1.20140124
+    requirements:
+      ExtUtils::MakeMaker 6.30
+      Scalar::Util 0
+      strict 0
+      vars 0
+      warnings 0
+      warnings::register 0
+  UNIVERSAL-isa-1.20120726
+    pathname: C/CH/CHROMATIC/UNIVERSAL-isa-1.20120726.tar.gz
+    provides:
+      UNIVERSAL::isa 1.20120726
+    requirements:
+      CGI 0
+      ExtUtils::MakeMaker 6.30
+      Scalar::Util 0
+      Test::More 0
+      UNIVERSAL 0
+      overload 0
+      strict 0
+      vars 0
+      warnings 0
+      warnings::register 0
   URI-1.60
     pathname: G/GA/GAAS/URI-1.60.tar.gz
     provides:
@@ -4795,45 +4930,90 @@ DISTRIBUTIONS
       Fcntl 0
       URI 1.10
       perl 5.008001
-  XML-LibXML-2.0108
-    pathname: S/SH/SHLOMIF/XML-LibXML-2.0108.tar.gz
+  WebService-Solr-0.23
+    pathname: P/PE/PETDANCE/WebService-Solr-0.23.tar.gz
     provides:
-      XML::LibXML 2.0108
-      XML::LibXML::Attr 2.0108
-      XML::LibXML::AttributeHash 2.0108
-      XML::LibXML::Boolean 2.0108
-      XML::LibXML::CDATASection 2.0108
-      XML::LibXML::Comment 2.0108
-      XML::LibXML::Common 2.0108
-      XML::LibXML::Devel 2.0108
-      XML::LibXML::Document 2.0108
-      XML::LibXML::DocumentFragment 2.0108
-      XML::LibXML::Dtd 2.0108
-      XML::LibXML::Element 2.0108
-      XML::LibXML::ErrNo 2.0108
-      XML::LibXML::Error 2.0108
-      XML::LibXML::InputCallback 2.0108
-      XML::LibXML::Literal 2.0108
-      XML::LibXML::NamedNodeMap 2.0108
-      XML::LibXML::Namespace 2.0108
-      XML::LibXML::Node 2.0108
-      XML::LibXML::NodeList 2.0108
-      XML::LibXML::Number 2.0108
-      XML::LibXML::PI 2.0108
-      XML::LibXML::Pattern 2.0108
-      XML::LibXML::Reader 2.0108
-      XML::LibXML::RegExp 2.0108
-      XML::LibXML::RelaxNG 2.0108
-      XML::LibXML::SAX 2.0108
-      XML::LibXML::SAX::AttributeNode 2.0108
-      XML::LibXML::SAX::Builder 2.0108
-      XML::LibXML::SAX::Generator 2.0108
-      XML::LibXML::SAX::Parser 2.0108
-      XML::LibXML::Schema 2.0108
-      XML::LibXML::Text 2.0108
-      XML::LibXML::XPathContext 2.0108
-      XML::LibXML::XPathExpression 2.0108
-      XML::LibXML::_SAXParser 2.0108
+      WebService::Solr 0.23
+      WebService::Solr::Document undef
+      WebService::Solr::Field undef
+      WebService::Solr::Query undef
+      WebService::Solr::Response undef
+    requirements:
+      Any::Moose 0.16
+      Data::Page 0
+      Data::Pageset 0
+      Encode 0
+      ExtUtils::MakeMaker 6.59
+      JSON::XS 0
+      LWP::UserAgent 0
+      Test::Mock::LWP 0.05
+      Test::More 0.94
+      URI 1.28
+      XML::Easy 0
+      XML::Simple 0
+      perl 5.008
+  XML-Easy-0.009
+    pathname: Z/ZE/ZEFRAM/XML-Easy-0.009.tar.gz
+    provides:
+      XML::Easy 0.009
+      XML::Easy::Classify 0.009
+      XML::Easy::Content 0.009
+      XML::Easy::Element 0.009
+      XML::Easy::NodeBasics 0.009
+      XML::Easy::Syntax 0.009
+      XML::Easy::Text 0.009
+    requirements:
+      Encode 0
+      Exporter 0
+      IO::File 0
+      Module::Build 0
+      Params::Classify 0
+      Scalar::Util 0
+      Test::More 0
+      parent 0
+      perl 5.008
+      strict 0
+      utf8 0
+      warnings 0
+  XML-LibXML-2.0110
+    pathname: S/SH/SHLOMIF/XML-LibXML-2.0110.tar.gz
+    provides:
+      XML::LibXML 2.0110
+      XML::LibXML::Attr 2.0110
+      XML::LibXML::AttributeHash 2.0110
+      XML::LibXML::Boolean 2.0110
+      XML::LibXML::CDATASection 2.0110
+      XML::LibXML::Comment 2.0110
+      XML::LibXML::Common 2.0110
+      XML::LibXML::Devel 2.0110
+      XML::LibXML::Document 2.0110
+      XML::LibXML::DocumentFragment 2.0110
+      XML::LibXML::Dtd 2.0110
+      XML::LibXML::Element 2.0110
+      XML::LibXML::ErrNo 2.0110
+      XML::LibXML::Error 2.0110
+      XML::LibXML::InputCallback 2.0110
+      XML::LibXML::Literal 2.0110
+      XML::LibXML::NamedNodeMap 2.0110
+      XML::LibXML::Namespace 2.0110
+      XML::LibXML::Node 2.0110
+      XML::LibXML::NodeList 2.0110
+      XML::LibXML::Number 2.0110
+      XML::LibXML::PI 2.0110
+      XML::LibXML::Pattern 2.0110
+      XML::LibXML::Reader 2.0110
+      XML::LibXML::RegExp 2.0110
+      XML::LibXML::RelaxNG 2.0110
+      XML::LibXML::SAX 2.0110
+      XML::LibXML::SAX::AttributeNode 2.0110
+      XML::LibXML::SAX::Builder 2.0110
+      XML::LibXML::SAX::Generator 2.0110
+      XML::LibXML::SAX::Parser 2.0110
+      XML::LibXML::Schema 2.0110
+      XML::LibXML::Text 2.0110
+      XML::LibXML::XPathContext 2.0110
+      XML::LibXML::XPathExpression 2.0110
+      XML::LibXML::_SAXParser 2.0110
     requirements:
       ExtUtils::MakeMaker 6.56
       Test::More 0
@@ -4841,6 +5021,7 @@ DISTRIBUTIONS
       XML::SAX 0.11
       base 0
       parent 0
+      perl 5.008
       strict 0
       vars 0
       warnings 0
@@ -4893,6 +5074,27 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 6.31
       Test::More 0.88
+  XML-SAX-Expat-0.51
+    pathname: B/BJ/BJOERN/XML-SAX-Expat-0.51.tar.gz
+    provides:
+      XML::SAX::Expat 0.51
+    requirements:
+      ExtUtils::MakeMaker 0
+      XML::NamespaceSupport 0.03
+      XML::Parser 2.27
+      XML::SAX 0.03
+      XML::SAX::Base 1.00
+  XML-Simple-2.20
+    pathname: G/GR/GRANTM/XML-Simple-2.20.tar.gz
+    provides:
+      TagsToUpper undef
+      XML::Simple 2.20
+    requirements:
+      ExtUtils::MakeMaker 6.31
+      Test::More 0.88
+      XML::NamespaceSupport 1.04
+      XML::SAX 0.15
+      XML::SAX::Expat 0
   XML-Twig-3.44
     pathname: M/MI/MIROD/XML-Twig-3.44.tar.gz
     provides:

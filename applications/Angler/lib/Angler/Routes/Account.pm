@@ -16,6 +16,9 @@ use Dancer::Plugin::Email;
 use Try::Tiny;
 use DateTime qw();
 use DateTime::Duration qw();
+use URI::Escape qw(uri_escape);
+use Digest::MD5 qw(md5_hex);
+
 
 my $now = DateTime->now;
 
@@ -124,7 +127,7 @@ get '/facebook/login' => sub {
     #redirect $fb->authorize->uri_as_string;
         redirect $fb
         ->authorize
-        ->extend_permissions( qw(offline_access email) )
+        ->extend_permissions( qw(email) )
         ->uri_as_string;
 };
 get '/facebook/postback/' => sub {
@@ -137,7 +140,9 @@ get '/confirmation/conf_id:' => sub {
 };
 
 sub facebook_auth {
-    my ($attr, $avail, $user, $username, $fb_user, $fb_user_email, $user_exist, $fb, $token_response_object, $authorization_code, $user_id, $pass, $secret, $user_data);
+    my ($attr, $avail, $user, $username, $fb_user, $fb_user_id, $fb_user_img_thumb, $fb_user_email, $user_exist, 
+        $fb, $fb_user_img_large, $token_response_object, $authorization_code, $user_id, $pass, $secret, $user_data,
+        $facebook_attr);
 
     $authorization_code = params->{code};
     $fb = Facebook::Graph->new( config->{facebook} );
@@ -148,11 +153,16 @@ sub facebook_auth {
 
     # get fb user information
     $fb_user = $fb->fetch('me');
+    $fb_user_id = $fb_user->{id};
+    $fb_user_img_thumb = $fb->picture($fb_user_id)->get_square->uri_as_string;
+    $fb_user_img_large = $fb->picture($fb_user_id)->get_large->uri_as_string;
     $fb_user_email = $fb_user->{email};
-    $user_exist = shop_user->find({ email => $fb_user_email });
+    $user = shop_user->find({ email => $fb_user_email });
+    $facebook_attr = $user->find_attribute_value('facebook');
+    #debug 'facebook b4 elsif value', $facebook;
 
     # if the customer is not already registered with this email then DO IT.
-    unless ( $user_exist ) {
+    if ( !$user ) {
         $user_data = { username => $fb_user_email,
                        first_name => $fb_user->{first_name},
                        last_name => $fb_user->{last_name},
@@ -165,19 +175,25 @@ sub facebook_auth {
         $user = add_user($user_data);
         $user_id = $user->id;
         $username = $user->username;
+        $user->add_attribute('facebook','1');
+    }
+    elsif ( $facebook_attr == 0 ) {
+        # add user attribute
+        $user->update_attribute('facebook','1');
+        $user->add_attribute('fb_id', $fb_user->{id});
+        $user->add_attribute('fb_token', $token_response_object->token);
+        $user->add_attribute('fb_token_exp', $token_response_object->expires);
+        $user->add_attribute('user_avatar_thumb', $fb_user_img_thumb);
+        $user->add_attribute('user_avatar', $fb_user_img_large);
     }
     else {
-        $user_id = $user_exist->id;
-        $username = $user_exist->username;
-        $user = $user_exist;
+        # update facebook token data
+        $user->update_attribute_value('fb_token', $token_response_object->token);
+        $user->update_attribute_value('fb_token_exp', $token_response_object->expires);
     }
-
-    # add user attribute
-    $user->add_attribute('facebook','1');
-    $user->add_attribute('fb_token', $token_response_object->token);
-    $user->add_attribute('fb_token_exp', $token_response_object->expires);
-    $user->add_attribute('fb_id', $fb_user->{id});
-    # $user->add_attribute('fb_password', $secret);
+    
+    $user_id = $user->id;
+    $username = $user->username;
 
     # set session login for DPAE 
     session logged_in_user_id => $user_id;

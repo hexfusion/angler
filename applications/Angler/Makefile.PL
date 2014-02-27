@@ -4,9 +4,9 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME                => 'Angler',
-    AUTHOR              => q{YOUR NAME <youremail@example.com>},
+    AUTHOR              => q{Sam Batschelet <sbatschelet@mac.com>},
     VERSION_FROM        => 'lib/Angler.pm',
-    ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
+    ABSTRACT            => 'West Branch Angler Interchange6 Shopping Cart',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'perl')
       : ()),
@@ -16,6 +16,7 @@ WriteMakefile(
         'YAML'       => 0,
         'Dancer'     => 1.31,
         'Number::Format' => 0,
+        'Data::UUID'    => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Angler-*' },

@@ -25,7 +25,7 @@ requires 'Dancer::Plugin::Interchange6', 0.008;
 #requires 'Dancer::Session::DBIC';
 requires 'Dancer::Template::TemplateFlute';
 #requires 'Interchange6::Schema';
-requires 'Template::Flute';
+requires 'Template::Flute', 0.0101;
 requires 'Facebook::Graph';
 requires 'Scalar::MoreUtils';
 requires 'String::Random';
@@ -35,7 +35,6 @@ requires 'DateTime::Locale';
 requires 'Business::OnlinePayment';
 requires 'Business::OnlinePayment::Braintree';
 requires 'Moo';
-# Angler::Search
 requires 'MooX::Types::MooseLike';
 requires 'WebService::Solr';
 requires 'Math::Pari';

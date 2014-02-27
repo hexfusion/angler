@@ -69,7 +69,7 @@
 <param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>
 <param name="title" class="product-comment-title" field="title"/>
 <param name="author" class="product-comment-author" field="reviewer"/>
-<param name="content" class="product-comment-content" field="content"/>
+<param name="content" class="product-comment-content" field="content" op="hook"/>
 <param name="avatar" class="product-comment-avatar" field="avatar" target="src"/>
 </list>
 </specification>

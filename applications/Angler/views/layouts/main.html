@@ -173,7 +173,7 @@ $('.item').each(function() {
     var div = $(this);
     if (h > 40) {
         div.css('height', collapsedSize);
-        div.after('<a id="more" class="item-open" href="javascript:void();">More</a><br/>');
+        div.after('&lt;a id="more" class="item-open" href="javascript:void();">More&lt;/a>&lt;br/>');
         var link = div.next();
         link.click(function(e) {
             e.stopPropagation();

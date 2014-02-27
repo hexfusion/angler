@@ -85,6 +85,7 @@ hook 'before_product_display' => sub {
     my $product = $tokens->{product};
     my $user = logged_in_user;
     my $user_id = session('logged_in_user_id');
+    my $sku = $product->sku;
 
     debug "Before product display: ", $product->sku;
     my $status = logged_in_user;
@@ -93,13 +94,14 @@ hook 'before_product_display' => sub {
     my $path = $product->path;
     my $current_nav = pop @$path;
     my @other_products;
+    my @review_list;
 
     # set form review defaults
     my $form = form('review');
 
     $form->{values}->{rating} //= '0';
     my $values = $form->{values};
-#    debug "Errors: ", $form->{errors};
+    # debug "Errors: ", $form->{errors};
     $form->fill($values);
     $form->action('/review/' . $product->sku);
     $tokens->{form} = $form;
@@ -112,6 +114,38 @@ hook 'before_product_display' => sub {
     else {
         $tokens->{review_link} = '/login';
     }
+
+    # create review iderators
+    my $review_rs = shop_review->search({sku => $sku, approved => '1', public => '1'}); 
+
+    while (my $review = $review_rs->next) {
+
+        my $user = shop_user($review->users_id);
+        debug "Review user_id: ", $user->id;
+        my $nickname = $user->nickname;
+        my $first_name = $user->first_name;
+        my $last_name = substr($user->last_name, 0, 1);
+        my $avatar = $user->find_attribute_value('user_avatar_thumb') || '/img/img_default_user_icon_50x50.jpg';
+        debug "Avatar: ", $avatar;
+        my $reviewer;
+
+        if (!$nickname) {
+            $reviewer = "- $first_name $last_name.";
+        }
+        else {
+            $reviewer = "- $nickname";
+            $reviewer =~ s/([\w']+)/\u\L$1/g;
+        }
+
+        push @review_list, {'title' => $review->title,
+                            'content' => $review->content,
+                            'rating' => $review->rating,
+                            'recommend' => $review->recommend,
+                            'avatar' => $avatar,
+                            'reviewer' => $reviewer,
+                        };
+        $tokens->{review_list} = \@review_list;
+    };
 
     if ($current_nav) {
         my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
