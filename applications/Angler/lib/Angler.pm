@@ -206,8 +206,6 @@ hook 'before_cart_display' => sub {
     my ($values) = @_;
 
     $values->{countries} = countries();
-
-debug "Country: ", ref($values->{countries}->[0]);
     $values->{country} = 'US';
 };
 
