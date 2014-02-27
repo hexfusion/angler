@@ -23,7 +23,7 @@ requires 'Dancer::Session::Storable';
 requires 'DBIx::Class::Tree::AdjacencyList';
 requires 'Dancer::Plugin::Interchange6', 0.008;
 #requires 'Dancer::Session::DBIC';
-requires 'Dancer::Template::TemplateFlute';
+requires 'Dancer::Template::TemplateFlute', 0.0101;
 #requires 'Interchange6::Schema';
 requires 'Template::Flute', 0.0101;
 requires 'Facebook::Graph';
