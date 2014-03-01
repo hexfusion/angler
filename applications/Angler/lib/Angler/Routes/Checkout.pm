@@ -6,11 +6,17 @@ use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
 use DateTime;
 
+use Angler::Forms::Checkout;
+
 get '/checkout' => sub {
     my $form;
 
     $form = form('checkout');
     $form->valid(0);
+
+    if ($form->pristine && logged_in_user) {
+        debug "GET Prefill form with addresses.";
+    }
 
     template 'cart_checkout', checkout_tokens($form);
 };
@@ -25,53 +31,73 @@ post '/checkout' => sub {
 
     debug "Checkout form values: ", $values;
 
-    # validate input
-    if ($error_hash = validate_checkout($values)) {
-        debug "Error hash: ", $error_hash;
+    if ($form->pristine) {
+        if (logged_in_user) {
+            debug "POST Prefill form with addresses.";
+
+            my $ship_adr = shop_address->search(
+                {
+                    users_id => session('logged_in_user_id'),
+                    type => 'shipping',
+                },
+                {
+                    order_by => 'last_modified DESC',
+                    rows => 1,
+                },
+                )->single;
+
+            if ($ship_adr) {
+                debug "Shipping address found: ", $ship_adr->id;
+
+                my $form_values = Angler::Forms::Checkout->new(
+                    address => $ship_adr,
+                )->transpose;
+
+                $form->fill($form_values);
+            }
+        }
     }
     else {
-        # input data complete, charge amount
-        my $expiration = sprintf(
-            "%02d/%02d",
-            $values->{card_month}, $values->{card_year});
-
-        my %payment_data = (amount => cart->total,
-                     first_name => $values->{first_name},
-                     last_name => $values->{last_name},
-                     card_number => $values->{card_number},
-                     expiration => $expiration,
-                     cvc => $values->{card_cvc});
-
-        $payment_data{action} = 'Normal Authorization';
-        
-        debug("Payment_data: ", \%payment_data);
-        
-	    my $tx = shop_charge(%payment_data);
-
-        if ($tx->is_success) {
-            debug "Payment successful: ", $tx->authorization;
-
-            generate_order($form);
-
-            debug("Order complete.");
-            
-            return template 'cart_receipt', checkout_tokens($form);
+        # validate input
+        if ($error_hash = validate_checkout($values)) {
+            debug "Error hash: ", $error_hash;
         }
         else {
-            debug "Payment failed: ", $tx->error_message;
+            # input data complete, charge amount
+            my $expiration = sprintf(
+                "%02d/%02d",
+                $values->{card_month}, $values->{card_year});
+
+            my %payment_data = (amount => cart->total,
+                                first_name => $values->{first_name},
+                                last_name => $values->{last_name},
+                                card_number => $values->{card_number},
+                                expiration => $expiration,
+                                cvc => $values->{card_cvc});
+
+            $payment_data{action} = 'Normal Authorization';
+
+            debug("Payment_data: ", \%payment_data);
+
+            my $tx = shop_charge(%payment_data);
+
+            if ($tx->is_success) {
+                debug "Payment successful: ", $tx->authorization;
+
+                generate_order($form);
+
+                debug("Order complete.");
+
+                return template 'cart_receipt', checkout_tokens($form);
+            }
+            else {
+                debug "Payment failed: ", $tx->error_message;
+            }
         }
-
-        
-        # ...
-
-
-
-        
-
     }
 
     debug "Fill form with: ", $values;
-    
+
     $form->fill($values);
 
     template 'cart_checkout', checkout_tokens($form, $error_hash);
