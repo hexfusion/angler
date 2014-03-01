@@ -119,7 +119,9 @@ get '/account' => require_role user => sub {
 };
 
 get '/orders' => require_role user => sub {
-    template 'account_your-orders';
+    my $orders = shop_user->find(session('logged_in_user_id'))->search_related('Order');
+
+    template 'account_your-orders', {orders => [$orders->all]};
 };
 
 get '/facebook/login' => sub {

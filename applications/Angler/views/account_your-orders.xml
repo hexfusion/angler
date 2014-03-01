@@ -1,2 +1,6 @@
 <specification>
+<list name="orders" class="order-row" iterator="orders">
+<param name="order_date" class="order-date"/>
+<param name="total_cost" class="order-total"/>
+</list>
 </specification>
