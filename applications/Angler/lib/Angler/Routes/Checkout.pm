@@ -158,7 +158,10 @@ sub checkout_tokens {
     $tokens->{form} = $form;
 
     # iterator for countries
-    $tokens->{countries} = [shop_country->search({active => 1})];
+    $tokens->{countries} = [ shop_country->search(
+        {active => 1},
+        {order_by => 'priority DESC, name'},
+    )];
 
     # iterators for credit card expiration
     $tokens->{card_months} = card_months();
