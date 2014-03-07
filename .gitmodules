@@ -1,1 +1,4 @@
 
+[submodule "applications/TableEditor"]
+	path = applications/TableEditor
+	url = git@github.com:interchange/TableEditor.git
