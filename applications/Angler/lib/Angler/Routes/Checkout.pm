@@ -169,6 +169,7 @@ sub checkout_tokens {
 
     if ($errors) {
         $tokens->{errors} = $errors;
+        $tokens->{country} = $form->values->{country};
     }
     else {
         # default values for form
