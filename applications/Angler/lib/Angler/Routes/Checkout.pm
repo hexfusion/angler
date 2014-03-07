@@ -202,6 +202,16 @@ sub generate_order {
         }
     }
 
+    if (! $users_id) {
+        # create user
+        my $user = shop_user->create({email => $ship_address->{email},
+                                      username => $ship_address->{email},
+                                      first_name => $ship_address->{first_name},
+                                      last_name => $ship_address->{last_name},
+                                      });
+        $users_id = $user->id;
+    }
+
     $ship_address->{users_id} = $users_id;
     delete $ship_address->{email};
     $ship_address->{country_iso_code} = delete $ship_address->{country};
@@ -250,7 +260,7 @@ sub generate_order {
     }
 
     # create transaction
-    my %order_info = (users_id => session('logged_in_user_id'),
+    my %order_info = (users_id => $users_id,
                       billing_addresses_id => $bill_obj->id,
                       shipping_addresses_id => $ship_obj->id,
                       subtotal => cart->subtotal,
