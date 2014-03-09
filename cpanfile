@@ -1,3 +1,4 @@
+requires 'Array::Utils';
 requires 'XML::XPath';
 requires 'XML::XPath::Node';
 requires 'Math::Random::MT::Auto';
