@@ -43,4 +43,5 @@ requires 'Net::SSLeay';
 requires 'AnyEvent::TLS';
 requires 'Plack';
 requires 'Plack::Handler::Starman';
+requires 'XML::Twig', '3.46';
 requires 'YAML::Syck';
