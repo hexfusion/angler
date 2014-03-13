@@ -210,7 +210,10 @@ hook 'before_cart_display' => sub {
 };
 
 sub countries {
-    return [shop_country->search({active => 1})];
+    return [shop_country->search(
+        {active => 1},
+        {order_by => 'name'},
+    )];
 }
 
 get '/' => sub {
