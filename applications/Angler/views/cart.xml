@@ -10,8 +10,13 @@
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
 </form>
 
+<form name="shipping-methods" target="name">
+</form>
+
+<form name="shipping-update" target="name">
+</form>
+
 <value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
 
-<!-- <value name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> -->
 </specification>
 

@@ -72,9 +72,10 @@
         <tr>
           <td colspan="2" style="background: none;"></td>
           <td colspan="2" style="overflow: hidden;">
+<form name="shipping-quote" action="/shipping-quote" method="POST">
             <strong>SHIPPING:</strong>
-            <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">Fill country and ZIP no. to get cost</div>
-            <div class="clear"></div>
+            <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">Fill country and ZIP to get cost</div>
+           <div class="clear"></div>
             <div class="align-left" style="margin-right: 5px;">
               <label>Country</label>
               <select name="country" class="country" style="height: auto; padding: 2px; width: 120px; font-size: 11px;">
@@ -85,8 +86,28 @@
               <label>Zip</label>
               <input style="height: auto; padding: 3px; width: 60px; font-size: 11px;" type="text" />
             </div>
-          </td>
-        </tr>
+   <div class="align-right" style="margin-top: 17px;">
+      <button class="btn btn-small btn-success">Update</button>
+    </div>
+</form>
+           </td>
+</tr>
+<tr>
+<td colspan="2" style="background: none;"></td>
+          <td colspan="2" style="overflow: hidden;">
+<form name="shipping-update" action="/shipping-update" method="POST">
+            <div class="align-left" style="margin-right: 5px;">
+              <label>Shipping Method</label>
+              <select name="shipping" class="shipping" style="height: auto; padding: 2px; width: 185px; font-size: 11px;">
+                <option>UPS Next Day Air: $124.95</option>
+              </select>
+            </div>
+   <div class="align-right" style="margin-top: 17px;">
+      <button class="btn btn-small btn-success">Update</button>
+    </div>
+</form>
+ </td>
+       </tr>
       </tbody>
     </table>
     <div class="align-right">
@@ -95,16 +116,15 @@
     <div class="align-left" style="padding: 13px 20px 0 0;">
       <a href="">Continue shopping</a>
     </div>
-    <div class="spacer"></div>
-    <div class="align-right">
+    <div class="align-right" style="padding: 7px 8px 0 0;">
+      OR
+    </div>
+<div class="align-right" style="padding: 7px 8px 0 0;">
       <a href="">
         <img src="/img/btn_paypal.png" />
       </a>
     </div>
-    <div class="align-right" style="padding: 7px 8px 0 0;">
-      <a href="">OR</a>
-    </div>
-    <div class="spacer"></div>
+   <div class="spacer"></div>
     <div class="alert alert-info cart-alert">Add $34.80 to your order to qualify for <strong>free shipping.</strong></div>
     <div class="alert alert-success cart-alert">Your order qualifies for <strong>free shipping.</strong></div>
     <div class="spacer"></div>
