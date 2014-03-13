@@ -5,7 +5,7 @@
 <param name="sku"/>
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
 <param name="name" class="product-title"/>
-<param name="price" class="product-price"/>
+<param name="price" class="product-price" filter="currency"/>
 </list>
 <!-- Brands -->
 <value name="brands" iterator="brands"  iterator_value_key="name"
