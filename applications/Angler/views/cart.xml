@@ -3,6 +3,7 @@
 <param name="name"/>
 <param name="price" filter=""/>
 <param name="qty" field="quantity"/>
+<param name="subtotal" filter=""/>
 </list>
 
 <form name="cart" target="name">
