@@ -3,6 +3,8 @@
 <param name="order_date" class="order-date"/>
 <param name="total_cost" class="order-total"/>
 <param name="subtotal" class="order-subtotal"/>
+<param name="shipping" class="order-shipping"/>
+<param name="salestax" class="order-salestax"/>
 <list name="orderlines" class="orderline-row" iterator="Orderline">
 <param name="description" field="short_description"/>
 <param name="quantity" target="value"/>
