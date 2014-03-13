@@ -84,7 +84,7 @@ post '/checkout' => sub {
             if ($tx->is_success) {
                 debug "Payment successful: ", $tx->authorization;
 
-                generate_order($form);
+                generate_order($form, $tx);
 
                 debug("Order complete.");
 
@@ -181,7 +181,7 @@ sub checkout_tokens {
 };
 
 sub generate_order {
-    my ($form) = @_;
+    my ($form, $tx) = @_;
     my ($ship_address, $bill_address, $ship_obj, $bill_obj);
 
     my $users_id = session('logged_in_user_id');
@@ -239,7 +239,7 @@ sub generate_order {
     # create orderlines
     my @orderlines;
     my $position = 1;
-    my $cart_items = cart->items;
+    my $cart_items = cart->products;
 
     for my $item (@$cart_items) {
         debug "Items: ", $item;
@@ -270,6 +270,9 @@ sub generate_order {
                       Orderline => \@orderlines);
 
     my $order = shop_order->create(\%order_info);
+
+    # update payment info
+    $tx->payment_order->update({orders_id => $order->id});
 
     cart->clear;
 
