@@ -26,6 +26,7 @@ requires 'Dancer::Plugin::Interchange6', 0.010;
 #requires 'Dancer::Session::DBIC';
 requires 'Dancer::Template::TemplateFlute', '0.0106';
 requires 'Interchange6::Schema', '0.018';
+requires 'Interchange6', '0.011';
 requires 'Template::Flute', '0.0107';
 requires 'Facebook::Graph';
 requires 'Scalar::MoreUtils';
