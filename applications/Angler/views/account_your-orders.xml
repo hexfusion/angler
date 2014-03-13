@@ -2,5 +2,11 @@
 <list name="orders" class="order-row" iterator="orders">
 <param name="order_date" class="order-date"/>
 <param name="total_cost" class="order-total"/>
+<list name="orderlines" class="orderline-row" iterator="Orderline">
+<param name="description" field="short_description"/>
+<param name="quantity" target="value"/>
+<param name="price"/>
+<param name="subtotal"/>
+</list>
 </list>
 </specification>

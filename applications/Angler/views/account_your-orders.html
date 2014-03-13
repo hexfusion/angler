@@ -26,7 +26,7 @@
         </td>
         <td>Total: <span class="order-details order-total">$340.50</span></td>
         <td style="text-align: center;" width="60">
-          <a href="javascript:void();" id="toggle">details</a>
+          <a href="javascript:$('#row1' ).toggle();" id="toggle">details</a>
         </td>
       </tr>
       <tr id="row1" style="display: none;">
@@ -46,7 +46,15 @@
 									Amount
 									</th>
             </tr>
-            <tr>
+            <tr class="orderline-row">
+              <td class="description">Simms replacement laces</td>
+              <td>
+                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" class="quantity"/>
+              </td>
+              <td class="td-right price">$24.55</td>
+              <td class="td-right subtotal">$49.10</td>
+            </tr>
+            <tr class="orderline-row">
               <td>Simms replacement laces</td>
               <td>
                 <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
@@ -54,7 +62,7 @@
               <td class="td-right">$24.55</td>
               <td class="td-right">$49.10</td>
             </tr>
-            <tr>
+            <tr class="orderline-row">
               <td>Simms replacement laces</td>
               <td>
                 <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
@@ -62,7 +70,7 @@
               <td class="td-right">$24.55</td>
               <td class="td-right">$49.10</td>
             </tr>
-            <tr>
+            <tr class="orderline-row">
               <td>Simms replacement laces</td>
               <td>
                 <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
@@ -70,15 +78,7 @@
               <td class="td-right">$24.55</td>
               <td class="td-right">$49.10</td>
             </tr>
-            <tr>
-              <td>Simms replacement laces</td>
-              <td>
-                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-              </td>
-              <td class="td-right">$24.55</td>
-              <td class="td-right">$49.10</td>
-            </tr>
-            <tr>
+            <tr class="orderline-row">
               <td>Simms replacement laces</td>
               <td>
                 <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
