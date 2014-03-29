@@ -13,6 +13,7 @@
 <field name="postal_code" id="inputPostalCode"/>
 <field name="country" id="inputCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
 <!-- Billing -->
+<container name="billing" value="billing_address" class="billingWrapper">
 <field name="billing_enabled" id="inputBillingEnabled"/>
 <field name="billing_email" id="inputBillingEmail"/>
 <field name="billing_first_name" id="inputBillingFirstName"/>
@@ -23,6 +24,7 @@
 <field name="billing_city" id="inputBillingCity"/>
 <field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="state_iso_code" iterator_name_key="name"/>
 <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
+</container>
 <!-- Payment -->
 <field name="card_number" id="inputCardNumber"/>
 <field name="card_month" id="inputCardMonth" iterator="card_months"/>
@@ -51,7 +53,17 @@
        field="errors.card_month" op="toggle"/>
 <value name="card_cvc" id="errorCardCVC"
        field="errors.card_cvc" op="toggle"/>
-
+<!--
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>
-</specification>
+-->
+
+<!-- Cart -->
+<list name="cart" class="cartitem" iterator="cart.products">
+<param name="name"/>
+<param name="price" filter=""/>
+<param name="qty" field="quantity"/>
+<param name="subtotal" filter=""/>
+</list>
+
+'</specification>
