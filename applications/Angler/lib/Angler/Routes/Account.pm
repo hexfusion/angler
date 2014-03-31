@@ -11,7 +11,6 @@ require_login require_any_role
 use String::Random;
 use Facebook::Graph;
 use Data::Transpose::Validator;
-use Data::UUID;
 use Dancer::Plugin::Email;
 use Try::Tiny;
 use DateTime qw();
