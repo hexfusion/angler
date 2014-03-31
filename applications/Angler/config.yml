@@ -46,6 +46,7 @@ plugins:
     checkout:
       template: cart_checkout
     navigation:
+      records: 20
       template: product-listing
     cart:
       template: cart
