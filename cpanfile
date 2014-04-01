@@ -25,7 +25,7 @@ requires 'DBIx::Class::Tree::AdjacencyList';
 requires 'Dancer::Plugin::Interchange6', '0.019';
 #requires 'Dancer::Session::DBIC';
 requires 'Dancer::Template::TemplateFlute', '0.0106';
-requires 'Interchange6::Schema', '0.018';
+requires 'Interchange6::Schema', '0.020';
 requires 'Interchange6', '0.011';
 requires 'Template::Flute', '0.0111';
 requires 'Facebook::Graph';
