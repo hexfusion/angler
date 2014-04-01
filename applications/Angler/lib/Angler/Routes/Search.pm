@@ -1,6 +1,7 @@
 package Angler::Routes::Search;
 
 use Dancer ':syntax';
+use Dancer::Plugin::Interchange6;
 
 use Angler::Search;
 
@@ -17,8 +18,14 @@ get '/search' => sub {
     my $results = $search->solr_query;
     my $count = $search->count;
 
+    # load list of brands
+    my $brands = shop_navigation->search({type => 'manufacturer',
+                                          active => 1});
+
     template 'product-listing', {products => $results,
-                                 count => $count};
+                                 count => $count,
+				 brands => [$brands->all],
+    };
 };
 
 1;
