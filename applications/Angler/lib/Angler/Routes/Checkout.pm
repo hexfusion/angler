@@ -5,7 +5,7 @@ use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
 use DateTime;
-
+use Business::PayPal::API::ExpressCheckout;
 use Angler::Forms::Checkout;
 
 get '/checkout' => sub {
@@ -29,7 +29,7 @@ post '/checkout' => sub {
 
     my $values = $form->values;
 
-    debug "Checkout form values: ", $values;
+    debug "Checkout form values: ", to_dumper($values);
 
     if ($form->pristine) {
         if (logged_in_user) {
@@ -62,6 +62,61 @@ post '/checkout' => sub {
         if ($error_hash = validate_checkout($values)) {
             debug "Error hash: ", $error_hash;
         }
+        elsif ($values->{use_paypal}) {
+            # manually insert the paymant data
+            my %payment_data = (
+                                payment_mode => 'PayPal',
+                                status => 'request',
+                                sessions_id => session->id,
+                                payment_action => 'charge',
+                                amount => cart->total,
+                                users_id => session('logged_in_user_id'),
+                               );
+            debug "Populating the payment order";
+            my $payment_order = 
+              shop_schema->resultset('PaymentOrder')->create(\%payment_data);
+            session payment_order_id => $payment_order->payment_orders_id;
+            
+            # get the token and redirect
+            my $pp = pp_obj();
+            my %request = (
+                           OrderTotal => cart->total,
+                           currencyID => 'USD',
+                          );
+
+            # force the stringification of urls or SOAP will trip out
+            my $cancel_url = uri_for('/checkout');
+            my $return_url = uri_for('/paypal-checkout');
+            $request{ReturnURL} = "$return_url";
+            $request{CancelURL} = "$cancel_url";
+            debug "setting the express checkout: " . to_dumper(\%request);
+
+            # request the token
+            my %response = $pp->SetExpressCheckout(%request);
+            debug "response is: " . to_dumper(\%response);
+
+            # check the response
+            if ($response{Ack} eq 'Success' and $response{Token}) {
+
+
+                # handle the sandbox
+                my $base = 'https://www.sandbox.paypal.com';
+                if (config->{paypal}->{production}) {
+                    $base = 'https://www.paypal.com';
+                }
+                my $uri = URI->new($base . '/cgi-bin/webscr');
+                $uri->query_form(cmd => '_express-checkout',
+                                 token => $response{Token});
+                debug "Redirecting to " . $uri->as_string;
+
+                # store the token and redirect
+                session (paypal_token => $response{Token});
+                return redirect $uri->as_string;
+            }
+            else {
+                $error_hash = { paypal => "Couldn't perform a request to paypal" };
+            }
+        }
         else {
             # input data complete, charge amount
             my $expiration = sprintf(
@@ -84,7 +139,7 @@ post '/checkout' => sub {
             if ($tx->is_success) {
                 debug "Payment successful: ", $tx->authorization;
 
-                generate_order($form, $tx);
+                generate_order($form, $tx->payment_order);
 
                 debug("Order complete.");
 
@@ -99,9 +154,46 @@ post '/checkout' => sub {
     debug "Fill form with: ", $values;
 
     $form->fill($values);
+    debug to_dumper($form);
 
     template 'cart_checkout', checkout_tokens($form, $error_hash);
 };
+
+get '/paypal-checkout' => sub {
+    my $pp = pp_obj();
+
+    my $token = param('token');
+    my $session_token = session('paypal_token');
+
+    # check if the token match the session one
+    if ($token ne $session_token) {
+        error "param token $token is not equal to the session one $session_token";
+        return send_error("Bad token", 403);
+    };
+    my $poid = session('payment_order_id');
+    unless ($poid) {
+        error "Couldn't retrieve payment_order_id from session";
+        return send_error("Couldn't retrieve the order id from the session!", 403);
+    }
+
+    my $po = shop_schema->resultset('PaymentOrder')->find($poid);
+
+    my %details = $pp->GetExpressCheckoutDetails($session_token);
+    debug to_dumper(\%details);
+    my %payinfo = $pp->DoExpressCheckoutPayment( Token => $details{Token},
+                                                 PaymentAction => 'Sale',
+                                                 PayerID => $details{PayerID},
+                                                 OrderTotal => cart->total );
+    debug to_dumper(\%payinfo);
+
+    # update the payment order
+    # at this point we have everything and can pass the data
+    my $form = form('checkout');
+    generate_order($form, $po);
+    debug("Order complete.");
+    return template cart_receipt => checkout_tokens($form);
+};
+
 
 sub validate_checkout {
     my ($values) = @_;
@@ -121,7 +213,8 @@ sub validate_checkout {
     $validator->field('postal_code' => "String");
     $validator->field('city' => 'String');
 
-    # credit card data
+    # credit card data, only used if use_paypal is not set
+    if (!$values->{use_paypal}) {
     $validator->field('card_number' => 'CreditCard');
     $validator->field('card_month' =>
                           {validator => 'NumericRange',
@@ -137,6 +230,7 @@ sub validate_checkout {
                                max => 999,
                            }
                        });
+    }
 
     if (! $validator->transpose($values)) {
         my ($v_hash, %errors);
@@ -176,12 +270,12 @@ sub checkout_tokens {
         $tokens->{country} = 'US';
         $tokens->{billing_country} = 'US';
     }
-
+    debug to_dumper($tokens->{form});
     return $tokens;
 };
 
 sub generate_order {
-    my ($form, $tx) = @_;
+    my ($form, $payment_order) = @_;
     my ($ship_address, $bill_address, $ship_obj, $bill_obj);
 
     my $users_id = session('logged_in_user_id');
@@ -196,6 +290,9 @@ sub generate_order {
         }
         elsif ($name =~ /^card_/) {
             # skip credit card data
+        }
+        elsif ($name eq 'use_paypal') {
+            # ignore this token too
         }
         else {
             $ship_address->{$name} = $value;
@@ -215,7 +312,7 @@ sub generate_order {
     $ship_address->{users_id} = $users_id;
     delete $ship_address->{email};
     $ship_address->{country_iso_code} = delete $ship_address->{country};
-    $ship_address->{state_iso_code} = '';
+    delete $ship_address->{state_iso_code};
     delete $ship_address->{state};
     $ship_address->{type} = 'shipping';
 
@@ -272,7 +369,7 @@ sub generate_order {
     my $order = shop_order->create(\%order_info);
 
     # update payment info
-    $tx->payment_order->update({orders_id => $order->id});
+    $payment_order->update({orders_id => $order->id});
 
     cart->clear;
 
@@ -299,6 +396,26 @@ sub card_years {
     }
 
     return \@years;
+}
+
+sub pp_obj {
+    my %credentials = (
+                       Username => config->{paypal}->{id} || die,
+                       Password => config->{paypal}->{password} || die,
+                       Signature => config->{paypal}->{signature} || die,
+                       sandbox => 1,
+                      );
+    if (config->{paypal}->{production}) {
+        $credentials{sandbox} = 0;
+    }
+    debug "creating Business::PayPal::API::ExpressCheckout with ".
+      to_dumper(\%credentials);
+    my $pp = Business::PayPal::API::ExpressCheckout->new(%credentials);
+    return $pp;
+}
+
+sub paypal_set_request {
+    
 }
 
 1;
