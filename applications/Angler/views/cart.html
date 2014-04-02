@@ -1,131 +1,104 @@
 <div class="row">
   <div class="span12">
-    <form name="cart" action="/checkout" method="POST">
-    <h1>Shopping Cart</h1>
- <div class="spacer"></div>
-    <div class="alert alert-info cart-alert">Add $34.80 to your order to qualify for <strong>free shipping.</strong></div>
-    <div class="alert alert-success cart-alert">Your order qualifies for <strong>free shipping.</strong></div>
-    <div class="spacer"></div>
-
-    <table class="table table-bordered shopping-cart">
-      <thead>
+    <form action="/checkout" method="POST" name="cart">
+      <h1>Shopping Cart</h1>
+      <div class="spacer"></div>
+      <div class="alert alert-info cart-alert">Add $34.80 to your order to qualify for <strong>free shipping.</strong></div>
+      <div class="alert alert-success cart-alert">Your order qualifies for <strong>free shipping.</strong></div>
+      <div class="spacer"></div>
+      <table class="table table-bordered shopping-cart">
+        <thead>
+          <tr>
+            <th> Description </th>
+            <th width="40"> Quantity </th>
+            <th class="td-right" width="120"> Price </th>
+            <th class="td-right" width="120"> Amount </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cartitem">
+            <td class="image">
+              <img align="left" height="100px" src="/img/cart-demo-img.jpg" width="100px" />
+              <div class="name">
+                <strong>Simms replacement laces</strong>
+              </div>
+              <div class="stock">Inventory available: 5</div>
+              <div class="delete" style="margin-top:20px;">
+                <a class="remove-item" href="/">
+                  <img src="/img/i_delete.png" />
+                </a>
+              </div>
+            </td>
+            <td>
+              <div align="center"><input class="qty" style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" /><br /><a href="">Recalculate</a> </div>
+            </td>
+            <td class="td-right price">$24.55</td>
+            <td class="td-right subtotal">$49.10</td>
+          </tr>
+        </tbody>
+        <td colspan="1" style="background: none;"></td>
         <tr>
-          <th>
-						Description
-						</th>
-          <th width="40">
-						Quantity
-						</th>
-          <th class="td-right" width="120">
-						Price
-						</th>
-          <th class="td-right" width="120">
-						Amount
-						</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="cartitem">
-          <td class="image"><img src="/img/cart-demo-img.jpg" width="100px" height="100px" align="left">
-          <div class="name"><strong>Simms replacement laces</strong></div>
-          <div class="stock">Inventory available: 5</div>
-         </td>
-          <td>
-            <div align="center">
-            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" class="qty" value="2" /><br />
-            <a href="">Recalculate</a>
+          <td colspan="2" rowspan="4" style="background: none;">
+            <div style="background-color:#FFF; float: right;" width="100px">
+              <div>
+                <form action="/shipping-quote" method="POST" name="shipping-quote">
+                  <strong>SHIPPING:</strong>
+                  <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">Fill country and ZIP to get cost</div>
+                  <div class="clear"></div>
+                  <div class="align-left" style="margin-right: 5px;">
+                    <label>Country</label>
+                    <select class="country" name="country" style="height: auto; padding: 2px; width: 120px; font-size: 11px;">
+                      <option>United Kingdom</option>
+                    </select>
+                  </div>
+                  <div class="align-left">
+                    <label>Zip</label>
+                    <input style="height: auto; padding: 3px; width: 60px; font-size: 11px;" type="text" />
+                  </div>
+                  <div class="align-right" style="margin-top: 17px; margin-left: 5px;">
+                    <button class="btn btn-small btn-success">Update</button>
+                  </div>
+                </form>
+              </div>
+              <div>
+                <form action="/shipping-update" method="POST" name="shipping-update">
+                  <div class="align-left" style="margin-right: 5px;"><label>Shipping Method</label><input name="ground" type="radio" value="ground" />
+              UPS Ground - FREE<br /><input name="nda" type="radio" value="nda" />
+              USPS Priority - $14.95<br /><input name="nda" type="radio" value="nda" />
+              UPS Next Day Air - $74.95<br /><input name="nda" type="radio" value="nda" />
+              UPS 2nd Day Air - $74.95<br /></div>
+                </form>
+              </div>
             </div>
           </td>
-          <td class="td-right price">$24.55</td>
-          <td class="td-right subtotal">$49.10</td>
-        </tr>
-<td colspan="1" style="background: none;"></td>
-        <tr>
-        <td colspan="2"rowspan="4" style="background: none;">
-<div width="100px" style="background-color:#FFF; float: right;">
-<div>
-<form name="shipping-quote" action="/shipping-quote" method="POST">
-            <strong>SHIPPING:</strong>
-            <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">Fill country and ZIP to get cost</div>
-           <div class="clear"></div>
-            <div class="align-left" style="margin-right: 5px;">
-              <label>Country</label>
-              <select name="country" class="country" style="height: auto; padding: 2px; width: 120px; font-size: 11px;">
-                <option>United Kingdom</option>
-              </select>
-            </div>
-            <div class="align-left">
-              <label>Zip</label>
-              <input style="height: auto; padding: 3px; width: 60px; font-size: 11px;" type="text" />
-            </div>
-   <div class="align-right" style="margin-top: 17px; margin-left: 5px;">
-      <button class="btn btn-small btn-success">Update</button>
-    </div>
-</form>
-</div>
-<div>
-<form name="shipping-update" action="/shipping-update" method="POST">
-            <div class="align-left" style="margin-right: 5px;">
-              <label>Shipping Method</label>
-                <input type="radio" name="ground" value="ground"> UPS Ground - FREE<br>
-                <input type="radio" name="nda" value="nda"> USPS Priority - $14.95<br>
-                <input type="radio" name="nda" value="nda"> UPS Next Day Air - $74.95<br>
-                <input type="radio" name="nda" value="nda"> UPS 2nd Day Air - $74.95<br>
-           </div>
-</form>
-</div>
-</div>
-</td>
-          <td class="td-right">
-            SUBTOTAL:
-          </td>
+          <td class="td-right"> SUBTOTAL: </td>
           <td class="td-right">
             <div class="cart-subtotal">$4,280.60</div>
           </td>
         </tr>
-         <tr>
-          <td class="td-right">
-            SHIPPING:
-          </td>
-          <td class="td-right txt-shipping">
-           $9.95
-        </td>
+        <tr>
+          <td class="td-right"> SHIPPING: </td>
+          <td class="td-right txt-shipping"> $9.95 </td>
         </tr>
-    <tr>
-         
-          <td class="td-right">
-            TAX:
-          </td>
-          <td class="td-right" style="font-size:11px;">
-           Calculated at Checkout
-        </td>
+        <tr>
+          <td class="td-right"> TAX: </td>
+          <td class="td-right" style="font-size:11px;"> Calculated at Checkout </td>
         </tr>
-    <tr>
-          
+        <tr>
           <td class="td-right">
             <strong>TOTAL:</strong>
           </td>
           <td class="td-right txt-shipping">
-          <strong class="cart-total">$9,280.60</strong>
-        </td>
+            <strong class="cart-total">$9,280.60</strong>
+          </td>
         </tr>
-
-      </tbody>
-    </table>
-    <div class="align-right">
-      <button class="btn btn-large btn-success">Checkout</button>
-    </div>
-    <div class="align-left" style="padding: 13px 20px 0 0;">
-      <a href="">Continue shopping</a>
-    </div>
-    <div class="align-right" style="padding: 7px 8px 0 0;">
-      OR
-    </div>
-<div class="align-right" style="padding: 7px 8px 0 0;">
-      <a href="">
-        <img src="/img/btn_paypal.png" />
-      </a>
-    </div>
-     </div>
-  </form>
+      </table>
+      <div class="align-right">
+        <button class="btn btn-large btn-success">Checkout</button>
+      </div>
+      <div class="align-left" style="padding: 13px 20px 0 0;"> <a href="">Continue shopping</a> </div>
+      <div class="align-right" style="padding: 7px 8px 0 0;"> OR </div>
+      <div class="align-right" style="padding: 7px 8px 0 0;"> <a href=""> <img src="/img/btn_paypal.png" /> </a> </div>
+    </form>
+  </div>
 </div>
