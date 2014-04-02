@@ -1,7 +1,7 @@
 #! /usr/bin/env perl
 # By Sam Batschelet
-# Version 0.019
-# 3/31/2014
+# Version 0.020
+# 4/2/2014
 
 use strict;
 use warnings;
@@ -13,9 +13,6 @@ set logger => 'console';
 set logger_format => '%m';
 
 use Locale::SubCountry;
-#use Interchange6::Schema;
-#use Dancer::Plugin::DBIC;
-
 use DateTime qw();
 
 my $now = DateTime->now;
@@ -27,19 +24,26 @@ shop_schema->deploy({add_drop_table => 1,
                      },
                  });
 
-# countries array
+# populate countries array
 use Interchange6::Schema::Populate::CountryLocale;
 my $pop_countries = Interchange6::Schema::Populate::CountryLocale->new->records;
  
-# states array
+# populate states array
 use Interchange6::Schema::Populate::StateLocale;
 my $pop_states = Interchange6::Schema::Populate::StateLocale->new->records;
+
+# populate zones array
+use Interchange6::Schema::Populate::Zone;
+my $pop_zones = Interchange6::Schema::Populate::Zone->new->records;
 
 # populate countries table
 $schema->populate(Country => $pop_countries);
 
 # populate states table
 $schema->populate(State => $pop_states);
+
+# populate zones table
+$schema->populate(Zone => $pop_zones);
 
 my $pop_roles = $schema->resultset("Role")->populate([
     { roles_id => '1', name => 'anonymous', label => 'Anonymous Users' },
