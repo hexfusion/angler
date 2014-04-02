@@ -4,55 +4,55 @@
 
 <div class="row">
   <div class="span6">
-    <form class="form-horizontal account-info" action="/checkout" method="POST">
+    <form action="/checkout" class="form-horizontal account-info" method="POST">
       <fieldset>
         <legend>Shipping Address</legend>
         <div class="control-group">
           <label class="control-label" for="inputEmail">Email</label>
           <div class="controls">
-            <input class="input-xlarge" name="email" id="inputEmail" placeholder="Email" type="text" />
+            <input class="input-xlarge" id="inputEmail" name="email" placeholder="Email" type="text" />
             <span class="form-error" id="errorEmail">Error</span>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputFirstName">First name</label>
           <div class="controls">
-            <input class="input-xlarge" name="first_name" id="inputFirstName" placeholder="First name" type="text" />
+            <input class="input-xlarge" id="inputFirstName" name="first_name" placeholder="First name" type="text" />
             <span class="form-error" id="errorFirstName">Error</span>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputLastName">Last name</label>
           <div class="controls">
-            <input class="input-xlarge" name="last_name" id="inputLastName" placeholder="Last name" type="text" />
+            <input class="input-xlarge" id="inputLastName" name="last_name" placeholder="Last name" type="text" />
             <span class="form-error" id="errorLastName">Error</span>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputCompany">Company</label>
           <div class="controls">
-            <input class="input-xlarge" name="company" id="inputCompany" placeholder="Company" type="text" />
+            <input class="input-xlarge" id="inputCompany" name="company" placeholder="Company" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputAddress">Address</label>
           <div class="controls">
-            <input class="input-xlarge" name="address" id="inputAddress" placeholder="Address" type="text" />
+            <input class="input-xlarge" id="inputAddress" name="address" placeholder="Address" type="text" />
             <span class="form-error" id="errorAddress">Error</span>
-            <input class="input-xlarge" name="address_2" id="inputAddress2" placeholder="Address" type="text" />
+            <input class="input-xlarge" id="inputAddress2" name="address_2" placeholder="Address" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputPostalCode">ZIP code</label>
           <div class="controls">
-            <input class="input-small" name="postal_code" id="inputPostalCode" placeholder="ZIP code" type="text" />
+            <input class="input-small" id="inputPostalCode" name="postal_code" placeholder="ZIP code" type="text" />
             <span class="form-error" id="errorPostalCode">Error</span>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputCity">City</label>
           <div class="controls">
-            <input class="input-small" name="city" id="inputCity" placeholder="City" type="text" />
+            <input class="input-small" id="inputCity" name="city" placeholder="City" type="text" />
             <span class="form-error" id="errorCity">Error</span>
           </div>
         </div>
@@ -65,7 +65,7 @@
         <div class="control-group">
           <label class="control-label" for="inputCountry">Country</label>
           <div class="controls">
-            <select class="input-xlarge" name="country" id="inputCountry">
+            <select class="input-xlarge" id="inputCountry" name="country">
               <option>Country</option>
             </select>
           </div>
@@ -78,50 +78,51 @@
           <label class="control-label" for="inputBillingAddress"></label>
           <div class="controls ">
             <div class="form-inline">
-              <label><input type="checkbox" name="billing_enabled" id="inputBillingEnabled" value="1" /> Different billing address</label>
+              <label><input id="inputBillingEnabled" name="billing_enabled" type="checkbox" value="1" />
+                      Different billing address</label>
             </div>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingEmail">Email</label>
           <div class="controls">
-            <input class="input-xlarge" name="billing_email" id="inputBillingEmail" placeholder="Email" type="text" />
+            <input class="input-xlarge" id="inputBillingEmail" name="billing_email" placeholder="Email" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingFirstName">First name</label>
           <div class="controls">
-            <input class="input-xlarge" name="billing_first_name" id="inputBillingFirstName" placeholder="First name" type="text" />
+            <input class="input-xlarge" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingLastName">Last name</label>
           <div class="controls">
-            <input class="input-xlarge" name="billing_last_name" id="inputBillingLastName" placeholder="Last name" type="text" />
+            <input class="input-xlarge" id="inputBillingLastName" name="billing_last_name" placeholder="Last name" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingCompany">Company</label>
           <div class="controls">
-            <input class="input-xlarge" name="billing_company" id="inputBillingCompany" placeholder="Company" type="text" />
+            <input class="input-xlarge" id="inputBillingCompany" name="billing_company" placeholder="Company" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingAddress">Address</label>
           <div class="controls">
-            <input class="input-xlarge" name="billing_address" id="inputBillingAddress" placeholder="Address" type="text" />
+            <input class="input-xlarge" id="inputBillingAddress" name="billing_address" placeholder="Address" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingAddress2">Address</label>
           <div class="controls">
-            <input class="input-xlarge" name="billing_address_2" id="inputBillingAddress2" placeholder="Address" type="text" />
+            <input class="input-xlarge" id="inputBillingAddress2" name="billing_address_2" placeholder="Address" type="text" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="inputBillingPostalCode">ZIP code</label>
           <div class="controls">
-            <input class="input-small" name="billing_postal_code" id="inputBillingPostalCode" placeholder="ZIP code" type="text" />
+            <input class="input-small" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" type="text" />
           </div>
         </div>
         <div class="control-group">
@@ -131,7 +132,7 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" name="billing_country" for="inputBillingCountry">Country</label>
+          <label class="control-label" for="inputBillingCountry" name="billing_country">Country</label>
           <div class="controls">
             <select class="input-xlarge" id="inputBillingCountry">
               <option>Country</option>
@@ -152,25 +153,30 @@
             </li>
           </ul>
           <div class="tab-content">
-
             <div class="tab-pane active" id="tab1">
               <div class="control-group">
                 <label class="control-label" for="inputCardNumber">Card number</label>
                 <div class="controls">
-                  <input class="input-xlarge" name="card_number" id="inputCardNumber" placeholder="" type="text" />
+                  <input class="input-xlarge" id="inputCardNumber" name="card_number" placeholder="" type="text" />
                   <span class="form-error" id="errorCardNumber">Error</span>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputCardCVC">Security code (CVV)</label>
                 <div class="controls">
-                  <input class="input-small" name="card_cvc" id="inputCardCVC" placeholder="" type="text" />
+                  <input class="input-small" id="inputCardCVC" name="card_cvc" placeholder="" type="text" />
                   <span class="form-error" id="errorCardCVC">Error</span>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputExpire">Expiration date</label>
-                <div class="controls"><select class="input-small" name="card_month" id="inputCardMonth"><option>12</option></select> <select class="input-small" name="card_year" id="inputCardYear"><option>2013</option></select>
+                <div class="controls">
+                  <select class="input-small" id="inputCardMonth" name="card_month">
+                    <option>12</option>
+                  </select>
+                  <select class="input-small" id="inputCardYear" name="card_year">
+                    <option>2013</option>
+                  </select>
                   <span class="form-error" id="errorCardExpire">Error</span>
                 </div>
               </div>
@@ -188,65 +194,54 @@
     </form>
   </div>
   <div class="span6 rightbar">
-            
-                <div class="rightbar-widget">
-                <h3>Cart overview</h3>
-                <table class="table table-bordered shopping-cart">
-                    <thead>
-                    <tr>
-                        <th>
-                        Description
-                        </th>
-                        <th width="40">
-                        Quantity
-                        </th>
-                        <th width="60" class="td-right">
-                        Price
-                        </th>
-                        <th width="60" class="td-right">
-                        Amount
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="cartitem">
-                        <td class="name">Simms replacement laces</td>
-                        <td>
-                        2
-                        </td>
-                        <td class="td-right">$24.55</td>
-                        <td class="td-right">$49.10</td>
-                    </tr>
-                    </tbody>
-                    </table>
-                    </div>
-                <div class="rightbar-widget">
-
-                <table class="table table-bordered shopping-cart" width="100%">
-                    <tbody>
-                    <tr>
-                        <td class="td-right">Subtotal:</td>
-                        <td class="">$4,280.60</td>
-                    </tr>
-                    <tr>
-                        <td class="td-right">Shipping:</td>
-                        <td class="">$20.60</td>
-                    </tr>
-                    <tr>
-                        <td class="td-right">Sales Tax:</td>
-                        <td class="">$250.60</td>
-                    </tr>
-                    <tr>
-                        <td class="td-right" style="font-size: 18px;"><strong>TOTAL:</strong></td>
-                        <td class="txt-subtotal" style="font-size: 18px;"><strong>$4,560.60</strong></td>
-                    </tr>
-                    </tbody>
-                    </table>
-                        
-                    <div class="form-inline">Have a promo code? <input type="text"> <button class="btn btn-small">Apply</button></div>
-                        
-                    
-                </div>
-
+    <div class="rightbar-widget">
+      <h3>Cart overview</h3>
+      <table class="table table-bordered shopping-cart">
+        <thead>
+          <tr>
+            <th> Description </th>
+            <th width="40"> Quantity </th>
+            <th class="td-right" width="60"> Price </th>
+            <th class="td-right" width="60"> Amount </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cartitem">
+            <td class="name">Simms replacement laces<a class="remove-item" href="/"><img src="/img/i_delete.png" /></a></td>
+            <td class="qty"> 2 </td>
+            <td class="td-right price">$24.55</td>
+            <td class="td-right subtotal">$49.10</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="rightbar-widget">
+      <table class="table table-bordered shopping-cart" width="100%">
+        <tbody>
+          <tr>
+            <td class="td-right">Subtotal:</td>
+            <td class="cart-subtotal">$4,280.60</td>
+          </tr>
+          <tr>
+            <td class="td-right">Shipping:</td>
+            <td class="cart-shipping">$20.60</td>
+          </tr>
+          <tr>
+            <td class="td-right">Sales Tax:</td>
+            <td class="cart-tax">$250.60</td>
+          </tr>
+          <tr>
+            <td class="td-right" style="font-size: 18px;">
+              <strong>TOTAL:</strong>
+            </td>
+            <td class="txt-subtotal" style="font-size: 18px;">
+              <strong class="cart-total">$4,280.60</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="form-inline">Have a promo code?
+              <input type="text" /><button class="btn btn-small">Apply</button></div>
+    </div>
   </div>
 </div>
