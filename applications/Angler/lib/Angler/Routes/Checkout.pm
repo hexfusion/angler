@@ -80,8 +80,11 @@ post '/checkout' => sub {
             # get the token and redirect
             my $pp = pp_obj();
             my %request = (
-                           OrderTotal => cart->total,
+                           OrderTotal => sprintf('%0.2f', cart->total),
                            currencyID => 'USD',
+                           BuyerEmail => $values->{email},
+                           OrderDescription => "Angler",
+                           PaymentAction => 'Sale',
                           );
 
             # force the stringification of urls or SOAP will trip out
@@ -106,6 +109,7 @@ post '/checkout' => sub {
                 }
                 my $uri = URI->new($base . '/cgi-bin/webscr');
                 $uri->query_form(cmd => '_express-checkout',
+                                 useraction => 'commit',
                                  token => $response{Token});
                 debug "Redirecting to " . $uri->as_string;
 
