@@ -157,6 +157,8 @@ sub checkout_tokens {
 
     $tokens->{form} = $form;
 
+    $tokens->{cart} = cart;
+
     # iterator for countries
     $tokens->{countries} = [ shop_country->search(
         {active => 1},

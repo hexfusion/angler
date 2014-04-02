@@ -1,14 +1,19 @@
 <div class="row">
-  <div class="span9">
+  <div class="span12">
     <form name="cart" action="/checkout" method="POST">
     <h1>Shopping Cart</h1>
+ <div class="spacer"></div>
+    <div class="alert alert-info cart-alert">Add $34.80 to your order to qualify for <strong>free shipping.</strong></div>
+    <div class="alert alert-success cart-alert">Your order qualifies for <strong>free shipping.</strong></div>
+    <div class="spacer"></div>
+
     <table class="table table-bordered shopping-cart">
       <thead>
         <tr>
           <th>
 						Description
 						</th>
-          <th width="60">
+          <th width="40">
 						Quantity
 						</th>
           <th class="td-right" width="120">
@@ -21,57 +26,24 @@
       </thead>
       <tbody>
         <tr class="cartitem">
-          <td class="name">Simms replacement laces</td>
+          <td class="image"><img src="/img/cart-demo-img.jpg" width="100px" height="100px" align="left">
+          <div class="name"><strong>Simms replacement laces</strong></div>
+          <div class="stock">Inventory available: 5</div>
+         </td>
           <td>
-            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" class="qty" value="2" />
+            <div align="center">
+            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" class="qty" value="2" /><br />
+            <a href="">Recalculate</a>
+            </div>
           </td>
           <td class="td-right price">$24.55</td>
           <td class="td-right subtotal">$49.10</td>
         </tr>
-        <tr class="cartitem">
-          <td>Simms replacement laces</td>
-          <td>
-            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-          </td>
-          <td class="td-right">$24.55</td>
-          <td class="td-right">$49.10</td>
-        </tr>
-        <tr class="cartitem">
-          <td>Simms replacement laces</td>
-          <td>
-            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-          </td>
-          <td class="td-right">$24.55</td>
-          <td class="td-right">$49.10</td>
-        </tr>
-        <tr class="cartitem">
-          <td>Simms replacement laces</td>
-          <td>
-            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-          </td>
-          <td class="td-right">$24.55</td>
-          <td class="td-right">$49.10</td>
-        </tr>
-        <tr class="cartitem">
-          <td>Simms replacement laces</td>
-          <td>
-            <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-          </td>
-          <td class="td-right">$24.55</td>
-          <td class="td-right">$49.10</td>
-        </tr>
+<td colspan="1" style="background: none;"></td>
         <tr>
-          <td colspan="2" style="background: none;"></td>
-          <td class="td-right">
-            <strong>SUBTOTAL:</strong>
-          </td>
-          <td class="td-right txt-subtotal">
-            <strong class="cart-subtotal">$4,280.60</strong>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="background: none;"></td>
-          <td colspan="2" style="overflow: hidden;">
+        <td colspan="2"rowspan="4" style="background: none;">
+<div width="100px" style="background-color:#FFF; float: right;">
+<div>
 <form name="shipping-quote" action="/shipping-quote" method="POST">
             <strong>SHIPPING:</strong>
             <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">Fill country and ZIP to get cost</div>
@@ -86,28 +58,58 @@
               <label>Zip</label>
               <input style="height: auto; padding: 3px; width: 60px; font-size: 11px;" type="text" />
             </div>
-   <div class="align-right" style="margin-top: 17px;">
+   <div class="align-right" style="margin-top: 17px; margin-left: 5px;">
       <button class="btn btn-small btn-success">Update</button>
     </div>
 </form>
-           </td>
-</tr>
-<tr>
-<td colspan="2" style="background: none;"></td>
-          <td colspan="2" style="overflow: hidden;">
+</div>
+<div>
 <form name="shipping-update" action="/shipping-update" method="POST">
             <div class="align-left" style="margin-right: 5px;">
               <label>Shipping Method</label>
-              <select name="shipping" class="shipping" style="height: auto; padding: 2px; width: 185px; font-size: 11px;">
-                <option>UPS Next Day Air: $124.95</option>
-              </select>
-            </div>
-   <div class="align-right" style="margin-top: 17px;">
-      <button class="btn btn-small btn-success">Update</button>
-    </div>
+                <input type="radio" name="ground" value="ground"> UPS Ground - FREE<br>
+                <input type="radio" name="nda" value="nda"> USPS Priority - $14.95<br>
+                <input type="radio" name="nda" value="nda"> UPS Next Day Air - $74.95<br>
+                <input type="radio" name="nda" value="nda"> UPS 2nd Day Air - $74.95<br>
+           </div>
 </form>
- </td>
-       </tr>
+</div>
+</div>
+</td>
+          <td class="td-right">
+            SUBTOTAL:
+          </td>
+          <td class="td-right">
+            <div class="cart-subtotal">$4,280.60</div>
+          </td>
+        </tr>
+         <tr>
+          <td class="td-right">
+            SHIPPING:
+          </td>
+          <td class="td-right txt-shipping">
+           $9.95
+        </td>
+        </tr>
+    <tr>
+         
+          <td class="td-right">
+            TAX:
+          </td>
+          <td class="td-right" style="font-size:11px;">
+           Calculated at Checkout
+        </td>
+        </tr>
+    <tr>
+          
+          <td class="td-right">
+            <strong>TOTAL:</strong>
+          </td>
+          <td class="td-right txt-shipping">
+          <strong class="cart-total">$9,280.60</strong>
+        </td>
+        </tr>
+
       </tbody>
     </table>
     <div class="align-right">
@@ -124,18 +126,6 @@
         <img src="/img/btn_paypal.png" />
       </a>
     </div>
-   <div class="spacer"></div>
-    <div class="alert alert-info cart-alert">Add $34.80 to your order to qualify for <strong>free shipping.</strong></div>
-    <div class="alert alert-success cart-alert">Your order qualifies for <strong>free shipping.</strong></div>
-    <div class="spacer"></div>
-  </div>
+     </div>
   </form>
-  <div class="span3 rightbar">
-    <div class="rightbar-widget">
-      <div class="alert alert-info alert-quote">
-						I have been patronizing this fly shop for many years and never leave without being totaly impressed by the staff's knowledge and service.
-						<div class="alert-quote-author"><img src="/img/img_profile.png" width="30" /> <strong>Chris, Hancock, NY</strong></div></div>
-    </div>
-    <div class="rightbar-widget"><img src="/img/i_visa.png" /> <img src="/img/i_mastercard.png" /> <img src="/img/i_amex.png" /></div>
-  </div>
 </div>

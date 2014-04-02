@@ -58,12 +58,12 @@
 </container>
 -->
 
-<!-- Cart -->
+<!-- Cart
 <list name="cart" class="cartitem" iterator="cart.products">
 <param name="name"/>
 <param name="price" filter=""/>
 <param name="qty" field="quantity"/>
 <param name="subtotal" filter=""/>
 </list>
-
-'</specification>
+-->
+</specification>

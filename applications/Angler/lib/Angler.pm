@@ -230,7 +230,70 @@ get '/' => sub {
     # get all manufacturers
     my $mf = shop_navigation->search({type => 'manufacturer'});
 
+
+
+
+#    my $loop = schema->resultset('RuleGroupline', {rules_groups_id => '1'});
+    my %attributes;
+
+    my $product_attributes_rs = shop_product->find('WBA0008')->search_attributes;
+
+#    my $rule = $id->find_rule_components('1');
+
+#    my $product_attributes_rs = $id->search_attributes({sku => 'WBA0001'});
+
+#my $attributes;
+
+#   while (my $nav_attribute = $nav_attributes_rs->next) {
+#        my $attr_name = $nav_attribute->name;
+#        my $attr_value = $nav_attribute->priority;
+#        my $attribute_value = $rule->find_attribute_value({name => $attr_name, priority => $attr_priority}, {object => 1});
+        #do whatever 
+#    }        
+#        $rule_component{$attr_priority}{$canonical->name}{$attr_name} = $attribute_value->value;
+       #$attributes = { attribute => $attr_priority };
+#    }
+
+#
+#     while (my $rule_groupline = $loop->next) {
+#        my $rules = $rule_groupline->search_related('Rule');
+#        while (my $rules_rs = $rules->next) {
+#            my $canonical =  $rules_rs->search_related('canonical');
+#            while (my $canonical_rs = $canonical->next) {
+#               # debug "Name: ", $canonical_rs->name;
+#                my $rule_attribute = $rule_groupline->search_related('RuleAttribute');
+#                while (my $rule_attribute_rs = $rule_attribute->next) {
+#                   my $attribute = $rule_attribute_rs->search_related('Attribute');
+#                   while (my $attribute_rs = $attribute->next) {
+#                        my $attr_name = $attribute_rs->name;
+#                        my $attr_value = $rules_rs->find_attribute_value($attr_name);
+#                       $rule{$canonical_rs->name} = { attribute => $attr_name, attribute_value => $attr_value };
+#                    #   debug "Attribute: ", \%rule;
+#                   }
+#               }
+#           }
+#        }
+#    }   
+#    
+#    debug "Attribute: ", $id;
+
+#    my $canonical_rs = schema->resultset('Rule')->search_related('canonical');
+
+#    while (my $variant = $canonical_rs->next) {
+#        debug "Canonical sku:", $variant->name;
+#    }
+
+#    my $var = schema->resultset('Rule')->search_related('Variant');
+
+#    while (my $test = $var->next) {
+#        debug "Canonical sku:", $test->name;
+#    }
+
     template 'home', {manufacturer => [$mf->all]};
+};
+
+get '/flypage_badges' => sub {
+    template 'flypage_badges', {manufacturer => '1'};
 };
 
 shop_setup_routes;
