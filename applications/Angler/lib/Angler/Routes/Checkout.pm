@@ -66,9 +66,9 @@ post '/checkout' => sub {
             # manually insert the paymant data
             my %payment_data = (
                                 payment_mode => 'PayPal',
+                                payment_action => 'charge',
                                 status => 'request',
                                 sessions_id => session->id,
-                                payment_action => 'charge',
                                 amount => cart->total,
                                 users_id => session('logged_in_user_id'),
                                );
@@ -168,33 +168,66 @@ get '/paypal-checkout' => sub {
 
     my $token = param('token');
     my $session_token = session('paypal_token');
+    my $poid = session('payment_order_id');
 
+    ## sanity check. this should not happen
     # check if the token match the session one
     if ($token ne $session_token) {
-        error "param token $token is not equal to the session one $session_token";
-        return send_error("Bad token", 403);
-    };
-    my $poid = session('payment_order_id');
-    unless ($poid) {
-        error "Couldn't retrieve payment_order_id from session";
-        return send_error("Couldn't retrieve the order id from the session!", 403);
+        return report_pp_error("Token mismatch, transaction aborted");
+    }
+
+    # check the payment order in the session
+    elsif (!$poid) {
+        return report_pp_error("Missing order id, transaction aborted");
     }
 
     my $po = shop_schema->resultset('PaymentOrder')->find($poid);
 
+    unless ($po) {
+        return report_pp_error("Missing order id, transaction aborted");
+    }
+
     my %details = $pp->GetExpressCheckoutDetails($session_token);
     debug to_dumper(\%details);
+
+    unless ($details{Ack}
+            and $details{Ack} eq 'Success'
+            and $details{Token}) {
+        return report_pp_payment_error($po, \%details);
+    }
+
     my %payinfo = $pp->DoExpressCheckoutPayment( Token => $details{Token},
                                                  PaymentAction => 'Sale',
                                                  PayerID => $details{PayerID},
                                                  OrderTotal => cart->total );
-    debug to_dumper(\%payinfo);
 
-    # update the payment order
+    if ($payinfo{Ack} eq 'Success') {
+        # update the payment order
+        debug to_dumper(\%payinfo);
+        $po->auth_code($payinfo{TransactionID});
+        $po->status("success");
+        $po->payment_sessions_id($payinfo{Token});
+
+        # this should not happen
+        if ($payinfo{GrossAmount} < cart->total) {
+            warning "$payinfo{GrossAmount} doesn't match the cart total!";
+            $po->payment_error_message("Gross amount is $payinfo{GrossAmount}");
+        }
+        $po->update;
+    }
+    else {
+        return report_pp_payment_error($po, \%payinfo);
+    }
+
     # at this point we have everything and can pass the data
     my $form = form('checkout');
+    debug("Generating an order");
     generate_order($form, $po);
     debug("Order complete.");
+
+    # clear the session from stale data
+    session paypal_token => undef;
+    session payment_order_id => undef;
     return template cart_receipt => checkout_tokens($form);
 };
 
@@ -418,8 +451,36 @@ sub pp_obj {
     return $pp;
 }
 
-sub paypal_set_request {
-    
+sub report_pp_error {
+    my $error = shift;
+    session paypal_exception => $error;
+    return redirect '/checkout';
 }
+
+sub report_pp_payment_error {
+    my ($po, $response) = @_;
+    my %details = %$response;
+    debug to_dumper($response);
+    
+    # report the errors
+    my @errors;
+    my @error_codes;
+    if (my $errs = $details{Errors}) {
+        foreach my $err (@$errs) {
+            push @errors, $err->{LongMessage};
+            push @error_codes, $err->{ErrorCode};
+        }
+    } else {
+        push @errors, "Transaction failed!";
+    }
+
+    # update the PaymentOrder
+    $po->payment_error_message(join(' ', @errors));
+    $po->payment_error_code(join(',', @error_codes));
+    $po->status("failure");
+    $po->update;
+    return report_pp_error(join("<br>", @errors));
+}
+
 
 1;
