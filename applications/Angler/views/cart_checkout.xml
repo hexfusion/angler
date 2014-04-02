@@ -30,6 +30,10 @@
 <field name="card_month" id="inputCardMonth" iterator="card_months"/>
 <field name="card_year" id="inputCardYear" iterator="card_years"/>
 <field name="card_cvc" id="inputCardCVC"/>
+
+<!-- Or paypal -->
+<field name="use_paypal" id="usePayPal" />
+
 </form>
 <!-- Email errors -->
 <value name="email_error" id="errorEmail"
@@ -53,6 +57,11 @@
        field="errors.card_month" op="toggle"/>
 <value name="card_cvc" id="errorCardCVC"
        field="errors.card_cvc" op="toggle"/>
+
+<!-- PayPal errors -->
+
+<value name="paypal_exception" id="errorPayPal" />
+
 <!--
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>

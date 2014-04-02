@@ -1,4 +1,7 @@
 <h1>Checkout</h1>
+
+<div id="errorPayPal"></div>
+
 <div class="row">
   <div class="span6">
     <form class="form-horizontal account-info" action="/checkout" method="POST">
@@ -173,7 +176,8 @@
               </div>
             </div>
             <div class="tab-pane" id="tab2">
-              <p>Go to <a href="">PayPal</a></p>
+              <input type="checkbox" name="use_paypal" id="usePayPal" />
+              <label for="usePayPal">Use PayPal</label>
             </div>
           </div>
         </div>
