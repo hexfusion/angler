@@ -88,7 +88,7 @@ post '/checkout' => sub {
                           );
 
             # force the stringification of urls or SOAP will trip out
-            my $cancel_url = uri_for('/checkout');
+            my $cancel_url = uri_for('/paypal-cancel');
             my $return_url = uri_for('/paypal-checkout');
             $request{ReturnURL} = "$return_url";
             $request{CancelURL} = "$cancel_url";
@@ -161,6 +161,36 @@ post '/checkout' => sub {
     debug to_dumper($form);
 
     template 'cart_checkout', checkout_tokens($form, $error_hash);
+};
+
+get '/paypal-cancel' => sub {
+    ## # nothing interesting in the result.
+    #      'Street2' => '',
+    #      'FirstName' => '',
+    #      'PayerID' => '',
+    #      'Payer' => '',
+    #      'Ack' => 'Success',
+    #      'Token' => 'EC-08T663445D820893D',
+    #      'PayerBusiness' => '',
+    #      'LastName' => '',
+    #      'AddressStatus' => 'None',
+    #      'CityName' => '',
+    #      'Build' => '10372338',
+    #      'PostalCode' => '',
+    #      'PayerStatus' => 'unverified',
+    #      'Version' => '3.0',
+    #      'Timestamp' => '2014-04-02T09:45:27Z',
+    #      'CorrelationID' => 'eb2e4015444e',
+    #      'Street1' => '',
+    #      'Name' => '',
+    #      'StateOrProvince' => ''
+    # if (my $token = param('token')) {
+    #     debug "Cancelling pp";
+    #     my $pp = pp_obj();
+    #     my %details = $pp->GetExpressCheckoutDetails($token);
+    #     debug to_dumper(\%details);
+    # }
+    return report_pp_error("PayPal transaction cancelled");
 };
 
 get '/paypal-checkout' => sub {
@@ -285,8 +315,13 @@ sub validate_checkout {
 sub checkout_tokens {
     my ($form, $errors) = @_;
     my $tokens;
+    debug to_dumper($errors);
 
     $tokens->{form} = $form;
+
+    # report the paypal failures too
+    $tokens->{paypal_exception} = session('paypal_exception');
+    session paypal_exception => undef;
 
     # iterator for countries
     $tokens->{countries} = [ shop_country->search(

@@ -57,6 +57,11 @@
        field="errors.card_month" op="toggle"/>
 <value name="card_cvc" id="errorCardCVC"
        field="errors.card_cvc" op="toggle"/>
+
+<!-- PayPal errors -->
+
+<value name="paypal_exception" id="errorPayPal" />
+
 <!--
 <container name="receipt" value="order_number" class="rightbar-widget">
 </container>
