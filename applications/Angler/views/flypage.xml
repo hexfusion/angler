@@ -19,6 +19,8 @@
   </list>
 </list>
 
+<value name="quantity" iterator="quantity"/>
+
 <!--
 <value name="attribute_size" class="attribute-size" iterator="attribute_size"/>
 <value name="attribute_color" class="attribute-color" iterator="attribute_color"/>

@@ -16,6 +16,8 @@ use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
 
+use Data::Transpose::Iterator::Scalar;
+
 our $VERSION = '0.1';
 
 # connect DBIC session engine to our schema
@@ -93,6 +95,14 @@ hook 'before_product_display' => sub {
     # currently broken, see http://informa.seetasks.com/tasks/2367715
     my $path = $product->path;
     my $current_nav = pop @$path;
+
+    # order quantity
+    my $qmin = 1;
+    my $qmax = 10;
+    my $qiter = Data::Transpose::Iterator::Scalar->new([$qmin..$qmax]);
+debug "Qiter: ", $qiter->count;
+    $tokens->{quantity} = $qiter;
+
     my @other_products;
     my @review_list;
 
