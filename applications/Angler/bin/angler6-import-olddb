@@ -8,6 +8,9 @@ use warnings;
 use Dancer ':script';
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Database;
+use File::MimeInfo;
+use File::Basename;
+
 
 set logger => 'console';
 set logger_format => '%m';
@@ -18,6 +21,12 @@ my $dbh = database;
 # $dbh->quick_delete('products', {});
 
 my @products = $dbh->quick_select('products', {});
+
+my $medialocation = File::Spec->catdir(qw/public images items orig/);
+
+unless (-d $medialocation) {
+    die "Directory $medialocation doesn't exist, please add a symlink or create it";
+}
 
 #shop_product->search()->delete;
 
@@ -73,7 +82,7 @@ my $size_data = {name => 'size', title => 'Size', type => 'variant', priority =>
                  AttributeValue => \@size_values,
              };
 
-my $size_att = shop_schema->resultset('Attribute')->create($size_data);
+$size_att = shop_schema->resultset('Attribute')->create($size_data);
 
 for my $product (@products) {
     my $object;
@@ -92,6 +101,22 @@ for my $product (@products) {
     }
     else {
         $object->update(\%record);
+    }
+
+    ### Media IMAGE handling ###
+    if (my $imageuri = $product->{image}) {
+        my $file = File::Spec->catfile($medialocation, $imageuri);
+        unless (-f $file) {
+            warn "$file does not exist, ignoring\n";
+            next;
+        }
+        my $media = {
+                     mime_type => mimetype($file),
+                     file => $file,
+                     uri => "/images/items/orig/$imageuri",
+                    };
+        my $mediarow = $object->add_to_media($media);
+        print "Created " . $mediarow->uri . "\n";
     }
 
     if ($product->{category} && exists $navigation_map{$product->{category}}) {
