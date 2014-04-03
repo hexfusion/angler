@@ -13,7 +13,7 @@
 <param name="price" class="product-price" filter="currency"/>
 </list>
 <!-- Paging -->
-<paging name="products" list="results" class="pagination" page_size="5">
+<paging name="products" list="results" class="pagination">
 <element name="previous" type="previous" class="previous"/>
 <element name="next" type="next" class="paging-next"/>
 <!-- <element name="last" type="last" class="paging-last"/> -->
