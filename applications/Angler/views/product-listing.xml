@@ -1,6 +1,11 @@
 <specification>
 <value name="name" class="category-name" field="navigation.name"/>
 <value name="count"/>
+
+<!-- Showing products 1-20 of 34 found -->
+<value name="first" class="page-first" field="pager.first"/>
+<value name="last" class="page-last" field="pager.last"/>
+
 <list name="results" class="product-box" iterator="products">
 <param name="sku"/>
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
