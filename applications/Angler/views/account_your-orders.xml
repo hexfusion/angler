@@ -1,5 +1,8 @@
 <specification>
 <list name="orders" class="order-row" iterator="orders">
+<param name="order_number" class="order-number"/>
+<param name="receipt_link" class="receipt-link" field="order_number"
+       target="href" op="append"/>
 <param name="order_date" class="order-date"/>
 <param name="total_cost" class="order-total"/>
 <param name="subtotal" class="order-subtotal"/>
