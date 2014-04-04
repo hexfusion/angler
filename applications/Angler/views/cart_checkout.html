@@ -1,247 +1,301 @@
-<h1>Checkout</h1>
-
-<div id="errorPayPal"></div>
-
-<div class="row">
-  <div class="span6">
-    <form action="/checkout" class="form-horizontal account-info" method="POST">
-      <fieldset>
-        <legend>Shipping Address</legend>
-        <div class="control-group">
-          <label class="control-label" for="inputEmail">Email</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputEmail" name="email" placeholder="Email" type="text" />
-            <span class="form-error" id="errorEmail">Error</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputFirstName">First name</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputFirstName" name="first_name" placeholder="First name" type="text" />
-            <span class="form-error" id="errorFirstName">Error</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputLastName">Last name</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputLastName" name="last_name" placeholder="Last name" type="text" />
-            <span class="form-error" id="errorLastName">Error</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputCompany">Company</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputCompany" name="company" placeholder="Company" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputAddress">Address</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputAddress" name="address" placeholder="Address" type="text" />
-            <span class="form-error" id="errorAddress">Error</span>
-            <input class="input-xlarge" id="inputAddress2" name="address_2" placeholder="Address" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputPostalCode">ZIP code</label>
-          <div class="controls">
-            <input class="input-small" id="inputPostalCode" name="postal_code" placeholder="ZIP code" type="text" />
-            <span class="form-error" id="errorPostalCode">Error</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputCity">City</label>
-          <div class="controls">
-            <input class="input-small" id="inputCity" name="city" placeholder="City" type="text" />
-            <span class="form-error" id="errorCity">Error</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputState">State</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputState" placeholder="State" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputCountry">Country</label>
-          <div class="controls">
-            <select class="input-xlarge" id="inputCountry" name="country">
-              <option>Country</option>
-            </select>
-          </div>
-        </div>
-      </fieldset>
-      <div class="spacer"></div>
-      <fieldset>
-        <legend>Billing Address</legend>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingAddress"></label>
-          <div class="controls ">
-            <div class="form-inline">
-              <label><input id="inputBillingEnabled" name="billing_enabled" type="checkbox" value="1" />
-                      Different billing address</label>
-            </div>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingEmail">Email</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputBillingEmail" name="billing_email" placeholder="Email" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingFirstName">First name</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingLastName">Last name</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputBillingLastName" name="billing_last_name" placeholder="Last name" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingCompany">Company</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputBillingCompany" name="billing_company" placeholder="Company" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingAddress">Address</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputBillingAddress" name="billing_address" placeholder="Address" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingAddress2">Address</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputBillingAddress2" name="billing_address_2" placeholder="Address" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingPostalCode">ZIP code</label>
-          <div class="controls">
-            <input class="input-small" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingState">State</label>
-          <div class="controls">
-            <input id="inputBillingState" name="billing_state" placeholder="State" type="text" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputBillingCountry" name="billing_country">Country</label>
-          <div class="controls">
-            <select class="input-xlarge" id="inputBillingCountry">
-              <option>Country</option>
-            </select>
-          </div>
-        </div>
-      </fieldset>
-      <div class="spacer"></div>
-      <fieldset>
-        <legend>Payment information</legend>
-        <div class="tabbable">
-          <ul class="nav nav-tabs">
-            <li class="active">
-              <a data-toggle="tab" href="#tab1">Credit Card</a>
-            </li>
-            <li>
-              <a data-toggle="tab" href="#tab2">PayPal</a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="tab1">
+      <h1>Checkout</h1>
+      <div class="row">
+        <div class="span8">
+          <form action="/checkout" class="account-info" method="POST">
+              
+            <fieldset class="well">
+              <h3>Billing</h3>
               <div class="control-group">
-                <label class="control-label" for="inputCardNumber">Card number</label>
+                <label class="control-label" for="inputEmail">Email</label>
                 <div class="controls">
-                  <input class="input-xlarge" id="inputCardNumber" name="card_number" placeholder="" type="text" />
-                  <span class="form-error" id="errorCardNumber">Error</span>
+                  <input class="input-xlarge" id="inputEmail" name="email" placeholder="Email" type="text" />
+                  <span class="form-error" id="errorEmail">Error</span></div>
+              </div>
+                
+                <div class="alert alert-success"><h4>Already have an account with us? Sign in to make checkout faster.</h4>
+                    
+                <div class="spacer"></div>
+                
+                <div class="control-group">
+                <label class="control-label" for="inputEmail">Email</label>
+                <div class="controls">
+                <input class="input-xlarge" id="inputEmail" name="email" placeholder="Email" type="text" />
+                <span class="form-error" id="errorEmail">Error</span></div>
+                </div>
+                <div class="control-group">
+                <label class="control-label" for="inputEmail">Password</label>
+                <div class="controls">
+                <input class="input-xlarge" id="inputEmail" name="email" placeholder="Password" type="password" />
+                <span class="form-error" id="errorEmail">Error</span></div>
+                </div>
+                <input type="submit" value="Login" class="btn btn-success">
+                    
+                </div>
+                
+              <div class="control-group">
+                <label class="control-label" for="inputFirstName">First name</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputFirstName" name="first_name" placeholder="First name" type="text" />
+                  <span class="form-error" id="errorFirstName">Error</span></div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputLastName">Last name</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputLastName" name="last_name" placeholder="Last name" type="text" />
+                  <span class="form-error" id="errorLastName">Error</span></div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputCompany">Company</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputCompany" name="company" placeholder="Company" type="text" />
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="inputCardCVC">Security code (CVV)</label>
+                <label class="control-label" for="inputAddress">Address</label>
                 <div class="controls">
-                  <input class="input-small" id="inputCardCVC" name="card_cvc" placeholder="" type="text" />
-                  <span class="form-error" id="errorCardCVC">Error</span>
+                  <input class="input-xlarge" id="inputAddress" name="address" placeholder="Address" type="text" />
+                  <span class="form-error" id="errorAddress">Error</span>
+                  <br><input class="input-xlarge" id="inputAddress2" name="address_2" placeholder="Address" type="text" />
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="inputExpire">Expiration date</label>
+                <label class="control-label" for="inputPostalCode">ZIP code</label>
                 <div class="controls">
-                  <select class="input-small" id="inputCardMonth" name="card_month">
-                    <option>12</option>
+                  <input class="input-small" id="inputPostalCode" name="postal_code" placeholder="ZIP code" type="text" />
+                  <span class="form-error" id="errorPostalCode">Error</span></div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputCity">City</label>
+                <div class="controls">
+                  <input class="input-small" id="inputCity" name="city" placeholder="City" type="text" />
+                  <span class="form-error" id="errorCity">Error</span></div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputState">State</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputState" placeholder="State" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputCountry">Country</label>
+                <div class="controls">
+                  <select class="input-xlarge" id="inputCountry" name="country">
+                    <option>Country</option>
                   </select>
-                  <select class="input-small" id="inputCardYear" name="card_year">
-                    <option>2013</option>
-                  </select>
-                  <span class="form-error" id="errorCardExpire">Error</span>
                 </div>
               </div>
+              <div class="control-group">
+                <label class="control-label" for="inputPhoneHome">Phone Home</label>
+                <div class="controls">
+                  <input class="input-small" id="inputPhoneHome" name="phone_home" placeholder="555 - " type="text" />
+                  <span class="form-error" id="errorPostalCode">Error</span></div>
+              </div>
+
+            </fieldset>
+              
+              
+            <fieldset class="well">
+              <h3>Shipping</h3>
+             
+                  <div class="form-inline">
+                    <label>
+                      <input id="inputBillingEnabled" name="billing_enabled" type="checkbox" value="1" />
+                      Shipping address is different than billing</label>
+                  </div>
+
+                
+                <div id="shipping-address">
+                    
+              <div class="control-group">
+                <label class="control-label" for="inputBillingEmail">Email</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputBillingEmail" name="billing_email" placeholder="Email" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingFirstName">First name</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingLastName">Last name</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputBillingLastName" name="billing_last_name" placeholder="Last name" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingCompany">Company</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputBillingCompany" name="billing_company" placeholder="Company" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingAddress">Address</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="inputBillingAddress" name="billing_address" placeholder="Address" type="text" />
+                  <br><input class="input-xlarge" id="inputAddress2" name="address_2" placeholder="Address" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingPostalCode">ZIP code</label>
+                <div class="controls">
+                  <input class="input-small" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingState">State</label>
+                <div class="controls">
+                  <input id="inputBillingState" name="billing_state" placeholder="State" type="text" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputBillingCountry" name="billing_country">Country</label>
+                <div class="controls">
+                  <select class="input-xlarge" id="inputBillingCountry">
+                    <option>Country</option>
+                  </select>
+                </div>
+              </div>
+                
+                </div>
+            </fieldset>
+              
+              
+            <fieldset class="well">
+              <h3>Payment</h3>
+                
+                <label>Have a promo code?</label>
+                <div class="form-inline">
+                <input type="text" />
+                <button class="btn btn-small">Apply</button>
+                </div>
+                
+                <hr>
+                
+                <label class="inline">
+                <input type="radio" name="optionsRadios" id="payment1" value="option1">
+                Pay with Credit Card
+                </label>
+                                
+                <label class="inline">
+                <input type="radio" name="optionsRadios" id="payment2" value="option2">
+                Pay with PayPal
+                </label>
+
+                <div id="payment-type1" style="display: none;">
+
+                    <div class="spacer"></div>
+                    <div class="spacer"></div>
+                    
+                    <h4>Enter your Credit Card information</h4>
+                    
+                    <img src="img/i_visa.png"> <img src="img/i_mastercard.png"> <img src="img/i_amex.png">
+                    
+                    <div class="control-group">
+                      <label class="control-label" for="inputCardNumber">Card number</label>
+                      <div class="controls">
+                        <input class="input-xlarge" id="inputCardNumber" name="card_number" placeholder="" type="text" />
+                        <span class="form-error" id="errorCardNumber">Error</span></div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputCardCVC">Security code (CVV)</label>
+                      <div class="controls">
+                        <input class="input-small" id="inputCardCVC" name="card_cvc" placeholder="" type="text" />
+                        <span class="form-error" id="errorCardCVC">Error</span></div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputExpire">Expiration date</label>
+                      <div class="controls">
+                        <select class="input-small" id="inputCardMonth" name="card_month">
+                          <option>12</option>
+                        </select>
+                        <select class="input-small" id="inputCardYear" name="card_year">
+                          <option>2013</option>
+                        </select>
+                        <span class="form-error" id="errorCardExpire">Error</span></div>
+                    </div>
+                    
+                </div>
+                
+                <div id="payment-type2" style="display: none;">
+
+                    <div class="spacer"></div>
+                    <div class="spacer"></div>
+                    
+                    <h4>PayPal payment</h4>
+
+                    You will be redirected to <strong>PayPal's secured site</strong> at the end of checkout.
+                    
+                </div>
+                
+            </fieldset>
+            <div class="form-actions">
+              <button class="btn btn-large btn-success">Place order</button>
             </div>
-            <div class="tab-pane" id="tab2">
-              <input type="checkbox" name="use_paypal" id="usePayPal" />
-              <label for="usePayPal">Use PayPal</label>
-            </div>
-          </div>
+          </form>
         </div>
-      </fieldset>
-      <div class="form-actions">
-        <button class="btn btn-large btn-success">Place order</button>
+        <div class="span4 rightbar">
+            
+          <div class="rightbar-widget">
+            <h3>Summary</h3>
+            <table class="table table-bordered shopping-cart" width="100%">
+              <tbody>
+                <tr>
+                  <td class="td-right">Subtotal:</td>
+                  <td class="cart-subtotal">$4,280.60</td>
+                </tr>
+                <tr>
+                  <td class="td-right">Shipping:</td>
+                  <td class="cart-shipping">$20.60</td>
+                </tr>
+                <tr>
+                  <td class="td-right">Sales Tax:</td>
+                  <td class="cart-tax">$250.60</td>
+                </tr>
+                <tr>
+                  <td class="td-right" style="font-size: 18px;"><strong>TOTAL:</strong></td>
+                  <td class="txt-subtotal" style="font-size: 18px;"><strong class="cart-total txt-price">$4,280.60</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+            
+          <div class="rightbar-widget">
+            <h3>Cart overview</h3>
+            <table class="table table-bordered shopping-cart">
+              <tbody>
+                <tr>
+                    <td colspan="3" class="name">
+                        <div class="delete align-right"><button class="btn btn-small">X</button></div>
+                        <img src="img/cart-demo-img.jpg" width="50" height="50" align="left" style="margin-right: 5px;">
+                        <div class="name"><strong>SIMMS ExStream Jacket</strong></div>
+                        <div class="stock">Qty: <strong>1</strong></div>
+                        <div class="stock">Price: <span class="txt-price"><strong>$49.10</strong></span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="name">
+                        <div class="delete align-right"><button class="btn btn-small">X</button></div>
+                        <img src="img/cart-demo-img.jpg" width="50" height="50" align="left" style="margin-right: 5px;">
+                        <div class="name"><strong>SIMMS ExStream Jacket</strong></div>
+                        <div class="stock">Qty: <strong>1</strong></div>
+                        <div class="stock">Price: <span class="txt-price"><strong>$49.10</strong></span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="name">
+                        <div class="delete align-right"><button class="btn btn-small">X</button></div>
+                        <img src="img/cart-demo-img.jpg" width="50" height="50" align="left" style="margin-right: 5px;">
+                        <div class="name"><strong>SIMMS ExStream Jacket</strong></div>
+                        <div class="stock">Qty: <strong>1</strong></div>
+                        <div class="stock">Price: <span class="txt-price"><strong>$49.10</strong></span></div>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+            
+        </div>
       </div>
-    </form>
-  </div>
-  <div class="span6 rightbar">
-    <div class="rightbar-widget">
-      <h3>Cart overview</h3>
-      <table class="table table-bordered shopping-cart">
-        <thead>
-          <tr>
-            <th> Description </th>
-            <th width="40"> Quantity </th>
-            <th class="td-right" width="60"> Price </th>
-            <th class="td-right" width="60"> Amount </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cartitem">
-            <td class="name">Simms replacement laces<a class="remove-item" href="/"><img src="/img/i_delete.png" /></a></td>
-            <td class="qty"> 2 </td>
-            <td class="td-right price">$24.55</td>
-            <td class="td-right subtotal">$49.10</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
-    <div class="rightbar-widget">
-      <table class="table table-bordered shopping-cart" width="100%">
-        <tbody>
-          <tr>
-            <td class="td-right">Subtotal:</td>
-            <td class="cart-subtotal">$4,280.60</td>
-          </tr>
-          <tr>
-            <td class="td-right">Shipping:</td>
-            <td class="cart-shipping">$20.60</td>
-          </tr>
-          <tr>
-            <td class="td-right">Sales Tax:</td>
-            <td class="cart-tax">$250.60</td>
-          </tr>
-          <tr>
-            <td class="td-right" style="font-size: 18px;">
-              <strong>TOTAL:</strong>
-            </td>
-            <td class="txt-subtotal" style="font-size: 18px;">
-              <strong class="cart-total">$4,280.60</strong>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="form-inline">Have a promo code?
-              <input type="text" /><button class="btn btn-small">Apply</button></div>
-    </div>
-  </div>
-</div>
