@@ -17,6 +17,6 @@
 </form>
 
 <value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
-
+<value name="cart-total" field="cart_total" filter="currency"/>
 </specification>
 
