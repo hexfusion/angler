@@ -196,5 +196,24 @@ $('.item').each(function() {
 
 });</script>
 
+<script>
+$( "#inputBillingEnabled" ).click(function() {
+  $( "#shipping-address" ).toggle( "slow" );
+});
+$( ".payment" ).click(function() {
+  $( ".payment-type" ).toggle( "slow" );
+});
+    
+$( "#payment1" ).click(function() {
+    $( "#payment-type1" ).show( "slow" );
+    $( "#payment-type2" ).hide( 500 );
+});
+ 
+$( "#payment2" ).click(function() {
+    $( "#payment-type2" ).show( "slow" );
+    $( "#payment-type1" ).hide( 500 );
+});
+</script>
+
 </body>
 </html>
