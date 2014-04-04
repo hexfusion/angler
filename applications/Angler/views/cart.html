@@ -1,8 +1,9 @@
       <h1>Shopping Cart</h1>
 
+      <form name="cart" action="/checkout" method="POST">
+
       <div class="row">
         <div class="span8">
-          <form name="cart" action="/checkout" method="POST">
               
           <div class="alert alert-success"><h3>FREE SHIPPING</h3>Your order qualifies for <strong>free shipping.</strong></div>
           <div class="alert alert-info"><h3>FREE SHIPPING</h3>Add <strong>$34.80</strong> to your order to qualify for <strong>free shipping.</strong></div>
@@ -46,7 +47,6 @@
       </table>
 
     </div>
-    </form>
           
     <div class="span4">
 
@@ -59,7 +59,6 @@
               <tbody>
                 <tr>
                     <td>
-                        <form name="shipping-quote" action="/shipping-quote" method="POST">
                         <strong>SHIPPING:</strong>
                         <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">Fill country and ZIP to get cost</div>
                         <div class="clear"></div>
@@ -76,9 +75,7 @@
                         <div class="align-right" style="margin-top: 17px; margin-left: 5px;">
                         <button class="btn btn-small btn-success">Update</button>
                         </div>
-                        </form>
 
-                        <form name="shipping-update" action="/shipping-update" method="POST">
                         <div class="align-left" style="margin-right: 5px;">
                           <label>Shipping Method</label>
                           <input type="radio" name="ground" value="ground">
@@ -90,7 +87,6 @@
                           <input type="radio" name="nda" value="nda">
                           UPS 2nd Day Air - $74.95<br>
                         </div>
-                        </form>
                     </td>
                 </tr>
               </tbody>
@@ -124,12 +120,13 @@
           </div>
             
             <div class="align-center">
-            <button class="btn btn-large btn-success">Checkout</button><div style="padding: 10px 0; color: #aaaaaa;">- OR -</div><button class="btn btn-large btn-success">Checkout with PayPal</button>
+            <button class="btn btn-large btn-success" type="submit">Checkout</button><div style="padding: 10px 0; color: #aaaaaa;">- OR -</div><button class="btn btn-large btn-success" type="submit">Checkout with PayPal</button>
             </div>
             
         </fieldset>
         
     </div>
+    </form>
   </div>
 </div>
 </div>
