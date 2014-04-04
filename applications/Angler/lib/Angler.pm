@@ -92,8 +92,8 @@ hook 'before_product_display' => sub {
     debug "Before product display: ", $product->sku;
     my $status = logged_in_user;
 
-    # currently broken, see http://informa.seetasks.com/tasks/2367715
-    my $path = $product->path;
+    my $path = $product->path('menu');
+    
     my $current_nav = pop @$path;
 
     # order quantity
