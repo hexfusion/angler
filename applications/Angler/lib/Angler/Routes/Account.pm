@@ -123,6 +123,18 @@ get '/orders' => require_role user => sub {
     template 'account_your-orders', {orders => [$orders->all]};
 };
 
+get '/user/orders/:order_number' => require_role user => sub {
+    # find order number with restraint on current user
+    my $order = shop_user->find(session('logged_in_user_id'))->find_related('Order', {order_number => param('order_number')});
+
+    unless ($order) {
+        status 403;
+        return;
+    }
+
+    template 'email/order-receipt', {order => $order}, {layout => undef};
+};
+
 get '/facebook/login' => sub {
     my $fb = Facebook::Graph->new( config->{facebook} );
     #redirect $fb->authorize->uri_as_string;

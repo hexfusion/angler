@@ -1,0 +1,3 @@
+<specification>
+<value name="order_number" class="order-number" field="order.order_number"/>
+</specification>
