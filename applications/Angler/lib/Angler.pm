@@ -158,11 +158,26 @@ debug "Qiter: ", $qiter->count;
     };
 
     if ($current_nav) {
-        my $same_category = $current_nav->search_related('NavigationProduct')->search_related('Product', {'Product.active' => 1, 'Product.sku' => {'!=' => $product->sku}});
+        my $other_records = config->{records}->{other_products};
+
+        my $same_category = $current_nav->search_related(
+            'NavigationProduct')->search_related(
+                'Product', {
+                    'Product.active' => 1,
+                    'Product.sku' => {'!=' => $product->sku},
+                },
+                {
+                    rows => $other_records,
+                    page => 1,
+                },
+                );
 
         while (my $product = $same_category->next) {
-            debug "Found other: ", $product->sku, " with price: ", $product->price;
             push @other_products, $product;
+        }
+
+        if ($same_category->pager->last_page > 1) {
+            $tokens->{category_more} = $current_nav->uri;
         }
 
         $tokens->{category_name} = 'Other ' . $current_nav->name;

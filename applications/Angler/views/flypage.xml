@@ -27,7 +27,10 @@
 <value name="attribute_size" class="attribute-size" iterator="attribute_size"/>
 <value name="attribute_color" class="attribute-color" iterator="attribute_color"/>
 -->
+
+<!-- Other ... -->
 <value name="category_name" id="category-name"/>
+<value name="category_more" class="link-more" target="href"/> 
 <list name="other_products" class="product-sidebar" iterator="category_products">
 <param name="name" class="product-sidebar-link"/>
 <param name="uri" class="product-sidebar-link" field="sku" target="href" op="append"/>
