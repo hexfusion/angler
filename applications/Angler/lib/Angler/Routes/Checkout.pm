@@ -143,9 +143,13 @@ post '/checkout' => sub {
             if ($tx->is_success) {
                 debug "Payment successful: ", $tx->authorization;
 
-                generate_order($form, $tx->payment_order);
+                my $order = generate_order($form, $tx->payment_order);
 
                 debug("Order complete.");
+
+                my $tokens = checkout_tokens($form);
+
+                $tokens->{order} = $order;
 
                 return template 'cart_receipt', checkout_tokens($form);
             }
