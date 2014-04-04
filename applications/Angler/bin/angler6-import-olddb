@@ -22,11 +22,17 @@ my $dbh = database;
 
 my @products = $dbh->quick_select('products', {});
 
-my $medialocation = File::Spec->catdir(qw/public images products optimized_jpgs/);
+my $medialocation = File::Spec->catdir(qw/public images products 975x975/);
 
 unless (-d $medialocation) {
     die "Directory $medialocation doesn't exist, please add a symlink or create it";
 }
+
+my $default_image_path = File::Spec->catfile(qw/public images products
+                                                975x975
+                                                img_product_default.jpg/);
+
+
 
 #shop_product->search()->delete;
 
@@ -104,23 +110,8 @@ for my $product (@products) {
     }
 
     ### Media IMAGE handling ###
-    if (my $imageuri = $product->{image}) {
-        my $file = File::Spec->catfile($medialocation, $imageuri);
-        unless (-f $file) {
-            warn "$file does not exist, ignoring\n";
-            next;
-        }
-        my $media = {
-                     mime_type => mimetype($file),
-                     file => $file,
-                     uri => "$imageuri", # this is actually the basename
-                     media_type => {
-                                    type => 'image',
-                                   },
-                    };
-        my $mediarow = $object->add_to_media($media);
-        print "Created " . $mediarow->uri . "\n";
-    }
+    my $media = get_image_by_name($product->{image});
+    $object->add_to_media($media);
 
     if ($product->{category} && exists $navigation_map{$product->{category}}) {
         if (my $nav = shop_navigation->find({name => $navigation_map{$product->{category}}})) {
@@ -160,6 +151,17 @@ for my $product (@products) {
     if (@var_data) {
         $object->add_variants(@var_data);
     }
+    foreach my $var (@variants) {
+        my $newvar = shop_schema->resultset('Product')->find($var->{code});
+        if ($newvar) {
+            my $variantimage = $var->{image} || $product->{image};
+            $newvar->add_to_media(get_image_by_name($variantimage));
+            print "Added $variantimage to $var->{code}\n";
+        }
+        else {
+            warn "Couldn't find $var->{code}!";
+        }
+    }
 }
 
 sub setup_manufacturers {
@@ -191,3 +193,28 @@ sub setup_manufacturers {
 
     return \%nav_map;
 }
+
+sub get_image_by_name {
+    my $imageuri = shift;
+    my $image = {
+                 mime_type => 'image/jpeg',
+                 file  => $default_image_path,
+                 uri => 'img_product_default.jpg',
+                 media_type => {
+                                type => 'image',
+                               },
+                };
+    
+    return $image unless $imageuri;
+    my $file = File::Spec->catfile($medialocation, $imageuri);
+    if (-f $file) {
+        $image->{mime_type} = mimetype($file);
+        $image->{file} = $file;
+        $image->{uri} = $imageuri;
+    }
+    else {
+        warn "$file not found!, using the default image!";
+    }
+    return $image;
+}
+
