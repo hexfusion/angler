@@ -89,18 +89,17 @@ hook 'before_product_display' => sub {
     my $user_id = session('logged_in_user_id');
     my $sku = $product->sku;
 
-    debug "Before product display: ", $product->sku;
     my $status = logged_in_user;
 
     my $path = $product->path('menu');
-    
+
     my $current_nav = pop @$path;
 
     # order quantity
     my $qmin = 1;
     my $qmax = 10;
     my $qiter = Data::Transpose::Iterator::Scalar->new([$qmin..$qmax]);
-debug "Qiter: ", $qiter->count;
+
     $tokens->{quantity} = $qiter;
 
     my @other_products;
@@ -115,7 +114,6 @@ debug "Qiter: ", $qiter->count;
     $form->fill($values);
     $form->action('/review/' . $product->sku);
     $tokens->{form} = $form;
-    debug "Form: ", \$tokens->{form};
 
     if ($user) {
         $tokens->{review_link} = '#open';
@@ -126,7 +124,7 @@ debug "Qiter: ", $qiter->count;
     }
 
     # create review iderators
-    my $review_rs = shop_review->search({sku => $sku, approved => '1', public => '1'}); 
+    my $review_rs = shop_review->search({sku => $sku, approved => '1', public => '1'});
 
     while (my $review = $review_rs->next) {
 
@@ -191,9 +189,8 @@ debug "Qiter: ", $qiter->count;
         $tokens->{image_src} = uri_for($image->display_uri('image_325x325'));
         $tokens->{image_thumb} = uri_for($image->display_uri('image_50x50'));
     }
-    debug "Images: $tokens->{image_src} $tokens->{image_thumb}";
-debug "Attributes: ", $product->attribute_iterator;
-return;
+
+    return;
 
         # determine category for product
     my $categories = query->select(join => [qw/navigation code=navigation navigation_products/],
