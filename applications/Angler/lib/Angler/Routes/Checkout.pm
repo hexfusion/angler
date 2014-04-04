@@ -449,6 +449,9 @@ sub generate_order {
     # update payment info
     $payment_order->update({orders_id => $order->id});
 
+    # update order number
+    $order->update({order_number => 'WBA6' . sprintf("%06s", $order->id)});
+
     cart->clear;
 
     return $order;
