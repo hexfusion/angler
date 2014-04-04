@@ -3,7 +3,9 @@
 <value name="sku" id="sku" field="product.sku"/>
 <value name="short_description" field="product.short_description"/>
 <value name="description" field="product.description" op="hook"/>
-<value name="image_src" class="product-image"/> 
+<value name="image_src" class="product-image" target="src" />
+<value name="image_thumb" class="product-image-thumb" target="src" />
+
 <!-- product attributes -->
 <container name="variant-error" value="session.shop_cart_error"/>
 <list name="attributes" class="product-attributes-item"

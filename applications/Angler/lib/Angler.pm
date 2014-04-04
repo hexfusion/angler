@@ -169,6 +169,14 @@ debug "Qiter: ", $qiter->count;
     }
 
     $tokens->{category_products} = \@other_products;
+
+    # add image. There could be more, so we just pick the first
+    my $image = $product->media_by_type('image')->first;
+    if ($image) {
+        $tokens->{image_src} = uri_for($image->display_uri('image_325x325'));
+        $tokens->{image_thumb} = uri_for($image->display_uri('image_50x50'));
+    }
+    debug "Images: $tokens->{image_src} $tokens->{image_thumb}";
 debug "Attributes: ", $product->attribute_iterator;
 return;
 
@@ -188,9 +196,6 @@ return;
     }
 
     return;
-
-    # add image
-    $product->{image_src} = 'http://www.westbranchangler.com/site/images/items/325x325/' . $product->image;
 
     # determine variants for product
     my $variants = query->select(table => 'product_attributes',

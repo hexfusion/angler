@@ -291,4 +291,21 @@ $schema->resultset("Review")->populate([
     },
 ]);
 
+$schema->resultset('MediaType')->populate([
+                                           { type => 'image' },
+                                           { type => 'video' },
+                                          ]);
 
+
+my $images = $schema->resultset('MediaType')->find({ type => 'image' });
+
+# for now, call the type with the size
+foreach my $type (qw/120x120  169x169  325x325  50x50  70x70  975x975
+                     optimized_jpgs/) {
+    $images->add_to_media_displays({
+                                    type => 'image_' . $type,
+                                    name => 'image_' . $type,
+                                    path => "/images/products/$type",
+                                    size => $type,
+                                   });
+}
