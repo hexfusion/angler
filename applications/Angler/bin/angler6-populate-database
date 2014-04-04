@@ -1,7 +1,7 @@
 #! /usr/bin/env perl
 # By Sam Batschelet
 # Version 0.020
-# 4/2/2014
+# 4/4/2014
 
 use strict;
 use warnings;
@@ -139,7 +139,7 @@ my $pop_nav = $schema->resultset("Navigation")->populate([
 { uri => 'Clothing/Mens/Shorts', type =>  'menu', scope =>  'cat-clothing-r', name => 'Shorts' },
 { uri => 'Clothing/Mens/Socks', type =>  'menu', scope =>  'cat-clothing-r', name => 'Socks' },
 { uri => 'logout', type =>  'nav', scope =>  'top-logout', name => 'Logout' },
-{ uri => 'account', type =>  'nav', scope =>  'top-logout', name => 'My Account' },
+{ uri => '/user/account', type =>  'nav', scope =>  'top-logout', name => 'My Account' },
 ]);
 
 # populate products array
@@ -291,21 +291,204 @@ $schema->resultset("Review")->populate([
     },
 ]);
 
-$schema->resultset('MediaType')->populate([
+my $types = $schema->resultset('MediaType')->populate([
                                            { type => 'image' },
                                            { type => 'video' },
                                           ]);
 
-
 my $images = $schema->resultset('MediaType')->find({ type => 'image' });
 
 # for now, call the type with the size
-foreach my $type (qw/120x120  169x169  325x325  50x50  70x70  975x975
+foreach my $type (qw/120x120 169x169  325x325  50x50  70x70  975x975
                      optimized_jpgs/) {
     $images->add_to_media_displays({
                                     type => 'image_' . $type,
                                     name => 'image_' . $type,
                                     path => "/images/products/$type",
-                                    size => $type,
-                                   });
+                                    size => $type,});
 }
+
+# set default for example product
+my $media = $schema->resultset('Media')->create(
+                            { 
+                                file => 'public/images/products/optimized_jpgs/orvis_helios_2.jpg',
+                                uri => 'orvis_helios_2.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => '1',
+                            });
+
+
+$schema->resultset('MediaProduct')->populate([
+                                           { media_id => '1', sku => 'WBA0001' },
+                                           { media_id => '1', sku => 'WBA0002' },
+                                           { media_id => '1', sku => 'WBA0003' },
+                                           { media_id => '1', sku => 'WBA0004' },
+                                           { media_id => '1', sku => 'WBA0005' },
+                                           { media_id => '1', sku => 'WBA0006' },
+                                           { media_id => '1', sku => 'WBA0007' },
+                                          ]);
+
+
+# populate ShipmentCarriers
+my %carrier;
+
+$carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
+    {
+        title => 'UPS',
+        account_number => '1Z999999999999999999',
+        ShipmentMethod => [
+            { 
+              name => '1DM',
+              title => 'Next Day Air Early AM',
+              max_weight => '150',
+            },
+            { 
+              name => '1DML',
+              title => 'Next Day Air Early AM Letter',
+              max_weight => '150',
+            },
+            {
+              name => '1DA',
+              title => 'Next Day Air',
+              max_weight => '150',
+            },
+            {
+              name => '1DAL',
+              title => 'Next Day Air Letter',
+              max_weight => '150',
+            },
+            {
+              name => '1DP',
+              title => 'Next Day Air Saver',
+              max_weight => '150',
+            },
+            {
+              name => '1DPL',
+              title => 'Next Day Air Saver Letter',
+              max_weight => '150',
+            },
+            {
+              name => '2DM',
+              title => '2nd Day Air A.M.',
+              max_weight => '150',
+            },
+            {
+              name => '2DA',
+              title => '2nd Day Air',
+              max_weight => '150',
+            },
+            {
+              name => '2DML',
+              title => '2nd Day Air A.M. Letter',
+              max_weight => '150',
+            },
+            {
+              name => '2DAL',
+              title => '2nd Day Air Letter',
+              max_weight => '150',
+            },
+            {
+              name => '3DS',
+              title => '3 Day Select',
+              max_weight => '150',
+            },
+            {
+              name => 'GNDCOM',
+              title => 'Ground Commercial',
+              max_weight => '150',
+            },
+            {
+              name => 'GNDRES',
+              title => 'Ground Residential',
+              max_weight => '150',
+            },
+            {
+              name => 'XPR',
+              title => 'Worldwide Express',
+              max_weight => '150',
+            },
+            {
+              name => 'XDM',
+              title => 'Worldwide Express Plus',
+              max_weight => '150',
+            },
+            {
+              name => 'XPRL',
+              title => 'Worldwide Express Letter',
+              max_weight => '150',
+            },
+            {
+              name => 'XDML',
+              title => 'Worldwide Express Plus Letter',
+              max_weight => '150',
+            },
+            {
+              name => 'XPD',
+              title => 'Worldwide Expedited',
+              max_weight => '150',
+            },
+        ],
+    });
+
+$carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
+    {
+        name => 'USPS',
+        account_number => '8985943852094',
+        ShipmentMethod => [
+            { name => 'EXPRESS' },
+            { name => 'FIRST CLASS' },
+            { name => 'PRIORITY' },
+            { name => 'PARCEL' },
+            { name => 'BPM' },
+            { name => 'LIBRARY' },
+            { name => 'GLOBAL EXPRESS GUARANTEED' },
+            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' },
+            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' },
+            { name => 'USPS GXG ENVELOPES' },
+            { name => 'EXPRESS MAIL INTERNATIONAL (EMS)' },
+            { name => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' },
+            { name => 'PRIORITY MAIL INTERNATIONAL' },
+            { name => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' },
+            { name => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' },
+            { name => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' },
+            { name => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' },
+            { name => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' },
+            { name => 'PRIORITY MAIL INTERNATIONAL' },
+        ],
+    });
+
+my $zone_rs = $schema->resultset("Zone");
+
+# find Lower 48 Zone
+my $lower48 = $zone_rs->find({'zone' => 'US lower 48'});
+
+my $ship_method_rs = $schema->resultset("ShipmentMethod"); 
+
+my %shipment_methods;
+
+# find ups ground method
+$shipment_methods{UPS}{GROUND} = $ship_method_rs->find(
+                                            {name => 'GNDRES'});
+
+
+$shipment_methods{UPS}{NDA} = $ship_method_rs->find(
+                                            {name => '1DA'});
+
+
+my $ship_dest_rs = $schema->resultset("ShipmentDestination");
+
+my %destination;
+
+$destination{UPS}{GROUND} = $ship_dest_rs->create(
+    {
+       zones_id => $lower48->id,
+       shipment_methods_id => $shipment_methods{UPS}{GROUND}->id,
+    }
+);
+
+$destination{UPS}{NDA} = $ship_dest_rs->create(
+    {
+       zones_id => $lower48->id,
+       shipment_methods_id => $shipment_methods{UPS}{NDA}->id,
+    }
+);
