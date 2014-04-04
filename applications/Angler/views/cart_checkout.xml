@@ -9,6 +9,8 @@
 <value name="subtotal" class="cart-subtotal" field="cart.subtotal" filter="currency"/>
 <value name="total" class="cart-total" field="cart.total" filter="currency"/>
 
+<container name="signin" value="!session.logged_in_user"/>
+
 <form name="checkout" class="account-info">
 <!-- Email -->
 <field name="email" id="inputEmail"/>
