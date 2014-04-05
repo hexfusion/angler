@@ -158,9 +158,6 @@ for my $product (@products) {
             $newvar->add_to_media(get_image_by_name($variantimage));
             print "Added $variantimage to $var->{code}\n";
         }
-        else {
-            warn "Couldn't find $var->{code}!";
-        }
     }
 }
 
