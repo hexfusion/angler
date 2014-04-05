@@ -23,9 +23,10 @@
 <field name="city" id="inputCity"/>
 <field name="state" id="inputState" iterator="states" iterator_value_key="state_iso_code" iterator_name_key="name"/>
 <field name="postal_code" id="inputPostalCode"/>
-<field name="country" id="inputCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
+<field name="country" id="inputCountry" iterator="countries"
+       iterator_value_key="country_iso_code" iterator_name_key="name"/>
+<field name="phone" id="inputPhoneHome"/>
 <!-- Billing -->
-<container name="billing" value="billing_address" class="billingWrapper">
 <field name="billing_enabled" id="inputBillingEnabled"/>
 <field name="billing_email" id="inputBillingEmail"/>
 <field name="billing_first_name" id="inputBillingFirstName"/>
@@ -36,7 +37,6 @@
 <field name="billing_city" id="inputBillingCity"/>
 <field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="state_iso_code" iterator_name_key="name"/>
 <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
-</container>
 <!-- Payment -->
 <field name="card_number" id="inputCardNumber"/>
 <field name="card_month" id="inputCardMonth" iterator="card_months"/>
@@ -44,7 +44,7 @@
 <field name="card_cvc" id="inputCardCVC"/>
 
 <!-- Or paypal -->
-<field name="use_paypal" id="usePayPal" />
+<field name="use_paypal" class="payment-method" />
 
 </form>
 <!-- Email errors -->
@@ -61,6 +61,8 @@
        field="errors.city" op="toggle"/>
 <value name="postal_code_error" id="errorPostalCode"
        field="errors.postal_code" op="toggle"/>
+<value name="phone_error" id="errorPhone"
+       field="errors.phone" op="toggle"/>
 
 <!-- Credit card errors -->
 <value name="card_number_error" id="errorCardNumber"

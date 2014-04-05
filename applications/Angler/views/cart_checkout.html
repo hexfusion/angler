@@ -17,18 +17,18 @@
                 <div class="spacer"></div>
                 
                 <div class="control-group">
-                <label class="control-label" for="inputEmail">Email</label>
+                <label class="control-label" for="inputUsername">Email</label>
                 <div class="controls">
-                <input class="input-xlarge" id="inputEmail" name="email" placeholder="Email" type="text" />
+                <input class="input-xlarge" id="inputUsername" name="username" placeholder="Email" type="text" />
                 <span class="form-error" id="errorEmail">Error</span></div>
                 </div>
                 <div class="control-group">
-                <label class="control-label" for="inputEmail">Password</label>
+                <label class="control-label" for="inputPassword">Password</label>
                 <div class="controls">
-                <input class="input-xlarge" id="inputEmail" name="email" placeholder="Password" type="password" />
-                <span class="form-error" id="errorEmail">Error</span></div>
+                <input class="input-xlarge" id="inputPassword" name="password" placeholder="Password" type="password" />
+                <span class="form-error" id="errorPassword">Error</span></div>
                 </div>
-                <input type="submit" value="Login" class="btn btn-success">
+                <input type="submit" name="login" value="Login" class="btn btn-success">
                     
                 </div>
                 
@@ -85,10 +85,10 @@
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="inputPhoneHome">Phone Home</label>
+                <label class="control-label" for="inputPhone">Phone</label>
                 <div class="controls">
-                  <input class="input-small" id="inputPhoneHome" name="phone_home" placeholder="555 - " type="text" />
-                  <span class="form-error" id="errorPostalCode">Error</span></div>
+                  <input class="input-small" id="inputPhone" name="phone" placeholder="555 - " type="text" />
+                  <span class="form-error" id="errorPhone">Error</span></div>
               </div>
 
             </fieldset>
@@ -138,6 +138,12 @@
                 </div>
               </div>
               <div class="control-group">
+                <label class="control-label" for="inputBillingCity">City</label>
+                <div class="controls">
+                  <input class="input-small" id="inputBillingCity" name="billing_city" placeholder="City" type="text" />
+                  <span class="form-error" id="errorCity">Error</span></div>
+              </div>
+              <div class="control-group">
                 <label class="control-label" for="inputBillingPostalCode">ZIP code</label>
                 <div class="controls">
                   <input class="input-small" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" type="text" />
@@ -174,12 +180,12 @@
                 <hr>
                 
                 <label class="inline">
-                <input type="radio" name="optionsRadios" id="payment1" value="option1">
+                <input type="radio" class="payment-method" name="optionsRadios" id="payment1" value="option1">
                 Pay with Credit Card
                 </label>
                                 
                 <label class="inline">
-                <input type="radio" name="optionsRadios" id="payment2" value="option2">
+                <input type="radio" class="payment-method" name="optionsRadios" id="payment2" value="option2">
                 Pay with PayPal
                 </label>
 
