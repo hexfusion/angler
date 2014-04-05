@@ -2,9 +2,8 @@
 <!-- Cart -->
 <list name="cart" class="cartitem" iterator="cart.products">
 <param name="name"/>
-<param name="price" filter="currency"/>
-<param name="qty" field="quantity"/>
-<param name="subtotal" filter="currency"/>
+<param name="price" class="txt-price" filter="currency"/>
+<param name="qty" class="quantity" field="quantity"/>
 </list>
 <value name="subtotal" class="cart-subtotal" field="cart.subtotal" filter="currency"/>
 <value name="total" class="cart-total" field="cart.total" filter="currency"/>
