@@ -25,7 +25,7 @@
 <field name="postal_code" id="inputPostalCode"/>
 <field name="country" id="inputCountry" iterator="countries"
        iterator_value_key="country_iso_code" iterator_name_key="name"/>
-<field name="phone" id="inputPhoneHome"/>
+<field name="phone" id="inputPhone"/>
 <!-- Billing -->
 <field name="billing_enabled" id="inputBillingEnabled"/>
 <field name="billing_email" id="inputBillingEmail"/>
