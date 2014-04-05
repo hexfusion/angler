@@ -22,13 +22,13 @@ my $dbh = database;
 
 my @products = $dbh->quick_select('products', {});
 
-my $medialocation = File::Spec->catdir(qw/public images products 975x975/);
+my $medialocation = File::Spec->catdir(qw/public products images 975x975/);
 
 unless (-d $medialocation) {
     die "Directory $medialocation doesn't exist, please add a symlink or create it";
 }
 
-my $default_image_path = File::Spec->catfile(qw/public images products
+my $default_image_path = File::Spec->catfile(qw/public products images
                                                 975x975
                                                 img_product_default.jpg/);
 
