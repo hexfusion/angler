@@ -139,7 +139,7 @@ my $pop_nav = $schema->resultset("Navigation")->populate([
 { uri => 'Clothing/Mens/Shorts', type =>  'menu', scope =>  'cat-clothing-r', name => 'Shorts' },
 { uri => 'Clothing/Mens/Socks', type =>  'menu', scope =>  'cat-clothing-r', name => 'Socks' },
 { uri => 'logout', type =>  'nav', scope =>  'top-logout', name => 'Logout' },
-{ uri => '/user/account', type =>  'nav', scope =>  'top-logout', name => 'My Account' },
+{ uri => 'user/account', type =>  'nav', scope =>  'top-logout', name => 'My Account' },
 ]);
 
 # populate products array
