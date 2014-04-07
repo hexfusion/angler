@@ -10,7 +10,7 @@
 <!-- free shipping containers -->
 <container name="free-shipping" value="free_shipping"/>
 <container name="nonfree-shipping" value="free_shipping_gap">
-<value name="free_shipping_gap" class="free-shipping-gap"/>
+<value name="free_shipping_gap" class="free-shipping-gap" filter="currency"/>
 </container>
 
 <form name="cart" target="name">
