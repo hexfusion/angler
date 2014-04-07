@@ -6,6 +6,12 @@
 <param name="subtotal" filter="currency"/>
 </list>
 
+<!-- free shipping containers -->
+<container name="free-shipping" value="free_shipping"/>
+<container name="nonfree-shipping" value="free_shipping_gap">
+<value name="free_shipping_gap" class="free-shipping-gap"/>
+</container>
+
 <form name="cart" target="name">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
 </form>

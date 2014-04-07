@@ -231,6 +231,18 @@ hook 'before_product_display' => sub {
 
 hook 'before_cart_display' => sub {
     my ($values) = @_;
+    my $subtotal = cart->subtotal;
+    my $free_shipping_amount = config->{free_shipping}->{amount};
+    my $free_shipping_gap;
+
+    debug "Subtotal: ", cart->subtotal;
+
+    if ($free_shipping_amount > $subtotal) {
+	$values->{free_shipping_gap} = $free_shipping_amount - $subtotal;
+    }
+    else {
+	$values->{free_shipping} = 1;
+    }
 
     $values->{countries} = countries();
     $values->{country} = 'US';

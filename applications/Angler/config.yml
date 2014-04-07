@@ -43,6 +43,9 @@ records:
   # number of products shown in left sidebar of the flypage
   other_products: 4
 
+free_shipping: 
+  amount: 100
+
 plugins:
   Interchange6::Routes:
     product:
