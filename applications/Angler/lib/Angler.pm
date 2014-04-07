@@ -265,6 +265,11 @@ get '/' => sub {
 
 };
 
+get '/shipping' => sub {
+    template 'shipping';
+
+};
+
 shop_setup_routes;
 
 
