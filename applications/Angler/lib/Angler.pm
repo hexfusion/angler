@@ -269,6 +269,11 @@ get '/shipping' => sub {
     template 'shipping';
 
 };
+get '/privacy-policy' => sub {
+    template 'privacy-policy';
+
+};
+
 
 shop_setup_routes;
 
