@@ -235,8 +235,6 @@ hook 'before_cart_display' => sub {
     my $free_shipping_amount = config->{free_shipping}->{amount};
     my $free_shipping_gap;
 
-    debug "Subtotal: ", cart->subtotal;
-
     if ($free_shipping_amount > $subtotal) {
 	$values->{free_shipping_gap} = $free_shipping_amount - $subtotal;
     }
