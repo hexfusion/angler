@@ -15,8 +15,11 @@
 
 <form name="cart" target="name">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
+<field name="shipping_method" iterator="shipping_methods"
+       iterator_value_key="name" iterator_name_key="title"  />
 </form>
 
+<!-- unused so far -->
 <form name="shipping-methods" target="name">
 </form>
 

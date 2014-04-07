@@ -15,6 +15,7 @@ use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
+use Angler::Shipping;
 
 use Data::Transpose::Iterator::Scalar;
 
@@ -243,7 +244,10 @@ hook 'before_cart_display' => sub {
     }
 
     $values->{countries} = countries();
-    $values->{country} = 'US';
+    $values->{country} = param('country') || 'US';
+    $values->{shipping_method} = param('shipping_method');
+    $values->{shipping_methods} =
+      Angler::Shipping::shipment_methods_iterator_by_iso_country(schema, $values->{country});
 };
 
 sub countries {

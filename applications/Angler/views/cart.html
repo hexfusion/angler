@@ -1,6 +1,6 @@
       <h1>Shopping Cart</h1>
 
-      <form name="cart" action="/checkout" method="POST">
+      <form id="form-cart" name="cart" action="/checkout" method="POST">
 
       <div class="row">
         <div class="span8">
@@ -73,19 +73,12 @@
                         <input style="height: auto; padding: 3px; width: 60px; font-size: 11px;" type="text" />
                         </div>
                         <div class="align-right" style="margin-top: 17px; margin-left: 5px;">
-                        <button class="btn btn-small btn-success">Update</button>
+                        <button id="update-shipping" class="btn btn-small btn-success">Update</button>
                         </div>
 
-                        <div class="align-left" style="margin-right: 5px;">
+                        <div class="align-left shippin" style="margin-right: 5px;">
                           <label>Shipping Method</label>
-                          <input type="radio" name="ground" value="ground">
-                          UPS Ground - FREE<br>
-                          <input type="radio" name="nda" value="nda">
-                          USPS Priority - $14.95<br>
-                          <input type="radio" name="nda" value="nda">
-                          UPS Next Day Air - $74.95<br>
-                          <input type="radio" name="nda" value="nda">
-                          UPS 2nd Day Air - $74.95<br>
+                          <select name="shipping_method" class="shipping_method" type="radio" />
                         </div>
                     </td>
                 </tr>

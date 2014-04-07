@@ -16,7 +16,7 @@ eval {
 };
 
 if ($test_country) {
-    plan tests => 10;
+    plan tests => 11;
 }
 else {
     plan skip_all => "DB not populated!";
@@ -47,3 +47,10 @@ foreach my $dest (Angler::Shipping::shipment_methods($schema, 'US')) {
 }
 
 is Angler::Shipping::shipment_methods($schema, 'US')->count, 2, "2 methods";
+
+is_deeply
+  Angler::Shipping::shipment_methods_iterator_by_iso_country($schema, 'US'),
+  [{ title => 'Ground Residential',
+     name => 'GNDRES' },
+   { title => 'Next Day Air',
+     name => '1DA' }];
