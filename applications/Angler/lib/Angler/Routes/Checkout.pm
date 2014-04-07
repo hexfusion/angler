@@ -394,8 +394,6 @@ sub generate_order {
     delete $ship_address->{state};
     $ship_address->{type} = 'shipping';
 
-    $ship_address->{type} = 'billing';
-
     debug("Delivery address values: ", $ship_address);
 
     $ship_obj = shop_address->create($ship_address);

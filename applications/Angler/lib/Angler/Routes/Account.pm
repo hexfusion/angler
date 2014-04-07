@@ -18,6 +18,7 @@ use DateTime::Duration qw();
 use URI::Escape qw(uri_escape);
 use Digest::MD5 qw(md5_hex);
 
+use Angler::Forms::Checkout;
 
 my $now = DateTime->now;
 
@@ -114,9 +115,118 @@ get '/forum' => require_login sub {
      };
 
 get '/user/account' => require_role user => sub {
-    template 'account_my-account';
+    my %tokens;
+    my $form = form('account');
+
+    # read information for this account
+    my $ship_adr = shop_address->search(
+        {
+            users_id => session('logged_in_user_id'),
+            type => 'shipping',
+        },
+        {
+            order_by => 'last_modified DESC',
+            rows => 1,
+        },
+    )->single;
+
+    my $bill_adr = shop_address->search(
+        {
+            users_id => session('logged_in_user_id'),
+            type => 'billing',
+        },
+        {
+            order_by => 'last_modified DESC',
+            rows => 1,
+        },
+    )->single;
+
+    my $form_values = {};
+    
+    if ($ship_adr) {
+        debug "Shipping address found: ", $ship_adr->id;
+
+        $form_values = Angler::Forms::Checkout->new(
+            address => $ship_adr,
+        )->transpose;
+
+        $form_values->{shipping_id} = $ship_adr->id;
+    }
+    else {
+        $form_values->{country} = 'US';
+    }
+
+    if ($bill_adr) {
+        $form_values->{billing_enabled} = 1;
+        $form_values->{billing_id} = $bill_adr->id;
+    }
+    else {
+        $form_values->{billing_country} = 'US';
+    }
+
+    $form->fill($form_values);
+
+    %tokens = (form => $form,
+               countries => [shop_country->search(
+                   {active => 1},
+                   {order_by => 'name'},
+               )],
+               );
+
+    template 'account_my-account', \%tokens;
 };
 
+post '/user/account' => require_role user => sub {
+    # check user input
+    my $form = form('account');
+
+    my $values = $form->values;
+
+    # check incoming shipping/billing id
+    my $ship_adr;
+
+    if ($values->{shipping_id}) {
+        if ($ship_adr = shop_address->find($values->{shipping_id})) {
+            if ($ship_adr->users_id ne session('logged_in_user_id')) {
+                return status '403';
+            }
+        }
+        else {
+            return status '403';
+        }
+    }
+
+    my $error_hash;
+
+    if ($error_hash = validate_account($values)) {
+        debug "Fill account form with: ", $values;
+        $form->fill($values);
+    }
+    else {
+        # update db
+        debug "Account change ok: ", $values;
+
+        # read information for this account
+        $ship_adr->update({
+            first_name => $values->{first_name},
+            last_name => $values->{last_name},
+            address_2 => $values->{address},
+            phone => $values->{phone}
+        });
+
+        return "OK";
+    }
+
+    my %tokens = (form => $form,
+                  countries => [shop_country->search(
+                      {active => 1},
+                      {order_by => 'name'},
+                  )],
+                  errors => $error_hash);
+
+    template 'account_my-account', \%tokens;
+};
+    
 get '/orders' => require_role user => sub {
     my $orders = shop_user->find(session('logged_in_user_id'))->search_related('Order');
 
@@ -150,6 +260,32 @@ get '/facebook/postback/' => sub {
 
 get '/confirmation/conf_id:' => sub {
     my $conf_id = params->{conf_id};
+};
+
+sub validate_account {
+    my ($values) = @_;
+
+    # validate form input
+    my $validator = Data::Transpose::Validator->new(requireall => 1);
+
+    # shipping address
+    $validator->field('first_name' => "String");
+    $validator->field('last_name' => "String");
+    $validator->field('address' => "String");
+    $validator->field('postal_code' => "String");
+    $validator->field('city' => 'String');
+
+    if (! $validator->transpose($values)) {
+        my ($v_hash, %errors);
+
+        $v_hash = $validator->errors_hash;
+
+        while (my ($key, $value) = each %$v_hash) {
+            $errors{$key} = $value->[0]->{value};
+        }
+
+        return \%errors;
+    }
 };
 
 sub facebook_auth {
