@@ -17,6 +17,10 @@ get '/review_thank-you' => sub {
     template 'review_thank-you', {form => $form };
 };
 
+get '/review/:sku' => sub {
+    return redirect '/' . param('sku') . '#review';
+};
+
 post '/review/:sku' => require_login sub {
     my $form = form('review');
     my $values = $form->values;
