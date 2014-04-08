@@ -39,6 +39,14 @@ post '/checkout' => sub {
 
     debug "Checkout form values: ", to_dumper($values);
 
+    if (param('login')) {
+        # "login" button event, we try to authorize user
+        # by forwarding
+        forward '/login', {return_url => 'checkout'}, {method => 'get'},
+    }
+    
+#    debug "Checkout form values: ", to_dumper($values);
+
     if ($form->pristine) {
         if (logged_in_user) {
             debug "POST Prefill form with addresses.";
