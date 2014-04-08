@@ -124,6 +124,8 @@ hook 'before_product_display' => sub {
         $tokens->{review_link} = '/login';
     }
 
+    $tokens->{disable_review} = rset('Review')->find({sku => $sku, users_id => $user_id});
+
     # create review iderators
     my $review_rs = shop_review->search({sku => $sku, approved => '1', public => '1'});
 

@@ -127,6 +127,7 @@
       </div>
       <!--  end row  -->
       <div class="spacer"></div>
+      <div class="product-review-container">
       <div class="alert alert-info">You own this product? <a class="review_link" id="review" href=""><strong>Share your experience!</strong></a></div>
       <div class="write-review">
           <h3>Write your review</h3>
@@ -147,7 +148,7 @@
                         </div>
                     </li>
                     <li>
-                        <label>The Bottom Line (100 characters max)</lable><span class="form-error" id="error-title"><ul><li class="error-title"><span class="title-msg">Error</span></li></ul></span>
+                      <label>The Bottom Line (100 characters max)</label><span class="form-error" id="error-title"></span><ul><li class="error-title"><span class="title-msg">Error</span></li></ul>
                         <input type="text" size="75" maxlength="100" name="title" class="review-title" placeholder="Title"/><br />
                     </li>
                     <li>
@@ -165,15 +166,23 @@
                     </li>
                     <li>
                         <label>Recommend</label>
-                        <input type="checkbox" class="rating" name="recommend" value="1" ></input> Recommend this item to a friend
+                        <input type="checkbox" class="rating" name="recommend" value="1" /> Recommend this item to a friend
                     </li>
                 </ul>
                 <div class="spacer"></div>
                 <button class="btn btn-large btn-success">Save review</button>
                 <div class="spacer"></div>
-                </form>
-        </fieldset>
-</div>
+              </fieldset>
+          <!-- end of review form -->
+          </form>
+
+      <!-- closing div for write review -->
+      </div>
+
+      <!-- closing div for product-review-container -->
+      </div>
+
+
   <div class="tabbable">
       <!--  Only required for left/right tabs  -->
       <ul class="nav nav-tabs">
