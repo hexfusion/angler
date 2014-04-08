@@ -48,4 +48,30 @@ sub shipment_methods_iterator_by_iso_country {
     return \@iterator;
 }
 
+# from postal code get State
+sub find_state {
+    my ($schema, $postal_code, $country ) = @_;
+
+    # use 1st 3 digits
+    my $postal_zone = substr($postal_code, 0, 3);
+
+    my $zone_rs = $schema->resultset('Zone')->find({zone => 'US postal ' . $postal_zone });
+    my $state_rs = $zone_rs->find_related('ZoneState', { zones_id => $zone_rs->id});
+    my $state = $schema->resultset("State")->find( { country_iso_code => $country, states_id => $state_rs->states_id } );
+
+    return $state;
+}
+
+# from state object provides 0|1
+sub free_shipping_destination {
+    my ($schema, $state ) = @_;
+    my $lower48_rs = $schema->resultset("Zone")->find({ zone => 'US lower 48'});
+    my $lower48 = $lower48_rs->find_related('ZoneState', { states_id => $state->id });
+
+    unless ($lower48) {
+        return 0;
+    }
+    return 1;
+}
+
 1;
