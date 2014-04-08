@@ -129,6 +129,8 @@ hook 'before_product_display' => sub {
     $form->fill($values);
     $form->action('/review/' . $product->sku);
     $tokens->{form} = $form;
+    $tokens->{errors} = session('review_errors');
+    session review_errors => undef;
 
     if ($user) {
         $tokens->{review_link} = '#open';

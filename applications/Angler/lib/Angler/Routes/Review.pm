@@ -54,9 +54,7 @@ post '/review/:sku' => require_login sub {
         }
     }
     else {
-        $form->errors($error_hash);
-        $form->to_session;
-        $form->fill($error_hash);
+        session review_errors => $error_hash;
         return redirect "/$sku#review";
     }
 };
