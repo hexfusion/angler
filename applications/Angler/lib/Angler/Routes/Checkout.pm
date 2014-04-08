@@ -341,9 +341,30 @@ sub checkout_tokens {
 
     $tokens->{cart} = cart;
 
+    my @payment_errors;
     # report the paypal failures too
-    $tokens->{paypal_exception} = session('paypal_exception');
-    session paypal_exception => undef;
+    if (my $pp_exception = session('paypal_exception')) {
+        push @payment_errors, $pp_exception;
+        session paypal_exception => undef;
+    }
+
+    if ($errors) {
+        my %map = (
+                   card_cvc => 'CVC',
+                   card_month => 'CC expiration',
+                   card_number => 'Credit card number',
+                  );
+        foreach my $cc_error (keys %map) {
+            if (exists $errors->{$cc_error}) {
+                push @payment_errors, $map{$cc_error} . ': ' . $errors->{$cc_error};
+            }
+        }
+    }
+
+    if (@payment_errors) {
+        $tokens->{paypal_exception} = join(', ', @payment_errors);
+    }
+
 
     # iterator for countries
     $tokens->{countries} = [ shop_country->search(
