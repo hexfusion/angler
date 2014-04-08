@@ -22,15 +22,16 @@ sub shipment_methods {
     my ($schema, $country, $postal_code) = @_;
 
     my @zone_ids;
-    if ($postal_code) {
-        my $state = find_state($schema, $postal_code);
-
-        foreach my $zone ($schema->resultset('State')->find($state->id)->zones) {
-            push @zone_ids, $zone->zones_id;
+    my $country_rs = $schema->resultset('Country')->find($country);
+    if ($country_rs and $country eq 'US' and $postal_code) {
+        if (my $state = find_state($schema, $postal_code)) {
+            foreach my $zone ($state->zones) {
+                push @zone_ids, $zone->zones_id;
+            }
         }
     }
-    else {   
-        foreach my $zone ($schema->resultset('Country')->find($country)->zones) {
+    elsif ($country_rs) {
+        foreach my $zone ($country_rs->zones) {
             push @zone_ids, $zone->zones_id;
         }
     }
@@ -63,6 +64,8 @@ sub find_state {
     my $postal_zone = substr($postal_code, 0, 3);
 
     my $zone_rs = $schema->resultset('Zone')->find({zone => 'US postal ' . $postal_zone });
+    return unless $zone_rs;
+    # the following looks like a missing relationship
     my $state_rs = $zone_rs->find_related('ZoneState', { zones_id => $zone_rs->id});
     my $state = $schema->resultset("State")->find( { country_iso_code => $country, states_id => $state_rs->states_id } );
 

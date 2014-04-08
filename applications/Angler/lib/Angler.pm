@@ -263,6 +263,10 @@ hook 'before_cart_display' => sub {
       Angler::Shipping::shipment_methods_iterator_by_iso_country(schema,
                                                                  $form_values->{country},
                                                                  $form_values->{zip});
+    unless (@{ $values->{shipping_methods} }) {
+        $values->{shipping_warning} = 'No shipping methods for this country/zip';
+    }
+
 
     $form->fill($form_values);
     $values->{form} = $form;
