@@ -467,28 +467,69 @@ my $ship_method_rs = $schema->resultset("ShipmentMethod");
 my %shipment_methods;
 
 # find ups ground method
-$shipment_methods{UPS}{GROUND} = $ship_method_rs->find(
+$shipment_methods{'UPS'}{'GROUND'} = $ship_method_rs->find(
                                             {name => 'GNDRES'});
 
 
-$shipment_methods{UPS}{NDA} = $ship_method_rs->find(
+$shipment_methods{'UPS'}{'NDA'} = $ship_method_rs->find(
                                             {name => '1DA'});
 
+
+$shipment_methods{'UPS'}{'3DS'} = $ship_method_rs->find(
+                                            {name => '3DS'});
 
 my $ship_dest_rs = $schema->resultset("ShipmentDestination");
 
 my %destination;
 
-$destination{UPS}{GROUND} = $ship_dest_rs->create(
+$destination{'UPS'}{'GROUND'} = $ship_dest_rs->create(
     {
        zones_id => $lower48->id,
        shipment_methods_id => $shipment_methods{UPS}{GROUND}->id,
     }
 );
 
-$destination{UPS}{NDA} = $ship_dest_rs->create(
+$destination{'UPS'}{'NDA'} = $ship_dest_rs->create(
     {
        zones_id => $lower48->id,
        shipment_methods_id => $shipment_methods{UPS}{NDA}->id,
     }
 );
+
+# set flat shipping rates
+my $ship_rate_rs = $schema->resultset("ShipmentRate");
+
+my %shipment_rate;
+
+$shipment_rate{'L48'}{'USPS'}{'PRIORITY'} = $ship_rate_rs->create(
+    {
+        zones_id => $lower48->id,
+        shipment_methods_id => $shipment_methods{'UPS'}{'GROUND'}->id,
+        min_weight => '0',
+        max_weight => '3',
+        price => '5.95',
+    }
+);
+
+$shipment_rate{'L48'}{'UPS'}{'GROUND'} = $ship_rate_rs->create(
+    {
+        zones_id => $lower48->id,
+        shipment_methods_id => $shipment_methods{'UPS'}{'GROUND'}->id,
+        min_weight => '0',
+        max_weight => '0',
+        price => '9.95',
+    }
+);
+
+$shipment_rate{'L48'}{'UPS'}{'3DS'} = $ship_rate_rs->create(
+    {
+        zones_id => $lower48->id,
+        shipment_methods_id => $shipment_methods{'UPS'}{'3DS'}->id,
+        min_weight => '0',
+        max_weight => '0',
+        price => '15.95',
+    }
+);
+
+
+
