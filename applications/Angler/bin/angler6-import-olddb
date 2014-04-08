@@ -109,6 +109,9 @@ for my $product (@products) {
         $object->update(\%record);
     }
 
+    # reset media
+    $object->set_media([]);
+
     ### Media IMAGE handling ###
     my $media = get_image_by_name($product->{image});
     $object->add_to_media($media);
