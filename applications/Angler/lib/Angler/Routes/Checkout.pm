@@ -26,8 +26,16 @@ post '/checkout' => sub {
     my $error_hash;
 
     $form = form('checkout');
+    my $cart_form = form('cart')->values;
+
+    debug to_dumper($cart_form);
+    
 
     my $values = $form->values;
+
+    $values->{postal_code}     ||= $cart_form->{zip};
+    $values->{country}         ||= $cart_form->{country} || 'US';
+    $values->{billing_country} ||= $cart_form->{country} || 'US';
 
     debug "Checkout form values: ", to_dumper($values);
 
@@ -341,7 +349,6 @@ sub checkout_tokens {
 
     if ($errors) {
         $tokens->{errors} = $errors;
-        $tokens->{country} = $form->values->{country};
     }
     else {
         # default values for form
