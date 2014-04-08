@@ -19,14 +19,21 @@ Using the above function, return an arrayref with name and title.
 =cut
 
 sub shipment_methods {
-    my ($schema, $country) = @_;
+    my ($schema, $country, $postal_code) = @_;
 
     my @zone_ids;
-    # if we have a logic for the zip, we can refine the zone result.
-    foreach my $zone ($schema->resultset('Country')->find($country)->zones) {
-        push @zone_ids, $zone->zones_id;
-    }
+    if ($postal_code) {
+        my $state = find_state($schema, $postal_code);
 
+        foreach my $zone ($schema->resultset('State')->find($state->id)->zones) {
+            push @zone_ids, $zone->zones_id;
+        }
+    }
+    else {   
+        foreach my $zone ($schema->resultset('Country')->find($country)->zones) {
+            push @zone_ids, $zone->zones_id;
+        }
+    }
     return $schema->resultset('ShipmentDestination')
       ->search({
                 zones_id => { -in => \@zone_ids },
@@ -35,9 +42,9 @@ sub shipment_methods {
 }
 
 sub shipment_methods_iterator_by_iso_country {
-    my ($schema, $country) = @_;
+    my ($schema, $country, $postal_code) = @_;
     my @iterator;
-    foreach my $shipping (shipment_methods($schema, $country)) {
+    foreach my $shipping (shipment_methods($schema, $country, $postal_code)) {
         next unless $shipping->ShipmentMethod->active;
         push @iterator, {
                          name => $shipping->ShipmentMethod->name,

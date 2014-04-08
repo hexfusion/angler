@@ -16,7 +16,7 @@ eval {
 };
 
 if ($test_country) {
-    plan tests => 17;
+    plan tests => 24;
 }
 else {
     plan skip_all => "DB not populated!";
@@ -39,7 +39,18 @@ foreach my $method ($country->zones({ zone => 'US lower 48'})
     ok($method->name) and diag $method->name;
 }
 
+my $postal_code = '13783'; # Hancock, New York
 
+# return methods with country and postal
+foreach my $dest (Angler::Shipping::shipment_methods($schema, 'US', $postal_code)) {
+    my $method = $dest->ShipmentMethod;
+    ok($method->name, "name ok:" . $method->name);
+    ok($method->title, "title ok:" . $method->title);
+}
+
+is Angler::Shipping::shipment_methods($schema, 'US')->count, 3, "3 methods";
+
+# return methods with only country
 foreach my $dest (Angler::Shipping::shipment_methods($schema, 'US')) {
     my $method = $dest->ShipmentMethod;
     ok($method->name, "name ok:" . $method->name);
@@ -58,7 +69,6 @@ is Angler::Shipping::shipment_methods($schema, 'US')->count, 3, "3 methods";
 #     name => '3DS' }
 #];
 
-my $postal_code = '13152';
 my $state =  Angler::Shipping::find_state($schema, $postal_code, 'US');
 
 ok($state->state_iso_code eq 'NY', "Testing find_state method.")
@@ -72,7 +82,7 @@ ok($free_ship eq '1', "Testing free shipping state.")
     || diag "Valid state 0|1. " . $free_ship;
 
 # show state that doesn't qualify
-$postal_code = '99867';
+$postal_code = '99504'; # Anchorage, Alaska
 $state =  Angler::Shipping::find_state($schema, $postal_code, 'US');
 
 ok($state->state_iso_code eq 'AK', "Testing find_state method.")
