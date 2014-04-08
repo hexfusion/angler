@@ -1,2 +1,7 @@
 <specification>
+  <value name="sku" class="review-sku"/>
+  <value name="reviews_id" class="review-id"/>
+  <value name="title" class="review-title"/>
+  <value name="content" class="review-content"/>
+  <value name="rating" class="review-rating"/>
 </specification>
