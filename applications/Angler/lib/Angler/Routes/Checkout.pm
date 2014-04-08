@@ -51,6 +51,8 @@ post '/checkout' => sub {
         if (logged_in_user) {
             debug "POST Prefill form with addresses.";
 
+	    my $form_values;
+
             my $ship_adr = shop_address->search(
                 {
                     users_id => session('logged_in_user_id'),
@@ -65,12 +67,32 @@ post '/checkout' => sub {
             if ($ship_adr) {
                 debug "Shipping address found: ", $ship_adr->id;
 
-                my $form_values = Angler::Forms::Checkout->new(
+                $form_values = Angler::Forms::Checkout->new(
                     address => $ship_adr,
                 )->transpose;
 
-                $form->fill($form_values);
             }
+
+	    my $bill_adr = shop_address->search(
+		{
+		    users_id => session('logged_in_user_id'),
+		    type => 'billing',
+		},
+		{
+		    order_by => 'last_modified DESC',
+		    rows => 1,
+		},
+		)->single;
+
+	    if ($bill_adr) {
+		debug "Billing address found: ", $bill_adr->id;
+
+		$form_values->{billing_enabled} = 1;
+		$form_values->{billing_id} = $bill_adr->id;
+	    }
+
+	    debug "Filling checkout form with: ", $form_values;
+	    $form->fill($form_values);
         }
     }
     else {

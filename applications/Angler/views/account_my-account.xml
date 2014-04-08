@@ -28,6 +28,11 @@
 <field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="state_iso_code" iterator_name_key="name"/>
 <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
 </form>
+
+<!-- Display status of billing form -->
+<value name="billing_form" id="billing-address"
+       field="billing_enabled" target="style" op="toggle" args="static"/>
+
 <!-- Email errors -->
 <value name="email_error" id="errorEmail"
        field="errors.email" op="toggle"/>
