@@ -76,6 +76,8 @@
 
 <!-- Reviews -->
 <container name="product-review-container" value="!disable_review"/>
+<container class="messages" value="messages" />
+<value name="messages" />
 
 <list name="review_list" class="product-comment" iterator="review_list">
 <param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>

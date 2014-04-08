@@ -85,6 +85,13 @@ hook 'before_navigation_display' => sub {
 
 hook 'before_product_display' => sub {
     my ($tokens) = @_;
+
+    # implement a flash message
+    if (my $msg = session('flypage_message')) {
+        session flypage_message => undef;
+        $tokens->{messages} = $msg;
+    }
+
     my $product = $tokens->{product};
     my $user = logged_in_user;
     my $user_id = session('logged_in_user_id');

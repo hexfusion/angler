@@ -12,11 +12,6 @@ use Data::Transpose::Validator;
 use Dancer::Plugin::Email;
 use Try::Tiny;
 
-get '/review_thank-you' => sub {
-    my $form = form('review');
-    template 'review_thank-you', {form => $form };
-};
-
 get '/review/:sku' => sub {
     return redirect '/' . param('sku') . '#review';
 };
@@ -54,7 +49,8 @@ post '/review/:sku' => require_login sub {
             review_email($review_data);
             $form->reset;
             $form->to_session;
-           return redirect '/review_thank-you';
+            session flypage_message => 'Thank you for your review!';
+            return redirect "/$sku";
         }
     }
     else {
