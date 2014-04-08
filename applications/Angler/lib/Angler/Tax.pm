@@ -9,32 +9,28 @@ returns 0|1
 
 =cut
 
-sub tax {
-    my ($schema, $state, $cart) = @_;
+sub rate {
+    my ($schema, $state, $subtotal) = @_;
     my $tax_total;
     my $rate;
     my $taxable = taxable_location($schema, $state);
 
     if ($taxable) {
-        $rate = tax_rate;
-        $tax_total = ( '0.0'. $rate * $cart->subtotal);
+        $tax_total = ( 0.08 * $subtotal);
     }
     return $tax_total;
 }
 
 sub taxable_location {
     my ($schema, $state) = @_;
+    my $state_iso_code = $state->state_iso_code;
         unless ($state) {
             die "taxable location requires a state";
         }
-        unless ($state->state_iso_code = 'NY') {
+        unless ($state_iso_code eq 'NY') {
             return 0;
         }
     return 1;
 }
 
-
-sub tax_rate {
-    return '8';
-}
 1;
