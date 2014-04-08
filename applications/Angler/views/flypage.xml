@@ -23,6 +23,9 @@
 
 <value name="quantity" iterator="quantity"/>
 
+<!-- free shipping container -->
+<container name="free-shipping" value="free_shipping"/>
+
 <!--
 <value name="attribute_size" class="attribute-size" iterator="attribute_size"/>
 <value name="attribute_color" class="attribute-color" iterator="attribute_color"/>

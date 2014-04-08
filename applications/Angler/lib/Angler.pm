@@ -103,6 +103,13 @@ hook 'before_product_display' => sub {
 
     $tokens->{quantity} = $qiter;
 
+    # free shipping
+    my $free_shipping_amount = config->{free_shipping}->{amount};
+    
+    if ($product->price > $free_shipping_amount) {
+	$tokens->{free_shipping} = 1;
+    }
+
     my @other_products;
     my @review_list;
 
