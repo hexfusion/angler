@@ -11,6 +11,7 @@
 <container name="free-shipping" value="free_shipping"/>
 <container name="nonfree-shipping" value="free_shipping_gap">
 <value name="free_shipping_gap" class="free-shipping-gap" filter="currency"/>
+<value name="shipping_warning" class="shipping-warning" />
 </container>
 
 <form name="cart" target="name" id="form-cart">
