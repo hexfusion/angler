@@ -269,11 +269,16 @@ get '/shipping' => sub {
     template 'shipping';
 
 };
+
 get '/privacy-policy' => sub {
     template 'privacy-policy';
 
 };
 
+get '/return-policy' => sub {
+    template 'return-policy';
+
+};
 
 shop_setup_routes;
 
