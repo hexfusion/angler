@@ -72,13 +72,22 @@ sub find_state {
     return $state;
 }
 
-# from state object provides 0|1
+# from state object provide 0|1
 sub free_shipping_destination {
     my ($schema, $state ) = @_;
     my $lower48_rs = $schema->resultset("Zone")->find({ zone => 'US lower 48'});
     my $lower48 = $lower48_rs->find_related('ZoneState', { states_id => $state->id });
 
     unless ($lower48) {
+        return 0;
+    }
+    return 1;
+}
+
+# from cart object provide 0|1
+sub free_shipping_cart {
+    my ($schema, $cart) = @_;
+    unless ($cart >= '100.00') {
         return 0;
     }
     return 1;
