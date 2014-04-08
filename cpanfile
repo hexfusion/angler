@@ -35,7 +35,7 @@ requires 'Dancer::Plugin::Auth::Extensible::Provider::DBIC';
 requires 'Dancer';
 requires 'Dancer::Session::Storable';
 requires 'DBIx::Class::Tree::AdjacencyList';
-requires 'Dancer::Plugin::Interchange6', '0.030';
+requires 'Dancer::Plugin::Interchange6', '0.031';
 requires 'Dancer::Session::DBIC';
 requires 'Dancer::Template::TemplateFlute', '0.0106';
 requires 'Interchange6::Schema', '0.032';
