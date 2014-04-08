@@ -244,10 +244,26 @@ hook 'before_cart_display' => sub {
     }
 
     $values->{countries} = countries();
-    $values->{country} = param('country') || 'US';
-    $values->{shipping_method} = param('shipping_method');
+    my $form = form('cart');
+    my $form_values = $form->values;
+    debug "Form values: " . to_dumper($form_values);
+
+    if (my $user_id = session('logged_in_user_id')) {
+        my $user = shop_user($user_id);
+        my $address = $user->Address->search({ type => 'shipping' })->first ||
+          $user->Address->first;
+        $form_values->{zip} ||= $address->postal_code;
+        $form_values->{country} ||= $address->country_iso_code;
+    }
+
+    $form_values->{country} ||= 'US';
     $values->{shipping_methods} =
-      Angler::Shipping::shipment_methods_iterator_by_iso_country(schema, $values->{country});
+      Angler::Shipping::shipment_methods_iterator_by_iso_country(schema,
+                                                                 $form_values->{country},
+                                                                 $form_values->{zip});
+
+    $form->fill($form_values);
+    $values->{form} = $form;
 };
 
 sub countries {

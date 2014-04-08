@@ -13,10 +13,11 @@
 <value name="free_shipping_gap" class="free-shipping-gap" filter="currency"/>
 </container>
 
-<form name="cart" target="name">
+<form name="cart" target="name" id="form-cart">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
 <field name="shipping_method" iterator="shipping_methods"
        iterator_value_key="name" iterator_name_key="title"  />
+<field name="zip" id="zip"/>
 </form>
 
 <!-- unused so far -->
