@@ -141,6 +141,7 @@ for my $product (@products) {
     # get all variants for this product
     my @variants = $dbh->quick_select('variants', {sku => $product->{sku}});
     my @var_data;
+    my $min_var_price = 0;
 
     for my $var (@variants) {
         if ($var->{size}) {
@@ -149,6 +150,23 @@ for my $product (@products) {
                              sku => $var->{code},
                          };
         }
+
+	next unless $var->{price};
+
+	if ($min_var_price) {
+	    if ($var->{price} < $min_var_price) {
+		$min_var_price = $var->{price};
+	    }
+	}
+	else {
+	    $min_var_price = $var->{price};
+	}
+	    
+    }
+
+    if (! $product->{price} && $min_var_price > 0) {
+	print "Set price for $product->{sku} to $min_var_price.\n";
+	$object->update({price => $min_var_price});
     }
 
     if (@var_data) {
