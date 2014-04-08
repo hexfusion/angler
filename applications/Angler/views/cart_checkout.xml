@@ -43,7 +43,7 @@
 <field name="card_cvc" id="inputCardCVC"/>
 
 <!-- Or paypal -->
-<field name="use_paypal" class="payment-method" />
+<field name="payment_method" class="payment-method" />
 
 </form>
 <!-- Email errors -->
@@ -73,7 +73,8 @@
 
 <!-- PayPal errors -->
 
-<value name="paypal_exception" id="errorPayPal" />
+<container id="errorPayPal" value="paypal_exception" />
+<value name="paypal_exception" class="error-paypal-body" />
 
 <!--
 <container name="receipt" value="order_number" class="rightbar-widget">

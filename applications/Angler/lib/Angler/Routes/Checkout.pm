@@ -78,7 +78,7 @@ post '/checkout' => sub {
         if ($error_hash = validate_checkout($values)) {
             debug "Error hash: ", $error_hash;
         }
-        elsif ($values->{use_paypal}) {
+        elsif ($values->{payment_method} and $values->{payment_method} eq 'paypal') {
             # manually insert the paymant data
             my %payment_data = (
                                 payment_mode => 'PayPal',
@@ -300,8 +300,8 @@ sub validate_checkout {
     $validator->field('postal_code' => "String");
     $validator->field('city' => 'String');
 
-    # credit card data, only used if use_paypal is not set
-    if (!$values->{use_paypal}) {
+    # credit card data, only used payment_method is not paypal
+    if (!$values->{payment_method} or $values->{payment_method} ne 'paypal') {
     $validator->field('card_number' => 'CreditCard');
     $validator->field('card_month' =>
                           {validator => 'NumericRange',
@@ -384,7 +384,7 @@ sub generate_order {
         elsif ($name =~ /^card_/) {
             # skip credit card data
         }
-        elsif ($name eq 'use_paypal') {
+        elsif ($name eq 'payment_method') {
             # ignore this token too
         }
         else {

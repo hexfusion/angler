@@ -1,4 +1,8 @@
       <h1>Checkout</h1>
+      <div id="errorPayPal" class="form-error">
+        <span class="error-paypal-body"></span>
+      </div>
+
       <div class="row">
         <div class="span8">
           <form action="/checkout" class="account-info" method="POST">
@@ -180,12 +184,12 @@
                 <hr>
                 
                 <label class="inline">
-                <input type="radio" class="payment-method" name="optionsRadios" id="payment1" value="option1">
+                <input type="radio" class="payment-method" name="payment_method" id="payment1" value="cc">
                 Pay with Credit Card
                 </label>
                                 
                 <label class="inline">
-                <input type="radio" class="payment-method" name="optionsRadios" id="payment2" value="option2">
+                <input type="radio" class="payment-method" name="payment_method" id="payment2" value="paypal">
                 Pay with PayPal
                 </label>
 
