@@ -16,6 +16,7 @@ use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
 use Angler::Shipping;
+use Angler::Tax;
 
 use Data::Transpose::Iterator::Scalar;
 
@@ -250,6 +251,7 @@ hook 'before_product_display' => sub {
 
 hook 'before_cart_display' => sub {
     my ($values) = @_;
+    my $cart = cart;
     my $subtotal = cart->subtotal;
     my $free_shipping_amount = config->{free_shipping}->{amount};
     my $free_shipping_gap;
@@ -275,6 +277,16 @@ hook 'before_cart_display' => sub {
     }
 
     $form_values->{country} ||= 'US';
+
+    my $shipping_methods_id = $form_values->{shipping_method};
+
+    if ($shipping_methods_id) {
+        my $shipping_cost = 
+        Angler::Shipping::shipping_rate(schema, $shipping_methods_id);
+        $cart->apply_cost( amount => $shipping_cost, name => 'shipping' );
+        $values->{cart_shipping} = $cart->cost('shipping')
+    }
+
     $values->{shipping_methods} =
       Angler::Shipping::shipment_methods_iterator_by_iso_country(schema,
                                                                  $form_values->{country},
@@ -283,9 +295,21 @@ hook 'before_cart_display' => sub {
         $values->{shipping_warning} = 'No shipping methods for this country/zip';
     }
 
+    my $state = Angler::Shipping::find_state(schema,
+                                            $form_values->{zip},
+                                            $form_values->{country});
+
+    my $sales_tax = Angler::Tax::rate(schema, $state, $subtotal);
+
+    if ($sales_tax) {
+        $cart->apply_cost( amount => $sales_tax, name => 'tax' );
+        $values->{cart_tax} = $cart->cost('tax');
+    }
+    $values->{cart_total} =$cart->total;
 
     $form->fill($form_values);
     $values->{form} = $form;
+
 };
 
 sub countries {
