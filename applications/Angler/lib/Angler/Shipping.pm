@@ -3,6 +3,8 @@ package Angler::Shipping;
 use strict;
 use warnings;
 
+use Dancer ':syntax';
+
 =head2 shipment_methods($schema, $country_iso_code)
 
 Return a ShipmentDestination resultset. In list context, you can get
@@ -47,9 +49,14 @@ sub shipment_methods_iterator_by_iso_country {
     my @iterator;
     foreach my $shipping (shipment_methods($schema, $country, $postal_code)) {
         next unless $shipping->ShipmentMethod->active;
+        my $shipment_rate =  $shipping->ShipmentMethod
+          ->find_related('ShipmentRate',
+            {
+                shipment_methods_id => $shipping->ShipmentMethod->id
+            });
         push @iterator, {
-                         name => $shipping->ShipmentMethod->name,
-                         title => $shipping->ShipmentMethod->title,
+                         name => $shipping->ShipmentMethod->id,
+                         title => $shipping->ShipmentMethod->title .' $ '. $shipment_rate->price,
                         };
     }
     @iterator = sort { $a->{title} cmp $b->{title} } @iterator;
@@ -71,6 +78,16 @@ sub find_state {
 
     return $state;
 }
+
+sub shipping_rate {
+    my ($schema, $id ) = @_;
+    unless ($id) {
+        return 0;
+    }
+    my $shipment_rate = $schema->resultset("ShipmentRate")->find({ shipment_methods_id => $id });
+
+    return $shipment_rate->price;
+    }
 
 # from state object provide 0|1
 sub free_shipping_destination {
