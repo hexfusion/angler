@@ -8,6 +8,7 @@ use Test::More import => [ "!pass" ];
 use Dancer qw/:script/;
 use Dancer::Plugin::DBIC;
 use Angler::Shipping;
+use Angler::Tax;
 
 my $code = 'US';
 my $test_country;
@@ -16,7 +17,7 @@ eval {
 };
 
 if ($test_country) {
-    plan tests => 24;
+    plan tests => 20;
 }
 else {
     plan skip_all => "DB not populated!";
@@ -48,7 +49,7 @@ foreach my $dest (Angler::Shipping::shipment_methods($schema, 'US', $postal_code
     ok($method->title, "title ok:" . $method->title);
 }
 
-is Angler::Shipping::shipment_methods($schema, 'US')->count, 3, "3 methods";
+is Angler::Shipping::shipment_methods($schema, 'US')->count, 2, "2 methods";
 
 # return methods with only country
 foreach my $dest (Angler::Shipping::shipment_methods($schema, 'US')) {
@@ -57,7 +58,7 @@ foreach my $dest (Angler::Shipping::shipment_methods($schema, 'US')) {
     ok($method->title, "title ok:" . $method->title);
 }
 
-is Angler::Shipping::shipment_methods($schema, 'US')->count, 3, "3 methods";
+is Angler::Shipping::shipment_methods($schema, 'US')->count, 2, "2 methods";
 
 #is_deeply
 #  Angler::Shipping::shipment_methods_iterator_by_iso_country($schema, 'US'),
@@ -80,6 +81,15 @@ my $free_ship =  Angler::Shipping::free_shipping_destination($schema, $state);
 
 ok($free_ship eq '1', "Testing free shipping state.")
     || diag "Valid state 0|1. " . $free_ship;
+
+
+my $subtotal = '100.00';
+
+my $tax = Angler::Tax::rate($schema, $state, $subtotal);
+
+
+ok($tax eq '8', "Testing tax rate.")
+    || diag "Tax Rate. " . $tax;
 
 # show state that doesn't qualify
 $postal_code = '99504'; # Anchorage, Alaska
