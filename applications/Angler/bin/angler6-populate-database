@@ -45,6 +45,8 @@ $schema->populate(State => $pop_states);
 # populate zones table
 $schema->populate(Zone => $pop_zones);
 
+my $state = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'NY' });
+
 my $pop_roles = $schema->resultset("Role")->populate([
     { roles_id => '1', name => 'anonymous', label => 'Anonymous Users' },
     { roles_id => '2', name => 'authenticated', label => 'Authenticated Users' },
@@ -74,7 +76,7 @@ shop_address->create({
     address => 'Test Road',
     postal_code => '13783',
     city => 'Hancock',
-    states_id => '15',
+    states_id => $state->id,
     country_iso_code => 'US',
 });
 
@@ -457,6 +459,18 @@ $carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
         ],
     });
 
+$carrier{BESTWAY} = $schema->resultset("ShipmentCarrier")->create(
+    {
+        name => 'BESTWAY',
+        ShipmentMethod => [
+        {
+            name => 'FREESHIP',
+            title => 'Economy Free Shipping',
+        },
+    ],
+});
+
+
 my $zone_rs = $schema->resultset("Zone");
 
 # find Lower 48 Zone
@@ -501,16 +515,6 @@ my $ship_rate_rs = $schema->resultset("ShipmentRate");
 
 my %shipment_rate;
 
-$shipment_rate{'L48'}{'USPS'}{'PRIORITY'} = $ship_rate_rs->create(
-    {
-        zones_id => $lower48->id,
-        shipment_methods_id => $shipment_methods{'UPS'}{'GROUND'}->id,
-        min_weight => '0',
-        max_weight => '3',
-        price => '5.95',
-    }
-);
-
 $shipment_rate{'L48'}{'UPS'}{'GROUND'} = $ship_rate_rs->create(
     {
         zones_id => $lower48->id,
@@ -521,15 +525,14 @@ $shipment_rate{'L48'}{'UPS'}{'GROUND'} = $ship_rate_rs->create(
     }
 );
 
-$shipment_rate{'L48'}{'UPS'}{'3DS'} = $ship_rate_rs->create(
+$shipment_rate{'L48'}{'UPS'}{'NDA'} = $ship_rate_rs->create(
     {
         zones_id => $lower48->id,
-        shipment_methods_id => $shipment_methods{'UPS'}{'3DS'}->id,
+        shipment_methods_id => $shipment_methods{'UPS'}{'NDA'}->id,
         min_weight => '0',
         max_weight => '0',
-        price => '15.95',
+        price => '45.95',
     }
 );
-
 
 
