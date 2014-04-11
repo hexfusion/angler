@@ -3,8 +3,6 @@ package Angler::Shipping;
 use strict;
 use warnings;
 
-use Dancer ':syntax';
-
 =head2 shipment_methods($schema, $country_iso_code)
 
 Return a ShipmentDestination resultset. In list context, you can get
