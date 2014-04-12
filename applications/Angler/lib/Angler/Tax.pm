@@ -11,7 +11,7 @@ returns 0|1
 
 sub rate {
     my ($schema, $state, $subtotal) = @_;
-    my $tax_total;
+    my $tax_total = 0;
     my $rate;
     my $taxable = taxable_location($schema, $state);
 
