@@ -146,13 +146,6 @@ my $pop_nav = $schema->resultset("Navigation")->populate([
 
 # populate products array
 my @products = (
-['WBA0003', 'Orvis Helios Fly Rod Series', 'I am master product WBA0003', 'test', '0.00', 'orvis-helios-2-fly-rod', '0.00', '0', undef, undef, '1', '1'],
-['WBA0001', 'Orvis Helios 2 9FT 5WT Mid Flex Fly Rod', 'I am child product WBA0001 my parent is WBA0003', '', '795.00', 'orvis-helios-2-590-4-mid-flex', '5.00', '0', '6000123123123', 'WBA0003', '1', '0'],
-['WBA0002', 'Orvis Helios 2 9FT 6WT Mid Flex Fly Rod', 'I am child product WBA0002 my parent is WBA0003', '', '795.00', 'orvis-helios-2-690-4-mid-flex', '5.00', '0', '6000123123124', 'WBA0003', '1', '0'],
-['WBA0004', 'Orvis Helios 2 9FT 5WT Tip Flex Fly Rod', 'I am child product WBA0004 my parent is WBA0003', '', '795.00', 'orvis-helios-2-590-4-tip-flex', '5.00', '0', '6000123123125', 'WBA0003', '1', '0'],
-['WBA0005', 'Orvis Helios 2 8FT 6IN 5WT Tip Flex Fly Rod', 'I am child product WBA0005 my parent is WBA0003', '', '795.00', 'orvis-helios-2-586-4-tip-flex', '5.00', '0', '6000123123126', 'WBA0003', '1', '0'],
-['WBA0006', 'Orvis Helios 2 8FT 6IN 6WT Tip Flex Fly Rod', 'I am child product WBA0006 my parent is WBA0003', '', '795.00', 'orvis-helios-2-686-4-tip-flex', '5.00', '0', '6000123123127', 'WBA0003', '1', '0'],
-['WBA0007', 'Orvis Helios 2 9FT 6WT Tip Flex Fly Rod', 'I am child product WBA0007 my parent is WBA0003', '', '795.00', 'orvis-helios-2-690-4-tip-flex', '5.00', '0', '6000123123128', 'WBA0003', '1', '0'],
 );
 
 my @product_attributes;
@@ -176,11 +169,6 @@ my @attributes = (
 ['8', 'fb_id', '', ''],
 ['9', 'user_avatar_thumb', '', ''],
 ['10', 'user_avatar', '', '']
-);
-
-# populate navigation_products array
-my @navigation_products = (
-['WBA0003', '5', 'item'],
 );
 
 my @products_attributes_values = (
@@ -248,51 +236,6 @@ $users{john}->add_attribute('facebook','0');
 $users{ben}->add_attribute('facebook','0');
 $users{sam}->add_attribute('facebook','0');
 
-# populate product_attributes_values table
-$schema->populate('ProductAttributeValue', [
-  [ 'product_attributes_values_id', 'product_attributes_id', 'attribute_values_id' ],
-  @products_attributes_values,
-]);
-
-# populate navigation_products table
-$schema->populate('NavigationProduct', [
-  [ 'sku', 'navigation_id', 'type' ],
-  @navigation_products,
-]);
-
-$schema->resultset("Review")->populate([
-    {
-        sku => 'WBA0003',
-        title => 'Great Product',
-        content => 'I can not say enough about this fly rod it is the best I have ever owned by far.',
-        users_id => '1',
-        rating => '5',
-        recommend => '1',
-        public => '1',
-        approved => '1',
-    },
-    {
-        sku => 'WBA0003',
-        title => 'A Fantastic Rod and a Great Price',
-        content => 'If I were a fly rod maker this would be the rod that I would build.  By the people for the people.',
-        users_id => '2',
-        rating => '4',
-        recommend => '1',
-        public => '1',
-        approved => '1',
-    },
-    {
-        sku => 'WBA0003',
-        title => 'Horrible Customer Service',
-        content => 'I broke this rod and called for help.  They told me I was a goat hearding hick and should take up kniting.',
-        users_id => '3',
-        rating => '1',
-        recommend => '1',
-        public => '1',
-        approved => '1',
-    },
-]);
-
 my $types = $schema->resultset('MediaType')->populate([
                                            { type => 'image' },
                                            { type => 'video' },
@@ -309,27 +252,6 @@ foreach my $type (qw/120x120 169x169  325x325  50x50  70x70  975x975
                                     path => "/images/products/$type",
                                     size => $type,});
 }
-
-# set default for example product
-my $media = $schema->resultset('Media')->create(
-                            { 
-                                file => 'public/images/products/optimized_jpgs/orvis_helios_2.jpg',
-                                uri => 'orvis_helios_2.jpg',
-                                mime_type => 'image/jpg',
-                                media_types_id => '1',
-                            });
-
-
-$schema->resultset('MediaProduct')->populate([
-                                           { media_id => '1', sku => 'WBA0001' },
-                                           { media_id => '1', sku => 'WBA0002' },
-                                           { media_id => '1', sku => 'WBA0003' },
-                                           { media_id => '1', sku => 'WBA0004' },
-                                           { media_id => '1', sku => 'WBA0005' },
-                                           { media_id => '1', sku => 'WBA0006' },
-                                           { media_id => '1', sku => 'WBA0007' },
-                                          ]);
-
 
 # populate ShipmentCarriers
 my %carrier;
