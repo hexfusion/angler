@@ -11,6 +11,7 @@
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
 <param name="name" class="product-title"/>
 <param name="price" class="product-price" filter="currency"/>
+<param name="image" class="product-image-pic" target="src"/>
 </list>
 <!-- Paging -->
 <paging name="products" list="results" class="pagination">

@@ -81,6 +81,23 @@ hook 'before_navigation_display' => sub {
                                           active => 1});
 
     $nav_tokens->{brands} = [$brands->all];
+
+    my @products;
+    my $product;
+
+    while ($product = $nav_tokens->{products}->next) {
+        my $product_href = {$product->get_inflated_columns};
+
+        # retrieve picture and add it to the results
+        my $image = $product->media_by_type('image')->first;
+        if ($image) {
+            $product_href->{image} = uri_for($image->display_uri('image_120x120'));
+        }
+
+        push @products, $product_href;
+    }
+
+    $nav_tokens->{products} = \@products;
 };
 
 hook 'before_product_display' => sub {
