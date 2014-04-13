@@ -6,6 +6,8 @@ use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
 use DateTime;
 use Business::PayPal::API::ExpressCheckout;
+
+use Angler::Cart;
 use Angler::Forms::Checkout;
 
 get '/checkout' => sub {
@@ -26,16 +28,25 @@ post '/checkout' => sub {
     my $error_hash;
 
     $form = form('checkout');
-    my $cart_form = form('cart')->values;
+    my $cart_form;
 
-    debug to_dumper($cart_form);
-    
+    debug "Params: ", params;
+
+    if (param('shipping_method')) {
+        $cart_form = form('cart')->values;
+    }
+    else {
+        $cart_form = form('cart')->values('session');
+    }
+
+    debug "Cart form: ", to_dumper($cart_form);
 
     my $values = $form->values;
 
-    $values->{postal_code}     ||= $cart_form->{zip};
+    $values->{postal_code}     ||= $cart_form->{postal_code};
     $values->{country}         ||= $cart_form->{country} || 'US';
     $values->{billing_country} ||= $cart_form->{country} || 'US';
+    $values->{shipping_method} ||= $cart_form->{shipping_method};
 
     debug "Checkout form values: ", to_dumper($values);
 
@@ -181,15 +192,14 @@ post '/checkout' => sub {
             if ($tx->is_success) {
                 debug "Payment successful: ", $tx->authorization;
 
-                my $order = generate_order($form, $tx->payment_order);
+                my $tokens = checkout_tokens($form, {}, $values);
+                my $order = generate_order($tokens, $tx->payment_order);
 
                 debug("Order complete.");
 
-                my $tokens = checkout_tokens($form);
-
                 $tokens->{order} = $order;
 
-                return template 'cart_receipt', checkout_tokens($form);
+                return template 'cart_receipt', $tokens;
             }
             else {
                 debug "Payment failed: ", $tx->error_message;
@@ -200,9 +210,9 @@ post '/checkout' => sub {
     debug "Fill form with: ", $values;
 
     $form->fill($values);
-    debug to_dumper($form);
+#    debug to_dumper($form);
 
-    template 'cart_checkout', checkout_tokens($form, $error_hash);
+    template 'cart_checkout', checkout_tokens($form, $error_hash, $values);
 };
 
 get '/paypal-cancel' => sub {
@@ -293,14 +303,15 @@ get '/paypal-checkout' => sub {
 
     # at this point we have everything and can pass the data
     my $form = form('checkout');
+    my $tokens = checkout_tokens($form);
     debug("Generating an order");
-    generate_order($form, $po);
+    generate_order($tokens, $po);
     debug("Order complete.");
 
     # clear the session from stale data
     session paypal_token => undef;
     session payment_order_id => undef;
-    return template cart_receipt => checkout_tokens($form);
+    return template cart_receipt => $tokens;
 };
 
 
@@ -355,13 +366,29 @@ sub validate_checkout {
 }
 
 sub checkout_tokens {
-    my ($form, $errors) = @_;
+    my ($form, $errors, $values) = @_;
     my $tokens;
-    debug to_dumper($errors);
+
+    debug "Form errors: ", to_dumper($errors);
 
     $tokens->{form} = $form;
 
     $tokens->{cart} = cart;
+
+    # update cart
+    my $angler_cart = Angler::Cart->new(schema => shop_schema,
+                                        cart => $tokens->{cart},
+                                        postal_code => $values->{postal_code},
+                                        country => $values->{country},
+                                        shipping_methods_id => $values->{shipping_method},
+                                        user_id => session('logged_in_users_id'),);
+
+    $values ||= {};
+
+    $angler_cart->update_costs($values);
+
+    $tokens->{cart_tax} = $angler_cart->tax;
+    $tokens->{cart_shipping} = $angler_cart->shipping_cost;
 
     my @payment_errors;
     # report the paypal failures too
@@ -400,20 +427,40 @@ sub checkout_tokens {
 
     if ($errors) {
         $tokens->{errors} = $errors;
+        $tokens->{country} = $tokens->{form}->values->{country};
     }
     else {
         # default values for form
         $tokens->{country} = 'US';
         $tokens->{billing_country} = 'US';
     }
-    debug to_dumper($tokens->{form});
+
+    # iterator for states
+    $tokens->{states} = states($tokens->{country});
+    $tokens->{state} = $angler_cart->state;
+
     return $tokens;
 };
 
+sub states {
+    my ($country) = @_;
+    my $states;
+
+    $states = [shop_schema->resultset('State')->search(
+        {country_iso_code => $country,
+         active => 1,
+     },
+        {order_by => 'name'},
+	)];
+
+    return $states;
+};
+
 sub generate_order {
-    my ($form, $payment_order) = @_;
+    my ($tokens, $payment_order) = @_;
     my ($ship_address, $bill_address, $ship_obj, $bill_obj);
 
+    my $form = $tokens->{form};
     my $users_id = session('logged_in_user_id');
 
     # create delivery address from gift info form
@@ -495,6 +542,8 @@ sub generate_order {
                       billing_addresses_id => $bill_obj->id,
                       shipping_addresses_id => $ship_obj->id,
                       subtotal => cart->subtotal,
+                      shipping => $tokens->{cart_shipping},
+                      salestax => $tokens->{cart_tax},
                       total_cost => cart->total,
                       order_date => $order_date,
                       order_number => $order_date,
@@ -509,6 +558,9 @@ sub generate_order {
     $order->update({order_number => 'WBA6' . sprintf("%06s", $order->id)});
 
     cart->clear;
+
+    # reset form
+    $form->reset;
 
     return $order;
 }
