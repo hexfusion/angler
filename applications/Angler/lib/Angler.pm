@@ -190,7 +190,15 @@ hook 'before_product_display' => sub {
                 );
 
         while (my $product = $same_category->next) {
-            push @other_products, $product;
+            my $product_href = {$product->get_inflated_columns};
+
+            # retrieve thumb and add it to the results
+            my $image = $product->media_by_type('image')->first;
+            if ($image) {
+                $product_href->{image_thumb} = uri_for($image->display_uri('image_50x50'));
+            }
+
+            push @other_products, $product_href;
         }
 
         if ($same_category->pager->last_page > 1) {
