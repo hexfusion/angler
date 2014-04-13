@@ -4,7 +4,7 @@
 <param name="price" filter="currency"/>
 <param name="qty" field="quantity"/>
 <param name="subtotal" filter="currency"/>
-<param name="remove" field="sku" target="value"/>
+<param name="remove-cart-product" field="sku" target="value"/>
 </list>
 
 <!-- free shipping containers -->
