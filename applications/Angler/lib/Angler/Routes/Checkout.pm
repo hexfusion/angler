@@ -541,10 +541,10 @@ sub generate_order {
     my %order_info = (users_id => $users_id,
                       billing_addresses_id => $bill_obj->id,
                       shipping_addresses_id => $ship_obj->id,
-                      subtotal => cart->subtotal,
+                      subtotal => $tokens->{cart}->subtotal,
                       shipping => $tokens->{cart_shipping},
                       salestax => $tokens->{cart_tax},
-                      total_cost => cart->total,
+                      total_cost => $tokens->{cart}->total,
                       order_date => $order_date,
                       order_number => $order_date,
                       Orderline => \@orderlines);
