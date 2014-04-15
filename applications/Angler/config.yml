@@ -46,6 +46,8 @@ records:
 free_shipping: 
   amount: 100
 
+order_email: orders@westbranchangler.com
+
 plugins:
   Interchange6::Routes:
     product:

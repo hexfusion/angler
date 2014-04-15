@@ -4,6 +4,8 @@ use Dancer ':syntax';
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
+use Dancer::Plugin::Email;
+
 use DateTime;
 use Business::PayPal::API::ExpressCheckout;
 
@@ -567,6 +569,18 @@ sub generate_order {
 
     # reset form
     $form->reset;
+
+    # send email to customer
+    my $body = template 'email/order-receipt',
+        {order => $order}, {layout => undef};
+
+    email ({type => 'html',
+            from => config->{order_email},
+            to => $order->email,
+            bcc => config->{bcc} || '',
+            subject => "Your Order " . $order->order_number,
+            message => $body,
+        });
 
     return $order;
 }
