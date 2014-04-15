@@ -11,6 +11,7 @@ use Business::PayPal::API::ExpressCheckout;
 
 use Angler::Cart;
 use Angler::Forms::Checkout;
+use File::Spec;
 
 get '/checkout' => sub {
     my $form;
@@ -570,9 +571,25 @@ sub generate_order {
     # reset form
     $form->reset;
 
+    my $cids = {};
     # send email to customer
     my $body = template 'email/order-receipt',
-        {order => $order}, {layout => undef};
+        {order => $order, email_cids => $cids}, {layout => undef};
+
+    debug to_dumper($cids);
+    my @attachments;
+    foreach my $cid (keys %$cids) {
+        my @paths = grep { length($_) } split(/\//, $cids->{$cid}->{filename});
+        my $path = File::Spec->catfile(config->{public},@paths);
+        if (-f $path) {
+            push @attachments, { Id => $cid,
+                                 Path => $path };
+        }
+        else {
+            warning "Couldn't find $path!";
+        }
+    }
+    debug to_dumper(\@attachments);
 
     email ({type => 'html',
             from => config->{order_email},
@@ -580,6 +597,8 @@ sub generate_order {
             bcc => config->{bcc} || '',
             subject => "Your Order " . $order->order_number,
             message => $body,
+            multipart => 'related',
+            attach => \@attachments,
         });
 
     return $order;
