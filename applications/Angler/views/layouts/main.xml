@@ -1,6 +1,10 @@
 <specification>
 <value name="cart_count"/>
 <value name="content" class="content" op="hook"/>
+
+<!-- Logo -->
+<value name="logo" target="href" field="logo_uri"/>
+
 <!-- Top Menu -->
 
 <!-- Left -->

@@ -31,6 +31,9 @@ hook 'before_layout_render' => sub {
     # display cart count
     $tokens->{cart_count} = cart->count;
 
+    # logo
+    $tokens->{logo_uri} = uri_for('/');
+
     # create menu iterators
     my $nav = schema->resultset('Navigation')->search(
          {
