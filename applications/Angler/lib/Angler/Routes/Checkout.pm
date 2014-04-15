@@ -482,9 +482,14 @@ sub generate_order {
         }
     }
 
-    if (! $users_id) {
+    my $user;
+
+    if ($users_id) {
+	$user = shop_user($users_id);
+    }
+    else {
         # create user
-        my $user = shop_user->create({email => $ship_address->{email},
+        $user = shop_user->create({email => $ship_address->{email},
                                       username => $ship_address->{email},
                                       first_name => $ship_address->{first_name},
                                       last_name => $ship_address->{last_name},
@@ -539,6 +544,7 @@ sub generate_order {
 
     # create transaction
     my %order_info = (users_id => $users_id,
+		      email => $user->email,
                       billing_addresses_id => $bill_obj->id,
                       shipping_addresses_id => $ship_obj->id,
                       subtotal => $tokens->{cart}->subtotal,
