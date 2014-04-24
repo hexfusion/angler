@@ -8,7 +8,7 @@
           <form action="/checkout" class="account-info" method="POST">
               
             <fieldset class="well">
-              <h3>Shipping</h3>
+              <h3>Enter Your Shipping Address</h3>
               <div class="control-group">
                 <label class="control-label" for="inputEmail">Email</label>
                 <div class="controls">
@@ -101,7 +101,7 @@
               
               
             <fieldset class="well">
-              <h3>Billing</h3>
+              <h3>Choose a Billing Address</h3>
              
                   <div class="form-inline">
                     <label>
@@ -172,8 +172,18 @@
                 
                 </div>
             </fieldset>
-              
-              
+            <fieldset class="well">              
+            <h3>Choose A Shipping Option</h3>
+            <div style="font-family: Arial; font-size: 11px; color: #888; line-height: 10px; margin-bottom: 5px;">
+              <div class="align-right" style="margin-top: 17px; margin-left: 5px;">
+                <button id="update-shipping" class="btn btn-small btn-success">Update</button>
+              </div>
+             <div class="align-left shipping" style="margin-right: 5px;">
+               <label>Shipping Method</label>
+               <select name="shipping_method" class="shipping_method" type="radio" />
+             </div>
+            </fieldset>
+
             <fieldset class="well">
               <h3>Payment</h3>
                 
