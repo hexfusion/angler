@@ -41,6 +41,16 @@ etc/
 var/
 src/*
 tmp/
+etc/
+var/
+src/*
+tmp/
+
+# Backup files
+*.bak
+*.old
+*.swp
+
 
 # Backup files
 *.bak
