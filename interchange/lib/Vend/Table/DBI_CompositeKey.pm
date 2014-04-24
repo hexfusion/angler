@@ -320,6 +320,7 @@ sub set_slice {
 	my $opt;
 	if (ref ($key) eq 'ARRAY' && ref ($key->[0]) eq 'HASH') {
 		$opt = shift @$key;
+		$key = shift @$key;
 	}
 	$opt ||= {};
 

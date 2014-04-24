@@ -1,6 +1,8 @@
 # Vend::Cart - Interchange shopping cart management routines
 #
-# Copyright (C) 2002-2011 Interchange Development Group
+# $Id: Cart.pm,v 2.26 2009-05-20 22:13:32 pajamian Exp $
+#
+# Copyright (C) 2002-2009 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -23,7 +25,7 @@
 
 package Vend::Cart;
 
-$VERSION = '2.27';
+$VERSION = substr(q$Revision: 2.26 $, 10);
 
 use strict;
 
@@ -260,8 +262,8 @@ sub toss_cart {
 				  $tab = $item->{mv_ib} || $Vend::Cfg->{ProductFiles}[0];
 			      }
 
-			      my $prefix = '';
-			      $tab =~ s/^([=?])// and $prefix = $1;
+			      my ($prefix) = $tab =~ s/^([=\?])//;
+			      $prefix ||= '';
 
 			      my $max = \$quantity_cache{"$tab.$col.$item->{code}"};
 			      $$max ||= ::tag_data($tab, $col, $item->{code});
@@ -273,7 +275,7 @@ sub toss_cart {
 				  last MAX_QUANTITY;
 			      }
 
-			      elsif ($prefix eq '?') {
+			      elsif ($prefix = '?') {
 				  next QUANTITY_FIELD if !defined $$max || $$max <= 0;
 				  $$mv_max = $$max;
 				  last QUANTITY_ADJUST;

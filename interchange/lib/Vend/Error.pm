@@ -185,7 +185,7 @@ sub do_lockout {
 	# Now we log the error after custom lockout routine gets chance
 	# to bypass 
 	my $pause = $::Limit->{lockout_reset_seconds} || 30;
-	$msg = errmsg(
+	my $msg = errmsg(
 		"WARNING: POSSIBLE BAD ROBOT. %s accesses with no %d second pause.",
 		$Vend::Session->{accesses},
 		$pause,

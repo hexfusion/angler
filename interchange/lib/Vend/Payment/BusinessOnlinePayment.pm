@@ -105,7 +105,7 @@ Your Business::OnlinePayment login.
 
 =item secret
 
-Your Business::OnlinePayment password.
+Your Busienss::OnlinePayment password.
 
 =item transaction
 
@@ -299,7 +299,7 @@ C<our_param>.
   my @extra = split /[\s,\0]+/, $opt->{extra_query_params};
   for (@extra) {
       my ( $k, $v ) = split /=/, $_;
-      $v ||= $k;
+      $k ||= $v;
       $params{$k} = $opt->{$v} || charge_param($v);
   }
 

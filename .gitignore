@@ -4,14 +4,12 @@ catalogs/site/products/.*.autonumber
 catalogs/site/products/.*.gdbm
 catalogs/site/products/*.txt
 catalogs/site/var/*
+interchange/src/.~.
 interchange/standard/products/.*.*
 cgi-bin/site
 htdocs/site/images/items
-htdocs/robots.txt
 htdocs/assetstore/site/images/items
 httpd/
-*.~*
-interchange/standard/products/.*.*
 interchange/error.log
 interchange/interchange.cfg.dist
 interchange/bin/interchange
@@ -23,7 +21,6 @@ interchange/src/tlink
 interchange/src/tlink.127.0.0.1.*
 interchange/src/vlink
 interchange/src/vlink._*
-interchange/standard/*
 interchange/var/log/*
 interchange/var/run/*
 applications/Angler/bin/app.pl

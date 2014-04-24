@@ -29,11 +29,7 @@ use vars qw($VERSION @ISA);
 use GDBM_File;
 use Vend::Table::Common;
 
-if ($ENV{MINIVEND_DISABLE_UTF8}) {
-	sub encode($$;$){}
-	sub decode($$;$){}
-}
-else {
+unless( $ENV{MINIVEND_DISABLE_UTF8} ) {
 	require Encode;
 	import Encode qw( decode encode );
 }
@@ -65,6 +61,8 @@ sub create {
 	$flags |= GDBM_FAST if $Fast_write;
 	my $dbm = tie(%$tie, 'GDBM_File', $filename, $flags, $File_permission_mode)
 		or die ::errmsg("%s %s: %s\n", ::errmsg("create"), $filename, $!);
+
+	apply_utf8_filters($dbm) if $config->{GDBM_ENABLE_UTF8};
 
 	$tie->{'c'} = join("\t", @$columns);
 

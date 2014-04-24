@@ -1046,9 +1046,7 @@ sub import_ascii_delimited {
 
 	my $realfile;
 	if($options->{PRELOAD}) {
-		# do not preload if $infile is a scalar reference
-		if ($options->{scalar_ref} or 
-			(-f $infile and $options->{PRELOAD_EMPTY_ONLY})) {
+		if (-f $infile and $options->{PRELOAD_EMPTY_ONLY}) {
 			# Do nothing, no preload
 		}
 		else {
@@ -1060,18 +1058,10 @@ sub import_ascii_delimited {
 	}
 
 	if(! defined $realfile) {
-		if($options->{scalar_ref}){
-			open(IN, '+<', $infile)
-				or die errmsg("%s %s: %s\n", errmsg("open scalar reference"), *$infile, $!);
-			# locking of scalar reference filehandles in unsupported
-		}
-		else{
-			open(IN, "+<$infile")
-				or die errmsg("%s %s: %s\n", errmsg("open read/write"), $infile, $!);
-			lockfile(\*IN, 1, 1)
-				or die errmsg("%s %s: %s\n", errmsg("lock"), $infile, $!);
-		}
-
+		open(IN, "+<$infile")
+			or die errmsg("%s %s: %s\n", errmsg("open read/write"), $infile, $!);
+		lockfile(\*IN, 1, 1)
+			or die errmsg("%s %s: %s\n", errmsg("lock"), $infile, $!);
 	}
 	else {
 		open(IN, "<$infile")
@@ -1484,9 +1474,7 @@ EndOfRoutine
 	}
 	delete $out->[$CONFIG]{Clean_start};
 	delete $out->[$CONFIG]{_Dirty};
-	unless($options->{scalar_ref}){
-		unlockfile(\*IN) or die "unlock\n";
-	}
+	unlockfile(\*IN) or die "unlock\n";
     close(IN);
 	my $dot = $out->[$CONFIG]{HIDE_AUTO_FILES} ? '.' : '';
 	if($numeric_guess) {
@@ -1632,7 +1620,7 @@ sub log_error {
 	my $msg = errmsg($tpl, @args);
 	my $ekey = 'table ' . $s->[$CONFIG]{name};
 	my $cfg = $s->[$CONFIG];
-	unless(defined $cfg->{LOG_ERROR_CATALOG} and ! $cfg->{LOG_ERROR_CATALOG}) {
+	unless(defined $cfg->{LOG_ERROR_CATALOG} and ! $cfg->{LOG_CATALOG}) {
 		logError($msg);
 	}
 	if($cfg->{LOG_ERROR_GLOBAL}) {
@@ -1648,7 +1636,7 @@ sub log_error {
 
 sub new_filehandle {
 	my $fh = shift;
-	binmode($fh, ":utf8") if $::Variable->{MV_UTF8} || $Global::Variable->{MV_UTF8};
+	binmode($fh, ":utf8") if $::Variable->{MV_UTF8};
 	return $fh;
 }
 

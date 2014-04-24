@@ -76,13 +76,7 @@ sub {
 	my $locale = $opt->{locale} || $Scratch->{mv_locale};
 	if ($locale) {
 		$current = POSIX::setlocale(&POSIX::LC_TIME);
-        if (($::Variable->{MV_UTF8} || $Global::Variable->{MV_UTF8})
-            && $locale !~ /\.utf-?8$/i) {
-            POSIX::setlocale(&POSIX::LC_TIME, "$locale.utf8");
-        }
-        else {
-            POSIX::setlocale(&POSIX::LC_TIME, $locale);
-        }
+		POSIX::setlocale(&POSIX::LC_TIME, $locale);
 		$out = POSIX::strftime($fmt, @t);
 		POSIX::setlocale(&POSIX::LC_TIME, $current);
 	} else {

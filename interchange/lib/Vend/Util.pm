@@ -53,8 +53,6 @@ unless( $ENV{MINIVEND_DISABLE_UTF8} ) {
 	header_data_scrub
 	hexify
 	is_hash
-	is_ipv4
-	is_ipv6
 	is_no
 	is_yes
 	l
@@ -337,10 +335,8 @@ sub picture_format {
     $pic	= reverse $pic;
 	$point	= '.' unless defined $point;
 	$sep	= ',' unless defined $sep;
-	my $len = $pic =~ /(#+)\Q$point/
-		? length($1)
-		: 0
-	;
+	$pic =~ /(#+)\Q$point/;
+	my $len = length($1);
 	$amount = sprintf('%.' . $len . 'f', $amount);
 	$amount =~ tr/0-9//cd;
 	my (@dig) = split m{}, $amount;
@@ -571,28 +567,6 @@ sub random_string {
     $r;
 }
 
-##  This block defines &Vend::Util::sha1_hex and $Vend::Util::SHA1
-use vars qw($SHA1);
-
-BEGIN {
-
-	$SHA1 = 1;
-	  FINDSHA: {
-		eval {
-			require Digest::SHA;
-			*sha1_hex = \&Digest::SHA::sha1_hex;
-		};
-		last FINDSHA if defined &sha1_hex;
-		eval {
-			require Digest::SHA1;
-			*sha1_hex = \&Digest::SHA1::sha1_hex;
-		};
-		last FINDSHA if defined &sha1_hex;
-		$SHA1 = 0;
-		*sha1_hex = sub { ::logError("Unknown filter or key routine sha1, no SHA modules."); return $_[0] };
-	  }
-}
-
 # To generate a unique key for caching
 # Not very good without MD5
 #
@@ -677,7 +651,6 @@ sub uneval_it {
     } elsif ($r eq 'HASH') {
 	$s = "{";
 	while (($key, $value) = each %$o) {
-	    $key =~ s/(['\\])/\\$1/g;
 	    $s .= "'$key' => " . uneval_it($value) . ",";
 	}
 	$s .= "}";
@@ -713,13 +686,6 @@ eval {
 	die unless $ENV{MINIVEND_STORABLE};
 	require Storable;
 	import Storable 'freeze';
-
-	if ($ENV{MINIVEND_STORABLE_CODE}) {
-		# allow code references to be stored to the session
-		 $Storable::Deparse = 1;
-		 $Storable::Eval = 1;
-	}
-
 	$Fast_uneval     = \&Storable::freeze;
 	$Fast_uneval_file  = \&Storable::store;
 	$Eval_routine    = \&Storable::thaw;
@@ -875,52 +841,6 @@ sub string_to_ref {
 
 sub is_hash {
 	return ref($_[0]) eq 'HASH';
-}
-
-# Verify that passed string is a valid IPv4 address.
-sub is_ipv4 {
-    my $addr = shift or return;
-    my @segs = split '.', $addr;
-    return unless @segs == 4;
-    foreach (@segs) {
-	return unless /^\d{1,3}$/ && !/^0\d/;
-	return unless $_ <= 255;
-    }
-    return 1;
-}
-
-# Verify that passed string is a valid IPv6 address.
-sub is_ipv6 {
-    my $addr = shift or return;
-    my @segs = split ':', $addr;
-
-    my $quads = 8;
-    # Check for IPv4 style ending
-    if ($segs[-1] =~ /\./) {
-	return unless is_ipv4(pop @segs);
-	$quads = 6;
-    }
-
-    # Check the special case of the :: abbreviation.
-    if ($addr =~ /::/) {
-	# Three :'s together is wrong, though.
-	return if $addr =~ /:::/;
-	# Also only one set of :: is allowed.
-	return if $addr =~ /::.*::/;
-	# Check that we don't have too many quads.
-	return if @segs >= $quads;
-    }
-    else {
-	# No :: abbreviation, so the number of quads must be exact.
-	return unless @segs == $quads;
-    }
-
-    # Check the validity of each quad
-    foreach (@segs) {
-	return unless /^[0-9a-f]{1,4}$/i;
-    }
-
-    return 1;
 }
 
 sub dotted_hash {
@@ -1259,7 +1179,7 @@ sub readin {
 
 		if (open(MVIN, "< $fn")) {
 			binmode(MVIN) if $Global::Windows;
-			binmode(MVIN, ":utf8") if $::Variable->{MV_UTF8} || $Global::Variable->{MV_UTF8};
+			binmode(MVIN, ":utf8") if $::Variable->{MV_UTF8};
 			undef $/;
 			$contents = <MVIN>;
 			close(MVIN);
@@ -1287,11 +1207,11 @@ sub readin {
 }
 
 sub is_yes {
-    return scalar( defined($_[0]) && ($_[0] =~ /^[yYtT1]/));
+    return( defined($_[0]) && ($_[0] =~ /^[yYtT1]/));
 }
 
 sub is_no {
-	return scalar( !defined($_[0]) || ($_[0] =~ /^[nNfF0]/));
+	return( !defined($_[0]) || ($_[0] =~ /^[nNfF0]/));
 }
 
 # Returns a URL which will run the ordering system again.  Each URL
@@ -1357,7 +1277,7 @@ sub vendUrl {
 	$ct = ++$Vend::Session->{pageCount}
 		unless $opt->{no_count};
 
-	if($opt->{no_session} or $::Pragma->{url_no_session_id}) {
+	if($opt->{no_session}) {
 		undef $id;
 		undef $ct;
 	}
@@ -1395,11 +1315,6 @@ sub vendUrl {
 	if($opt->{anchor}) {
 		$opt->{anchor} =~ s/^#//;
 		$r .= '#' . $opt->{anchor};
-	}
-
-	# return full-path portion of the URL
-	if ($opt->{path_only}) {
-		$r =~ s!^https?://[^/]*!!i;
 	}
 	return $r;
 } 
@@ -1483,12 +1398,6 @@ sub tag_nitems {
     $total = 0;
     foreach $item (@$cart) {
 		next if $attr and ! $sub->($item->{$attr});
-
-                if ($opt->{gift_cert} && $item->{$opt->{gift_cert}}) {
-                    $total++;
-                    next;
-                }
-
 		$total += $item->{'quantity'};
     }
     $total;
@@ -2083,18 +1992,8 @@ sub read_cookie {
 	my ($lookfor, $string) = @_;
 	$string = $CGI::cookie
 		unless defined $string;
-    return cookies_hash($string) unless defined $lookfor && length($lookfor);
-    return undef unless $string =~ /(?:^|;)\s*\Q$lookfor\E=([^\s;]+)/i;
+	return undef unless $string =~ /\b$lookfor=([^\s;]+)/i;
  	return unescape_chars($1);
-}
-
-sub cookies_hash {
-    my $string = shift || $CGI::cookie;
-    my %cookies = map {
-        my ($k,$v) = split '=', $_, 2;
-        $k => unescape_chars($v)
-    } split(/;\s*/, $string);
-    return \%cookies;
 }
 
 sub send_mail {
@@ -2118,7 +2017,7 @@ sub send_mail {
 				$to = $1;
 			}
 			elsif (/^Reply-to:\s*(.+)/si) {
-				$reply = $1;
+				$reply = $_;
 			}
 			elsif (/^subj(?:ect)?:\s*(.+)/si) {
 				$subject = $1;

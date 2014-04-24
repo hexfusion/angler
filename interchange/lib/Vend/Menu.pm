@@ -331,7 +331,7 @@ my %transform = (
 			my @parms = split $Global::UrlSplittor, $row->{$_};
 			my @out;
 			for my $p (@parms) {
-				my ($parm, $val) = split /=/, $p, 2;
+				my ($parm, $val) = split /=/, $p;
 				$val = unhexify($val);
 				$val =~ s/\[cgi\s+([^\[]+)\]/$CGI::values{$1}/g;
 				$val =~ s/\[var\s+([^\[]+)\]/$::Variable->{$1}/g;
@@ -418,7 +418,7 @@ EOF
 	my %defaults = (
 				start       => $opt->{tree_selector} || 'Products',
 				table       => $::Variable->{MV_TREE_TABLE} || 'tree',
-				master      => $opt->{tree_master} || 'parent_fld',
+				master      => 'parent_fld',
 				subordinate => 'code',
 				autodetect  => '1',
 				sort        => 'code',
@@ -551,7 +551,7 @@ EOF
 			start       => $opt->{tree_selector} || $opt->{name},
 			file		=> $opt->{file},
 			table       => $opt->{table} || $::Variable->{MV_TREE_TABLE} || 'tree',
-			master      => $opt->{tree_master} || 'parent_fld',
+			master      => 'parent_fld',
 			subordinate => 'code',
 			autodetect  => '1',
 			no_open		=> 1,
@@ -946,7 +946,7 @@ EOF
 	my %o = (
 			start       => $opt->{tree_selector} || 'Products',
 			table       => $opt->{table} || $::Variable->{MV_TREE_TABLE} || 'tree',
-			master      => $opt->{tree_master} || 'parent_fld',
+			master      => 'parent_fld',
 			file		=> $opt->{file},
 			subordinate => 'code',
 			autodetect  => '1',
@@ -1466,7 +1466,7 @@ EOF
 	my %o = (
 			start       => $opt->{tree_selector} || 'Products',
 			table       => $opt->{table} || $::Variable->{MV_TREE_TABLE} || 'tree',
-			master      => $opt->{tree_master} || 'parent_fld',
+			master      => 'parent_fld',
 			file		=> $opt->{file},
 			subordinate => 'code',
 			autodetect  => '1',

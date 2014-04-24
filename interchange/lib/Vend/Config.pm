@@ -1,6 +1,6 @@
 # Vend::Config - Configure Interchange
 #
-# Copyright (C) 2002-2013 Interchange Development Group
+# Copyright (C) 2002-2009 Interchange Development Group
 # Copyright (C) 1996-2002 Red Hat, Inc.
 #
 # This program was originally based on Vend 0.2 and 0.3
@@ -53,7 +53,7 @@ use Vend::Data;
 use Vend::Cron;
 use Vend::CharSet ();
 
-$VERSION = '2.248';
+$VERSION = '2.247';
 
 my %CDname;
 my %CPname;
@@ -278,7 +278,6 @@ for( values %extmap ) {
 	version			Version
 ));
 
-my %tagSkip = ( qw! Documentation 1 Version 1 !);
 
 my %tagAry 	= ( qw! Order 1 Required 1 ! );
 my %tagHash	= ( qw!
@@ -714,7 +713,6 @@ sub catalog_directives {
     ['UserTrack',        'yesno',            'no'],
 	['DebugHost',	     'ip_address_regexp',	''],
 	['BounceReferrals',  'yesno',            'no'],
-	['BounceReferralsRobot', 'yesno',        'no'],
 	['BounceRobotSessionURL',		 'yesno', 'no'],
 	['OrderCleanup',     'routine_array',    ''],
 	['SessionCookieSecure', 'yesno',         'no'],
@@ -722,8 +720,6 @@ sub catalog_directives {
 	['SessionHashLevels', 'integer',         2],
 	['SourcePriority', 'array_complete', 'mv_pc mv_source'],
 	['SourceCookie', sub { &parse_ordered_attributes(@_, [qw(name expire domain path secure)]) }, '' ],
-	['SuppressCachedCookies', 'yesno',       'no'],
-	['OutputCookieHook', undef,              ''],
 
 	];
 
@@ -1350,7 +1346,7 @@ CONFIGLOOP:
 		}
 	}
 
-	# Set up hash of keys to hide for BounceReferrals and BounceReferralsRobot
+	# Set up hash of keys to hide for BounceReferrals
 	$C->{BounceReferrals_hide} = { map { ($_, 1) } grep { !(/^cookie-/ or /^session(?:$|-)/) } @{$C->{SourcePriority}} };
 	my @exclude = qw( mv_form_charset mv_session_id mv_tmp_session );
 	@{$C->{BounceReferrals_hide}}{@exclude} = (1) x @exclude;
@@ -2177,8 +2173,6 @@ sub parse_action {
 	}
 	my ($name, $sub) = split /\s+/, $value, 2;
 
-	$name =~ s/-/_/g;
-	
 	## Determine if we are in a catalog config, and if 
 	## perl should be global and/or strict
 	my $nostrict;
@@ -3483,13 +3477,9 @@ sub set_default_search {
 		UserDB => sub {
 					my $set = $C->{UserDB_repository};
 					for(keys %$set) {
-						if( defined $set->{$_}{admin} ) {
-							$C->{AdminUserDB} = {} unless $C->{AdminUserDB};
-							$C->{AdminUserDB}{$_} = $set->{$_}{admin};
-						}
-						if($set->{$_}{encsub} =~ /sha1/i and ! $Vend::Util::SHA1) {
-							return(undef, "Unable to use SHA1 encryption for UserDB, no Digest::SHA or Digest::SHA1 module.");
-						}
+						next unless defined $set->{$_}{admin};
+						$C->{AdminUserDB} = {} unless $C->{AdminUserDB};
+						$C->{AdminUserDB}{$_} = $set->{$_}{admin};
 					}
 					return 1;
 				},
@@ -3643,21 +3633,6 @@ sub set_default_search {
 );
 
 sub global_directive_postprocess {
-	if ($Global::UrlSepChar eq '&') {
-		if ($Global::Variable->{MV_HTML4_COMPLIANT}) {
-			$Global::UrlJoiner = '&amp;';
-			$Global::UrlSplittor = qr/\&amp;|\&/;
-		}
-		else {
-			$Global::UrlJoiner = '&';
-			$Global::UrlSplittor = qr/\&/;
-		}
-	}
-	else {
-		$Global::UrlJoiner = $Global::UrlSepChar;
-		$Global::UrlSplittor = qr/[&$Global::UrlSepChar]/o;
-	}
-		
 	$Global::CountrySubdomains ||= {};
 
 	while (my ($key,$val) = each(%$Global::CountrySubdomains)) {
@@ -3749,6 +3724,14 @@ sub parse_url_sep_char {
 		config_warn("%s character value '%s' not a recommended value.", $var, $val);
 	}
 
+	if($val eq '&') {
+		$Global::UrlJoiner = $Global::Variable->{MV_HTML4_COMPLIANT} ? '&amp;' : '&';
+		$Global::UrlSplittor = qr/\&/;
+	}
+	else {
+		$Global::UrlJoiner = $val;
+		$Global::UrlSplittor = qr/[&$val]/o;
+	}
 	return $val;
 }
 
@@ -3932,22 +3915,17 @@ sub parse_dir_array {
 	my($var, $value) = @_;
 	return [] unless $value;
 
+	unless (allowed_file($value)) {
+		config_error('Path %s not allowed in %s directive',
+					  $value, $var);
+	}
+	$value = "$C->{VendRoot}/$value"
+		unless file_name_is_absolute($value);
+	$value =~ s./+$..;
+
 	$C->{$var} = [] unless $C->{$var};
 	my $c = $C->{$var} || [];
-
-	my @dirs = grep /\S/, Text::ParseWords::shellwords($value);
-
-	foreach my $dir (@dirs) {
- 		unless (allowed_file($dir)) {
-			config_error('Path %s not allowed in %s directive',
-								$dir, $var);
-		}
-		$dir = "$C->{VendRoot}/$dir"
-			unless file_name_is_absolute($dir);
-		$dir =~ s./+$..;
-		push @$c, $dir;
-	}
-
+	push @$c, $value;
 	return $c;
 }
 
@@ -4247,7 +4225,6 @@ my %Ary_ref = (   qw!
 						BINARY              BINARY 
 						PRECREATE           PRECREATE 
 						POSTCREATE          POSTCREATE 
-						PREQUERY			PREQUERY
 						INDEX               INDEX 
 						ALTERNATE_DSN       ALTERNATE_DSN
 						ALTERNATE_USER      ALTERNATE_USER
@@ -4440,11 +4417,6 @@ sub parse_database {
 	if($new) {
 		my($file, $type) = split /[\s,]+/, $remain, 2;
 		$d->{'file'} = $file;
-		if($file eq 'AUTO_SEQUENCE') {
-			# database table missing for AUTO_SEQUENCE directive
-			config_error('Missing database %s for AUTO_SEQUENCE %s.', $database, $type);
-			return $c;
-		}
 		if(		$type =~ /^\d+$/	) {
 			$d->{'type'} = $type;
 		}
@@ -4668,7 +4640,7 @@ sub parse_configdb {
 	eval {
 		($db, $table) = get_configdb($var, $value);
 	};
-	::logGlobal("$var $value: $@") if $@;
+
 	return '' if ! $db;
 
 	my ($k, @f);	# key and fields
@@ -5059,10 +5031,6 @@ sub parse_mapped_code {
 
 	my $repos = $C ? ($C->{CodeDef} ||= {}) : ($Global::CodeDef ||= {});
 
-	if ($tagSkip{$p}) {
-		return $repos;
-	}
-	
 	my $dest = $valid_dest{lc $p} || $current_dest{$tag} || $CodeDest;
 
 	if(! $dest) {
@@ -5136,10 +5104,6 @@ sub parse_tag {
 	$tag =~ s/\W//g
 		and config_warn("Bad characters removed from '%s'.", $tag);
 
-	if ($tagSkip{$p}) {
-		return $c;
-	}
-	
 	if($CodeDest and $CodeDest eq 'CoreTag') {
 		return $c unless $Global::TagInclude->{$tag} || $Global::TagInclude->{ALL};
 	}
@@ -5159,7 +5123,7 @@ sub parse_tag {
 				)
 			);
 		}
-		if (defined $C && defined $Global::UserTag->{Routine}->{$tag}){
+		if (defined $C && defined $Global::UserTag->{Source}->{$tag}->{$p}){
 			config_warn(
 				errmsg(
 					"Local usertag %s overrides global definition",
@@ -5349,10 +5313,6 @@ sub parse_subroutine {
 
 	$name =~ s/\s+//g;
 
-	if (exists $c->{$name}) {
-		config_warn(errmsg("Overriding subroutine %s", $name));
-	}
-	
 	# Untainting
 	$value =~ /((?s:.)*)/;
 	$value = $1;

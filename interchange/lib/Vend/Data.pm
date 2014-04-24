@@ -306,9 +306,8 @@ sub import_text {
 			or die ::errmsg("No absolute file names like '%s' allowed.\n", $fn);
 	}
 	else {
-		# data is already in memory, do not create a temporary file
-		$options->{scalar_ref} = 1;
-		$fn = \$text;
+		Vend::Util::writefile($fn, $text)
+			or die ("Cannot write temporary import file $fn: $!\n");
 	}
 
 	my $save = $/;
@@ -320,7 +319,7 @@ sub import_text {
 	Vend::Table::Common::import_ascii_delimited($fn, $options);
 
 	$/ = $save;
-	unlink $fn unless $options->{'file'} or $options->{scalar_ref};
+	unlink $fn unless $options->{'file'};
 	return 1;
 }
 

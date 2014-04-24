@@ -214,7 +214,7 @@ EOF
 	  master		=> 'parent',
 	  subordinate	=> 'code',
 	  full			=> $opt->{full},
-	  sort			=> $opt->{sort} || 'code',
+	  sort			=> 'code',
 	  spacer		=> "&nbsp;",
 	  autodetect	=> 1,
 	  iterator		=> $menu_row,
