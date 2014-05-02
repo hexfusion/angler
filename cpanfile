@@ -54,7 +54,7 @@ requires 'Business::OnlinePayment::Braintree';
 requires 'Moo';
 requires 'MooX::Types::MooseLike';
 requires 'WebService::Solr';
-equires 'Math::Pari';
+requires 'Math::Pari';
 requires 'Net::SSLeay';
 requires 'AnyEvent::TLS';
 requires 'Plack';
