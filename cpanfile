@@ -1,3 +1,4 @@
+requires 'Dancer::Plugin::Database';
 requires 'Faker';
 requires 'Term::ReadLine';
 requires 'Tie::IxHash';
