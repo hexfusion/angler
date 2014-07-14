@@ -961,8 +961,8 @@ for my $zone (@us_postal_zones) {
             push @zones,
                 {
                     zone => 'US postal ' . $postal_code,
-                    ZoneCountry => [ { country_iso_code => 'US' } ],
-                    ZoneState => [ { states_id => $state->id } ],
+                    zone_countries => [ { country_iso_code => 'US' } ],
+                    zone_states => [ { states_id => $state->id } ],
                 };
         }
 }
