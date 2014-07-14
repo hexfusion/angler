@@ -16,7 +16,7 @@ set logger => 'console';
 set logger_format => '%m';
 set log => 'debug';
 
-my $dbh = database;
+my $dbh = database('mysql');
 
 # $dbh->quick_delete('products', {});
 
@@ -85,7 +85,7 @@ if ($size_att) {
 
 # create size attribute
 my $size_data = {name => 'size', title => 'Size', type => 'variant', priority => 1,
-                 AttributeValue => \@size_values,
+                 attribute_values => \@size_values,
              };
 
 $size_att = shop_schema->resultset('Attribute')->create($size_data);
@@ -128,13 +128,13 @@ for my $product (@products) {
 
     # add link for manufacturer
     if ($product->{manufacturer}) {
-        $object->create_related('NavigationProduct', {
+        $object->create_related('navigation_products', {
             navigation_id => $mf_map->{$product->{manufacturer}},
         })
     }
 
     # get rid of existing variants
-    my $old_variants = $object->search_related('Variant');
+    my $old_variants = $object->search_related('variants');
 
     $old_variants->delete;
 
