@@ -64,7 +64,7 @@ $users{john} = shop_user->create(
     { username => 'john', password => 'john', first_name => 'John',
       last_name => 'Miller', email => 'sam@westbranchresort.com',
       created => $now,
-      UserRole => [
+      user_roles => [
           { roles_id => '3' },
           { roles_id => '6' },
       ],
@@ -85,7 +85,7 @@ $users{ben} = shop_user->create(
     { username => 'ben', password => 'ben', first_name => 'Ben',
       last_name => 'Sheard', email => 'sam@westbranchresort.com',
       created => $now,
-      UserRole => [
+      user_roles => [
           { roles_id => '3' },
           { roles_id => '7' },
       ],
@@ -96,7 +96,7 @@ $users{sam} = shop_user->create(
     { username => 'sam', password => 'sam', nickname => 'trout lover',
       first_name => 'Sam', last_name => 'Batschelet',
       email => 'sbatschelet@mac.com', created => $now,
-      UserRole => [
+      user_roles => [
         { roles_id => '3' },
         { roles_id => '7' },
       ],
@@ -260,7 +260,7 @@ $carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
     {
         title => 'UPS',
         account_number => '1Z999999999999999999',
-        ShipmentMethod => [
+        shipment_methods => [
             { 
               name => '1DM',
               title => 'Next Day Air Early AM',
@@ -358,7 +358,7 @@ $carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
     {
         name => 'USPS',
         account_number => '8985943852094',
-        ShipmentMethod => [
+        shipment_methods => [
             { name => 'EXPRESS' },
             { name => 'FIRST CLASS' },
             { name => 'PRIORITY' },
@@ -384,7 +384,7 @@ $carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
 $carrier{BESTWAY} = $schema->resultset("ShipmentCarrier")->create(
     {
         name => 'BESTWAY',
-        ShipmentMethod => [
+        shipment_methods => [
         {
             name => 'FREESHIP',
             title => 'Economy Free Shipping',
