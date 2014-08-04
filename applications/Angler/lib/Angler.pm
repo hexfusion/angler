@@ -198,10 +198,10 @@ hook 'before_product_display' => sub {
         my $other_records = config->{records}->{other_products};
 
         my $same_category = $current_nav->search_related(
-            'NavigationProduct')->search_related(
-                'Product', {
-                    'Product.active' => 1,
-                    'Product.sku' => {'!=' => $product->sku},
+            'navigation_products')->search_related(
+                'product', {
+                    'product.active' => 1,
+                    'product.sku' => {'!=' => $product->sku},
                 },
                 {
                     rows => $other_records,
