@@ -5,11 +5,11 @@ use warnings;
 
 =head2 shipment_methods($schema, $country_iso_code)
 
-Return a ShipmentDestination resultset. In list context, you can get
-the ShipmentMethod object calling ShipmentMethod on the result row.
+Returns a ShipmentDestination resultset. In list context, you can get
+the ShipmentMethod object calling shipment_method on the result row.
 
   foreach my $dest (shipment_methods($schema, 'US')) {
-    my $method_name = $dest->ShipmentMethod->name;
+    my $method_name = $dest->shipment_method->name;
   }
 
 =head2 shipment_methods_iterator_by_iso_country($schema, $country)
@@ -45,16 +45,16 @@ sub shipment_methods {
 sub shipment_methods_iterator_by_iso_country {
     my ($schema, $country, $postal_code) = @_;
     my @iterator;
-    foreach my $shipping (shipment_methods($schema, $country, $postal_code)) {
-        next unless $shipping->ShipmentMethod->active;
-        my $shipment_rate =  $shipping->ShipmentMethod
-          ->find_related('ShipmentRate',
+    foreach my $shipping_dest (shipment_methods($schema, $country, $postal_code)) {
+        next unless $shipping_dest->shipment_method->active;
+        my $shipment_rate =  $shipping_dest->shipment_method
+          ->find_related('shipment_rates',
             {
-                shipment_methods_id => $shipping->ShipmentMethod->id
+                shipment_methods_id => $shipping_dest->shipment_method->id
             });
         push @iterator, {
-                         name => $shipping->ShipmentMethod->id,
-                         title => $shipping->ShipmentMethod->title .' $ '. $shipment_rate->price,
+                         name => $shipping_dest->shipment_method->id,
+                         title => $shipping_dest->shipment_method->title .' $ '. $shipment_rate->price,
                         };
     }
     @iterator = sort { $a->{title} cmp $b->{title} } @iterator;
