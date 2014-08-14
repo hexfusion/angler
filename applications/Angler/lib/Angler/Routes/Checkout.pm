@@ -503,7 +503,7 @@ sub generate_order {
     $ship_address->{users_id} = $users_id;
     delete $ship_address->{email};
     $ship_address->{country_iso_code} = delete $ship_address->{country};
-    delete $ship_address->{state_iso_code};
+    delete $ship_address->{states_id};
     delete $ship_address->{state};
     $ship_address->{type} = 'shipping';
 

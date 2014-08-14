@@ -23,7 +23,7 @@ sub transpose {
     $tp->field('postal_code');
     $tp->field('city');
     $tp->field('phone');
-    $tp->field('state_iso_code')->target('state');
+    $tp->field('states_id')->target('state');
     $tp->field('country_iso_code')->target('country');
 
     my $form_values = $tp->transpose_object($self->address);

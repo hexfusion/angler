@@ -24,7 +24,7 @@
 <field name="address_2" id="inputAddress2"/>
 <field name="city" id="inputCity"/>
 <field name="state" id="inputState" iterator="states"
-       iterator_value_key="state_iso_code" iterator_name_key="name" 
+       iterator_value_key="states_id" iterator_name_key="name" 
        keep="empty_value"/>
 <field name="postal_code" id="inputPostalCode"/>
 <field name="country" id="inputCountry" iterator="countries"
@@ -39,7 +39,7 @@
 <field name="billing_address" id="inputBillingAddress"/>
 <field name="billing_address_2" id="inputBillingAddress2"/>
 <field name="billing_city" id="inputBillingCity"/>
-<field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="state_iso_code" iterator_name_key="name"/>
+<field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
 <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
 <!-- Payment -->
 <field name="card_number" id="inputCardNumber"/>
