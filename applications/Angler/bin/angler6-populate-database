@@ -46,6 +46,7 @@ $schema->populate(State => $pop_states);
 $schema->populate(Zone => $pop_zones);
 
 my $state = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'NY' });
+my $state_oregon = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'OR' });
 
 my $pop_roles = $schema->resultset("Role")->populate([
     { roles_id => '1', name => 'anonymous', label => 'Anonymous Users' },
@@ -90,6 +91,26 @@ $users{ben} = shop_user->create(
           { roles_id => '7' },
       ],
   });
+
+# Create user greg
+$users{greg} = shop_user->create(
+    { username => 'gregory', password => 'gregory', nickname => 'pike lover',
+      first_name => 'Gregor', last_name => 'Fisherman',
+      email => 'greg@perl.dance', created => $now,
+      user_roles => [
+        { roles_id => '3' },
+      ],
+  });
+
+shop_address->create({
+    users_id => $users{greg}->id,
+    type => 'shipping',
+    address => 'Crescent Ave',
+    postal_code => '97403',
+    city => 'Eugene',
+    states_id => $state_oregon->id,
+    country_iso_code => 'US',
+});
 
 # Create user sam
 $users{sam} = shop_user->create(
