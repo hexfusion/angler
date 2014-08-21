@@ -73,6 +73,8 @@ $users{john} = shop_user->create(
 
 shop_address->create({
     users_id => $users{john}->id,
+    first_name => $users{john}->first_name,
+    last_name => $users{john}->last_name,
     type => 'shipping',
     address => 'Test Road',
     postal_code => '13783',
@@ -104,6 +106,8 @@ $users{greg} = shop_user->create(
 
 shop_address->create({
     users_id => $users{greg}->id,
+    first_name => $users{greg}->first_name,
+    last_name => $users{greg}->last_name,
     type => 'shipping',
     address => 'Crescent Ave',
     postal_code => '97403',
