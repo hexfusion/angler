@@ -25,10 +25,8 @@
                             <input name="related_product" id="related-products-field" value="" type="hidden">
                           </div>
                           <div class="product-img-box">
-                            <script type="text/javascript" src="public/js/klass.js"></script>
-                            <script type="text/javascript" src="public/js/code.js"></script>
                             <div class="product-box-customs">
-                              <p class="product-image"> <a href="" class="cloud-zoom" id="zoom1" rel="position:'right',showTitle:1,titleOpacity:0.5,lensOpacity:0.5,adjustX: 10,adjustY:-4"> <img class="big" src="public/product/patagonia-foot-tractor300x300.png" alt="" title="Patagonia Foot Tractor Wading Boot"> </a> <span></span></p>
+                              <p class="product-image"> <a href=""><img class="big product-image" src="products/images/300x300/patagonia-foot-tractor.png" alt="" title="Patagonia Foot Tractor Wading Boot"> </a> <span></span></p>
                               <div class="more-views">
                                 <h2>More Views</h2>
                                 <div class="container-slider">
@@ -141,6 +139,7 @@
                             </div>
                           </div>
                         </div> 
+<!-- Product Tags
                        <div class="box-collateral box-tags">
                           <h2>Product Tags<span class="toggle"></span></h2>
                           <div class="box-collateral-content">
@@ -155,24 +154,16 @@
                             </form>
                             <p class="note">Use spaces to separate tags. Use single quotes (') for phrases.</p>
                             <script type="text/javascript">
-    //<![CDATA[
-        var addTagFormJs = new VarienForm('addTagForm');
-        function submitTagForm(){
-            if(addTagFormJs.validator.validate()) {
-                addTagFormJs.form.submit();
-            }
-        }
-    //]]>
-    </script>
                           </div>
                         </div>
-                        <div class="box-collateral box-reviews" id="customer-reviews">
+-->
+                        <div class="product-review-container box-collateral box-reviews" id="customer-reviews">
     </div>
 <div class="box-collateral form-add">
     <h2>Write Your Own Review<span class="toggle opened"></span></h2>
     <div style="display: block;" class="box-collateral-content">
-                <form action="http://www.topflyreview.com/index.php/review/product/post/id/18/" method="post" id="review-form">
-            <input name="form_key" value="LccDmD0YeUCqZEf5" type="hidden">
+                <form action="" method="post" id="review-form">
+            <input name="form_key" value="" type="hidden">
             <fieldset>
                                 <h3>You're reviewing: <span>Ravine Vineyards 2010 Cabernet</span></h3>
                                     <h4>How do you rate this product? <em class="required">*</em></h4>
@@ -248,48 +239,14 @@
                     <button type="submit" title="Submit Review" class="button"><span><span>Submit Review</span></span></button>
                 </div>
         </form>
-        <script type="text/javascript">
-        //<![CDATA[
-            var dataForm = new VarienForm('review-form');
-            Validation.addAllThese(
-            [
-                   ['validate-rating', 'Please select one of each of the ratings above', function(v) {
-                        var trs = $('product-review-table').select('tr');
-                        var inputs;
-                        var error = 1;
-        
-                        for( var j=0; j < trs.length; j++ ) {
-                            var tr = trs[j];
-                            if( j > 0 ) {
-                                inputs = tr.select('input');
-        
-                                for( i in inputs ) {
-                                    if( inputs[i].checked == true ) {
-                                        error = 0;
-                                    }
-                                }
-        
-                                if( error == 1 ) {
-                                    return false;
-                                } else {
-                                    error = 1;
-                                }
-                            }
-                        }
-                        return true;
-                    }]
-            ]
-            );
-        //]]>
-        </script>
             </div>
 </div>
                         <div class="video-box box-collateral">
                           <h2>Video<span class="toggle"></span></h2>
                           <div class="box-collateral-content">
                             <div class="video">
-                              <iframe width="560" height="315" src="http://www.youtube.com/embed/z20CjCim8DM" frameborder="0" allowfullscreen></iframe>
-                            </div>
+                              <iframe class="product-video" width="560" height="315" src="http://www.youtube.com/embed/z20CjCim8DM" frameborder="0" allowfullscreen></iframe>
+                          </div>
                           </div>
                         </div>
                       </div>
