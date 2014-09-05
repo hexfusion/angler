@@ -1,0 +1,179 @@
+#! /usr/bin/env perl
+# By Sam Batschelet
+# Version 0.020
+# 4/4/2014
+
+use strict;
+use warnings;
+
+use Dancer ':script';
+use Dancer::Plugin::Interchange6;
+
+set logger => 'console';
+set logger_format => '%m';
+
+use Locale::SubCountry;
+use DateTime qw();
+
+my $now = DateTime->now;
+my $schema = shop_schema;
+
+shop_schema->deploy({add_drop_table => 1,
+                     producer_args => {
+                         mysql_version => 5,
+                     },
+                 });
+
+# populate products array
+my @products = (
+['WBA0003', 'Orvis Helios 2 Fly Rod', 'I am master product WBA0003', 'test', '795.00', 'orvis-helios-2-fly-rod', '5.00', '0', undef, undef, '1', '1'],
+['WBA0001', 'Orvis Helios 2 9FT 5WT Mid Flex Fly Rod', 'I am child product WBA0001 my parent is WBA0003', '', '795.00', 'orvis-helios-2-590-4-mid-flex', '5.00', '0', '6000123123123', 'WBA0003', '1', '0'],
+['WBA0002', 'Orvis Helios 2 9FT 6WT Mid Flex Fly Rod', 'I am child product WBA0002 my parent is WBA0003', '', '795.00', 'orvis-helios-2-690-4-mid-flex', '5.00', '0', '6000123123124', 'WBA0003', '1', '0'],
+['WBA0004', 'Orvis Helios 2 9FT 5WT Tip Flex Fly Rod', 'I am child product WBA0004 my parent is WBA0003', '', '795.00', 'orvis-helios-2-590-4-tip-flex', '5.00', '0', '6000123123125', 'WBA0003', '1', '0'],
+['WBA0005', 'Orvis Helios 2 8FT 6IN 5WT Tip Flex Fly Rod', 'I am child product WBA0005 my parent is WBA0003', '', '795.00', 'orvis-helios-2-586-4-tip-flex', '5.00', '0', '6000123123126', 'WBA0003', '1', '0'],
+['WBA0006', 'Orvis Helios 2 8FT 6IN 6WT Tip Flex Fly Rod', 'I am child product WBA0006 my parent is WBA0003', '', '795.00', 'orvis-helios-2-686-4-tip-flex', '5.00', '0', '6000123123127', 'WBA0003', '1', '0'],
+['WBA0007', 'Orvis Helios 2 9FT 6WT Tip Flex Fly Rod', 'I am child product WBA0007 my parent is WBA0003', '', '795.00', 'orvis-helios-2-690-4-tip-flex', '5.00', '0', '6000123123128', 'WBA0003', '1', '0'],
+);
+
+my @product_attributes;
+my $count = 0;
+
+for my $product (@products) {
+    for my $id (1,2,4) {
+        push @product_attributes, [++$count, $product->[0], $id, 1];
+    }
+}
+
+# populate attributes array
+my @attributes = (
+['1', 'length', 'Choose Length', 2],
+['2', 'weight', 'Choose Weight', 1],
+['3', 'handle', 'Choose Handle', 0],
+['4', 'action', 'Choose Action', 0],
+['5', 'facebook', '', ''],
+['6', 'fb_token', '', ''],
+['7', 'fb_token_exp', '', ''],
+['8', 'fb_id', '', ''],
+['9', 'user_avatar_thumb', '', ''],
+['10', 'user_avatar', '', '']
+);
+
+# populate navigation_products array
+my @navigation_products = (
+['WBA0003', '5', 'item'],
+);
+
+my @products_attributes_values = (
+    # 9FT
+    [1, 4, 1],
+    [2, 7, 1],
+    [3, 10, 1],
+    [4, 19, 1],
+    # 8FT
+    [5, 13, 6],
+    [6, 16, 6],
+    # 5WT
+    [7, 5, 2],
+    [8, 11, 2],
+    [9, 14, 2],
+    # 6WT
+    [10, 8, 4],
+    [11, 17, 4],
+    [12, 20, 4],
+    # Tip flex
+    [13, 6, 3],
+    [14, 9, 3],
+    # Mid flex
+    [15, 12, 5],
+    [16, 15, 5],
+    [17, 18, 5],
+    [18, 21, 5],
+    );
+
+my @attribute_value = (
+['1', '1', '9', '9FT', '0'],
+['2', '2', '5', '5WT', '0'],
+['3', '4', 'tip', 'Tip Flex', '0'],
+['4', '2', '6', '6WT', '0'],
+['5', '4', 'mid', 'Mid Flex', '0'],
+['6', '1', '8.5', '8FT 6IN', '0'],
+);
+
+# populate products table
+$schema->populate('Product', [
+  [ 'sku', 'name', 'short_description', 'description', 'price', 'uri', 'weight', 'priority', 'gtin', 'canonical_sku', 'active', 'inventory_exempt' ],
+@products,
+]);
+
+# populate attributes table
+ $schema->populate('Attribute', [
+  [ 'attributes_id', 'name', 'title', 'priority' ],
+  @attributes,
+]);
+
+# populate product_attributes table
+$schema->populate('ProductAttribute', [
+  [ 'product_attributes_id', 'sku', 'attributes_id', 'canonical' ],
+  @product_attributes,
+]);
+
+#populate attribute_values
+$schema->populate('AttributeValue', [
+  [ 'attribute_values_id', 'attributes_id', 'value', 'title', 'priority' ],
+  @attribute_value,
+]);
+
+# populate product_attributes_values table
+$schema->populate('ProductAttributeValue', [
+  [ 'product_attributes_values_id', 'product_attributes_id', 'attribute_values_id' ],
+  @products_attributes_values,
+]);
+
+my $types = $schema->resultset('MediaType')->populate([
+                                           { type => 'image' },
+                                           { type => 'video' },
+                                          ]);
+
+my $images = $schema->resultset('MediaType')->find({ type => 'image' });
+
+# for now, call the type with the size
+foreach my $type (qw/120x120 169x169  325x325  50x50  70x70  975x975
+                     optimized_jpgs/) {
+    $images->add_to_media_displays({
+                                    type => 'image_' . $type,
+                                    name => 'image_' . $type,
+                                    path => "/images/products/$type",
+                                    size => $type,});
+}
+
+# set default for example product
+my $media = $schema->resultset('Media')->populate([
+                            {
+                                file => 'public/images/products/optimized_jpgs/orvis_helios_2.jpg',
+                                uri => 'orvis_helios_2.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => '1',
+                            },
+                            {
+                                uri => '//www.youtube.com/embed/HfhpZPdrc2A',
+                                media_types_id => '2',
+                            }
+                            ]);
+
+
+$schema->resultset('MediaProduct')->populate([
+                                           { media_id => '1', sku => 'WBA0001' },
+                                           { media_id => '1', sku => 'WBA0002' },
+                                           { media_id => '1', sku => 'WBA0003' },
+                                           { media_id => '1', sku => 'WBA0004' },
+                                           { media_id => '1', sku => 'WBA0005' },
+                                           { media_id => '1', sku => 'WBA0006' },
+                                           { media_id => '1', sku => 'WBA0007' },
+                                           { media_id => '2', sku => 'WBA0001' },
+                                           { media_id => '2', sku => 'WBA0002' },
+                                           { media_id => '2', sku => 'WBA0003' },
+                                           { media_id => '2', sku => 'WBA0004' },
+                                           { media_id => '2', sku => 'WBA0005' },
+                                           { media_id => '2', sku => 'WBA0006' },
+                                           { media_id => '2', sku => 'WBA0007' },
+                                          ]);
