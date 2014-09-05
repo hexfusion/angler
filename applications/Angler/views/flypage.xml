@@ -4,7 +4,9 @@
 <value name="short_description" field="product.short_description"/>
 <value name="description" field="product.description" op="hook"/>
 <value name="image_src" class="product-image" target="src" />
+<value name="video_src" class="product-video" target="src" />
 <value name="image_thumb" class="product-image-thumb" target="src" />
+<value name="price" class="price" field="product.price"/>
 
 <!-- product attributes -->
 <container name="variant-error" value="session.shop_cart_error"/>
@@ -79,10 +81,9 @@
 </list>
 
 <!-- Reviews -->
-<container name="product-review-container" value="!disable_review"/>
+<!--<container name="product-review-container" value="!disable_review"/> -->
 <container class="messages" value="messages" />
 <value name="messages" />
-
 <list name="review_list" class="product-comment" iterator="review_list">
 <param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>
 <param name="title" class="product-comment-title" field="title"/>
