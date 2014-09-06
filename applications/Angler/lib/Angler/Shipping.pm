@@ -91,7 +91,7 @@ sub shipping_rate {
 sub free_shipping_destination {
     my ($schema, $state ) = @_;
     my $lower48_rs = $schema->resultset("Zone")->find({ zone => 'US lower 48'});
-    my $lower48 = $lower48_rs->find_related('ZoneState', { states_id => $state->id });
+    my $lower48 = $lower48_rs->find_related('zone_states', { states_id => $state->id });
 
     unless ($lower48) {
         return 0;
