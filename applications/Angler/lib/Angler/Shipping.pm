@@ -71,7 +71,7 @@ sub find_state {
     my $zone_rs = $schema->resultset('Zone')->find({zone => 'US postal ' . $postal_zone });
     return unless $zone_rs;
     # the following looks like a missing relationship
-    my $state_rs = $zone_rs->find_related('ZoneState', { zones_id => $zone_rs->id});
+    my $state_rs = $zone_rs->find_related('zone_states', { zones_id => $zone_rs->id});
     my $state = $schema->resultset("State")->find( { country_iso_code => $country, states_id => $state_rs->states_id } );
 
     return $state;
