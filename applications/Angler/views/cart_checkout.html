@@ -145,228 +145,115 @@ i
                                 </div>
                               </div>
                   </li>
-                  <li id="opc-shipping" class="section">
-                <div id="checkout-step-shipping" class="step a-item">
-                    <div class="step-title">
+                  <li id="opc-billing" class="section">
+                    <div id="checkout-step-billing" class="step a-item">
+                  <div class="step-title">
                     <h2>Shipping Information</h2>
-                    </div>
-                        <ul class="form-list">
-                          <li id="shipping-new-address-form">
-                            <fieldset>
-                              <input type="hidden" name="shipping[address_id]" value="" id="shipping:address_id" />
-                              <ul>
-                                <li class="fields">
-                                  <div class="customer-name">
-                                    <div class="field name-firstname">
-                                      <label for="shipping:firstname" class="required"><em>*</em>First Name</label>
-                                      <div class="input-box">
-                                        <input type="text" id="" name="" value="" title="First Name" maxlength="255" class="input-text required-entry"/>
+                   </div>
+                      <div id="co-billing-form" >
+                        <fieldset>
+                          <ul class="form-list">
+                            <li id="billing-new-address-form">
+                              <fieldset>
+                                <input type="hidden" name="billing[address_id]" value="" id="billing:address_id" />
+                                <ul>
+                                  <li class="fields">
+                                    <div class="customer-name">
+                                      <div class="field name-firstname">
+                                        <label for="billing:firstname" class="required"><em>*</em>First Name</label>
+                                        <div class="input-box">
+                                          <input type="text" id="" name="" value="" title="First Name" maxlength="255" class="input-text required-entry"  />
+                                        </div>
+                                      </div>
+                                      <div class="field name-lastname">
+                                        <label for="billing:lastname" class="required"><em>*</em>Last Name</label>
+                                        <div class="input-box">
+                                          <input type="text" id="" name="" value="" title="Last Name" maxlength="255" class="input-text required-entry"  />
+                                        </div>
                                       </div>
                                     </div>
-                                    <div class="field name-lastname">
-                                      <label for="shipping:lastname" class="required"><em>*</em>Last Name</label>
+                                  </li>
+                                  <li class="fields">
+                                    <div class="field">
+                                      <label for="billing:company">Company</label>
                                       <div class="input-box">
-                                        <input type="text" id="" name="" value="" title="Last Name" maxlength="255" class="input-text required-entry"/>
+                                        <input type="text" id="" name="" value="" title="Company" class="input-text " />
                                       </div>
                                     </div>
-                                  </div>
-                                </li>
-                                <li class="fields">
-                                  <div class="fields">
-                                    <label for="shipping:company">Company</label>
-                                    <div class="input-box">
-                                      <input type="text" id="" name="" value="" title="Company" class="input-text"/>
+                                    <div class="field">
+                                      <label for="billing:email" class="required"><em>*</em>Email Address</label>
+                                      <div class="input-box">
+                                        <input type="text" name="" id="" value="" title="Email Address" class="input-text validate-email required-entry" />
+                                      </div>
                                     </div>
-                                  </div>
-                                </li>
-                                <li class="wide">
-                                  <label for="shipping:street1" class="required"><em>*</em>Address</label>
-                                  <div class="input-box">
-                                    <input type="text" title="Street Address" name="shipping[street][]" id="shipping:street1" value="" class="input-text  required-entry" onchange="shipping.setSameAsBilling(false);" />
-                                  </div>
-                                </li>
-                                <li class="wide">
-                                  <div class="input-box">
-                                    <input type="text" title="Street Address 2" name="shipping[street][]" id="shipping:street2" value="" class="input-text " onchange="shipping.setSameAsBilling(false);" />
-                                  </div>
-                                </li>
-                                <li class="fields">
-                                  <div class="field">
-                                    <label for="shipping:city" class="required"><em>*</em>City</label>
+                                  </li>
+                                  <li class="wide">
+                                    <label for="billing:street1" class="required"><em>*</em>Address</label>
                                     <div class="input-box">
-                                      <input type="text" title="City" name="shipping[city]" value="" class="input-text  required-entry" id="shipping:city" onchange="shipping.setSameAsBilling(false);" />
+                                      <input type="text" title="Street Address" name="" id="" value="" class="input-text  required-entry" />
                                     </div>
-                                  </div>
-                                  <div class="field">
-                                    <label for="shipping:region" class="required"><em>*</em>State/Province</label>
+                                  </li>
+                                  <li class="wide">
                                     <div class="input-box">
-                                      <select id="shipping:region_id" name="shipping[region_id]" title="State/Province" class="validate-select" style="display:none;">
-                                        <option value="">Please select region, state or province</option>
-                                      </select>
-                                      <script type="text/javascript">
-                                //<![CDATA[
-                                    $('shipping:region_id').setAttribute('defaultValue',  "");
-                                //]]>
-                                </script>
-                                      <input type="text" id="shipping:region" name="shipping[region]" value="" title="State/Province" class="input-text " style="display:none;" />
+                                      <input type="text" title="Street Address 2" name="" id="" value="" class="input-text " />
                                     </div>
-                                  </div>
-                                </li>
-                                <li class="fields">
-                                  <div class="field">
-                                    <label for="shipping:postcode" class="required"><em>*</em>Zip/Postal Code</label>
-                                    <div class="input-box">
-                                      <input type="text" title="Zip/Postal Code" name="shipping[postcode]" id="shipping:postcode" value="" class="input-text validate-zip-international  required-entry" onchange="shipping.setSameAsBilling(false);" />
+                                  </li>
+                                  <li class="fields">
+                                    <div class="field">
+                                      <label for="billing:city" class="required"><em>*</em>City</label>
+                                      <div class="input-box">
+                                        <input type="text" title="City" name="" value="" class="input-text  required-entry" id="" />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div class="field">
-                                    <label for="shipping:country_id" class="required"><em>*</em>Country</label>
-                                    <div class="input-box">
-                                      <select name="shipping[country_id]" id="shipping:country_id" class="validate-select" title="Country" onchange="if(window.shipping)shipping.setSameAsBilling(false);">
-                                        <option value="AG" >Antigua and Barbuda</option>
-                                      </select>
+                                    <div class="field">
+                                      <label for="billing:region_id" class="required"><em>*</em>State/Province</label>
+                                      <div class="input-box">
+                                        <select id="" name="" title="State/Province" class="validate-select" style="display:none;">
+                                          <option value="">Please select region, state or province</option>
+                                        </select>
+                                        <input type="text" id="" name="" value=""  title="State/Province" class="input-text " style="display:none;" />
+                                      </div>
                                     </div>
-                                  </div>
-                                </li>
-                                <li class="fields">
-                                  <div class="field">
-                                    <label for="shipping:telephone" class="required"><em>*</em>Telephone</label>
-                                    <div class="input-box">
-                                      <input type="text" name="shipping[telephone]" value="" title="Telephone" class="input-text  required-entry" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);" />
+                                  </li>
+                                  <li class="fields">
+                                    <div class="field">
+                                      <label for="billing:postcode" class="required"><em>*</em>Zip/Postal Code</label>
+                                      <div class="input-box">
+                                        <input type="text" title="Zip/Postal Code" name="" id="" value="" class="input-text validate-zip-international  required-entry" />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div class="field">
-                                    <label for="shipping:fax">Fax</label>
-                                    <div class="input-box">
-                                      <input type="text" name="shipping[fax]" value="" title="Fax" class="input-text " id="shipping:fax" onchange="shipping.setSameAsBilling(false);" />
+                                    <div class="field">
+                                      <label for="billing:country_id" class="required"><em>*</em>Country</label>
+                                      <div class="input-box">
+                                        <select name="" id="" class="validate-select" title="Country" >
+                                          <option>Argentina</option>
+                                        </select>
+                                      </div>
                                     </div>
-                                  </div>
-                                </li>
-                                <li class="no-display">
-                                  <input type="hidden" name="shipping[save_in_address_book]" value="1" />
-                                </li>
-                              </ul>
-                            </fieldset>
-                          </li>
-                          <li class="control">
-                            <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" title="Use Billing Address" onclick="shipping.setSameAsBilling(this.checked)" class="checkbox" />
-                            <label for="shipping:same_as_billing">Use Billing Address</label>
-                          </li>
-                        </ul>
-                        <div class="buttons-set" id="shipping-buttons-container">
-                          <p class="required">* Required Fields</p>
-                          <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small>Back</a></p>
-                          <button type="button" class="button" title="Continue" onclick="shipping.save()"><span><span>Continue</span></span></button>
-                          <span id="shipping-please-wait" class="please-wait" style="display:none;"> <img src="http://www.topflyreview.com/skin/frontend/default/theme629/images/opc-ajax-loader.gif" alt="Loading next step..." title="Loading next step..." class="v-middle" /> Loading next step... </span> </div>
-                    </div>
-                  </li>
-                  <li id="opc-shipping_method" class="section">
-                    <div class="step-title"> <span class="number">4</span>
-                      <h2>Shipping Method</h2>
-                      <a href="#">Edit</a> </div>
-                    <div id="checkout-step-shipping_method" class="step a-item" style="display:none;">
-                      <form id="co-shipping-method-form" action="">
-                        <div id="checkout-shipping-method-load">
-                          <!-- Content loaded dynamically -->
-                        </div>
-                        <script type="text/javascript">
-    //<![CDATA[
-        var shippingMethod = new ShippingMethod('co-shipping-method-form', "http://www.topflyreview.com/index.php/checkout/onepage/saveShippingMethod/");
-    //]]>
-    </script>
-                        <div id="onepage-checkout-shipping-method-additional-load">
-                          <script type="text/javascript">
-//<![CDATA[
-if(!window.toogleVisibilityOnObjects) {
-    var toogleVisibilityOnObjects = function(source, objects) {
-        if($(source) && $(source).checked) {
-            objects.each(function(item){
-                $(item).show();
-                $$('#' + item + ' .input-text').each(function(item) {
-                    item.removeClassName('validation-passed');
-                });
-            });
-        } else {
-            objects.each(function(item){
-                if ($(item)) {
-                    $(item).hide();
-                    $$('#' + item + ' .input-text').each(function(sitem) {
-                        sitem.addClassName('validation-passed');
-                    });
-                    $$('#' + item + ' .giftmessage-area').each(function(sitem) {
-                        sitem.value = '';
-                    });
-                    $$('#' + item + ' .checkbox').each(function(sitem) {
-                        sitem.checked = false;
-                    });
-                    $$('#' + item + ' .select').each(function(sitem) {
-                        sitem.value = '';
-                    });
-                    $$('#' + item + ' .price-box').each(function(sitem) {
-                        sitem.addClassName('no-display');
-                    });
-                }
-            });
-        }
-    }
-}
-
-if(!window.toogleRequired) {
-    var toogleRequired = function (source, objects)
-    {
-        if(!$(source).value.blank()) {
-            objects.each(function(item) {
-               $(item).addClassName('required-entry');
-            });
-        } else {
-            objects.each(function(item) {
-                if (typeof shippingMethod != 'undefined' && shippingMethod.validator) {
-                   shippingMethod.validator.reset(item);
-                }
-                $(item).removeClassName('required-entry');
-            });
-
-        }
-    }
-}
-if(window.shipping) {
-
-shipping.onSave = function(evt){
-    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', 'http://www.topflyreview.com/index.php/checkout/onepage/getAdditional/', {onSuccess: function() {
-          this.nextStep(evt);
-    }.bind(this), evalScripts:true});
-}.bindAsEventListener(shipping);
-
-billing.onSave = function(evt){
-    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', 'http://www.topflyreview.com/index.php/checkout/onepage/getAdditional/', {onSuccess: function() {
-          this.nextStep(evt);
-    }.bind(this), evalScripts:true});
-}.bindAsEventListener(billing);
-
-}
-//]]>
-</script>
-                        </div>
-                        <div class="buttons-set" id="shipping-method-buttons-container">
-                          <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small>Back</a></p>
-                          <button type="button" class="button" onclick="shippingMethod.save()"><span><span>Continue</span></span></button>
-                          <span id="shipping-method-please-wait" class="please-wait" style="display:none;"> <img src="http://www.topflyreview.com/skin/frontend/default/theme629/images/opc-ajax-loader.gif" alt="Loading next step..." title="Loading next step..." class="v-middle" /> Loading next step... </span> </div>
-                      </form>
-                    </div>
+                                  </li>
+                                  <li class="fields">
+                                    <div class="field">
+                                      <label for="billing:telephone" class="required"><em>*</em>Telephone</label>
+                                      <div class="input-box">
+                                        <input type="text" name="" value="" title="Telephone" class="input-text  required-entry" id="" />
+                                      </div>
+                                    </div>
+                                    <div class="field">
+                                      <label for="billing:fax">Fax</label>
+                                      <div class="input-box">
+                                        <input type="text" name="" value="" title="Fax" class="input-text " id="" />
+                                      </div>
+                                    </div>
+                                  </li>
+                               </ul>
+                             </div>
+                            </div>
                   </li>
                   <li id="opc-payment" class="section">
-                    <div class="step-title"> <span class="number">5</span>
+                    <div class="step-title">
                       <h2>Payment Information</h2>
-                      <a href="#">Edit</a> </div>
-                    <div id="checkout-step-payment" class="step a-item" style="display:none;">
-                      <script type="text/javascript">
-//<![CDATA[
-    var quoteBaseGrandTotal = 130.6;
-    var checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
-    var payment = new Payment('co-payment-form', 'http://www.topflyreview.com/index.php/checkout/onepage/savePayment/');
-    var lastPrice;
-//]]>
-</script>
+                    </div>
+                    <div id="checkout-step-payment" class="step a-item" style="">
                       <form action="" id="co-payment-form">
                         <fieldset>
                           <dl class="sp-methods" id="checkout-payment-method-load">
