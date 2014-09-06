@@ -41,8 +41,7 @@
                         </li>
                       </ul>
                     </div>
-                    <form action="" method="post">
-                      <input name="form_key" value="" type="hidden">
+                    <form id="form-cart" name="cart" action="/checkout" method="POST">
                       <fieldset>
                         <table id="shopping-cart-table" class="data-table cart-table">
                           <colgroup>
@@ -67,28 +66,27 @@
                           </thead>
                           <tfoot>
                             <tr class="first last">
-                              <td colspan="50" class="a-right last"><button type="button" title="Continue Shopping" class="button btn-continue" onClick="setLocation('')"><span><span>Continue Shopping</span></span></button>
+                              <td colspan="50" class="a-right last"><button type="button" title="Continue Shopping" class="button btn-continue"><span><span>Continue Shopping</span></span></button>
                                 <button type="submit" name="update_cart_action" value="update_qty" title="Update Shopping Cart" class="button btn-update"><span><span>Update Shopping Cart</span></span></button>
                                 <button type="submit" name="update_cart_action" value="empty_cart" title="Clear Shopping Cart" class="button btn-empty" id="empty_cart_button"><span><span>Clear Shopping Cart</span></span></button>
                           </td>
                             </tr>
                           </tfoot>
                           <tbody>
-                            <tr class="first last odd">
-                              <td><a href="" title="Simms Coldweather Shirt Red" class="product-image"><img src="/product/simms-coldweather-ls-shirt-cart.png" alt="Simms Coldweather Shirt Red" height="75" width="75"></a></td>
-                              <td><h2 class="product-name"> <a href="">Simms Coldweather Shirt Red</a> </h2></td>
+                            <tr class="cartitem first last odd">
+                              <td><a href="" title="Simms Coldweather Shirt Red" class="product-image"><img src="products/images/100x100/simms-coldweather-ls-shirt.png" alt="Simms Coldweather Shirt Red" height="75" width="75"></a></td>
+                              <td><h2 class="product-name"> <a class="name" href="">Simms Coldweather Shirt Red</a> </h2></td>
                               <td class="a-center"><a href="" title="Edit item parameters">Edit</a></td>
                               <td class="a-right"><span class="cart-price"> <span class="price">$99.95</span> </span></td>
                               <!-- inclusive price starts here -->
-                              <td class="a-center"><input name="cart[2][qty]" value="2" size="4" title="Qty" class="input-text qty form-control" maxlength="12"></td>
+                              <td class="a-center"><input name="" value="2" size="4" title="Qty" class="input-text qty form-control" maxlength="12"></td>
                               <!--Sub total starts here -->
-                              <td class="a-right"><span class="cart-price"> <span class="price">$199.90</span> </span></td>
+                              <td class="a-right"><span class="cart-price"> <span class="subtotal price">$199.90</span> </span></td>
                               <td class="a-center last"><a href="" title="Remove item" class="btn-remove btn-remove2">Remove item</a></td>
                             </tr>
                           </tbody>
                         </table>
-                        <script type="text/javascript">decorateTable('shopping-cart-table')</script>
-                      </fieldset>
+                       </fieldset>
                     </form>
                     <div class="cart-collaterals">
                       <div class="col2-set">
@@ -96,7 +94,7 @@
                           <div class="crosssell">
                             <h2>Based on your selection, you may be interested in the following items:</h2>
                             <ul id="crosssell-products-list">
-                              <li class="item odd"> <a class="product-image" href="" title="Patagonia Men's Rio Gallegos Waders"><img src="/product/patagonia-rio-gallegos100x100.png" alt="Patagonia Men's Rio Gallegos Waders"></a>
+                              <li class="item odd"> <a class="product-image" href="" title="Patagonia Men's Rio Gallegos Waders"><img src="products/images/100x100/patagonia-rio-gallegos.png" alt="Patagonia Men's Rio Gallegos Waders"></a>
                                 <div class="product-details">
                                   <h3 class="product-name"><a href="">Patagonia Men's Rio Gallegos Waders</a></h3>
                                   <div class="price-box"> <span class="regular-price" id="product-price-46"> <span class="price">$499.00</span> </span> </div>
@@ -107,18 +105,18 @@
                                   </ul>
                                 </div>
                               </li>
-                              <li class="item even"> <a class="product-image" href="" title="Patagonia Stud Kit"><img src="/product/patagonia-stud-kit100x100.png" alt="Patagonia Stud Kit"></a>
+                              <li class="item even"> <a class="product-image" href="" title="Patagonia Stud Kit"><img src="products/images/100x100/patagonia-stud-kit.png" alt="Patagonia Stud Kit"></a>
                                 <div class="product-details">
                                   <h3 class="product-name"><a href="">Patagonia Stud Kit</a></h3>
                                   <div class="price-box"> <span class="regular-price" id="product-price-44"> <span class="price">$19.00</span> </span> </div>
-                                  <button type="button" title="Add to Cart" class="button btn-cart" onClick="setLocation('')"><span><span>Add to Cart</span></span></button>
+                                  <button type="button" title="Add to Cart" class="button btn-cart"><span><span>Add to Cart</span></span></button>
                                   <ul class="add-to-links">
                                     <li><a href="" class="link-wishlist">Add to Wishlist</a></li>
                                     <li><span class="separator">|</span> <a href="" class="link-compare">Add to Compare</a></li>
                                   </ul>
                                 </div>
                               </li>
-                              <li class="item last odd"> <a class="product-image" href="" title="Patagonia Fitzroy Trout Trucker Hat"><img src="/product/patagonia-fitzroy-trout-trucker-grn100x100.png" alt="Patagonia Fitzroy Trout Trucker Hat"></a>
+                              <li class="item last odd"> <a class="product-image" href="" title="Patagonia Fitzroy Trout Trucker Hat"><img src="products/images/100x100/patagonia-fitzroy-trout-trucker-grn.png" alt="Patagonia Fitzroy Trout Trucker Hat"></a>
                                 <div class="product-details">
                                   <h3 class="product-name"><a href="">Patagonia Fitzroy Trout Trucker Hat</a></h3>
                                   <div class="price-box"> <span class="regular-price" id="product-price-45"> <span class="price">$29.00</span> </span> </div>
@@ -148,6 +146,7 @@
                               </div>
                             </div>
                           </form>
+
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
                             <div class="shipping-form">
@@ -157,12 +156,13 @@
                                   <li>
                                     <label for="country" class="required"><em>*</em>Country</label>
                                     <div class="input-box">
-                                      <select name="country_id" id="country" class="validate-select form-control" title="Country">
-                                        <option value=""> </option>
-                                        <option value="AF">Afghanistan</option>
+                                      <select name="country" class="country" style="height: auto; padding: 6px 2px; width: 120px; font-size: 11px;">
+                                        <option>Afghanistan</option>
                                       </select>
                                     </div>
                                   </li>
+
+
                                   <li>
                                     <label for="region_id">State/Province</label>
                                     <div class="input-box">
@@ -173,6 +173,7 @@
                                       <input id="region" name="region" title="State/Province" class="input-text required-entry form-control" style="display:none;" type="text">
                                     </div>
                                   </li>
+
                                   <li>
                                     <label for="postcode">Zip/Postal Code</label>
                                     <div class="input-box">
@@ -203,7 +204,7 @@
                           <tbody>
                             <tr>
                               <td style="" class="a-right" colspan="1"> Subtotal </td>
-                              <td style="" class="a-right"><span class="price">$199.90</span></td>
+                              <td style="" class="a-right"><span class="subtotal price">$199.90</span></td>
                             </tr>
                           </tbody>
                         </table>
