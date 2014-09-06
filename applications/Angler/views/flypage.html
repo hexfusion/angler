@@ -8,7 +8,6 @@
                   <li class="home"> <a href="" title="Go to Home Page">Home</a> <span>&gt;</span> </li>
                   <li class="category6"> <a href="" title="">Fly Fishing Gear</a> <span>&gt;</span> </li>
                   <li class="category6"> <a href="" title="">Wading Boots</a> <span>&gt;</span> </li>
-
                   <li class="product"> <strong class="name">Patagonia Foot Tractor</strong> </li>
                 </ul>
               </div>
@@ -157,7 +156,7 @@
                           </div>
                         </div>
 -->
-                        <div class="product-review-container box-collateral box-reviews" id="customer-reviews">
+                        <div class="box-collateral box-reviews" id="customer-reviews">
     </div>
 <div class="box-collateral form-add">
     <h2>Write Your Own Review<span class="toggle opened"></span></h2>
@@ -165,7 +164,7 @@
                 <form action="" method="post" id="review-form">
             <input name="form_key" value="" type="hidden">
             <fieldset>
-                                <h3>You're reviewing: <span>Ravine Vineyards 2010 Cabernet</span></h3>
+                                <h3>You're reviewing: <span class="name">Patagonia River Tractor</span></h3>
                                     <h4>How do you rate this product? <em class="required">*</em></h4>
                     <span id="input-message-box"></span>
                     <table class="data-table" id="product-review-table">
@@ -299,11 +298,6 @@
                             <button type="button" title="Add to Cart" class="button btn-cart" id="map-popup-button"><span><span>Add to Cart</span></span></button>
                           </form>
                         </div>
-                        <script type="text/javascript">
-        //<![CDATA[
-            document.observe("dom:loaded", Catalog.Map.bindProductForm);
-        //]]>
-        </script>
                       </div>
                       <div class="map-popup-text" id="map-popup-text">Our price is lower 
                         than the manufacturer's "minimum advertised price."  As a result, we 
@@ -404,11 +398,6 @@
                         </div>
                       </div>
                     </form>
-                    <script type="text/javascript">
-    //<![CDATA[
-        var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
-    //]]>
-    </script>
                   </div>
                   <div class="block block-tags">
                     <div class="block-title"> <strong><span>Popular Tags</span></strong> <span class="toggle"></span></div>
@@ -421,20 +410,6 @@
                       <div class="actions"> <a href="">View All Tags</a> </div>
                     </div>
                   </div>
-                  <script type="text/javascript">
-//<![CDATA[
-    function validatePollAnswerIsSelected()
-    {
-        var options = $$('input.poll_vote');
-        for( i in options ) {
-            if( options[i].checked == true ) {
-                return true;
-            }
-        }
-        return false;
-    }
-//]]>
-</script>
                   <div class="block block-poll last_block">
                     <div class="block-title"> <strong><span>Community Poll</span></strong> <span class="toggle"></span></div>
                     <form id="pollForm" action="" method="post" onSubmit="return validatePollAnswerIsSelected();">
@@ -477,7 +452,6 @@
                             <label for="vote_7">Other.</label>
                             </span> </li>
                         </ul>
-                        <script type="text/javascript">decorateList('poll-answers');</script>
                         <div class="actions">
                           <button type="submit" title="Vote" class="button"><span><span>Vote</span></span></button>
                         </div>
