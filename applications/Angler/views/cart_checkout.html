@@ -148,7 +148,7 @@ i
                   <li id="opc-billing" class="section">
                     <div id="checkout-step-billing" class="step a-item">
                   <div class="step-title">
-                    <h2>Shipping Information</h2>
+                    <h2>Choose A Shipping Address</h2>
                    </div>
                       <div id="co-billing-form" >
                         <fieldset>
@@ -249,97 +249,91 @@ i
                              </div>
                             </div>
                   </li>
-                  <li id="opc-payment" class="section">
-                    <div class="step-title">
-                      <h2>Payment Information</h2>
-                    </div>
-                    <div id="checkout-step-payment" class="step a-item" style="">
-                      <form action="" id="co-payment-form">
-                        <fieldset>
-                          <dl class="sp-methods" id="checkout-payment-method-load">
-                            <!-- Content dynamically loaded. Content from the methods.phtml is loaded during the ajax call -->
-                          </dl>
-                        </fieldset>
-                      </form>
-                      <div class="tool-tip" id="payment-tool-tip" style="display:none;">
-                        <div class="btn-close"><a href="#" id="payment-tool-tip-close" title="Close">Close</a></div>
-                        <div class="tool-tip-content"><img src="http://www.topflyreview.com/skin/frontend/default/theme629/images/cvv.gif" alt="Card Verification Number Visual Reference" title="Card Verification Number Visual Reference" /></div>
+<li id="opc-billing" class="section">
+        <div class="step-title">
+            <h2>Payment Information</h2>
+        </div>
+        <div id="checkout-step-payment" class="step a-item" style="">
+             <div class="well">
+                <div class="payment-cards"><img src="images/i_visa.png" /> <img src="images/i_mastercard.png" /> <img src="images/i_amex.png" /></div>
+                <div class="row">
+                  <div class="col-md-7">
+                   <div style="margin:0;padding:0;display:inline">
+                        <input name="utf8" type="hidden" value="✓" />
+                        <input name="_method" type="hidden" value="PUT" />
+                        <input name="authenticity_token" type="hidden" value="qLZ9cScer7ZxqulsUWazw4x3cSEzv899SP/7ThPCOV8=" />
                       </div>
-                      <div class="buttons-set" id="payment-buttons-container">
-                        <p class="required">* Required Fields</p>
-                        <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small>Back</a></p>
-                        <button type="button" class="button" onclick="payment.save()"><span><span>Continue</span></span></button>
-                        <span class="please-wait" id="payment-please-wait" style="display:none;"> <img src="http://www.topflyreview.com/skin/frontend/default/theme629/images/opc-ajax-loader.gif" alt="Loading next step..." title="Loading next step..." class="v-middle" /> Loading next step... </span> </div>
-                      <script type="text/javascript">
-//<![CDATA[
-    function toggleToolTip(event){
-        if($('payment-tool-tip')){
-            $('payment-tool-tip').setStyle({
-                top: (Event.pointerY(event)-560)+'px'//,
-                //left: (Event.pointerX(event)+100)+'px'
-            })
-            $('payment-tool-tip').toggle();
-        }
-        Event.stop(event);
-    }
-    if($('payment-tool-tip-close')){
-        Event.observe($('payment-tool-tip-close'), 'click', toggleToolTip);
-    }
-//]]>
-</script>
-                      <script type="text/javascript">
-//<![CDATA[
-    payment.currentMethod = "";
-//]]>
-</script>
-                    </div>
-                  </li>
-                  <li id="opc-review" class="section">
-                    <div class="step-title"> <span class="number">6</span>
-                      <h2>Order Review</h2>
-                      <a href="#">Edit</a> </div>
-                    <div id="checkout-step-review" class="step a-item" style="display:none;">
-                      <div class="order-review" id="checkout-review-load">
-                        <!-- Content loaded dynamically -->
+                      <div class="input-box">
+                        <div class="col-xs-12 required">
+                          <label class="required"><em>*</em>Name on Card</label>
+                          <input class="form-control" size="4" type="text" />
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                </ol>
-                <script type="text/javascript">
-//<![CDATA[
-    var accordion = new Accordion('checkoutSteps', '.step-title', true);
-        accordion.openSection('opc-login');
-        var checkout = new Checkout(accordion,{
-        progress: 'http://www.topflyreview.com/index.php/checkout/onepage/progress/',
-        review: 'http://www.topflyreview.com/index.php/checkout/onepage/review/',
-        saveMethod: 'http://www.topflyreview.com/index.php/checkout/onepage/saveMethod/',
-        failure: 'http://www.topflyreview.com/index.php/checkout/cart/'}
-    );
-//]]>
-</script>
-              </div>
-            </div>
-            <div class="col-right sidebar col-xs-12 col-sm-3">
-              <div id="checkout-progress-wrapper">
-                <div class="block block-progress opc-block-progress">
-                  <div class="block-title"> <strong><span>Your Checkout Progress</span></strong> </div>
-                  <div class="block-content">
-                    <dl>
-                      <div id="billing-progress-opcheckout">
-                        <dt> Billing Address</dt>
+                      <div class="form-row">
+                        <div class="col-xs-12 form-group card required">
+                          <label class="control-label">Card Number</label>
+                          <input autocomplete="off" class="form-control card-number" size="20" type="text" />
+                        </div>
                       </div>
-                      <div id="shipping-progress-opcheckout">
-                        <dt> Shipping Address</dt>
+                      <div class="form-row">
+                        <div class="col-xs-4 form-group expiration required">
+                          <label class="control-label">Expiration</label>
+                          <input class="form-control card-expiry-month" placeholder="MM" size="2" type="text" />
+                        </div>
+                        <div class="col-xs-4 form-group expiration required">
+                          <label class="control-label"> </label>
+                          <input class="form-control card-expiry-year" placeholder="YYYY" size="4" type="text" />
+                        </div>
+                        <div class="col-xs-4 form-group cvc required">
+                          <label class="control-label">CVC/CVV</label>
+                          <input autocomplete="off" class="form-control card-cvc" placeholder="ex. 311" size="4" type="text" />
+                        </div>
                       </div>
-                      <div id="shipping_method-progress-opcheckout">
-                        <dt> Shipping Method</dt>
+                      <div class="form-row coupon-wrap">
+                        <div class="col-md-12 form-group">
+                          <label class=""><input type="checkbox" /> I have a coupon code</label>
+                        </div>
+                        <div class="col-md-12 form-group">
+                          <div class="form-inline">
+                            <div class="form-group">
+                              <input class="form-control input-sm" placeholder="Coupon number" type="text" />
+                            </div>
+                            <input class="btn btn-default btn-sm" type="submit" value="Apply" />
+                          </div>
+                        </div>
                       </div>
-                      <div id="payment-progress-opcheckout">
-                        <dt> Payment Method</dt>
+                      <div class="form-row">
+                        <div class="col-md-12">
+                          <div class="alert alert-info">
+                                         You have applied a coupon for $44.44. You will pay only $4444.44 <small><a href="">Remove coupon</a></small></div>
+                        </div>
                       </div>
-                    </dl>
+                      <div class="form-row">
+                        <div class="col-md-12 form-group">
+                          <button class="btn btn-success btn-lg btn-block submit-button" type="submit">Confirm order »</button>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col-md-12 error form-group hide">
+                          <div class="alert-danger alert">
+                                Please correct the errors and try again.
+                                </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-5">
+                    <img class="img-thumbnail" src="images/card_security-code.jpg" />
                   </div>
                 </div>
+               <!--  end .row  -->
+
+                    </div>
+            </div>
+          </div>
+</li>
+         <!--  end .row  -->
+               </div>
               </div>
             </div>
           </div>
