@@ -20,20 +20,19 @@
                   <ul class="form-list">
                   <li id="billing-new-address-form">
                   <fieldset>
-                  <input type="hidden" name="billing[address_id]" value="" id="billing:address_id" />
                   <ul>
                     <li class="fields">
                       <div class="customer-name">
                         <div class="field name-firstname">
                           <label for="billing:firstname" class="required"><em>*</em>First Name</label>
                           <div class="input-box">
-                            <input type="text" id="" name="" value="" title="First Name" maxlength="255" class="input-text required-entry"  />
+                            <input type="text" id="inputFirstName" name="first_name" placeholder="First name" title="First Name" maxlength="255" class="input-text required-entry"  />
                           </div>
                         </div>
                         <div class="field name-lastname">
                           <label for="billing:lastname" class="required"><em>*</em>Last Name</label>
                           <div class="input-box">
-                            <input type="text" id="" name="" value="" title="Last Name" maxlength="255" class="input-text required-entry"  />
+                            <input type="text" id="inputLastName" name="last_name" placeholder="Last name" title="Last Name" maxlength="255" class="input-text required-entry"  />
                           </div>
                         </div>
                       </div>
@@ -42,41 +41,40 @@
                       <div class="field">
                         <label for="billing:company">Company</label>
                         <div class="input-box">
-                          <input type="text" id="" name="" value="" title="Company" class="input-text " />
+                          <input type="text" id="inputCompany" name="company" placeholder="Company" title="Company" class="input-text " />
                         </div>
                       </div>
                       <div class="field">
                         <label for="billing:email" class="required"><em>*</em>Email Address</label>
                         <div class="input-box">
-                          <input type="text" name="" id="" value="" title="Email Address" class="input-text validate-email required-entry" />
+                          <input type="text" id="inputUsername" name="username" placeholder="Email" title="Email Address" class="input-text validate-email required-entry" />
                         </div>
                       </div>
                     </li>
                     <li class="wide">
                       <label for="billing:street1" class="required"><em>*</em>Address</label>
                       <div class="input-box">
-                        <input type="text" title="Street Address" name="" id="" value="" class="input-text  required-entry" />
+                        <input type="text" title="Street Address" id="inputAddress" name="address" placeholder="Address" class="input-text  required-entry" />
                       </div>
                     </li>
                     <li class="wide">
                       <div class="input-box">
-                        <input type="text" title="Street Address 2" name="" id="" value="" class="input-text " />
+                        <input type="text" title="Street Address 2" id="inputAddress2" name="address_2" placeholder="Address 2" class="input-text " />
                       </div>
                     </li>
                     <li class="fields">
                       <div class="field">
                         <label for="billing:city" class="required"><em>*</em>City</label>
                         <div class="input-box">
-                          <input type="text" title="City" name="" value="" class="input-text  required-entry" id="" />
+                          <input type="text" title="City" id="inputCity" name="city" placeholder="City" class="input-text  required-entry" />
                         </div>
                       </div>
                       <div class="field">
                         <label for="billing:region_id" class="required"><em>*</em>State/Province</label>
                         <div class="input-box">
-                          <select id="" name="" title="State/Province" class="validate-select" style="display:none;">
-                            <option value="">Please select region, state or province</option>
+                          <select class="input-xlarge" id="inputState" name="state">
+                           <option>State</option>
                           </select>
-                          <input type="text" id="" name="" value=""  title="State/Province" class="input-text " style="display:none;" />
                         </div>
                       </div>
                     </li>
@@ -84,14 +82,14 @@
                       <div class="field">
                         <label for="billing:postcode" class="required"><em>*</em>Zip/Postal Code</label>
                         <div class="input-box">
-                          <input type="text" title="Zip/Postal Code" name="" id="" value="" class="input-text validate-zip-international  required-entry" />
+                          <input type="text" title="Zip/Postal Code" id="inputPostalCode" name="postal_code" placeholder="ZIP code" class="input-text validate-zip-international  required-entry" />
                         </div>
                       </div>
                       <div class="field">
                         <label for="billing:country_id" class="required"><em>*</em>Country</label>
                         <div class="input-box">
-                          <select name="" id="" class="validate-select" title="Country" >
-                            <option>Argentina</option>
+                          <select id="inputCountry" name="country" class="validate-select" title="Country" >
+                            <option>Country</option>
                           </select>
                         </div>
                       </div>
@@ -100,7 +98,7 @@
                       <div class="field">
                         <label for="billing:telephone" class="required"><em>*</em>Telephone</label>
                         <div class="input-box">
-                          <input type="text" name="" value="" title="Telephone" class="input-text  required-entry" id="" />
+                          <input type="text" id="inputPhone" name="phone" placeholder="Phone" title="Telephone" class="input-text  required-entry"/>
                         </div>
                       </div>
                       <div class="field">
@@ -114,7 +112,7 @@
                       <div class="field">
                         <label for="billing:customer_password" class="required"><em>*</em>Password</label>
                         <div class="input-box">
-                          <input type="password" name="" id="" title="Password" class="input-text required-entry validate-password" />
+                          <input id="inputPassword" name="password" placeholder="Password" type="password" title="Password" class="input-text required-entry validate-password" />
                         </div>
                       </div>
                       <div class="field">
@@ -124,26 +122,9 @@
                         </div>
                       </div>
                     </li>
-                    <li class="control">
-                      <input type="checkbox" name="" id="" value="1" title="Use Billing Address" class="checkbox" />
-                      <label for="shipping:same_as_billing">Different Shipping Address</label>
-                    </li>
-                    <li class="no-display">
-                      <input type="hidden" name="billing[save_in_address_book]" value="1" />
-                    </li>
                   </ul>
-                  <div id="window-overlay" class="window-overlay" style="display:none;"></div>
-                  <div id="remember-me-popup" class="remember-me-popup" style="display:none;">
-                    <div class="remember-me-popup-head">
-                      <h3>What's this?</h3>
-                      <a href="#" class="remember-me-popup-close" title="Close">Close</a> </div>
-                    <div class="remember-me-popup-body">
-                      <p>Checking &quot;Remember Me&quot; will let you access your shopping cart on this computer when you are logged out</p>
-                      <div class="remember-me-popup-close-button a-right"> <a href="#" class="remember-me-popup-close button" title="Close"><span>Close</span></a> </div>
-                    </div>
-                  </div>
-                  </div>
-                  </li>
+                </div>
+                </li>
                   <li id="opc-billing" class="section">
                     <div id="checkout-step-billing" class="step a-item">
                     <div class="step-title">
@@ -152,20 +133,24 @@
                     <div id="co-billing-form" >
                     <fieldset>
                     <ul class="form-list">
+                   <li class="control">
+                      <input type="checkbox" name="" id="" value="1" title="Use Billing Address" class="checkbox" />
+                      <label for="shipping:same_as_billing">Different Shipping Address</label>
+                    </li>
                     <li id="billing-new-address-form">
                     <fieldset>
-                    <input type="hidden" name="billing[address_id]" value="" id="billing:address_id" />
+                    <input type="hidden" name="shipping[address_id]" value="" id="shipping:address_id" />
                     <ul>
                       <li class="fields">
                         <div class="customer-name">
                           <div class="field name-firstname">
-                            <label for="billing:firstname" class="required"><em>*</em>First Name</label>
+                            <label for="shipping:firstname" class="required"><em>*</em>First Name</label>
                             <div class="input-box">
                               <input type="text" id="" name="" value="" title="First Name" maxlength="255" class="input-text required-entry"  />
                             </div>
                           </div>
                           <div class="field name-lastname">
-                            <label for="billing:lastname" class="required"><em>*</em>Last Name</label>
+                            <label for="shipping:lastname" class="required"><em>*</em>Last Name</label>
                             <div class="input-box">
                               <input type="text" id="" name="" value="" title="Last Name" maxlength="255" class="input-text required-entry"  />
                             </div>
@@ -174,20 +159,20 @@
                       </li>
                       <li class="fields">
                         <div class="field">
-                          <label for="billing:company">Company</label>
+                          <label for="shipping:company">Company</label>
                           <div class="input-box">
                             <input type="text" id="" name="" value="" title="Company" class="input-text " />
                           </div>
                         </div>
                         <div class="field">
-                          <label for="billing:email" class="required"><em>*</em>Email Address</label>
+                          <label for="shipping:email" class="required"><em>*</em>Email Address</label>
                           <div class="input-box">
                             <input type="text" name="" id="" value="" title="Email Address" class="input-text validate-email required-entry" />
                           </div>
                         </div>
                       </li>
                       <li class="wide">
-                        <label for="billing:street1" class="required"><em>*</em>Address</label>
+                        <label for="shipping:street1" class="required"><em>*</em>Address</label>
                         <div class="input-box">
                           <input type="text" title="Street Address" name="" id="" value="" class="input-text  required-entry" />
                         </div>
@@ -199,13 +184,13 @@
                       </li>
                       <li class="fields">
                         <div class="field">
-                          <label for="billing:city" class="required"><em>*</em>City</label>
+                          <label for="shipping:city" class="required"><em>*</em>City</label>
                           <div class="input-box">
                             <input type="text" title="City" name="" value="" class="input-text  required-entry" id="" />
                           </div>
                         </div>
                         <div class="field">
-                          <label for="billing:region_id" class="required"><em>*</em>State/Province</label>
+                          <label for="shipping:region_id" class="required"><em>*</em>State/Province</label>
                           <div class="input-box">
                             <select id="" name="" title="State/Province" class="validate-select" style="display:none;">
                               <option value="">Please select region, state or province</option>
@@ -216,16 +201,16 @@
                       </li>
                       <li class="fields">
                         <div class="field">
-                          <label for="billing:postcode" class="required"><em>*</em>Zip/Postal Code</label>
+                          <label for="shipping:postcode" class="required"><em>*</em>Zip/Postal Code</label>
                           <div class="input-box">
                             <input type="text" title="Zip/Postal Code" name="" id="" value="" class="input-text validate-zip-international  required-entry" />
                           </div>
                         </div>
                         <div class="field">
-                          <label for="billing:country_id" class="required"><em>*</em>Country</label>
+                          <label for="shipping:country_id" class="required"><em>*</em>Country</label>
                           <div class="input-box">
                             <select name="" id="" class="validate-select" title="Country" >
-                              <option>Argentina</option>
+                              <option>Country</option>
                             </select>
                           </div>
                         </div>
