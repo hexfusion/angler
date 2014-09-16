@@ -9,6 +9,7 @@
             <div class="page-title">
               <h1>Checkout</h1>
             </div>
+            <form action="/checkout" class="account-info" method="POST">
             <ol class="opc" id="checkoutSteps">
               <li id="opc-billing" class="section">
                 <div id="checkout-step-billing" class="step a-item">
@@ -16,10 +17,8 @@
                   <h2>Billing Information</h2>
                 </div>
                 <form action="/checkout" class="account-info" method="POST">
-                  <fieldset>
                   <ul class="form-list">
                   <li id="billing-new-address-form">
-                  <fieldset>
                   <ul>
                     <li class="fields">
                       <div class="customer-name">
@@ -131,14 +130,12 @@
                       <h2>Shipping Information</h2>
                     </div>
                     <div id="co-billing-form" >
-                    <fieldset>
                     <ul class="form-list">
                    <li class="control">
                       <input type="checkbox" name="" id="" value="1" title="Use Billing Address" class="checkbox" />
                       <label for="shipping:same_as_billing">Different Shipping Address</label>
                     </li>
                     <li id="billing-new-address-form">
-                    <fieldset>
                     <input type="hidden" name="shipping[address_id]" value="" id="shipping:address_id" />
                     <ul>
                       <li class="fields">
@@ -316,7 +313,6 @@
                           <div class="alert-danger alert">Please correct the errors and try again.</div>
                         </div>
                       </div>
-                </form>
               </div>
               <div class="col-md-5"><img class="img-thumbnail" src="images/card_security-code.jpg" /></div>
               </div>
@@ -396,6 +392,7 @@
                 </div>
               </li>
             </ol>
+            </form>
           </div>
         
         <!-- End Left -->
