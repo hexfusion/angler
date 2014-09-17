@@ -71,27 +71,27 @@
 
 <!-- Billing field errors -->
 <!-- Billing FirstName -->
-<value name="billing_first_name_css_error" field="errors.css-error" target="class" class="billing_first_name" op="append" joiner=" "/>
+<value name="billing_first_name_css_error" field="errors.billing_first_name_input" target="class" class="billing_first_name" op="append" joiner=" "/>
 <value name="billing_first_name_error" id="errorBillingFirstName"
        field="errors.billing_first_name" op="toggle"/>
 <!-- Billing LastName -->
-<value name="billing_last_name_css_error" field="errors.css-error" target="class" class="billing_last_name" op="append" joiner=" "/>
+<value name="billing_last_name_css_error" field="errors.billing_last_name_input" target="class" class="billing_last_name" op="append" joiner=" "/>
 <value name="billing_last_name_error" id="errorBillingLastName"
        field="errors.billing_last_name" op="toggle"/>
 <!-- Billing Address -->
-<value name="billing_address_css_error" field="errors.css-error" target="class" class="billing_address" op="append" joiner=" "/>
+<value name="billing_address_css_error" field="errors.billing_address_input" target="class" class="billing_address" op="append" joiner=" "/>
 <value name="billing_address_error" id="errorBillingAddress"
        field="errors.billing_address" op="toggle"/>
 <!-- Billing City -->
-<value name="billing_city_css_error" field="errors.css-error" target="class" class="billing_city" op="append" joiner=" "/>
+<value name="billing_city_css_error" field="errors.billing_city_input" target="class" class="billing_city" op="append" joiner=" "/>
 <value name="billing_city_error" id="errorBillingCity"
        field="errors.billing_city" op="toggle"/>
 <!-- Billing PostalCode -->
-<value name="billing_postal_code_css_error" field="errors.css-error" target="class" class="billing_postal_code" op="append" joiner=" "/>
+<value name="billing_postal_code_css_error" field="errors.billing_postal_code_input" target="class" class="billing_postal_code" op="append" joiner=" "/>
 <value name="billing_postal_code_error" id="errorBillingPostalCode"
        field="errors.billing_postal_code" op="toggle"/>
 <!-- Billing PostalCode -->
-<value name="billing_phone_css_error" field="errors.css-error" target="class" class="billing_phone" op="append" joiner=" "/>
+<value name="billing_phone_css_error" field="errors.billing_phone_input" target="class" class="billing_phone" op="append" joiner=" "/>
 <value name="billing_phone_error" id="errorBillingPhone"
        field="errors.billing_phone" op="toggle"/>
 

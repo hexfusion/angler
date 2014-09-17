@@ -364,10 +364,9 @@ sub validate_checkout {
 
         while (my ($key, $value) = each %$v_hash) {
             $errors{$key} = $value->[0]->{value};
+            # flag the field with error using has-error class
+            $errors{$key . '_input' } = 'has-error';
         }
-    # flag the field with error using has-error class
-    $errors{'css-error'} = 'has-error';
-
         return \%errors;
     }
 }
