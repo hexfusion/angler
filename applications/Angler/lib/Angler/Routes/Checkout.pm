@@ -48,7 +48,7 @@ post '/checkout' => sub {
 
     $values->{postal_code}     ||= $cart_form->{postal_code};
     $values->{country}         ||= $cart_form->{country} || 'US';
-    $values->{billing_country} ||= $cart_form->{country} || 'US';
+    $values->{billing_country} ||= $cart_form->{billing_country} || 'US';
     $values->{shipping_method} ||= $cart_form->{shipping_method};
 
     debug "Checkout form values: ", to_dumper($values);
@@ -67,10 +67,10 @@ post '/checkout' => sub {
 
 	    my $form_values;
 
-            my $ship_adr = shop_address->search(
+            my $bill_adr = shop_address->search(
                 {
                     users_id => session('logged_in_user_id'),
-                    type => 'shipping',
+                    type => 'billing',
                 },
                 {
                     order_by => 'last_modified DESC',
@@ -78,19 +78,18 @@ post '/checkout' => sub {
                 },
                 )->single;
 
-            if ($ship_adr) {
-                debug "Shipping address found: ", $ship_adr->id;
+            if ($bill_adr) {
+                debug "Billing address found: ", $bill_adr->id;
 
                 $form_values = Angler::Forms::Checkout->new(
-                    address => $ship_adr,
+                    address => $bill_adr,
                 )->transpose;
-
             }
 
-	    my $bill_adr = shop_address->search(
+	    my $ship_adr = shop_address->search(
 		{
 		    users_id => session('logged_in_user_id'),
-		    type => 'billing',
+		    type => 'shipping',
 		},
 		{
 		    order_by => 'last_modified DESC',
@@ -98,11 +97,11 @@ post '/checkout' => sub {
 		},
 		)->single;
 
-	    if ($bill_adr) {
-		debug "Billing address found: ", $bill_adr->id;
+	    if ($ship_adr) {
+		debug "Shipping address found: ", $ship_adr->id;
 
-		$form_values->{billing_enabled} = 1;
-		$form_values->{billing_id} = $bill_adr->id;
+		$form_values->{shipping_enabled} = 1;
+		$form_values->{shipping_id} = $ship_adr->id;
 	    }
 
 	    debug "Filling checkout form with: ", $form_values;
@@ -329,15 +328,18 @@ sub validate_checkout {
         $validator->field('email' => 'EmailValid');
     }
 
-    # shipping address
-    $validator->field('first_name' => "String");
-    $validator->field('last_name' => "String");
-    $validator->field('address' => "String");
-    $validator->field('postal_code' => "String");
-    $validator->field('city' => 'String');
+    # billing address
+    $validator->field('billing_first_name' => "String");
+    $validator->field('billing_last_name' => "String");
+    $validator->field('billing_address' => "String");
+    $validator->field('billing_postal_code' => "String");
+    $validator->field('billing_city' => 'String');
+    # TODO should validate proper phone format
+    $validator->field('billing_phone' => 'String');
 
     # credit card data, only used payment_method is not paypal
     if (!$values->{payment_method} or $values->{payment_method} ne 'paypal') {
+    $validator->field('card_name' => 'String');
     $validator->field('card_number' => 'CreditCard');
     $validator->field('card_month' =>
                           {validator => 'NumericRange',
@@ -363,6 +365,8 @@ sub validate_checkout {
         while (my ($key, $value) = each %$v_hash) {
             $errors{$key} = $value->[0]->{value};
         }
+    # flag the field with error using has-error class
+    $errors{'css-error'} = 'has-error';
 
         return \%errors;
     }
