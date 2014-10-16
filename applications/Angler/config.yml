@@ -17,8 +17,10 @@ charset: "UTF-8"
 # template engine
 # simple: default and very basic template engine
 # template_toolkit: TT
-
 template: "template_flute"
+
+# serializer
+serializer: "JSON"
 
 # session engine
 session: "DBIC"
@@ -80,3 +82,5 @@ plugins:
   Email:
     transport:
       Sendmail:
+  Ajax:
+    content_type: 'application/json'
