@@ -73,9 +73,9 @@
     <div style="height: 884px;" class="swipe">
       <div class="swipe-menu"> <a href="" title="Home" class="home-link">Home</a>
         <ul class="links">
-          <li class="first"><a href="" title="My Account">My Account</a></li>
+          <li class="first"><a href="" title="My Account">My Account</a><span class="cart_count">0</span></li>
           <li><a href="" title="My Wishlist">My Wishlist</a></li>
-          <li class="top-car"><a href="" title="My Cart (2 items)" class="top-link-cart">My Cart (2 items)</a></li>
+          <li class="top-car"><a href="" title="My Cart (<span class="cart_count">0</span> items)" class="top-link-cart">My Cart (<span class="cart_count">0</span> items)</a></li>
           <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
           <li class=" last"><a href="" title="Log In">Log In</a></li>
         </ul>
@@ -125,7 +125,7 @@
                   <ul class="links">
                     <li class="first"><a href="" title="My Account">My Account</a></li>
                     <li><a href="" title="My Wishlist">My Wishlist</a></li>
-                    <li class="top-car"><a href="" title="My Cart (2 items)" class="top-link-cart">My Cart (2 items)</a></li>
+                    <li class="top-car"><a href="" title="My Cart (2 items)" class="top-link-cart">My Cart ( 0 items)</a></li>
                     <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
                     <li class=" last"><a href="" title="Log In">Log In</a></li>
                   </ul>
@@ -165,20 +165,20 @@
                 <h3>My Cart:</h3>
                 <div class="block-content">
                   <div class="summary">
-                    <p><strong title="">2 items</strong> - <span class="price">$199.90</span></p>
+                    <p><strong title=""><span class="cart-count">9999</span> items</strong> - <span class="cart-total">$199.90</span></p>
                   </div>
                   <div class="cart-content">
                     <div class="cart-indent">
                       <div class="cart-content-header">
-                        <p class="subtotal"> <span class="label">Cart Subtotal:</span> <span class="price">$199.90</span> </p>
+                        <p class="subtotal"> <span class="label">Cart Subtotal:</span> <span class="cart-total">$199.90</span> </p>
                         <p class="block-subtitle">Recently added item(s)</p>
                       </div>
-                      <ol id="cart-sidebar" class="mini-products-list">
+                      <ol id="cart-sidebar" class="cartitem mini-products-list">
                         <li class="item last odd">
                           <div class="product-control-buttons"> <a href="" title="Remove This Item" onClick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" class="btn-remove">Remove This Item</a> <a href="" title="Edit item" class="btn-edit">Edit item</a> </div>
                           <a href="" title="Simms Coldweather Shirt Red" class="product-image"><img src="/product/simms-coldweather-ls-shirt-cart.png" alt="Simms Coldweather Shirt Red"></a>
-                          <p class="product-name"><a href="">Simms Coldweather Shirt Red</a></p>
-                          <div class="product-details"> <strong>2</strong> x <span class="price">$99.95</span> </div>
+                          <p class="name"><a href="">Simms Coldweather Shirt Red</a></p>
+                          <div class="product-details"> <strong><span class="qty">2</span></strong> x <span class="price">$99.95</span> </div>
                         </li>
                       </ol>
                       <div class="actions">
@@ -482,6 +482,7 @@
           e.stopPropagation()
         })
     </script>
+
 <script>
 (function() {
     var isBootstrapEvent = false;
