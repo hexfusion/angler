@@ -28,8 +28,11 @@ hook 'before_layout_render' => sub {
     my $tokens = shift;
     my $action ='';
     my $scope = '';
-    # display cart count
-    $tokens->{cart_count} = cart->count;
+
+    # make cart details available
+    $tokens->{cart} = cart->products;
+    $tokens->{cart_count} = cart->quantity;
+    $tokens->{cart_total} = cart->total;
 
     # logo
     $tokens->{logo_uri} = uri_for('/');
