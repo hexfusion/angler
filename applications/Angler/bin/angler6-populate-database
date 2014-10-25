@@ -1,7 +1,4 @@
 #! /usr/bin/env perl
-# By Sam Batschelet
-# Version 0.020
-# 4/4/2014
 
 use strict;
 use warnings;
@@ -9,25 +6,22 @@ use warnings;
 use Dancer ':script';
 use Dancer::Plugin::Interchange6;
 
-set logger => 'console';
+set logger        => 'console';
 set logger_format => '%m';
 
 use Locale::SubCountry;
 use DateTime qw();
 
-my $now = DateTime->now;
+my $now    = DateTime->now;
 my $schema = shop_schema;
+my $data;
 
-shop_schema->deploy({add_drop_table => 1,
-                     producer_args => {
-                         mysql_version => 5,
-                     },
-                 });
+shop_schema->deploy( { add_drop_table => 1 } );
 
 # populate countries array
 use Interchange6::Schema::Populate::CountryLocale;
 my $pop_countries = Interchange6::Schema::Populate::CountryLocale->new->records;
- 
+
 # populate states array
 use Interchange6::Schema::Populate::StateLocale;
 my $pop_states = Interchange6::Schema::Populate::StateLocale->new->records;
@@ -36,19 +30,28 @@ my $pop_states = Interchange6::Schema::Populate::StateLocale->new->records;
 use Interchange6::Schema::Populate::Zone;
 my $pop_zones = Interchange6::Schema::Populate::Zone->new->records;
 
+# populate message_types
+use Interchange6::Schema::Populate::MessageType;
+my $pop_message_types =
+  Interchange6::Schema::Populate::MessageType->new->records;
+
 # populate countries table
-$schema->populate(Country => $pop_countries);
+$schema->populate( Country => $pop_countries );
 
 # populate states table
-$schema->populate(State => $pop_states);
+$schema->populate( State => $pop_states );
 
 # populate zones table
-$schema->populate(Zone => $pop_zones);
+scalar $schema->populate( Zone => $pop_zones );
+
+# populate message_types table
+$schema->populate( MessageType => $pop_message_types );
 
 my $state = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'NY' });
 my $state_oregon = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'OR' });
 
-my $pop_roles = $schema->resultset("Role")->populate([
+# roles
+my $roles = $schema->resultset("Role")->populate([
     { roles_id => '1', name => 'anonymous', label => 'Anonymous Users' },
     { roles_id => '2', name => 'authenticated', label => 'Authenticated Users' },
     { roles_id => '3', name => 'user', label => 'User' },
@@ -127,359 +130,44 @@ $users{sam} = shop_user->create(
       ],
   });
 
-# create default navigation array
-my $pop_nav = $schema->resultset("Navigation")->populate([
-{ uri => 'Fly-Fishing-Gear', type =>  'menu', description =>  'Gear for fly fishing' },
-{ uri => 'Clothing/Mens', type =>  'menu', description =>  'Clothing for fly fishing' },
-{ uri => 'Fly-Tying', type =>  'menu', description =>  'Materials for fly tying' },
-{ uri => 'Flies', type =>  'menu', description =>  'Flies for fishing' },
-{ uri => 'Fly-Fishing-Gear/Fly-Rods', type =>  'menu', scope =>  'cat-gear', name => 'Fly Rods' },
-{ uri => 'Fly-Fishing-Gear/Fly-Reels', type =>  'menu', scope =>  'cat-gear', name => 'Fly Reels' },
-{ uri => 'Fly-Fishing-Gear/Fly-Line', type =>  'menu', scope =>  'cat-gear', name => 'Fly Line & Backing' },
-{ uri => 'Fly-Fishing-Gear/Waders', type =>  'menu', scope =>  'cat-gear', name => 'Waders' },
-{ uri => 'Fly-Fishing-Gear/Wading-Boots', type =>  'menu', scope =>  'cat-gear', name => 'Wading Boots' },
-{ uri => 'Fly-Fishing-Gear/Fly-Boxes', type =>  'menu', scope =>  'cat-gear', name => 'Fly Boxes' },
-{ uri => 'Fly-Fishing-Gear/Packs-Vests', type =>  'menu', scope =>  'cat-gear', name => 'Packs & Vests' },
-{ uri => 'contact', type =>  'menu', scope =>  'nav-top', name => 'Contact' },
-{ uri => 'about-us', type =>  'menu', scope =>  'nav-top', name => 'About Us' },
-{ uri => 'shipping', type =>  'menu', scope =>  'nav-top', name => 'Shipping' },
-{ uri => 'login', type =>  'nav', scope =>  'top-login', name => 'Login' },
-{ uri => 'registration', type =>  'nav', scope =>  'top-login', name => 'Sign Up' },
-{ uri => 'Fly-Fishing-Gear/Leader-Tippet', type =>  'menu', scope =>  'cat-gear-r', name => 'Leader & Tippet' },
-{ uri => 'Fly-Fishing-Gear/Tools-Gadgets', type =>  'menu', scope =>  'cat-gear-r', name => 'Tools & Gadgets' },
-{ uri => 'Fly-Fishing-Gear/Bags-Luggage', type =>  'menu', scope =>  'cat-gear-r', name => 'Bags & Luggage' },
-{ uri => 'Fly-Fishing-Gear/Nets', type =>  'menu', scope =>  'cat-gear-r', name => 'Landing Nets' },
-{ uri => 'Fly-Fishing-Gear/Watercraft-Boats', type =>  'menu', scope =>  'cat-gear-r', name => 'Watercraft & Boats' },
-{ uri => 'Fly-Fishing-Gear/Books-DVDs', type =>  'menu', scope =>  'cat-gear-r', name => 'Books & DVDs' },
-{ uri => 'Fly-Fishing-Gear/Fly-Rod-Combos', type =>  'menu', scope =>  'cat-gear', name => 'Fly Rod Combos' },
-{ uri => 'Fly-Fishing-Gear/New', type =>  'menu', scope =>  'cat-gear', name => 'New Products!' },
-{ uri => 'Clothing/Mens/Jackets', type =>  'menu', scope =>  'cat-clothing', name => 'Jackets' },
-{ uri => 'Clothing/Mens/Fleece', type =>  'menu', scope =>  'cat-clothing', name => 'Fleece' },
-{ uri => 'Clothing/Mens/Layering', type =>  'menu', scope =>  'cat-clothing', name => 'Layering' },
-{ uri => 'Clothing/Mens/Shirts', type =>  'menu', scope =>  'cat-clothing', name => 'Shirts' },
-{ uri => 'Clothing/Mens/T-Shirts', type =>  'menu', scope =>  'cat-clothing', name => 'T-Shirts' },
-{ uri => 'Clothing/Mens/Pants', type =>  'menu', scope =>  'cat-clothing', name => 'Pants' },
-{ uri => 'Clothing/Mens/Underwear', type =>  'menu', scope =>  'cat-clothing', name => 'Underwear' },
-{ uri => 'Clothing/Mens/Hats', type =>  'menu', scope =>  'cat-clothing', name => 'Hats' },
-{ uri => 'Clothing', type =>  'menu', scope =>  'cat-clothing', name => 'Clothing Men\'s' },
-{ uri => 'Clothing/Mens/WBA-Logo', type =>  'menu', scope =>  'cat-clothing', name => 'WBA Logo Gear' },
-{ uri => 'Clothing/Mens/Shorts', type =>  'menu', scope =>  'cat-clothing-r', name => 'Shorts' },
-{ uri => 'Clothing/Mens/Socks', type =>  'menu', scope =>  'cat-clothing-r', name => 'Socks' },
-{ uri => 'logout', type =>  'nav', scope =>  'top-logout', name => 'Logout' },
-{ uri => 'user/account', type =>  'nav', scope =>  'top-logout', name => 'My Account' },
+# navigatiom
+my $nav = $schema->resultset("Navigation")->populate([
+{ uri => 'Fly-Fishing-Gear', type => 'menu', description => 'Gear for fly fishing' },
+{ uri => 'Clothing/Mens', type => 'menu', description => 'Clothing for fly fishing' },
+{ uri => 'Fly-Tying', type => 'menu', description => 'Materials for fly tying' },
+{ uri => 'Flies', type => 'menu', description => 'Flies for fishing' },
+{ uri => 'Fly-Fishing-Gear/Fly-Rods', type => 'menu', scope => 'cat-gear', name => 'Fly Rods' },
+{ uri => 'Fly-Fishing-Gear/Fly-Reels', type => 'menu', scope => 'cat-gear', name => 'Fly Reels' },
+{ uri => 'Fly-Fishing-Gear/Fly-Line', type => 'menu', scope => 'cat-gear', name => 'Fly Line & Backing' },
+{ uri => 'Fly-Fishing-Gear/Waders', type => 'menu', scope => 'cat-gear', name => 'Waders' },
+{ uri => 'Fly-Fishing-Gear/Wading-Boots', type => 'menu', scope => 'cat-gear', name => 'Wading Boots' },
+{ uri => 'Fly-Fishing-Gear/Fly-Boxes', type => 'menu', scope => 'cat-gear', name => 'Fly Boxes' },
+{ uri => 'Fly-Fishing-Gear/Packs-Vests', type => 'menu', scope => 'cat-gear', name => 'Packs & Vests' },
+{ uri => 'contact', type => 'menu', scope => 'nav-top', name => 'Contact' },
+{ uri => 'about-us', type => 'menu', scope => 'nav-top', name => 'About Us' },
+{ uri => 'shipping', type => 'menu', scope => 'nav-top', name => 'Shipping' },
+{ uri => 'login', type => 'nav', scope => 'top-login', name => 'Login' },
+{ uri => 'registration', type => 'nav', scope => 'top-login', name => 'Sign Up' },
+{ uri => 'Fly-Fishing-Gear/Leader-Tippet', type => 'menu', scope => 'cat-gear-r', name => 'Leader & Tippet' },
+{ uri => 'Fly-Fishing-Gear/Tools-Gadgets', type => 'menu', scope => 'cat-gear-r', name => 'Tools & Gadgets' },
+{ uri => 'Fly-Fishing-Gear/Bags-Luggage', type => 'menu', scope => 'cat-gear-r', name => 'Bags & Luggage' },
+{ uri => 'Fly-Fishing-Gear/Nets', type => 'menu', scope => 'cat-gear-r', name => 'Landing Nets' },
+{ uri => 'Fly-Fishing-Gear/Watercraft-Boats', type => 'menu', scope => 'cat-gear-r', name => 'Watercraft & Boats' },
+{ uri => 'Fly-Fishing-Gear/Books-DVDs', type => 'menu', scope => 'cat-gear-r', name => 'Books & DVDs' },
+{ uri => 'Fly-Fishing-Gear/Fly-Rod-Combos', type => 'menu', scope => 'cat-gear', name => 'Fly Rod Combos' },
+{ uri => 'Fly-Fishing-Gear/New', type => 'menu', scope => 'cat-gear', name => 'New Products!' },
+{ uri => 'Clothing/Mens/Jackets', type => 'menu', scope => 'cat-clothing', name => 'Jackets' },
+{ uri => 'Clothing/Mens/Fleece', type => 'menu', scope => 'cat-clothing', name => 'Fleece' },
+{ uri => 'Clothing/Mens/Layering', type => 'menu', scope => 'cat-clothing', name => 'Layering' },
+{ uri => 'Clothing/Mens/Shirts', type => 'menu', scope => 'cat-clothing', name => 'Shirts' },
+{ uri => 'Clothing/Mens/T-Shirts', type => 'menu', scope => 'cat-clothing', name => 'T-Shirts' },
+{ uri => 'Clothing/Mens/Pants', type => 'menu', scope => 'cat-clothing', name => 'Pants' },
+{ uri => 'Clothing/Mens/Underwear', type => 'menu', scope => 'cat-clothing', name => 'Underwear' },
+{ uri => 'Clothing/Mens/Hats', type => 'menu', scope => 'cat-clothing', name => 'Hats' },
+{ uri => 'Clothing', type => 'menu', scope => 'cat-clothing', name => 'Clothing Men\'s' },
+{ uri => 'Clothing/Mens/WBA-Logo', type => 'menu', scope => 'cat-clothing', name => 'WBA Logo Gear' },
+{ uri => 'Clothing/Mens/Shorts', type => 'menu', scope => 'cat-clothing-r', name => 'Shorts' },
+{ uri => 'Clothing/Mens/Socks', type => 'menu', scope => 'cat-clothing-r', name => 'Socks' },
+{ uri => 'logout', type => 'nav', scope => 'top-logout', name => 'Logout' },
+{ uri => 'user/account', type => 'nav', scope => 'top-logout', name => 'My Account' },
 ]);
-
-# populate products array
-my @products = (
-);
-
-my @product_attributes;
-my $count = 0;
-
-for my $product (@products) {
-    for my $id (1,2,4) {
-        push @product_attributes, [++$count, $product->[0], $id, 1];
-    }
-}
-
-# populate attributes array
-my @attributes = (
-['1', 'length', 'Choose Length', 2],
-['2', 'weight', 'Choose Weight', 1],
-['3', 'handle', 'Choose Handle', 0],
-['4', 'action', 'Choose Action', 0],
-['5', 'facebook', '', 0],
-['6', 'fb_token', '', 0],
-['7', 'fb_token_exp', '', 0],
-['8', 'fb_id', '', 0],
-['9', 'user_avatar_thumb', '', 0],
-['10', 'user_avatar', '', 0]
-);
-
-my @products_attributes_values = (
-    # 9FT
-    [1, 4, 1],
-    [2, 7, 1],
-    [3, 10, 1],
-    [4, 19, 1],
-    # 8FT
-    [5, 13, 6],
-    [6, 16, 6],
-    # 5WT
-    [7, 5, 2],
-    [8, 11, 2],
-    [9, 14, 2],
-    # 6WT
-    [10, 8, 4],
-    [11, 17, 4],
-    [12, 20, 4],
-    # Tip flex
-    [13, 6, 3],
-    [14, 9, 3],
-    # Mid flex
-    [15, 12, 5],
-    [16, 15, 5],
-    [17, 18, 5],
-    [18, 21, 5],
-    );
-
-my @attribute_value = (
-['1', '1', '9', '9FT', '0'],
-['2', '2', '5', '5WT', '0'],
-['3', '4', 'tip', 'Tip Flex', '0'],
-['4', '2', '6', '6WT', '0'],
-['5', '4', 'mid', 'Mid Flex', '0'],
-['6', '1', '8.5', '8FT 6IN', '0'],
-);
-
-# populate products table
-$schema->populate('Product', [
-  [ 'sku', 'name', 'short_description', 'description', 'price', 'uri', 'weight', 'priority', 'gtin', 'canonical_sku', 'active', 'inventory_exempt' ],
-@products,
-]);
-
-# populate attributes table
-$schema->populate('Attribute', [
-  [ 'attributes_id', 'name', 'title', 'priority' ],
-  @attributes,
-]);
-
-# populate product_attributes table
-$schema->populate('ProductAttribute', [
-  [ 'product_attributes_id', 'sku', 'attributes_id', 'canonical' ],
-  @product_attributes,
-]);
-
-#populate attribute_values
-$schema->populate('AttributeValue', [
-  [ 'attribute_values_id', 'attributes_id', 'value', 'title', 'priority' ],
-  @attribute_value,
-]);
-
-# populate user attributes
-$users{john}->add_attribute('facebook','0');
-$users{ben}->add_attribute('facebook','0');
-$users{sam}->add_attribute('facebook','0');
-
-my $types = $schema->resultset('MediaType')->populate([
-                                           { type => 'image' },
-                                           { type => 'video' },
-                                          ]);
-
-my $images = $schema->resultset('MediaType')->find({ type => 'image' });
-
-# for now, call the type with the size
-foreach my $type (qw/120x120 169x169  325x325  50x50  70x70  975x975
-                     optimized_jpgs/) {
-    $images->add_to_media_displays({
-                                    type => 'image_' . $type,
-                                    name => 'image_' . $type,
-                                    path => "/images/products/$type",
-                                    size => $type,});
-}
-
-# populate ShipmentCarriers
-my %carrier;
-
-$carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
-    {
-        title => 'UPS',
-        account_number => '1Z999999999999999999',
-        shipment_methods => [
-            { 
-              name => '1DM',
-              title => 'Next Day Air Early AM',
-              max_weight => '150',
-            },
-            { 
-              name => '1DML',
-              title => 'Next Day Air Early AM Letter',
-              max_weight => '150',
-            },
-            {
-              name => '1DA',
-              title => 'Next Day Air',
-              max_weight => '150',
-            },
-            {
-              name => '1DAL',
-              title => 'Next Day Air Letter',
-              max_weight => '150',
-            },
-            {
-              name => '1DP',
-              title => 'Next Day Air Saver',
-              max_weight => '150',
-            },
-            {
-              name => '1DPL',
-              title => 'Next Day Air Saver Letter',
-              max_weight => '150',
-            },
-            {
-              name => '2DM',
-              title => '2nd Day Air A.M.',
-              max_weight => '150',
-            },
-            {
-              name => '2DA',
-              title => '2nd Day Air',
-              max_weight => '150',
-            },
-            {
-              name => '2DML',
-              title => '2nd Day Air A.M. Letter',
-              max_weight => '150',
-            },
-            {
-              name => '2DAL',
-              title => '2nd Day Air Letter',
-              max_weight => '150',
-            },
-            {
-              name => '3DS',
-              title => '3 Day Select',
-              max_weight => '150',
-            },
-            {
-              name => 'GNDCOM',
-              title => 'Ground Commercial',
-              max_weight => '150',
-            },
-            {
-              name => 'GNDRES',
-              title => 'Ground Residential',
-              max_weight => '150',
-            },
-            {
-              name => 'XPR',
-              title => 'Worldwide Express',
-              max_weight => '150',
-            },
-            {
-              name => 'XDM',
-              title => 'Worldwide Express Plus',
-              max_weight => '150',
-            },
-            {
-              name => 'XPRL',
-              title => 'Worldwide Express Letter',
-              max_weight => '150',
-            },
-            {
-              name => 'XDML',
-              title => 'Worldwide Express Plus Letter',
-              max_weight => '150',
-            },
-            {
-              name => 'XPD',
-              title => 'Worldwide Expedited',
-              max_weight => '150',
-            },
-        ],
-    });
-
-$carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
-    {
-        name => 'USPS',
-        account_number => '8985943852094',
-        shipment_methods => [
-            { name => 'EXPRESS' },
-            { name => 'FIRST CLASS' },
-            { name => 'PRIORITY' },
-            { name => 'PARCEL' },
-            { name => 'BPM' },
-            { name => 'LIBRARY' },
-            { name => 'GLOBAL EXPRESS GUARANTEED' },
-            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' },
-            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' },
-            { name => 'USPS GXG ENVELOPES' },
-            { name => 'EXPRESS MAIL INTERNATIONAL (EMS)' },
-            { name => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL' },
-            { name => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' },
-            { name => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' },
-            { name => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' },
-            { name => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL' },
-        ],
-    });
-
-$carrier{BESTWAY} = $schema->resultset("ShipmentCarrier")->create(
-    {
-        name => 'BESTWAY',
-        shipment_methods => [
-        {
-            name => 'FREESHIP',
-            title => 'Economy Free Shipping',
-        },
-    ],
-});
-
-
-my $zone_rs = $schema->resultset("Zone");
-
-# find Lower 48 Zone
-my $lower48 = $zone_rs->find({'zone' => 'US lower 48'});
-
-my $ship_method_rs = $schema->resultset("ShipmentMethod"); 
-
-my %shipment_methods;
-
-# find ups ground method
-$shipment_methods{'UPS'}{'GROUND'} = $ship_method_rs->find(
-                                            {name => 'GNDRES'});
-
-
-$shipment_methods{'UPS'}{'NDA'} = $ship_method_rs->find(
-                                            {name => '1DA'});
-
-
-$shipment_methods{'UPS'}{'3DS'} = $ship_method_rs->find(
-                                            {name => '3DS'});
-
-my $ship_dest_rs = $schema->resultset("ShipmentDestination");
-
-my %destination;
-
-$destination{'UPS'}{'GROUND'} = $ship_dest_rs->create(
-    {
-       zones_id => $lower48->id,
-       shipment_methods_id => $shipment_methods{UPS}{GROUND}->id,
-    }
-);
-
-$destination{'UPS'}{'NDA'} = $ship_dest_rs->create(
-    {
-       zones_id => $lower48->id,
-       shipment_methods_id => $shipment_methods{UPS}{NDA}->id,
-    }
-);
-
-# set flat shipping rates
-my $ship_rate_rs = $schema->resultset("ShipmentRate");
-
-my %shipment_rate;
-
-$shipment_rate{'L48'}{'UPS'}{'GROUND'} = $ship_rate_rs->create(
-    {
-        zones_id => $lower48->id,
-        shipment_methods_id => $shipment_methods{'UPS'}{'GROUND'}->id,
-        min_weight => '0',
-        max_weight => '0',
-        price => '9.95',
-    }
-);
-
-$shipment_rate{'L48'}{'UPS'}{'NDA'} = $ship_rate_rs->create(
-    {
-        zones_id => $lower48->id,
-        shipment_methods_id => $shipment_methods{'UPS'}{'NDA'}->id,
-        min_weight => '0',
-        max_weight => '0',
-        price => '45.95',
-    }
-);
-
-
