@@ -13,7 +13,7 @@ use Angler::Routes::About;
 use Angler::Routes::Account;
 use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
-use Angler::Routes::Review;
+#use Angler::Routes::Review;
 use Angler::Routes::Search;
 use Angler::Cart;
 
@@ -138,61 +138,61 @@ hook 'before_product_display' => sub {
     }
 
     my @other_products;
-    my @review_list;
+#    my @review_list;
 
     # set form review defaults
-    my $form = form('review');
-
-    $form->{values}->{rating} //= '0';
-    my $values = $form->{values};
+#    my $form = form('review');
+#
+#    $form->{values}->{rating} //= '0';
+#    my $values = $form->{values};
     # debug "Errors: ", $form->{errors};
-    $form->fill($values);
-    $form->action('/review/' . $product->sku);
-    $tokens->{form} = $form;
-    $tokens->{errors} = session('review_errors');
-    session review_errors => undef;
+#    $form->fill($values);
+#    $form->action('/review/' . $product->sku);
+#    $tokens->{form} = $form;
+#    $tokens->{errors} = session('review_errors');
+#    session review_errors => undef;
 
-    if ($user) {
-        $tokens->{review_link} = '#open';
-        $tokens->{review_nickname} = shop_user($user_id)->nickname;
-    }
-    else {
-        $tokens->{review_link} = '/login';
-    }
+#    if ($user) {
+#        $tokens->{review_link} = '#open';
+#        $tokens->{review_nickname} = shop_user($user_id)->nickname;
+#    }
+#    else {
+#        $tokens->{review_link} = '/login';
+#    }
 
-    $tokens->{disable_review} = rset('Review')->find({sku => $sku, users_id => $user_id});
+#    $tokens->{disable_review} = rset('Review')->find({sku => $sku, users_id => $user_id});
 
     # create review iderators
-    my $review_rs = shop_review->search({sku => $sku, approved => '1', public => '1'});
-
-    while (my $review = $review_rs->next) {
-
-        my $user = shop_user($review->users_id);
-        debug "Review user_id: ", $user->id;
-        my $nickname = $user->nickname;
-        my $first_name = $user->first_name;
-        my $last_name = substr($user->last_name, 0, 1);
-        my $avatar = $user->find_attribute_value('user_avatar_thumb') || '/img/img_default_user_icon_50x50.jpg';
-        debug "Avatar: ", $avatar;
-        my $reviewer;
-
-        if (!$nickname) {
-            $reviewer = "- $first_name $last_name.";
-        }
-        else {
-            $reviewer = "- $nickname";
-            $reviewer =~ s/([\w']+)/\u\L$1/g;
-        }
-
-        push @review_list, {'title' => $review->title,
-                            'content' => $review->content,
-                            'rating' => $review->rating,
-                            'recommend' => $review->recommend,
-                            'avatar' => $avatar,
-                            'reviewer' => $reviewer,
-                        };
-        $tokens->{review_list} = \@review_list;
-    };
+#    my $review_rs = shop_review->search({sku => $sku, approved => '1', public => '1'});
+#
+#    while (my $review = $review_rs->next) {
+#
+#        my $user = shop_user($review->users_id);
+#        debug "Review user_id: ", $user->id;
+#        my $nickname = $user->nickname;
+#        my $first_name = $user->first_name;
+#        my $last_name = substr($user->last_name, 0, 1);
+#        my $avatar = $user->find_attribute_value('user_avatar_thumb') || '/img/img_default_user_icon_50x50.jpg';
+#        debug "Avatar: ", $avatar;
+#        my $reviewer;
+#
+#        if (!$nickname) {
+#            $reviewer = "- $first_name $last_name.";
+#        }
+#        else {
+#            $reviewer = "- $nickname";
+#            $reviewer =~ s/([\w']+)/\u\L$1/g;
+#        }
+#
+#        push @review_list, {'title' => $review->title,
+#                            'content' => $review->content,
+#                            'rating' => $review->rating,
+#                            'recommend' => $review->recommend,
+#                            'avatar' => $avatar,
+#                            'reviewer' => $reviewer,
+#                        };
+#        $tokens->{review_list} = \@review_list;
+#    };
 
     if ($current_nav) {
         my $other_records = config->{records}->{other_products};
