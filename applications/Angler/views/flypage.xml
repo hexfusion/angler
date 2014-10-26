@@ -1,4 +1,5 @@
 <specification>
+<!-- product -->
 <value name="name" field="product.name"/>
 <value name="sku" id="sku" field="product.sku"/>
 <value name="short_description" field="product.short_description"/>
@@ -24,6 +25,17 @@
 </list>
 
 <value name="quantity" iterator="quantity"/>
+<value name="cart_count" class="cart-count"/>
+<value name="cart_total" class="cart-total" filter="currency"/>
+
+<!-- Cart -->
+<list name="cart" class="cart-item-mini" iterator="cart">
+<param name="name"/>
+<param name="price"/>
+<param name="qty" field="quantity"/>
+<param name="subtotal" filter="currency"/>
+<param name="remove-cart-product" field="sku" target="value"/>
+</list>
 
 <!-- free shipping container -->
 <container name="free-shipping" value="free_shipping"/>

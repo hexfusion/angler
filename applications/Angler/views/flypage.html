@@ -360,19 +360,19 @@
               <div class="block-title"> <strong><span>My Cart</span></strong> <span class="toggle"></span></div>
               <div class="block-content">
                 <div class="summary">
-                  <p class="amount">There is <a href="">1 item</a> in your cart.</p>
-                  <p class="subtotal"> <span class="label">Cart Subtotal:</span> <span class="price">$199.90</span> </p>
+                  <p class="amount">There is <a href=""><span class="cart-count">0</span> item</a> in your cart.</p>
+                  <p class="subtotal"> <span class="label">Cart Subtotal:</span> <span class="cart-total price">$199.90</span> </p>
                 </div>
                 <div class="actions">
-                  <button type="button" title="Checkout" class="button" onClick="setLocation('')"><span><span>Checkout</span></span></button>
+                  <button type="button" title="Checkout" class="button" onClick="setLocation('/checkout')"><span><span>Checkout</span></span></button>
                 </div>
                 <p class="block-subtitle">Recently added item(s)</p>
-                <ol id="cart-sidebar" class="mini-products-list">
+                <ol id="cart-sidebar" class="cart-item-mini mini-products-list">
                   <li class="item last">
                     <div class="product-control-buttons"> <a href="" title="Remove This Item" onClick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" class="btn-remove">Remove This Item</a> <a href="" title="Edit item" class="btn-edit">Edit item</a> </div>
                     <a href="" title="Simms Coldweather Shirt Red" class="product-image"><img src="products/images/100x100/simms-coldweather-ls-shirt.png" alt="Simms Coldweather Shirt Red"></a>
-                    <p class="product-name"><a href="">Simms Coldweather Shirt Red</a></p>
-                    <div class="product-details"> <strong>2</strong> x <span class="price">$199.90</span> </div>
+                    <p class="name product-name"><a href="">Simms Coldweather Shirt Red</a></p>
+                    <div class="product-details"> <strong><span class="qty">2</span></strong> x <span class="price">$199.90</span> </div>
                   </li>
                 </ol>
                 <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
