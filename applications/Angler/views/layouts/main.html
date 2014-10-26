@@ -11,6 +11,7 @@
 <script type="text/javascript" src="/js/jquery-migrate-1.js"></script>
 <script type="text/javascript" src="/js/superfish.js"></script>
 <script type="text/javascript" src="/js/scripts.js"></script>
+
 <!--[if lt IE 7]>
 <script type="text/javascript">
 //<![CDATA[
@@ -27,6 +28,7 @@
     body {  min-width: 960px !important;}
 </style>
 <![endif]-->
+
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/jquery.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/photoswipe.css" media="all">
@@ -49,13 +51,16 @@
 <script type="text/javascript" src="/js/tm-stick-up.js"></script>
 <script type="text/javascript" src="/js/carousel.js"></script>
 <script type="text/javascript" src="/js/msrp.js"></script>
+
 <!--[if lt IE 8]>
 <link rel="stylesheet" type="text/css" href="product/css/styles-ie.css" media="all" />
 <![endif]-->
+
 <!--[if lt IE 7]>
 <script type="text/javascript" src="product/js/lib/ds-sleight.js"></script>
 <script type="text/javascript" src="product/js/ie6.js"></script>
 <![endif]-->
+
 </head>
 <body class="ps-static  cms-index-index cms-home">
 <div class="wrapper ps-static en-lang-class">
@@ -68,6 +73,7 @@
   </div>
   </noscript>
   <div class="page">
+<!-- mobile slide out menu -->
     <div class="shadow"></div>
     <div class="swipe-left"></div>
     <div style="height: 884px;" class="swipe">
@@ -75,8 +81,8 @@
         <ul class="links">
           <li class="first"><a href="" title="My Account">My Account</a><span class="cart_count">0</span></li>
           <li><a href="" title="My Wishlist">My Wishlist</a></li>
-          <li class="top-car"><a href="" title="My Cart (<span class="cart_count">0</span> items)" class="top-link-cart">My Cart (<span class="cart_count">0</span> items)</a></li>
-          <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
+          <li class="top-car"><a href="/cart" title="My Cart" class="top-link-cart">My Cart (<span class="cart-count">0</span> items)</a></li>
+          <li><a href="/checkout" title="Checkout" class="top-link-checkout">Checkout</a></li>
           <li class=" last"><a href="" title="Log In">Log In</a></li>
         </ul>
         <div class="language-list switch-show">
@@ -111,6 +117,7 @@
         </div>
       </div>
     </div>
+<!-- end mobile slide out menu -->
     <div class="top-icon-menu">
       <div class="swipe-control"><i class="fa fa-align-justify"></i></div>
       <div class="top-search"><i class="fa fa-search"></i></div>
@@ -126,7 +133,7 @@
                     <li class="first"><a href="" title="My Account">My Account</a></li>
                     <li><a href="" title="My Wishlist">My Wishlist</a></li>
                     <li class="top-car"><a href="" title="My Cart (2 items)" class="top-link-cart">My Cart ( 0 items)</a></li>
-                    <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
+                    <li><a href="/checkout" title="Checkout" class="top-link-checkout">Checkout</a></li>
                     <li class=" last"><a href="" title="Log In">Log In</a></li>
                   </ul>
                 </div>
@@ -425,7 +432,8 @@
                   <div class="footer-col-content">
                     <ul>
                       <li><a href="">Sign In</a></li>
-                      <li><a href="">View Cart</a></li>
+                      <li><a href="/cart">View Cart</a></li>
+                      <li><a href="/checkout">Checkout</a></li>
                       <li><a href="">My Wishlist</a></li>
                       <li><a href="">Track My Order</a></li>
                       <li><a href="">Help</a></li>
