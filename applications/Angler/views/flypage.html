@@ -53,7 +53,19 @@
                   <div class="product-name">
                     <h1 class="name">Patagonia Foot Tractor</h1>
                   </div>
-                  <p class="availability in-stock">Availability: <span>In stock</span></p>
+                    <div class="product-rating-wrap">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="rateit" data-rateit-value="4.7" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        </div>
+                      <div class="col-md-8">
+                        <div class="product-reviews-summary">
+                          <span>4.7/5</span> based on <span>66</span> <a href="">reviews</a> | <a href="add-review.html">Write a review</a>
+                        </div>
+                      </div>
+                    </div> <!-- end .row -->
+                    </div> 
+                 <p class="availability in-stock">Availability: <span>In stock</span></p>
                   <div class="price-box"> <span class="regular-price" id="product-price-19"> <span class="price">$269.00</span> </span> </div>
                   <div class="clear"></div>
                   <div class="short-description">
@@ -98,12 +110,14 @@
                       </div>
                     </div>
                    </form>
+<!--
                       <span class="or">OR</span>
                       <ul class="add-to-links">
                         <li><a href="" class="link-wishlist">Add to Wishlist</a></li>
                         <li><span class="separator">|</span> <a href="" class="link-compare">Add to Compare</a></li>
                       </ul>
                       </ul>
+-->
                     </div>
                     <div class="row-product">
                       <p class="no-rating"><a href="#review-form">Be the first to review this product</a></p>
@@ -317,38 +331,13 @@
             <div class="block block-related first">
               <div class="block-title"> <strong><span>Related Products</span></strong> <span class="toggle"></span></div>
               <div class="block-content">
-                <!-- <p class="block-subtitle">Check items to add to the cart or&nbsp;<a href="#" onclick="selectAllRelated(this); return false;">select all</a></p> -->
-                <ol class="mini-products-list" id="block-related">
-                  <li class="item odd">
-                    <!--                                      -->
+                <ol class="related-products mini-products-list">
+                  <li class="mini-products-list item odd">
                     <div class="product"> <a href="" title="Patagonia Men's Rio Gallegos Waders" class="product-image"><img src="products/images/100x100/patagonia-rio-gallegos.png" alt="Patagonia Men's Rio Gallegos Waders"></a>
-                      <p class="product-name"><a href="">Patagonia Men's Rio Gallegos Waders</a></p>
+                      <p class="product-name"><a class="related-product-link" href="">Patagonia Men's Rio Gallegos Waders</a></p>
                       <div class="product-details">
-                        <div class="price-box"> <span class="regular-price" id="product-price-34-related"> <span class="price">$499.00</span> </span> </div>
-                        <a href="" class="link-wishlist">Add to Wishlist</a>
-                        <div class="clear"></div>
-                        <a href="" class="link-cart">Add to Cart</a> </div>
-                    </div>
-                  </li>
-                  <li class="item even">
-                    <!--                                      -->
-                    <div class="product"> <a href="" title="Patagonia Stud Kit" class="product-image"><img src="products/images/100x100/patagonia-stud-kit.png" alt="Patagonia Stud Kit"></a>
-                      <p class="product-name"><a href="">Patagonia Stud Kit</a></p>
-                      <div class="product-details">
-                        <div class="price-box"> <span class="regular-price" id="product-price-32-related"> <span class="price">$19.00</span> </span> </div>
-                        <a href="" class="link-wishlist">Add to Wishlist</a>
-                        <div class="clear"></div>
-                        <a href="" class="link-cart">Add to Cart</a> </div>
-                    </div>
-                  </li>
-                  <li class="item last odd">
-                    <!--                                             <input type="checkbox" class="checkbox related-checkbox" id="related-checkbox33" name="related_products[]" value="33" />
-                                     -->
-                    <div class="product"> <a href="" title="Patagonia Fitzroy Trout Trucker Hat" class="product-image"><img src="products/images/100x100/patagonia-fitzroy-trout-trucker-grn.png" alt="Patagonia Fitzroy Trout Trucker Hat"></a>
-                      <p class="product-name"><a href="">Patagonia Fitzroy Trout Trucker Hat</a></p>
-                      <div class="product-details">
-                        <div class="price-box"> <span class="regular-price" id="product-price-33-related"> <span class="price">$29.00</span> </span> </div>
-                        <a href="" class="link-wishlist">Add to Wishlist</a>
+                        <div class="price-box"> <span class="regular-price" id="product-price-34-related"> <span class="related-product-price">$499.00</span> </span> </div>
+                       <!-- <a href="" class="link-wishlist">Add to Wishlist</a> -->
                         <div class="clear"></div>
                         <a href="" class="link-cart">Add to Cart</a> </div>
                     </div>
