@@ -17,10 +17,8 @@ charset: "UTF-8"
 # template engine
 # simple: default and very basic template engine
 # template_toolkit: TT
-template: "template_flute"
 
-# serializer
-serializer: "JSON"
+template: "template_flute"
 
 # session engine
 session: "DBIC"
@@ -47,6 +45,10 @@ records:
 
 free_shipping: 
   amount: 100
+
+flypage:
+  related_product:
+    qty: 3
 
 order_email: orders@westbranchangler.com
 
@@ -82,5 +84,4 @@ plugins:
   Email:
     transport:
       Sendmail:
-  Ajax:
-    content_type: 'application/json'
+
