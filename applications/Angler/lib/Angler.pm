@@ -108,8 +108,40 @@ hook 'before_navigation_display' => sub {
 
 hook 'before_product_display' => sub {
     my ($tokens) = @_;
-
     my $product = $tokens->{product};
+    my $related_products;
+    my @related_products;
+
+    # find related products
+    my $prod_rs = shop_product($product->sku)->search_related(
+        'merchandising_products',
+        {
+            type => 'related',
+        },
+        {
+            rows => config->{flypage}->{related_products}->{qty},
+        },
+    );
+
+    while (my $prod = $prod_rs->next) {
+        my $related = shop_product($prod->sku_related);
+        my $image = $related->media_by_type('image')->first;
+        push @related_products, {
+                            sku => $related->sku,
+                            name => $related->name,
+                            price => $related->price,
+                            image => $image,
+        };
+   }
+
+    debug "Related Products: ", \@related_products;
+    $tokens->{related_products} = \@related_products;
+
+    # cart
+    debug "Cart Products: ", cart->products;
+    $tokens->{cart} = cart->products;
+    $tokens->{cart_count} = cart->quantity;
+    $tokens->{cart_total} = cart->total;
 
     # order quantity
     my $qmin = 1;
