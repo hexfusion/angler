@@ -290,20 +290,6 @@ $product{WBA2001} = $schema->resultset('Product')->create(
     }
 );
 
-$product{WBA0003}->add_to_reviews(
-                    {
-                    title           => '1',
-                    message_types_id   => '3',
-                    content         => "The Helios 2 fly rod changed my life I can't say enough good things about it.",
-                    author          =>  $users{john}->id,
-                    rating          => '5.0',
-                    recommend       => '1',
-                    public          => '1',
-                    approved        => '1',
-                    approved_by     => $users{sam}->id,
-                 },
-);
-
 $schema->resultset('Product')->find( { sku => "WBA1001" } )->add_variants(
     {
         rweight => '3',
@@ -563,7 +549,7 @@ my $media = $schema->resultset('Media')->populate([
                                 media_types_id => '1',
                             },
                             {
-                                uri => '//www.youtube.com/embed/HfhpZPdrc2A',
+                                uri => 'http://www.youtube.com/embed/HfhpZPdrc2A',
                                 media_types_id => '2',
                             }
                             ]);
@@ -586,32 +572,31 @@ $schema->resultset('MediaProduct')->populate([
                                            { media_id => '2', sku => 'WBA0007' },
                                           ]);
 
-#$schema->resultset('Message')->populate([
-#                                    {
-#                                        title           => '1',
-#                                        message_types_id   => '3',
-#                                        content         => "The Helios 2 fly rod changed my life I can't say enough good things about it.",
-#                                        author          =>  $users{john}->id,
-#                                        rating          => '5.0',
-#                                        recommend       => '1',
-#                                        public          => '1',
-#                                        approved        => '1',
-#                                        approved_by     => $users{sam}->id,
-#                                    },
-#                                    {
-#                                        title           => '1',
-#                                        message_types_id   => '3',
-#                                        content         => "It's a fine rod but to me it's way over priced.",
-#                                        author          =>  $users{ben}->id,
-#                                        rating          => '3.5',
-#                                        recommend       => '1',
-#                                        public          => '1',
-#                                        approved        => '1',
-#                                        approved_by     => $users{sam}->id,
-#                                    },
-#]);
-#
-#$schema->resultset('ProductReview')->populate([
-#                                           { messages_id => '1', sku => 'WBA0003' },
-#                                           { messages_id => '1', sku => 'WBA0017' },
-#]);
+$product{WBA0003}->add_to_reviews(
+                    {
+                    title           => '1',
+                    message_types_id   => '3',
+                    content         => "The Helios 2 fly rod changed my life I can't say enough good things about it.",
+                    author          =>  $users{john}->id,
+                    rating          => '5.0',
+                    recommend       => '1',
+                    public          => '1',
+                    approved        => '1',
+                    approved_by     => $users{sam}->id,
+                 },
+);
+
+$schema->resultset('Product')->find( { sku => "WBA0017" } )->add_to_reviews(
+                                    {
+                                        title           => '1',
+                                        message_types_id   => '3',
+                                        content         => "It's a fine rod but to me it's way over priced.",
+                                        author          =>  $users{ben}->id,
+                                        rating          => '3.5',
+                                        recommend       => '1',
+                                        public          => '1',
+                                        approved        => '1',
+                                        approved_by     => $users{sam}->id,
+                                    },
+);
+
