@@ -149,12 +149,17 @@ hook 'before_product_display' => sub {
     $tokens->{review_count} =  $review_rs->count;
     $tokens->{review_link} = '/review/' . $product->sku;
 
+    $tokens->{review_avg} = Angler::Routes::Review->average_rating($product->sku);
+
+    debug "review avg: ", $tokens->{review_avg};
+
     while (my $review = $review_rs->next) {
        push @reviews, {
                     content => $review->content,
                     rating => $review->rating,
                     recommend => $review->recommend,
-                    author => $review->author->first_name  . ' ' . $review->author->last_name
+#FIXME we need to manage if user is anonymous
+#                    author => $review->author->first_name  . ' ' . $review->author->last_name
         };    
     };
 
