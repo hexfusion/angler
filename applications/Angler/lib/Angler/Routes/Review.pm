@@ -15,6 +15,7 @@ use Try::Tiny;
 get '/review/:sku' => sub {
     my $sku = params->{sku};
     my $product = shop_product($sku);
+    my $form = form('review');
     my ($image_src, $review_count);;
     # add image. There could be more, so we just pick the first
     my $image = $product->media_by_type('image')->first;
@@ -30,50 +31,35 @@ get '/review/:sku' => sub {
     template 'product-review', { product => $product,
                                  image_src => $image_src,
                                  review_count => $review_count,
+                                 form => $form,
     };
 };
 
-post '/review/:sku' => require_login sub {
+#post '/review/:sku' => require_login sub {
+post '/review/:sku' => sub {
     my $form = form('review');
     my $values = $form->values;
-    my $user = logged_in_user;
-    my $users_id = $user->users_id;
+    my $users_id;
     my $sku = params->{sku};
+    my $product = shop_product($sku);
 
     #validate input
     my $error_hash = validate_review($values);
 
-    unless ($error_hash) {
+#    unless ($error_hash) {
         my $review_data = { rating => $values->{rating},
                             title => $values->{title},
-                            sku => $sku,
                             content => $values->{content},
                             recommend => $values->{recommend},
-                            users_id => $users_id,
+                            author => $users_id,
         };
 
-         debug "clean review data: ", $review_data;
-
-        # check if review for product already exist for this user
-        my $review_exist = rset('Review')->find({sku => $sku, users_id => $users_id});
-        if ($review_exist) {
-            die "A review for $sku already exists for this user!";
-        }
-        else {
-            debug "review EXIST: ", $review_data;
-            my $review = rset('Review')->create( $review_data );
-            debug "dirty review data: ", $review_data;
+        debug "error hash: ", $error_hash;
+         debug "form values: ", $review_data;
+          my $review = $product->add_to_reviews( $review_data );
             review_email($review_data);
             $form->reset;
-            $form->to_session;
-            session flypage_message => 'Thank you for your review!';
-            return redirect "/$sku";
-        }
-    }
-    else {
-        session review_errors => $error_hash;
-        return redirect "/$sku#review";
-    }
+            return redirect "/review/:sku";
 };
 
 sub validate_review {
@@ -96,7 +82,7 @@ sub validate_review {
 sub review_email {
     my ($review_data) = @_;
     my $message = template('email/review_new', $review_data, {layout => undef});
-    debug 'email review data ', $review_data;
+#    debug 'email review data ', $review_data;
         email ({
             from    => 'ic6test@westbranchangler.com',
             to      => 'sam@westbranchresort.com',
@@ -106,5 +92,17 @@ sub review_email {
         });
  };
 
+=head2 average_rating
+
+Returns the average rating across all public and approved product reviews.
+
+=cut
+
+sub average_rating {
+    my ($self, $sku) = @_;
+    my $reviews = shop_product($sku)->reviews( { public => 1, approved => 1 } );
+    return
+      sprintf( "%.02f", $reviews->get_column('rating')->sum / $reviews->count );
+}
 
 1;
