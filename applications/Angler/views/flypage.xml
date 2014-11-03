@@ -11,6 +11,7 @@
 
 <!-- product attributes -->
 <container name="variant-error" value="session.shop_cart_error"/>
+
 <list name="attributes" class="product-attributes-item"
       iterator="product.attribute_iterator">
   <param name="name" class="product-attributes-name" target="name"/>
@@ -40,22 +41,14 @@
 <!-- free shipping container -->
 <container name="free-shipping" value="free_shipping"/>
 
-<!--
-<value name="attribute_size" class="attribute-size" iterator="attribute_size"/>
-<value name="attribute_color" class="attribute-color" iterator="attribute_color"/>
--->
-
 <!-- Other ... -->
 <value name="category_name" id="category-name"/>
 <value name="category_more" class="link-more" target="href"/> 
-<list name="other_products" class="product-sidebar" iterator="category_products">
-<param name="name" class="product-sidebar-link"/>
-<param name="uri" class="product-sidebar-link" field="sku" target="href"
-       op="append"/>
-<param name="uri_thumb" class="product-sidebar-link-thumb" field="sku" target="href" op="append"/>
-<param name="price" class="product-sidebar-price" field="price"
+
+<list name="other_products" class="related-products" iterator="related_products">
+<param name="name" class="related-product-link" field="name"/>
+<param name="price" class="related-product-price" field="price"
        filter="currency"/>
-<param name="image_thumb" class="product-sidebar-thumb" target="src"/>
 </list>
 <!-- <list name="links" class="link" iterator="review_link"> -->
 <value name="review_link" class="review_link" iterator="review_link" target="href"/>
@@ -65,10 +58,9 @@
        field="review_nickname" op="toggle" args="static"/>
 
 <!-- nickname display -->
-<container name="nickname-container" value="review_nickname">
+<container name="nickname-container" value="review_nickname" />
 <value id="nickname-display" name="nickname_display"
        field="review_nickname"/>
-</container>
 
 <!-- nickname form field -->
 <container name="review-nickname" value="!review_nickname"/>
@@ -92,11 +84,13 @@
 <param name="value" class="content-msg"/>
 </list>
 
+
 <!-- Reviews -->
-<container name="product-review-container" value="!disable_review"/>
-<!--<container class="messages" value="messages" />
-<value name="messages" />
--->
+<container name="review_exist" value="review_count" class="product-reviews-summary"/>
+    <value name="review_count" class="review-count" iterator="review_count"/>
+
+<container name="review_null" value="!review_count" class="no-product-review"/>
+
 <list name="review_list" class="product-comment" iterator="review_list">
 <param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>
 <param name="title" class="product-comment-title" field="title"/>
