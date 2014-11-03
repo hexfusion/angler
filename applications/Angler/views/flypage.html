@@ -12,7 +12,7 @@
               <li class="product"> <strong class="name">Patagonia Foot Tractor</strong> </li>
             </ul>
           </div>
-          <div class="row">
+          <div class="row spacer">
             <div class="col-main col-xs-12 col-sm-9">
               <div class="padding-s">
                 <div id="messages_product_view"></div>
@@ -60,10 +60,10 @@
                         </div>
                       <div class="col-md-8">
                         <div class="product-reviews-summary">
-                          <span>4.7/5</span> based on <span class="review-count">66</span> <a href="">reviews</a> | <a href="add-review.html">Write a review</a>
+                          <span>4.7/5</span> based on <span class="review-count">66</span> <a href="">reviews</a> | <a href="">Write a review</a>
                         </div>
                         <div class="no-product-review">
-                          <p class="fa fa-pencil"><a href="#review-form"> Be the first to review this product</a></p>
+                          <p class="fa fa-pencil"><a class="add-review" href=""> Be the first to review this product</a></p>
                         </div>
                       </div>
                     </div> <!-- end .row -->
@@ -123,7 +123,7 @@
 -->
                     </div>
                     <div class="row-product">
-                      <p class="no-rating"><a href="#review-form">Be the first to review this product</a></p>
+                      <p class="no-rating"><a class="add-review" href="">Be the first to review this product</a></p>
                       <p class="email-friend"><a href="">Email to a Friend</a></p>
                     </div>
                     </div>
@@ -173,92 +173,7 @@
                           </div>
                         </div>
 -->
-                  <div class="box-collateral box-reviews" id="customer-reviews"> </div>
-                  <div class="box-collateral form-add">
-                    <h2>Write Your Own Review<span class="toggle opened"></span></h2>
-                    <div style="display: block;" class="box-collateral-content">
-                      <form action="" method="post" id="review-form">
-                        <input name="form_key" value="" type="hidden">
-                        <fieldset>
-                          <h3>You're reviewing: <span class="name">Patagonia River Tractor</span></h3>
-                          <h4>How do you rate this product? <em class="required">*</em></h4>
-                          <span id="input-message-box"></span>
-                          <table class="data-table" id="product-review-table">
-                            <colgroup>
-                            <col>
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                            </colgroup>
-                            <thead>
-                              <tr class="first last">
-                                <th>&nbsp;</th>
-                                <th><span class="nobr">1 star</span></th>
-                                <th><span class="nobr">2 stars</span></th>
-                                <th><span class="nobr">3 stars</span></th>
-                                <th><span class="nobr">4 stars</span></th>
-                                <th><span class="nobr">5 stars</span></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr class="first odd">
-                                <th>Price</th>
-                                <td class="value"><input name="ratings[3]" id="Price_1" value="11" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[3]" id="Price_2" value="12" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[3]" id="Price_3" value="13" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[3]" id="Price_4" value="14" class="radio" type="radio"></td>
-                                <td class="value last"><input name="ratings[3]" id="Price_5" value="15" class="radio" type="radio"></td>
-                              </tr>
-                              <tr class="even">
-                                <th>Value</th>
-                                <td class="value"><input name="ratings[2]" id="Value_1" value="6" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[2]" id="Value_2" value="7" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[2]" id="Value_3" value="8" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[2]" id="Value_4" value="9" class="radio" type="radio"></td>
-                                <td class="value last"><input name="ratings[2]" id="Value_5" value="10" class="radio" type="radio"></td>
-                              </tr>
-                              <tr class="last odd">
-                                <th>Quality</th>
-                                <td class="value"><input name="ratings[1]" id="Quality_1" value="1" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[1]" id="Quality_2" value="2" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[1]" id="Quality_3" value="3" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[1]" id="Quality_4" value="4" class="radio" type="radio"></td>
-                                <td class="value last"><input name="ratings[1]" id="Quality_5" value="5" class="radio" type="radio"></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <input name="validate_rating" class="validate-rating" value="" type="hidden">
-                          <script type="text/javascript">decorateTable('product-review-table')</script>
-                          <ul class="form-list">
-                            <li>
-                              <label for="nickname_field" class="required"><em>*</em>Nickname</label>
-                              <div class="input-box">
-                                <input name="nickname" id="nickname_field" class="input-text required-entry form-control" value="Sam" type="text">
-                              </div>
-                            </li>
-                            <li>
-                              <label for="summary_field" class="required"><em>*</em>Summary of Your Review</label>
-                              <div class="input-box">
-                                <input name="title" id="summary_field" class="input-text required-entry form-control" type="text">
-                              </div>
-                            </li>
-                            <li>
-                              <label for="review_field" class="required"><em>*</em>Review</label>
-                              <div class="input-box">
-                                <textarea name="detail" id="review_field" cols="5" rows="3" class="required-entry form-control"></textarea>
-                              </div>
-                            </li>
-                          </ul>
-                        </fieldset>
-                        <div class="buttons-set">
-                          <button type="submit" title="Submit Review" class="button"><span><span>Submit Review</span></span></button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                  <div class="video-box box-collateral">
+                 <div class="video-box box-collateral">
                     <h2>Video<span class="toggle"></span></h2>
                     <div class="box-collateral-content">
                       <div class="video">
