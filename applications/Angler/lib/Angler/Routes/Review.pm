@@ -13,7 +13,24 @@ use Dancer::Plugin::Email;
 use Try::Tiny;
 
 get '/review/:sku' => sub {
-    return redirect '/' . param('sku') . '#review';
+    my $sku = params->{sku};
+    my $product = shop_product($sku);
+    my ($image_src, $review_count);;
+    # add image. There could be more, so we just pick the first
+    my $image = $product->media_by_type('image')->first;
+
+    if ($image) {
+        $image_src = uri_for($image->display_uri('image_325x325'));
+    }
+
+   # reviews
+    my $review_rs = shop_product($sku)->reviews;
+    $review_count =  $review_rs->count;
+
+    template 'product-review', { product => $product,
+                                 image_src => $image_src,
+                                 review_count => $review_count,
+    };
 };
 
 post '/review/:sku' => require_login sub {
