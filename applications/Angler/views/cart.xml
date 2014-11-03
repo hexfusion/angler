@@ -8,28 +8,35 @@
 </list>
 
 <!-- free shipping containers -->
+<!--
 <container name="free-shipping" value="free_shipping"/>
 <container name="nonfree-shipping" value="free_shipping_gap">
 <value name="free_shipping_gap" class="free-shipping-gap" filter="currency"/>
 <value name="shipping_warning" class="shipping-warning" />
 </container>
+-->
 
 <form name="cart" target="name" id="form-cart">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
+
+<!--
 <field name="shipping_method" iterator="shipping_methods"
        iterator_value_key="name" iterator_name_key="title"  />
+-->
 <field name="postal_code" id="zip"/>
 </form>
 
-<!-- unused so far -->
+<!-- unused so far
 <form name="shipping-methods" target="name">
 </form>
 
 <form name="shipping-update" target="name">
 </form>
-
+-->
+<!--
 <value name="cart-shipping" field="cart_shipping" filter="currency"/>
 <value name="cart-tax" field="cart_tax" filter="currency"/>
+-->
 <value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
 <value name="cart-total" field="cart_total" filter="currency"/>
 </specification>

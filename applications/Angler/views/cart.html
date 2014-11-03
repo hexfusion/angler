@@ -131,7 +131,6 @@
                            </div>
                         </div>
                         <div class="col-2">
-                          <form id="discount-coupon-form" action="" method="post">
                             <div class="discount">
                               <h2>Discount Codes</h2>
                               <div class="discount-form">
@@ -145,12 +144,11 @@
                                 </div>
                               </div>
                             </div>
-                          </form>
+                          
 
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
                             <div class="shipping-form">
-                              <form action="" method="post" id="shipping-zip-form">
                                 <p>Enter your destination to get a shipping estimate.</p>
                                 <ul class="form-list">
                                   <li>
@@ -161,7 +159,6 @@
                                       </select>
                                     </div>
                                   </li>
-
 
                                   <li>
                                     <label for="region_id">State/Province</label>
@@ -177,18 +174,18 @@
                                   <li>
                                     <label for="postcode">Zip/Postal Code</label>
                                     <div class="input-box">
-                                      <input class="input-text validate-postcode form-control" id="postcode" name="estimate_postcode" type="text">
+                                      <input class="input-text validate-postcode form-control" id="postal_code" name="postal_code" type="text">
                                     </div>
                                   </li>
                                 </ul>
                                 <div class="buttons-set">
                                   <button type="button" title="Get a Quote" class="button"><span><span>Get a Quote</span></span></button>
                                 </div>
-                              </form>
                               </div>
                           </div>
                         </div>
                       </div>
+<form id="form-cart" name="cart" action="/checkout" method="POST">
                       <div class="totals">
                         <table id="shopping-cart-totals-table">
                           <colgroup>
@@ -198,13 +195,17 @@
                           <tfoot>
                             <tr>
                               <td style="" class="a-right" colspan="1"><strong>Grand Total</strong></td>
-                              <td style="" class="a-right"><strong><span class="price">$199.90</span></strong></td>
+                              <td style="" class="a-right"><strong><span class="cart-total price">$199.90</span></strong></td>
                             </tr>
                           </tfoot>
                           <tbody>
                             <tr>
                               <td style="" class="a-right" colspan="1"> Subtotal </td>
-                              <td style="" class="a-right"><span class="subtotal price">$199.90</span></td>
+                              <td style="" class="a-right"><span class="cart-subtotal price">$199.90</span></td>
+                            </tr>
+                           <tr>
+                              <td style="" class="a-right" colspan="1"> Sales Tax </td>
+                              <td style="" class="a-right"><span class="cart-subtotal price">$19.90</span></td>
                             </tr>
                           </tbody>
                         </table>
@@ -212,9 +213,10 @@
                           <li>
                             <button type="submit" title="Proceed to Checkout" class="button btn-proceed-checkout btn-checkout"><span><span>Proceed to Checkout</span></span></button>
                           </li>
-                          <li><a href="" title="Checkout with Multiple Addresses">Checkout with Multiple Addresses</a> </li>
+                          <!--<li><a href="" title="Checkout with Multiple Addresses">Checkout with Multiple Addresses</a> </li> -->
                         </ul>
                       </div>
+</form>
                     </div>
                   </div>
                 </div>
