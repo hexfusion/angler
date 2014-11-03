@@ -109,8 +109,8 @@ hook 'before_navigation_display' => sub {
 hook 'before_product_display' => sub {
     my ($tokens) = @_;
     my $product = $tokens->{product};
-    my $related_products;
     my @related_products;
+    my @reviews;
 
     # find related products
     my $prod_rs = shop_product($product->sku)->search_related(
@@ -132,7 +132,7 @@ hook 'before_product_display' => sub {
                             price => $related->price,
                             image => $image,
         };
-   }
+    }
 
     debug "Related Products: ", \@related_products;
     $tokens->{related_products} = \@related_products;
@@ -142,6 +142,23 @@ hook 'before_product_display' => sub {
     $tokens->{cart} = cart->products;
     $tokens->{cart_count} = cart->quantity;
     $tokens->{cart_total} = cart->total;
+
+    # reviews
+    my $review_rs = shop_product($product->sku)->reviews;
+
+    $tokens->{review_count} =  $review_rs->count;
+
+    while (my $review = $review_rs->next) {
+       push @reviews, {
+                    content => $review->content,
+                    rating => $review->rating,
+                    recommend => $review->recommend,
+                    author => $review->author->first_name  . ' ' . $review->author->last_name
+        };    
+    };
+
+    $tokens->{reviews} = \@reviews;
+    debug "Review: ", $tokens->{reviews};
 
     # order quantity
     my $qmin = 1;
@@ -158,16 +175,18 @@ hook 'before_product_display' => sub {
     }
 
     # add image. There could be more, so we just pick the first
-    my $image = $product->media_by_type('image')->first || 'default.jpg';
+    my $image = $product->media_by_type('image')->first;
 
     if ($image) {
         $tokens->{image_src} = uri_for($image->display_uri('image_325x325'));
         $tokens->{image_thumb} = uri_for($image->display_uri('image_50x50'));
     }
-    
+
     my $video = $product->media_by_type('video')->first;
-    debug "Video", $video->uri;
-    $tokens->{video_src} = $video->uri;
+
+    if ($video) {
+        $tokens->{video_src} = $video->uri;
+    }
 };
 
 hook 'before_cart_display' => sub {
