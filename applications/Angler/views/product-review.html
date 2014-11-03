@@ -10,7 +10,7 @@
               <li class="product"> <strong class="name">Patagonia Foot Tractor</strong> </li>
             </ul>
           </div>
-          <div class="row">
+          <div class="row spacer">
             <div class="col-main col-xs-12">
               <div class="padding-s">
                 <div id="messages_product_view"></div>
@@ -22,6 +22,21 @@
                     <div class="product-box-customs">
                       <p class="product-image"> <a href=""><img class="big product-image" src="/products/images/300x300/patagonia-foot-tractor.png" alt="" title="Patagonia Foot Tractor Wading Boot"> </a> <span></span></p>
                    </div>
+                      <div class="row spacer">
+                        <h1>Current Reviews</h1>
+                        <div class="col-md-4 product-reviews-summary spacer">
+                          <div class="rateit" data-rateit-value="4.7" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        </div>
+                      <div class="col-md-8">
+                        <div class="product-reviews-summary spacer">
+                          <span>4.7/5</span> based on <span class="review-count">66</span> reviews
+                        </div>
+                        <div class="no-product-review spacer">
+                          <p class="fa fa-pencil"> Cool your review will be the first!</p>
+                        </div>
+                      </div>
+                    </div> <!-- end .row -->
+
                   </div>
                   <div class="product-shop">
                   <div class="product-name">
@@ -85,6 +100,12 @@
                               <label for="review_field" class="required"><em>*</em>Review</label>
                               <div class="input-box">
                                 <textarea name="detail" id="review_field" cols="5" rows="3" class="required-entry form-control"></textarea>
+                              </div>
+                            </li>
+                            <li>
+                              <label for="nickname_field" class="required"><em>*</em>Would You Recommend to a Friend?</label>
+                              <div class="input-box">
+                                <input name="recommend" id="recommend_field" class="input-text required-entry form-control" value="1" type="checkbox">
                               </div>
                             </li>
                           </ul>
