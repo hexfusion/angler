@@ -13,7 +13,7 @@ use Angler::Routes::About;
 use Angler::Routes::Account;
 use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
-#use Angler::Routes::Review;
+use Angler::Routes::Review;
 use Angler::Routes::Search;
 use Angler::Cart;
 
@@ -147,6 +147,7 @@ hook 'before_product_display' => sub {
     my $review_rs = shop_product($product->sku)->reviews;
 
     $tokens->{review_count} =  $review_rs->count;
+    $tokens->{review_link} = '/review/' . $product->sku;
 
     while (my $review = $review_rs->next) {
        push @reviews, {
