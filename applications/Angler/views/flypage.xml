@@ -51,7 +51,7 @@
        filter="currency"/>
 </list>
 <!-- <list name="links" class="link" iterator="review_link"> -->
-<value name="review_link" class="review_link" iterator="review_link" target="href"/>
+<value name="review_link" class="add-review" iterator="review_link" target="href"/>
 
 <!-- nickname hint -->
 <value id="nickname-hint" name="nickname_hint"
