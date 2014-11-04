@@ -13,10 +13,12 @@ use Dancer::Plugin::Email;
 use Try::Tiny;
 
 get '/review/:sku' => sub {
+    my $self = shift;
     my $sku = params->{sku};
     my $product = shop_product($sku);
     my $form = form('review');
-    my ($image_src, $review_count);;
+    my ($image_src, $review_count, $review_avg);
+
     # add image. There could be more, so we just pick the first
     my $image = $product->media_by_type('image')->first;
 
@@ -27,10 +29,12 @@ get '/review/:sku' => sub {
    # reviews
     my $review_rs = shop_product($sku)->reviews;
     $review_count =  $review_rs->count;
+    $review_avg = Angler::Routes::Review->average_rating($sku);
 
     template 'product-review', { product => $product,
                                  image_src => $image_src,
                                  review_count => $review_count,
+                                 review_avg => $review_avg,
                                  form => $form,
     };
 };
@@ -102,7 +106,7 @@ sub average_rating {
     my ($self, $sku) = @_;
     my $reviews = shop_product($sku)->reviews( { public => 1, approved => 1 } );
     return
-      sprintf( "%.02f", $reviews->get_column('rating')->sum / $reviews->count );
+      sprintf( "%.01f", $reviews->get_column('rating')->sum / $reviews->count );
 }
 
 1;
