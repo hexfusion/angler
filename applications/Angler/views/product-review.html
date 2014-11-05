@@ -25,12 +25,12 @@
                       <div class="row spacer">
                         <h1>Current Reviews</h1>
                         <div class="col-md-4 product-reviews-summary spacer">
-                          <div class="rateit" data-rateit-value="4.7" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                          <div class="rateit review-avg-star" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-value="1.8"></div>
                         </div>
                       <div class="col-md-8">
                         <div class="product-reviews-summary spacer">
-                          <span>4.7/5</span> based on <span class="review-count">66</span> reviews
-                        </div>
+                          <span><span class="review-avg">4.7</span>/5</span> based on <span class="review-count">66</span> reviews
+                       </div>
                         <div class="no-product-review spacer">
                           <p class="fa fa-pencil"> Cool your review will be the first!</p>
                         </div>
@@ -46,8 +46,7 @@
                   <div class="box-collateral form-add">
                     <h2>Write Your Own Review<span class="toggle opened"></span></h2>
                     <div style="display: block;" class="box-collateral-content">
-                      <form action="" method="post" id="review-form">
-                        <input name="form_key" value="" type="hidden">
+                      <form action="" method="post" name="review" id="review">
                         <fieldset>
                          <h4>How do you rate this product? <em class="required">*</em></h4>
                           <span id="input-message-box"></span>
@@ -73,15 +72,14 @@
                             <tbody>
                               <tr class="first odd">
                                 <th>Overall Rating</th>
-                                <td class="value"><input name="ratings[3]" id="Price_1" value="11" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[3]" id="Price_2" value="12" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[3]" id="Price_3" value="13" class="radio" type="radio"></td>
-                                <td class="value"><input name="ratings[3]" id="Price_4" value="14" class="radio" type="radio"></td>
-                                <td class="value last"><input name="ratings[3]" id="Price_5" value="15" class="radio" type="radio"></td>
+                                <td class="value"><input name="rating" id="Price_1" value="1" class="radio" type="radio"></td>
+                                <td class="value"><input name="rating" id="Price_2" value="2" class="radio" type="radio"></td>
+                                <td class="value"><input name="rating" id="Price_3" value="3" class="radio" type="radio"></td>
+                                <td class="value"><input name="rating" id="Price_4" value="4" class="radio" type="radio"></td>
+                                <td class="value last"><input name="rating" id="Price_5" value="5" class="radio" type="radio"></td>
                               </tr>
                            </tbody>
                           </table>
-                          <input name="validate_rating" class="validate-rating" value="" type="hidden">
                           <script type="text/javascript">decorateTable('product-review-table')</script>
                           <ul class="form-list">
                             <li>
@@ -99,7 +97,7 @@
                             <li>
                               <label for="review_field" class="required"><em>*</em>Review</label>
                               <div class="input-box">
-                                <textarea name="detail" id="review_field" cols="5" rows="3" class="required-entry form-control"></textarea>
+                                <textarea name="content" id="review_field" cols="5" rows="3" class="required-entry form-control"></textarea>
                               </div>
                             </li>
                             <li>
