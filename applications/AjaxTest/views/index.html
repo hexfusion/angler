@@ -7,7 +7,26 @@
                     <form name="frm-sample" class="frm-sample" action="try" method="post">
                         <input type="text" class="form-control" placeholder="Name">
                         <div id="status-message"></div>
-                        <div id="sample-captcha"></div>
+        <div class="ng-isolate-scope visualCaptcha" captcha="" options="captchaOptions">
+          <div class="visualCaptcha-accessibility-wrapper visualCaptcha-hide">
+            <div class="accessibility-description">Type below the <strong>answer</strong> to what you hear. Numbers or words:</div>
+            <audio preload="preload">
+              <source src="assets/audios/12times2.ogg" type="audio/ogg">
+              <source src="assets/audios/12times2.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <p class="visualCaptcha-explanation">Click or touch the <strong>Clip</strong></p>
+          <div class="visualCaptcha-possibilities">
+            <div class="img visualCaptcha-selected"><img src="assets/images/graph@2x.png" id="visualCaptcha-img-0" data-index="0" alt="" title=""></div>
+            <div class="img"><img src="assets/images/graph@2x.png" id="visualCaptcha-img-1" data-index="1" alt="" title=""></div>
+            <div class="img"><img src="assets/images/graph@2x.png" id="visualCaptcha-img-2" data-index="2" alt="" title=""></div>
+          </div>
+          <div class="visualCaptcha-button-group">
+            <div class="visualCaptcha-refresh-button"><img src="img/refresh.png" title="Refresh/reload: get new images and accessibility option!" alt="Refresh/reload icon"></div>
+            <div class="visualCaptcha-accessibility-button"><img src="img/accessibility.png" title="Accessibility option: listen to a question and answer it!" alt="Sound icon"></div>
+          </div>
+        </div>
+
                         <a id="check-is-filled" class='info-btn'>Check if visualCaptcha is filled</a>
                         <button type="submit" name="submit-bt" class="submit">Submit form</button>
                     </form>
