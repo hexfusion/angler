@@ -92,7 +92,7 @@ has image_options => (
 
 =head2 add($image)
 
-Add product to the captcha. Returns image object in case of success.
+Add image to the captcha. Returns image object in case of success.
 
 The image is an L<AjaxTest::Captcha::Image> or a hash (reference) of image attributes that would be passed to AjaxTest::Captcha::Image->new().
 
