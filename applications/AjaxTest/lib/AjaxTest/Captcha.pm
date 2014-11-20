@@ -81,8 +81,10 @@ has image_options => (
     default => sub { [] },
     handles_via => 'Array',
     handles => {
-        clear => 'clear',
-        count => 'count',
+        map_images    => 'map',
+        images_array => 'elements',
+        image_clear => 'clear',
+        image_count => 'count',
         image_get => 'get',
         _image_set => 'set',
         _image_push => 'push',
@@ -90,7 +92,28 @@ has image_options => (
     init_arg => undef,
 );
 
-=head2 add($image)
+=head2 answer
+
+This is the front end data that is passed back to the captcha 
+
+=cut
+
+has answer => (
+    is => 'rwp',
+    isa => ArrayRef [ InstanceOf ['AjaxTest::Captcha::Answer'] ],
+    default => sub { [] },
+    handles_via => 'Array',
+    handles => {
+        answer_clear => 'clear',
+        answer_count => 'count',
+        answer_get => 'get',
+        _answer_set => 'set',
+        _answer_push => 'push',
+    },
+    init_arg => undef,
+);
+
+=head2 add_image($data)
 
 Add image to the captcha. Returns image object in case of success.
 
@@ -98,12 +121,12 @@ The image is an L<AjaxTest::Captcha::Image> or a hash (reference) of image attri
 
 =cut
 
-sub add {
+sub add_image {
     my $self    = shift;
     my $image = $_[0];
 
     if ( blessed($image) ) {
-        die "image argument is not an AjaxTest::Captcha::Image"
+        die "data argument is not a AjaxTest::Captcha::Image"
           unless ( $image->isa('AjaxTest::Captcha::Image') );
     }
     else {
@@ -135,5 +158,67 @@ sub add {
 
     return $image;
 }
+
+=head2 add_answer($data)
+
+Add image to the captcha. Returns image object in case of success.
+
+The image is an L<AjaxTest::Captcha::Image> or a hash (reference) of image attributes that would be passed to AjaxTest::Captcha::Image->new().
+
+=cut
+
+sub add_answer {
+    my $self    = shift;
+    my $answer = $_[0];
+
+    if ( blessed($answer) ) {
+        die "answer argument is not a AjaxTest::Captcha::Answer"
+          unless ( $answer->isa('AjaxTest::Captcha::Answer') );
+    }
+    else {
+
+        # we got a hash(ref) rather than an Image
+
+        my %args;
+
+        if ( is_HashRef($answer) ) {
+
+            # copy args
+            %args = %{$answer};
+        }
+        else {
+
+            %args = @_;
+        }
+
+        $answer = 'AjaxTest::Captcha::Answer'->new(%args);
+
+        unless ( blessed($answer)
+            && $answer->isa('AjaxTest::Captcha::Answer') )
+        {
+            die "failed to create answer.";
+        }
+    }
+    # add image
+    $self->_answer_push($answer);
+
+    return $answer;
+}
+
+sub front_end_data {
+    my $self    = shift;
+    my @images;
+
+    push @images , $self->map_images( sub { $_->value } ); 
+    my %data = (
+        values => \@images,
+        imageName => $self->answer_get(0)->image_name,
+        imageFieldName => $self->answer_get(0)->image_field_name,
+        audioFieldName => $self->answer_get(0)->audio_field_name,
+        
+    );
+
+    return \%data;
+};
 
 1;
