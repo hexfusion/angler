@@ -526,7 +526,10 @@ my $merch = $schema->resultset('MerchandisingProduct')->populate([
 my $types = $schema->resultset('MediaType')->populate([
                                            { type => 'image' },
                                            { type => 'video' },
+                                           { type => 'js' },
+                                           { type => 'css' },
                                           ]);
+
 
 my $images = $schema->resultset('MediaType')->find({ type => 'image' });
 
@@ -551,8 +554,126 @@ my $media = $schema->resultset('Media')->populate([
                             {
                                 uri => 'http://www.youtube.com/embed/HfhpZPdrc2A',
                                 media_types_id => '2',
-                            }
-                            ]);
+                            },
+]);
+
+# add all js/css assets
+$media = $schema->resultset('Media')->populate([
+                            {
+                                file => 'public/css/rateit.css',
+                                uri => 'rateit.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/css_002.css',
+                                uri => 'css_002.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/css.css',
+                                uri => 'css.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/font-awesome.css',
+                                uri => 'font-awesome.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/jquery.css',
+                                uri => 'jquery.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/photoswipe.css',
+                                uri => 'photoswipe.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/bootstrap.css',
+                                uri => 'bootstrap.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/extra_style.css',
+                                uri => 'extra_style.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/styles.css',
+                                uri => 'styles.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/responsive.css',
+                                uri => 'responsive.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/superfish.css',
+                                uri => 'superfish.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/css/camera.css',
+                                uri => 'camera.css',
+                                mime_type => 'text/css',
+                                media_types_id => '4',
+                            },
+                            {
+                                file => 'public/js/jquery-1.js',
+                                uri => 'jquery-1.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+                            {
+                                file => 'public/js/jquery-migrate-1.js',
+                                uri => 'jquery-migrate-1.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+                            {
+                                file => 'public/js/jquery.rateit.min.js',
+                                uri => 'jquery.rateit.min.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+                            {
+                                file => 'public/js/superfish.js',
+                                uri => 'superfish.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+                            {
+                                file => 'public/js/scripts.js',
+                                uri => 'scripts.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+                            {
+                                file => 'public/js/bootstrap-hover-dropdown.js',
+                                uri => 'bootstrap-hover-dropdown.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+                            {
+                                file => 'public/js/fitdivs.js',
+                                uri => 'fitdivs.js',
+                                mime_type => 'text/javascript',
+                                media_types_id => '3',
+                            },
+]);
 
 
 $schema->resultset('MediaProduct')->populate([
