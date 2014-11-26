@@ -17,50 +17,14 @@ my $schema = shop_schema;
 my $data;
 my %product;
 
-shop_schema->deploy({add_drop_table => 1,
-                    producer_args => {
-                        mysql_version => 5,
-                    },
-                });
-
-# populate countries array
-use Interchange6::Schema::Populate::CountryLocale;
-my $pop_countries = Interchange6::Schema::Populate::CountryLocale->new->records;
-
-# populate states array
-use Interchange6::Schema::Populate::StateLocale;
-my $pop_states = Interchange6::Schema::Populate::StateLocale->new->records;
-
-# populate zones array
-use Interchange6::Schema::Populate::Zone;
-my $pop_zones = Interchange6::Schema::Populate::Zone->new->records;
-
-# populate message_types
-use Interchange6::Schema::Populate::MessageType;
-my $pop_message_types =
-  Interchange6::Schema::Populate::MessageType->new->records;
-
-# populate countries table
-$schema->populate( Country => $pop_countries );
-
-# populate states table
-$schema->populate( State => $pop_states );
-
-# populate zones table
-scalar $schema->populate( Zone => $pop_zones );
-
-# populate message_types table
-$schema->populate( MessageType => $pop_message_types );
+shop_schema->deploy({add_drop_table => 1});
 
 my $state = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'NY' });
 my $state_oregon = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'OR' });
 
 # roles
 my $roles = $schema->resultset("Role")->populate([
-    { roles_id => '1', name => 'anonymous', label => 'Anonymous Users' },
-    { roles_id => '2', name => 'authenticated', label => 'Authenticated Users' },
-    { roles_id => '3', name => 'user', label => 'User' },
-    { roles_id => '4', name => 'admin', label => 'Admin' },
+    { roles_id => '4', name => 'user', label => 'User' },
     { roles_id => '5', name => 'editor', label => 'Editor' },
     { roles_id => '6', name => 'pro', label => 'Industry Pro' },
     { roles_id => '7', name => 'staff', label => 'Shop Staff' },
@@ -74,7 +38,7 @@ $users{john} = shop_user->create(
       last_name => 'Miller', email => 'sam@westbranchresort.com',
       created => $now,
       user_roles => [
-          { roles_id => '3' },
+          { roles_id => '4' },
           { roles_id => '6' },
       ],
   });
@@ -97,7 +61,7 @@ $users{ben} = shop_user->create(
       last_name => 'Sheard', email => 'sam@westbranchresort.com',
       created => $now,
       user_roles => [
-          { roles_id => '3' },
+          { roles_id => '4' },
           { roles_id => '7' },
       ],
   });
@@ -108,7 +72,7 @@ $users{greg} = shop_user->create(
       first_name => 'Gregor', last_name => 'Fisherman',
       email => 'greg@perl.dance', created => $now,
       user_roles => [
-        { roles_id => '3' },
+        { roles_id => '4' },
       ],
   });
 
@@ -130,7 +94,8 @@ $users{sam} = shop_user->create(
       first_name => 'Sam', last_name => 'Batschelet',
       email => 'sbatschelet@mac.com', created => $now,
       user_roles => [
-        { roles_id => '3' },
+        { roles_id => '1' },
+        { roles_id => '4' },
         { roles_id => '7' },
       ],
   });
@@ -698,12 +663,12 @@ $product{WBA0003}->add_to_reviews(
                     title           => '1',
                     message_types_id   => '3',
                     content         => "The Helios 2 fly rod changed my life I can't say enough good things about it.",
-                    author          =>  $users{john}->id,
+                    author_users_id          =>  $users{john}->id,
                     rating          => '5.0',
                     recommend       => '1',
                     public          => '1',
                     approved        => '1',
-                    approved_by     => $users{sam}->id,
+                    approved_by_users_id     => $users{sam}->id,
                  },
 );
 
@@ -712,12 +677,12 @@ $schema->resultset('Product')->find( { sku => "WBA0017" } )->add_to_reviews(
                                         title           => '1',
                                         message_types_id   => '3',
                                         content         => "It's a fine rod but to me it's way over priced.",
-                                        author          =>  $users{ben}->id,
+                                        author_users_id          =>  $users{ben}->id,
                                         rating          => '3.5',
                                         recommend       => '1',
                                         public          => '1',
                                         approved        => '1',
-                                        approved_by     => $users{sam}->id,
+                                        approved_by_users_id     => $users{sam}->id,
                                     },
 );
 
