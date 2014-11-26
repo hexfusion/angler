@@ -55,14 +55,14 @@ order_email: orders@westbranchangler.com
 plugins:
   Interchange6::Routes:
     product:
-      template: flypage
+      template: flypage/index
     checkout:
-      template: cart_checkout
+      template: cart_checkout/index
     navigation:
       records: 20
-      template: product-listing
+      template: product-listing/index
     cart:
-      template: cart
+      template: cart/index
   Auth::Extensible:
     disable_roles: 0
     no_login_handler: 1

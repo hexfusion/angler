@@ -88,6 +88,7 @@
 <!-- Reviews -->
 <container name="review_exist" value="review_count" class="product-reviews-summary"/>
     <value name="review_count" class="review-count" iterator="review_count"/>
+    <value name="review_avg" class="review-avg" iterator="review_avg"/>
 
 <container name="review_null" value="!review_count" class="no-product-review"/>
 
