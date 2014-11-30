@@ -1,0 +1,102 @@
+<specification>
+<!-- product -->
+<value name="name" field="product.name"/>
+<value name="sku" id="sku" field="product.sku"/>
+<value name="short_description" field="product.short_description"/>
+<value name="description" field="product.description" op="hook"/>
+<value name="image_src" class="product-image" target="src" />
+<value name="video_src" class="product-video" target="src" />
+<value name="image_thumb" class="product-image-thumb" target="src" />
+<value name="price" class="price" field="product.price"/>
+
+<!-- product attributes -->
+<container name="variant-error" value="session.shop_cart_error"/>
+
+<list name="attributes" class="product-attributes-item"
+      iterator="product.attribute_iterator">
+  <param name="name" class="product-attributes-name" target="name"/>
+  <param name="title" class="product-attributes-title"/>
+  <list name="attribute_values" class="product-attributes-values-item"
+        iterator="attribute_values">
+    <param name="value" class="product-attributes-value" field="value"
+           target="value"/>
+    <param name="product-attributes-value" field="title"/>
+    <param name="selected" class="product-attributes-value" target="selected" op="toggle"/>
+  </list>
+</list>
+
+<value name="quantity" iterator="quantity"/>
+<value name="cart_count" class="cart-count"/>
+<value name="cart_total" class="cart-total" filter="currency"/>
+
+<!-- Cart -->
+<list name="cart" class="cart-item-mini" iterator="cart">
+<param name="name"/>
+<param name="price"/>
+<param name="qty" field="quantity"/>
+<param name="subtotal" filter="currency"/>
+<param name="remove-cart-product" field="sku" target="value"/>
+</list>
+
+<!-- free shipping container -->
+<container name="free-shipping" value="free_shipping"/>
+
+<!-- Other ... -->
+<value name="category_name" id="category-name"/>
+<value name="category_more" class="link-more" target="href"/> 
+
+<list name="other_products" class="related-products" iterator="related_products">
+<param name="name" class="related-product-link" field="name"/>
+<param name="price" class="related-product-price" field="price"
+       filter="currency"/>
+</list>
+<!-- <list name="links" class="link" iterator="review_link"> -->
+<value name="review_link" class="add-review" iterator="review_link" target="href"/>
+
+<!-- nickname hint -->
+<value id="nickname-hint" name="nickname_hint"
+       field="review_nickname" op="toggle" args="static"/>
+
+<!-- nickname display -->
+<container name="nickname-container" value="review_nickname" />
+<value id="nickname-display" name="nickname_display"
+       field="review_nickname"/>
+
+<!-- nickname form field -->
+<container name="review-nickname" value="!review_nickname"/>
+
+<form name="review" link="name">
+<field name="rating"/>
+<field name="title"/>
+<field name="nickname"/>
+<field name="recommend"/>
+<field name="content"/>
+</form>
+
+<value name="form-errors" field="errors" op="toggle" />
+<list name="error-rating" iterator="errors.rating">
+<param name="value" class="rating-msg"/>
+</list>
+<list name="error-title" iterator="errors.title">
+<param name="value" class="title-msg"/>
+</list>
+<list name="error-content" iterator="errors.content">
+<param name="value" class="content-msg"/>
+</list>
+
+
+<!-- Reviews -->
+<container name="review_exist" value="review_count" class="product-reviews-summary"/>
+    <value name="review_count" class="review-count" iterator="review_count"/>
+    <value name="review_avg" class="review-avg" iterator="review_avg"/>
+
+<container name="review_null" value="!review_count" class="no-product-review"/>
+
+<list name="review_list" class="product-comment" iterator="review_list">
+<param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>
+<param name="title" class="product-comment-title" field="title"/>
+<param name="author" class="product-comment-author" field="reviewer"/>
+<param name="content" class="product-comment-content" field="content" op="hook"/>
+<param name="avatar" class="product-comment-avatar" field="avatar" target="src"/>
+</list>
+</specification>
