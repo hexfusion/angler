@@ -1,0 +1,29 @@
+<specification>
+<value name="name" class="category-name" field="navigation.name"/>
+<value name="count"/>
+
+<!-- Showing products 1-20 of 34 found -->
+<value name="first" class="page-first" field="pager.first"/>
+<value name="last" class="page-last" field="pager.last"/>
+
+<list name="results" class="product-box" iterator="products">
+<param name="sku"/>
+<param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
+<param name="name" class="product-title"/>
+<param name="price" class="product-price" filter="currency"/>
+<param name="image" class="product-image-pic" target="src"/>
+</list>
+<!-- Paging -->
+<paging name="products" list="results" class="pagination">
+<element name="previous" type="previous" class="previous"/>
+<element name="next" type="next" class="paging-next"/>
+<!-- <element name="last" type="last" class="paging-last"/> -->
+<element name="standard" type="standard" class="standard"/>
+<element name="active" type="active" class="selected"/>
+</paging>
+
+<!-- Brands -->
+<value name="brands" iterator="brands"  iterator_value_key="name"
+keep="empty_value"/>
+</specification>
+
