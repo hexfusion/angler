@@ -1,2 +1,7 @@
 <specification>
+<!-- Slider -->
+<list name="new_slider" class="slider" iterator="component">
+    <param name="path" class="slide-data" target="data-src"/>
+    <param name="link" class="slide-data" target="data-link"/>
+</list>
 </specification>
