@@ -1,0 +1,27 @@
+line 1 column 1 - Warning: missing <!DOCTYPE> declaration
+line 1 column 1 - Warning: inserting implicit <body>
+line 8 column 9 - Error: <figure> is not recognized!
+line 8 column 9 - Warning: discarding unexpected <figure>
+line 9 column 11 - Error: <figcaption> is not recognized!
+line 9 column 11 - Warning: discarding unexpected <figcaption>
+line 19 column 9 - Warning: discarding unexpected </figcaption>
+line 20 column 9 - Warning: discarding unexpected </figure>
+line 25 column 9 - Error: <figure> is not recognized!
+line 25 column 9 - Warning: discarding unexpected <figure>
+line 26 column 11 - Error: <figcaption> is not recognized!
+line 26 column 11 - Warning: discarding unexpected <figcaption>
+line 29 column 365 - Warning: discarding unexpected </figcaption>
+line 30 column 9 - Warning: discarding unexpected </figure>
+line 35 column 9 - Error: <figure> is not recognized!
+line 35 column 9 - Warning: discarding unexpected <figure>
+line 36 column 11 - Error: <figcaption> is not recognized!
+40 warnings, 8 errors were found! Not all warnings/errors were shown.
+
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+To learn more about HTML Tidy see http://tidy.sourceforge.net
+Please fill bug reports and queries using the "tracker" on the Tidy web site.
+Additionally, questions can be sent to html-tidy@w3.org
+HTML and CSS specifications are available from http://www.w3.org/
+Lobby your company to join W3C, see http://www.w3.org/Consortium
