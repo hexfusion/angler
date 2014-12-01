@@ -521,6 +521,30 @@ my $media = $schema->resultset('Media')->populate([
                                 media_types_id => '2',
                             },
 ]);
+# add all slider image assets
+$media = $schema->resultset('Media')->populate([
+                            {
+                                file => 'public/images/camera/slides/slide1.jpg',
+                                uri => 'slide1.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => '1',
+                                label => 'Delaware river fly fishing guide trip.'
+                            },
+                            {
+                                file => 'public/images/camera/slides/slide2.jpg',
+                                uri => 'slide2.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => '1',
+                                label => 'Delaware river wild brown trout.'
+                            },
+                            {
+                                file => 'public/images/camera/slides/slide3.jpg',
+                                uri => 'slide3.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => '1',
+                                label => 'Summer Sulphur on the Delaware.'
+                            },
+]);
 
 # add all js/css assets
 $media = $schema->resultset('Media')->populate([
