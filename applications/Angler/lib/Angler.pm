@@ -9,6 +9,7 @@ logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
 
+use Template::Flute::Iterator::JSON;
 use Angler::Routes::About;
 use Angler::Routes::Account;
 use Angler::Routes::Checkout;
@@ -258,24 +259,27 @@ sub countries {
 
 get '/' => sub {
     # get all manufacturers
+#    my $components = Template::Flute::Iterator::JSON->new(file => '/views/home/components.json');
+    my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
+        debug "json components", $components;
 
-    template 'home', {manufacturer => [$mf->all]};
+    template 'home/content', {manufacturer => [$mf->all], component => $components };
 
 };
 
 get '/shipping' => sub {
-    template 'shipping';
+    template 'shipping/content';
 
 };
 
 get '/privacy-policy' => sub {
-    template 'privacy-policy';
+    template 'policy/privacy/content';
 
 };
 
 get '/return-policy' => sub {
-    template 'return-policy';
+    template 'policy/return/content';
 
 };
 
