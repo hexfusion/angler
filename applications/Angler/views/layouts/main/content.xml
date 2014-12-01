@@ -19,7 +19,7 @@
 <!-- Top Menu -->
 
 <!-- Add MegaDrop -->
-<value name="mega-drop" include="../components/menus/mega-drop.html"/>
+<value name="mega-drop" include="../../components/menus/mega-drop/content.html"/>
 
 <!-- Left -->
 <list name="menu_top" class="nav-top-menu" iterator="menu_nav-top">
