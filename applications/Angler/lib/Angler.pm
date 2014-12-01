@@ -8,7 +8,7 @@ use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
-
+use Cwd;
 use Template::Flute::Iterator::JSON;
 use Angler::Routes::About;
 use Angler::Routes::Account;
@@ -259,13 +259,16 @@ sub countries {
 
 get '/' => sub {
     # get all manufacturers
-#    my $components = Template::Flute::Iterator::JSON->new(file => '/views/home/components.json');
-    my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
+    my $components = Template::Flute::Iterator::JSON->new(file => 'views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
         debug "json components", $components;
 
     template 'home/content', {manufacturer => [$mf->all], component => $components };
 
+};
+
+get '/blog' => sub {
+    template 'blog/content';
 };
 
 get '/shipping' => sub {
