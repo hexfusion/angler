@@ -1,0 +1,53 @@
+<specification>
+<form name="account" class="account-info">
+<!-- Email -->
+<field name="email" id="inputEmail"/>
+<!-- Shipping -->
+<field name="shipping_id" id="shippingId"/>
+<field name="first_name" id="inputFirstName"/>
+<field name="last_name" id="inputLastName"/>
+<field name="company" id="inputCompany"/>
+<field name="address" id="inputAddress"/>
+<field name="address_2" id="inputAddress2"/>
+<field name="city" id="inputCity"/>
+<field name="state" id="inputState" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
+<field name="postal_code" id="inputPostalCode"/>
+<field name="country" id="inputCountry" iterator="countries"
+       iterator_value_key="country_iso_code" iterator_name_key="name"/>
+<field name="phone" id="inputPhone"/>
+<!-- Billing -->
+<field name="billing_id" id="billingId"/>
+<field name="billing_enabled" id="inputBillingEnabled"/>
+<field name="billing_email" id="inputBillingEmail"/>
+<field name="billing_first_name" id="inputBillingFirstName"/>
+<field name="billing_last_name" id="inputBillingLastName"/>
+<field name="billing_company" id="inputBillingCompany"/>
+<field name="billing_address" id="inputBillingAddress"/>
+<field name="billing_address_2" id="inputBillingAddress2"/>
+<field name="billing_city" id="inputBillingCity"/>
+<field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
+<field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
+</form>
+
+<!-- Display status of billing form -->
+<value name="billing_form" id="billing-address"
+       field="billing_enabled" target="style" op="toggle" args="static"/>
+
+<!-- Email errors -->
+<value name="email_error" id="errorEmail"
+       field="errors.email" op="toggle"/>
+<!-- Shipping field errors -->
+<value name="first_name_error" id="errorFirstName"
+       field="errors.first_name" op="toggle"/>
+<value name="last_name_error" id="errorLastName"
+       field="errors.last_name" op="toggle"/>
+<value name="address_error" id="errorAddress"
+       field="errors.address" op="toggle"/>
+<value name="city_error" id="errorCity"
+       field="errors.city" op="toggle"/>
+<value name="postal_code_error" id="errorPostalCode"
+       field="errors.postal_code" op="toggle"/>
+<value name="phone_error" id="errorPhone"
+       field="errors.phone" op="toggle"/>
+
+</specification>
