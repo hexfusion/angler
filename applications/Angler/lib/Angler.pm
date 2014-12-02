@@ -293,17 +293,18 @@ get '/learning-video' => sub {
 
 get '/shipping' => sub {
     template 'shipping/content';
-
 };
 
 get '/privacy-policy' => sub {
     template 'policy/privacy/content';
-
 };
 
 get '/return-policy' => sub {
     template 'policy/return/content';
+};
 
+get '/login' => sub {
+    template 'auth/login/content';
 };
 
 shop_setup_routes;

@@ -32,9 +32,7 @@ my $now = DateTime->now;
 get '/registration' => sub {
     my $form = form('registration');
 
-    template 'registration', {layout_noleft => 1,
-        layout_noright => 1,
-        form => $form};
+    template 'account/register/content', {form => $form};
 };
 
 post '/registration' => sub {
@@ -50,6 +48,8 @@ post '/registration' => sub {
                       password => $values->{password},
                       created => $now
         };
+
+    debug "User data: ", $user_data;
 
     # validate form input
     $validator = Data::Transpose::Validator->new(requireall => 1);
@@ -85,7 +85,7 @@ post '/registration' => sub {
 
     if (!$clean || $validator->errors) {
         $errors = $validator->errors_hash;
-        # debug("Register errors: ", $error_ref);
+         debug("Register errors: ", $errors);
         $form->fill($values);
     }
     else {
@@ -96,13 +96,11 @@ post '/registration' => sub {
     $user->add_attribute('facebook','0');
 
     #debug("Register result: ", $acct || 'N/A');
-    return redirect '/login';
+    return redirect '/auth/login/content';
     }
 
-    template 'registration', {form => $form,
-                  errors => $errors,
-                  layout_noleft => 1,
-                  layout_noright => 1};
+    template 'account/register/content', {form => $form,
+                  errors => $errors};
 
 };
 
@@ -375,7 +373,7 @@ sub add_user {
     $user = shop_user->create( $user_data );
 
     # add user role
-    $role = $user->create_related('UserRole', { users_id => $user->id, roles_id => $user_role_id  } );
+    $role = $user->create_related('user_roles', { users_id => $user->id, roles_id => $user_role_id  } );
 
     # email confirmation
     reg_conf_email();
