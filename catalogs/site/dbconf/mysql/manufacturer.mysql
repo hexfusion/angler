@@ -1,5 +1,0 @@
-Database  manufacturer  manufacturer.txt __SQLDSN__
-Database  manufacturer  DEFAULT_TYPE text
-Database  manufacturer  COLUMN_DEF   "c_code=VARCHAR(10) NOT NULL PRIMARY KEY"
-Database  manufacturer  COLUMN_DEF   "c_alias=VARCHAR(48) NOT NULL"
-Database  manufacturer INDEX		c_code

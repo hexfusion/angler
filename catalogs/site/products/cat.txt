@@ -1,76 +1,0 @@
-code	sel	name	which_page	sort	display_type	image	image_prop	banner_image	banner_text	link_type	url	tab	page	search	selector	link_template
-1033	1017	Orvis Endorsed Schools		0006	name					internal	schools 					
-1032	1017	Flows & Conditions		0005	name					external	http://www.westbranchresort.com/cgi-bin/forum/YaBB.pl					
-1031	1017	Delaware River System		0004	name					internal	delaware_river 					
-1030	1015	Contact Us		0016	name					external	http://www.westbranchresort.com/corporate/					
-1029	1015	Directions		0015	name					internal	directions 					<a href="http://www.westbranchresort.com/directions.html"><font color="green">Directions</font></a>
-1028	1015	Resort Policies		0014	name					internal	resort-policies 					
-1027	1015	FAQ		0007	name					internal	faq 					
-1025	1015	Careers		0013	name					internal	comingsoon 					
-1002	1006	Closeout Boots		0004	name					simple		products			prod_group=Boot Closeouts	
-1003	1006	Rod Closeouts		0002	name					simple		products			prod_group=Rod Closeouts	
-1004	1006	Fly Line Closeouts		0001	name					simple	[area href=scan	products		prod_group=LineCloseouts	prod_group=Line Closeout	
-1005	1017	2008 Orvis Days		0001	name					internal	orvisdays 	products		[area href=scan search=|    fi=products  st=db  ac=0    co=1    sf=price  se=200.00  op=<  nu=1    ml=50 |]		
-1006	1011	Belts		0004	name					simple		products				
-1008	1011	Wading Staffs		0003	name					simple						
-1007	1011	Wading Socks		0002	name					simple		products				
-1051	1014	Zephyr Nets		0002	name					external	http://www.westbranchresort.com/cgi-bin/site/NETZY.html					
-1009	1011	More...		0005	name					simple		products				
-1102		Sandals		0002	name					simple						
-1010		Ross Reels		0001	name					simple		products			category=Rossprod_group=Fly Reels	
-1011		NEW		0001	name					simple		products			category=Sageprod_group=Fly Reels	
-1012		NEW		0001	name					simple		products			category=Orvisprod_group=Fly Reels	
-1013		NEW		0001	name					simple		products			category=Sageprod_group=FlyRods	
-1014		NEW		0001	name					simple		products			category=Orvisprod_group=Fly Rods	
-1015		NEW		0001	name					simple		products			category=Winstonprod_group=Fly Rods	
-1052	1014	Eyewear		0003	name					simple		products			prod_group=Eyewear	
-1017		Wader Closeouts		0001	name					simple		products			prod_group=Waders Closeouts	
-1018		Fly Boxes		0002	name					simple		products			prod_group=Fly Boxes	
-1019		Vest Closeouts		0003	name					simple		products			prod_group=Vest Closeouts	
-1020	1015	About Us		0001	name					internal	aboutus 					
-1021	1015	Availability		0006	name					external	http://availabilityonline.com/availtable.asp?un=wbangler					
-1053	1017	Links		0011	name					internal	links 					
-1022		Special Events		0012	name					internal	resort/events 					
-1060	1015	Resort Map		0017	name					external	sitemap 					<a href="http://www.westbranchresort.com/images/pdf/wb_site_map_2007_0001.pdf" target="_blank">Resort Map</a>
-1023	1015	Non-Fishing Activities		0011	name					internal	activities 					
-1024		News Letter		0014	name					internal	resort/news 					
-00002	00002	House of Hardy		0001	name					simple		products			category=Hardyprod_group=Fly Reels	
-1026	1015	Rates		0008	name					internal	rates 					<a href="http://www.westbranchresort.com/rates.html"><font color="blue">Rates</font></a>
-1034	1017 1015	Sporting Clays		0009	name					internal	sportingclays 					
-1035	1017	What to Expect		0008	name					internal	conditions 					
-1036	1017	Guided Fly Fishing		0002	name					internal	guidedtrips 					
-1037	1017	Online Fly Shop		0009	name					internal	index_flyshop 					
-1038	1017	Live USGS River Levels		0010	name					external	http://waterdata.usgs.gov/ny/nwis/current?multiple_site_no=01417500%0D%0A01423000%0D%0A01426500%0D%0A01427000%0D%0A01420980%0D%0A01420500%0D%0A01427510%0D%0A01438500&search_site_no_match_type=exact&index_pmcode_STATION_NM=1&index_pmcode_DATETIME=2&index_pmcode_00065=&index_pmcode_00060=4&index_pmcode_MEAN=&index_pmcode_MEDIAN=&index_pmcode_00010=5&index_pmcode_00011=&index_pmcode_00020=&index_pmcode_00021=&index_pmcode_00035=&index_pmcode_00036=&index_pmcode_00052=&index_pmcode_00055=&index_pmcode_00095=&index_pmcode_61727=&index_pmcode_61728=&index_pmcode_61729=&index_pmcode_62603=&index_pmcode_62607=&index_pmcode_62608=&index_pmcode_62619=&index_pmcode_70969=&index_pmcode_72019=&index_pmcode_72020=&index_pmcode_74207=&index_pmcode_75969=&index_pmcode_82127=&index_pmcode_99901=&index_pmcode_99902=&index_pmcode_99903=&index_pmcode_99904=&index_pmcode_99905=&index_pmcode_99906=&index_pmcode_99907=&index_pmcode_99968=&index_pmcode_00045=&sort_key=site_no&group_key=basin_cd&sitefile_output_format=html_table&column_name=site_no&format=html_table&html_table_sort_key=site_no&html_table_group_key=NONE&rdb_compression=file&list_of_search_criteria=multiple_site_no%2Crealtime_parameter_selection#ny05					
-1039		Equipment Rentals		0010	name					internal	equiprentals 					
-1040		Boat Rentals		0011	name					internal	resort/boatrentals 					
-1041		Fishing Forum		0012	name					external	http://www.westbranchresort.com/fishingforum/					
-1042		Menu		0001	name					internal	resort/menu 					
-1043	1015	Fine Dining		0004	name					internal	finedining 					
-1044	1015	Weddings & Parties		0005	name					internal	finedining 					
-1045	1015	Corporate Meeting Center		0003	name					internal	finedining 					
-1046	1017	Guided Hunts		0001	name					internal	guidedhunts 					
-1047		Dog Training		0001	name					internal	resort/dogtraining 					
-1048		Sporting Clays		0001	name					internal	resort/sportingclays 					
-1049	1015	Accommodations		0002	name					internal	resort/accomidations 					<a href="http://www.westbranchresort.com/accomidations.html"><font color="red">Accommodations</font></a>
-1050	1022	Guide Selections		0001	name					internal	flies 					
-1055	1014	Fishpond		0001	name					simple		products			category=fishpond	
-1056	00002	Tibor		0006	name					simple		products			category=Tiborprod_group=Fly Reels	
-1057	1023	Simms Vests		0001	name					simple		products			category=Simmsprod_group=Vest	
-1058		Closeout Sunglasses		0006	name					simple		products			prod_group=Eyewear Closouts	
-1059	1015	Book Online		0010	name					external	http://reservations.westbranchresort.com:8080/					<a href="http://reservations.westbranchresort.com:8080" target="_blank">Book Online</a>
-1061	1017	Site Map		0012	name					internal	sitemap 					
-1062	1015	Photo Gallery		0012	name					external	http://www.westbranchresort.com/gallery/					<a href="http://www.westbranchresort.com/gallery/"><font color = "Red">Photo Gallery</font></a>
-1063	1006	Closeout Reels & Spools		0005	name					simple		products			prod_group=Reel Closeouts	
-1001	1014	Nets		0004	name					simple		products			prod_group=Nets	
-1101	1010	Wading Boots/Sandals		0001	name					simple		products				
-1016		NEW		0001												
-1103	1101	Jackets/Outerwear		0001	name					simple		products				
-1104	1101	Layering		0003	name					simple						
-1105	1101	Sportswear		0004	name					simple						
-1106	1101	T-Shirts/Hoodies		0006	name					simple		products				
-1107	1101	Hats/Gloves/Socks		0005	name					simple		products				
-1108	1101	Vests/Packs		0002	name					simple						
-1109	1104	Bootfoot		0001	name					simple						
-1110	1104	Stockingfoot		0002	name					simple						
-1111	1104	Custom Wader Shop		0003	name		border=0			simple		products				
-1112	1011	Luggage		0001	name					simple						
