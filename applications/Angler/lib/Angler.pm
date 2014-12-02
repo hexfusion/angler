@@ -8,9 +8,8 @@ use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
-use Cwd;
-use Template::Flute::Iterator::JSON;
-use Angler::Routes::About;
+
+#use Angler::Routes::About;
 use Angler::Routes::Account;
 use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
@@ -19,6 +18,7 @@ use Angler::Routes::Search;
 use Angler::Cart;
 
 use Data::Transpose::Iterator::Scalar;
+use Template::Flute::Iterator::JSON;
 
 our $VERSION = '0.1';
 
@@ -259,7 +259,7 @@ sub countries {
 
 get '/' => sub {
     # get all manufacturers
-    my $components = Template::Flute::Iterator::JSON->new(file => 'views/home/components.json');
+    my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
         debug "json components", $components;
 
@@ -267,8 +267,28 @@ get '/' => sub {
 
 };
 
+get '/about-us' => sub {
+    template 'about/us/content';
+};
+
+get '/about-pros' => sub {
+    template 'about/pros/content';
+};
+
+get '/about-me' => sub {
+    template 'about/me/content';
+};
+
 get '/blog' => sub {
     template 'blog/content';
+};
+
+get '/learning' => sub {
+    template 'learning/content';
+};
+
+get '/learning-video' => sub {
+    template 'learning/video/content';
 };
 
 get '/shipping' => sub {
