@@ -99,4 +99,11 @@
 <param name="content" class="product-comment-content" field="content" op="hook"/>
 <param name="avatar" class="product-comment-avatar" field="avatar" target="src"/>
 </list>
+
+<!-- Breadcrumbs -->
+<list name="breadcrumbs" class="crumbs" iterator="breadcrumbs">
+<separator name="sep"/>
+<param name="name" class="breadcrumb-link"/>
+<param name="uri" class="breadcrumb-link" target="href" op="append"/>
+</list>
 </specification>

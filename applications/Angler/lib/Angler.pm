@@ -82,29 +82,29 @@ hook 'before_layout_render' => sub {
 };
 
 hook 'before_navigation_display' => sub {
-    my $nav_tokens = shift;
+    my $tokens = shift;
 
     # breadcrumbs
     my $rset = shop_navigation->search(
         [
-            { navigation_id => $nav_tokens->{navigation}->navigation_id },
-            { navigation_id => $nav_tokens->{navigation}->parent_id }
+            { navigation_id => $tokens->{navigation}->navigation_id },
+            { navigation_id => $tokens->{navigation}->parent_id }
         ],
         { order_by => { -asc => 'priority' } }
     );
 
-   $nav_tokens->{breadcrumbs} = [$rset->all];
+    $tokens->{breadcrumbs} = [$rset->all];
 
     # load list of brands
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
-    $nav_tokens->{brands} = [$brands->all];
+    $tokens->{brands} = [$brands->all];
 
     my @products;
     my $product;
 
-    while ($product = $nav_tokens->{products}->next) {
+    while ($product = $tokens->{products}->next) {
         my $product_href = {$product->get_inflated_columns};
 
         # retrieve picture and add it to the results
@@ -116,7 +116,7 @@ hook 'before_navigation_display' => sub {
         push @products, $product_href;
     }
 
-    $nav_tokens->{products} = \@products;
+    $tokens->{products} = \@products;
 };
 
 hook 'before_product_display' => sub {
@@ -124,6 +124,10 @@ hook 'before_product_display' => sub {
     my $product = $tokens->{product};
     my @related_products;
     my @reviews;
+
+    # breadcrumbs
+    my $path = $product->path;
+    $tokens->{breadcrumbs} = $path;
 
     # find related products
     my $prod_rs = shop_product($product->sku)->search_related(
