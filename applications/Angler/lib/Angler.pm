@@ -74,7 +74,8 @@ hook 'before_layout_render' => sub {
    }
     };
 
-
+    # adjust image name.
+    
 
     # navigation elements
 #    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
@@ -82,6 +83,17 @@ hook 'before_layout_render' => sub {
 
 hook 'before_navigation_display' => sub {
     my $nav_tokens = shift;
+
+    # breadcrumbs
+    my $rset = shop_navigation->search(
+        [
+            { navigation_id => $nav_tokens->{navigation}->navigation_id },
+            { navigation_id => $nav_tokens->{navigation}->parent_id }
+        ],
+        { order_by => { -asc => 'priority' } }
+    );
+
+   $nav_tokens->{breadcrumbs} = [$rset->all];
 
     # load list of brands
     my $brands = shop_navigation->search({type => 'manufacturer',
@@ -258,6 +270,7 @@ sub countries {
 }
 
 get '/' => sub {
+
     # get all manufacturers
     my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
@@ -306,6 +319,20 @@ get '/return-policy' => sub {
 get '/login' => sub {
     template 'auth/login/content';
 };
+
+get '/test-upload' => sub {
+    my $product = shop_product;
+    template 'test/uploader/content', { products => $product };
+};
+
+post '/upload' => sub {
+    my $upload_dir = "/home/sam/camp10/applications/Angler/uploads";
+    my $upload = request->upload('filename');
+    my $filename = $upload->filename;
+    $upload->copy_to("$upload_dir/$filename");
+ 
+};
+
 
 shop_setup_routes;
 
