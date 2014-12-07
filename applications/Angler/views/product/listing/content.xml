@@ -1,5 +1,6 @@
 <specification>
 <value name="name" class="category-name" field="navigation.name"/>
+<value name="uri" class="category-name" field="navigation.uri" target="href"/>
 <value name="count"/>
 
 <!-- Showing products 1-20 of 34 found -->
@@ -9,9 +10,10 @@
 <list name="results" class="product-box" iterator="products">
 <param name="sku"/>
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
-<param name="name" class="product-title"/>
-<param name="price" class="product-price" filter="currency"/>
-<param name="image" class="product-image-pic" target="src"/>
+<param name="name" class="product-name"/>
+<param name="price" class="product-price"/>
+<param name="image" class="product-image" target="src"/>
+<param name="name" class="product-image" target="alt"/>
 </list>
 <!-- Paging -->
 <paging name="products" list="results" class="pagination">
@@ -25,5 +27,12 @@
 <!-- Brands -->
 <value name="brands" iterator="brands"  iterator_value_key="name"
 keep="empty_value"/>
-</specification>
 
+<!-- Breadcrumbs -->
+<list name="breadcrumbs" class="crumbs" iterator="breadcrumbs">
+<separator name="sep"/>
+<param name="name" class="breadcrumb-link"/>
+<param name="uri" class="breadcrumb-link" target="href" op="append"/>
+</list>
+
+</specification>
