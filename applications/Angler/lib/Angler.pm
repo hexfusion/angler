@@ -85,15 +85,16 @@ hook 'before_navigation_display' => sub {
     my $tokens = shift;
 
     # breadcrumbs
-    my $rset = shop_navigation->search(
-        [
+    my $rs = shop_navigation->find(
             { navigation_id => $tokens->{navigation}->navigation_id },
-            { navigation_id => $tokens->{navigation}->parent_id }
-        ],
-        { order_by => { -asc => 'priority' } }
     );
 
-    $tokens->{breadcrumbs} = [$rset->all];
+    my @anc = $rs->ancestors;
+
+    # parents are actually childern in Navigation so we need to reverse this order
+    my @breadcrumbs = ((reverse @anc), $rs);
+
+    $tokens->{breadcrumbs} = \@path;
 
     # load list of brands
     my $brands = shop_navigation->search({type => 'manufacturer',
