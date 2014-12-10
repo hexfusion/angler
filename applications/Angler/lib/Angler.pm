@@ -92,9 +92,9 @@ hook 'before_navigation_display' => sub {
     my @anc = $rs->ancestors;
 
     # parents are actually childern in Navigation so we need to reverse this order
-    my @breadcrumbs = ((reverse @anc), $rs);
+    my @crumbs = ((reverse @anc), $rs);
 
-    $tokens->{breadcrumbs} = \@path;
+    $tokens->{breadcrumbs} = \@crumbs;
 
     # load list of brands
     my $brands = shop_navigation->search({type => 'manufacturer',
