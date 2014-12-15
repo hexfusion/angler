@@ -5,3 +5,6 @@
 [submodule "applications/Angler/shared"]
 	path = applications/Angler/shared
 	url = git@github.com:sbatschelet/assets-angler.git
+[submodule "plugins/TableEditor/lib/TableEdit/Plugins/Interchange6"]
+	path = plugins/TableEditor/lib/TableEdit/Plugins/Interchange6
+	url = git@github.com:interchange/TableEditor-Plugin-Interchange6.git
