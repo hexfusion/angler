@@ -1,10 +1,9 @@
-
 [submodule "applications/TableEditor"]
 	path = applications/TableEditor
 	url = git@github.com:interchange/TableEditor.git
 [submodule "applications/Angler/shared"]
 	path = applications/Angler/shared
 	url = git@github.com:sbatschelet/assets-angler.git
-[submodule "plugins/TableEditor/lib/TableEdit/Plugins/Interchange6"]
-	path = plugins/TableEditor/lib/TableEdit/Plugins/Interchange6
+[submodule "plugins/TableEditor-Plugin-Interchange6"]
+	path = plugins/TableEditor-Plugin-Interchange6
 	url = git@github.com:interchange/TableEditor-Plugin-Interchange6.git
