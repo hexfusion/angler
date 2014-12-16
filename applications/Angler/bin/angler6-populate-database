@@ -24,10 +24,9 @@ my $state_oregon = $schema->resultset("State")->find( { country_iso_code => 'US'
 
 # roles
 my $roles = $schema->resultset("Role")->populate([
-    { roles_id => '4', name => 'user', label => 'User' },
-    { roles_id => '5', name => 'editor', label => 'Editor' },
-    { roles_id => '6', name => 'pro', label => 'Industry Pro' },
-    { roles_id => '7', name => 'staff', label => 'Shop Staff' },
+    { roles_id => '3', name => 'editor', label => 'Editor' },
+    { roles_id => '4', name => 'pro', label => 'Industry Pro' },
+    { roles_id => '5', name => 'staff', label => 'Shop Staff' },
   ]);
 
 my %users;
@@ -39,7 +38,6 @@ $users{john} = shop_user->create(
       created => $now,
       user_roles => [
           { roles_id => '4' },
-          { roles_id => '6' },
       ],
   });
 
@@ -61,8 +59,7 @@ $users{ben} = shop_user->create(
       last_name => 'Sheard', email => 'sam@westbranchresort.com',
       created => $now,
       user_roles => [
-          { roles_id => '4' },
-          { roles_id => '7' },
+          { roles_id => '5' },
       ],
   });
 
@@ -72,7 +69,7 @@ $users{greg} = shop_user->create(
       first_name => 'Gregor', last_name => 'Fisherman',
       email => 'greg@perl.dance', created => $now,
       user_roles => [
-        { roles_id => '4' },
+        { roles_id => '3' },
       ],
   });
 
@@ -95,8 +92,17 @@ $users{sam} = shop_user->create(
       email => 'sbatschelet@mac.com', created => $now,
       user_roles => [
         { roles_id => '1' },
-        { roles_id => '4' },
-        { roles_id => '7' },
+        { roles_id => '5' },
+      ],
+  });
+
+# Create user admin
+$users{admin} = shop_user->create(
+    { username => 'admin', password => 'pass', nickname => 'God',
+      first_name => '', last_name => '',
+      email => 'sbatschelet@mac.com', created => $now,
+      user_roles => [
+        { roles_id => '1' },
       ],
   });
 
