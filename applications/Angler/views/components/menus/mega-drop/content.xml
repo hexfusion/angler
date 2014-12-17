@@ -1,2 +1,16 @@
 <specification>
+<!-- Mega Drop Column 1 -->
+<list name="menu_s1_c1" class="menu-s1-c1" iterator="menu_s1_c1">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
+<!-- Mega Drop Column 2-->
+<list name="menu_s1_c2" class="menu-s1-c2" iterator="menu_s1_c2">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
+
+
 </specification>
