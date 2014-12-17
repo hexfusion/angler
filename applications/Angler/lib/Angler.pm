@@ -29,6 +29,7 @@ hook 'before_layout_render' => sub {
     my $tokens = shift;
     my $action ='';
     my $scope = '';
+    my $record;
 
     # make cart details available
     $tokens->{cart} = cart->products;
@@ -39,16 +40,44 @@ hook 'before_layout_render' => sub {
     $tokens->{logo_uri} = uri_for('/');
 
     # create menu iterators
-    my $nav = schema->resultset('Navigation')->search(
-         {
-          type => 'menu',
-         },
-         {
-          order_by => { -asc => 'priority'},
-         }
-    );
-    while (my $record = $nav->next) {
-         push @{$tokens->{'menu_' . $record->scope}}, $record;
+    my $nav = shop_navigation;
+
+    my $menu_rs = $nav->search({ type => 'menu' });
+
+    my $headers = $menu_rs->search({ scope => 'header' });
+
+    my $section=0;
+
+    while ($record = $headers->next ) { 
+        $section++;
+        my $menu = $nav->search({
+                type => 'menu',
+                parent_id => $record->navigation_id,
+            },
+            {
+                order_by => { -asc => 'priority'},
+            }
+        );
+
+        my $total = $menu->count;
+
+        # FIXME this total and others here should come from a config not hardcode
+        if ( $total >= '16' ) {
+            debug "Too many records $total to display in nav menui max is 16";
+        };
+
+        my $row = $menu->search({}, { rows => 8 });
+
+        my $n = 2;
+        my $column=0;
+        for my $i (1..$n) {
+            $column ++;
+            my $nav_menu = $row->page($i);
+
+            while (my $record = $nav_menu->next ) {
+                push @{$tokens->{'menu_s' . $section . '_c' . $column}}, $record;
+            };
+        };
     };
 
 # login/logout button
@@ -105,6 +134,8 @@ hook 'before_navigation_display' => sub {
     my @products;
     my $product;
 
+#    debug "Pager: ", $tokens->{products}->pager->current_page;
+
     while ($product = $tokens->{products}->next) {
         my $product_href = {$product->get_inflated_columns};
 
@@ -113,11 +144,11 @@ hook 'before_navigation_display' => sub {
         if ($image) {
             $product_href->{image} = uri_for($image->display_uri('image_120x120'));
         }
-
         push @products, $product_href;
     }
 
     $tokens->{products} = \@products;
+    debug "Tokens count: ",  $tokens->{count};
 };
 
 hook 'before_product_display' => sub {
