@@ -18,7 +18,7 @@
                     <div class="category-products">
                       <div class="toolbar">
                         <div class="pager">
-                          <p class="amount">Showing products <strong><span class="page-first">1</span>-<span class="page-last">20</span></strong> of <strong class="count">220</strong> found</p>
+                          <p class="amount">Showing products <strong><span class="page-first">1</span>-<span class="page-last">20</span></strong> of <strong class="page-total">220</strong> found</p>
                           <div class="limiter">
                             <label>Show</label>
                             <select onChange="setLocation(this.value)">
@@ -27,13 +27,11 @@
                               <option value=""> 30 </option>
                             </select>
                           </div>
-                            <div class="pages pagination"> <strong>Page:</strong>
+                            <div class="pagination"> <strong>Page:</strong>
                               <ol>
-                                <li><a class="i-previous fa fa-caret-left" href="" title="Previous"></a></li>
-                                <li class="current active">1</li>
-                                <li class="standard"><a class="standard" href="">2</a></li>
-                                <li class="standard"><a href="">3</a></li>
-                                <li><a class="next i-next fa fa-caret-right" href="" title="Next"></a></li>
+                                <li class="page-prev-container"><a class="page-prev i-previous fa fa-caret-left" href="/" title="Previous"></a></li>
+                                <li><a class="page-list page-link">1</a></li>
+                                <li class="page-next-container"><a class="page-next i-next fa fa-caret-right" href="/" title="Next"></a></li>
                               </ol>
                             </div>
                         </div>
@@ -91,7 +89,7 @@
                      <div class="toolbar-bottom">
                         <div class="toolbar">
                           <div class="pager">
-                            <p class="amount"> <strong><span class="count">99 </span> Item(s) to 120 of 219 total</strong> </p>
+                            <p class="amount">Showing products <strong><span class="page-first">1</span>-<span class="page-last">20</span></strong> of <strong class="page-total">220</strong> found</p>
                             <div class="limiter">
                               <label>Show</label>
                               <select onChange="setLocation(this.value)">

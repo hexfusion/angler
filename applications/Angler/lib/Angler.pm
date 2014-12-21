@@ -110,8 +110,106 @@ hook 'before_layout_render' => sub {
 #    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
 
-hook 'before_navigation_display' => sub {
+=head2 before_navigation_search
+
+This hooks replaces the standard L<Dancer::Plugin::Interchange6::Routes>
+navigation route to enable us to alter product listing items per page on 
+the fly and sort order.
+
+=cut
+
+hook 'before_navigation_search' => sub {
     my $tokens = shift;
+
+    # rows (products per page) 
+    # FIXME hard coded for testing.
+    my $rows =  '10';
+
+
+    # products
+    my $products =
+      $tokens->{navigation}->navigation_products->search_related('product')
+      ->active->limited_page( $tokens->{page}, $rows );
+
+    my @paging;
+    my @pages;
+    my $pager = $products->pager;
+    my $current =  $pager->current_page;
+    my $path = $tokens->{navigation}->uri;
+
+    # paging
+    # total pages
+    my $n = int( ($pager->total_entries / $pager->entries_per_page) + .999);
+
+    debug "N: ", $n;
+
+    my $last;
+
+    my $uri;
+    unless ( $n < 2 ) {
+        $last = $n;
+        for my $i (1..$n) {
+        debug " try $i and $current";
+        my $uri;
+            unless ($i == $current) {
+                $uri = '/' . $path . '/' . $i;
+            }
+                push @pages ,(
+                    {
+                        name => $i,
+                        uri => $uri
+                    },
+                );
+            };
+        };
+
+    my $prev_url;
+    my $next_url;
+
+    unless ($current == '1') {
+       $prev_url = ($path . '/' . ($current - 1));
+    }
+
+    unless ($current == $n) {
+       $next_url = ($path . '/' . ($current + 1));
+    }
+
+    $tokens->{paging} = (
+        {
+            first => '1',
+            last => $last,
+            prev_url => $prev_url,
+            next_url => $next_url,
+            pages => \@pages
+            }
+    );
+
+    debug "Paging", $tokens->{paging};
+
+    my @products;
+
+    # FIXME this should come from config.
+    my $default_image = schema->resultset('Media')->find({ uri => 'default.jpg' });
+
+    while (my $record = $products->next) {
+
+        my $product_href = {$record->get_inflated_columns};
+
+        # retrieve picture and add it to the results
+        my $image = $record->media_by_type('image')->first;
+        unless ($image) {
+            $image = $default_image;
+        }
+        # FIXME this should be a new folder 200x200
+        $product_href->{image} = uri_for($image->display_uri('image_120x120'));
+        push @products, $product_href;
+    };
+
+    # load list of brands for testing
+    my $brands = shop_navigation->search({type => 'manufacturer',
+                                          active => 1});
+
+    $tokens->{brands} = [$brands->all];
 
     # breadcrumbs
     my $rs = shop_navigation->find(
@@ -125,30 +223,10 @@ hook 'before_navigation_display' => sub {
 
     $tokens->{breadcrumbs} = \@crumbs;
 
-    # load list of brands
-    my $brands = shop_navigation->search({type => 'manufacturer',
-                                          active => 1});
-
-    $tokens->{brands} = [$brands->all];
-
-    my @products;
-    my $product;
-
-#    debug "Pager: ", $tokens->{products}->pager->current_page;
-
-    while ($product = $tokens->{products}->next) {
-        my $product_href = {$product->get_inflated_columns};
-
-        # retrieve picture and add it to the results
-        my $image = $product->media_by_type('image')->first;
-        if ($image) {
-            $product_href->{image} = uri_for($image->display_uri('image_120x120'));
-        }
-        push @products, $product_href;
-    }
-
     $tokens->{products} = \@products;
-    debug "Tokens count: ",  $tokens->{count};
+
+    Dancer::Continuation::Route::Templated->new(
+        return_value => template( $tokens->{template}, $tokens ) )->throw;
 };
 
 hook 'before_product_display' => sub {
