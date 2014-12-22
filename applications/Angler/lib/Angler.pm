@@ -131,7 +131,6 @@ hook 'before_navigation_search' => sub {
       $tokens->{navigation}->navigation_products->search_related('product')
       ->active->limited_page( $tokens->{page}, $rows );
 
-    my @paging;
     my @pages;
     my $pager = $products->pager;
     my $current =  $pager->current_page;
@@ -140,17 +139,15 @@ hook 'before_navigation_search' => sub {
     # paging
     # total pages
     my $n = int( ($pager->total_entries / $pager->entries_per_page) + .999);
-
-    debug "N: ", $n;
-
     my $last;
-
     my $uri;
+
+    # do we have 2 pages?
     unless ( $n < 2 ) {
         $last = $n;
         for my $i (1..$n) {
-        debug " try $i and $current";
         my $uri;
+            # dont show link if page is current
             unless ($i == $current) {
                 $uri = '/' . $path . '/' . $i;
             }
@@ -184,7 +181,7 @@ hook 'before_navigation_search' => sub {
             }
     );
 
-    debug "Paging", $tokens->{paging};
+    #debug "Paging", $tokens->{paging};
 
     my @products;
 
@@ -205,7 +202,7 @@ hook 'before_navigation_search' => sub {
         push @products, $product_href;
     };
 
-    # load list of brands for testing
+    # FIXME load list of brands for testing should be only for this search
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
