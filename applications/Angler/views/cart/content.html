@@ -5,34 +5,7 @@
             <div class="main">
               <div class="col-main">
                 <div class="padding-s">
-                  <div id="map-popup" class="map-popup" style="display:none;"> <a href="#" class="map-popup-close" id="map-popup-close">x</a>
-                    <div class="map-popup-arrow"></div>
-                    <div class="map-popup-heading">
-                      <h2 id="map-popup-heading"></h2>
-                    </div>
-                    <div class="map-popup-content" id="map-popup-content">
-                      <div class="map-popup-msrp" id="map-popup-msrp-box"><strong>Price:</strong> <span style="text-decoration:line-through;" id="map-popup-msrp"></span></div>
-                      <div class="map-popup-price" id="map-popup-price-box"><strong>Actual Price:</strong> <span id="map-popup-price"></span></div>
-                      <div class="map-popup-checkout">
-                        <form action="" method="POST" id="product_addtocart_form_from_popup">
-                          <input name="product" class="product_id" value="" id="map-popup-product-id" type="hidden">
-                          <div class="additional-addtocart-box"> </div>
-                          <button type="button" title="Add to Cart" class="button btn-cart" id="map-popup-button"><span><span>Add to Cart</span></span></button>
-                        </form>
-                      </div>
-                    </div>
-                    <div class="map-popup-text" id="map-popup-text">Our price is lower 
-                      than the manufacturer's "minimum advertised price."  As a result, we 
-                      cannot show you the price in catalog or the product page. <br>
-                      <br>
-                      You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</div>
-                    <div class="map-popup-text" id="map-popup-text-what-this">Our price 
-                      is lower than the manufacturer's "minimum advertised price."  As a 
-                      result, we cannot show you the price in catalog or the product page. <br>
-                      <br>
-                      You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</div>
-                  </div>
-                  <div class="cart">
+                 <div class="cart">
                     <div class="page-title title-buttons">
                       <h1>Shopping Cart</h1>
                       <ul class="checkout-types">
@@ -131,21 +104,6 @@
                            </div>
                         </div>
                         <div class="col-2">
-                            <div class="discount">
-                              <h2>Discount Codes</h2>
-                              <div class="discount-form">
-                                <label for="coupon_code">Enter your coupon code if you have one.</label>
-                                <input name="remove" id="remove-coupone" value="0" type="hidden">
-                                <div class="input-box">
-                                  <input class="input-text form-control" id="coupon_code" name="coupon_code">
-                                </div>
-                                <div class="buttons-set">
-                                  <button type="submit" title="Apply Coupon" class="button" value="Apply Coupon"><span><span>Apply Coupon</span></span></button>
-                                </div>
-                              </div>
-                            </div>
-                          
-
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
                             <div class="shipping-form">
@@ -154,12 +112,11 @@
                                   <li>
                                     <label for="country" class="required"><em>*</em>Country</label>
                                     <div class="input-box">
-                                      <select name="country" class="country" style="height: auto; padding: 6px 2px; width: 120px; font-size: 11px;">
+                                      <select name="country" class="country required-entry validate-select form-control" id="region_id" name="region_id" style="">
                                         <option>Afghanistan</option>
                                       </select>
                                     </div>
                                   </li>
-
                                   <li>
                                     <label for="region_id">State/Province</label>
                                     <div class="input-box">
