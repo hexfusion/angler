@@ -3,27 +3,23 @@
 <value name="name" class="category-name" field="navigation.name"/>
 <value name="uri" class="category-name" field="navigation.uri" target="href"/>
 
+<!-- showing results of -->
+<value name="pager_total_entries" field="pager.total_entries"/>
+<value name="pager_first_entry" field="pager.first"/>
+<value name="pager_last_entry" field="pager.last"/>
 
-<value name="page_total" class="page-total" field="pager.total_entries"/>
-<value name="first" class="page-first" field="paging.first"/>
-<value name="last" class="page-last" field="paging.last"/>
+<container name="enable_pagination_previous" value="pagination_previous"/>
+<value name="pagination_previous" target="href"/>
+<container name="enable_pagination_next" value="pagination_next"/>
+<value name="pagination_next" target="href"/>
 
-<!-- next and prev paging -->
-<container name="page-next-container" value="paging.next_url">
-<value name="next" class="page-next" field="paging.next_url" target="href" op="append" />
+<list name="pagination" class="page" iterator="pagination">
+<container name="active" value="active">
+<param name="active" class="page" target="class" op="append"/>
 </container>
-
-<container name="page-prev-container" value="paging.prev_url">
-<value name="prev" class="page-prev" field="paging.prev_url" target="href" op="append" />
-</container>
-
-<container name="pagination" value="paging.last">
-<list name="page-list" iterator="paging.pages">
-<param name="name" class="page-link"/>
-<param name="uri" class="page-link" toggle="href" target="href"/>
+<param name="page" class="page_number"/>
+<param name="uri" target="href" class="page_number"/>
 </list>
-</container>
-
 
 <list name="results" class="product-box" iterator="products">
 <param name="sku"/>
@@ -33,14 +29,7 @@
 <param name="image" class="product-image" target="src"/>
 <param name="name" class="product-image" target="alt"/>
 </list>
-<!-- Paging 
-<paging name="products" list="results" class="pagination">
-<element name="previous" type="previous" class="previous"/>
-<element name="next" type="next" class="paging-next"/>
-<element name="last" type="last" class="paging-last"/>
-<element name="standard" type="standard" class="standard"/>
-<element name="active" type="active" class="selected"/>
--->
+
 <!-- Brands -->
 <list name="brands" class="brand-list" iterator="brands">
 <param name="name" class="brand-link"/>
