@@ -17,40 +17,90 @@
                     </div>
                     <div class="category-products">
                       <div class="toolbar">
-                        <div class="pager">
-                          <p class="amount">Showing products <strong><span class="page-first">1</span>-<span class="page-last">20</span></strong> of <strong class="page-total">220</strong> found</p>
-                          <div class="limiter">
-                            <label>Show</label>
-                            <select onChange="setLocation(this.value)">
-                              <option value="" selected="selected"> 9 </option>
-                              <option value=""> 15 </option>
-                              <option value=""> 30 </option>
-                            </select>
-                          </div>
-                            <div class="pagination"> <strong>Page:</strong>
-                              <ol>
-                                <li class="page-prev-container"><a class="page-prev i-previous fa fa-caret-left" href="/" title="Previous"></a></li>
-                                <li><a class="page-list page-link">1</a></li>
-                                <li class="page-next-container"><a class="page-next i-next fa fa-caret-right" href="/" title="Next"></a></li>
-                              </ol>
+                        <div class="listing-top">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="listing-results-number">Showing results
+                                        <strong>
+                                            <span class="pager_first_entry">1</span>-
+                                            <span class="pager_last_entry">10</span>
+                                        </strong> of
+                                        <strong class="pager_total_entries">139</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="pagination">
+                                    <!--
+                                        <li class="enable_pagination_first">
+                                            <a class="pagination_first fa fa-angle-double-left" href="/" title="Previous"></a>
+                                        </li>
+                                    -->
+                                        <li class="enable_pagination_previous">
+                                            <a class="pagination_previous fa fa-caret-left" href="/" title="Previous"></a>
+                                        </li>
+                                        <li class="page">
+                                            <a class="page_number" href="#">1</a>
+                                        </li>
+                                        <li class="page">
+                                           <a class="page_number" href="#">2</a>
+                                        </li>
+                                        <li class="enable_pagination_next">
+                                            <a class="pagination_next fa fa-caret-right" href="/"></a>
+                                        </li>
+                                    <!--
+                                        <li class="enable_pagination_last">
+                                            <a class="pagination_last fa fa-angle-double-right" href="/" title="Previous"></a>
+                                        </li>
+                                    -->
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group">Show
+                                            <select class="per_page form-control input-sm">
+                                                <option selected="selected">10</option>
+                                                <option>20</option>
+                                                <option>30</option>
+                                                <option>40</option>
+                                            </select>per page</div>
+                                    </form>
+                                </div>
+</div>
+                            <div class="row">
+                                <div class="col-md-9 btn-group" role="group">
+                                    <button aria-label="Grid" class="view btn btn-default" type="button" value="grid">
+                                        <span aria-hidden="true" class="fa fa-th"></span>
+                                    </button>
+                                    <button aria-label="List" class="view btn btn-default" type="button" value="list">
+                                        <span aria-hidden="true" class="fa fa-th-list"></span>
+                                    </button>
+                                    <button aria-label="Simple" class="view btn btn-default" type="button"
+                                    value="simple">
+                                        <span aria-hidden="true" class="fa fa-list"></span>
+                                    </button>
+                                    <button aria-label="Compact" class="view btn btn-default" type="button"
+                                    value="compact">
+                                        <span aria-hidden="true" class="fa fa-align-justify"></span>
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group">Sort by
+                                            <select class="order_by form-control input-sm">
+                                                <option selected="selected" value="priority">Position</option>
+                                                <option value="selling_price">Price</option>
+                                                <option value="name">Name</option>
+                                                <option value="sku">SKU</option>
+                                            </select>
+                                            <button class="btn btn-default order_direction" type="button" value="asc">
+                                                <span class="fa fa-arrow-up"></span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                        <div class="sorter">
-                          <p class="view-mode">
-                            <label>View as:</label>
-                            <strong title="Grid" class="grid">Grid</strong>&nbsp; <a href="" title="List" class="list">List</a>&nbsp; </p>
-                          <div class="sort-by">
-                            <div class="right"> <a class="fa fa-arrow-up" href="" title="Set Descending Direction">
-                              </a> </div>
-                            <label>Sort By</label>
-                            <select onChange="setLocation(this.value)">
-                              <option value="" selected="selected"> Position </option>
-                              <option value=""> Name </option>
-                              <option value=""> Price </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
+                     </div>
                       <ul class="products-grid row first odd">
                         <li style="margin-bottom: 30px;" class="product-box item first col-xs-12 col-sm-4">
                           <div class="product-container">
@@ -88,40 +138,8 @@
                      </ul>
                      <div class="toolbar-bottom">
                         <div class="toolbar">
-                          <div class="pager">
-                            <p class="amount">Showing products <strong><span class="page-first">1</span>-<span class="page-last">20</span></strong> of <strong class="page-total">220</strong> found</p>
-                            <div class="limiter">
-                              <label>Show</label>
-                              <select onChange="setLocation(this.value)">
-                                <option value="" selected="selected"> 9 </option>
-                                <option value=""> 15 </option>
-                                <option value=""> 30 </option>
-                              </select>
-                            </div>
-                            <div class="pages pagination"> <strong>Page:</strong>
-                              <ol>
-                                <li><a class="previous i-previous fa fa-caret-left" href="" title="Previous"></a></li>
-                                <li class="current active">1</li>
-                                <li class="standard"><a href="">2</a></li>
-                                <li> <a class="next i-next fa fa-caret-right" href="" title="Next"></a></li>
-                              </ol>
-                            </div>
-                          </div>
-                          <div class="sorter">
-                            <p class="view-mode">
-                              <label>View as:</label>
-                              <strong title="Grid" class="grid">Grid</strong>&nbsp; <a href="" title="List" class="list">List</a>&nbsp; </p>
-                            <div class="sort-by">
-                              <div class="right"> <a class="fa fa-arrow-up" href="" title="Set Descending Direction">
-                                </a> </div>
-                              <label>Sort By</label>
-                              <select onChange="setLocation(this.value)">
-                                <option value="" selected="selected"> Position </option>
-                                <option value=""> Name </option>
-                                <option value=""> Price </option>
-                              </select>
-                            </div>
-                          </div>
+
+
                         </div>
                       </div>
                     </div>
@@ -136,8 +154,8 @@
                         <dt>Price</dt>
                         <dd>
                           <ol>
-                            <li> <a href="http://www.topflyreview.com/index.php/domestic.html?limit=15&amp;price=-100"><span class="price">$0.00</span> - <span class="price">$99.99</span></a> (5) </li>
-                            <li> <a href="http://www.topflyreview.com/index.php/domestic.html?limit=15&amp;price=100-"><span class="price">$100.00</span> and above</a> (13) </li>
+                            <li> <a href=""><span class="price">$0.00</span> - <span class="price">$99.99</span></a> (5) </li>
+                            <li> <a href=""><span class="price">$100.00</span> and above</a> (13) </li>
                           </ol>
                         </dd>
                         <dt>Manufacturer</dt>
