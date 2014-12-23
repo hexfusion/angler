@@ -193,7 +193,7 @@ hook 'before_navigation_search' => sub {
 
         # retrieve picture and add it to the results
         my $image = $record->media_by_type('image')->first;
-        unless (!$image) {
+        unless ($image) {
             $image = $default_image;
         }
         # FIXME this should be a new folder 200x200
