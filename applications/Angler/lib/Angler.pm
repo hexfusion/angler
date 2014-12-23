@@ -120,68 +120,67 @@ the fly and sort order.
 
 hook 'before_navigation_search' => sub {
     my $tokens = shift;
+    my $routes_config = config->{plugin}->{'Interchange6::Routes'};
 
     # rows (products per page) 
-    # FIXME hard coded for testing.
-    my $rows =  '10';
-
+    my $rows = $routes_config->{navigation}->{records} || 10;
 
     # products
     my $products =
       $tokens->{navigation}->navigation_products->search_related('product')
       ->active->limited_page( $tokens->{page}, $rows );
 
-    my @pages;
     my $pager = $products->pager;
-    my $current =  $pager->current_page;
-    my $path = $tokens->{navigation}->uri;
+
+    $tokens->{pager} = $pager;
 
     # paging
-    # total pages
+
+    my $current = $pager->current_page;
     my $n = int( ($pager->total_entries / $pager->entries_per_page) + .999);
-    my $last;
-    my $uri;
+    my $first_page = 1;
+    my $last_page  = $pager->last_page;
 
-    # do we have 2 pages?
-    unless ( $n < 2 ) {
-        $last = $n;
-        for my $i (1..$n) {
-        my $uri;
-            # dont show link if page is current
-            unless ($i == $current) {
-                $uri = '/' . $path . '/' . $i;
+    if ( $pager->last_page > 5 ) {
+   # more than 5 pages so we might need to start later than page 1
+        if ( $pager->current_page <= 3 ) {
+            $last_page = 5;
+        }
+        elsif (
+            $pager->last_page - $pager->current_page <
+             3 )
+            {
+                $first_page = $pager->last_page - 4;
             }
-                push @pages ,(
-                    {
-                        name => $i,
-                        uri => $uri
-                    },
-                );
-            };
-        };
+        else {
+            $first_page = $pager->current_page - 2;
+            $last_page = $pager->current_page + 2;
+        }
+    }
 
-    my $prev_url;
-    my $next_url;
+    my @pages = map {
+       +{
+           page => $_,
+           uri  => $_ == $pager->current_page
+           ? undef
+           : uri_for( $tokens->{navigation}->uri . '/' . $_ ),
+           active => $_ == $pager->current_page ? " active" : undef,
+         }
+    } $first_page .. $last_page;
+
+    # debug "Paging", \@pages;
+
+    $tokens->{pagination} = \@pages;
 
     unless ($current == '1') {
-       $prev_url = ($path . '/' . ($current - 1));
+        $tokens->{pagination_previous} =
+         uri_for( $tokens->{navigation}->uri . '/' . ($current - 1));
     }
 
     unless ($current == $n) {
-       $next_url = ($path . '/' . ($current + 1));
+        $tokens->{pagination_next} =
+         uri_for( $tokens->{navigation}->uri . '/' . ($current + 1));
     }
-
-    $tokens->{paging} = (
-        {
-            first => '1',
-            last => $last,
-            prev_url => $prev_url,
-            next_url => $next_url,
-            pages => \@pages
-            }
-    );
-
-    #debug "Paging", $tokens->{paging};
 
     my @products;
 
@@ -194,7 +193,7 @@ hook 'before_navigation_search' => sub {
 
         # retrieve picture and add it to the results
         my $image = $record->media_by_type('image')->first;
-        unless ($image) {
+        unless (!$image) {
             $image = $default_image;
         }
         # FIXME this should be a new folder 200x200
