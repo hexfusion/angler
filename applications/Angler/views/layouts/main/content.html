@@ -8,13 +8,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="/images/favicon1.png" rel="icon" type="image/png" />
 <link rel="shortcut icon"  href="/images/favicon1.png" rel="icon" type="image/png" />
+
 <link href="/css/rateit.css" rel="stylesheet" type="text/css">
-<link href="/css/css_002.css" rel="stylesheet" type="text/css">
-<link href="/css/css.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="/js/jquery-1.js"></script>
-<script type="text/javascript" src="/js/jquery-migrate-1.js"></script>
+<link href="/css/fonts.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="/js/jquery.rateit.min.js"></script>
-<script type="text/javascript" src="/js/superfish.js"></script>
 <script type="text/javascript" src="/js/scripts.js"></script>
 
 <!--[if lt IE 7]>
@@ -39,23 +37,17 @@
 <link rel="stylesheet" type="text/css" href="/css/photoswipe.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/extra_style.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/megadrop.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/styles.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/responsive.css" media="all">
-<link rel="stylesheet" type="text/css" href="/css/superfish.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/camera.css" media="all">
-<script type="text/javascript" src="/js/prototype.js"></script>
+
+<script type="text/javascript" src="/js/prototype.js"></script> 
 <script type="text/javascript" src="/js/slider.js"></script>
-<script type="text/javascript" src="/js/js.js"></script>
-<script type="text/javascript" src="/js/cloud-zoom.html"></script>
 <script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/jquery_004.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
-<script type="text/javascript" src="/js/jquery_002.js"></script>
 <script type="text/javascript" src="/js/jquery_003.js"></script>
-<script type="text/javascript" src="/js/jquery_005.js"></script>
 <script type="text/javascript" src="/js/tm-stick-up.js"></script>
-<script type="text/javascript" src="/js/carousel.js"></script>
-<script type="text/javascript" src="/js/msrp.js"></script>
 
 <!--[if lt IE 8]>
 <link rel="stylesheet" type="text/css" href="product/css/styles-ie.css" media="all" />
@@ -306,6 +298,22 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/js/bootstrap-hover-dropdown.js"></script>
 <script src="/js/fitdivs.js"></script>
+
+<script src="/js/jquery.equalheightcolumns.js"></script>
+<script>
+$(document).ready(function () {
+    //pass the parent to a group of elements
+    $('#parent').equalHeight();
+    //you can pass a set of elements instead of passing the parent
+    $('#group div').equalHeight();
+    //fixed height of 150px
+    $('#height').equalHeight({height:150});
+    //maximum-height of 250px
+    $('#maxheight').equalHeight({maxHeight:250});
+    //minimum-height of 400px
+    $('#minheight').equalHeight({minHeight:400});     
+});
+</script>
 <script>
         $(document).ready(function(){
         // Target your .container, .wrapper, .post, etc.
