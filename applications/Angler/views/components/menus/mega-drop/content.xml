@@ -11,6 +11,16 @@
 <param name="uri" class="menu-link" target="href" op="append"/>
 </list>
 
+<!-- Mega Drop Section 2 Column 1-->
+<list name="menu_s2_c1" class="menu-s2-c1" iterator="menu_s2_c1">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
 
+<!-- Mega Drop Section 2 Column 2-->
+<list name="menu_s2_c2" class="menu-s2-c2" iterator="menu_s2_c2">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
 
 </specification>
