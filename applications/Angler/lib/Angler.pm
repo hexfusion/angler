@@ -117,6 +117,7 @@ the fly and sort order.
 hook 'before_navigation_search' => sub {
     my $tokens = shift;
     my $routes_config = config->{plugin}->{'Interchange6::Routes'};
+    my $products;
 
     # rows (products per page) 
     my $rows = $routes_config->{navigation}->{records} || 10;
