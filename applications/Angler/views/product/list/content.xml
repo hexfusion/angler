@@ -1,0 +1,50 @@
+<specification>
+<!-- breadcrumbs -->
+<value name="name" class="category-name" field="navigation.name"/>
+<value name="uri" class="category-name" field="navigation.uri" target="href"/>
+
+<!-- showing results of -->
+<value name="pager_total_entries" field="pager.total_entries"/>
+<value name="pager_first_entry" field="pager.first"/>
+<value name="pager_last_entry" field="pager.last"/>
+
+<container name="enable_pagination_previous" value="pagination_previous"/>
+<value name="pagination_previous" target="href"/>
+<container name="enable_pagination_next" value="pagination_next"/>
+<value name="pagination_next" target="href"/>
+
+<list name="pagination" class="page" iterator="pagination">
+<container name="active" value="active">
+<param name="active" class="page" target="class" op="append"/>
+</container>
+<param name="page" class="page_number"/>
+<param name="uri" target="href" class="page_number"/>
+</list>
+
+<list name="results" class="product-box" iterator="products">
+<param name="sku"/>
+<param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
+<param name="name" class="product-name" filter="upper"/>
+<param name="price" class="product-price"/>
+<param name="image" class="product-image" target="src"/>
+<param name="name" class="product-image" target="alt"/>
+<param name="uri" class="product-image" target="href" op="append"/>
+<param name="uri" class="product-link" target="href" op="append"/>
+<param name="name" class="product-link" target="title"/>
+<param name="uri" class="details-form" target="action" op="append"/>
+</list>
+
+<!-- Brands -->
+<list name="brands" class="brand-list" iterator="brands">
+<param name="name" class="brand-link"/>
+<param name="uri" class="brand-link" target="src"/>
+</list>
+
+<!-- Breadcrumbs -->
+<list name="breadcrumbs" class="crumbs" iterator="breadcrumbs">
+<separator name="sep"/>
+<param name="name" class="breadcrumb-link"/>
+<param name="uri" class="breadcrumb-link" target="href" op="append"/>
+</list>
+
+</specification>
