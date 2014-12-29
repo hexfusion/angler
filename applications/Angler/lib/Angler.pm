@@ -41,14 +41,10 @@ hook 'before_layout_render' => sub {
 
     # create menu iterators
     my $nav = shop_navigation;
-
     my $menu_rs = $nav->search({ type => 'menu' });
-
-    my $headers = $menu_rs->search({ scope => 'header' });
-
     my $section=0;
 
-    while ($record = $headers->next ) { 
+    while ($record = $menu_rs->next ) { 
         $section++;
         my $menu = $nav->search({
                 type => 'menu',
@@ -72,8 +68,8 @@ hook 'before_layout_render' => sub {
         my $column=0;
         for my $i (1..$n) {
             $column ++;
-            my $nav_menu = $row->page($i);
 
+            my $nav_menu = $row->page($i);
             while (my $record = $nav_menu->next ) {
                 push @{$tokens->{'menu_s' . $section . '_c' . $column}}, $record;
             };
@@ -125,10 +121,23 @@ hook 'before_navigation_search' => sub {
     # rows (products per page) 
     my $rows = $routes_config->{navigation}->{records} || 10;
 
-    # products
     my $products =
       $tokens->{navigation}->navigation_products->search_related('product')
       ->active->limited_page( $tokens->{page}, $rows );
+
+    # FIXME I believe this only goes 1 level of children
+
+    # if this is the root category then show all the childrens products.
+    if ( $tokens->{navigation}->is_root == 1 ) {
+        $products =
+            $tokens->{navigation}->children->search_related('navigation_products')->search_related('product')
+            ->active->limited_page( $tokens->{page}, $rows );
+    }
+    else {
+        $products =
+            $tokens->{navigation}->navigation_products->search_related('product')
+            ->active->limited_page( $tokens->{page}, $rows );
+    }
 
     my $pager = $products->pager;
 
@@ -406,7 +415,7 @@ get '/blog' => sub {
     template 'blog/content';
 };
 
-get '/learning' => sub {
+get '/learning-center' => sub {
     template 'learning/content';
 };
 
