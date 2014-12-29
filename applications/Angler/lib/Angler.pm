@@ -121,10 +121,6 @@ hook 'before_navigation_search' => sub {
     # rows (products per page) 
     my $rows = $routes_config->{navigation}->{records} || 10;
 
-    my $products =
-      $tokens->{navigation}->navigation_products->search_related('product')
-      ->active->limited_page( $tokens->{page}, $rows );
-
     # FIXME I believe this only goes 1 level of children
 
     # if this is the root category then show all the childrens products.
