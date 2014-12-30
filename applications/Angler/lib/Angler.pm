@@ -22,6 +22,9 @@ use Template::Flute::Iterator::JSON;
 
 our $VERSION = '0.1';
 
+# debug dbic 
+# schema->storage->debugfh(IO::File->new('/tmp/trace.out', 'w'));
+
 # connect DBIC session engine to our schema
 set session_options => {schema => schema};
 
@@ -39,44 +42,65 @@ hook 'before_layout_render' => sub {
     # logo
     $tokens->{logo_uri} = uri_for('/');
 
-    # create menu iterators
     my $nav = shop_navigation;
-    my $menu_rs = $nav->search({ type => 'menu' });
+
+    # build menu sections for mega-drop
+
+    # select the unique menu scopes and order by parents priority
+    my $menus = $nav->search(
+        {
+            'me.type' => 'menu',
+            # null parent_id means record is a header
+            'me.parent_id' => { '!=', undef },
+            # we use negative numbers for sub categories we don't want in menu..
+            'parents.priority' => {'>=' => '0'}
+        },
+        {
+            join => 'parents',
+            # we don't need all these fields but to debug they are useful
+            select => [ 'me.scope', 'me.navigation_id', 'me.name', 'me.parent_id', 'parents.priority' ],
+            as => [ 'scope', 'navigation_id', 'name', 'parent_id', 'priority'],
+            group_by => [ qw/scope priority/ ],
+            order_by => { -asc => 'priority' }
+        }
+    );
+
     my $section=0;
 
-    while ($record = $menu_rs->next ) { 
-        $section++;
-        my $menu = $nav->search({
-                type => 'menu',
-                parent_id => $record->navigation_id,
-            },
+    while ($record = $menus->next ) {
+       $section++;
+
+        my $menu = $nav->search(
             {
-                order_by => { -asc => 'priority'},
-            }
+                'type' => 'menu',
+                'scope' => $record->scope
+            },
         );
 
         my $total = $menu->count;
 
         # FIXME this total and others here should come from a config not hardcode
-        if ( $total >= '16' ) {
+        if ( $total > '16' ) {
             debug "Too many records $total to display in nav menui max is 16";
         };
 
+        # set number of records per row to return
         my $row = $menu->search({}, { rows => 8 });
 
         my $n = 2;
         my $column=0;
+
         for my $i (1..$n) {
             $column ++;
-
             my $nav_menu = $row->page($i);
+
             while (my $record = $nav_menu->next ) {
-                push @{$tokens->{'menu_s' . $section . '_c' . $column}}, $record;
+                    push @{$tokens->{'menu_s' . $section . '_c' . $column}}, $record;
             };
         };
     };
 
-# login/logout button
+    # login/logout button
     if (! logged_in_user){
         $action = 'login';
         $scope = 'top-login';
