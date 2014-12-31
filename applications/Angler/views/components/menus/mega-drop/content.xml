@@ -23,4 +23,34 @@
 <param name="uri" class="menu-link" target="href" op="append"/>
 </list>
 
+<!-- Mega Drop Section 3 Column 1-->
+<list name="menu_s3_c1" class="menu-s3-c1" iterator="menu_s3_c1">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
+<!-- Mega Drop Section 3 Column 2-->
+<list name="menu_s3_c2" class="menu-s3-c2" iterator="menu_s3_c2">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
+<!-- Mega Drop Section 4 Column 1 "Clothing by Brands" -->
+<list name="menu_s4_c1" class="menu-s4-c1" iterator="menu_s4_c1">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
+<!-- Mega Drop Section 5 Column 1 "Fly Tying" -->
+<list name="menu_s5_c1" class="menu-s5-c1" iterator="menu_s5_c1">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
+<!-- Mega Drop Section 6 Column 1 "Fly Tying" -->
+<list name="menu_s6_c1" class="menu-s6-c1" iterator="menu_s6_c1">
+<param name="label" class="menu-link" field="name"/>
+<param name="uri" class="menu-link" target="href" op="append"/>
+</list>
+
 </specification>
