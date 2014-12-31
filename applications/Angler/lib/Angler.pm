@@ -436,6 +436,10 @@ get '/blog' => sub {
     template 'blog/content';
 };
 
+get '/contact-us' => sub {
+    template 'contact/content';
+};
+
 get '/learning-center' => sub {
     template 'learning/content';
 };
