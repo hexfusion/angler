@@ -53,7 +53,7 @@ hook 'before_layout_render' => sub {
             # null parent_id means record is a header
             'me.parent_id' => { '!=', undef },
             # we use negative numbers for sub categories we don't want in menu..
-            'parents.priority' => {'>=' => '0'}
+            'me.priority' => {'>=' => '0'}
         },
         {
             join => 'parents',
