@@ -46,10 +46,10 @@
                         </div>
                       </div>
                       <div class="field control-group error">
-                        <label for="inputUsername" class="required"><em>*</em>Email Address</label>
-                        <div class="username input-box">
-                          <input type="text" id="inputUsername" name="username" placeholder="Email" title="Email Address" class="input-text validate-email required-entry" />
-                          <span class="form-error" id="errorUsername">Error</span>
+                        <label for="inputEmail" class="required"><em>*</em>Email Address</label>
+                        <div class="email input-box">
+                          <input type="text" id="inputEmail" name="email" placeholder="Email" title="Email Address" class="input-text required-entry" />
+                          <span class="form-error" id="errorEmail">Error</span>
                         </div>
                       </div>
                     </li>
@@ -78,7 +78,7 @@
                       <div class="field control-group error">
                         <label for="inputBillingState" class="required"><em>*</em>State/Province</label>
                         <div class="billing_state input-box">
-                          <select class="input-xlarge" id="inputBillingState" name="billing_state" placeholder="State">
+                          <select class="input-xlarge" id="inputBillingState" name="billing_state" placeholder="Choose State">
                            <option>State</option>
                           </select>
                         </div>
@@ -88,14 +88,14 @@
                       <div class="field control-group error">
                         <label for="inputBillingPostalCode" class="required"><em>*</em>Zip/Postal Code</label>
                         <div class="billing_postal_code input-box">
-                          <input type="text" title="Zip/Postal Code" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" class="input-text validate-zip-international  required-entry" />
+                          <input type="text" title="Zip/Postal Code" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" class="input-text required-entry" />
                           <span class="control-label" for="inputError" id="errorBillingPostalCode">Error</span>
                         </div>
                       </div>
-                      <div class="field">
+                      <div class="field control-group error">
                         <label for="inputBillingCountry" class="required"><em>*</em>Country</label>
                         <div class="input-box">
-                          <select class="input-xlarge" id="inputBillingCountry" title="Country" >
+                          <select class="input-xlarge" name="billing_country" id="inputBillingCountry" title="Country" placeholder="Choose Country" >
                             <option>Country</option>
                           </select>
                         </div>
@@ -315,7 +315,7 @@
                         </div>
                         <div class="col-xs-4 form-group cvc required">
                           <label class="control-label">CVC/CVV</label>
-                          <input autocomplete="off" class="form-control card-cvc" placeholder="ex. 311" size="4" type="text" />
+                          <input autocomplete="off" class="form-control card_cvc" id="inputCardCVC" name="card_cvc" placeholder="ex. 311" size="4" type="text" />
                         </div>
                      </div>
                     <div class="form-row coupon-wrap">
