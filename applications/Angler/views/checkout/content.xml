@@ -78,6 +78,10 @@
 <value name="billing_last_name_css_error" field="errors.billing_last_name_input" target="class" class="billing_last_name" op="append" joiner=" "/>
 <value name="billing_last_name_error" id="errorBillingLastName"
        field="errors.billing_last_name" op="toggle"/>
+<!-- Billing Company -->
+<value name="billing_company_css_error" field="errors.billing_company_input" target="class" class="billing_company" op="append" joiner=" "/>
+<value name="billing_company_error" id="errorBillingCompany"
+       field="errors.billing_company" op="toggle"/>
 <!-- Billing Address -->
 <value name="billing_address_css_error" field="errors.billing_address_input" target="class" class="billing_address" op="append" joiner=" "/>
 <value name="billing_address_error" id="errorBillingAddress"
