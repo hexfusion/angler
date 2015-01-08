@@ -1,74 +1,69 @@
 <specification>
-<!-- Cart Main-->
-<list name="cart" class="cartitem" iterator="cart.products">
-<param name="name"/>
-<param name="price" class="txt-price" filter="currency"/>
-<param name="qty" class="quantity" field="quantity"/>
-<param name="subtotal" class="item-subtotal" filter="currency"/>
+<!-- Main Cart -->
+<list name="cart" iterator="cart.products">
+    <param name="name"  class="item-name"/>
+    <param name="price" class="item-price" filter="currency"/>
+    <param name="qty" class="item-quantity" field="quantity"/>
+    <param name="subtotal" class="item-subtotal" filter="currency"/>
 </list>
 
-<!-- Cart Side -->
-<list name="cart-small" class="cartsmallitem" iterator="cart.products">
-<param name="name"  class="cart-name"/>
-<param name="price" class="cart-price" filter="currency"/>
-<param name="qty" class="cart-quantity" field="quantity"/>
-</list>
+<!-- Add Sidebar Cart -->
+<value name="sidebar-cart-overview" include="../components/widgets/cart_overview_sidebar.html"/>
 
 <value name="subtotal" class="cart-subtotal" field="cart.subtotal"
        filter="currency"/>
 <!--
 <value name="cart-shipping" field="cart_shipping" filter="currency"/>
+<value name="cart-tax" field="cart_tax" filter="currency"/>
 -->
-<value name="cart-tax" field="cart_tax" filter="currency"/> 
 <value name="total" class="cart-total" field="cart.total" filter="currency"/>
 
 <container name="signin" value="!session.logged_in_user"/>
 
 <form name="checkout" class="account-info">
-<!-- Email -->
-<field name="email" id="inputEmail"/>
-<!-- Billing -->
-<field name="billing_email" id="inputBillingEmail"/>
-<field name="billing_first_name" id="inputBillingFirstName"/>
-<field name="billing_last_name" id="inputBillingLastName"/>
-<field name="billing_company" id="inputBillingCompany"/>
-<field name="billing_address" id="inputBillingAddress"/>
-<field name="billing_address_2" id="inputBillingAddress2"/>
-<field name="billing_city" id="inputBillingCity"/>
-<field name="billing_phone" id="inputBillingPhone"/>
-<field name="billing_fax" id="inputBillingFax"/>
-<field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
-<field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
-<!-- Shipping -->
-<field name="shipping_enabled" id="inputShippingEnabled"/>
-<field name="first_name" id="inputFirstName"/>
-<field name="last_name" id="inputLastName"/>
-<field name="company" id="inputCompany"/>
-<field name="address" id="inputAddress"/>
-<field name="address_2" id="inputAddress2"/>
-<field name="city" id="inputCity"/>
-<field name="state" id="inputState" iterator="states"
+    <field name="email" id="inputEmail"/>
+    <!-- Billing -->
+    <field name="billing_first_name" id="inputBillingFirstName"/>
+    <field name="billing_last_name" id="inputBillingLastName"/>
+    <field name="billing_company" id="inputBillingCompany"/>
+    <field name="billing_address" id="inputBillingAddress"/>
+    <field name="billing_address_2" id="inputBillingAddress2"/>
+    <field name="billing_city" id="inputBillingCity"/>
+    <field name="billing_phone" id="inputBillingPhone"/>
+    <field name="billing_fax" id="inputBillingFax"/>
+    <field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
+    <field name="billing_postal_code" id="inputBillingPostalCode"/>
+    <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
+    <!-- Shipping -->
+    <field name="shipping_enabled" id="inputShippingEnabled"/>
+    <field name="first_name" id="inputFirstName"/>
+    <field name="last_name" id="inputLastName"/>
+    <field name="company" id="inputCompany"/>
+    <field name="address" id="inputAddress"/>
+    <field name="address_2" id="inputAddress2"/>
+    <field name="city" id="inputCity"/>
+    <field name="state" id="inputState" iterator="states"
        iterator_value_key="states_id" iterator_name_key="name"
        keep="empty_value"/>
-<field name="postal_code" id="inputPostalCode"/>
-<field name="country" id="inputCountry" iterator="countries"
+    <field name="country" id="inputCountry" iterator="countries"
        iterator_value_key="country_iso_code" iterator_name_key="name"/>
-<field name="phone" id="inputPhone"/>
-<field name="fax" id="inputFax"/>
-<!-- Payment -->
-<field name="card_name" id="inputCardName"/>
-<field name="card_number" id="inputCardNumber"/>
-<field name="card_month" id="inputCardMonth" iterator="card_months"/>
-<field name="card_year" id="inputCardYear" iterator="card_years"/>
-<field name="card_cvc" id="inputCardCVC"/>
-
-<!-- Or paypal -->
-<field name="payment_method" class="payment-method" />
-
+    <field name="postal_code" id="inputPostalCode"/>
+    <field name="phone" id="inputPhone"/>
+    <field name="fax" id="inputFax"/>
+    <!-- Payment -->
+    <field name="card_name" id="inputCardName"/>
+    <field name="card_number" id="inputCardNumber"/>
+    <field name="card_month" id="inputCardMonth" iterator="card_months"/>
+    <field name="card_year" id="inputCardYear" iterator="card_years"/>
+    <field name="card_cvc" id="inputCardCVC"/>
+    <!-- Or paypal -->
+    <field name="payment_method" id="inputPaymentMethod" />
 </form>
-<!-- Email errors -->
-<value name="email_error" id="errorEmail"/>
 
+<!-- Email errors -->
+<value name="email_css_error" field="errors.email_input" target="class" class="email" op="append" joiner=" "/>
+<value name="email_error" id="errorEmail"
+      field="errors.email" op="toggle"/>
 <!-- Billing field errors -->
 <!-- Billing FirstName -->
 <value name="billing_first_name_css_error" field="errors.billing_first_name_input" target="class" class="billing_first_name" op="append" joiner=" "/>
@@ -82,10 +77,6 @@
 <value name="billing_company_css_error" field="errors.billing_company_input" target="class" class="billing_company" op="append" joiner=" "/>
 <value name="billing_company_error" id="errorBillingCompany"
        field="errors.billing_company" op="toggle"/>
-<!-- Billing Email Address -->
-<value name="billing_billing_css_error" field="errors.billing_username_input" target="class" class="billing_username" op="append" joiner=" "/>
-<value name="billing_username_error" id="errorUsername"
-       field="errors.username_company" op="toggle"/>
 <!-- Billing Address -->
 <value name="billing_address_css_error" field="errors.billing_address_input" target="class" class="billing_address" op="append" joiner=" "/>
 <value name="billing_address_error" id="errorBillingAddress"
@@ -132,8 +123,4 @@
 <value name="paypal_exception" class="error-paypal-body" />
 -->
 
-<!--
-<container name="receipt" value="order_number" class="rightbar-widget">
-</container>
--->
 </specification>
