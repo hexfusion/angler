@@ -274,10 +274,10 @@
                       </div>
                       <div class="payment-options">
                         <label class="radio-inline">
-                          <input name="payment-option" type="radio" value="" />
+                          <input name="payment_method" id="inputPaymentMethod" type="radio" value="credit_card" />
                           Credit card </label>
                         <label class="radio-inline">
-                          <input name="payment-option" type="radio" value="" />
+                          <input name="payment_method" id="inputPaymentMethod" type="radio" value="paypal" />
                           Paypal </label>
                       </div>
                       <div class="well">
@@ -369,15 +369,15 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="cartitem first last odd">
+                      <tr class="cart first last odd">
                         <td><a href="" title="Simms Coldweather Shirt Red" class="product-image"><img src="products/images/100x100/simms-coldweather-ls-shirt.png" alt="Simms Coldweather Shirt Red" height="75" width="75"></a></td>
-                        <td><h2 class="product-name"> <a class="name" href="">Simms Coldweather Shirt Red</a> </h2></td>
+                        <td><h2> <a class="item-name" href="">Simms Coldweather Shirt Red</a> </h2></td>
                         <td class="a-center"><a href="" title="Edit item parameters">Edit</a></td>
-                        <td class="a-right"><span class="cart-price"> <span class="txt-price">$99.95</span> </span></td>
+                        <td class="a-right"><span class="price"> <span class="item-price">$99.95</span> </span></td>
                         <!-- inclusive price starts here -->
-                        <td class="a-center"><span class="quantity">2</td>
+                        <td class="a-center"><span class="item-quantity">2</td>
                         <!--Sub total starts here -->
-                        <td class="a-right"><span class="cart-price"> <span class="item-subtotal price">$199.90</span> </span></td>
+                        <td class="a-right"><span class="price"> <span class="item-subtotal price">$199.90</span> </span></td>
                         <td class="a-center last"><a  href="" title="Remove item" class="btn-remove btn-remove2">Remove item</a></td>
                       </tr>
                     </tbody>
@@ -422,68 +422,11 @@
         
         <!-- End Left -->
         <div class="col-xs-12 col-sm-3 sidebar-boxed s-features col-right sidebar">
-                <div class="well well-sm">
-                    
-                    <h4>Cart overview <small><a href="">Edit cart</a></small></h4>
-<table id="shopping-cart-table" class="data-table cart-table">
-                 <!--   <table class="table table-bordered table-condensed"> -->
-                    <thead>
-                        <tr>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                Name
-                            </td>
-                            <td>
-                                Qty
-                            </td>
-                            <td>
-                                Price
-                            </td>
-                        </tr>                       
-                    </thead>
-                    <tbody>
-                        <tr class="cartsmallitem first last odd">
-                            <td>
-                                <img src="products/images/100x100/simms-coldweather-ls-shirt.png" width="40">
-                            </td>
-                            <td>
-<h2 class="product-name"> <a class="cart-name" href="">Simms Coldweather Shirt Red</a> </h2>
-                            </td>
-                            <td>
-                                <span class="cart-quantity">2</span>
-                            </td>
-                            <td>
-                                <span class="cart-price">$99.95</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
-                 <div class="row">
-                    <div class="pull-right" style="margin: 10px 13px 10px 0;">
-                     <div class="red box">You have selected <strong>New York</strong> so you must be taxed</div>$
-                      <table class="data-table cart-table">
-                        <tbody>
-                          <tr>
-                            <td><span class="extra bold">Sub-Total :</span></td>
-                            <td><span class="cart-subtotal bold">$101.00</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="extra bold">Shippping</span></td>
-                            <td><span class="bold cart-shipping">$11.00</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="extra bold">Sales Tax:</span></td>
-                            <td><span class="bold cart-tax">$21.00</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="extra bold totalamout">Total :</span></td>
-                            <td><span class="bold cart-total">$12000.68</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+        <!-- Start Sidebar Widgets -->
+        <div class="sidebar-cart-overview">
+            <strong>Sidebar cart broken</strong>
+        </div>
+        <!-- End Sidebar Widgets -->
                   </div>
                 </div>
            <!-- END Right Side -->
