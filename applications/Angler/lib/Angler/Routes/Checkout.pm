@@ -594,4 +594,155 @@ sub report_pp_payment_error {
     return report_pp_error(join("<br>", @errors));
 }
 
+=head2 generate_order
+
+add order details to database
+
+=cut
+
+sub generate_order {
+    my ($tokens, $payment_order) = @_;
+    my ($ship_address, $bill_address, $ship_obj, $bill_obj);
+
+    my $form = $tokens->{form};
+    my $users_id = session('logged_in_user_id');
+
+    # create delivery address from gift info form
+    my $addr_form = $form;
+    my $addr_values = $addr_form->values('session');
+
+    while (my ($name, $value) = each %$addr_values) {
+        if ($name =~ s/^(billing_)//) {
+            $bill_address->{$name} = $value;
+        }
+        elsif ($name =~ /^card_/) {
+            # skip credit card data
+        }
+        elsif ($name eq 'payment_method') {
+            # ignore this token too
+        }
+        else {
+            $ship_address->{$name} = $value;
+        }
+    }
+
+    my $user;
+
+    if ($users_id) {
+    $user = shop_user($users_id);
+    }
+    else {
+        # create user
+        $user = shop_user->create({email => $ship_address->{email},
+                                      username => $ship_address->{email},
+                                      first_name => $ship_address->{first_name},
+                                      last_name => $ship_address->{last_name},
+                                      });
+        $users_id = $user->id;
+    }
+
+    $ship_address->{users_id} = $users_id;
+    delete $ship_address->{email};
+    $ship_address->{country_iso_code} = delete $ship_address->{country};
+    delete $ship_address->{states_id};
+    delete $ship_address->{state};
+    $ship_address->{type} = 'shipping';
+
+    debug("Delivery address values: ", $ship_address);
+
+    $ship_obj = shop_address->create($ship_address);
+
+    if ($addr_values->{billing_enabled}) {
+        # create billing address
+        $bill_obj = shop_address->create($addr_values);
+    }
+    else {
+        $bill_obj = $ship_obj;
+    }
+
+    # order date
+    my $order_date = DateTime->now->iso8601;
+
+    # create orderlines
+    my @orderlines;
+    my $position = 1;
+    my $cart_items = cart->products;
+
+    for my $item (@$cart_items) {
+        debug "Items: ", $item;
+        my $ol_prod = shop_product($item->{sku});
+        my %orderline_product = (
+            sku => $ol_prod->sku,
+            order_position => $position++,
+            name => $ol_prod->name,
+            short_description => $ol_prod->short_description,
+            description => $ol_prod->description,
+            weight => $ol_prod->weight,
+            quantity => $item->{quantity},
+            price => $ol_prod->price,
+            subtotal => $ol_prod->price * $item->{quantity},
+        );
+
+        push @orderlines, \%orderline_product;
+    }
+
+    # create transaction
+    my %order_info = (users_id => $users_id,
+              email => $user->email,
+                      billing_addresses_id => $bill_obj->id,
+                      shipping_addresses_id => $ship_obj->id,
+                      subtotal => $tokens->{cart}->subtotal,
+                      shipping => $tokens->{cart_shipping},
+                      salestax => $tokens->{cart_tax},
+                      total_cost => $tokens->{cart}->total,
+                      order_date => $order_date,
+                      order_number => $order_date,
+                      Orderline => \@orderlines);
+
+    my $order = shop_order->create(\%order_info);
+
+    # update payment info
+    $payment_order->update({orders_id => $order->id});
+
+    # update order number
+    $order->update({order_number => 'WBA6' . sprintf("%06s", $order->id)});
+
+    cart->clear;
+
+    # reset form
+    $form->reset;
+
+    my $cids = {};
+    # send email to customer
+    my $body = template 'email/order-receipt',
+        {order => $order, email_cids => $cids}, {layout => undef};
+
+    debug to_dumper($cids);
+    my @attachments;
+    foreach my $cid (keys %$cids) {
+        my @paths = grep { length($_) } split(/\//, $cids->{$cid}->{filename});
+        my $path = File::Spec->catfile(config->{public},@paths);
+        if (-f $path) {
+            push @attachments, { Id => $cid,
+                                 Path => $path };
+        }
+        else {
+            warning "Couldn't find $path!";
+        }
+    }
+    debug to_dumper(\@attachments);
+
+    email ({type => 'html',
+            from => config->{order_email},
+            to => $order->email,
+            bcc => config->{bcc} || '',
+            subject => "Your Order " . $order->order_number,
+            message => $body,
+            multipart => 'related',
+            attach => \@attachments,
+        });
+
+    return $order;
+}
+
 1;
