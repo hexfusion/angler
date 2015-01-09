@@ -66,14 +66,19 @@ post '/checkout' => sub {
         }
     }
 
-    # before we do any payment stuff lets make sure we have what we need
-    my $error_hash = validate_checkout($values);
+    my $error_hash;
 
-    debug "Fill form with: ", $values;
+    # before we do any payment stuff lets make sure we have what we need
+    # make sure you didn't post from cart 1st.
+    unless ($form->pristine) {
+        $error_hash = validate_checkout($values);
+    }
+
+    #debug "Fill form with: ", $values;
     $form->fill($values);
 
     # if we have errors back to the form we go
-    if (!$error_hash) {
+    if ($error_hash) {
         debug "Error Hash Return", $error_hash;
         return template 'checkout/content', checkout_tokens($form, $error_hash, $values);
     }
@@ -605,7 +610,17 @@ sub generate_order {
     my ($ship_address, $bill_address, $ship_obj, $bill_obj);
 
     my $form = $tokens->{form};
-    my $users_id = session('logged_in_user_id');
+
+    # if the username already exists but the user isn't logged in
+    # lets log them in during this method and kill the session later
+    my $user;
+
+    if (logged_in_user) {
+        $user = logged_in_user;
+    }
+    else {
+        $user = shop_user->find({username => $ship_address->{email}});
+    }
 
     # create delivery address from gift info form
     my $addr_form = $form;
@@ -626,26 +641,21 @@ sub generate_order {
         }
     }
 
-    my $user;
-
-    if ($users_id) {
-    $user = shop_user($users_id);
-    }
-    else {
-        # create user
+    if (!$user) {
+       # create user
         $user = shop_user->create({email => $ship_address->{email},
                                       username => $ship_address->{email},
                                       first_name => $ship_address->{first_name},
                                       last_name => $ship_address->{last_name},
                                       });
-        $users_id = $user->id;
     }
 
-    $ship_address->{users_id} = $users_id;
+    $ship_address->{users_id} = $user->id;
     delete $ship_address->{email};
     $ship_address->{country_iso_code} = delete $ship_address->{country};
     delete $ship_address->{states_id};
     delete $ship_address->{state};
+    delete $ship_address->{shipping_enabled};
     $ship_address->{type} = 'shipping';
 
     debug("Delivery address values: ", $ship_address);
@@ -687,7 +697,7 @@ sub generate_order {
     }
 
     # create transaction
-    my %order_info = (users_id => $users_id,
+    my %order_info = (users_id => $user->id,
               email => $user->email,
                       billing_addresses_id => $bill_obj->id,
                       shipping_addresses_id => $ship_obj->id,
