@@ -161,6 +161,75 @@ post '/checkout' => sub {
     template 'checkout/content', checkout_tokens($form, $error_hash, $values);
 };
 
+get '/paypal-checkout' => sub {
+    my $pp = pp_obj();
+
+    my $token = param('token');
+    my $session_token = session('paypal_token');
+    my $poid = session('payment_order_id');
+
+    ## sanity check. this should not happen
+    # check if the token match the session one
+    if ($token ne $session_token) {
+        return report_pp_error("Token mismatch, transaction aborted");
+    }
+
+    # check the payment order in the session
+    elsif (!$poid) {
+        return report_pp_error("Missing order id, transaction aborted");
+    }
+
+    my $po = shop_schema->resultset('PaymentOrder')->find($poid);
+
+    unless ($po) {
+        return report_pp_error("Missing order id, transaction aborted");
+    }
+
+    my %details = $pp->GetExpressCheckoutDetails($session_token);
+    debug to_dumper(\%details);
+
+    unless ($details{Ack}
+            and $details{Ack} eq 'Success'
+            and $details{Token}) {
+        return report_pp_payment_error($po, \%details);
+    }
+
+    my %payinfo = $pp->DoExpressCheckoutPayment( Token => $details{Token},
+                                                 PaymentAction => 'Sale',
+                                                 PayerID => $details{PayerID},
+                                                 OrderTotal => cart->total );
+
+    if ($payinfo{Ack} eq 'Success') {
+        # update the payment order
+        debug to_dumper(\%payinfo);
+        $po->auth_code($payinfo{TransactionID});
+        $po->status("success");
+        $po->payment_sessions_id($payinfo{Token});
+
+        # this should not happen
+        if ($payinfo{GrossAmount} < cart->total) {
+            warning "$payinfo{GrossAmount} doesn't match the cart total!";
+            $po->payment_error_message("Gross amount is $payinfo{GrossAmount}");
+        }
+        $po->update;
+    }
+    else {
+        return report_pp_payment_error($po, \%payinfo);
+    }
+
+    # at this point we have everything and can pass the data
+    my $form = form('checkout');
+    my $tokens = checkout_tokens($form);
+    debug("Generating an order");
+    generate_order($tokens, $po);
+    debug("Order complete.");
+
+    # clear the session from stale data
+    session paypal_token => undef;
+    session payment_order_id => undef;
+    return template cart_receipt => $tokens;
+};
+
 =head2 checkout_tokens
 
 populate all checkout iterators for flute returns tokens.
