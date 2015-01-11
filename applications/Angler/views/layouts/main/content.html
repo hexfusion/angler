@@ -189,8 +189,8 @@ var $j = jQuery;
                         </li>
                       </ol>
                       <div class="actions">
-                        <button type="button" title="Checkout" class="button" onClick="setLocation('/checkout')"><span><span>Checkout</span></span></button>
-                        <button type="button" title="My Cart" class="button" onClick="setLocation('/cart')"><span><span>My Cart</span></span></button>
+                        <button type="button" title="Checkout" class="button" onClick="location.href=('/checkout')"><span><span>Checkout</span></span></button>
+                        <button type="button" title="My Cart" class="button" onClick="location.href=('/cart')"><span><span>My Cart</span></span></button>
                       </div>
                       <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
                     </div>
@@ -309,7 +309,17 @@ var $j = jQuery;
             equalizeRows: true
         });
 </script>
-
+<script type="text/javascript">
+$j(document).ready(function() {
+    $j(".payment_container").hide();
+    $j(".btn-primary").click(function(){
+      var payment_method = $j(this).find("input[name$j='payment_method']").val();
+        $j(".payment_container").hide();
+        $j(".payment_container[payment_method='" + payment_method + "']").show();
+    });
+    
+});
+</script>
 <script>
         $(document).ready(function(){
         // Target your .container, .wrapper, .post, etc.
