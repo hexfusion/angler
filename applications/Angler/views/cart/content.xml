@@ -7,6 +7,12 @@
 <param name="remove-cart-product" field="sku" target="value"/>
 </list>
 
+<list name="cart_image" class="cartimage" iterator="image">
+<param name="src"/>
+<param name="name" class="image-name" target="title"/>
+</list>
+
+
 <!-- free shipping containers -->
 <!--
 <container name="free-shipping" value="free_shipping"/>
@@ -18,12 +24,10 @@
 
 <form name="cart" target="name" id="form-cart">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
-
-<!--
+<field name="state" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
 <field name="shipping_method" iterator="shipping_methods"
        iterator_value_key="name" iterator_name_key="title"  />
--->
-<field name="postal_code" id="zip"/>
+<field name="postal_code" id="postal_code"/>
 </form>
 
 <!-- unused so far

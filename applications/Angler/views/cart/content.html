@@ -47,7 +47,7 @@
                           </tfoot>
                           <tbody>
                             <tr class="cartitem first last odd">
-                              <td><a href="" title="Simms Coldweather Shirt Red" class="product-image"><img src="products/images/100x100/simms-coldweather-ls-shirt.png" alt="Simms Coldweather Shirt Red" height="75" width="75"></a></td>
+                              <td class="a-center"><a class="image-name" href="" title="Simms Coldweather Shirt Red"><img src="products/images/100x100/simms-coldweather-ls-shirt.png" alt="Simms Coldweather Shirt Red" height="75" width="75px"></a></td>
                               <td><h2 class="product-name"> <a class="name" href="">Simms Coldweather Shirt Red</a> </h2></td>
                               <td class="a-center"><a href="" title="Edit item parameters">Edit</a></td>
                               <td class="a-right"><span class="cart-price"> <span class="price">$99.95</span> </span></td>
@@ -106,6 +106,8 @@
                         <div class="col-2">
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
+                            <form id="form-cart" name="cart" action="/cart" method="POST">
+                            <fieldset>
                             <div class="shipping-form">
                                 <p>Enter your destination to get a shipping estimate.</p>
                                 <ul class="form-list">
@@ -120,29 +122,29 @@
                                   <li>
                                     <label for="region_id">State/Province</label>
                                     <div class="input-box">
-                                      <select class="required-entry validate-select form-control" defaultvalue="" id="region_id" name="region_id" title="State/Province" style="">
+                                      <select class="state required-entry validate-select form-control" defaultvalue="" id="region_id" name="state" title="State/Province" style="">
                                         <option selected="selected" value="">Please select region, state or province</option>
-                                        <option title="Alabama" value="1">Alabama</option>
+                                        <option>Alabama</option>
                                       </select>
-                                      <input id="region" name="region" title="State/Province" class="input-text required-entry form-control" style="display:none;" type="text">
                                     </div>
                                   </li>
-
                                   <li>
                                     <label for="postcode">Zip/Postal Code</label>
                                     <div class="input-box">
-                                      <input class="input-text validate-postcode form-control" id="postal_code" name="postal_code" type="text">
+                                      <input class="postal_code input-text validate-postcode form-control" id="postal_code" name="postal_code" type="text">
                                     </div>
                                   </li>
                                 </ul>
                                 <div class="buttons-set">
-                                  <button type="button" title="Get a Quote" class="button"><span><span>Get a Quote</span></span></button>
+                                <button type="submit" title="Get a quote" class="button btn-proceed-checkout btn-checkout"><span><span>Get a Quote</span></span></button>                            
                                 </div>
                               </div>
+                            </fieldset>
+                            </form>
                           </div>
                         </div>
                       </div>
-<form id="form-cart" name="cart" action="/checkout" method="POST">
+                    <form id="form-cart" name="cart" action="/checkout" method="POST">
                       <div class="totals">
                         <table id="shopping-cart-totals-table">
                           <colgroup>
