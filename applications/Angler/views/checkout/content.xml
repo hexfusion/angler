@@ -9,7 +9,6 @@
 
 <!-- Add Sidebar Cart -->
 <value name="sidebar-cart-overview" include="../components/widgets/cart_overview_sidebar.html"/>
-
 <value name="subtotal" class="cart-subtotal" field="cart.subtotal"
        filter="currency"/>
 <!--
@@ -56,7 +55,6 @@
     <field name="card_month" id="inputCardMonth" iterator="card_months"/>
     <field name="card_year" id="inputCardYear" iterator="card_years"/>
     <field name="card_cvc" id="inputCardCVC"/>
-    <!-- Or paypal -->
     <field name="payment_method" id="inputPaymentMethod" />
 </form>
 
@@ -108,7 +106,12 @@
 <value name="phone_error" id="errorPhone"
        field="errors.phone" op="toggle"/>
 
-<!-- Credit card errors -->
+<!-- Payment Method errors -->
+<value name="payment_method_css_error" field="errors.payment_method_input" target="class" class="payment_method" op="append" joiner=" "/>
+<value name="payment_method_error" id="errorPaymentMethod"
+       field="errors.payment_method" op="toggle"/>
+
+<!-- Credit Card errors-->
 <value name="card_name_error" id="errorCardName"
        field="errors.card_name" op="toggle"/>
 <value name="card_number_error" id="errorCardNumber"
@@ -122,5 +125,4 @@
 <container id="errorPayPal" value="paypal_exception" />
 <value name="paypal_exception" class="error-paypal-body" />
 -->
-
 </specification>
