@@ -62,8 +62,8 @@ post '/checkout' => sub {
 
     my $error_hash;
 
-    # before we do anything lets make sure we have what we need
-    if ($form->pristine) {
+    unless($form->pristine) {
+        # before we do anything lets make sure we have what we need
         $error_hash = validate_checkout($values);
     }
 
@@ -73,15 +73,23 @@ post '/checkout' => sub {
         return template 'checkout/content', checkout_tokens($form, $error_hash);
     }
 
-    # form is clean lets create the order/user now
-    my $user = find_or_create_user($values);
+    my ($user, $order);
 
-    debug "before order";
+    #TODO this is messy we need a better onetime prestine check.
+    unless($form->pristine) {
+        # form is clean lets create the order/user now
+        $user = find_or_create_user($values);
 
-    # generate order now get payment later
-    my $order = generate_order($form, $user);
+        # add user_id to session for DPIC6
+        session(logged_in_user_id => $user->id);
 
-    debug "after order";
+        debug "before order";
+
+        # generate order now get payment later
+        $order = generate_order($form, $user);
+
+        debug "after order";
+    }
 
     # payment
 
@@ -160,7 +168,7 @@ post '/checkout' => sub {
 
             finalize_order($tokens, $form);
             debug("Order complete.");
-
+            session logged_in_user_id => undef;
             return template 'checkout/reciept/content', $tokens;
         }
         else {
@@ -247,6 +255,7 @@ get '/paypal-checkout' => sub {
     session paypal_order_id => undef;
     session paypal_token => undef;
     session payment_order_id => undef;
+    session logged_in_user_id => undef;
     return template 'checkout/reciept/content', $tokens;
 };
 
