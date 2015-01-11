@@ -18,18 +18,21 @@ use Angler::Forms::Checkout;
 use File::Spec;
 
 get '/checkout' => sub {
-    my $cart_form;
-
+    my ($cart_form, $user);
+    my $errors;
     my $form = form('checkout');
+    $form->{values} = $values;
     $form->valid(0);
 
-    if ($form->pristine && logged_in_user) {
-        debug "GET Prefill form with addresses.";
+    debug "GET checkout form values ", $form;
+
+    unless($form->pristine) {
+        $errors = validate_checkout($values);
     }
 
-    debug "Get form checkout " , $form;
+    debug "get checkout ", $errors;
 
-    template 'checkout/content', checkout_tokens($form);
+    template 'checkout/content', checkout_tokens($form, $errors);
 };
 
 post '/checkout' => sub {
@@ -37,9 +40,7 @@ post '/checkout' => sub {
     my $form = form('checkout');
     my $values = $form->values;
 
-    debug "checkout form values ", $values;
-    debug "Params: ", params;
-
+    # use the shipping_method if it was input in cart.
     if (param('shipping_method')) {
         $cart_form = form('cart')->values;
     }
@@ -60,6 +61,7 @@ post '/checkout' => sub {
 
     if ($form->pristine and logged_in_user) {
         # search for exisitng addresses
+        debug "search for exiting address";
         my $form_values = user_address();
         if ($form_values) {
             $form->fill($form_values);
@@ -68,23 +70,32 @@ post '/checkout' => sub {
 
     my $error_hash;
 
-    # before we do any payment stuff lets make sure we have what we need
-    # make sure you didn't post from cart 1st.
-    unless ($form->pristine) {
+    # before we do anything lets make sure we have what we need
+    if ($form->pristine) {
         $error_hash = validate_checkout($values);
     }
 
-    #debug "Fill form with: ", $values;
-    $form->fill($values);
-
     # if we have errors back to the form we go
     if ($error_hash) {
-        debug "Error Hash Return", $error_hash;
-        return template 'checkout/content', checkout_tokens($form, $error_hash, $values);
+        debug "oops you have form errors return to checkout :", $error_hash;
+        return template 'checkout/content', checkout_tokens($form, $error_hash);
     }
 
-    # paypal payment    
+    # form is clean lets create the order/user now
+    my $user = find_or_create_user($values);
+
+    debug "before order";
+
+    # generate order now get payment later
+    my $order = generate_order($form, $user);
+
+    debug "after order";
+
+    # payment
+
+    # paypal
     if ($values->{payment_method} and $values->{payment_method} eq 'paypal') {
+
         # manually insert the paymant data
         my %payment_data = (
                             payment_mode => 'PayPal',
@@ -92,7 +103,7 @@ post '/checkout' => sub {
                             status => 'request',
                             sessions_id => session->id,
                             amount => cart->total,
-                            users_id => session('logged_in_user_id'),
+                            users_id => $user->id,
                             );
 
         debug "Populating the payment order";
@@ -102,7 +113,7 @@ post '/checkout' => sub {
         session payment_order_id => $payment_order->payment_orders_id;
 
         my %response = paypal_request($values);
-    
+
         # check the response
         if ($response{Ack} eq 'Success' and $response{Token}) {
 
@@ -118,6 +129,9 @@ post '/checkout' => sub {
                                  useraction => 'commit',
                                  token => $response{Token});
             debug "Redirecting to " . $uri->as_string;
+
+            # store the order_id to retrieve later
+            session (paypal_order_id => $order->id);
 
             # store the token and redirect
             session (paypal_token => $response{Token});
@@ -149,14 +163,13 @@ post '/checkout' => sub {
         if ($tx->is_success) {
             debug "Payment successful: ", $tx->authorization;
 
-            my $tokens = checkout_tokens($form, {}, $values);
-            my $order = generate_order($tokens, $tx->payment_order);
+            # append payment tokens
+            my $tokens = generate_payment($order, $tx->payment_order);
 
+            finalize_order($tokens, $form);
             debug("Order complete.");
 
-            $tokens->{order} = $order;
-
-            return template 'cart_receipt', $tokens;
+            return template 'checkout/reciept/content', $tokens;
         }
         else {
             debug "Payment failed: ", $tx->error_message;
@@ -171,7 +184,10 @@ get '/paypal-checkout' => sub {
 
     my $token = param('token');
     my $session_token = session('paypal_token');
+    my $order_id = session('paypal_order_id');
     my $poid = session('payment_order_id');
+
+    my $order = shop_order($order_id);
 
     ## sanity check. this should not happen
     # check if the token match the session one
@@ -182,6 +198,11 @@ get '/paypal-checkout' => sub {
     # check the payment order in the session
     elsif (!$poid) {
         return report_pp_error("Missing order id, transaction aborted");
+    }
+
+    # check that the order still exists if not something bad happened
+    elsif (!$order) {
+        return report_pp_error("Missing Order, transaction aborted");
     }
 
     my $po = shop_schema->resultset('PaymentOrder')->find($poid);
@@ -224,32 +245,32 @@ get '/paypal-checkout' => sub {
 
     # at this point we have everything and can pass the data
     my $form = form('checkout');
-    my $tokens = checkout_tokens($form);
-    debug("Generating an order");
-    generate_order($tokens, $po);
+    debug("Generating payment");
+    my $tokens = generate_payment($order, $po);
+     debug("Finalizing order");
+    finalize_order($tokens, $form);
     debug("Order complete.");
 
     # clear the session from stale data
+    session paypal_order_id => undef;
     session paypal_token => undef;
     session payment_order_id => undef;
-    return template cart_receipt => $tokens;
+    return template 'checkout/reciept/content', $tokens;
 };
 
 =head2 checkout_tokens
 
-populate all checkout iterators for flute returns tokens.
+tokens used to display form cart and errors in the checkout view
 
 =cut
 
 sub checkout_tokens {
-    my ($form, $errors, $values) = @_;
+    my ($form, $errors) = @_;
     my $tokens;
+    my $values = $form->{values};
 
     $tokens->{form} = $form;
     $tokens->{cart} = cart;
-
-    debug "checkout_tokens form ", $form;
-    debug "checkout tokens cart ", cart;
 
     # update cart
     my $angler_cart = Angler::Cart->new(schema => shop_schema,
@@ -265,12 +286,6 @@ sub checkout_tokens {
 
     $tokens->{cart_tax} = $angler_cart->tax;
     $tokens->{cart_shipping} = $angler_cart->shipping_cost;
-
-    # countries
-    $tokens->{countries} = [ shop_country->search(
-        {active => 1},
-        {order_by => { -asc => [qw/priority name/]}},
-    )];
 
     my @payment_errors;
     # report the paypal failures too
@@ -297,6 +312,19 @@ sub checkout_tokens {
     }
 
 
+    # iterator for countries
+    $tokens->{countries} = [ shop_country->search(
+        {active => 1},
+        {
+          group_by => [ qw/priority name/ ],
+          order_by => { -desc => 'priority' }
+        }
+    )];
+
+    # iterators for credit card expiration
+    $tokens->{card_months} = card_months();
+    $tokens->{card_years} = card_years();
+
     if ($errors) {
         $tokens->{errors} = $errors;
         $tokens->{country} = $tokens->{form}->values->{country};
@@ -307,22 +335,70 @@ sub checkout_tokens {
         $tokens->{billing_country} = 'US';
     }
 
-    # iterator for states
-    $tokens->{states} = states($tokens->{country});
-    #$tokens->{state} = $angler_cart->state;
-
-    # credit card expiration
+    # iterators for credit card expiration
     $tokens->{card_months} = card_months();
     $tokens->{card_years} = card_years();
 
-    # form
-    $tokens->{form} = $form;
+    # iterator for states
+    $tokens->{states} = states($tokens->{country});
 
-    # cart
-    #$tokens->{cart} = cart;
 
-    debug "tokens form ",  $form , " tokens errors ", $errors , " tokens values " , $values;
-    #debug "tokens cart ", $tokens->{cart};
+    return $tokens;
+};
+
+=head2 order_address_tokens
+
+method to generate billing and shipping address tokens.
+used during order creation.
+
+=cut
+
+sub order_address_tokens {
+    my ($values, $tokens, $user) = @_;
+
+    debug "order_address_tokens values ", $values;
+
+    # create order address tokens
+    $tokens->{billing_address} = (
+        {
+            users_id => $user->id,
+            type => 'billing',
+            first_name => $values->{billing_first_name},
+            last_name => $values->{billing_last_name},
+            company => $values->{billing_company},
+            address => $values->{billing_address},
+            address_2 => $values->{billing_address_2},
+            postal_code => $values->{billing_postal_code},
+            city => $values->{billing_city},
+            states_id => $values->{billing_state},
+            country_iso_code => $values->{billing_country},
+            phone => $values->{billing_phone}
+        }
+    );
+
+    if ($values->{shipping_enabled} and $values->{shipping_enabled} == 1) {
+        # create shipping address
+        $tokens->{shipping_address} = (
+            {
+                users_id => $user->id,
+                type => 'shipping',
+                first_name => $values->{first_name},
+                last_name => $values->{last_name},
+                company => $values->{company},
+                address => $values->{address},
+                address_2 => $values->{address_2},
+                postal_code => $values->{postal_code},
+                city => $values->{city},
+                states_id => $values->{state},
+                country_code => $values->{country},
+                phone => $values->{phone}
+            }
+        );
+    }
+    else {
+        # billing and shipping are the same
+        $tokens->{shipping_address} = $tokens->{billing_address}
+    }
 
     return $tokens;
 
@@ -391,6 +467,8 @@ return errors.
 sub validate_checkout {
     my ($values) = @_;
 
+    debug "validate_checkout values ", $values;
+
     # validate form input
     my $validator = Data::Transpose::Validator->new(requireall => 1);
 
@@ -407,6 +485,15 @@ sub validate_checkout {
     $validator->field('billing_city' => 'String');
     $validator->field('billing_phone' => 'String');
 
+    # shipping address is differnt
+    if ($values->{shipping_enabled} and $values->{shipping_enabled} == 1) {
+        $validator->field('first_name' => "String");
+        $validator->field('last_name' => "String");
+        $validator->field('address' => "String");
+        $validator->field('postal_code' => "String");
+        $validator->field('city' => 'String');
+    }
+
     # payment method
     $validator->field('payment_method' => 'String');
 
@@ -415,7 +502,7 @@ sub validate_checkout {
         $validator->field('card_name' => 'String');
         $validator->field('card_number' => 'CreditCard');
         $validator->field('card_month' =>
-                          {validator => 'NumericRange',
+                         {validator => 'NumericRange',
                            options => {
                                min => 1,
                                max => 12,
@@ -440,9 +527,43 @@ sub validate_checkout {
             # flag the field with error using has-error class
             $errors{$key . '_input' } = 'has-error';
         }
-        return \%errors;
+    return \%errors;
     }
-}
+};
+
+=head2 find_or_create_user
+
+check if user exists if not then create it. returns user object
+
+=cut
+
+sub find_or_create_user {
+    my ($values) = @_;
+
+#    bless $values;
+
+    debug "create user values" ,$values;
+    my $user;
+
+    if (logged_in_user) {
+        $user = logged_in_user;
+    }
+    else {
+        # check if user exists
+        $user = shop_user->find({username => $values->{email}}); 
+
+        # if user doesn't exist create one
+        unless ($user) {
+            $user = shop_user->create({email => $values->{email},
+                                       username => $values->{email},
+                                       first_name => $values->{first_name},
+                                       last_name => $values->{last_name},
+                                       });
+        debug "created new user";
+        }
+    }
+    return $user;
+};
 
 =head2 user_address
 
@@ -453,7 +574,7 @@ TODO this should return a full list not just ->single
 
 sub user_address {
     my $form_values;
-    debug "POST Prefill form with addresses.";
+    debug "user_address: POST Prefill form with addresses.";
 
     # find existing billing address for user
     #TODO this should be a search and a dropdown to select if multiple
@@ -489,12 +610,12 @@ sub user_address {
     )->single;
 
     if ($ship_adr) {
-        debug "Shipping address found: ", $ship_adr->id;
+        debug "user_address: Shipping address found: ", $ship_adr->id;
 
         $form_values->{shipping_enabled} = 1;
         $form_values->{shipping_id} = $ship_adr->id;
     }
-        debug "Filling checkout form with: ", $form_values;
+        debug "user_address: Filling checkout form with: ", $form_values;
   
     return $form_values
 };
@@ -606,69 +727,17 @@ add order details to database
 =cut
 
 sub generate_order {
-    my ($tokens, $payment_order) = @_;
-    my ($ship_address, $bill_address, $ship_obj, $bill_obj);
+    my ($form, $user) = @_;
+    my $values = $form->{values};
 
-    my $form = $tokens->{form};
+    my $tokens = checkout_tokens($form);
 
-    # if the username already exists but the user isn't logged in
-    # lets log them in during this method and kill the session later
-    my $user;
+    #append order address tokens
+    $tokens = order_address_tokens($values, $tokens, $user);
 
-    if (logged_in_user) {
-        $user = logged_in_user;
-    }
-    else {
-        $user = shop_user->find({username => $ship_address->{email}});
-    }
-
-    # create delivery address from gift info form
-    my $addr_form = $form;
-    my $addr_values = $addr_form->values('session');
-
-    while (my ($name, $value) = each %$addr_values) {
-        if ($name =~ s/^(billing_)//) {
-            $bill_address->{$name} = $value;
-        }
-        elsif ($name =~ /^card_/) {
-            # skip credit card data
-        }
-        elsif ($name eq 'payment_method') {
-            # ignore this token too
-        }
-        else {
-            $ship_address->{$name} = $value;
-        }
-    }
-
-    if (!$user) {
-       # create user
-        $user = shop_user->create({email => $ship_address->{email},
-                                      username => $ship_address->{email},
-                                      first_name => $ship_address->{first_name},
-                                      last_name => $ship_address->{last_name},
-                                      });
-    }
-
-    $ship_address->{users_id} = $user->id;
-    delete $ship_address->{email};
-    $ship_address->{country_iso_code} = delete $ship_address->{country};
-    delete $ship_address->{states_id};
-    delete $ship_address->{state};
-    delete $ship_address->{shipping_enabled};
-    $ship_address->{type} = 'shipping';
-
-    debug("Delivery address values: ", $ship_address);
-
-    $ship_obj = shop_address->create($ship_address);
-
-    if ($addr_values->{billing_enabled}) {
-        # create billing address
-        $bill_obj = shop_address->create($addr_values);
-    }
-    else {
-        $bill_obj = $ship_obj;
-    }
+    # create address's
+    my $bill_obj = shop_address->create($tokens->{billing_address});
+    my $ship_obj = shop_address->create($tokens->{shipping_address});
 
     # order date
     my $order_date = DateTime->now->iso8601;
@@ -707,9 +776,22 @@ sub generate_order {
                       total_cost => $tokens->{cart}->total,
                       order_date => $order_date,
                       order_number => $order_date,
-                      Orderline => \@orderlines);
+                      orderlines => \@orderlines);
 
     my $order = shop_order->create(\%order_info);
+
+    return $order;
+};
+
+=head2 generate_payment
+
+input order 
+
+=cut
+
+sub generate_payment {
+    my ($order, $payment_order) = @_;
+    my $tokens;
 
     # update payment info
     $payment_order->update({orders_id => $order->id});
@@ -717,6 +799,26 @@ sub generate_order {
     # update order number
     $order->update({order_number => 'WBA6' . sprintf("%06s", $order->id)});
 
+    $tokens->{order} = $order;
+    $tokens->{payment} = $payment_order;
+
+    return $tokens;
+};
+
+=head2 finalize_order
+
+clean up everything and email
+
+=cut
+
+sub finalize_order {
+    my ($tokens, $form) = @_;
+
+    my $order = $tokens->{order};
+
+    debug "finalize order ", $order;
+
+    # clear cart
     cart->clear;
 
     # reset form
