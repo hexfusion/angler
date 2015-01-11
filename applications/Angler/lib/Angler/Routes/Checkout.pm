@@ -19,20 +19,12 @@ use File::Spec;
 
 get '/checkout' => sub {
     my ($cart_form, $user);
-    my $errors;
     my $form = form('checkout');
-    $form->{values} = $values;
     $form->valid(0);
 
-    debug "GET checkout form values ", $form;
+    debug "get checkout";
 
-    unless($form->pristine) {
-        $errors = validate_checkout($values);
-    }
-
-    debug "get checkout ", $errors;
-
-    template 'checkout/content', checkout_tokens($form, $errors);
+    template 'checkout/content', checkout_tokens($form);
 };
 
 post '/checkout' => sub {
@@ -815,8 +807,6 @@ sub finalize_order {
     my ($tokens, $form) = @_;
 
     my $order = $tokens->{order};
-
-    debug "finalize order ", $order;
 
     # clear cart
     cart->clear;
