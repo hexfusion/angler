@@ -130,6 +130,7 @@ hook 'before_layout_render' => sub {
 #    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
 };
 
+
 =head2 before_navigation_search
 
 This hooks replaces the standard L<Dancer::Plugin::Interchange6::Routes>
@@ -387,6 +388,9 @@ hook 'before_cart_display' => sub {
     $angler_cart->update_costs;
 
     $form_values->{country} = $angler_cart->country;
+    $values->{states} = states($form_values->{country});
+
+    $form_values->{postal_code} = $angler_cart->postal_code;
 
     $values->{cart_shipping} = $angler_cart->shipping_cost;
     $values->{cart_tax} = $angler_cart->tax;
@@ -408,6 +412,20 @@ sub countries {
         {order_by => 'name'},
     )];
 }
+
+sub states {
+    my ($country) = @_;
+    my $states;
+
+    $states = [shop_schema->resultset('State')->search(
+        {country_iso_code => $country,
+         active => 1,
+     },
+        {order_by => 'name'},
+    )];
+
+    return $states;
+};
 
 get '/' => sub {
 
