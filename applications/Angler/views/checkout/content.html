@@ -8,6 +8,8 @@
             <div class="padding-s">
             <div class="page-title">
               <h1>Checkout</h1>
+            <h3>Exisiting Customers <a href="#login-modal" data-toggle="modal" data-target="#login-modal">Login Here</a></h3>
+
             </div>
             <form action="/checkout" class="account-info" method="POST">
             <ol class="opc" id="checkoutSteps">
@@ -18,6 +20,7 @@
                 </div>
                   <ul class="form-list">
                   <li id="billing-new-address-form">
+<div class="well">
                   <ul>
                     <li class="fields">
                       <div class="customer-name">
@@ -132,22 +135,26 @@
                         </div>
                       </div>
                     </li>
+                  <li class="control">
+                      <input type="checkbox" data-related-item="shipping_container" id="inputShippingEnabled" name="shipping_enabled" value="1" title="Use Differnt Shipping Address" class="checkbox" />
+                      <label for="shipping:same_as_billing">Different Shipping Address</label>
+                    </li>
                   </ul>
+                </div><!-- end well -->
                 </div>
                 </li>
                 <!-- end billing information -->
+               
                   <li id="opc-billing" class="section">
-                    <div id="checkout-step-billing" class="step a-item">
+<div id="shipping_container">               
+     <div id="checkout-step-billing" class="step a-item">
                     <div class="step-title">
                       <h2>Shipping Information</h2>
                     </div>
                     <div id="co-billing-form" >
+                    <div class="well">
                     <ul class="form-list">
-                   <li class="control">
-                      <input type="checkbox" id="inputShippingEnabled" name="shipping_enabled" value="1" title="Use Differnt Shipping Address" class="checkbox" />
-                      <label for="shipping:same_as_billing">Different Shipping Address</label>
-                    </li>
-                    <li id="billing-new-address-form">
+                      <li id="billing-new-address-form">
                     <ul>
                       <li class="fields">
                         <div class="customer-name">
@@ -248,8 +255,10 @@
                         </div>
                       </li>
                     </ul>
+                    </div><!-- end well -->
                     </div>
                     </div>
+                    </div><!-- end shipping container -->
                     </li>
                     <li class="section">
                       <div class="step-title">
@@ -273,26 +282,28 @@
                       <div class="step-title">
                         <h2>Payment Information</h2>
                       </div>
+<div class="payment-class"></div>
                 <div class="well">
                     <div class="row">
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-primary active">
+                                    <label class="fa fa-credit-card creditcard-payment btn btn-primary active">
                                         <input type="radio" name="payment_method" id="inputPaymentMethod" value="creditcard" checked="checked"> Credit Card
                                     </label>
-                                    <label class="btn btn-primary">
+                                    <label class="fa fa-paypal paypal-payment btn btn-primary">
                                         <input type="radio" name="payment_method" id="inputPaymentMethod" value="paypal"> PayPal
                                     </label>
-                                    <label class="btn btn-primary">
+                                    <label class="google-payment fa fa-google-wallet btn btn-primary">
                                         <input type="radio" name="payment_method" id="inputPaymentMethod" value="google"> Google
                                     </label>
                                 </div>
                                 <span class="control-label" for="inputError" id="errorPaymentMethod">Error</span>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> 
+                  </div>
+            <div class="payment_container" payment_method="creditcard">
                      <div class="well">
                       <div class="payment-cards"><img src="images/i_visa.png" /><img src="images/i_mastercard.png" /><img src="images/i_amex.png" /></div>
                       <div class="row">
@@ -332,29 +343,10 @@
                           <span class="form-error control-group error" id="errorCardCVC">Error</span>
                         </div>
                      </div>
-                    <div class="form-row coupon-wrap">
-                        <div class="col-md-12 form-group">
-                          <label class="">
-                            <input type="checkbox" />
-                            I have a coupon code</label>
-                        </div>
-                        <div class="col-md-12 form-group">
-                          <div class="form-inline">
-                            <div class="form-group">
-                              <input class="form-control input-sm" placeholder="Coupon number" type="text" />
-                            </div>
-                            <input class="btn btn-default btn-sm" type="submit" value="Apply" />
-                          </div>
-                        </div>
-                      </div>
-                     <div class="form-row">
-                        <div class="col-md-12 error form-group hide">
-                          <div class="alert-danger alert">Please correct the errors and try again.</div>
-                        </div>
-                      </div>
-              </div>
-              <div class="col-md-5"><img class="img-thumbnail" src="images/card_security-code.jpg" /></div>
-              </div>
+                  </div>
+                   <div class="col-md-5"><img class="img-thumbnail" src="images/card_security-code.jpg" /></div>
+               </div>
+                </div> <!-- end payment container -->
               </li>
               <li class="hidden-xs hidden-sm section">
                 <div class="step-title">
