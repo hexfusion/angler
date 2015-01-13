@@ -488,7 +488,7 @@ get '/test-upload' => sub {
 };
 
 post '/upload' => sub {
-    my $upload_dir = "/home/sam/camp10/applications/Angler/uploads";
+    my $upload_dir = "uploads";
     my $upload = request->upload('filename');
     my $filename = $upload->filename;
     $upload->copy_to("$upload_dir/$filename");
