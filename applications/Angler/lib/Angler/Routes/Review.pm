@@ -26,15 +26,10 @@ get '/review/:sku' => sub {
         $image_src = uri_for($image->display_uri('image_325x325'));
     }
 
-   # reviews
-    my $review_rs = shop_product($sku)->reviews;
-    $review_count =  $review_rs->count;
-    $review_avg = Angler::Routes::Review->average_rating($sku);
-
     template 'product-review', { product => $product,
                                  image_src => $image_src,
-                                 review_count => $review_count,
-                                 review_avg => $review_avg,
+                                 review_count => $product->reviews->count,
+                                 review_avg => $product->average_rating,
                                  form => $form,
     };
 };
@@ -95,18 +90,5 @@ sub review_email {
             body => $message,
         });
  };
-
-=head2 average_rating
-
-Returns the average rating across all public and approved product reviews.
-
-=cut
-
-sub average_rating {
-    my ($self, $sku) = @_;
-    my $reviews = shop_product($sku)->reviews( { public => 1, approved => 1 } );
-    return
-      sprintf( "%.01f", $reviews->get_column('rating')->sum / $reviews->count );
-}
 
 1;

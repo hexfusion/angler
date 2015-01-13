@@ -303,7 +303,7 @@ hook 'before_product_display' => sub {
     $tokens->{review_count} =  $review_rs->count;
     $tokens->{review_link} = '/review/' . $product->sku;
 
-    $tokens->{review_avg} = Angler::Routes::Review->average_rating($product->sku);
+    $tokens->{review_avg} = $product->average_rating;
 
     debug "review avg: ", $tokens->{review_avg};
 
