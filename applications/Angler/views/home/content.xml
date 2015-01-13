@@ -3,6 +3,7 @@
 <param name="name" class="manufacturer-link"/>
 <param name="uri" class="manufacturer-link" target="href" op="append"/>
 </list>
+
 <!-- components -->
-<value name="camera-slideshow" include="../views/components/sliders/camera-slideshow.html"/>
+<value name="camera-slideshow" include="../../views/components/sliders/camera-slideshow/content.html"/>
 </specification>
