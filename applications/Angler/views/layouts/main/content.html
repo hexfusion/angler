@@ -83,7 +83,7 @@ var $j = jQuery;
           <li><a href="" title="My Wishlist">My Wishlist</a></li>
           <li class="top-car"><a href="/cart" title="My Cart" class="top-link-cart">My Cart (<span class="cart-count">0</span> items)</a></li>
           <li><a href="/checkout" title="Checkout" class="top-link-checkout">Checkout</a></li>
-          <li class=" last"><a href="/login" title="Log In">Log In</a></li>
+          <li class=" last"><a href="#login-modal" data-toggle="modal" data-target="#login-modal">Log In</a></li>
         </ul>
         <div class="language-list switch-show">
           <div class="language-title"><span class="label">Your Language:</span> <strong>en</strong></div>
@@ -134,7 +134,7 @@ var $j = jQuery;
                     <li><a href="" title="My Wishlist">My Wishlist</a></li>
                     <li class="top-car"><a href="" title="My Cart (2 items)" class="top-link-cart">My Cart ( 0 items)</a></li>
                     <li><a href="/checkout" title="Checkout" class="top-link-checkout">Checkout</a></li>
-                    <li class=" last"><a href="/login" title="Log In">Log In</a></li>
+                    <li class=" last"><a href="/login">Log In</a></li>
                   </ul>
                 </div>
                 <div class="header-row">
@@ -255,7 +255,7 @@ var $j = jQuery;
                   <h4>My account<span class="toggle"></span></h4>
                   <div class="footer-col-content">
                     <ul>
-                      <li><a href="">Sign In</a></li>
+                      <li><a href="#login-modal" data-toggle="modal" data-target="#login-modal">Sign In</a></li>
                       <li><a href="/cart">View Cart</a></li>
                       <li><a href="/checkout">Checkout</a></li>
                       <li><a href="">My Wishlist</a></li>
@@ -302,6 +302,8 @@ var $j = jQuery;
 <script src="/js/bootstrap-hover-dropdown.js"></script>
 <script src="/js/fitdivs.js"></script>
 
+<!-- REMEMBER $ = prototype $j = jQuery -->
+
 <script src="/js/jquery.equalheightcolumns.js"></script>
 <script>
         $j('.products-grid li').equalHeightColumns({
@@ -309,17 +311,37 @@ var $j = jQuery;
             equalizeRows: true
         });
 </script>
+<!-- checks for payment_method in /checkout form -->
 <script type="text/javascript">
 $j(document).ready(function() {
     $j(".payment_container").hide();
-    $j(".btn-primary").click(function(){
-      var payment_method = $j(this).find("input[name$j='payment_method']").val();
+    $j(".btn-primary").on("click", function(){
+      var payment_method = $j(this).find("input[name$='payment_method']").val();
         $j(".payment_container").hide();
         $j(".payment_container[payment_method='" + payment_method + "']").show();
     });
-    
+
+    // check that it's not checked by default
+    var load = $j("input[name$='payment_method']").val();
+    $j(".payment_container[payment_method='" + load + "']").show();
 });
 </script>
+
+<script type="text/javascript">
+function evaluate(){
+    var item = $j(this);
+    var relatedItem = $j("#" + item.attr("data-related-item")).parent();
+   
+    if(item.is(":checked")){
+        relatedItem.fadeIn();
+    }else{
+        relatedItem.fadeOut();   
+    }
+}
+
+$j('input[type="checkbox"]').click(evaluate).each(evaluate);
+</script>
+
 <script>
         $(document).ready(function(){
         // Target your .container, .wrapper, .post, etc.
