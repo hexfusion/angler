@@ -28,15 +28,15 @@ auto_reload: 0
 
 user_role_id: 3
 
-solr_url: http://localhost:8883/solr/camp78
+solr_url: http://localhost:8883/solr/camp10
 
 plugins:
   DBIC:
     default:
-      dsn: "dbi:mysql:database=c1wba6;mysql_socket=/home/sam/camp78/mysql/tmp/mysql.78.sock"
+      dsn: "dbi:mysql:database=c1wba6;mysql_socket=/home/sam/camp10/mysql/tmp/mysql.10.sock"
       schema_class: Interchange6::Schema
       user: root
-      password: 48minni8
+      password: 7rot43wuk
       options:
         RaiseError: 1
         PrintError: 1
@@ -45,9 +45,9 @@ plugins:
     connections:
       mysql:
         driver: mysql
-        dsn: "dbi:mysql:database=c1wba;mysql_socket=/home/sam/camp78/mysql/tmp/mysql.78.sock"
+        dsn: "dbi:mysql:database=c1wba;mysql_socket=/home/sam/camp10/mysql/tmp/mysql.10.sock"
         username: "root"
-        password: "48minni8"
+        password: "7rot43wuk"
         connection_check_threshold: 10
         dbi_params:
         RaiseError: 1

@@ -65,6 +65,8 @@ sub shipment_methods_iterator_by_iso_country {
 sub find_state {
     my ($schema, $postal_code, $country ) = @_;
 
+    $postal_code='13152';
+
     # use 1st 3 digits
     my $postal_zone = substr($postal_code, 0, 3);
 

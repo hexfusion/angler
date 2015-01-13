@@ -17,10 +17,22 @@ my $schema = shop_schema;
 my $data;
 my %product;
 
- shop_schema->deploy({add_drop_table => 1});
+# shop_schema->deploy({add_drop_table => 1});
 
 my $state = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'NY' });
 my $state_oregon = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'OR' });
+
+# taxes
+my $taxes = $schema->resultset("Tax")->create (
+    {
+        tax_name => 'nys_sales_tax',
+        description => 'New York Sales Tax',
+        percent => '8.0',
+        valid_from => $now,
+        country_iso_code => 'US'
+        states_id => $state_id,
+    }
+);
 
 # roles
 my $roles = $schema->resultset("Role")->populate([
@@ -98,7 +110,7 @@ $users{sam} = shop_user->create(
 
 # Create user admin
 $users{admin} = shop_user->create(
-    { username => 'admin', password => 'pass', nickname => 'God',
+    { username => 'admin', password => 'Westbranch1', nickname => 'God',
       first_name => '', last_name => '',
       email => 'sbatschelet@mac.com', created => $now,
       user_roles => [
@@ -106,79 +118,77 @@ $users{admin} = shop_user->create(
       ],
   });
 
-my $nav = $schema->resultset('Navigation')->populate([
-{ navigation_id => '1', priority => '1', uri => 'fly-fishing-gear', type => 'menu', scope => 'header', description => 'Gear for fly fishing', name => 'Fly Fishing Gear' },
-{ navigation_id => '33', priority => '3', uri => 'clothing', type => 'menu', scope => 'clothing', description => 'Clothing for fly fishing', name => 'Fly Fishing Clothing',  },
-{ navigation_id => '2', priority => '-1', uri => 'clothing/mens', type => 'menu', scope => 'header', description => 'Clothing for fly fishing', name => "Men's Clothing", parent_id =>'33' },
-{ navigation_id => '3', priority => '4', uri => 'fly-tying', type => 'menu', scope => 'header', description => 'Materials for fly tying', name => 'Fly Tying Materials and Supplies'},
-{ navigation_id => '4', priority => '5', uri => 'flies', type => 'menu', scope => 'header', description => 'Flies for fishing', name => 'Fly Fishing Flies'},
-{ navigation_id => '41', priority => '6', uri => 'gifts', type => 'menu', scope => 'header', description => 'Gifts for fishing', name => 'Fly Fishing Gifts'},
-{ navigation_id => '42', priority => '7', uri => 'sale', type => 'menu', scope => 'header', description => 'Fly Fishing Gear on Sale!', name => 'Fly Fishing Gear on Sale!'},
+#my $nav = $schema->resultset('Navigation')->populate([
+# category roots - no parent_id
+my @nav = ([
+{ navigation_id => '10', priority => '10', uri => 'fly-fishing-gear', type => 'menu', scope => 'root', description => 'Gear for fly fishing', name => 'Fly Fishing Gear' },
+{ navigation_id => '20', priority => '20', uri => 'fly-fishing-gear/species', type => 'menu', scope => 'root', name => 'Species' , description => 'Fly Fishing Gear By Species'},
+{ navigation_id => '30', priority => '30', uri => 'clothing', type => 'menu', scope => 'root', description => 'Clothing for fly fishing', name => 'Fly Fishing Clothing',  },
+{ navigation_id => '31', priority => '31', uri => 'clothing/brand', type => 'menu', scope => 'root', description => 'Clothing By Brand', name => 'Fly Fishing Clothing By Brand',  },
+{ navigation_id => '40', priority => '40', uri => 'fly-tying', type => 'menu', scope => 'root', description => 'Materials for fly tying', name => 'Fly Tying Materials and Supplies'},
+{ navigation_id => '50', priority => '50', uri => 'flies', type => 'menu', scope => 'root', description => 'Flies for fishing', name => 'Fly Fishing Flies'},
+{ navigation_id => '60', priority => '60', uri => 'gifts', type => 'menu', scope => 'root', description => 'Gifts for fishing', name => 'Fly Fishing Gifts'},
+{ navigation_id => '70', priority => '70', uri => 'sale', type => 'menu', scope => 'root', description => 'Fly Fishing Gear on Sale!', name => 'Fly Fishing Gear on Sale!'},
+
+# sub cats neg priority to hide from menus
+{ navigation_id => '90', priority => '-1', uri => 'clothing/mens', type => 'menu', scope => 'header', description => 'Clothing for fly fishing', name => "Men's Clothing", parent_id =>'30' },
 
 # gear
-{ navigation_id => '5', priority => '200', uri => 'fly-fishing-gear/fly-rods', type => 'menu', scope => 'gear', description => 'Fly Rods', name => 'Fly Rods', parent_id =>'1' },
-{ navigation_id => '6', priority => '300', uri => 'fly-fishing-gear/fly-reels', type => 'menu', scope => 'gear', description => 'Fly Reels', name => 'Fly Reels', parent_id =>'1' },
-{ navigation_id => '7', priority => '400', uri => 'fly-fishing-gear/fly-line', type => 'menu', scope => 'gear', description => 'Fly Line & Backing', name => 'Fly Line & Backing', parent_id =>'1' },
-{ navigation_id => '8', priority => '500', uri => 'fly-fishing-gear/waders', type => 'menu', scope => 'gear', description => 'Waders', name => 'Waders', parent_id =>'1' },
-{ navigation_id => '9', priority => '600', uri => 'fly-fishing-gear/wading-boots', type => 'menu', scope => 'gear', description => 'Wading Boots', name => 'Wading Boots', parent_id =>'1' },
-{ navigation_id => '40', priority => '610', uri => 'fly-fishing-gear/sunglasses', type => 'menu', scope => 'gear', description => 'Sunglasses', name => 'Sunglasses', parent_id =>'1' },
-{ navigation_id => '10', priority => '900', uri => 'fly-fishing-gear/fly-boxes', type => 'menu', scope => 'gear', description => 'Fly Boxes', name => 'Fly Boxes', parent_id =>'1' },
-{ navigation_id => '11', priority => '1000', uri => 'fly-fishing-gear/packs-vests', type => 'menu', scope => 'gear', description => 'Packs & Vests', name => 'Packs & Vests', parent_id =>'1' },
-
-{ navigation_id => '12', uri => 'contact', type => 'menu', scope => 'nav-top', description => 'Contact', name => 'Contact', priority => '1' },
-{ navigation_id => '13', uri => 'about-us', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
-{ navigation_id => '14', uri => 'shipping', type => 'menu', scope => 'nav-top', description => 'Shipping', name => 'Shipping', priority => '1' },
-{ navigation_id => '15', uri => 'login', type => 'nav', scope => 'top-login', description => 'Login', name => 'Login', priority => '1' },
-{ navigation_id => '16', uri => 'registration', type => 'nav', scope => 'top-login', description => 'Sign Up', name => 'Sign Up', priority => '1' },
-
-# gear cont
-{ navigation_id => '17', priority => '1200', uri => 'fly-fishing-gear/leader-tippet', type => 'menu', scope => 'gear', description => 'Leader & Tippet', name => 'Leader & Tippet', parent_id =>'1' },
-{ navigation_id => '18', priority => '1300', uri => 'fly-fishing-gear/tools-gadgets', type => 'menu', scope => 'gear', description => 'Tools & Gadgets', name => 'Tools & Gadgets', parent_id =>'1' },
-{ navigation_id => '19', priority => '700', uri => 'fly-fishing-gear/bags-luggage', type => 'menu', scope => 'gear',  description => 'Bags & Luggage', name => 'Bags & Luggage', parent_id =>'1' },
-{ navigation_id => '20', priority => '1500', uri => 'fly-fishing-gear/nets', type => 'menu', scope => 'gear',  description => 'Landing Nets', name => 'Landing Nets', parent_id =>'1' },
-{ navigation_id => '21', priority => '800', uri => 'fly-fishing-gear/watercraft-boats', type => 'menu', scope => 'gear', description => 'Watercraft & Boats', name => 'Watercraft & Boats', parent_id =>'1' },
-{ navigation_id => '22', priority => '1400', uri => 'fly-fishing-gear/books-dvds', type => 'menu', scope => 'gear',  description => 'Books & DVDs', name => 'Books & DVDs', parent_id =>'1' },
-{ navigation_id => '23', priority => '1100', uri => 'fly-fishing-gear/fly-rod-combos', type => 'menu', scope => 'gear', description => 'Fly Rod Combos', name => 'Fly Rod Combos', parent_id =>'1' },
-{ navigation_id => '24', priority => '100', uri => 'fly-fishing-gear/new', type => 'menu', scope => 'gear', name => 'New Products!' , description => 'New Fly Fishing Gear!', parent_id =>'1'},
+{ navigation_id => '100', priority => '200', uri => 'fly-fishing-gear/fly-rods', type => 'menu', scope => 'gear', description => 'Fly Rods', name => 'Fly Rods', parent_id =>'10' },
+{ navigation_id => '101', priority => '300', uri => 'fly-fishing-gear/fly-reels', type => 'menu', scope => 'gear', description => 'Fly Reels', name => 'Fly Reels', parent_id =>'10' },
+{ navigation_id => '102', priority => '400', uri => 'fly-fishing-gear/fly-line', type => 'menu', scope => 'gear', description => 'Fly Line & Backing', name => 'Fly Line & Backing', parent_id =>'10' },
+{ navigation_id => '103', priority => '500', uri => 'fly-fishing-gear/waders', type => 'menu', scope => 'gear', description => 'Waders', name => 'Waders', parent_id =>'10' },
+{ navigation_id => '104', priority => '600', uri => 'fly-fishing-gear/wading-boots', type => 'menu', scope => 'gear', description => 'Wading Boots', name => 'Wading Boots', parent_id =>'10' },
+{ navigation_id => '105', priority => '610', uri => 'fly-fishing-gear/sunglasses', type => 'menu', scope => 'gear', description => 'Sunglasses', name => 'Sunglasses', parent_id =>'10' },
+{ navigation_id => '106', priority => '900', uri => 'fly-fishing-gear/fly-boxes', type => 'menu', scope => 'gear', description => 'Fly Boxes', name => 'Fly Boxes', parent_id =>'10' },
+{ navigation_id => '107', priority => '1000', uri => 'fly-fishing-gear/packs-vests', type => 'menu', scope => 'gear', description => 'Packs & Vests', name => 'Packs & Vests', parent_id =>'10' },
+{ navigation_id => '108', priority => '1200', uri => 'fly-fishing-gear/leader-tippet', type => 'menu', scope => 'gear', description => 'Leader & Tippet', name => 'Leader & Tippet', parent_id =>'10' },
+{ navigation_id => '109', priority => '1300', uri => 'fly-fishing-gear/tools-gadgets', type => 'menu', scope => 'gear', description => 'Tools & Gadgets', name => 'Tools & Gadgets', parent_id =>'10' },
+{ navigation_id => '110', priority => '700', uri => 'fly-fishing-gear/bags-luggage', type => 'menu', scope => 'gear',  description => 'Bags & Luggage', name => 'Bags & Luggage', parent_id =>'10' },
+{ navigation_id => '111', priority => '1500', uri => 'fly-fishing-gear/nets', type => 'menu', scope => 'gear',  description => 'Landing Nets', name => 'Landing Nets', parent_id =>'10' },
+{ navigation_id => '112', priority => '800', uri => 'fly-fishing-gear/watercraft-boats', type => 'menu', scope => 'gear', description => 'Watercraft & Boats', name => 'Watercraft & Boats', parent_id =>'10' },
+{ navigation_id => '113', priority => '1400', uri => 'fly-fishing-gear/books-dvds', type => 'menu', scope => 'gear',  description => 'Books & DVDs', name => 'Books & DVDs', parent_id =>'10' },
+{ navigation_id => '114', priority => '1100', uri => 'fly-fishing-gear/fly-rod-combos', type => 'menu', scope => 'gear', description => 'Fly Rod Combos', name => 'Fly Rod Combos', parent_id =>'10' },
+{ navigation_id => '115', priority => '100', uri => 'fly-fishing-gear/new', type => 'menu', scope => 'gear', name => 'New Products!' , description => 'New Fly Fishing Gear!', parent_id =>'10'},
 
 # clothing
-{ navigation_id => '25', priority => '200', uri => 'clothing/mens/jackets', type => 'menu', scope => 'clothing', name => 'Jackets', description => 'Mens Jackets and Outerwear for Fly Fishing', parent_id =>'33' },
-{ navigation_id => '26', priority => '300', uri => 'clothing/mens/fleece', type => 'menu', scope => 'clothing', name => 'Fleece', description => 'Mens Fleece Layering for Fly Fishing', parent_id =>'33' },
-{ navigation_id => '27', priority => '400', uri => 'clothing/mens/layering', type => 'menu', scope => 'clothing', name => 'Layering', description => 'Mens Base Layerting for Fly Fishing', parent_id =>'33' },
-{ navigation_id => '28', priority => '500', uri => 'clothing/mens/shirts', type => 'menu', scope => 'clothing', name => 'Shirts', description => 'Mens Shirts for Fly Fishing', parent_id =>'33' },
-{ navigation_id => '29', priority => '600', uri => 'clothing/mens/t-shirts', type => 'menu', scope => 'clothing', name => 'T-Shirts', description => 'Mens Fly Fishing T-Shirts', parent_id =>'33' },
-{ navigation_id => '30', priority => '700', uri => 'clothing/mens/pants', type => 'menu', scope => 'clothing', name => 'Pants', description => 'Mens Fly Fishing Pants', parent_id =>'33' },
-{ navigation_id => '31', priority => '800', uri => 'clothing/mens/underwear', type => 'menu', scope => 'clothing', name => 'Underwear', description => 'Mens Fly Fishing Underwear', parent_id =>'33' },
-{ navigation_id => '32', priority => '900', uri => 'clothing/mens/hats', type => 'menu', scope => 'clothing', name => 'Hats', description => 'Mens Fly Fishing Hats', parent_id =>'33' },
-{ navigation_id => '34', priority => '1000', uri => 'clothing/mens/wba-logo', type => 'menu', scope => 'clothing', name => 'WBA Logo Gear', description => 'WBA Logo Gear', parent_id =>'33' },
-{ navigation_id => '35', priority => '1100', uri => 'clothing/mens/shorts', type => 'menu', scope => 'clothing', name => 'Shorts', description => 'Mens Fly Fishing Shorts', parent_id =>'33' },
-{ navigation_id => '36', priority => '1200', uri => 'clothing/mens/socks', type => 'menu', scope => 'clothing', name => 'Socks', description => 'Mens Fly Fishing Socks', parent_id =>'33' },
+{ navigation_id => '200', priority => '200', uri => 'clothing/mens/jackets', type => 'menu', scope => 'clothing', name => 'Jackets', description => 'Mens Jackets and Outerwear for Fly Fishing', parent_id =>'30' },
+{ navigation_id => '201', priority => '300', uri => 'clothing/mens/fleece', type => 'menu', scope => 'clothing', name => 'Fleece', description => 'Mens Fleece Layering for Fly Fishing', parent_id =>'30' },
+{ navigation_id => '202', priority => '400', uri => 'clothing/mens/layering', type => 'menu', scope => 'clothing', name => 'Layering', description => 'Mens Base Layerting for Fly Fishing', parent_id =>'30' },
+{ navigation_id => '203', priority => '500', uri => 'clothing/mens/shirts', type => 'menu', scope => 'clothing', name => 'Shirts', description => 'Mens Shirts for Fly Fishing', parent_id =>'30' },
+{ navigation_id => '204', priority => '600', uri => 'clothing/mens/t-shirts', type => 'menu', scope => 'clothing', name => 'T-Shirts', description => 'Mens Fly Fishing T-Shirts', parent_id =>'30' },
+{ navigation_id => '205', priority => '700', uri => 'clothing/mens/pants', type => 'menu', scope => 'clothing', name => 'Pants', description => 'Mens Fly Fishing Pants', parent_id =>'30' },
+{ navigation_id => '206', priority => '800', uri => 'clothing/mens/underwear', type => 'menu', scope => 'clothing', name => 'Underwear', description => 'Mens Fly Fishing Underwear', parent_id =>'30' },
+{ navigation_id => '207', priority => '900', uri => 'clothing/mens/hats', type => 'menu', scope => 'clothing', name => 'Hats', description => 'Mens Fly Fishing Hats', parent_id =>'30' },
+{ navigation_id => '208', priority => '1000', uri => 'clothing/mens/wba-logo', type => 'menu', scope => 'clothing', name => 'WBA Logo Gear', description => 'WBA Logo Gear', parent_id =>'30' },
+{ navigation_id => '209', priority => '1100', uri => 'clothing/mens/shorts', type => 'menu', scope => 'clothing', name => 'Shorts', description => 'Mens Fly Fishing Shorts', parent_id =>'30' },
+{ navigation_id => '210', priority => '1200', uri => 'clothing/mens/socks', type => 'menu', scope => 'clothing', name => 'Socks', description => 'Mens Fly Fishing Socks', parent_id =>'30' },
+
+# clothing by brand
+{ navigation_id => '300', priority => '100', uri => 'clothing/patagonia', type => 'menu', scope => 'clothing-brand', name => 'Patagonia', description => 'Patagonia Clothing', parent_id =>'31' },
+{ navigation_id => '301', priority => '200', uri => 'clothing/simms', type => 'menu', scope => 'clothing-brand', name => 'Simms', description => 'Simms Clothing', parent_id =>'31' },
+{ navigation_id => '302', priority => '300', uri => 'clothing/orvis', type => 'menu', scope => 'clothing-brand', name => 'Orvis', description => 'Orvis Clothing', parent_id =>'31' },
+{ navigation_id => '303', priority => '400', uri => 'clothing/wba', type => 'menu', scope => 'clothing-brand', name => 'West Branch Angler', description => 'WBA Clothing', parent_id =>'31' },
+
 # tying
-{ navigation_id => '37', priority => '100', uri => 'fly-tying/tools', type => 'menu', scope => 'tying', name => 'Fly Tying Tools', description => 'Fly Tying Tools', parent_id =>'3' },
-{ navigation_id => '38', priority => '200', uri => 'fly-tying/dubbing', type => 'menu', scope => 'tying', name => 'Fly Tying Dubbing', description => 'Fly Tying Dubbing', parent_id =>'3' },
-{ navigation_id => '39', priority => '300', uri => 'fly-tying/hooks', type => 'menu', scope => 'tying', name => 'Fly Tying Hooks', description => 'Fly Tying Hooks', parent_id =>'3' },
+{ navigation_id => '400', priority => '100', uri => 'fly-tying/tools', type => 'menu', scope => 'tying', name => 'Fly Tying Tools', description => 'Fly Tying Tools', parent_id =>'40' },
+{ navigation_id => '401', priority => '200', uri => 'fly-tying/dubbing', type => 'menu', scope => 'tying', name => 'Fly Tying Dubbing', description => 'Fly Tying Dubbing', parent_id =>'40' },
+{ navigation_id => '402', priority => '300', uri => 'fly-tying/hooks', type => 'menu', scope => 'tying', name => 'Fly Tying Hooks', description => 'Fly Tying Hooks', parent_id =>'40' },
 
 # flies
-{ navigation_id => '70', priority => '200', uri => 'flies/dry-flies', type => 'menu', scope => 'flies', name => 'Dry Flies', description => 'Dry Flies', parent_id =>'4' },
-{ navigation_id => '71', priority => '300', uri => 'flies/nymphs', type => 'menu', scope => 'flies', name => 'Nymphs', description => 'Nymphs', parent_id =>'4' },
-{ navigation_id => '72', priority => '400', uri => 'flies/streamers', type => 'menu', scope => 'flies', name => 'Streamers', description => 'Streamers', parent_id =>'4' },
+{ navigation_id => '500', priority => '200', uri => 'flies/dry-flies', type => 'menu', scope => 'flies', name => 'Dry Flies', description => 'Dry Flies', parent_id =>'50' },
+{ navigation_id => '501', priority => '300', uri => 'flies/nymphs', type => 'menu', scope => 'flies', name => 'Nymphs', description => 'Nymphs', parent_id =>'50' },
+{ navigation_id => '502', priority => '400', uri => 'flies/streamers', type => 'menu', scope => 'flies', name => 'Streamers', description => 'Streamers', parent_id =>'50' },
 
 # species
-{ navigation_id => '100', priority => '2', uri => 'fly-fishing-gear/species', type => 'menu', scope => 'header', name => 'Species' , description => 'Fly Fishing Gear By Species'},
-{ navigation_id => '101', priority => '100', uri => 'fly-fishing-gear/trout', type => 'menu', scope => 'species', name => 'Trout' , description => 'Fly Fishing Gear for Trout', parent_id =>'100'},
-{ navigation_id => '102',priority => '200', uri => 'fly-fishing-gear/steelhead', type => 'menu', scope => 'species', name => 'Steelhead' , description => 'Fly Fishing Gear for Steelhead', parent_id =>'100'},
-{ navigation_id => '103', priority => '300', uri => 'fly-fishing-gear/salmon', type => 'menu', scope => 'species', name => 'Salmon' , description => 'Fly Fishing Gear for Salmon', parent_id =>'100'},
-{ navigation_id => '104', priority => '400', uri => 'fly-fishing-gear/bonefish-permit', type => 'menu', scope => 'species', name => 'Bonefish - Permit' , description => 'Fly Fishing Gear for Bonefish and Permit', parent_id =>'100'},
-{ navigation_id => '105', priority => '500', uri => 'fly-fishing-gear/tarpon', type => 'menu', scope => 'species', name => 'Tarpon' , description => 'Fly Fishing Gear for Tarpon', parent_id =>'100'},
-{ navigation_id => '106', priority => '600', uri => 'fly-fishing-gear/striped-bass', type => 'menu', scope => 'species', name => 'Stripers' , description => 'Fly Fishing Gear for Striped Bass', parent_id =>'100'},
-
-{ navigation_id => '140', priority => '1300', uri => 'logout', type => 'nav', scope => 'top-logout', name => 'Logout', description => 'Logout' },
-{ navigation_id => '141', priority => '1400', uri => 'user/account', type => 'nav', scope => 'top-logout', name => 'My Account', description => 'My Account' },
-
-]);
+{ navigation_id => '600', priority => '100', uri => 'fly-fishing-gear/trout', type => 'menu', scope => 'species', name => 'Trout' , description => 'Fly Fishing Gear for Trout', parent_id =>'20'},
+{ navigation_id => '601',priority => '200', uri => 'fly-fishing-gear/steelhead', type => 'menu', scope => 'species', name => 'Steelhead' , description => 'Fly Fishing Gear for Steelhead', parent_id =>'20'},
+{ navigation_id => '602', priority => '300', uri => 'fly-fishing-gear/salmon', type => 'menu', scope => 'species', name => 'Salmon' , description => 'Fly Fishing Gear for Salmon', parent_id =>'20'},
+{ navigation_id => '603', priority => '400', uri => 'fly-fishing-gear/bonefish-permit', type => 'menu', scope => 'species', name => 'Bonefish - Permit' , description => 'Fly Fishing Gear for Bonefish and Permit', parent_id =>'20'},
+{ navigation_id => '604', priority => '500', uri => 'fly-fishing-gear/tarpon', type => 'menu', scope => 'species', name => 'Tarpon' , description => 'Fly Fishing Gear for Tarpon', parent_id =>'20'},
+{ navigation_id => '605', priority => '600', uri => 'fly-fishing-gear/striped-bass', type => 'menu', scope => 'species', name => 'Stripers' , description => 'Fly Fishing Gear for Striped Bass', parent_id =>'20'},
 
 # manufactures
-my $nav1 = $schema->resultset("Navigation")->populate([
 { uri => 'Simms', scope => 'manf', type => 'manufacturer', name => 'Simms Fishing Products', description => 'Simms', priority => '1' },
 { uri => 'Patagonia', scope => 'manf', type => 'manufacturer', name => 'Patagonia', description => 'Patagonia', priority => '2'},
 { uri => 'Orvis', scope => 'manf', type => 'manufacturer', name => 'The Orvis Company', description => 'Orvis', priority => '3' },
@@ -186,6 +196,14 @@ my $nav1 = $schema->resultset("Navigation")->populate([
 { uri => 'Scott', scope => 'manf', type => 'manufacturer', name => 'Scott', description => 'Scott', priority => '5' },
 { uri => 'Loomis', scope => 'manf', type => 'manufacturer', name => 'Loomis', description => 'Loomis', priority => '6' },
 { uri => 'Hatch', scope => 'manf', type => 'manufacturer', name => 'Hatch Outdoors',  description => 'Hatch Outdoors', priority => '7' },
+#nav
+{ uri => 'contact', type => 'menu', scope => 'nav-top', description => 'Contact', name => 'Contact', priority => '1' },
+{ uri => 'about-us', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
+{ uri => 'shipping', type => 'menu', scope => 'nav-top', description => 'Shipping', name => 'Shipping', priority => '1' },
+{ uri => 'login', type => 'nav', scope => 'top-login', description => 'Login', name => 'Login', priority => '1' },
+{ uri => 'registration', type => 'nav', scope => 'top-login', description => 'Sign Up', name => 'Sign Up', priority => '1' },
+{ priority => '1300', uri => 'logout', type => 'nav', scope => 'top-logout', name => 'Logout', description => 'Logout' },
+{ priority => '1400', uri => 'user/account', type => 'nav', scope => 'top-logout', name => 'My Account', description => 'My Account' },
 ]);
 
 # populate navigation_products array
@@ -561,6 +579,9 @@ my $types = $schema->resultset('MediaType')->populate([
 
 
 my $images = $schema->resultset('MediaType')->find({ type => 'image' });
+my $video = $schema->resultset('MediaType')->find({ type => 'video' });
+my $css = $schema->resultset('MediaType')->find({ type => 'css' });
+my $js = $schema->resultset('MediaType')->find({ type => 'js' });
 
 # for now, call the type with the size
 foreach my $type (qw/120x120 169x169  325x325  50x50  70x70  975x975
@@ -578,17 +599,17 @@ my $media = $schema->resultset('Media')->populate([
                                 file => 'public/images/products/optimized_jpgs/orvis_helios_2.jpg',
                                 uri => 'orvis_helios_2.jpg',
                                 mime_type => 'image/jpg',
-                                media_types_id => '1',
+                                media_types_id => $images->id,
                             },
                             {
                                 file => 'public/images/products/optimized_jpgs/default.jpg',
                                 uri => 'default.jpg',
                                 mime_type => 'image/jpg',
-                                media_types_id => '1',
+                                media_types_id => $images->id,
                             },
                             {
                                 uri => 'http://www.youtube.com/embed/HfhpZPdrc2A',
-                                media_types_id => '2',
+                                media_types_id => $video->id,
                             },
 ]);
 # add all slider image assets
@@ -597,21 +618,21 @@ $media = $schema->resultset('Media')->populate([
                                 file => 'public/images/camera/slides/slide1.jpg',
                                 uri => 'slide1.jpg',
                                 mime_type => 'image/jpg',
-                                media_types_id => '1',
+                                media_types_id => $images->id,
                                 label => 'Delaware river fly fishing guide trip.'
                             },
                             {
                                 file => 'public/images/camera/slides/slide2.jpg',
                                 uri => 'slide2.jpg',
                                 mime_type => 'image/jpg',
-                                media_types_id => '1',
+                                media_types_id => $images->id,
                                 label => 'Delaware river wild brown trout.'
                             },
                             {
                                 file => 'public/images/camera/slides/slide3.jpg',
                                 uri => 'slide3.jpg',
                                 mime_type => 'image/jpg',
-                                media_types_id => '1',
+                                media_types_id => $images->id,
                                 label => 'Summer Sulphur on the Delaware.'
                             },
 ]);
@@ -622,151 +643,155 @@ $media = $schema->resultset('Media')->populate([
                                 file => 'public/css/rateit.css',
                                 uri => 'rateit.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/css_002.css',
                                 uri => 'css_002.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/css.css',
                                 uri => 'css.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/font-awesome.css',
                                 uri => 'font-awesome.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/jquery.css',
                                 uri => 'jquery.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/photoswipe.css',
                                 uri => 'photoswipe.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/bootstrap.css',
                                 uri => 'bootstrap.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/extra_style.css',
                                 uri => 'extra_style.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/styles.css',
                                 uri => 'styles.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/responsive.css',
                                 uri => 'responsive.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/superfish.css',
                                 uri => 'superfish.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/css/camera.css',
                                 uri => 'camera.css',
                                 mime_type => 'text/css',
-                                media_types_id => '4',
+                                media_types_id => $css->id,
                             },
                             {
                                 file => 'public/js/jquery-1.js',
                                 uri => 'jquery-1.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
                             {
                                 file => 'public/js/jquery-migrate-1.js',
                                 uri => 'jquery-migrate-1.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
                             {
                                 file => 'public/js/jquery.rateit.min.js',
                                 uri => 'jquery.rateit.min.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
                             {
                                 file => 'public/js/superfish.js',
                                 uri => 'superfish.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
                             {
                                 file => 'public/js/scripts.js',
                                 uri => 'scripts.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
                             {
                                 file => 'public/js/bootstrap-hover-dropdown.js',
                                 uri => 'bootstrap-hover-dropdown.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
                             {
                                 file => 'public/js/fitdivs.js',
                                 uri => 'fitdivs.js',
                                 mime_type => 'text/javascript',
-                                media_types_id => '3',
+                                media_types_id => $js->id,
                             },
 ]);
 
+my $helios_image = $schema->resultset('Media')->find({ uri => 'orvis_helios_2.jpg' });
+my $helios_video = $schema->resultset('Media')->find({ uri => 'http://www.youtube.com/embed/HfhpZPdrc2A' });
 
 $schema->resultset('MediaProduct')->populate([
-                                           { media_id => '1', sku => 'WBA0001' },
-                                           { media_id => '1', sku => 'WBA0002' },
-                                           { media_id => '1', sku => 'WBA0003' },
-                                           { media_id => '1', sku => 'WBA0004' },
-                                           { media_id => '1', sku => 'WBA0005' },
-                                           { media_id => '1', sku => 'WBA0006' },
-                                           { media_id => '1', sku => 'WBA0007' },
-                                           { media_id => '3', sku => 'WBA0001' },
-                                           { media_id => '3', sku => 'WBA0002' },
-                                           { media_id => '3', sku => 'WBA0003' },
-                                           { media_id => '3', sku => 'WBA0004' },
-                                           { media_id => '3', sku => 'WBA0005' },
-                                           { media_id => '3', sku => 'WBA0006' },
-                                           { media_id => '3', sku => 'WBA0007' },
+                                           { media_id => $helios_image->id, sku => 'WBA0001' },
+                                           { media_id => $helios_image->id, sku => 'WBA0002' },
+                                           { media_id => $helios_image->id, sku => 'WBA0003' },
+                                           { media_id => $helios_image->id, sku => 'WBA0004' },
+                                           { media_id => $helios_image->id, sku => 'WBA0005' },
+                                           { media_id => $helios_image->id, sku => 'WBA0006' },
+                                           { media_id => $helios_image->id, sku => 'WBA0007' },
+                                           { media_id => $helios_video->id, sku => 'WBA0001' },
+                                           { media_id => $helios_video->id, sku => 'WBA0002' },
+                                           { media_id => $helios_video->id, sku => 'WBA0003' },
+                                           { media_id => $helios_video->id, sku => 'WBA0004' },
+                                           { media_id => $helios_video->id, sku => 'WBA0005' },
+                                           { media_id => $helios_video->id, sku => 'WBA0006' },
+                                           { media_id => $helios_video->id, sku => 'WBA0007' },
                                           ]);
 
+my $rods = shop_navigation->find({ uri => 'fly-fishing-gear/fly-rods' });
+
 $schema->resultset('NavigationProduct')->populate([
-                                           { navigation_id => '5', sku => 'WBA0001' },
-                                           { navigation_id => '5', sku => 'WBA0002' },
-                                           { navigation_id => '5', sku => 'WBA0003' },
-                                           { navigation_id => '5', sku => 'WBA0004' },
-                                           { navigation_id => '5', sku => 'WBA0005' },
-                                           { navigation_id => '5', sku => 'WBA0006' },
-                                           { navigation_id => '5', sku => 'WBA0007' },
-                                           { navigation_id => '5', sku => 'WBA0008' },
-                                           { navigation_id => '5', sku => 'WBA0009' },
-                                           { navigation_id => '5', sku => 'WBA0010' },
-                                           { navigation_id => '5', sku => 'WBA0011' },
-                                           { navigation_id => '5', sku => 'WBA0012' },
-                                           { navigation_id => '5', sku => 'WBA0013' },
-                                           { navigation_id => '5', sku => 'WBA0014' },
+                                           { navigation_id => $rods->id, sku => 'WBA0001' },
+                                           { navigation_id => $rods->id, sku => 'WBA0002' },
+                                           { navigation_id => $rods->id, sku => 'WBA0003' },
+                                           { navigation_id => $rods->id, sku => 'WBA0004' },
+                                           { navigation_id => $rods->id, sku => 'WBA0005' },
+                                           { navigation_id => $rods->id, sku => 'WBA0006' },
+                                           { navigation_id => $rods->id, sku => 'WBA0007' },
+                                           { navigation_id => $rods->id, sku => 'WBA0008' },
+                                           { navigation_id => $rods->id, sku => 'WBA0009' },
+                                           { navigation_id => $rods->id, sku => 'WBA0010' },
+                                           { navigation_id => $rods->id, sku => 'WBA0011' },
+                                           { navigation_id => $rods->id, sku => 'WBA0012' },
+                                           { navigation_id => $rods->id, sku => 'WBA0013' },
+                                           { navigation_id => $rods->id, sku => 'WBA0014' },
 
 ]);
 
@@ -797,4 +822,189 @@ $schema->resultset('Product')->find( { sku => "WBA0017" } )->add_to_reviews(
                                         approved_by_users_id     => $users{sam}->id,
                                     },
 );
+
+# populate ShipmentCarriers
+my %carrier;
+ 
+$carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
+    {
+        name => 'UPS',
+        account_number => '1Z999999999999999999',
+        ShipmentMethod => [
+            { 
+              code => '1DM',
+              name => 'Next Day Air Early AM',
+              max_weight => '150',
+            },
+            { 
+              code => '1DML',
+              name => 'Next Day Air Early AM Letter',
+              max_weight => '150',
+            },
+            {
+              code => '1DA',
+              name => 'Next Day Air',
+              max_weight => '150',
+            },
+            {
+              code => '1DAL',
+              name => 'Next Day Air Letter',
+              max_weight => '150',
+            },
+            {
+              code => '1DP',
+              name => 'Next Day Air Saver',
+              max_weight => '150',
+            },
+            {
+              code => '1DPL',
+              name => 'Next Day Air Saver Letter',
+              max_weight => '150',
+            },
+            {
+              code => '2DM',
+              name => '2nd Day Air A.M.',
+              max_weight => '150',
+            },
+            {
+              code => '2DA',
+              name => '2nd Day Air',
+              max_weight => '150',
+            },
+            {
+              code => '2DML',
+              name => '2nd Day Air A.M. Letter',
+              max_weight => '150',
+            },
+            {
+              code => '2DAL',
+              name => '2nd Day Air Letter',
+              max_weight => '150',
+            },
+            {
+              code => '3DS',
+              name => '3 Day Select',
+              max_weight => '150',
+            },
+            {
+              code => 'GNDCOM',
+              name => 'Ground Commercial',
+              max_weight => '150',
+            },
+            {
+              code => 'GNDRES',
+              name => 'Ground Residential',
+              max_weight => '150',
+            },
+            {
+              code => 'XPR',
+              name => 'Worldwide Express',
+              max_weight => '150',
+            },
+            {
+              code => 'XDM',
+              name => 'Worldwide Express Plus',
+              max_weight => '150',
+            },
+            {
+              code => 'XPRL',
+              name => 'Worldwide Express Letter',
+              max_weight => '150',
+            },
+            {
+              code => 'XDML',
+              name => 'Worldwide Express Plus Letter',
+              max_weight => '150',
+            },
+            {
+              code => 'XPD',
+              name => 'Worldwide Expedited',
+              max_weight => '150',
+            },
+        ],
+    });
+ 
+$carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
+    {
+        name => 'USPS',
+        account_number => '8985943852094',
+        ShipmentMethod => [
+            { name => 'EXPRESS' },
+            { name => 'FIRST CLASS' },
+            { name => 'PRIORITY' },
+            { name => 'PARCEL' },
+            { name => 'BPM' },
+            { name => 'LIBRARY' },
+            { name => 'GLOBAL EXPRESS GUARANTEED' },
+            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' },
+            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' },
+            { name => 'USPS GXG ENVELOPES' },
+            { name => 'EXPRESS MAIL INTERNATIONAL (EMS)' },
+            { name => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' },
+            { name => 'PRIORITY MAIL INTERNATIONAL' },
+            { name => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' },
+            { name => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' },
+            { name => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' },
+            { name => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' },
+            { name => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' },
+            { name => 'PRIORITY MAIL INTERNATIONAL' },
+        ],
+    });
+my %destination;
+ 
+$destination{US} = $schema->resultset("ShipmentDestination")->populate([
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'1'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'2'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'3'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'4'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'5'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'6'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'7'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'8'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'9'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'10'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'11'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'12'
+    },
+    {
+        country_iso_code => 'US',
+        shipment_methods_id =>'13'
+    },
+]);
+ 
 

@@ -37,24 +37,24 @@ sub BEGIN {
     }
 }
 
-use DanceShop::Data::DataGen;
-use DanceShop::Data::DataPop;
+use Angler::Data::DataGen;
+use Angler::Data::DataPop;
 use Getopt::Long;
 use Term::ProgressBar;
 use Term::UI;
 use Tie::IxHash;
 
 my $term = Term::ReadLine->new('brand');
-my @colours = @{DanceShop::Data::DataGen::colors()};
+my @colours = @{Angler::Data::DataGen::colors()};
 tie my %actions, "Tie::IxHash"
     or die 'could not tie %{$actions}';
 %actions = (
-    dbcreate => \&DanceShop::Data::DataPop::create_db,
-    users => \&DanceShop::Data::DataPop::pop_users,
-    attributes => \&DanceShop::Data::DataPop::pop_attributes,
-    products => \&DanceShop::Data::DataPop::pop_products,
-    navigaton => \&DanceShop::Data::DataPop::pop_navigation,
-    orders => \&DanceShop::Data::DataPop::pop_orders
+    dbcreate => \&Angler::Data::DataPop::create_db,
+    users => \&Angler::Data::DataPop::pop_users,
+    attributes => \&Angler::Data::DataPop::pop_attributes,
+    products => \&Angler::Data::DataPop::pop_products,
+    navigaton => \&Angler::Data::DataPop::pop_navigation,
+    orders => \&Angler::Data::DataPop::pop_orders
 );
 
 #asking for argumentas

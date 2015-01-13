@@ -120,7 +120,8 @@ get '/image/:index' => sub {
     my $index = params->{index};
     my $public_dir = Dancer::FileUtils::path(setting('appdir'), 'public');
     my $filename = ($public_dir . '/assets/images/');
-
+    # FIXME $image is hard coded
+    my $image = 'foo.jpg';
     return send_file( config->{captcha}{assets_path} . '/images/' . $image );
 
 

@@ -38,6 +38,9 @@ sub pop_users{
 }
 
 sub pop_attributes{
+    my $color_data = {
+        
+    $shop_schema->resultset('Attribute')->find_or_create({name => 'color'});
     # create color attribute
     foreach my $color (@{Angler::Data::DataGen::colors()}) {
         $shop_schema->resultset('Attribute')

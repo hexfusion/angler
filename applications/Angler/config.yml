@@ -7,7 +7,9 @@ appname: "Angler"
 
 # The default layout to use for your application (located in
 # views/layouts/main.tt)
-layout: "main"
+layout: "/main/content"
+
+appdir: "/home/sam/camp10/applications/Angler"
 
 # when the charset is set to UTF-8 Dancer will handle for you
 # all the magic of encoding and decoding. You should not care
@@ -23,6 +25,15 @@ template: "template_flute"
 # session engine
 session: "DBIC"
 session_expires: "16 hours"
+
+# plack
+plack_middlewares:
+  -
+    - Debug
+    - panels
+    -
+      - DBIC::QueryLog
+      - Memory
 
 # template: "template_toolkit"
 # engines:
@@ -55,14 +66,14 @@ order_email: orders@westbranchangler.com
 plugins:
   Interchange6::Routes:
     product:
-      template: flypage/index
+      template: flypage/content
     checkout:
-      template: cart_checkout/index
+      template: checkout/content
     navigation:
-      records: 20
-      template: product-listing/index
+      records: 9 
+      template: product/grid/content
     cart:
-      template: cart/index
+      template: cart/content
   Auth::Extensible:
     disable_roles: 0
     no_login_handler: 1

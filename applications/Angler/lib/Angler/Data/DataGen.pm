@@ -221,6 +221,7 @@ sub navigation {
 
 sub colors {
     my $color_names = [$meta->name('colours', 0)];
+    debug "Colors: ", $color_names;
     my @colors;
     my $rset = $shop_schema->resultset('AttributeValue');
     foreach ( @{$color_names} ) {

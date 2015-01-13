@@ -15,6 +15,7 @@
 <value name="cart-shipping" field="cart_shipping" filter="currency"/>
 <value name="cart-tax" field="cart_tax" filter="currency"/>
 -->
+
 <value name="total" class="cart-total" field="cart.total" filter="currency"/>
 
 <container name="signin" value="!session.logged_in_user"/>

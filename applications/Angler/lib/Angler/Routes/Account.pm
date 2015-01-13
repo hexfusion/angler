@@ -22,13 +22,7 @@ use Angler::Forms::Checkout;
 
 my $now = DateTime->now;
 
-# add default admin user for testing
-#my $admin_user = shop_user->create({ username => 'admin', 
-#                                      password => 'admin', 
-#                                      email => 'admin@localhost',
-#                                      created => $now
-# });
-
+# registration
 get '/registration' => sub {
     my $form = form('registration');
 
@@ -36,24 +30,36 @@ get '/registration' => sub {
 };
 
 post '/registration' => sub {
-    my ($form, $values, $validator, $error_ref, $acct, $attr, $user, $role, $user_data, $user_role_id );
+    my $form = form('registration');
+    my $values = $form->values;
+    my $username = $values->{email};
 
-    $form = form('registration');
+    # user exists?
+    my $user = shop_user->find({ username => $username });
 
-    $values = $form->values;
+    my @errors;
+#    $errors[0] = ({'errors' => [['exists','Email already exists']],'field' => 'username'});
+
+#    debug "Error Test Top: ", @errors;
+
     # id of user role
-    $user_role_id = '3';
-    $user_data = { username => $values->{email},
+    my $user_role_id = '3';
+
+    my $user_data = { username => $values->{email},
                       email    => $values->{email},
+                      first_name => $values->{first_name},
+                      last_name => $values->{last_name},
                       password => $values->{password},
                       created => $now
         };
-
-    debug "User data: ", $user_data;
+    # debug "User data: ", $user_data;
 
     # validate form input
-    $validator = Data::Transpose::Validator->new(requireall => 1);
-    $validator->prepare(email => {validator => 'EmailValid'},
+    my $validator = Data::Transpose::Validator->new(requireall => 1);
+
+    $validator->prepare(first_name => { validator => 'String'},
+                        last_name => { validator => 'String'},
+                        email => {validator => 'EmailValid'},
                         password => {
                             validator => {
                                 class => 'PasswordPolicy',
@@ -79,25 +85,32 @@ post '/registration' => sub {
                             fields => [ "password", "confirm_password" ],
                         },
 
-);
+    );
     my $clean = $validator->transpose($values);
-    my $errors;
+    my %token;
+    $token{errors} = $validator->errors_as_hashref;
+    $token{errors} = {'errors' => [['exists','Email already exists']],'field' => 'username'};
 
-    if (!$clean || $validator->errors) {
-        $errors = $validator->errors_hash;
-         debug("Register errors: ", $errors);
-        $form->fill($values);
-    }
-    else {
+    #$errors = ($errors, $error_u);
+
+   #my $errors =  ($v_error, $u_error);
+
+    #push ( @{ $errors[0] }, $user_exists);
+
+    debug "Auth errors clean: ", %token;
+
+    my $errors = $token{errors};
+
+    #if ( $validator->errors || $user ) {
     # create new user and role
-    my $user = add_user($user_data);
+    #$user = add_user($user_data);
 
     # add user attribute
-    $user->add_attribute('facebook','0');
+    #$user->add_attribute('facebook','0');
 
     #debug("Register result: ", $acct || 'N/A');
-    return redirect '/auth/login/content';
-    }
+    #return redirect '/auth/login/content';
+   # }
 
     template 'account/register/content', {form => $form,
                   errors => $errors};
