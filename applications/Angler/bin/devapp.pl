@@ -30,6 +30,7 @@ builder {
         'Parameters',                'Dancer::Version',
         'Dancer::Settings',          'Dancer::Logger',
         'Dancer::TemplateVariables', 'DBIC::QueryLog',
+        'Timer',
       ];
     mount "/" => $app;
 };
