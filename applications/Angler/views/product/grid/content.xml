@@ -58,10 +58,11 @@
             so for now we won't use it and replace with toggled param
             with new list field-->
         <!--container name="txt-secondary" class="txt-secondary" value="!checked"/-->
-        <param name="txt-secondary" field="unchecked" op="toggle" args="tree"/>
-        <param name="facet-title" class="facet-name" field="title"/>
-        <param name="facet-name" field="name" target="name"/>
-        <param name="facet-value" class="facet-name" field="value" target="value"/>
+        <param name="facet-name" class="facet-checkbox" field="name" target="name"/>
+        <param name="facet-value" class="facet-checkbox" field="value" target="value"/>
+        <param name="checked" class="facet-checkbox" target="checked" op="toggle"/>
+        <param name="facet-title" field="title"/>
+        <param name="show-count" field="unchecked" op="toggle" args="tree"/>
         <param name="facet-count" field="count"/>
     </list>
 </list>

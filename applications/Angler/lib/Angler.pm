@@ -21,6 +21,7 @@ use Data::Transpose::Iterator::Scalar;
 use Template::Flute::Iterator::JSON;
 use List::Util qw(first);
 use POSIX qw/ceil/;
+use URL::Encode qw/url_decode_utf8/;
 
 our $VERSION = '0.1';
 
