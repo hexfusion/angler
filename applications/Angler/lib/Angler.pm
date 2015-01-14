@@ -475,11 +475,11 @@ hook 'before_navigation_search' => sub {
 
     # TODO: add price and brand facets
 
-    # start by grabbing the non-variant then variant facets into @facet_list
     my $cond = {
         'attribute.name' => { '!=' => undef }
     };
 
+    # different condition if we have any query facets
     $cond = {
         -or => [
             'attribute.name' => { -not_in => [ keys %query_facets ] },
@@ -494,31 +494,24 @@ hook 'before_navigation_search' => sub {
         ]
     } if keys %query_facets;
 
+    # start with canonical
     my $attrs = {
         join => {
             product_attributes => [
                 'attribute', { product_attribute_values => 'attribute_value' }
             ]
         },
-        columns    => [],
+        columns    => [ 'product.sku' ],
         '+columns' => [
             { name  => 'attribute.name' },
+            { priority => 'attribute_value.priority' },
             { value => 'attribute_value.value' },
             { title => 'attribute_value.title' },
-            { count => { count => { distinct => 'product.sku' } } },
-        ],
-        order_by => [
-            { -desc => 'attribute_value.priority' },
-            { -asc  => 'attribute_value.title' },
-        ],
-        group_by => [
-            "attribute.name",        "attribute_value.value",
-            "attribute_value.title", "attribute_value.priority",
         ],
     };
-    my @facet_list = $products->search( $cond, $attrs )->hri->all;
+    my $facet_list_rset1 = $products->search( $cond, $attrs );
 
-    # this is the expensive one...
+    # now variants
     $attrs->{join} = {
         variants => {
             product_attributes => [
@@ -526,10 +519,30 @@ hook 'before_navigation_search' => sub {
             ]
         }
     };
-    push @facet_list, $products->search( $cond, $attrs )->hri->all;
+    my $facet_list_rset2 = $products->search( $cond, $attrs );
+
+    # union our two sets together and complete the query
+    my @facet_list = $facet_list_rset1->union($facet_list_rset2)->search(
+        undef,
+        {
+            '+columns' =>
+              { count => { count => { distinct => 'product.sku' } } },
+            order_by => [
+                { -asc => 'product.name' },
+                { -desc => 'product.priority' },
+                { -asc  => 'product.title' },
+            ],
+            group_by => [
+                "product.name",        "product.value",
+                "product.title", "product.priority",
+            ],
+
+        }
+    )->hri->all;
 
     # now we need the facet groups (name, title & priority)
     # this can also be rather expensive
+    # TODO: maybe we can grab names from @facet_list instead of this?
     my $facet_group_rset1 = $products->search(
         { 'attribute.name' => { '!=' => undef } },
         {
