@@ -1,184 +1,126 @@
-<div class="row">
-  <div class="span3 sidebar">
-    <div class="sidebar-widget">
-      <h3>My account</h3>
-      <div class="well well-small">
-        <ul class="nav nav-list">
-          <li>
-            <a href="/orders">My orders</a>
-          </li>
-          <li class="active">
-            <a href="/account">My account</a>
-          </li>
-        </ul>
+<div class="main-container col2-left-layout">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="main">
+          <div class="row">
+            <div class="col-main col-xs-12 col-sm-9">
+              <div class="padding-s">
+                <div class="my-account">
+                  <div class="dashboard">
+                    <div class="page-title">
+                      <h1>My Dashboard</h1>
+                    </div>
+                    <ul class="messages">
+                      <li class="success-msg">
+                        <ul>
+                          <li><span>Thank you for registering with Main Website Store.</span></li>
+                        </ul>
+                      </li>
+                    </ul>
+                    <div class="welcome-msg">
+                      <p class="hello"><strong>Hello, Sam Batschelet!</strong></p>
+                      <p>From your My Account Dashboard you have the ability to view a 
+                        snapshot of your recent account activity and update your account 
+                        information. Select a link below to view or edit information.</p>
+                    </div>
+                    <div class="box-account box-info">
+                      <div class="box-head">
+                        <h2>Account Information</h2>
+                      </div>
+                      <div class="col2-set">
+                        <div class="col-1">
+                          <div class="box">
+                            <div class="box-title">
+                              <h3>Contact Information</h3>
+                              <a href="">Edit</a> </div>
+                            <div class="box-content">
+                              <p> Sam Batschelet<br>
+                                sbatschelet@mac.com<br>
+                                <a href="">Change Password</a> </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-2">
+                          <div class="box">
+                            <div class="box-title">
+                              <h3>Newsletters</h3>
+                              <a href="">Edit</a> </div>
+                            <div class="box-content">
+                              <p> You are currently not 
+                                subscribed to any newsletter. </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col2-set">
+                        <div class="box">
+                          <div class="box-title">
+                            <h3>Address Book</h3>
+                            <a href="">Manage Addresses</a> </div>
+                          <div class="box-content">
+                            <div class="col-1">
+                              <h4>Default Billing Address</h4>
+                              <address>
+                              You have not set a default billing address.<br>
+                              <a href="">Edit Address</a>
+                              </address>
+                            </div>
+                            <div class="col-2">
+                              <h4>Default Shipping Address</h4>
+                              <address>
+                              You have not set a default shipping address.<br>
+                              <a href="">Edit Address</a>
+                              </address>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-left sidebar col-xs-12 col-sm-3">
+              <div class="block block-account first">
+                <div class="block-title"> <strong><span>My Account</span></strong> <span class="toggle"></span></div>
+                <div class="block-content">
+                  <ul>
+                    <li class="current"><strong>Account Dashboard</strong></li>
+                    <li><a href="">Account Information</a></li>
+                    <li><a href="">Address Book</a></li>
+                    <li><a href="">My Orders</a></li>
+  <!-- not avail 
+                  <li><a href="">Billing Agreements</a></li>
+                    <li><a href="">Recurring Profiles</a></li>
+                    <li><a href="">My Product Reviews</a></li>
+                    <li><a href="">My Tags</a></li>
+                    <li><a href="">My Wishlist</a></li>
+                    <li><a href="">My Applications</a></li>
+                    <li><a href="">Newsletter Subscriptions</a></li>
+                    <li class="last"><a href="">My Downloadable Products</a></li>
+-->
+                  </ul>
+                </div>
+              </div>
+              <div class="block block-cart">
+                <div class="block-title"> <strong><span>My Cart</span></strong> <span class="toggle"></span></div>
+                <div class="block-content">
+                  <p class="empty">You have no items in your shopping cart.</p>
+                </div>
+              </div>
+   <!--           <div class="block block-list block-compare last_block">
+                <div class="block-title"> <strong><span>Compare Products </span></strong> <span class="toggle"></span></div>
+                <div class="block-content">
+                  <p class="empty">You have no items to compare.</p>
+                </div>
+              </div>
+-->
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="span8">
-    <form class="account-info" method="POST">
-    <input type="hidden" id="shippingId" name="shipping_id" value=""/>
-    <input type="hidden" id="billingId" name="billing_id" value=""/>
-              <h3>Shipping</h3>
-              <div class="control-group">
-                <label class="control-label" for="inputEmail">Email</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputEmail" name="email" placeholder="Email" type="text" />
-                  <span class="form-error" id="errorEmail">Error</span></div>
-              </div>
-                                
-              <div class="control-group">
-                <label class="control-label" for="inputFirstName">First name</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputFirstName" name="first_name" placeholder="First name" type="text" />
-                  <span class="form-error" id="errorFirstName">Error</span></div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputLastName">Last name</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputLastName" name="last_name" placeholder="Last name" type="text" />
-                  <span class="form-error" id="errorLastName">Error</span></div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputCompany">Company</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputCompany" name="company" placeholder="Company" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputAddress">Address</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputAddress" name="address" placeholder="Address" type="text" />
-                  <span class="form-error" id="errorAddress">Error</span>
-                  <br><input class="input-xlarge" id="inputAddress2" name="address_2" placeholder="Address" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputPostalCode">ZIP code</label>
-                <div class="controls">
-                  <input class="input-small" id="inputPostalCode" name="postal_code" placeholder="ZIP code" type="text" />
-                  <span class="form-error" id="errorPostalCode">Error</span></div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputCity">City</label>
-                <div class="controls">
-                  <input class="input-small" id="inputCity" name="city" placeholder="City" type="text" />
-                  <span class="form-error" id="errorCity">Error</span></div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputState">State</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputState" placeholder="State" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputCountry">Country</label>
-                <div class="controls">
-                  <select class="input-xlarge" id="inputCountry" name="country">
-                    <option>Country</option>
-                  </select>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputPhone">Phone</label>
-                <div class="controls">
-                  <input class="input-small" id="inputPhone" name="phone" placeholder="555 - " type="text" />
-                  <span class="form-error" id="errorPhone">Error</span></div>
-              </div>
-
-            </fieldset>
-      <div class="spacer"></div>
-            <fieldset class="well">
-              <h3>Billing</h3>
-             
-                  <div class="form-inline">
-                    <label>
-                      <input id="inputBillingEnabled" name="billing_enabled" type="checkbox" value="1" />
-                      Billing address is different than shipping</label>
-                  </div>
-
-                
-                <div id="billing-address" style="display: block;">
-                    
-              <div class="control-group">
-                <label class="control-label" for="inputBillingEmail">Email</label>
-                <div class="controls">
-
-                  <input class="input-xlarge" id="inputBillingEmail" name="billing_email" placeholder="Email" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingFirstName">First name</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingLastName">Last name</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputBillingLastName" name="billing_last_name" placeholder="Last name" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingCompany">Company</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputBillingCompany" name="billing_company" placeholder="Company" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingAddress">Address</label>
-                <div class="controls">
-                  <input class="input-xlarge" id="inputBillingAddress" name="billing_address" placeholder="Address" type="text" />
-                  <br><input class="input-xlarge" id="inputBillingAddress2" name="billing_address_2" placeholder="Address" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingCity">City</label>
-                <div class="controls">
-                  <input class="input-small" id="inputBillingCity" name="billing_city" placeholder="City" type="text" />
-                  <span class="form-error" id="errorCity">Error</span></div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingPostalCode">ZIP code</label>
-                <div class="controls">
-                  <input class="input-small" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingState">State</label>
-                <div class="controls">
-                  <input id="inputBillingState" name="billing_state" placeholder="State" type="text" />
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="inputBillingCountry" name="billing_country">Country</label>
-                <div class="controls">
-                  <select class="input-xlarge" id="inputBillingCountry">
-                    <option>Country</option>
-                  </select>
-                </div>
-              </div>
-                
-                </div>
-            </fieldset>
-      <div class="spacer"></div>
-      <fieldset>
-        <legend>Change password</legend>
-        <div class="control-group">
-          <label class="control-label" for="inputNewPassword">New password</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputNewPassword" placeholder="" type="password" />
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="inputVerify">Verify password</label>
-          <div class="controls">
-            <input class="input-xlarge" id="inputVerify" placeholder="" type="password" />
-          </div>
-        </div>
-      </fieldset>
-      <div class="form-actions">
-        <button class="btn btn-large btn-success">Save</button>
-      </div>
-    </form>
-  </div>
 </div>
+

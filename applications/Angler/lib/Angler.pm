@@ -926,6 +926,10 @@ get '/about-me' => sub {
     template 'about/me/content';
 };
 
+get '/account' => sub {
+    template 'account/my-account/content';
+};
+
 get '/blog' => sub {
     template 'blog/content';
 };
