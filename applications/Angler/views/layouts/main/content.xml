@@ -81,6 +81,8 @@
 <param name="uri" class="nav-clothing-right-link" target="href" op="append"/>
 </list>
 
+<container name="extra-js-file" value="extra-js-file"/>
+<value name="extra-js-file" target="src" op="append"/>
 
 <!-- Navigation Dropdown -->
 <!--ew

@@ -724,6 +724,10 @@ hook 'before_navigation_search' => sub {
 
     $tokens->{breadcrumbs} = \@crumbs;
 
+    # add extra js
+
+    $tokens->{"extra-js-file"} = 'product-listing.js';
+
     Dancer::Continuation::Route::Templated->new(
         return_value => template( $tokens->{template}, $tokens ) )->throw;
 };

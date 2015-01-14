@@ -25,13 +25,16 @@
 <param name="sku"/>
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
 <param name="name" class="product-name" filter="upper"/>
-<param name="price" class="product-price"/>
+<param name="selling_price" class="product-price"/>
+<param name="show_price" class="full-price" field="discount_percent" op="toggle" args="tree"/>
+<param name="price" class="lowest-price"/>
 <param name="image" class="product-image" target="src"/>
 <param name="name" class="product-image" target="alt"/>
 <param name="uri" class="product-image" target="href" op="append"/>
 <param name="uri" class="product-link" target="href" op="append"/>
 <param name="name" class="product-link" target="title"/>
 <param name="uri" class="details-form" target="action" op="append"/>
+<param name="discount_percent" class="discount" op="toggle" args="tree"/>
 </list>
 
 <!-- Brands -->
