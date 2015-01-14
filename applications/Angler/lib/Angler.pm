@@ -304,12 +304,12 @@ hook 'before_navigation_search' => sub {
         {
             name => 'grid',
             title => 'Grid',
-            icon_class => 'glyphicon glyphicon-th'
+            icon_class => 'fa fa-th'
         },
         {
             name => 'list',
             title => 'List',
-            icon_class => 'glyphicon glyphicon-th-list'
+            icon_class => 'fa fa-th-list'
         },
     );
     my $view = $query{view};
@@ -382,12 +382,12 @@ hook 'before_navigation_search' => sub {
     if ( $direction eq 'asc' ) {
         $tokens->{reverse_order} = 'desc';
         $tokens->{order_by_glyph} =
-          q(<span class="fa fa-arrow-up"></span>);
+          q(<span class="fa fa-long-arrow-up"></span>);
     }
     else {
         $tokens->{reverse_order} = 'asc';
         $tokens->{order_by_glyph} =
-          q(<span class="fa fa-arrow-down"></span>);
+          q(<span class="fa fa-long-arrow-down"></span>);
     }
 
     # Filter products based on facets in query params if there are any.
