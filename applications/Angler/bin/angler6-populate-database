@@ -17,7 +17,7 @@ my $schema = shop_schema;
 my $data;
 my %product;
 
-# shop_schema->deploy({add_drop_table => 1});
+shop_schema->deploy({add_drop_table => 1});
 
 my $state = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'NY' });
 my $state_oregon = $schema->resultset("State")->find( { country_iso_code => 'US', state_iso_code => 'OR' });
@@ -29,8 +29,8 @@ my $taxes = $schema->resultset("Tax")->create (
         description => 'New York Sales Tax',
         percent => '8.0',
         valid_from => $now,
-        country_iso_code => 'US'
-        states_id => $state_id,
+        country_iso_code => 'US',
+        states_id => $state->id,
     }
 );
 
@@ -118,9 +118,9 @@ $users{admin} = shop_user->create(
       ],
   });
 
-#my $nav = $schema->resultset('Navigation')->populate([
+my $nav = $schema->resultset('Navigation')->populate([
 # category roots - no parent_id
-my @nav = ([
+#my @nav = ([
 { navigation_id => '10', priority => '10', uri => 'fly-fishing-gear', type => 'menu', scope => 'root', description => 'Gear for fly fishing', name => 'Fly Fishing Gear' },
 { navigation_id => '20', priority => '20', uri => 'fly-fishing-gear/species', type => 'menu', scope => 'root', name => 'Species' , description => 'Fly Fishing Gear By Species'},
 { navigation_id => '30', priority => '30', uri => 'clothing', type => 'menu', scope => 'root', description => 'Clothing for fly fishing', name => 'Fly Fishing Clothing',  },
@@ -830,95 +830,95 @@ $carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
     {
         name => 'UPS',
         account_number => '1Z999999999999999999',
-        ShipmentMethod => [
+        shipment_methods=> [
             { 
-              code => '1DM',
-              name => 'Next Day Air Early AM',
+              name=> '1DM',
+              title => 'Next Day Air Early AM',
               max_weight => '150',
             },
             { 
-              code => '1DML',
-              name => 'Next Day Air Early AM Letter',
+              name => '1DML',
+              title => 'Next Day Air Early AM Letter',
               max_weight => '150',
             },
             {
-              code => '1DA',
-              name => 'Next Day Air',
+              name => '1DA',
+              title => 'Next Day Air',
               max_weight => '150',
             },
             {
-              code => '1DAL',
-              name => 'Next Day Air Letter',
+              name => '1DAL',
+              title => 'Next Day Air Letter',
               max_weight => '150',
             },
             {
-              code => '1DP',
-              name => 'Next Day Air Saver',
+              name => '1DP',
+              title => 'Next Day Air Saver',
               max_weight => '150',
             },
             {
-              code => '1DPL',
-              name => 'Next Day Air Saver Letter',
+              name => '1DPL',
+              title => 'Next Day Air Saver Letter',
               max_weight => '150',
             },
             {
-              code => '2DM',
-              name => '2nd Day Air A.M.',
+              name => '2DM',
+              title => '2nd Day Air A.M.',
               max_weight => '150',
             },
             {
-              code => '2DA',
-              name => '2nd Day Air',
+              name => '2DA',
+              title => '2nd Day Air',
               max_weight => '150',
             },
             {
-              code => '2DML',
-              name => '2nd Day Air A.M. Letter',
+              name => '2DML',
+              title => '2nd Day Air A.M. Letter',
               max_weight => '150',
             },
             {
-              code => '2DAL',
-              name => '2nd Day Air Letter',
+              name => '2DAL',
+              title => '2nd Day Air Letter',
               max_weight => '150',
             },
             {
-              code => '3DS',
-              name => '3 Day Select',
+              name => '3DS',
+              title => '3 Day Select',
               max_weight => '150',
             },
             {
-              code => 'GNDCOM',
-              name => 'Ground Commercial',
+              name => 'GNDCOM',
+              title => 'Ground Commercial',
               max_weight => '150',
             },
             {
-              code => 'GNDRES',
-              name => 'Ground Residential',
+              name => 'GNDRES',
+              title => 'Ground Residential',
               max_weight => '150',
             },
             {
-              code => 'XPR',
-              name => 'Worldwide Express',
+              name => 'XPR',
+              title => 'Worldwide Express',
               max_weight => '150',
             },
             {
-              code => 'XDM',
-              name => 'Worldwide Express Plus',
+              name => 'XDM',
+              title => 'Worldwide Express Plus',
               max_weight => '150',
             },
             {
-              code => 'XPRL',
-              name => 'Worldwide Express Letter',
+              name => 'XPRL',
+              title => 'Worldwide Express Letter',
               max_weight => '150',
             },
             {
-              code => 'XDML',
-              name => 'Worldwide Express Plus Letter',
+              name => 'XDML',
+              title => 'Worldwide Express Plus Letter',
               max_weight => '150',
             },
             {
-              code => 'XPD',
-              name => 'Worldwide Expedited',
+              name => 'XPD',
+              title => 'Worldwide Expedited',
               max_weight => '150',
             },
         ],
@@ -928,81 +928,138 @@ $carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
     {
         name => 'USPS',
         account_number => '8985943852094',
-        ShipmentMethod => [
-            { name => 'EXPRESS' },
-            { name => 'FIRST CLASS' },
-            { name => 'PRIORITY' },
-            { name => 'PARCEL' },
-            { name => 'BPM' },
-            { name => 'LIBRARY' },
-            { name => 'GLOBAL EXPRESS GUARANTEED' },
-            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' },
-            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' },
-            { name => 'USPS GXG ENVELOPES' },
-            { name => 'EXPRESS MAIL INTERNATIONAL (EMS)' },
-            { name => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL' },
-            { name => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' },
-            { name => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' },
-            { name => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' },
-            { name => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL' },
+        shipment_methods => [
+        {
+            name => 'EXPRESS',
+            title => 'USPS Express Mail'
+        },
+        {
+            name => 'FIRST CLASS',
+            title => 'USPS First Class Mail.'
+        },
+        {
+            name => 'PRIORITY',
+            title => 'PRIORITY'
+        },
+        {
+            name => 'PARCEL',
+            title => 'PARCEL'
+        },
+        {
+            name => 'BPM',
+            title => 'BPM'
+        },
+        {
+            name => 'LIBRARY',
+            title => 'LIBRARY'
+        },
+        {
+             name => 'GLOBAL EXPRESS GUARANTEED',
+             title => 'GLOBAL EXPRESS GUARANTEED'
+        },
+        {
+             name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR',
+             title => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR'
+        },
+        {
+             name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR',
+             title => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR'
+        },
+        {
+            name => 'USPS GXG ENVELOPES',
+            title => 'USPS GXG ENVELOPES'
+        },
+        {
+            name => 'EXPRESS MAIL INTERNATIONAL (EMS)',
+            title => 'EXPRESS MAIL INTERNATIONAL (EMS)'
+        },
+        {
+            name => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE',
+            title => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE'
+        },
+        {
+            name => 'PRIORITY MAIL INTERNATIONAL',
+            title => 'PRIORITY MAIL INTERNATIONAL'
+        },
+        {
+            name => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE',
+            title => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE'
+        },
+        {
+            name => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES',
+            title => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES'
+        },
+        {
+            name => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX',
+            title => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX'
+        },
+        {
+            name => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX',
+            title => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX'
+        },
+        {
+            name => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE',
+            title => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE'
+        },
+        {
+            name => 'PRIORITY MAIL INTERNATIONAL',
+            title => 'PRIORITY MAIL INTERNATIONAL'
+        },
         ],
     });
 my %destination;
  
 $destination{US} = $schema->resultset("ShipmentDestination")->populate([
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'1'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'2'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'3'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'4'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'5'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'6'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'7'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'8'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'9'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'10'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'11'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'12'
     },
     {
-        country_iso_code => 'US',
+        zones_id => '247',
         shipment_methods_id =>'13'
     },
 ]);
