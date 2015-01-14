@@ -118,6 +118,7 @@ $users{admin} = shop_user->create(
       ],
   });
 
+
 my $nav = $schema->resultset('Navigation')->populate([
 # category roots - no parent_id
 #my @nav = ([
@@ -189,13 +190,13 @@ my $nav = $schema->resultset('Navigation')->populate([
 { navigation_id => '605', priority => '600', uri => 'fly-fishing-gear/striped-bass', type => 'menu', scope => 'species', name => 'Stripers' , description => 'Fly Fishing Gear for Striped Bass', parent_id =>'20'},
 
 # manufactures
-{ uri => 'Simms', scope => 'manf', type => 'manufacturer', name => 'Simms Fishing Products', description => 'Simms', priority => '1' },
-{ uri => 'Patagonia', scope => 'manf', type => 'manufacturer', name => 'Patagonia', description => 'Patagonia', priority => '2'},
-{ uri => 'Orvis', scope => 'manf', type => 'manufacturer', name => 'The Orvis Company', description => 'Orvis', priority => '3' },
-{ uri => 'Sage', scope => 'manf', type => 'manufacturer', name => 'Sage',  description => 'Sage', priority => '4' },
-{ uri => 'Scott', scope => 'manf', type => 'manufacturer', name => 'Scott', description => 'Scott', priority => '5' },
-{ uri => 'Loomis', scope => 'manf', type => 'manufacturer', name => 'Loomis', description => 'Loomis', priority => '6' },
-{ uri => 'Hatch', scope => 'manf', type => 'manufacturer', name => 'Hatch Outdoors',  description => 'Hatch Outdoors', priority => '7' },
+{ uri => 'simms', scope => 'manf', type => 'manufacturer', name => 'Simms Fishing Products', description => 'Simms', priority => '1' },
+{ uri => 'patagonia', scope => 'manf', type => 'manufacturer', name => 'Patagonia', description => 'Patagonia', priority => '2'},
+{ uri => 'orvis', scope => 'manf', type => 'manufacturer', name => 'The Orvis Company', description => 'Orvis', priority => '3' },
+{ uri => 'sage', scope => 'manf', type => 'manufacturer', name => 'Sage',  description => 'Sage', priority => '4' },
+{ uri => 'scott', scope => 'manf', type => 'manufacturer', name => 'Scott', description => 'Scott', priority => '5' },
+{ uri => 'loomis', scope => 'manf', type => 'manufacturer', name => 'Loomis', description => 'Loomis', priority => '6' },
+{ uri => 'hatch', scope => 'manf', type => 'manufacturer', name => 'Hatch Outdoors',  description => 'Hatch Outdoors', priority => '7' },
 #nav
 { uri => 'contact', type => 'menu', scope => 'nav-top', description => 'Contact', name => 'Contact', priority => '1' },
 { uri => 'about-us', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
@@ -757,6 +758,7 @@ $media = $schema->resultset('Media')->populate([
 
 my $helios_image = $schema->resultset('Media')->find({ uri => 'orvis_helios_2.jpg' });
 my $helios_video = $schema->resultset('Media')->find({ uri => 'http://www.youtube.com/embed/HfhpZPdrc2A' });
+my $orvis = $schema->resultset('Navigation')->find({ uri => 'orvis' });
 
 $schema->resultset('MediaProduct')->populate([
                                            { media_id => $helios_image->id, sku => 'WBA0001' },
@@ -792,6 +794,22 @@ $schema->resultset('NavigationProduct')->populate([
                                            { navigation_id => $rods->id, sku => 'WBA0012' },
                                            { navigation_id => $rods->id, sku => 'WBA0013' },
                                            { navigation_id => $rods->id, sku => 'WBA0014' },
+                                            # manf
+                                           { navigation_id => $orvis->id, sku => 'WBA0001' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0002' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0003' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0004' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0005' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0006' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0007' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0008' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0009' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0010' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0011' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0012' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0013' },
+                                           { navigation_id => $orvis->id, sku => 'WBA0014' },
+
 
 ]);
 
