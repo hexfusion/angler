@@ -68,12 +68,12 @@
 </list>
 
 <!--view selector -->
-<!--list name="view-selector" class="view" iterator="views">
+<list name="view-selector" class="view" iterator="views">
     <param name="name" class="view" target="value"/>
     <param name="active" class="view" target="class" op="append"/>
-    <param name="icon_class" class="glyphicon" target="class"/>
+    <param name="icon_class" class="fa" target="class"/>
     <param name="title" class="view-text"/>
-</list-->
+</list>
 
 <!-- per page & order by -->
 <value name="per_page" iterator="per_page_iterator"/>
