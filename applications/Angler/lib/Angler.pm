@@ -19,6 +19,8 @@ use Angler::Cart;
 
 use Data::Transpose::Iterator::Scalar;
 use Template::Flute::Iterator::JSON;
+use List::Util qw(first);
+use POSIX qw/ceil/;
 
 our $VERSION = '0.1';
 
@@ -269,26 +271,335 @@ hook 'before_navigation_search' => sub {
     var add_to_history =>
       { type => 'navigation', name => $tokens->{navigation}->name };
 
-    # rows (products per page) 
-    my $rows = $routes_config->{navigation}->{records} || 10;
+    my %query = params('query');
+
+    my $schema = shop_schema;
 
     # FIXME I believe this only goes 1 level of children
 
     # if this is the root category then show all the childrens products.
     if ( $tokens->{navigation}->is_root == 1 ) {
         $products =
-            $tokens->{navigation}->children->search_related('navigation_products')->search_related('product')
-            ->active->limited_page( $tokens->{page}, $rows );
+          $tokens->{navigation}->children->search_related('navigation_products')
+          ->search_related('product')->active;
     }
     else {
         $products =
-            $tokens->{navigation}->navigation_products->search_related('product')
-            ->active->limited_page( $tokens->{page}, $rows );
+          $tokens->{navigation}->navigation_products->search_related('product')
+          ->active;
     }
 
-    my $pager = $products->pager;
+    # find facets in query params
 
+    my %query_facets = map {
+        $_ =~ s/^f\.//
+          && url_decode_utf8($_) =>
+              [ split( /\!/, url_decode_utf8( $query{"f.$_"} ) ) ]
+    } grep { /^f\./ } keys %query;
+
+    # determine which view to display
+
+    my @views = (
+        {
+            name => 'grid',
+            title => 'Grid',
+            icon_class => 'glyphicon glyphicon-th'
+        },
+        {
+            name => 'list',
+            title => 'List',
+            icon_class => 'glyphicon glyphicon-th-list'
+        },
+    );
+    my $view = $query{view};
+    if (   !defined $view
+        || !grep { $_ eq $view } map { $_->{name} } @views )
+    {
+        $view = $routes_config->{navigation}->{default_view} || 'grid';
+    }
+    $tokens->{"navigation-view-$view"} = 1;
+
+    my $view_index = first { $views[$_]->{name} eq $view } 0..$#views;
+    $views[$view_index]->{active} = 'active';
+    $tokens->{views} = \@views;
+
+    # rows (products per page) 
+
+    my $rows = $query{rows};
+    if ( !defined $rows || $rows !~ /^\d+$/ ) {
+        $rows = $routes_config->{navigation}->{records} || 10;
+    }
+
+    my @rows_iterator;
+    if ( $view eq 'grid' ) {
+        $rows = ceil($rows/3)*3;
+        $tokens->{per_page_iterator} = [ map { +{ value => 12 * $_ } } 1 .. 4 ];
+    }
+    else {
+        $tokens->{per_page_iterator} = [ map { +{ value => 10 * $_ } } 1 .. 4 ];
+    }
+    $tokens->{per_page} = $rows;
+
+    # order
+
+    my @order_by_iterator = (
+        { value => 'priority',       label => 'Position' },
+        { value => 'average_rating', label => 'Rating' },
+        { value => 'selling_price',  label => 'Price' },
+        { value => 'name',           label => 'Name' },
+        { value => 'sku',            label => 'SKU' },
+    );
+    $tokens->{order_by_iterator} = \@order_by_iterator;
+
+    my $order     = $query{order};
+    my $direction = $query{dir};
+
+    # maybe set default order(_by)
+    if (   !defined $order
+        || !grep { $_ eq $order } map { $_->{value} } @order_by_iterator )
+    {
+        $order = 'priority';
+    }
+    $tokens->{order_by} = $order;
+
+    # maybe set default direction
+    if ( !defined $direction || $direction !~ /^(asc|desc)/ ) {
+        if ( $order =~ /^(average_rating|priority)$/ ) {
+            $direction = 'desc';
+        }
+        else {
+            $direction = 'asc';
+        }
+    }
+
+    # we need to prepend alias to most columns but not all
+    unless ( $order =~ /^(average_rating|selling_price)$/ ) {
+        $order = $products->me($order);
+    }
+
+    # asc/desc arrow
+    if ( $direction eq 'asc' ) {
+        $tokens->{reverse_order} = 'desc';
+        $tokens->{order_by_glyph} =
+          q(<span class="glyphicon glyphicon-arrow-up"></span>);
+    }
+    else {
+        $tokens->{reverse_order} = 'asc';
+        $tokens->{order_by_glyph} =
+          q(<span class="glyphicon glyphicon-arrow-down"></span>);
+    }
+
+    # Filter products based on facets in query params if there are any.
+    # This loopy query stuff is terrible - should be a much better way
+    # to do this but I haven't found one yet that is as fast.
+
+    if ( keys %query_facets ) {
+
+        my @skus = $products->get_column($products->me('sku'))->all;
+
+        foreach my $key ( keys %query_facets ) {
+
+            @skus = $schema->resultset('Product')->search(
+                {
+                    -and => [
+                        'product.sku' => { -in => \@skus },
+                        -or      => [
+                            -and => [
+                                'attribute.name' => $key,
+                                'attribute_value.value' =>
+                                  { -in => $query_facets{$key} }
+                            ],
+                            -and => [
+                                'attribute_2.name' => $key,
+                                'attribute_value_2.value' =>
+                                  { -in => $query_facets{$key} }
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    alias => 'product',
+                    columns => [ 'product.sku' ],
+                    join  => [
+                        {
+                            product_attributes => [
+                                'attribute',
+                                {
+                                    product_attribute_values =>
+                                      'attribute_value'
+                                }
+                            ]
+                        },
+                        {
+                            variants => {
+                                product_attributes => [
+                                    'attribute',
+                                    {
+                                        product_attribute_values =>
+                                          'attribute_value'
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                },
+            )->get_column('product.sku')->all;
+        }
+
+        $products = $schema->resultset('Product')->search(
+            {
+                'product.sku' => { -in => \@skus }
+            },
+            {
+                alias => 'product',
+            }
+        );
+    }
+
+    # pager needs a paged version of the products result set
+
+    my $paged_products = $products->limited_page( $tokens->{page}, $rows );
+    my $pager = $paged_products->pager;
+
+    if ( $tokens->{page} > $pager->last_page ) {
+        # we're past the last page which happens a lot if we start on a high
+        # page then results are restricted via facets so reset the pager
+        $tokens->{page} = $pager->last_page;
+        $paged_products = $products->limited_page( $tokens->{page}, $rows );
+        $pager = $paged_products->pager;
+    }
     $tokens->{pager} = $pager;
+
+    # facets
+
+    # TODO: add price and brand facets
+
+    # start by grabbing the non-variant then variant facets into @facet_list
+    my $cond = {
+        'attribute.name' => { '!=' => undef }
+    };
+
+    $cond = {
+        -or => [
+            'attribute.name' => { -not_in => [ keys %query_facets ] },
+            map {
+                -and => [
+                    { 'attribute.name' => $_ },
+                    {
+                        'attribute_value.value' => { -in => $query_facets{$_} }
+                    }
+                  ]
+            } keys %query_facets
+        ]
+    } if keys %query_facets;
+
+    my $attrs = {
+        join => {
+            product_attributes => [
+                'attribute', { product_attribute_values => 'attribute_value' }
+            ]
+        },
+        columns    => [],
+        '+columns' => [
+            { name  => 'attribute.name' },
+            { value => 'attribute_value.value' },
+            { title => 'attribute_value.title' },
+            { count => { count => { distinct => 'product.sku' } } },
+        ],
+        order_by => [
+            { -desc => 'attribute_value.priority' },
+            { -asc  => 'attribute_value.title' },
+        ],
+        group_by => [
+            "attribute.name",        "attribute_value.value",
+            "attribute_value.title", "attribute_value.priority",
+        ],
+    };
+    my @facet_list = $products->search( $cond, $attrs )->hri->all;
+
+    # this is the expensive one...
+    $attrs->{join} = {
+        variants => {
+            product_attributes => [
+                'attribute', { product_attribute_values => 'attribute_value' }
+            ]
+        }
+    };
+    push @facet_list, $products->search( $cond, $attrs )->hri->all;
+
+    # now we need the facet groups (name, title & priority)
+    # this can also be rather expensive
+    my $facet_group_rset1 = $products->search(
+        { 'attribute.name' => { '!=' => undef } },
+        {
+            join       => { product_attributes => 'attribute' },
+            columns    => [],
+            '+columns' => {
+                name     => 'attribute.name',
+                title    => 'attribute.title',
+                priority => 'attribute.priority',
+            },
+            distinct => 1,
+        }
+    );
+    my $facet_group_rset2 = $products->search(
+        { 'attribute.name' => { '!=' => undef } },
+        {
+            join       => { variants => { product_attributes => 'attribute' }},
+            columns    => [],
+            '+columns' => {
+                name     => 'attribute.name',
+                title    => 'attribute.title',
+                priority => 'attribute.priority',
+            },
+            distinct => 1,
+        }
+    );
+
+    my $facet_group_rset =
+      $facet_group_rset1->union($facet_group_rset2)
+      ->distinct( $products->me('name') )->order_by(
+        [
+            { -desc => $products->me('priority') },
+            { -asc  => $products->me('title') }
+        ]
+      );
+
+    # now construct facets token
+    my @facets;
+    my %seen;
+    while ( my $facet_group = $facet_group_rset->next ) {
+        # it could in theory be possible to have two attributes with the same
+        # name in the facet groups list so we skip if we've seen it before
+        unless ( $seen{$facet_group->name} ) {
+
+            my $data;
+            my @results = grep { $_->{name} eq $facet_group->name } @facet_list;
+            $data->{title} = $facet_group->get_column('title');
+
+            $data->{values} = [ map {
+                {
+                    name  => $facet_group->name,
+                    value => $_->{value},
+                    title => $_->{title},
+                    count => $_->{count},
+                    unchecked => 1, # cheaper to use param than container
+                }
+            } @results ];
+
+            if ( defined $query_facets{ $facet_group->name } ) {
+                foreach my $value ( @{ $data->{values} } ) {
+                    if ( grep { $_ eq $value->{value} }
+                      @{ $query_facets{ $facet_group->name } } ) {
+                        $value->{checked} = "yes";
+                        delete $value->{unchecked};
+                    }
+                }
+            }
+            push @facets, $data;
+        }
+    }
+    $tokens->{facets} = \@facets;
 
     # paging
 
@@ -338,24 +649,62 @@ hook 'before_navigation_search' => sub {
          uri_for( $tokens->{navigation}->uri . '/' . ($current + 1));
     }
 
-    my @products;
+    # product listing using paged_products result set
+
+    my $listing = [
+        $paged_products->listing(
+            { users_id => session('logged_in_user_id') }
+          )->group_by(
+            [
+                map { $paged_products->me($_) } (
+                    'sku',               'name',
+                    'uri',               'price',
+                    'short_description', 'canonical_sku'
+                )
+            ]
+          )->order_by( { "-$direction" => [$order] } )->all
+    ];
+
+    # add image for product (if one exists)
+    # FIXME: IC6S Product listing method needs to return images if poss
+    #        since otherwise we end up having to run a query for each
+    #        product i the listing.
 
     # FIXME this should come from config.
-    my $default_image = schema->resultset('Media')->find({ uri => 'default.jpg' });
+    my $default_image =
+      $schema->resultset('Media')->find( { uri => 'default.jpg' } );
 
-    while (my $record = $products->next) {
+    my $image_type =
+      $schema->resultset('MediaType')->find( { type => 'image' } );
 
-        my $product_href = {$record->get_inflated_columns};
+    foreach my $product (@$listing ) {
 
         # retrieve picture and add it to the results
-        my $image = $record->media_by_type('image')->first;
-        unless ($image) {
-            $image = $default_image;
-        }
+        my $image =
+          shop_product( $product->{sku} )
+          ->media->search( { media_types_id => $image_type->media_types_id },
+            { rows => 1 } )->single;
+
+        $image = $default_image unless $image;
+
         # FIXME this should be a new folder 200x200
-        $product_href->{image} = uri_for($image->display_uri('image_120x120'));
-        push @products, $product_href;
-    };
+
+        $product->{image} = uri_for($image->display_uri('image_120x120'));
+    }
+
+    # I don't the the following is needed for Sam's grid design...
+#    if ( $view eq 'grid' ) {
+#        my @grid;
+#        while ( scalar @products > 0 ) {
+#            push @grid, +{ row => [ splice @products, 0, 3 ] };
+#        }
+#        $tokens->{products} = \@grid;
+#    }
+#    else {
+#        $tokens->{products} = \@products;
+#    }
+
+    $tokens->{products} = $listing;
 
     # FIXME load list of brands for testing should be only for this search
     my $brands = shop_navigation->search({type => 'manufacturer',
@@ -374,8 +723,6 @@ hook 'before_navigation_search' => sub {
     my @crumbs = ((reverse @anc), $rs);
 
     $tokens->{breadcrumbs} = \@crumbs;
-
-    $tokens->{products} = \@products;
 
     Dancer::Continuation::Route::Templated->new(
         return_value => template( $tokens->{template}, $tokens ) )->throw;
