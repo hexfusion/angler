@@ -644,7 +644,7 @@ hook 'before_navigation_search' => sub {
            page => $_,
            uri  => $_ == $pager->current_page
            ? undef
-           : uri_for( $tokens->{navigation}->uri . '/' . $_ ),
+           : uri_for( $tokens->{navigation}->uri . '/' . $_, \%query ),
            active => $_ == $pager->current_page ? " active" : undef,
          }
     } $first_page .. $last_page;
@@ -655,12 +655,12 @@ hook 'before_navigation_search' => sub {
 
     unless ($current == '1') {
         $tokens->{pagination_previous} =
-         uri_for( $tokens->{navigation}->uri . '/' . ($current - 1));
+         uri_for( $tokens->{navigation}->uri . '/' . ($current - 1), \%query);
     }
 
     unless ($current == $n) {
         $tokens->{pagination_next} =
-         uri_for( $tokens->{navigation}->uri . '/' . ($current + 1));
+         uri_for( $tokens->{navigation}->uri . '/' . ($current + 1), \%query);
     }
 
     # product listing using paged_products result set
