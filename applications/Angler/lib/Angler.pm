@@ -28,6 +28,127 @@ our $VERSION = '0.1';
 # connect DBIC session engine to our schema
 set session_options => {schema => schema};
 
+=head1 HOOKS
+
+We make use of the following hooks.
+
+=head2 before_template_render
+
+Maintain page history for interesting pages and add 'recent_history' token
+containing uri?query of most recent interesting page in history.
+
+The history list is a hash reference of arrays of hash references.
+
+The hash key is set using the add_to_history var in a route. In a product
+route we might do the following:
+
+    var add_to_history =>
+        { type => 'product', name => 'Interesting Product', sku => 'IP00001' };
+
+Assuming the URI plus query string is:
+
+  /my-interesting-product
+
+and session history already contains:
+
+    {
+        all => [
+            { name => 'Hardware', uri  => '/hardware?f.color=red' }
+        ],
+        navigation => [
+            { name => 'Hardware', uri => '/hardware?f.color=red' }
+        ],
+    }
+
+then the new history hash reference will become:
+
+    {
+        all => [
+            {
+                name => 'Interesting Product',
+                uri  => '/my-interesting-product',
+                sku  => 'IP00001',
+            },
+            { name => 'Hardware', uri  => '/hardware?f.color=red' }
+        ],
+        product => [
+            {
+                name => 'Interesting Product',
+                uri  => '/my-interesting-product',
+                sku  => 'IP00001'
+            }
+        ]
+        navigation => [
+            { name => 'Hardware', uri => '/hardware?f.color=red' }
+        ],
+    }
+
+Note the special C<all> array which all history items are added to. If an
+item should only be added to C<all> then simply set that as the key
+for C<add_to_history>:
+
+    var add_to_history => { type => 'all', name => 'Blog page' };
+
+A short form using just the history type is possible thus:
+
+    var add_to_history => 'all';
+
+Though in this case only the URI will be stored in the history list with no
+additional data such as name.
+
+=cut
+
+hook 'before_template_render' => sub {
+    my $tokens = shift;
+
+    my %history;
+    my $session_history = session('history');
+    if ( ref($session_history) eq 'HASH' ) {
+        %history = %$session_history;
+    }
+
+    # maintain history lists
+
+    my $var = var('add_to_history');
+
+    if ( defined $var ) {
+
+        my ( $key, %values );
+
+        if ( ref($var) eq '' ) {
+            $key = $var;
+        }
+        elsif ( ref($var) eq 'HASH' ) {
+            $key = delete $var->{type};
+            %values = %$var;
+        }
+
+        if ( defined $key ) {
+
+            # all OK so add history
+            $values{uri} =
+              uri_for( request->path, [ params('query') ] )->path_query;
+
+            unshift @{ $history{$key} }, \%values unless $key eq 'all';
+            unshift @{ $history{all} }, \%values;
+
+            # keep max 20 items in each history list and put back in session
+            foreach my $key ( keys %history ) {
+                pop @{ $history{$key} } if scalar @{ $history{$key} } > 20;
+            }
+            session history => \%history;
+        }
+    }
+
+    # add token with most recent history entry
+
+    $tokens->{recent_history} = $history{all}[0];
+};
+
+=head2 before_layout_render
+
+=cut
+
 hook 'before_layout_render' => sub {
     my $tokens = shift;
     my $action ='';
