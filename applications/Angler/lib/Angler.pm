@@ -381,12 +381,12 @@ hook 'before_navigation_search' => sub {
     if ( $direction eq 'asc' ) {
         $tokens->{reverse_order} = 'desc';
         $tokens->{order_by_glyph} =
-          q(<span class="glyphicon glyphicon-arrow-up"></span>);
+          q(<span class="fa fa-arrow-up"></span>);
     }
     else {
         $tokens->{reverse_order} = 'asc';
         $tokens->{order_by_glyph} =
-          q(<span class="glyphicon glyphicon-arrow-down"></span>);
+          q(<span class="fa fa-arrow-down"></span>);
     }
 
     # Filter products based on facets in query params if there are any.
