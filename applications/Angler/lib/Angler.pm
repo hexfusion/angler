@@ -265,6 +265,10 @@ hook 'before_navigation_search' => sub {
     my $routes_config = config->{plugin}->{'Interchange6::Routes'};
     my $products;
 
+    # an interesting page
+    var add_to_history =>
+      { type => 'navigation', name => $tokens->{navigation}->name };
+
     # rows (products per page) 
     my $rows = $routes_config->{navigation}->{records} || 10;
 
@@ -382,6 +386,10 @@ hook 'before_product_display' => sub {
     my $product = $tokens->{product};
     my @related_products;
     my @reviews;
+
+    # an interesting page
+    var add_to_history =>
+      { type => 'product', name => $product->name, sku => $product->sku };
 
     # breadcrumbs
     my $path = $product->path;
