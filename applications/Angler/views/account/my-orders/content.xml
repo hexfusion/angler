@@ -1,4 +1,7 @@
 <specification>
+
+<value name="account-menu" include="../components/menu.html"/>
+
 <list name="orders" class="order-row" iterator="orders">
 <param name="order_number" class="order-number"/>
 <param name="receipt_link" class="receipt-link" field="order_number"

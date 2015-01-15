@@ -1,4 +1,7 @@
 <specification>
+
+<value name="account-menu" include="../components/menu.html"/>
+
 <form name="account" class="account-info">
 <!-- Email -->
 <field name="email" id="inputEmail"/>

@@ -7,85 +7,114 @@
             <div class="col-main col-xs-12 col-sm-9">
               <div class="padding-s">
                 <div class="my-account">
-                  <div class="page-title title-buttons">
-                    <h1>Address Book</h1>
-                    <button type="button" title="Add New Address" class="button" onClick="window.location='';"><span><span>Add New Address</span></span></button>
+                  <div class="page-title">
+                    <h1>Edit Address</h1>
                   </div>
-                  <div class="col2-set addresses-list">
-                    <div class="col-1 addresses-primary">
-                      <h2>Default Addresses</h2>
-                      <ol>
-                        <li class="item">
-                          <h3>Default Billing Address</h3>
-                          <address>
-                          Sam Batschelet<br>
-                          West Branch Angler<br>
-                          704 Mirador Rd<br>
-                          Vestal,  New York, 13850<br>
-                          United States<br>
-                          T: 607-467-5525
-                          </address>
-                          <p><a href="">Change Billing Address</a></p>
+                  <form action="" method="post" id="form-validate">
+                    <div class="fieldset">
+                      <h2 class="legend">Contact Information</h2>
+                      <ul class="form-list">
+                        <li class="fields">
+                          <div class="customer-name">
+                            <div class="field name-firstname">
+                              <label for="firstname" class="required"><em>*</em>First Name</label>
+                              <div class="input-box">
+                                <input id="firstname" name="firstname" value="Sam" title="First Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                              </div>
+                            </div>
+                            <div class="field name-lastname">
+                              <label for="lastname" class="required"><em>*</em>Last Name</label>
+                              <div class="input-box">
+                                <input id="lastname" name="lastname" value="Batschelet" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                              </div>
+                            </div>
+                          </div>
                         </li>
-                        <li class="item">
-                          <h3>Default Shipping Address</h3>
-                          <address>
-                          Sam Batschelet<br>
-                          West Branch Angler<br>
-                          704 Mirador Rd<br>
-                          Vestal,  New York, 13850<br>
-                          United States<br>
-                          T: 607-467-5525
-                          </address>
-                          <p><a href="">Change Shipping Address</a></p>
+                        <li class="wide">
+                          <label for="company">Company</label>
+                          <div class="input-box">
+                            <input name="company" id="company" title="Company" value="West Branch Angler" class="input-text  form-control" type="text">
+                          </div>
                         </li>
-                      </ol>
+                        <li class="fields">
+                          <div class="field">
+                            <label for="telephone" class="required"><em>*</em>Telephone</label>
+                            <div class="input-box">
+                              <input name="telephone" value="607-467-5525" title="Telephone" class="input-text   required-entry form-control" id="telephone" type="text">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label for="fax">Fax</label>
+                            <div class="input-box">
+                              <input name="fax" id="fax" title="Fax" class="input-text  form-control" type="text">
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
                     </div>
-                    <div class="col-2 addresses-additional">
-                      <h2>Additional Address Entries</h2>
-                      <ol>
-                        <li class="item empty">
-                          <p>You have no additional address entries in your address book.</p>
+                    <div class="fieldset">
+                      <h2 class="legend">Address</h2>
+                      <ul class="form-list">
+                        <li class="wide">
+                          <label for="street_1" class="required"><em>*</em>Street Address</label>
+                          <div class="input-box">
+                            <input name="street[]" value="704 Mirador Rd" title="Street Address" id="street_1" class="input-text  required-entry form-control" type="text">
+                          </div>
                         </li>
-                      </ol>
+                        <li class="wide">
+                          <div class="input-box">
+                            <input name="street[]" title="Street Address 2" id="street_2" class="input-text  form-control" type="text">
+                          </div>
+                        </li>
+                        <li class="fields">
+                          <div class="field">
+                            <label for="city" class="required"><em>*</em>City</label>
+                            <div class="input-box">
+                              <input name="city" value="Vestal" title="City" class="input-text  required-entry form-control" id="city" type="text">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label for="region_id" class="required"><em>*</em>State/Province</label>
+                            <div class="input-box">
+                              <select defaultvalue="43" id="region_id" name="region_id" title="State/Province" class="validate-select required-entry form-control" style="">
+                                <option value="">Please select region, state or province</option>
+                                <option title="Alabama" value="1">Alabama</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="fields">
+                          <div class="field">
+                            <label for="zip" class="required"><em>*</em>Zip/Postal Code</label>
+                            <div class="input-box">
+                              <input name="postcode" value="13850" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international  required-entry form-control" type="text">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label for="country" class="required"><em>*</em>Country</label>
+                            <div class="input-box">
+                              <select name="country_id" id="country" class="validate-select form-control" title="Country">
+                                <option value=""> </option>
+                                <option value="AF">Afghanistan</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li> <strong>Default Billing Address</strong> </li>
+                        <li> <strong>Default Shipping Address</strong> </li>
+                      </ul>
                     </div>
-                  </div>
-                  <div class="buttons-set">
-                    <p class="back-link"><a href=""><small>« </small>Back</a></p>
-                  </div>
+                    <div class="buttons-set">
+                      <p class="required">* Required Fields</p>
+                      <p class="back-link"><a href=""><small>« </small>Back</a></p>
+                      <button data-action="save-customer-address" type="submit" title="Save Address" class="button"><span><span>Save Address</span></span></button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-             <div class="col-left sidebar col-xs-12 col-sm-3">
-                <div class="block block-account first">
-                  <div class="block-title">
-                    <strong><span>My Account</span></strong>
-                  </div>
-
-                  <div class="block-content">
-                    <ul>
-                      <li><a href="/account">Account
-                      Dashboard</a></li>
-
-                      <li><a href="/account/edit">Account Information</a></li>
-
-                      <li><strong>Address Book</strong></li>
-
-                      <li><a href="/account/my-orders">My Orders</a></li>
-                      <!-- not avail
-                  <li><a href="">Billing Agreements</a></li>
-                    <li><a href="">Recurring Profiles</a></li>
-                    <li><a href="">My Product Reviews</a></li>
-                    <li><a href="">My Tags</a></li>
-                    <li><a href="">My Wishlist</a></li>
-                    <li><a href="">My Applications</a></li>
-                    <li><a href="">Newsletter Subscriptions</a></li>
-                    <li class="last"><a href="">My Downloadable Products</a></li>
--->
-                    </ul>
-                  </div>
-                </div>
-
+              <div class="col-left sidebar col-xs-12 col-sm-3">
+                <div class="account-menu">Account Menu Is Broken</div>
                 <div class="block block-cart">
                   <div class="block-title">
                     <strong><span>My Cart</span></strong>
@@ -102,7 +131,7 @@
                   <p class="empty">You have no items to compare.</p>
                 </div>
               </div>
--->
+               -->
               </div>
             </div>
           </div>

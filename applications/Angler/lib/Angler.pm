@@ -1063,16 +1063,39 @@ get '/about-me' => sub {
     template 'about/me/content';
 };
 
+# my account
 get '/account' => sub {
     template 'account/my-account/content';
 };
 
+get '/account/edit' => sub {
+    template 'account/my-account/edit';
+};
+
+# my orders
 get '/account/my-orders' => sub {
     template 'account/my-orders/content';
 };
 
 get '/account/my-orders/view' => sub {
     template 'account/my-orders/view';
+};
+
+get '/account/my-orders/print' => sub {
+    template 'account/my-orders/print', {}, { layout => undef};
+};
+
+# my address
+get '/account/my-address' => sub {
+    template 'account/my-address/content';
+};
+
+get '/account/my-address/edit' => sub {
+    template 'account/my-address/edit';
+};
+
+get '/account/my-address/new' => sub {
+    template 'account/my-address/new';
 };
 
 get '/blog' => sub {
