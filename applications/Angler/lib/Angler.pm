@@ -8,7 +8,7 @@ use Dancer::Plugin::Interchange6::Routes;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
-require_login require_any_role
+require_login require_any_role user_roles
 );
 
 #use Angler::Routes::About;
@@ -1125,6 +1125,7 @@ ajax '/check_variant' => sub {
     # params should be sku and variant attributes only with optional quantity
 
     my %params = params;
+    my ( $product, %response );
 
     my $sku = $params{sku};
     delete $params{sku};
@@ -1133,75 +1134,35 @@ ajax '/check_variant' => sub {
     delete $params{quantity};
     $quantity = 1 unless defined $quantity;
 
-    unless ( defined $sku ) {
+    my $message = "Sorry, the current selection is not available. "
+      ."Please choose a different combination.";
 
-        # sku not passed in params
-        # TODO: do something here
-    }
-
-    my $product = shop_product($sku);
-    unless ( $product ) {
-
-        # product sku not found
-        # TODO: do something here
-    }
-
-    try {
-        $product = $product->find_variant( \%params );
-    }
-    catch {
-        error "find_variant error: $_";
-        # TODO: more to do than just return
-        return undef;
-    };
-
-    unless ( $product ) {
-
-        # variant not found
-        # TODO: do something here
-    }
-
-    my $roles;
-    if (logged_in_user) {
-        $roles = user_roles;
-        push @$roles, 'authenticated';
-    }
-
-    my $tokens;
-
-    # TODO: refactoring alert: code duplication!
-
-    $tokens->{product} = $product;
-
-    $tokens->{selling_price} =
-      $product->selling_price( { roles => $roles, quantity => $quantity } ),
-
-    $tokens->{discount} =
-      int( ( $product->price - $tokens->{selling_price} ) /
-          $product->price *
-          100 );
-
-    my $in_stock = $product->quantity_in_stock;
-    if ( defined $in_stock ) {
-        if ( $in_stock == 0 ) {
-            # TODO: we need something in the schema (product attributes?)
-            # to set this token
-            $tokens->{"product-availability"} = "Currently out of stock";
+    if ( defined $sku ) {
+        if ( $product = shop_product($sku) ) {
+            if ( $product = $product->find_variant( \%params ) ) {
+                $response{type} = "success";
+                $response{uri} = "/" . $product->uri;
+            }
+            else {
+                debug "variant not found for sku $sku with params: " . \%params;
+                $response{type} = "error";
+                $response{message} = $message;
+            }
         }
-        elsif ( $in_stock <= 10 ) {
-            # TODO: maybe this ^^ number can be configured somewhere?
-            $tokens->{"low-stock-alert"} = $in_stock;
+        else {
+            debug "product not found in database for sku $sku in check_variant";
+            $response{type} = "error";
+            $response{message} = $message;
         }
     }
+    else {
+        debug "no SKU received in ajax check_varian call";
+        $response{type} = "error";
+        $response{message} = $message;
+    }
 
-    my $html = template "/fragments/product-price-and-stock", $tokens;
-    # TODO: find out why this html gets wrapped into a complete page and
-    # fix cleanly instead of doing the following (or else work out how
-    # to send it as json that jquery will convert back to html).
-    $html =~ s/^.+?div/<div/;
-    $html =~ s|</body></html>$||;
     content_type('application/json');
-    to_json({ html => $html });
+    to_json(\%response);
 };
 
 shop_setup_routes;
