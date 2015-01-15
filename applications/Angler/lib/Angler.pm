@@ -1,5 +1,7 @@
 package Angler;
 use Dancer ':syntax';
+use Dancer::Plugin::Ajax;
+use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Interchange6::Routes;
@@ -400,12 +402,12 @@ hook 'before_navigation_search' => sub {
         my @skus = $products->get_column($products->me('sku'))->all;
 
         # we're going to mess up %query_facets in this scope so localise it
-        local %query_facets;
+        #local %query_facets;
 
         # navigation facets first (brand/manufacturer, etc)
 
-        #foreach my $id ( map { s/^n\.// && $_ } keys %query_facets ) {
-        if (0) {
+if (0) {
+        foreach my $id ( map { s/^n\.// && $_ } keys %query_facets ) {
             @skus = $schema->resultset('Navigation')->search(
                 {
                     -and => [
@@ -416,7 +418,7 @@ hook 'before_navigation_search' => sub {
                             },
                             {
                                 'variants.sku' => { -in => \@skus },
-                            }
+                            },
                             {
                                 'canonical_sku.sku' => { -in => \@skus },
                             }
@@ -431,9 +433,9 @@ hook 'before_navigation_search' => sub {
                     }
                 }
             );
-            delete $query_facets{$key};
+            delete $query_facets{$id};
         }
-
+}
         # now attribute facets
 
         foreach my $key ( keys %query_facets ) {
@@ -954,6 +956,10 @@ hook 'before_product_display' => sub {
     if ($video) {
         $tokens->{video_src} = $video->uri;
     }
+    # add extra js
+
+    $tokens->{"extra-js-file"} = 'product-page.js';
+
 };
 
 hook 'before_cart_display' => sub {
