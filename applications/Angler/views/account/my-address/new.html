@@ -1,0 +1,175 @@
+<div class="main-container col2-left-layout">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="main">
+          <div class="row">
+            <div class="col-main col-xs-12 col-sm-9">
+              <div class="padding-s">
+                <div class="my-account">
+                  <div class="page-title">
+                    <h1>Add New Address</h1>
+                  </div>
+                  <form action="" method="post" id="form-validate">
+                    <div class="fieldset">
+                      <h2 class="legend">Contact Information</h2>
+                      <ul class="form-list">
+                        <li class="fields">
+                          <div class="customer-name">
+                            <div class="field name-firstname">
+                              <label for="firstname" class="required"><em>*</em>First Name</label>
+                              <div class="input-box">
+                                <input id="firstname" name="firstname" value="Sam" title="First Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                              </div>
+                            </div>
+                            <div class="field name-lastname">
+                              <label for="lastname" class="required"><em>*</em>Last Name</label>
+                              <div class="input-box">
+                                <input id="lastname" name="lastname" value="Batschelet" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="wide">
+                          <label for="company">Company</label>
+                          <div class="input-box">
+                            <input name="company" id="company" title="Company" class="input-text  form-control" type="text">
+                          </div>
+                        </li>
+                        <li class="fields">
+                          <div class="field">
+                            <label for="telephone" class="required"><em>*</em>Telephone</label>
+                            <div class="input-box">
+                              <input name="telephone" title="Telephone" class="input-text   required-entry form-control" id="telephone" type="text">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label for="fax">Fax</label>
+                            <div class="input-box">
+                              <input name="fax" id="fax" title="Fax" class="input-text  form-control" type="text">
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="fieldset">
+                      <h2 class="legend">Address</h2>
+                      <ul class="form-list">
+                        <li class="wide">
+                          <label for="street_1" class="required"><em>*</em>Street Address</label>
+                          <div class="input-box">
+                            <input name="street[]" title="Street Address" id="street_1" class="input-text  required-entry form-control" type="text">
+                          </div>
+                        </li>
+                        <li class="wide">
+                          <div class="input-box">
+                            <input name="street[]" title="Street Address 2" id="street_2" class="input-text  form-control" type="text">
+                          </div>
+                        </li>
+                        <li class="fields">
+                          <div class="field">
+                            <label for="city" class="required"><em>*</em>City</label>
+                            <div class="input-box">
+                              <input name="city" title="City" class="input-text  required-entry form-control" id="city" type="text">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label for="region_id" class="required"><em>*</em>State/Province</label>
+                            <div class="input-box">
+                              <select defaultvalue="0" id="region_id" name="region_id" title="State/Province" class="validate-select required-entry form-control" style="">
+                                <option selected="selected" value="">Please select region, state or province</option>
+                                <option>Alabama</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="fields">
+                          <div class="field">
+                            <label for="zip" class="required"><em>*</em>Zip/Postal Code</label>
+                            <div class="input-box">
+                              <input name="postcode" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international  required-entry form-control" type="text">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label for="country" class="required"><em>*</em>Country</label>
+                            <div class="input-box">
+                              <select name="country_id" id="country" class="validate-select form-control" title="Country">
+                                <option value=""> </option>
+                                <option>Afghanistan</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="control">
+                          <input id="primary_billing" name="default_billing" value="1" title="Use as My Default Billing Address" class="checkbox" type="checkbox">
+                          <label for="primary_billing">Use as my default billing address</label>
+                        </li>
+                        <li class="control">
+                          <input id="primary_shipping" name="default_shipping" value="1" title="Use as My Default Shipping Address" class="checkbox" type="checkbox">
+                          <label for="primary_shipping">Use as my default shipping address</label>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="buttons-set">
+                      <p class="required">* Required Fields</p>
+                      <p class="back-link"><a href=""><small>« </small>Back</a></p>
+                      <button data-action="save-customer-address" type="submit" title="Save Address" class="button"><span><span>Save Address</span></span></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+             <div class="col-left sidebar col-xs-12 col-sm-3">
+                <div class="block block-account first">
+                  <div class="block-title">
+                    <strong><span>My Account</span></strong>
+                  </div>
+
+                  <div class="block-content">
+                    <ul>
+                      <li><a href="/account">Account
+                      Dashboard</a></li>
+
+                      <li><a href="/account/edit">Account Information</a></li>
+
+                      <li><strong>Address Book</strong></li>
+
+                      <li><a href="/account/my-orders">My Orders</a></li>
+                      <!-- not avail
+                  <li><a href="">Billing Agreements</a></li>
+                    <li><a href="">Recurring Profiles</a></li>
+                    <li><a href="">My Product Reviews</a></li>
+                    <li><a href="">My Tags</a></li>
+                    <li><a href="">My Wishlist</a></li>
+                    <li><a href="">My Applications</a></li>
+                    <li><a href="">Newsletter Subscriptions</a></li>
+                    <li class="last"><a href="">My Downloadable Products</a></li>
+-->
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="block block-cart">
+                  <div class="block-title">
+                    <strong><span>My Cart</span></strong>
+                  </div>
+
+                  <div class="block-content">
+                    <p class="empty">You have no items in your
+                    shopping cart.</p>
+                  </div>
+                </div>
+                <!--           <div class="block block-list block-compare last_block">
+                <div class="block-title"> <strong><span>Compare Products </span></strong> <span class="toggle"></span></div>
+                <div class="block-content">
+                  <p class="empty">You have no items to compare.</p>
+                </div>
+              </div>
+-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
