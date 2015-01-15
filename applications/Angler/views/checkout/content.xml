@@ -57,6 +57,8 @@
     <field name="card_year" id="inputCardYear" iterator="card_years"/>
     <field name="card_cvc" id="inputCardCVC"/>
     <field name="payment_method" id="inputPaymentMethod" />
+
+    <field name="shipping_method" iterator="shipping_rates" />
 </form>
 
 <!-- Email errors -->
