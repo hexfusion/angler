@@ -1071,6 +1071,10 @@ get '/account/my-orders' => sub {
     template 'account/my-orders/content';
 };
 
+get '/account/my-orders/view' => sub {
+    template 'account/my-orders/view';
+};
+
 get '/blog' => sub {
     template 'blog/content';
 };
