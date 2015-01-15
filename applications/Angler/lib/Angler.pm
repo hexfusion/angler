@@ -948,6 +948,10 @@ get '/account' => sub {
     template 'account/my-account/content';
 };
 
+get '/account/my-orders' => sub {
+    template 'account/my-orders/content';
+};
+
 get '/blog' => sub {
     template 'blog/content';
 };

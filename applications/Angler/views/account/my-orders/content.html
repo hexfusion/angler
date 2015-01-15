@@ -1,169 +1,124 @@
-<div class="row">
-  <div class="span3 sidebar">
-    <div class="sidebar-widget">
-      <h3>My account</h3>
-      <div class="well well-small">
-        <ul class="nav nav-list">
-          <li class="active">
-            <a href="">My orders</a>
-          </li>
-          <li>
-            <a href="">My account</a>
-          </li>
-        </ul>
+<div class="main-container col2-left-layout">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="main">
+          <div class="row">
+            <div class="col-main col-xs-12 col-sm-9">
+              <div class="padding-s">
+                <div class="my-account">
+                  <div class="page-title">
+                    <h1>My Orders</h1>
+                  </div>
+                  <div class="pager">
+                    <p class="amount"> <strong>1 Item(s)</strong> </p>
+                    <div class="limiter">
+                      <label>Show</label>
+                      <select onChange="setLocation(this.value)">
+                        <option value="" selected="selected"> 10 </option>
+                        <option value=""> 20 </option>
+                        <option value=""> 50 </option>
+                      </select>
+                      per page </div>
+                  </div>
+                  <table class="data-table" id="my-orders-table">
+                    <colgroup>
+                    <col width="1">
+                    <col width="1">
+                    <col>
+                    <col width="1">
+                    <col width="1">
+                    <col width="1">
+                    </colgroup>
+                    <thead>
+                      <tr class="first last">
+                        <th>Order # </th>
+                        <th>Date</th>
+                        <th>Ship To</th>
+                        <th><span class="nobr">Order Total</span></th>
+                        <th><span class="nobr">Order Status</span></th>
+                        <th>&nbsp;</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="first last odd">
+                        <td class="order-id">100000001</td>
+                        <td class="order-date"><span class="nobr">8/24/2014</span></td>
+                        <td class="order-ship">Sam Batschelet</td>
+                        <td class="order-total"><span class="price">$150.49</span></td>
+                        <td class="order-status"><em>Pending</em></td>
+                        <td class="last"><span class="nobr"><a href="">View Order</a> <span class="separator">|</span> <a href="" class="link-reorder">Reorder</a> </span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <script type="text/javascript">decorateTable('my-orders-table');</script>
+                  <div class="pager">
+                    <p class="amount"> <strong>1 Item(s)</strong> </p>
+                    <div class="limiter">
+                      <label>Show</label>
+                      <select onChange="setLocation(this.value)">
+                        <option value="" selected="selected"> 10 </option>
+                        <option value=""> 20 </option>
+                        <option value=""> 50 </option>
+                      </select>
+                      per page </div>
+                  </div>
+                  <div class="buttons-set">
+                    <p class="back-link"><a href=""><small>« </small>Back</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="col-left sidebar col-xs-12 col-sm-3">
+                <div class="block block-account first">
+                  <div class="block-title">
+                    <strong><span>My Account</span></strong>
+                  </div>
+
+                  <div class="block-content">
+                    <ul>
+                      <li><a href="/account">Account Dashboard</li>
+
+                      <li><a href="">Account Information</a></li>
+
+                      <li><a href="">Address Book</a></li>
+
+                      <li class="current"><strong>My Orders</strong></li>
+                      <!-- not avail
+                  <li><a href="">Billing Agreements</a></li>
+                    <li><a href="">Recurring Profiles</a></li>
+                    <li><a href="">My Product Reviews</a></li>
+                    <li><a href="">My Tags</a></li>
+                    <li><a href="">My Wishlist</a></li>
+                    <li><a href="">My Applications</a></li>
+                    <li><a href="">Newsletter Subscriptions</a></li>
+                    <li class="last"><a href="">My Downloadable Products</a></li>
+-->
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="block block-cart">
+                  <div class="block-title">
+                    <strong><span>My Cart</span></strong>
+                  </div>
+
+                  <div class="block-content">
+                    <p class="empty">You have no items in your
+                    shopping cart.</p>
+                  </div>
+                </div>
+                <!--           <div class="block block-list block-compare last_block">
+                <div class="block-title"> <strong><span>Compare Products </span></strong> <span class="toggle"></span></div>
+                <div class="block-content">
+                  <p class="empty">You have no items to compare.</p>
+                </div>
+              </div>
+-->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="span9">
-    <table class="table table-bordered order-row">
-      <tr>
-        <td width="80">
-          <strong class="order-number">WBA6000666</strong><br>
-          <a href="/user/orders/" class="receipt-link">Receipt</a>
-        </td>
-        <td width="80">
-          <strong class="order-date">25.4.2013</strong>
-        </td>
-        <td class="txt-info" width="80"><span class="order-count">17 items</span></td>
-        <td width="60">
-          <span class="label label-success">Delivered</span>
-        </td>
-        <td>Total: <span class="order-details order-total">$340.50</span></td>
-        <td style="text-align: center;" width="60">
-          <a href="javascript:$('#row1' ).toggle();" id="toggle">details</a>
-        </td>
-      </tr>
-      <tr id="row1" style="display: none;">
-        <td colspan="5" style="background: #f7f7f7; box-shadow: 0px 2px 4px #e3e3e3 inset;">
-          <table class="table table-condensed shopping-cart" style="background: none; margin-bottom: 0;">
-            <tr>
-              <th>
-									Description
-									</th>
-              <th width="60">
-									Quantity
-									</th>
-              <th class="td-right" width="120">
-									Price
-									</th>
-              <th class="td-right" width="120">
-									Amount
-									</th>
-            </tr>
-            <tr class="orderline-row">
-              <td class="description">Simms replacement laces</td>
-              <td>
-                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" class="quantity"/>
-              </td>
-              <td class="td-right price">$24.55</td>
-              <td class="td-right subtotal">$49.10</td>
-            </tr>
-            <tr class="orderline-row">
-              <td>Simms replacement laces</td>
-              <td>
-                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-              </td>
-              <td class="td-right">$24.55</td>
-              <td class="td-right">$49.10</td>
-            </tr>
-            <tr class="orderline-row">
-              <td>Simms replacement laces</td>
-              <td>
-                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-              </td>
-              <td class="td-right">$24.55</td>
-              <td class="td-right">$49.10</td>
-            </tr>
-            <tr class="orderline-row">
-              <td>Simms replacement laces</td>
-              <td>
-                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-              </td>
-              <td class="td-right">$24.55</td>
-              <td class="td-right">$49.10</td>
-            </tr>
-            <tr class="orderline-row">
-              <td>Simms replacement laces</td>
-              <td>
-                <input style="width: 45px; font-size: 11px; padding: 3px; height: auto; margin: 0;" type="number" value="2" />
-              </td>
-              <td class="td-right">$24.55</td>
-              <td class="td-right">$49.10</td>
-            </tr>
-            <tr>
-              <td colspan="2" style="background: none;"></td>
-              <td class="td-right">
-                <strong>SUBTOTAL:</strong>
-              </td>
-              <td class="td-right txt-subtotal">
-                <strong class="order-subtotal">$4,280.60</strong>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" style="background: none;"></td>
-              <td class="td-right">
-                <strong>SHIPPING:</strong>
-              </td>
-              <td class="td-right txt-subtotal">
-                <strong class="order-shipping">$4,280.60</strong>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" style="background: none;"></td>
-              <td class="td-right">
-                <strong>SALESTAX:</strong>
-              </td>
-              <td class="td-right txt-subtotal">
-                <strong class="order-salestax">$4,280.60</strong>
-              </td>
-            </tr> <tr>
-              <td colspan="2" style="background: none;"></td>
-              <td class="td-right">
-                <strong>TOTAL:</strong>
-              </td>
-              <td class="td-right txt-subtotal">
-                <strong class="order-total">$4,280.60</strong>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-    <table class="table table-bordered order-row">
-      <tr>
-        <td width="80">
-          <strong>25.4.2013</strong>
-        </td>
-        <td class="txt-info" width="80">17 items</td>
-        <td width="60">
-          <span class="label label-success">Delivered</span>
-        </td>
-        <td>Total: $340.50</td>
-        <td style="text-align: center;" width="60">
-          <a href="">details</a>
-        </td>
-      </tr>
-      <tr style="display: none;">
-        <td colspan="5" style="background: #f7f7f7; box-shadow: 0px 2px 4px #e3e3e3 inset;">details</td>
-      </tr>
-    </table>
-    <table class="table table-bordered order-row">
-      <tr>
-        <td width="80">
-          <strong>25.4.2013</strong>
-        </td>
-        <td class="txt-info" width="80">17 items</td>
-        <td width="60">
-          <span class="label label-info">Shipped</span>
-        </td>
-        <td>Total: $340.50</td>
-        <td style="text-align: center;" width="60">
-          <a href="">details</a>
-        </td>
-      </tr>
-      <tr style="display: none;">
-        <td colspan="5" style="background: #f7f7f7; box-shadow: 0px 2px 4px #e3e3e3 inset;">details</td>
-      </tr>
-    </table>
-  </div>
-</div>
