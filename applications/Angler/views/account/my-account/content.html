@@ -14,7 +14,7 @@
                     <ul class="messages">
                       <li class="success-msg">
                         <ul>
-                          <li><span>Thank you for registering with Main Website Store.</span></li>
+                          <li><span>Thank you for registering with West Branch Angler.</span></li>
                         </ul>
                       </li>
                     </ul>
@@ -24,6 +24,46 @@
                         snapshot of your recent account activity and update your account 
                         information. Select a link below to view or edit information.</p>
                     </div>
+    <div class="box-account box-recent">
+    <div class="box-head">
+        <h2>Recent Orders</h2>
+        <a href="">View All</a>    </div>
+    <table class="data-table" id="my-orders-table">
+    <colgroup><col width="1">
+    <col width="1">
+    <col>
+    <col width="1">
+    <col width="1">
+    <col width="1">
+        </colgroup><thead>
+            <tr class="first last">
+                <th>Order # </th>
+                <th>Date</th>
+                <th>Ship To</th>
+                <th><span class="nobr">Order Total</span></th>
+                <th>Status</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+                            <tr class="first last odd">
+                    <td class="order-id">100000001</td>
+                    <td class="order-date"><span class="nobr">8/24/2014</span></td>
+                    <td class="order-ship">Sam Batschelet</td>
+                    <td class="order-total"><span class="price">$150.49</span></td>
+                    <td class="order-status"><em>Pending</em></td>
+                    <td class="last">
+                        
+                        <a href="">View Order</a>&nbsp; &nbsp;
+                                                   <!-- <a href="" class="link-reorder">Reorder</a> -->
+                                                
+                    </td>
+                </tr>
+                    </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-orders-table')</script>
+</div>
+
                     <div class="box-account box-info">
                       <div class="box-head">
                         <h2>Account Information</h2>
@@ -62,15 +102,34 @@
                             <div class="col-1">
                               <h4>Default Billing Address</h4>
                               <address>
+                            <div class="no-billing-address">
                               You have not set a default billing address.<br>
-                              <a href="">Edit Address</a>
+                            </div>
+                            <div class="billing-address">
+                    <span id="inputBillingFirstName">Sam</span> <span id="inputBillingLastName">Batschelet <br></span>
+                    <span id="inputBillingCompany">West Branch Angler <br></span>
+                    <span id="inputBillingAddress">704 Mirador Rd <br></span>
+                    <span id="inputBillingAddress2">Apt #2 <br></span>
+                    <span id="inputBillingCity">Vestal</span>, <span id="inputBillingState">New York</span>, <span id="inputBillingPostalCode">13850 <br></span>
+                           <br>
+                           </div>
+                          <a href="">Edit Address</a>
                               </address>
                             </div>
                             <div class="col-2">
                               <h4>Default Shipping Address</h4>
                               <address>
+                            <div class="no-shipping-address">
                               You have not set a default shipping address.<br>
-                              <a href="">Edit Address</a>
+                             </div>
+                       <div class="shipping-address">
+                    <span id="inputFirstName">Bill</span> <span id="inputLastName">Miner <br></span>
+                    <span id="inputCompany">Bill's Farm <br></span>
+                    <span id="inputAddress">221 West Lake Rd <br></span>
+                    <span id="inputAddress2">Apt #2w <br></span>
+                    <span id="inputCity">Hancock</span>, <span id="inputState">New York</span>, <span id="inputPostalCode">13783 <br></span>
+                           <br>
+                           </div>                              <a href="">Edit Address</a>
                               </address>
                             </div>
                           </div>
