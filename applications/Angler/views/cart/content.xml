@@ -30,7 +30,7 @@
 <field name="postal_code" id="postal_code"/>
 </form>
 
-<container name="shipping-rates" value="shipping_rates">
+<container name="shipping-rates" id="shipping-rates" value="shipping_rates">
   <list name="shipping-rate" iterator="shipping_rates">
     <param name="shipping-rate-rate" field="rate" />
     <param name="shipping-rate-carrier" field="carrier" />
