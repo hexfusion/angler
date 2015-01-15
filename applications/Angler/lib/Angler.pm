@@ -520,7 +520,7 @@ hook 'before_cart_display' => sub {
         user_id => session('logged_in_users_id'),
     );
 
-    $values->{shipping_rates} = Angler::Shipping::show_rates(schema, $angler_cart);
+    $values->{shipping_rates} = Angler::Shipping::show_rates($angler_cart);
     debug to_dumper($values->{shipping_rates});
 
     $angler_cart->update_costs;

@@ -115,11 +115,11 @@ sub free_shipping_cart {
 }
 
 sub show_rates {
-    my ($schema, $cart) = @_;
+    my ($cart) = @_;
     my $rates;
     my $weight = 0;
     foreach my $product (@{$cart->cart->products}) {
-        my $p = $schema->resultset('Product')->find($product->sku);
+        my $p = $cart->schema->resultset('Product')->find($product->sku);
         if ($p) {
             $weight += ($p->weight || 0);
         }
