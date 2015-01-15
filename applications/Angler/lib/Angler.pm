@@ -1,5 +1,8 @@
 package Angler;
 use Dancer ':syntax';
+
+$ENV{EASYPOST_API_KEY} = config->{easypost}->{development};
+
 use Dancer::Plugin::Form;
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Interchange6::Routes;
@@ -20,9 +23,7 @@ use Angler::Cart;
 use Data::Transpose::Iterator::Scalar;
 use Template::Flute::Iterator::JSON;
 
-use Net::Easypost;
-use Net::Easypost::Address;
-use Net::Easypost::Parcel;
+use Angler::Shipping;
 
 our $VERSION = '0.1';
 
@@ -32,9 +33,6 @@ our $VERSION = '0.1';
 # connect DBIC session engine to our schema
 set session_options => {schema => schema};
 
-
-$ENV{EASYPOST_API_KEY} = config->{easypost}->{development};
-my $easypost = Net::Easypost->new;
 
 =head1 HOOKS
 
@@ -522,12 +520,13 @@ hook 'before_cart_display' => sub {
         user_id => session('logged_in_users_id'),
     );
 
-    $values->{shipping_rates} = show_rates($angler_cart);
+    $values->{shipping_rates} = Angler::Shipping::show_rates(schema, $angler_cart);
+    debug to_dumper($values->{shipping_rates});
 
     $angler_cart->update_costs;
 
     $form_values->{country} = $angler_cart->country;
-    $values->{states} = states($form_values->{country});
+    # $values->{states} = states($form_values->{country});
 
     $form_values->{postal_code} = $angler_cart->postal_code;
 
@@ -535,11 +534,11 @@ hook 'before_cart_display' => sub {
     $values->{cart_tax} = $angler_cart->tax;
     $values->{cart_total} = $cart->total;
 
-    $values->{shipping_methods} = $angler_cart->shipping_methods;
+    # $values->{shipping_methods} = $angler_cart->shipping_methods;
 
-    unless (@{$values->{shipping_methods}}) {
-        $values->{shipping_warning} = 'No shipping methods for this country/zip';
-    }
+    # unless (@{$values->{shipping_methods}}) {
+    # $values->{shipping_warning} = 'No shipping methods for this country/zip';
+    # }
 
     $form->fill($form_values);
     $values->{form} = $form;
@@ -565,65 +564,6 @@ sub states {
 
     return $states;
 };
-
-sub show_rates {
-    my ($cart) = @_;
-    my $rates;
-    my $weight = 0;
-    foreach my $product (@{$cart->cart->products}) {
-        my $p = schema->resultset('Product')->find($product->sku);
-        if ($p) {
-            $weight += ($p->weight || 0);
-        }
-        else {
-            warning "Couldn't find " . $product->sku . " while looping over the cart";
-        }
-    }
-    return unless $weight;
-    debug "Total weight of the package is $weight lb";
-    $weight *= 16;
-    debug "Total weight of the package is $weight oz";
-    eval {
-        my $from = Net::Easypost::Address->new(
-                                               name => 'West Branch Resort',
-                                               street1 => '150 Faulkener Rd',
-                                               city => 'Hancock',
-                                               state => 'NY',
-                                               zip => '13783',
-                                               country => 'US',
-                                              );
-        my $to = Net::Easypost::Address->new(
-                                             zip => $cart->postal_code,
-                                             country => $cart->country,
-                                            );
-        my $parcel = Net::Easypost::Parcel->new(
-                                                weight => $weight, # real
-                                                # defaults
-                                                length => 15,
-                                                width => 15,
-                                                height => 8,
-                                               );
-        $rates = $easypost->get_rates({ to => $to, from => $from, parcel => $parcel });
-        # debug "Rates for this are:" . to_dumper($rates);
-    };
-    if ($@) {
-        warning "Got $@ while checking rates";
-    }
-    my @output;
-    if ($rates && @$rates) {
-        foreach my $rate (@$rates) {
-            push @output, {
-                           carrier => $rate->carrier,
-                           rate => $rate->rate,
-                           service => $rate->service,
-                          };
-        }
-    }
-    if (@output > 1) {
-        @output = sort { $a->{rate} <=> $b->{rate} } @output;
-    }
-    @output ? return \@output : return;
-}
 
 
 get '/' => sub {
