@@ -121,9 +121,190 @@ get '/login/denied' => sub {
     template 'login_denied';
 };
 
-get '/forum' => require_login sub {
-    template 'forum';
-     };
+=head2 state_name
+
+returns state name with states_id input
+
+=cut
+
+sub state_name {
+    my ($states_id) = @_;
+
+    my $name = shop_schema->resultset('State')->find($states_id)->name;
+
+    return $name;
+};
+
+=head2 country_name {
+
+returns country with country_iso_code input
+
+=cut
+
+sub country_name {
+    my ($country_iso_code) = @_;
+
+    my $name = shop_schema->resultset('Country')->find($country_iso_code)->name;
+
+    return $name;
+};
+
+# my account
+get '/account' => sub {
+    my $user = shop_user(session('logged_in_user_id'));
+
+    # read information for this account
+    my $ship_adr = shop_address->search(
+        {
+            users_id => session('logged_in_user_id'),
+            type => 'shipping',
+        },
+        {
+            order_by => { -desc => 'last_modified' },
+            rows => 1,
+        },
+    )->single;
+
+       my $bill_adr = shop_address->search(
+        {
+            users_id => session('logged_in_user_id'),
+            type => 'billing',
+        },
+        {
+            order_by => { -desc => 'last_modified' },
+            rows => 1,
+        },
+    )->single;
+
+    my %tokens;
+
+
+    $tokens{orders} = $user->orders;
+    $tokens{user} = $user;
+
+    $tokens{billing_address} = $bill_adr;
+    if ($bill_adr) {
+        $tokens{billing_address_state} = state_name($bill_adr->states_id);
+        $tokens{billing_address_country} = country_name($bill_adr->country_iso_code);
+    }
+
+    $tokens{shipping_address} = $ship_adr;
+    if ($ship_adr) {
+        $tokens{shipping_address_state} = state_name($ship_adr->states_id);
+        $tokens{shipping_address_country} = country_name($ship_adr->country_iso_code);
+    }
+    template 'account/my-account/content', \%tokens;
+};
+
+get '/account/edit' => sub {
+    my $form = form('edit');
+    my $user = shop_user->find(session('logged_in_user_id'));
+    $form->fill({   email => $user->email,
+                    first_name => $user->first_name,
+                    last_name => $user->last_name
+     });
+    template 'account/my-account/edit', {form => $form};
+};
+
+post '/account/edit' => sub {
+    my $form = form('edit');
+    my $values = $form->values;
+    my $email = $values->{email};
+    my %tokens;
+
+    debug "account/edit post values", $values;
+
+    $tokens{form} = $form;
+
+    # username already exist with this email address?
+    my $user = shop_user->find({ username => $email });
+
+    if (defined($user) && $user->id ne session('logged_in_user_id')) {
+        $tokens{user_exists} = "The username you entered is already in use by another user.";
+        return  template 'account/my-account/edit', \%tokens;
+   }
+
+    my $user_data;
+
+    if (defined($values) && $values->{change_password}) {
+        $user_data = {  email    => $values->{email},
+                        first_name => $values->{first_name},
+                        last_name => $values->{last_name},
+                        password => $values->{password},
+        };
+
+        my $validator = Data::Transpose::Validator->new(requireall => 1);
+
+        $validator->prepare(first_name => { validator => 'String'},
+                        last_name => { validator => 'String'},
+                        email => {validator => 'EmailValid'},
+                        password => {
+                            validator => {
+                                class => 'PasswordPolicy',
+                                options => {
+                                    username => $values->{email},
+                                    minlength => 8,
+                                    maxlength => 50,
+                                    patternlength => 4,
+                                    mindiffchars => 5,
+                                    disabled => {
+                                        digits => 1,
+                                        mixed => 1,
+                                        specials => 1,
+                                    }
+                                }
+                            }
+                        },
+                        confirm_password => {
+                            validator => 'String',
+                        },
+                        passwords_matching => {
+                            validator => 'Group',
+                            fields => [ "password", "confirm_password" ],
+                        },
+
+        );
+        my $clean = $validator->transpose($values);
+
+        # clear checkbox FIXME
+        $form->fill({   email => $values->{email},
+                    first_name => $values->{first_name},
+                    last_name => $values->{last_name},
+                    change_password => undef
+        });
+
+        unless($clean) {
+            $tokens{errors} = $validator->errors_as_hashref_for_humans;
+            debug "form errors ", $tokens{errors};
+            return  template 'account/my-account/edit', \%tokens;
+        }
+    }
+    else {
+       $user_data = {   email    => $values->{email},
+                        first_name => $values->{first_name},
+                        last_name => $values->{last_name},
+        }
+    }
+
+    unless ($user) {
+        $user = shop_user->find(session('logged_in_user_id'));
+    }
+
+    # clear checkbox FIXME
+    $form->fill({   email => $values->{email},
+                    first_name => $values->{first_name},
+                    last_name => $values->{last_name},
+                    change_password => undef
+     });
+
+    # update user
+    $user = $user->update($user_data);
+
+    # flag success msg
+    $tokens{success} = '1';
+
+    template 'account/my-account/edit', \%tokens;
+};
 
 get '/user/account' => require_role user => sub {
     my %tokens;
@@ -160,7 +341,7 @@ get '/user/account' => require_role user => sub {
         $form_values = Angler::Forms::Checkout->new(
             address => $ship_adr,
         )->transpose;
-
+        $form_values->{shipping_enabled} = 1;
         $form_values->{shipping_id} = $ship_adr->id;
     }
     else {
@@ -168,7 +349,6 @@ get '/user/account' => require_role user => sub {
     }
 
     if ($bill_adr) {
-        $form_values->{billing_enabled} = 1;
         $form_values->{billing_id} = $bill_adr->id;
     }
     else {
@@ -184,7 +364,7 @@ get '/user/account' => require_role user => sub {
                )],
                );
 
-    template 'account_my-account', \%tokens;
+    template 'account/my-account/content', \%tokens;
 };
 
 post '/user/account' => require_role user => sub {
