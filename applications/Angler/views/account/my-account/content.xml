@@ -7,7 +7,14 @@
 <value name="user_last_name" id="inputUserFirstName" field="user.first_name"/>
 <value name="user_first_name" id="inputUserLastName" field="user.last_name"/>
 
+<container name="billing" value="!shipping_address" class="no-billing-address">
+</container>
+
+
+
 <!-- Orders -->
+<container name="orders_exist" value="orders.order_number" class="order-container">
+</container>
 <list name="orders" class="order-list" iterator="orders">
 <param name="order-number" field="order_number" />
 <param name="order-link" field="order_number" target="href" op="append" />
@@ -18,6 +25,10 @@
 </list>
 
 <!-- Default Shipping -->
+<container name="default_shipping" value="!shipping_address" class="no-shipping-address">
+</container>
+<container name="shipping_exist" value="shipping_address" class="shipping-address">
+</container>
 <value name="first_name" id="inputFirstName" field="shipping_address.first_name"/>
 <value name="last_name" id="inputLastName" field="shipping_address.last_name"/>
 <value name="company" id="inputCompany" field="shipping_address.company"/>
@@ -30,6 +41,10 @@
 <value name="phone" id="inputPhone" field="shipping_address.phone"/>
 
 <!-- Default Billing -->
+<container name="default_billing" value="!billing_address" class="no-billing-address">
+</container>
+<container name="billing_exist" value="billing_address" class="billing-address">
+</container>
 <value name="billing_first_name" id="inputBillingFirstName" field="billing_address.first_name"/>
 <value name="billing_last_name" id="inputBillingLastName" field="billing_address.last_name"/>
 <value name="billing_company" id="inputBillingCompany" field="billing_address.company"/>

@@ -33,7 +33,7 @@
                         view or edit information.</p>
                       </div>
 
-                      <div class="box-account box-recent">
+                      <div class="order-container box-account box-recent">
                         <div class="box-head">
                           <h2>Recent Orders</h2><a href="/account/my-orders">View
                           All</a>
@@ -156,7 +156,11 @@ decorateTable('my-orders-table')
                                   <span>&nbsp;</span>
                                   <span id="inputBillingPostalCode">13850</span></p></br>
                                   <span id="inputBillingCountry">Russia</span>
-                                </div><a href="/account/my-address/edit?type=billing">Edit Address</a>
+                                  <a href="/account/my-address/edit?type=billing">Edit Address</a>
+                               </div>
+                                <div class="no-billing-address">
+                                <a href="/account/my-address/new">Add Address</a>
+                                </div>
                               </div>
 
                               <div class="col-2">
@@ -179,7 +183,11 @@ decorateTable('my-orders-table')
                                   <span>&nbsp;</span>
                                   <span id="inputPostalCode">13850</span></p></br>
                                   <span id="inputCountry">Russia</span>
-                                </div><a href="/account/my-address/edit?type=shipping">Edit Address</a>
+                                  <a href="/account/my-address/edit?type=shipping">Edit Address</a>
+                                </div>
+                                <div class="no-shipping-address">
+                                <a href="/account/my-address/new">Add Address</a>
+                                </div>
                               </div>
                             </div>
                           </div>
