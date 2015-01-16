@@ -1063,15 +1063,6 @@ get '/about-me' => sub {
     template 'about/me/content';
 };
 
-# my account
-get '/account' => sub {
-    template 'account/my-account/content';
-};
-
-get '/account/edit' => sub {
-    template 'account/my-account/edit';
-};
-
 # my orders
 get '/account/my-orders' => sub {
     template 'account/my-orders/content';
