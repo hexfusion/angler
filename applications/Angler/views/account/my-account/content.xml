@@ -3,7 +3,7 @@
 <value name="account-menu" include="../components/menu.html"/>
 
 <!-- User -->
-<value name="user_email" id="inputUserEmail" field="user.username"/>
+<value name="user_email" id="inputUserEmail" field="user.email"/>
 <value name="user_last_name" id="inputUserFirstName" field="user.first_name"/>
 <value name="user_first_name" id="inputUserLastName" field="user.last_name"/>
 
