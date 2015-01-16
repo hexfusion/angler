@@ -1,3 +1,32 @@
 <specification>
 <value name="account-menu" include="../components/menu.html"/>
+
+<container name="success" value="success" class="success">
+</container>
+
+<container name="failure" value="errors" class="failure">
+</container>
+
+<form name="edit" link="name">
+<field name="first_name" value="user.first_name"/>
+<field name="last_name"/>
+<field name="email"/>
+<field name="change_password"/>
+<field name="password"/>
+<field name="confirm_password"/>
+</form>
+
+<value name="username_error" class="user-exists" field="user_exists" />
+
+<value name="form-errors" field="errors" op="toggle" />
+<list name="error-email" iterator="errors.email">
+<param name="value" class="email-msg"/>
+</list>
+<list name="error-password" iterator="errors.password">
+<param name="value" class="password-msg"/>
+</list>
+<list name="error-confirm_password" iterator="errors.confirm_password">
+<param name="value" class="verify-msg"/>
+</list>
+
 </specification>

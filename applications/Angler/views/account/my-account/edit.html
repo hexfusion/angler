@@ -10,60 +10,64 @@
                   <div class="page-title">
                     <h1>Edit Account Information</h1>
                   </div>
-                  <form action="" method="post" id="form-validate" autocomplete="off">
+                <div class="success">
+                    <div class="alert-success text-center">
+                    <strong>Success!</strong> Your have updated your account successfully.
+                    </div>
+                </div>
+                  <form name="edit" action="/account/edit" method="post" id="form-validate" data-toggle="validator"  role="form">
                     <div class="fieldset">
                       <h2 class="legend">Account Information</h2>
                       <ul class="form-list">
                         <li class="fields">
                           <div class="customer-name">
-                            <div class="field name-firstname">
-                              <label for="firstname" class="required"><em>*</em>First Name</label>
-                              <div class="input-box">
-                                <input id="firstname" name="firstname" value="Sam" title="First Name" maxlength="255" class="input-text required-entry form-control" type="text">
-                              </div>
+                            <div class="field form-group">
+                              <label for="inputUserFirstName" class="control-label"><em>*</em>First Name</label>
+                             <div class="input-box">
+                                <input id="inputUserLastName" name="first_name" value="Sam" title="First Name" maxlength="255" class="form-control" type="text" required>
                             </div>
-                            <div class="field name-lastname">
-                              <label for="lastname" class="required"><em>*</em>Last Name</label>
+                          </div>
+                            <div class="field form-group">
+                              <label for="inputUserFirstName" class="control-label"><em>*</em>Last Name</label>
                               <div class="input-box">
-                                <input id="lastname" name="lastname" value="Batschelet" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                                <input id="inputUserLastName" name="last_name" value="Batschelet" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text" required>
                               </div>
                             </div>
                           </div>
                         </li>
                         <li>
-                          <label for="email" class="required"><em>*</em>Email Address</label>
+                          <label for="inputUserEmail" class="control-label"><em>*</em>Email Address</label>
                           <div class="input-box">
-                            <input name="email" id="email" value="sbatschelet@mac.com" title="Email Address" class="input-text required-entry validate-email form-control" type="text">
+                            <input name="email" id="inputUserEmail" value="sbatschelet@mac.com" title="Email Address" class="form-control" type="email" data-error="Please enter valid email address"  required>
+                            <div class="help-block with-errors user-exists"></div>
                           </div>
                         </li>
                         <li class="control">
-                          <input checked="checked" name="change_password" id="change_password" value="1" onClick="setPasswordForm(this.checked)" title="Change Password" class="checkbox" type="checkbox">
+                          <input name="change_password" id="change_password" data-toggle="collapse" data-target="#collapsePassword" aria-expanded="false" aria-controls="collapsePassword"  value="1" title="Change Password" class="checkbox" type="checkbox">
                           <label for="change_password">Change Password</label>
                         </li>
                       </ul>
+                <div class="failure">
+                    <div class="alert-danger alert-error text-center">
+                    <strong>Oops!</strong> Your passwords must match be a mixture of number and letters be 8 characters or more long and include on Capital letter.
                     </div>
-                    <div class="fieldset" style="">
+                </div>
+                    </div>
+                    <div class="collapse fieldset" id="collapsePassword">
                       <h2 class="legend">Change Password</h2>
                       <ul class="form-list">
-                        <li>
-                          <label for="current_password" class="required"><em>*</em>Current Password</label>
-                          <div class="input-box">
-                            <!-- This is a dummy hidden field to trick firefox from auto filling the password -->
-                            <input class="input-text no-display form-control" name="dummy" id="dummy" type="text">
-                            <input title="Current Password" class="input-text form-control required-entry" name="current_password" id="current_password" type="password">
-                          </div>
-                        </li>
                         <li class="fields">
                           <div class="field">
                             <label for="password" class="required"><em>*</em>New Password</label>
-                            <div class="input-box">
-                              <input title="New Password" class="input-text validate-password form-control required-entry" name="password" id="password" type="password">
+                            <div class="form-group input-box">
+                              <input title="New Password" class="form-control" data-minlength="8" name="password" id="password" type="password">
+                                <span class="help-block">Minimum of 8 characters</span>
                             </div>
                           </div>
                           <div class="field">
                             <label for="confirmation" class="required"><em>*</em>Confirm New Password</label>
-                            <div class="input-box">
-                              <input title="Confirm New Password" class="input-text validate-cpassword form-control required-entry" name="confirmation" id="confirmation" type="password">
+                            <div class="form-group input-box">
+                              <input title="Confirm New Password" class="form-control" data-match="#password" name="confirm_password" id="confirmation" placeholder="Confirm" type="password">
                             </div>
                           </div>
                         </li>
@@ -71,7 +75,7 @@
                     </div>
                     <div class="buttons-set">
                       <p class="required">* Required Fields</p>
-                      <p class="back-link"><a href=""><small>« </small>Back</a></p>
+                      <p class="back-link"><a href="/account"><small>« </small>Back</a></p>
                       <button type="submit" title="Save" class="button"><span><span>Save</span></span></button>
                     </div>
                   </form>
