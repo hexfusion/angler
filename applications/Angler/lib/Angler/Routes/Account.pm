@@ -198,7 +198,7 @@ get '/account' => sub {
         $tokens{shipping_address_state} = state_name($ship_adr->states_id);
         $tokens{shipping_address_country} = country_name($ship_adr->country_iso_code);
     }
-    template 'account/my-account/content', \%tokens;
+    template 'account/account/content', \%tokens;
 };
 
 get '/account/edit' => sub {
@@ -208,7 +208,7 @@ get '/account/edit' => sub {
                     first_name => $user->first_name,
                     last_name => $user->last_name
      });
-    template 'account/my-account/edit', {form => $form};
+    template 'account/account/edit', {form => $form};
 };
 
 post '/account/edit' => sub {
@@ -226,7 +226,7 @@ post '/account/edit' => sub {
 
     if (defined($user) && $user->id ne session('logged_in_user_id')) {
         $tokens{user_exists} = "The username you entered is already in use by another user.";
-        return  template 'account/my-account/edit', \%tokens;
+        return  template 'account/account/edit', \%tokens;
    }
 
     my $user_data;
@@ -281,7 +281,7 @@ post '/account/edit' => sub {
         unless($clean) {
             $tokens{errors} = $validator->errors_as_hashref_for_humans;
             debug "form errors ", $tokens{errors};
-            return  template 'account/my-account/edit', \%tokens;
+            return  template 'account/account/edit', \%tokens;
         }
     }
     else {
@@ -308,7 +308,78 @@ post '/account/edit' => sub {
     # flag success msg
     $tokens{success} = '1';
 
-    template 'account/my-account/edit', \%tokens;
+    template 'account/account/edit', \%tokens;
+};
+
+# my address
+get '/account/address' => sub {
+    my $user = shop_user(session('logged_in_user_id'));
+
+    # this should never happen with DPAE
+    unless ($user) {
+        debug "Non logged in user got past DPAE";
+        die "Access Denied";
+    }
+
+    # read information for this account
+    my $ship_adr = shop_address->search(
+        {
+            users_id => $user->id,
+            type => 'shipping',
+        },
+        {
+            order_by => { -desc => 'last_modified' },
+            rows => 1,
+        },
+    )->single;
+
+    my $bill_adr = shop_address->search(
+        {
+            users_id => $user->id,
+            type => 'billing',
+        },
+        {
+            order_by => { -desc => 'last_modified' },
+            rows => 1,
+        },
+    )->single;
+
+
+    my %tokens;
+    my @address_id;
+
+    $tokens{user} = $user;
+
+    $tokens{billing_address} = $bill_adr;
+    if ($bill_adr) {
+        $tokens{billing_address_state} = state_name($bill_adr->states_id);
+        $tokens{billing_address_country} = country_name($bill_adr->country_iso_code);
+        push @address_id, $bill_adr->id;
+    }
+
+    $tokens{shipping_address} = $ship_adr;
+    if ($ship_adr) {
+        $tokens{shipping_address_state} = state_name($ship_adr->states_id);
+        $tokens{shipping_address_country} = country_name($ship_adr->country_iso_code);
+        push @address_id, $ship_adr->id
+    }
+
+    my $extra_adr = shop_address->search(
+        {
+            users_id => $user->id,
+            addresses_id => {-not_in => \@address_id}
+        },
+        {
+            order_by => { -desc => 'last_modified' },
+        },
+    );
+
+    $tokens{extra_address} = $extra_adr;
+
+    debug "extra :", $extra_adr->count;
+
+    template 'account/address/content', \%tokens;
+
 };
 
 get '/user/account' => require_role user => sub {
