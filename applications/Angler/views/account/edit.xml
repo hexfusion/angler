@@ -1,5 +1,5 @@
 <specification>
-<value name="account-menu" include="../components/menu.html"/>
+<value name="account-menu" include="components/menu.html"/>
 
 <container name="success" value="success" class="success">
 </container>

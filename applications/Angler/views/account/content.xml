@@ -1,6 +1,6 @@
 <specification>
 
-<value name="account-menu" include="../components/menu.html"/>
+<value name="account-menu" include="components/menu.html"/>
 
 <!-- User -->
 <value name="user_email" id="inputUserEmail" field="user.email"/>
