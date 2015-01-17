@@ -1,0 +1,56 @@
+<specification>
+<value name="account-menu" include="../components/menu.html"/>
+<!-- User -->
+<value name="user_email" id="inputUserEmail" field="user.email"/>
+<value name="user_last_name" id="inputUserFirstName" field="user.first_name"/>
+<value name="user_first_name" id="inputUserLastName" field="user.last_name"/>
+
+<container name="billing" value="!shipping_address" class="no-billing-address">
+</container>
+
+<!-- Default Shipping -->
+<container name="default_shipping" value="!shipping_address" class="no-shipping-address">
+</container>
+<container name="shipping_exist" value="shipping_address" class="shipping-address">
+</container>
+<value name="first_name" id="inputFirstName" field="shipping_address.first_name"/>
+<value name="last_name" id="inputLastName" field="shipping_address.last_name"/>
+<value name="company" id="inputCompany" field="shipping_address.company"/>
+<value name="address" id="inputAddress" field="shipping_address.address"/>
+<value name="address_2" id="inputAddress2" field="shipping_address.address_2"/>
+<value name="city" id="inputCity" field="shipping_address.city"/>
+<value name="state" id="inputState" field="shipping_address_state"/>/>
+<value name="postal_code" id="inputPostalCode" field="shipping_address.postal_code"/>
+<value name="country" id="inputCountry" field="shipping_address_country"/>
+<value name="phone" id="inputPhone" field="shipping_address.phone"/>
+
+<!-- Default Billing -->
+<container name="default_billing" value="!billing_address" class="no-billing-address">
+</container>
+<container name="billing_exist" value="billing_address" class="billing-address">
+</container>
+<value name="billing_first_name" id="inputBillingFirstName" field="billing_address.first_name"/>
+<value name="billing_last_name" id="inputBillingLastName" field="billing_address.last_name"/>
+<value name="billing_company" id="inputBillingCompany" field="billing_address.company"/>
+<value name="billing_address" id="inputBillingAddress" field="billing_address.address"/>
+<value name="billing_address_2" id="inputBillingAddress2" field="billing_address.address_2"/>
+<value name="billing_city" id="inputBillingCity" field="billing_address.city"/>
+<value name="billing_state" id="inputBillingState" field="billing_address_state"/>
+<value name="billing_country" id="inputBillingCountry" field="billing_address_country"/>
+
+<!-- Additional Address -->
+<list name="address_additional" class="address-additional" iterator="extra_address">
+<param name="first_name"/>
+<param name="last_name"/>
+<param name="company"/>
+<param name="address"/>
+<param name="address_2"/>
+<param name="city"/>
+<param name="states_id" class="state" field="state.name"/>
+<param name="postal_code"/>
+<param name="country_iso_code" class="country" field="country.name"/>
+<param name="addresses_id" class="delete" target="href" op="append"/>
+<param name="addresses_id" class="edit" target="href" op="append"/>
+</list>
+
+</specification>
