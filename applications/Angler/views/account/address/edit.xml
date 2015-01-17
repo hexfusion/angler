@@ -1,3 +1,23 @@
 <specification>
 <value name="account-menu" include="../components/menu.html"/>
+
+<form name="edit" link="name">
+<field name="first_name" value="first_name"/>
+<field name="last_name"/>
+<field name="address"/>
+<field name="address_2"/>
+<field name="city"/>
+<field name="company"/>
+<field name="country"/>
+<field name="phone"/>
+<field name="states_id" id="state" target="defaultvalue" op="append"/>
+<field name="state" iterator="states" value="states_id" iterator_value_key="states_id" iterator_name_key="name"/>
+<field name="postal_code"/>
+<field name="type"/>
+</form>
+
+<container name="success_msg" value="form_success" class="success-msg">
+</container>
+
+
 </specification>

@@ -10,76 +10,85 @@
                   <div class="page-title">
                     <h1>Edit Address</h1>
                   </div>
-                  <form action="" method="post" id="form-validate">
+               <!--   <ul class="messages"> -->
+                    <li class="success-msg">
+                      <ul>
+                        <li><span>The address has been saved.</span></li>
+                      </ul>
+                    </li>
+               <!--   </ul> -->
+                  <form name="edit" action="" method="post" data-toggle="validator" role="form" id="form-validate">
+                   <input type="hidden" name="type" value="">
                     <div class="fieldset">
                       <h2 class="legend">Contact Information</h2>
                       <ul class="form-list">
                         <li class="fields">
                           <div class="customer-name">
-                            <div class="field name-firstname">
-                              <label for="firstname" class="required"><em>*</em>First Name</label>
+                            <div class="field form-group">
+                              <label for="first_name" class="required"><em>*</em>First Name</label>
                               <div class="input-box">
-                                <input id="firstname" name="firstname" value="Sam" title="First Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                                <input id="first_name" name="first_name" title="First Name" maxlength="255" class="input-text required-entry form-control" type="text" required>
                               </div>
                             </div>
-                            <div class="field name-lastname">
-                              <label for="lastname" class="required"><em>*</em>Last Name</label>
+                            <div class="field form-group">
+                              <label for="last_name" class="required"><em>*</em>Last Name</label>
                               <div class="input-box">
-                                <input id="lastname" name="lastname" value="Batschelet" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                                <input id="last_name" name="last_name" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text" required>
                               </div>
                             </div>
                           </div>
                         </li>
-                        <li class="wide">
+                        <li class="wide form-group">
                           <label for="company">Company</label>
                           <div class="input-box">
-                            <input name="company" id="company" title="Company" value="West Branch Angler" class="input-text  form-control" type="text">
+                            <input name="company" id="company" title="Company" class="input-text  form-control" type="text">
                           </div>
                         </li>
                         <li class="fields">
-                          <div class="field">
-                            <label for="telephone" class="required"><em>*</em>Telephone</label>
+                          <div class="field form-group">
+                            <label for="phone" class="required"><em>*</em>Telephone</label>
                             <div class="input-box">
-                              <input name="telephone" value="607-467-5525" title="Telephone" class="input-text   required-entry form-control" id="telephone" type="text">
+                              <input name="phone" title="Telephone" class="input-text required-entry form-control" id="phone" type="text" required>
                             </div>
                           </div>
+<!--
                           <div class="field">
                             <label for="fax">Fax</label>
-                            <div class="input-box">
+                            <div class="input-box form-group">
                               <input name="fax" id="fax" title="Fax" class="input-text  form-control" type="text">
                             </div>
                           </div>
+-->
                         </li>
                       </ul>
                     </div>
                     <div class="fieldset">
                       <h2 class="legend">Address</h2>
                       <ul class="form-list">
-                        <li class="wide">
-                          <label for="street_1" class="required"><em>*</em>Street Address</label>
+                        <li class="wide form-group">
+                          <label for="address" class="required"><em>*</em>Street Address</label>
                           <div class="input-box">
-                            <input name="street[]" value="704 Mirador Rd" title="Street Address" id="street_1" class="input-text  required-entry form-control" type="text">
+                            <input name="address" title="Street Address" id="address" class="input-text  required-entry form-control" type="text" required>
                           </div>
                         </li>
                         <li class="wide">
-                          <div class="input-box">
-                            <input name="street[]" title="Street Address 2" id="street_2" class="input-text  form-control" type="text">
+                          <div class="input-box form-group">
+                            <input name="address_2" title="Street Address 2" id="street_2" class="input-text  form-control" type="text">
                           </div>
                         </li>
                         <li class="fields">
-                          <div class="field">
+                          <div class="field form-group">
                             <label for="city" class="required"><em>*</em>City</label>
                             <div class="input-box">
-                              <input name="city" value="Vestal" title="City" class="input-text  required-entry form-control" id="city" type="text">
+                              <input name="city" title="City" class="input-text  required-entry form-control" id="city" type="text" required>
                             </div>
                           </div>
-                          <div class="field">
+                          <div class="field form-group">
                             <label for="region_id" class="required"><em>*</em>State/Province</label>
                             <div class="input-box">
-                              <select defaultvalue="43" id="region_id" name="region_id" title="State/Province" class="validate-select required-entry form-control" style="">
-                                <option value="">Please select region, state or province</option>
-                                <option title="Alabama" value="1">Alabama</option>
-                              </select>
+                                      <select defaultvalue="45" id="state" class="state form-control" name="state" title="State/Province">
+                                        <option>Alabama</option>
+                                      </select>
                             </div>
                           </div>
                         </li>
@@ -87,7 +96,7 @@
                           <div class="field">
                             <label for="zip" class="required"><em>*</em>Zip/Postal Code</label>
                             <div class="input-box">
-                              <input name="postcode" value="13850" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international  required-entry form-control" type="text">
+                              <input name="postal_code" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international  required-entry form-control" type="text" required>
                             </div>
                           </div>
                           <div class="field">
@@ -106,7 +115,7 @@
                     </div>
                     <div class="buttons-set">
                       <p class="required">* Required Fields</p>
-                      <p class="back-link"><a href=""><small>« </small>Back</a></p>
+                      <p class="back-link"><a href="/account/address"><small>« </small>Back</a></p>
                       <button data-action="save-customer-address" type="submit" title="Save Address" class="button"><span><span>Save Address</span></span></button>
                     </div>
                   </form>
