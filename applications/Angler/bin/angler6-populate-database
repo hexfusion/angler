@@ -45,8 +45,8 @@ my %users;
 
 # Create user john
 $users{john} = shop_user->create(
-    { username => 'john', password => 'john', first_name => 'John',
-      last_name => 'Miller', email => 'sam@westbranchresort.com',
+    { username => 'john@westbranchresort.com', password => 'Testing123', first_name => 'John',
+      last_name => 'Miller', email => 'john@westbranchresort.com',
       created => $now,
       user_roles => [
           { roles_id => '4' },
@@ -58,7 +58,19 @@ shop_address->create({
     first_name => $users{john}->first_name,
     last_name => $users{john}->last_name,
     type => 'shipping',
-    address => 'Test Road',
+    address => '1212 Test Shipping Road',
+    postal_code => '13783',
+    city => 'Hancock',
+    states_id => $state->id,
+    country_iso_code => 'US',
+});
+
+shop_address->create({
+    users_id => $users{john}->id,
+    first_name => $users{john}->first_name,
+    last_name => $users{john}->last_name,
+    type => 'billing',
+    address => '1254 Test Billing Road',
     postal_code => '13783',
     city => 'Hancock',
     states_id => $state->id,
@@ -67,8 +79,8 @@ shop_address->create({
 
 # Create user ben
 $users{ben} = shop_user->create(
-    { username => 'ben', password => 'ben', first_name => 'Ben',
-      last_name => 'Sheard', email => 'sam@westbranchresort.com',
+    { username => 'ben@westbranchresort.com', password => 'Testing123', first_name => 'Ben',
+      last_name => 'Sheard', email => 'ben@westbranchresort.com',
       created => $now,
       user_roles => [
           { roles_id => '5' },
@@ -77,9 +89,9 @@ $users{ben} = shop_user->create(
 
 # Create user greg
 $users{greg} = shop_user->create(
-    { username => 'gregory', password => 'gregory', nickname => 'pike lover',
+    { username => 'gregory@westbranchresort.com', password => 'Testing123', nickname => 'pike lover',
       first_name => 'Gregor', last_name => 'Fisherman',
-      email => 'greg@perl.dance', created => $now,
+      email => 'gregory@westbranchresort.com', created => $now,
       user_roles => [
         { roles_id => '3' },
       ],
@@ -99,7 +111,7 @@ shop_address->create({
 
 # Create user sam
 $users{sam} = shop_user->create(
-    { username => 'sam', password => 'sam', nickname => 'trout lover',
+    { username => 'sbatschelet@mac.com', password => 'Testing123', nickname => 'trout lover',
       first_name => 'Sam', last_name => 'Batschelet',
       email => 'sbatschelet@mac.com', created => $now,
       user_roles => [
@@ -107,6 +119,18 @@ $users{sam} = shop_user->create(
         { roles_id => '5' },
       ],
   });
+
+shop_address->create({
+    users_id => $users{sam}->id,
+    first_name => $users{sam}->first_name,
+    last_name => $users{sam}->last_name,
+    type => 'billing',
+    address => '416 Twist Run Rd',
+    postal_code => '13760',
+    city => 'Endwell',
+    states_id => $state->id,
+    country_iso_code => 'US',
+});
 
 # Create user admin
 $users{admin} = shop_user->create(
