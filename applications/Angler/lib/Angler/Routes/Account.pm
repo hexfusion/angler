@@ -149,6 +149,28 @@ sub country_name {
     return $name;
 };
 
+sub countries {
+    return [shop_country->search(
+        {active => 1},
+        {order_by => 'name'},
+    )];
+}
+
+sub states {
+    my ($country) = @_;
+    my $states;
+
+    $states = [shop_schema->resultset('State')->search(
+        {country_iso_code => $country,
+         active => 1,
+     },
+        {order_by => 'name'},
+    )];
+
+    return $states;
+};
+
+
 # my account
 get '/account' => sub {
     my $user = shop_user(session('logged_in_user_id'));
@@ -380,6 +402,103 @@ get '/account/address' => sub {
 
     template 'account/address/content', \%tokens;
 
+};
+
+get '/account/address/edit/:addresses_id' => sub {
+    my %tokens;
+    my $form = form('edit');
+    my $user = shop_user(session('logged_in_user_id'));
+    my $addresses_id = params->{addresses_id};
+
+    my $address = $user->addresses->find({addresses_id => $addresses_id});
+
+    # this is very bad go back and think about what you just did
+    unless ($address) {
+        $tokens{errors}{form_error} = ({
+                value => 'Address does not exist for this user.'
+        });
+
+    debug "oops ";
+    return template 'account/content', \%tokens;
+    }
+
+    $tokens{states} = states($address->country_iso_code);
+
+    my $address_data = { type => $address->type,
+                         first_name => $address->first_name,
+                        last_name => $address->last_name,
+                        company => $address->company,
+                        phone => $address->phone,
+                        address => $address->address,
+                        address_2 => $address->address_2,
+                        city => $address->city,
+                        states_id => $address->states_id,
+                        postal_code => $address->postal_code,
+                        country_iso_code => $address->country_iso_code,
+    };
+
+    debug "get address " , $address_data;
+
+    $form->fill($address_data);
+    $form->action('/account/address/edit/' . $addresses_id);
+
+    $tokens{form} = $form;
+
+    $tokens{default_state_id} = ({ value => $address->states_id});
+
+    debug "form ", $form;
+
+    template 'account/address/edit', \%tokens;
+  };
+
+post '/account/address/edit/:addresses_id' => sub {
+    my %tokens;
+    my $form = form('edit');
+    my $values = $form->values;
+    my $user = shop_user(session('logged_in_user_id'));
+    my $addresses_id = params->{addresses_id};
+
+    # lets check that the addresses_id is associated with user
+    my $address = $user->addresses->find({addresses_id => $addresses_id});
+
+    debug "post address " , $address->address;
+
+    $tokens{form} = $form;
+
+    # this is very bad go back and think about what you just did
+    unless ($address) {
+        $tokens{errors}{form_error} = ({
+                value => 'Address does not exist for this user.'
+        });
+        return template 'account/content', \%tokens;
+    
+    }
+
+    my $address_data = { type => $values->{type},
+                         first_name => $values->{first_name},
+                        last_name => $values->{last_name},
+                        company => $values->{company},
+                        phone => $values->{phone} || '',
+                        address => $values->{address},
+                        address_2 => $values->{address_2},
+                        city => $values->{city},
+                        states_id => $values->{states_id},
+                        postal_code => $values->{postal_code},
+                        country_iso_code => $values->{country_iso_code} || 'US',
+    };
+
+    debug "address_data", $address_data;
+
+    # FIXME lets send cusotmer an email that this has been done.
+    my $update = $address->update($address_data);
+
+#    if ($update->is_changed) {
+        $tokens{form_success} = '1';
+#    }
+
+    $tokens{states} = states($address->country_iso_code);
+
+    template 'account/address/edit', \%tokens;
 };
 
 get '/user/account' => require_role user => sub {
