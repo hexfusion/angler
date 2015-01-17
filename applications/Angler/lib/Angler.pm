@@ -1068,19 +1068,19 @@ get '/account/orders' => sub {
     template 'account/orders/content';
 };
 
-get '/account/my-orders/view' => sub {
+get '/account/orders/view' => sub {
     template 'account/orders/view';
 };
 
-get '/account/my-orders/print' => sub {
+get '/account/orders/print' => sub {
     template 'account/orders/print', {}, { layout => undef};
 };
 
-get '/account/my-address/edit' => sub {
+get '/account/address/edit' => sub {
     template 'account/address/edit';
 };
 
-get '/account/my-address/new' => sub {
+get '/account/address/new' => sub {
     template 'account/address/new';
 };
 
