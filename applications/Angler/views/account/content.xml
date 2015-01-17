@@ -21,6 +21,7 @@
 <param name="order-ship" field="shipping_address.address"/>
 <param name="order-date" field="order_date" filter="date"/>
 <param name="order-total" field="total_cost" filter="currency"/>
+<param name="order-link" field="orders_id" target="href" op="append"/>
 <param name="order-status" field="status" />
 </list>
 
