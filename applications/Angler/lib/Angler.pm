@@ -1064,29 +1064,24 @@ get '/about-me' => sub {
 };
 
 # my orders
-get '/account/my-orders' => sub {
-    template 'account/my-orders/content';
+get '/account/orders' => sub {
+    template 'account/orders/content';
 };
 
 get '/account/my-orders/view' => sub {
-    template 'account/my-orders/view';
+    template 'account/orders/view';
 };
 
 get '/account/my-orders/print' => sub {
-    template 'account/my-orders/print', {}, { layout => undef};
-};
-
-# my address
-get '/account/my-address' => sub {
-    template 'account/my-address/content';
+    template 'account/orders/print', {}, { layout => undef};
 };
 
 get '/account/my-address/edit' => sub {
-    template 'account/my-address/edit';
+    template 'account/address/edit';
 };
 
 get '/account/my-address/new' => sub {
-    template 'account/my-address/new';
+    template 'account/address/new';
 };
 
 get '/blog' => sub {
