@@ -198,7 +198,7 @@ get '/account' => sub {
         $tokens{shipping_address_state} = state_name($ship_adr->states_id);
         $tokens{shipping_address_country} = country_name($ship_adr->country_iso_code);
     }
-    template 'account/account/content', \%tokens;
+    template 'account/content', \%tokens;
 };
 
 get '/account/edit' => sub {
@@ -208,7 +208,7 @@ get '/account/edit' => sub {
                     first_name => $user->first_name,
                     last_name => $user->last_name
      });
-    template 'account/account/edit', {form => $form};
+    template 'account/edit', {form => $form};
 };
 
 post '/account/edit' => sub {
@@ -226,7 +226,7 @@ post '/account/edit' => sub {
 
     if (defined($user) && $user->id ne session('logged_in_user_id')) {
         $tokens{user_exists} = "The username you entered is already in use by another user.";
-        return  template 'account/account/edit', \%tokens;
+        return  template 'account/edit', \%tokens;
    }
 
     my $user_data;
@@ -281,7 +281,7 @@ post '/account/edit' => sub {
         unless($clean) {
             $tokens{errors} = $validator->errors_as_hashref_for_humans;
             debug "form errors ", $tokens{errors};
-            return  template 'account/account/edit', \%tokens;
+            return  template 'account/edit', \%tokens;
         }
     }
     else {
@@ -308,7 +308,7 @@ post '/account/edit' => sub {
     # flag success msg
     $tokens{success} = '1';
 
-    template 'account/account/edit', \%tokens;
+    template 'account/edit', \%tokens;
 };
 
 # my address
