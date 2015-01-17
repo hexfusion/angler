@@ -153,10 +153,16 @@ sub country_name {
 get '/account' => sub {
     my $user = shop_user(session('logged_in_user_id'));
 
+    # this should never happen with DPAE
+    unless ($user) {
+        debug "Non logged in user got past DPAE";
+        die "Access Denied";
+    }
+
     # read information for this account
     my $ship_adr = shop_address->search(
         {
-            users_id => session('logged_in_user_id'),
+            users_id => $user->id,
             type => 'shipping',
         },
         {
@@ -167,7 +173,7 @@ get '/account' => sub {
 
        my $bill_adr = shop_address->search(
         {
-            users_id => session('logged_in_user_id'),
+            users_id => $user->id,
             type => 'billing',
         },
         {
@@ -177,7 +183,6 @@ get '/account' => sub {
     )->single;
 
     my %tokens;
-
 
     $tokens{orders} = $user->orders;
     $tokens{user} = $user;
