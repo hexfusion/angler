@@ -1088,7 +1088,7 @@ get '/blog' => sub {
     template 'blog/content';
 };
 
-get '/contact-us' => sub {
+get '/contact' => sub {
     template 'contact/content';
 };
 
