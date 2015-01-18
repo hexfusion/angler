@@ -1,2 +1,3 @@
 <specification>
+<value name="blog-sidebar" include="components/menu.html"/>
 </specification>
