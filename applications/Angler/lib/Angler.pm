@@ -1088,10 +1088,6 @@ get '/blog' => sub {
     template 'blog/content';
 };
 
-get '/contact' => sub {
-    template 'contact/content';
-};
-
 get '/learning-center' => sub {
     template 'learning/content';
 };
