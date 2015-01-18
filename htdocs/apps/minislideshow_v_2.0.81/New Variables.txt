@@ -1,7 +1,0 @@
-I've added only a couple of variable as I think I've covered nearly everything.
-
-allowScaling  | true/false  | default false | if you are using full images (useFull) images will scale to fill the screen in fullscreen mode.
-showLoader    | true/false  | default true  | you can now hide the loader wheel and count.
-
-mp3Url if you include an mp3Url, music will start as soon as its loaded and the slideshow is playing. 
-A small mute button will also be available.
