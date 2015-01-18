@@ -1,55 +1,88 @@
-        <div class="row">
-            <div class="span3 sidebar">
-
-                <div class="sidebar-widget">
-                    <h3>Have a question for us?</h3>
-                    
-                    <form>
-                        <label>Your name</label>
-                        <input type="text" class="full-width">
-                        <label>Your email</label>
-                        <input type="text" class="full-width">
-                        <label>Your phone</label>
-                        <input type="text" class="full-width">
-                        <label>Your message</label>
-                        <textarea class="full-width"></textarea>
-                        <button class="btn">Send</button>
-                    </form>
-
-                </div>
-
-            </div>
-            <div class="span9">
-
-                <h1>Contact</h1>
-
-                <div class="row">
-                    <div class="span7">
-                        
-                        <p><strong>West Branch Angler</strong><br>
-                        150 Faulkener Rd.<br>
-                        Hancock, NY 13783</p>
-                        
-                        <p>
-                        <strong>PHONE:</strong> (607) 467-5525<br>
-                        <strong>FAX:</strong> (607) 467-2215<br>
-                        <strong>TOLL-FREE:</strong> (800) 201-2557<br>
-                        <strong>EMAIL:</strong> orders@westbranchangler.com
+<div class="main-container col1-layout">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="main">
+          <div class="col-main">
+            <div class="padding-s">
+              <div id="messages_product_view"></div>
+              <div class="page-title">
+                <h1>Contact Us</h1>
+              </div>
+              <div class="map-content">
+                <figure>
+                  <iframe width="100%" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;geocode=&amp;q=150+Faulkener+Rd.+Hancock,+NY+13783&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=66.281516,135.263672&amp;ie=UTF8&amp;hq=&amp;hnear=150+Faulkener+Rd,+Hancock,+New+York+13783&amp;t=m&amp;ll=42.011295,-75.367413&amp;spn=0.044641,0.072956&amp;z=13&amp;output=embed"></iframe>
+                </figure>
+              </div>
+              <div class="contact-block clearfix">
+                <div class="contact-left">
+                  <h2>Address</h2>
+                  <ul>
+                    <li>
+                      <h3>Mailing Address</h3>
+                      <p>West Branch Angler<br>
+                         150 Faulkener Rd<br>
+                         Hancock, NY 13783</p>
+                    </li>
+                    <li>
+                      <h3>Telephone:</h3>
+                      <p>+1 (607) 467-5525<br>
+                        +1 (800) 201-2557 </p>
+                    </li>
+                    <li class="last">
+                      <h3>Social Media</h3>
+                       <p> <i class="fa fa-facebook"><a href="https://www.facebook.com/westbranchangler" target="_blank"> Facebook</a></i><br>
+                        <i class="fa fa-twitter"><a href="https://twitter.com/wbangler" target="_blank"> Twitter</a></i><br>
+                        <i class="fa fa-instagram"><a href="http://instagram.com/westbranchangler" target="_blank"> Instagram</a></i><br>
+                        <i class="fa fa-vimeo-square"><a href="http://vimeo.com/westbranchangler" target="_blank"> Vimeo</a></i>
                         </p>
-                        
-                        <div class="contact-map" style="border: 1px solid #ccc;">
-                        <iframe width="100%" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;geocode=&amp;q=150+Faulkener+Rd.+Hancock,+NY+13783&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=66.281516,135.263672&amp;ie=UTF8&amp;hq=&amp;hnear=150+Faulkener+Rd,+Hancock,+New+York+13783&amp;t=m&amp;ll=42.011295,-75.367413&amp;spn=0.044641,0.072956&amp;z=13&amp;output=embed"></iframe>
+                    </li>
+                  </ul>
+                </div>
+                <form name="contact" action="/contact" id="contactForm" method="post">
+                  <div class="fieldset">
+                    <h2 class="legend">Contact Information</h2>
+                    <ul class="form-list">
+                      <li class="fields">
+                        <div class="field">
+                          <label for="name" class="required"><em>*</em>Name</label>
+                          <div class="input-box">
+                            <input name="name" id="name" title="Name" class="input-text required-entry form-control" type="text" required>
+                          </div>
                         </div>
-                    </div>
-                    <div class="span2 contact-images">
-                        
-                        <a href=""><img src="img/img_store.jpg" width="100%"></a>
-                        <a href=""><img src="img/img_store2.jpg" width="100%"></a>
-                        <a href=""><img src="img/img_store.jpg" width="100%"></a>
-                        <a href=""><img src="img/img_store2.jpg" width="100%"></a>
-                        
-                    </div>
-                </div><!-- end row -->
-
+                        <div class="field">
+                          <label for="email" class="required"><em>*</em>Email</label>
+                          <div class="input-box">
+                            <input name="email" id="email" title="Email" class="input-text required-entry validate-email form-control" type="email" required>
+                          </div>
+                        </div>
+                        <div class="field last">
+                          <label for="telephone">Telephone</label>
+                          <div class="input-box">
+                            <input name="telephone" id="telephone" title="Telephone" class="input-text form-control" type="text">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="wide">
+                        <label for="comment" class="required"><em>*</em>Comment</label>
+                        <div class="input-box">
+                          <textarea name="comment" id="comment" title="Comment" class="required-entry input-text form-control" cols="5" rows="3" required></textarea>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="buttons-set">
+                    <p class="required">* Required Fields</p>
+                    <input name="hideit" id="hideit" style="display:none !important;" type="text">
+                    <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
+                  </div>
+                </form>
+              </div>
             </div>
-        </div><!-- end row -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+v
