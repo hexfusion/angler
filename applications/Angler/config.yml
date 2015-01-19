@@ -192,11 +192,11 @@ importer:
                 filters:
                     -
                         field: Product
-                        regexp: ^M's
+                        regexp: "^M's"
                         result: men
                     -
                         field: Product
-                        regexp: ^W's
+                        regexp: "^W's"
                         result: women
                 clothing:
                     - men:
