@@ -34,7 +34,6 @@
   <list name="shipping-rate" iterator="shipping_rates">
     <param name="shipping-rate-carrier-service" field="carrier_service" target="value"/>
     <param name="shipping-rate-rate" field="rate" />
-    <param name="shipping-rate-carrier" field="carrier" />
     <param name="shipping-rate-service" field="service" />
   </list>
 </container>

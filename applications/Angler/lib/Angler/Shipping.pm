@@ -68,9 +68,7 @@ sub shipment_methods_iterator_by_iso_country {
 # from postal code get State
 sub find_state {
     my ($schema, $postal_code, $country ) = @_;
-
-    $postal_code='13152';
-
+    return unless $postal_code;
     # use 1st 3 digits
     my $postal_zone = substr($postal_code, 0, 3);
 
@@ -116,7 +114,6 @@ sub free_shipping_cart {
 
 sub show_rates {
     my ($cart) = @_;
-    my $rates;
     my $weight = 0;
     foreach my $product (@{$cart->cart->products}) {
         my $p = $cart->schema->resultset('Product')->find($product->sku);
@@ -125,7 +122,28 @@ sub show_rates {
         }
     }
     return unless $weight;
-    $weight *= 16;
+    my @rates = easy_post_get_rates($cart->schema, $cart->country,
+                                    $cart->postal_code, $weight);
+    my @out;
+    foreach my $rate (@rates) {
+        push @out, {
+                    rate => $rate->price,
+                    carrier_service => $rate->shipment_rates_id,
+                    service => $rate->shipment_method->name,
+                   };
+    }
+    return \@out;
+}
+
+sub easy_post_get_rates {
+    my ($schema, $country, $zip, $weight) = @_;
+    die "Missing schema" unless $schema;
+    return unless $country;
+    return unless defined $weight;
+    return unless defined $zip;
+    my $rates;
+
+    my $ounches = $weight * 16;
     eval {
         my $easypost = Net::Easypost->new;
         my $from = Net::Easypost::Address->new(
@@ -137,33 +155,87 @@ sub show_rates {
                                                country => 'US',
                                               );
         my $to = Net::Easypost::Address->new(
-                                             zip => $cart->postal_code,
-                                             country => $cart->country,
+                                             zip => $zip,
+                                             country => $country,
                                             );
         my $parcel = Net::Easypost::Parcel->new(
-                                                weight => $weight, # real
-                                                # defaults
-                                                length => 15,
-                                                width => 15,
-                                                height => 8,
+                                                weight => $ounches,
                                                );
         $rates = $easypost->get_rates({ to => $to, from => $from, parcel => $parcel });
     };
-    my @output;
+
+    # find the zone
+    my $country_row = $schema->resultset('Country')->find({ country_iso_code => $country });
+    die "Country not found" unless $country_row;
+    my $zones_rs = $country_row->zones;
+    my $zones_found = $zones_rs->count;
+    my $zone;
+    if ($zones_found == 1) {
+        $zone = $zones_rs->first;
+    }
+    elsif ($zones_found > 1) {
+        # search the zip
+        my $postal_zone = substr($zip, 0, 3);
+        $zone = $zones_rs->single({ zone => { -like => "% postal $postal_zone" } });
+    }
+
+    die "No zone found for $country and $zip!" unless $zone;
+    # print "Zone id is " . $zone->id . " " . $zone->zone . "\n";
+    my @out;
     if ($rates && @$rates) {
         foreach my $rate (@$rates) {
-            push @output, {
-                           carrier => $rate->carrier,
-                           rate => $rate->rate,
-                           service => $rate->service,
-                           carrier_service => $rate->carrier . $rate->service,
-                          };
+            # stuff them in the db
+            # first the carrier
+            my $carrier;
+            if ($carrier = $schema->resultset('ShipmentCarrier')->find({ name => $rate->carrier })) {
+            }
+            else {
+                $carrier = $schema->resultset('ShipmentCarrier')->create({ name => $rate->carrier,
+                                                                           title => $rate->carrier });
+            }
+            my $method_name = $rate->carrier . ' ' . $rate->service;
+            my $methods_rs = $carrier->shipment_methods;
+            my %specs = (
+                         name => $method_name,
+                         min_weight => $weight,
+                         max_weight => $weight,
+                        );
+
+            my $method = $methods_rs->find(\%specs);
+            unless ($method) {
+                $method = $methods_rs->create({
+                                               %specs,
+                                               title => $method_name,
+                                              })->discard_changes;
+            }
+            die "This shouldn't happen" unless $method;
+            # now we have a method and a zone, so create the rate
+
+            my $db_ship_rate = $method->shipment_rates->find({
+                                                     zones_id => $zone->zones_id,
+                                                     shipment_methods_id => $method->shipment_methods_id,
+                                                     min_weight => $weight,
+                                                     max_weight => $weight,
+                                                    });
+            if ($db_ship_rate) {
+                if ($db_ship_rate->price ne $rate->rate) {
+                    warn $db_ship_rate->price . ' ne ' . $rate->rate . "For $method_name and $weight";
+                    # maybe we should update here?
+                }
+            }
+            else {
+                $db_ship_rate = $method->shipment_rates->create({
+                                                        zone => $zone,
+                                                        shipment_method => $method,
+                                                        min_weight => $weight,
+                                                        max_weight => $weight,
+                                                        price => $rate->rate,
+                                                       });
+            }
+            push @out, $db_ship_rate;
         }
     }
-    if (@output > 1) {
-        @output = sort { $a->{rate} <=> $b->{rate} } @output;
-    }
-    @output ? return \@output : return;
+    return sort { $a->price <=> $b->price } @out;
 }
 
 

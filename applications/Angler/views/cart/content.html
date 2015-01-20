@@ -61,6 +61,7 @@
                         </table>
                        </fieldset>
                     </form>
+                    <form id="form-cart" name="cart" action="/checkout" method="POST">
                     <div class="cart-collaterals">
                       <div class="col2-set">
                         <div class="col-1">
@@ -106,7 +107,6 @@
                         <div class="col-2">
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
-                            <form id="form-cart" name="cart" action="/cart" method="POST">
                             <fieldset>
                             <div class="shipping-form">
                                 <p>Enter your destination to get a shipping estimate.</p>
@@ -128,31 +128,29 @@
                                 </ul>
 
                                 <div class="buttons-set">
-                                <button type="submit" title="Get a quote" class="button btn-proceed-checkout btn-checkout"><span><span>Get a Quote</span></span></button>                            
+                                <button type="submit" title="Get a quote" 
+                                        class="button btn-proceed-checkout btn-checkout" 
+                                        name="get_a_quote" value="get_a_quote">
+                                  <span><span>Get a Quote</span></span></button>                            
                                 </div>
                               </div>
                             </fieldset>
-
-                      <div id="shipping-rates">
-                        <ul class="methods-list shipping-rates-list">
-                          <li class="shipping-rate">
-                            <label class="shipping-label">
-                              <input name="shipping_method" class="shipping-rate-carrier-service" type="radio" value="XXXX">
-                              <span class="shipping-rate-carrier">UPS</span>
-                              <span class="shipping-rate-service">2ndDayAir</span>
-                              <span class="shipping-rate-rate">100</span>$
-                            </label>
-                          </li>
-                        </ul>
-                      </div>
-
-
-                            </form>
+                            <fieldset>
+                              <div id="shipping-rates">
+                                <ul class="methods-list shipping-rates-list">
+                                  <li class="shipping-rate">
+                                    <label class="shipping-label">
+                                      <input name="shipping_method" class="shipping-rate-carrier-service" type="radio" value="XXXX">
+                                      <span class="shipping-rate-service">UPS 2ndDayAir</span>
+                                      <span class="shipping-rate-rate">100</span>$
+                                    </label>
+                                  </li>
+                                </ul>
+                              </div>
+                            </fieldset>
                           </div>
-
                         </div>
                       </div>
-                    <form id="form-cart" name="cart" action="/checkout" method="POST">
                       <div class="totals">
                         <table id="shopping-cart-totals-table">
                           <colgroup>
@@ -183,8 +181,8 @@
                           <!--<li><a href="" title="Checkout with Multiple Addresses">Checkout with Multiple Addresses</a> </li> -->
                         </ul>
                       </div>
-</form>
                     </div>
+                    </form>
                   </div>
                 </div>
               </div>

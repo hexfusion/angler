@@ -32,6 +32,10 @@ post '/checkout' => sub {
     my $cart_form;
     my $form = form('checkout');
     my $values = $form->values;
+    if (param('get_a_quote')) {
+        return forward '/cart';
+    }
+    debug "Posting to checkout with values: " . to_dumper($values);
 
     # use the shipping_method if it was input in cart.
     if (param('shipping_method')) {
@@ -295,12 +299,11 @@ sub checkout_tokens {
         foreach my $rate (@$rates) {
             push @shipping_rates, {
                                      value => $rate->{carrier_service},
-                                     label => "$rate->{carrier} $rate->{service} $rate->{rate}\$",
+                                     label => "$rate->{service} $rate->{rate}\$",
                                     };
         }
         $tokens->{shipping_rates} = \@shipping_rates;
     }
-
 
     my @payment_errors;
     # report the paypal failures too
