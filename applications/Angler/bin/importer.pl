@@ -17,6 +17,7 @@ use Getopt::Long;
 use HTML::Entities;
 use List::Util qw/all/;
 use Pod::Usage;
+use Set::Tiny;
 use Text::Unidecode;
 use Try::Tiny;
 use URI::Escape;
@@ -369,10 +370,12 @@ sub process_orvis_product {
 
         }
 
-        my @size = ('small', 'medium', 'large');
+        my $sizes_set = Set::Tiny->new( 'small', 'medium', 'large' );
 
         my @item_names =
           map { decode_entities( $_->first_child('Item_Name')->text ) } @items;
+
+        my $names_set = Set::Tiny->new( map { lc($_) } @item_names );
 
         if ( all { /^(\d+)(\s+|-)pack$/ } @item_names ) {
 
@@ -380,7 +383,7 @@ sub process_orvis_product {
 
             info "variant name => pack";
         }
-        elsif ( all { my $a = $_ && grep { $_ eq $a } @size } @item_names ) {
+        elsif ( $names_set->is_subset($sizes_set)) {
 
             info "variant name => size";
         }
