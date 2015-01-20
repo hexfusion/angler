@@ -11,10 +11,11 @@ use Moo;
 package main;
 
 use Dancer ':script';
+use Angler::Schema;
 use Dancer::Plugin::Interchange6;
 use Getopt::Long;
 use HTML::Entities;
-use List::Util qw/min/;
+use List::Util qw/all/;
 use Pod::Usage;
 use Text::Unidecode;
 use Try::Tiny;
@@ -22,6 +23,9 @@ use URI::Escape;
 use XML::Twig;
 use YAML;
 use Data::Dumper::Concise;
+
+set logger => 'console';
+set log => 'info';
 
 my $config = config->{importer};
 
@@ -135,6 +139,20 @@ twig handler for Orvis xml Product
 sub process_orvis_product {
     my( $t, $xml )= @_;
 
+    my $manuf_sku = $xml->first_child('PF_ID')->text;
+
+    # should we skip this item due to freight charges?
+
+    if (   $xml->first_child('Freight_From_Price_Flag')->text * 1 > 0
+        || $xml->first_child('Min_Freight')->text * 1 > 0
+        || $xml->first_child('Max_Freight')->text * 1 > 0 )
+    {
+        debug "skipping $manuf_sku due to freight charge";
+        return;
+    }
+
+    # grab Product info
+
     my $description =
       decode_entities( $xml->first_child('PF_Description')->text );
 
@@ -144,7 +162,8 @@ sub process_orvis_product {
 
     my $name = "Orvis " . decode_entities( $xml->first_child('PF_Name')->text );
 
-    my $manuf_sku = $xml->first_child('PF_ID')->text;
+    # freight charge in name
+    return if $name =~ /\(\+\$\d+\)/;
 
     my $sku = "WB-OR-" . $manuf_sku;
 
@@ -156,7 +175,7 @@ sub process_orvis_product {
     my $product = shop_product->find_or_create(
         {
             sku               => $sku,
-            #manufacturer_sku  => $manuf_sku,
+            manufacturer_sku  => $manuf_sku,
             name              => $name,
             short_description => $short_description,
             description       => $description,
@@ -173,6 +192,8 @@ sub process_orvis_product {
     my @items = $xml->children('Item');
 
     if ( scalar @items == 1 ) {
+
+        # simple situation with just one Item entry for this product
 
         my $item = $items[0];
 
@@ -202,7 +223,7 @@ sub process_orvis_product {
 
             my @options = $item->children('Option');
 
-            # make sure we have all attributes in DB and collect
+            # make sure we have all variant attributes in DB and collect
             # attribute names along the way for use later
 
             my @attr_names;
@@ -280,8 +301,15 @@ sub process_orvis_product {
                   split( /,/, $sku->first_child('Option_String')->text );
 
                 my $manuf_sku = $sku->first_child('Item_Code')->text;
-                my $sku_name  = "Orvis " . $sku->first_child('Sku_Name')->text;
+
+                my $sku_name = "Orvis "
+                  . decode_entities( $sku->first_child('Sku_Name')->text );
+
+                # freight charge in name
+                next if $sku_name =~ /\(\+\$\d+\)/;
+
                 my $variant_sku = "WB-OR-" . $manuf_sku;
+
                 my $price       = $sku->first_child('Regular_Price')->text;
 
                 my $uri = lc($sku_name);
@@ -309,7 +337,7 @@ sub process_orvis_product {
 
                     my %attributes = (
                         sku => $variant_sku,
-                        #manufacturer_sku => $manuf_sku,
+                        manufacturer_sku => $manuf_sku,
                         name  => $variant_sku,
                         price => $price,
                         uri   => $uri,
@@ -335,8 +363,26 @@ sub process_orvis_product {
         # multiple items can mean multiple canonical products or one
         # canonical product with multiple variants
 
+
         foreach my $item ( @items ) {
-            #print unidecode("$manuf_sku :: $name :: " . $item->first_child('Item_Name')->text) . "\n";
+            info unidecode("$manuf_sku :: $name :: " . $item->first_child('Item_Name')->text) . "\n";
+
+        }
+
+        my @size = ('small', 'medium', 'large');
+
+        my @item_names =
+          map { decode_entities( $_->first_child('Item_Name')->text ) } @items;
+
+        if ( all { /^(\d+)(\s+|-)pack$/ } @item_names ) {
+
+            # variants based on number of items in pack
+
+            info "variant name => pack";
+        }
+        elsif ( all { my $a = $_ && grep { $_ eq $a } @size } @item_names ) {
+
+            info "variant name => size";
         }
     }
 

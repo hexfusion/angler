@@ -3,6 +3,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Ajax;
 use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Form;
+use Angler::Schema; # load before Dancer::Plugin::Interchange6
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Interchange6::Routes;
 use Dancer::Plugin::DBIC;
