@@ -971,8 +971,13 @@ for my $zone (@us_postal_zones) {
 
 my $pop_zones = \@zones;
 
+$schema->resultset('Zone')->search({ zone => { -like => 'US postal %' } })->delete;
+
 # populate zones table with new US postal zones.
 $schema->populate(Zone => $pop_zones);
+
+# exit now. With easypost we just need the zone populated
+exit;
 
 # populate ShipmentCarriers
 my %carrier;
@@ -981,94 +986,94 @@ $carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
     {
         name => 'UPS',
         account_number => '1Z999999999999999999',
-        shipmentmethods => [
+        shipment_methods => [
             { 
-              code => '1DM',
+
               name => 'Next Day Air Early AM',
               max_weight => '150',
             },
             { 
-              code => '1DML',
+
               name => 'Next Day Air Early AM Letter',
               max_weight => '150',
             },
             {
-              code => '1DA',
+
               name => 'Next Day Air',
               max_weight => '150',
             },
             {
-              code => '1DAL',
+
               name => 'Next Day Air Letter',
               max_weight => '150',
             },
             {
-              code => '1DP',
+
               name => 'Next Day Air Saver',
               max_weight => '150',
             },
             {
-              code => '1DPL',
+
               name => 'Next Day Air Saver Letter',
               max_weight => '150',
             },
             {
-              code => '2DM',
+
               name => '2nd Day Air A.M.',
               max_weight => '150',
             },
             {
-              code => '2DA',
+
               name => '2nd Day Air',
               max_weight => '150',
             },
             {
-              code => '2DML',
+
               name => '2nd Day Air A.M. Letter',
               max_weight => '150',
             },
             {
-              code => '2DAL',
+
               name => '2nd Day Air Letter',
               max_weight => '150',
             },
             {
-              code => '3DS',
+
               name => '3 Day Select',
               max_weight => '150',
             },
             {
-              code => 'GNDCOM',
+
               name => 'Ground Commercial',
               max_weight => '150',
             },
             {
-              code => 'GNDRES',
+
               name => 'Ground Residential',
               max_weight => '150',
             },
             {
-              code => 'XPR',
+
               name => 'Worldwide Express',
               max_weight => '150',
             },
             {
-              code => 'XDM',
+
               name => 'Worldwide Express Plus',
               max_weight => '150',
             },
             {
-              code => 'XPRL',
+
               name => 'Worldwide Express Letter',
               max_weight => '150',
             },
             {
-              code => 'XDML',
+
               name => 'Worldwide Express Plus Letter',
               max_weight => '150',
             },
             {
-              code => 'XPD',
+
               name => 'Worldwide Expedited',
               max_weight => '150',
             },
@@ -1079,7 +1084,7 @@ $carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
     {
         name => 'USPS',
         account_number => '8985943852094',
-        shipmentmethods => [
+        shipment_methods => [
             { name => 'EXPRESS' },
             { name => 'FIRST CLASS' },
             { name => 'PRIORITY' },
@@ -1102,60 +1107,3 @@ $carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
         ],
     });
 
-my %destination;
- 
-$destination{US} = $schema->resultset("ShipmentDestination")->populate([
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'1'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'2'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'3'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'4'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'5'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'6'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'7'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'8'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'9'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'10'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'11'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'12'
-    },
-    {
-        country_iso_code => 'US',
-        shipment_methods_id =>'13'
-    },
-]);
- 
