@@ -1,3 +1,21 @@
 <specification>
 <value name="blog-sidebar" include="components/menu.html"/>
+<value name="blog-share" include="components/share.html"/>
+<!--
+<container name="enable_pagination_previous" value="pagination_previous"/>
+<value name="pagination_previous" target="href"/>
+<container name="enable_pagination_next" value="pagination_next"/>
+<value name="pagination_next" target="href"/>
+-->
+
+<list name="blogs" class="blog-list" iterator="blog">
+<param name="blog-title" field="title" />
+<!--<param name="blog-content-teaser" field="short_description" op="hook"/>
+-->
+<param name="blog-share" include="components/share.html" op="hook"/>
+<param name="blog-link" field="uri" target="href" op="append" />
+<param name="blog-date" field="created" filter="date" />
+<param name="blog-author" field="author" />
+<param name="blog-author-lastname" field="author.last_name" />
+</list>
 </specification>
