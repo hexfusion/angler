@@ -139,8 +139,8 @@ sub easy_post_get_rates {
     my ($schema, $country, $zip, $weight) = @_;
     die "Missing schema" unless $schema;
     return unless $country;
-    return unless defined $weight;
-    return unless defined $zip;
+    return unless $weight;
+    return unless $zip;
     my $rates;
 
     my $ounches = $weight * 16;
