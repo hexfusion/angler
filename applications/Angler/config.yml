@@ -9,8 +9,6 @@ appname: "Angler"
 # views/layouts/main.tt)
 layout: "/main/content"
 
-appdir: "/home/sam/camp10/applications/Angler"
-
 # when the charset is set to UTF-8 Dancer will handle for you
 # all the magic of encoding and decoding. You should not care
 # about unicode within your app when this setting is set (recommended).
