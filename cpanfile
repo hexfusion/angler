@@ -1,4 +1,7 @@
+requires 'Cache::FileCache';
 requires 'HTML::Obliterate';
+requires 'Set::Tiny';
+requires 'DateTime::Format::ISO8601';
 requires 'Net::Easypost';
 requires 'URL::Encode';
 requires 'Dancer::Debug';
