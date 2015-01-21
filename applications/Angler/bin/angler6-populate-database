@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Dancer ':script';
+use Angler::Schema;
 use Dancer::Plugin::Interchange6;
 
 set logger        => 'console';
@@ -308,6 +309,7 @@ $schema->resultset('Attribute')->create(
 $product{WBA0003} = $schema->resultset('Product')->create(
     {
         sku => 'WBA0003',
+        manufacturer_sku => '',
         name => 'Orvis Helios 2 Fly Rod',
         short_description => 'When a customer asks is the Helios 2 really better than the Helios 1.  The answer is simple just cast it.',
         description => "Helios 2 fly rods are the best fly rods we have ever produced, period. Not only are these fly rods lightweight, sensitive and extremely powerful, they have an incredible look! Made in Manchester, Vermont, Helios 2 rods are the ultimate freshwater fly rods for all anglers. The fine-tuned tapers deliver spot-on accuracy and smooth tracking. Newly designed to be lighter in hand without compromising strength and power, the Helios 2 fly rods are making fly casting easier in all conditions. Available in three or four-piece sections, the Helios 2 fly rods come in all line weights for all fly-fishing applications. A custom-finished reel seat completes the sleek look of these freshwater fly rods, allowing the rod to stand out in a crowd. Pick up the Helios 2 and make a cast and you will realize instantly why these are the best fly rods made.",
@@ -322,6 +324,7 @@ $product{WBA1001} = $schema->resultset('Product')->create(
     {
         sku => 'WBA1001',
         name => 'Orvis Hydros 3D WF Trout',
+        manufacturer_sku => '',
         short_description => 'The finest textured fly line for trout you can put on a reel. Fully engineered with features to improve your cast and presentation for greater productivity on the stream.',
         description => "Enjoy the feel of minimal friction in your casting stroke. 3D texturing combined with IS, our most versatile trout taper, the new Hy-Flote Tip, and the new and improved welded loop, combine to offer the finest trout line we've ever offered.",
         price => '95',
@@ -334,6 +337,7 @@ $product{WBA1001} = $schema->resultset('Product')->create(
 $product{WBA2001} = $schema->resultset('Product')->create(
     {
         sku => 'WBA2001',
+        manufacturer_sku => '',
         name => 'Orvis Fly Line Backing',
         short_description => "Quality backing can be the differnce between landing and losing the fish of a lifetime.",
         description => "Orvis uses the finest braid to make sure you are protected from abrasion.",
