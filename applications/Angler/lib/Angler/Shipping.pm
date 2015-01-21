@@ -56,6 +56,7 @@ sub shipment_methods_iterator_by_iso_country {
             {
                 shipment_methods_id => $shipping_dest->shipment_method->id
             });
+        next unless $shipment_rate;
         push @iterator, {
                          name => $shipping_dest->shipment_method->id,
                          title => $shipping_dest->shipment_method->title .' $ '. $shipment_rate->price,
