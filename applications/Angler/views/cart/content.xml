@@ -25,12 +25,17 @@
 <form name="cart" target="name" id="form-cart">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
 <field name="state" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
-<field name="shipping_method" iterator="shipping_methods" />
+<field name="shipping_method" class="shipping-rate-value" />
 <field name="postal_code" id="postal_code"/>
 </form>
   
 <container name="shipping-rates" id="shipping-rates" value="show_shipping_methods">
+  <list name="shipping-rate" iterator="shipping_methods">
+    <param name="shipping-rate-value" field="value" target="value" />
+    <param name="shipping-rate-label" field="label" />
+  </list>
 </container>
+
 <!-- unused so far
 <form name="shipping-methods" target="name">
 </form>
