@@ -114,6 +114,13 @@ additional data such as name.
 hook 'before_template_render' => sub {
     my $tokens = shift;
 
+    # make cart details available
+    my $cart = cart;
+    $tokens->{cart} = $cart->products;
+    $tokens->{cart_count} = $cart->quantity;
+    $tokens->{cart_total} = $cart->total;
+
+
     my %history;
     my $session_history = session('history');
     if ( ref($session_history) eq 'HASH' ) {
@@ -167,11 +174,6 @@ hook 'before_layout_render' => sub {
     my $action ='';
     my $scope = '';
     my $record;
-
-    # make cart details available
-    $tokens->{cart} = cart->products;
-    $tokens->{cart_count} = cart->quantity;
-    $tokens->{cart_total} = cart->total;
 
     # logo
     $tokens->{logo_uri} = uri_for('/');
@@ -907,12 +909,6 @@ hook 'before_product_display' => sub {
     debug "Related Products: ", \@related_products;
     $tokens->{related_products} = \@related_products;
 
-    # cart
-    debug "Cart Products: ", cart->products;
-    $tokens->{cart} = cart->products;
-    $tokens->{cart_count} = cart->quantity;
-    $tokens->{cart_total} = cart->total;
-
     # reviews
     my $review_rs = shop_product($product->sku)->reviews;
 
@@ -971,8 +967,9 @@ hook 'before_product_display' => sub {
 
 hook 'before_cart_display' => sub {
     my ($values) = @_;
+    # we get cart in tokens
     my $cart = cart;
-    my $subtotal = cart->subtotal;
+    my $subtotal = $cart->subtotal;
     my $free_shipping_amount = config->{free_shipping}->{amount};
     my $free_shipping_gap;
 
