@@ -150,7 +150,7 @@ Also removes freight charge from name, e.g.: (+$30).
 =cut
 
 sub clean_name {
-    my $name = purge_html(decode_entities( shift ));
+    my $name = strip_html(decode_entities( shift ));
 
     # freight charge in name
     $name =~ s/\(\+\$\s*\d+\)//;
@@ -356,8 +356,7 @@ sub process_orvis_product {
 
                 my $variant = shop_product->find(
                     {
-                        sku           => $item_code,
-                        canonical_sku => $sku,
+                        sku => $variant_sku,
                     }
                 );
 
