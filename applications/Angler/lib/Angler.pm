@@ -120,6 +120,10 @@ hook 'before_template_render' => sub {
     $tokens->{cart_count} = $cart->quantity;
     $tokens->{cart_total} = $cart->total;
 
+    # add images into 'extra' attribute
+    foreach my $product ( @{$tokens->{cart}} ) {
+        $product->set_extra( image => '/some/path/to/image.png' );
+    }
 
     my %history;
     my $session_history = session('history');

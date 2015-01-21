@@ -5,6 +5,7 @@
 <param name="qty" field="quantity"/>
 <param name="subtotal" filter="currency"/>
 <param name="remove-cart-product" field="sku" target="value"/>
+<param name="thumbnail" field="extra.image" target="src"/>
 </list>
 
 <list name="cart_image" class="cartimage" iterator="image">
