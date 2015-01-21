@@ -86,7 +86,7 @@ sub shipping_rate {
     unless ($id) {
         return 0;
     }
-    my $shipment_rate = $schema->resultset("ShipmentRate")->find({ shipment_methods_id => $id });
+    my $shipment_rate = $schema->resultset("ShipmentRate")->find({ shipment_rates_id => $id });
 
     return $shipment_rate->price;
     }
