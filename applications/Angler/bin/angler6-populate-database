@@ -637,13 +637,47 @@ my $css = $schema->resultset('MediaType')->find({ type => 'css' });
 my $js = $schema->resultset('MediaType')->find({ type => 'js' });
 
 # for now, call the type with the size
-foreach my $type (qw/120x120 169x169  325x325  50x50  70x70  975x975
-                     optimized_jpgs/) {
+
+my @displays = (
+    {
+        name => 'cart_mini',
+        size => '35x35',
+        type => 'product_35x35'
+    },
+    {
+        name => 'cart',
+        size => '75x75',
+        type => 'product_75x75'
+    },
+    {
+        name => 'grid_list',
+        size => '200x200',
+        type => 'product_200x200',
+    },
+    {
+        name => 'related',
+        size => '110x110',
+        type => 'product_110x110',
+    },
+    {
+        name => 'flypage_glory',
+        size => '325x325',
+        type => 'product_325x325',
+    },
+    {
+        name => 'flypage_alt',
+        size => '100x100',
+        type => 'product_100x100',
+    },
+);
+
+
+foreach my $record (@displays) {
     $images->add_to_media_displays({
-                                    type => 'image_' . $type,
-                                    name => 'image_' . $type,
-                                    path => "/images/products/$type",
-                                    size => $type,});
+                                    type => $record->{type},
+                                    name => $record->{name},
+                                    path => "/images/products/$record->{size}",
+                                    size => $record->{size},});
 }
 
 # set default for example product
