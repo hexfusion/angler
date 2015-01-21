@@ -1,3 +1,4 @@
+dev-modules
 .perl-version
 catalogs/site/catalog_local.cfg
 catalogs/site/products/*.gdbm
