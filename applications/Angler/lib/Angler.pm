@@ -536,9 +536,10 @@ hook 'before_cart_display' => sub {
         }
         debug to_dumper("shipping methods are" . to_dumper($values->{shipping_methods}));
     }
-    debug "Shipping method is " . $form_values->{shipping_method};
+
     if ($form_values->{shipping_method}) {
         $values->{shipping_method} = $form_values->{shipping_method};
+        debug "Shipping method is " . $form_values->{shipping_method};
     }
     $angler_cart->update_costs;
 
