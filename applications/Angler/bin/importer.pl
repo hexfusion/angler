@@ -7,7 +7,6 @@ package Product;
 
 use Moo;
 
-
 package main;
 
 use Dancer ':script';
@@ -15,9 +14,8 @@ use Angler::Schema;
 use Dancer::Plugin::Interchange6;
 use Getopt::Long;
 use HTML::Entities;
-use List::Util qw/all/;
+use HTML::Obliterate qw/strip_html/;
 use Pod::Usage;
-use Set::Tiny;
 use Text::Unidecode;
 use Try::Tiny;
 use URI::Escape;
@@ -26,29 +24,30 @@ use YAML;
 use Data::Dumper::Concise;
 
 set logger => 'console';
-set log => 'info';
+set log    => 'info';
 
 my $config = config->{importer};
 
 my $schema = shop_schema;
 
-my ( $file, $help, $manufacturer );
+my ( $active, $file, $help, $manufacturer );
 
 GetOptions(
-    "file=s" => \$file,
-    "help" => \$help,
+    "active"         => \$active,
+    "file=s"         => \$file,
+    "help"           => \$help,
     "manufacturer=s" => \$manufacturer,
 );
 pod2usage(1) if $help;
 
 # initial checks
 
-unless ($file && $manufacturer) {
+unless ( $file && $manufacturer ) {
     print "ERROR: file and manufacturer must be supplied as options.\n";
     pod2usage(1);
 }
 
-unless (-r $file) {
+unless ( -r $file ) {
     print "ERROR: unable to read file";
     exit 1;
 }
@@ -63,6 +62,8 @@ unless ( defined $config->{manufacturers}->{$manufacturer}->{type} ) {
     print "ERROR: type not defined for manufacturer $manufacturer in config\n";
     exit 1;
 }
+
+$active = 0 unless $active;
 
 # parse by type
 
@@ -86,9 +87,7 @@ elsif ( $type eq 'xml' ) {
         die "xml processor for $manufacturer does not exist";
     }
 
-    my $twig = XML::Twig->new(
-        twig_handlers => $twig_handlers
-    );
+    my $twig = XML::Twig->new( twig_handlers => $twig_handlers );
 
     $twig->parsefile($file);
 }
@@ -97,6 +96,66 @@ else {
     # unknown
 
     die "ERROR: unexpected type $type found in config\n";
+}
+
+=head2 add_attribute_values( $name, $title, @values );
+
+=cut
+
+sub add_attribute_values {
+    my ( $name, $title, @values ) = @_;
+
+    my $attribute = $schema->resultset('Attribute')->find_or_create(
+        {
+            name  => $name,
+            title => $title,
+            type  => 'variant',
+        },
+        {
+            key => 'attributes_name_type'
+        }
+    );
+
+    foreach my $value (@values) {
+        $schema->resultset('AttributeValue')->find_or_create(
+            {
+                attributes_id => $attribute->attributes_id,
+                value         => &clean_attribute_value($value),
+                title         => $value,
+            },
+            {
+                key => 'attribute_values_attributes_id_value'
+            }
+        );
+    }
+}
+
+=head2 clean_attribute_value($value)
+
+return a cleaned up value for AttributeValue value column
+
+=cut
+
+sub clean_attribute_value {
+    my $value = lc(shift);
+    $value =~ s/\s+/_/;
+}
+
+=head2 clean_name($name)
+
+Decodes HTML entities and purges any html tags from arg.
+
+Also removes freight charge from name, e.g.: (+$30).
+
+=cut
+
+sub clean_name {
+    my $name = purge_html(decode_entities( shift ));
+
+    # freight charge in name
+    $name =~ s/\(\+\$\s*\d+\)//;
+
+    return $name;
 }
 
 =head2 short_description($description)
@@ -108,9 +167,9 @@ Tries to shorten a description to fit in short_description varchar(500) column
 sub short_description {
     my $description = shift;
 
-    my @desc_sentences = split(/\./, $description);
+    my @desc_sentences = split( /\./, $description );
     my $short_description = '';
-    foreach my $sentence ( @desc_sentences ) {
+    foreach my $sentence (@desc_sentences) {
         if ( length($short_description) + length($sentence) + 1 < 500 ) {
             $short_description .= ".$sentence";
         }
@@ -118,7 +177,7 @@ sub short_description {
             last;
         }
     }
-    if ( $short_description ) {
+    if ($short_description) {
 
         # append final full stop
         $short_description .= ".";
@@ -126,7 +185,7 @@ sub short_description {
     else {
 
         # all sentences were too long so get a substr
-        $short_description = substr($description, 500);
+        $short_description = substr( $description, 500 );
     }
     return $short_description;
 }
@@ -138,7 +197,20 @@ twig handler for Orvis xml Product
 =cut
 
 sub process_orvis_product {
-    my( $t, $xml )= @_;
+    my ( $t, $xml ) = @_;
+
+    # get attribute 'option'
+
+    my $option_attribute = $schema->resultset('Attribute')->find_or_create(
+        {
+            name  => 'option',
+            title => 'Option',
+            type  => 'variant',
+        },
+        {
+            key => 'attributes_name_type'
+        }
+    );
 
     my $manuf_sku = $xml->first_child('PF_ID')->text;
 
@@ -152,6 +224,21 @@ sub process_orvis_product {
         return;
     }
 
+    # do we skip due to category?
+
+    if (
+        $xml->first_child('Dir_Name')->text eq 'Distinctive Home'
+        || (
+            $xml->first_child('Dir_Name')->text eq 'Sale Outlet'
+            && (   $xml->first_child('Group_Name')->text eq 'Distinctive Home'
+                || $xml->first_child('Cat_Name')->text =~ /Home/ )
+        )
+      )
+    {
+        debug "skipping $manuf_sku due to category";
+        return;
+    }
+
     # grab Product info
 
     my $description =
@@ -161,14 +248,11 @@ sub process_orvis_product {
 
     my $keywords = decode_entities( $xml->first_child('Keywords')->text );
 
-    my $name = "Orvis " . decode_entities( $xml->first_child('PF_Name')->text );
-
-    # freight charge in name
-    return if $name =~ /\(\+\$\d+\)/;
+    my $name = "Orvis " . clean_name( $xml->first_child('PF_Name')->text );
 
     my $sku = "WB-OR-" . $manuf_sku;
 
-    my $uri = lc($name);
+    my $uri = lc( $name . "-wbor$manuf_sku" );
     $uri =~ s/\s+/-/g;
     $uri = encode_entities($uri);
     $uri =~ s/\//-/g;
@@ -181,22 +265,24 @@ sub process_orvis_product {
             short_description => $short_description,
             description       => $description,
             uri               => $uri,
-            active            => 0,
+            active            => $active,
         },
         {
             key => 'primary'
         }
     );
 
-    my @variants;
-
     my @items = $xml->children('Item');
+
+    # Product->Item
 
     if ( scalar @items == 1 ) {
 
         # simple situation with just one Item entry for this product
 
         my $item = $items[0];
+
+        # Product->Item->Sku
 
         my @skus = $item->children('Sku');
 
@@ -207,6 +293,8 @@ sub process_orvis_product {
             if ( $product->variants->has_rows ) {
 
                 # but we have variants in the DB so remove them
+
+                debug unidecode("removing old variants for $sku $name\n");
 
                 $product->variants->delete;
             }
@@ -220,98 +308,161 @@ sub process_orvis_product {
 
             # we have variants
 
-            my @variants;
-
             my @options = $item->children('Option');
 
             # make sure we have all variant attributes in DB and collect
             # attribute names along the way for use later
 
-            my @attr_names;
-            foreach my $option ( @options ) {
-                my $name = $option->first_child('OptionName')->text;
-                push @attr_names, $name;
-                my @values =
+            my @option_names;
+            foreach my $option (@options) {
+
+                my $option_name = lc($option->first_child('OptionName')->text);
+
+                my $title = ucfirst($name);
+
+                $option_name =~ s/\s+/_/g;
+
+                $title = "Line weight" if $option_name eq "line_weigh";
+                $title = "Magnification" if $option_name eq "magnificat";
+
+                push @option_names, $option_name;
+
+                my @option_values =
                   split( /,/, $option->first_child('OptionValue')->text );
 
-                my $attribute =
-                  $schema->resultset('Attribute')->find_or_new(
-                    {
-                        name  => $name,
-                        title => ucfirst($name),
-                        type  => 'variant',
-                    },
-                    {
-                        key => 'attributes_name_type'
-                    }
-                  );
-
-                if ( $attribute->in_storage ) {
-
-                    # we have to do things the slow way
-
-                    foreach my $value (@values) {
-
-                        my $av = $attribute->search_related(
-                            'attribute_values',
-                            {
-                                value => $value,
-                            },
-                            {
-                                rows => 1,
-                            }
-                        );
-
-                        unless ($av) {
-
-                            # create new record
-
-                            $attribute->create_related(
-                                'attribute_values',
-                                {
-                                    value => $value,
-                                    title => ucfirst($value),
-                                }
-                            );
-                        }
-                    }
-
-                }
-                else {
-
-                    # a new attribute so insert it along with attr_vals
-
-                    $attribute->insert;
-                    foreach my $value ( @values ) {
-                        $attribute->create_related(
-                            'attribute_values',
-                            {
-                                value => $value,
-                                title => ucfirst($value),
-                            }
-                        );
-                    }
-                }
+                &add_attribute_values( $option_name, $title, @option_values );
             }
 
             # process each variant
 
-            foreach my $sku ( $item->children('Sku') ) {
+            foreach my $sku (@skus) {
 
-                my @attr_values =
-                  split( /,/, $sku->first_child('Option_String')->text );
+                my $pf_id = $xml->first_child('PF_ID')->text;
+                my $item_code = $sku->first_child('Item_Code')->text;
+
+                # prefix name with Orvis
+                my $sku_name = "Orvis "
+                  . clean_name( $sku->first_child('Sku_Name')->text );
+
+                # prefix sku with WB-OR-
+                my $variant_sku = "WB-OR-" . $pf_id . "-" . $item_code;
+
+                my $regular_price = $sku->first_child('Regular_Price')->text;
+
+                my $uri = lc("${sku_name}-wbor${pf_id}${item_code}");
+                $uri =~ s/\s+/-/g;
+                $uri = encode_entities($uri);
+                $uri =~ s/\//-/g;
+
+                my $variant = shop_product->find(
+                    {
+                        sku           => $item_code,
+                        canonical_sku => $sku,
+                    }
+                );
+
+                if ($variant) {
+
+                    # we already have this variant so just update price
+                    $variant->price($regular_price);
+
+                    debug "update price for variant $variant_sku\n";
+                }
+                else {
+
+                    # a new variant
+
+                    debug unidecode("new variant $variant_sku $sku_name\n");
+
+                    my %attributes = (
+                        sku              => $variant_sku,
+                        manufacturer_sku => $pf_id . "-" . $item_code,
+                        name             => $sku_name,
+                        price            => $regular_price,
+                        uri              => $uri,
+                    );
+
+                    my @option_string =
+                      split( /,/, $sku->first_child('Option_String')->text );
+
+                    foreach my $i ( 0 .. $#option_names ) {
+                        $attributes{ $option_names[$i] } =
+                          &clean_attribute_value($option_string[$i]);
+                    }
+
+                    # we add one variant at a time since orvis have a small
+                    # number of conflicting variants (different sku but same
+                    # attribute options)
+                    try {
+                        $product->add_variants( ( \%attributes ) );
+                    }
+                    catch {
+                        warning $_;
+                    };
+                }
+            }
+        }
+    }
+    else {
+
+        $xml->purge;
+        return;
+
+        # multiple items can mean multiple canonical products or one
+        # canonical product with multiple variants
+
+        debug unidecode("product with multiple items $sku $name\n");
+
+        foreach my $item (@items) {
+
+            my $item_name =
+              decode_entities( $item->first_child('Item_Name')->text );
+            $item_name =~ s{<br\s*/>}{}ig;
+
+            my $value = lc($item_name);
+            $value =~ s/\s+/_/g;
+
+            my $av = $option_attribute->search_related(
+                'attribute_values',
+                {
+                    value => $value,
+                },
+                {
+                    rows => 1,
+                }
+            )->single;
+
+            unless ($av) {
+
+                # create new record
+
+                $option_attribute->create_related(
+                    'attribute_values',
+                    {
+                        value => $value,
+                        title => $item_name,
+                    }
+                );
+            }
+
+            my @skus = $item->children('Sku');
+
+            if ( scalar @skus == 1 ) {
+
+                # only one sku so simple variant
+
+                debug unidecode("item with one sku $value\n");
+
+                my $sku = $skus[0];
 
                 my $manuf_sku = $sku->first_child('Item_Code')->text;
 
-                my $sku_name = "Orvis "
-                  . decode_entities( $sku->first_child('Sku_Name')->text );
-
-                # freight charge in name
-                next if $sku_name =~ /\(\+\$\d+\)/;
+                my $sku_name = "$name"
+                  . clean_name( $sku->first_child('Sku_Name')->text );
 
                 my $variant_sku = "WB-OR-" . $manuf_sku;
 
-                my $price       = $sku->first_child('Regular_Price')->text;
+                my $price = $sku->first_child('Regular_Price')->text;
 
                 my $uri = lc($sku_name);
                 $uri =~ s/\s+/-/g;
@@ -320,12 +471,12 @@ sub process_orvis_product {
 
                 my $variant = shop_product->find(
                     {
-                        sku => $variant_sku,
+                        sku           => $variant_sku,
                         canonical_sku => $sku,
                     }
                 );
 
-                if ( $variant ) {
+                if ($variant) {
 
                     # we already have this variant so just update price
                     $variant->price($price);
@@ -337,86 +488,112 @@ sub process_orvis_product {
                     # a new variant
 
                     my %attributes = (
-                        sku => $variant_sku,
+                        sku              => $variant_sku,
                         manufacturer_sku => $manuf_sku,
-                        name  => $variant_sku,
-                        price => $price,
-                        uri   => $uri,
+                        name             => $variant_sku,
+                        price            => $price,
+                        uri              => $uri,
+                        option           => $value,
                     );
 
-                    push @variants, \%attributes;
+                    try {
+                        $product->add_variants( ( \%attributes ) );
+                    }
+                    catch {
+                        warning $_;
+                    };
+                }
+
+            }
+            else {
+
+                # we have variants
+
+                my @options = $item->children('Option');
+
+                # make sure we have all variant attributes in DB and collect
+                # attribute names along the way for use later
+
+                my @attr_names;
+                foreach my $option (@options) {
+                    my $name = $option->first_child('OptionName')->text;
+                    push @attr_names, $name;
+                    my @values =
+                      split( /,/,
+                        lc( $option->first_child('OptionValue')->text ) );
+
+                    &add_attribute_values( $name, $name, @values );
+                }
+
+                # process each variant
+
+                foreach my $sku (@skus) {
+
+                    my @attr_values =
+                      split( /,/, $sku->first_child('Option_String')->text );
+
+                    my $manuf_sku = $sku->first_child('Item_Code')->text;
+
+                    my $sku_name = "$name"
+                      . clean_name( $sku->first_child('Sku_Name')->text );
+
+                    my $variant_sku = "WB-OR-" . $manuf_sku;
+
+                    my $price = $sku->first_child('Regular_Price')->text;
+
+                    my $uri = lc($sku_name);
+                    $uri =~ s/\s+/-/g;
+                    $uri = encode_entities($uri);
+                    $uri =~ s/\//-/g;
+
+                    my $variant = shop_product->find(
+                        {
+                            sku           => $variant_sku,
+                            canonical_sku => $sku,
+                        }
+                    );
+
+                    if ($variant) {
+
+                        # we already have this variant so just update price
+                        $variant->price($price);
+
+                        debug "update price for variant $variant_sku\n";
+                    }
+                    else {
+
+                        # a new variant
+
+                        my %attributes = (
+                            sku              => $variant_sku,
+                            manufacturer_sku => $manuf_sku,
+                            name             => $variant_sku,
+                            price            => $price,
+                            uri              => $uri,
+                            option           => $value,
+                        );
+
+                        my @option_list =
+                          split( /,/,
+                            lc( $sku->first_child('Option_String')->text ) );
+
+                        foreach my $i ( 0 .. $#attr_names ) {
+                            $attributes{ $attr_names[$i] } =
+                              $option_list[$i];
+                        }
+
+                        # we add one variant at a time since orvis have a small
+                        # number of conflicting variants (different sku but same
+                        # attribute options)
+                        try {
+                            $product->add_variants( ( \%attributes ) );
+                        }
+                        catch {
+                            warning $_;
+                        };
+                    }
                 }
             }
-
-            if ( scalar @variants > 0 ) {
-                debug "add variants to sku $sku\n";
-                try {
-                    $product->add_variants(@variants);
-                }
-                catch {
-                    warning $_;
-                };
-            }
-        }
-    }
-    else {
-
-        # multiple items can mean multiple canonical products or one
-        # canonical product with multiple variants
-
-
-        foreach my $item ( @items ) {
-            info unidecode("$manuf_sku :: $name :: " . $item->first_child('Item_Name')->text) . "\n";
-
-        }
-
-        my $sizes_set = Set::Tiny->new( 'small', 'medium', 'large' );
-
-        my @item_names =
-          map { decode_entities( $_->first_child('Item_Name')->text ) } @items;
-
-        my $names_set = Set::Tiny->new( map { lc($_) } @item_names );
-
-        if ( all { /^(\d+)(\s+|-)pack$/ } @item_names ) {
-
-            # variants based on number of items in pack
-
-            info "variant name => pack";
-        }
-        elsif ( $names_set->is_subset($sizes_set)) {
-
-            info "variant name => size";
-        }
-    }
-
-    foreach my $item ( $xml->children('Item') ) {
-
-        # <Item PF_ID="0009"
-
-        my @attr_names =
-          map { $_->first_child('OptionName')->text } $item->children('Option');
-
-        foreach my $sku ( $item->children('Sku') ) {;
-
-            # <Sku PF_ID="0009" ProdGroupID="39736">
-
-            my @attr_values =
-              split( /,/, $sku->first_child('Option_String')->text );
-
-            my $sku_name = $sku->first_child('Sku_Name')->text;
-
-            #print "bugger $sku_name" if $name eq $sku_name;
-
-            my %attributes = (
-                sku => "WB-OR-" . $sku->first_child('Item_Code')->text,
-                name => "Orvis $sku_name",
-            );
-
-            foreach my $i ( 0..$#attr_names ) {
-                $attributes{$attr_names[$i]} = $attr_values[$i];
-            }
-
-            push @variants, \%attributes;
         }
     }
     $xml->purge;
@@ -433,6 +610,7 @@ importer.pl - Import manufacturer products lists into Angler
 inporter.pl [options]
 
  Options:
+  -a | --active             set active to 't' for all items (defaults to 'f')
   -f | --file               file to import
   -m | --manufacturer       manufacturer name
   -h | --help               help message

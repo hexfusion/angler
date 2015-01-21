@@ -1,4 +1,4 @@
-requires 'Set::Tiny'
+requires 'HTML::Obliterate';
 requires 'Net::Easypost';
 requires 'URL::Encode';
 requires 'Dancer::Debug';
