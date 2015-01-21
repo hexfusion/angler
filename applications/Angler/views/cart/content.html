@@ -120,28 +120,36 @@
                                     </div>
                                   </li>
                                   <li>
-                                    <label for="region_id">State/Province</label>
-                                    <div class="input-box">
-                                      <select class="state required-entry validate-select form-control" defaultvalue="" id="region_id" name="state" title="State/Province" style="">
-                                        <option selected="selected" value="">Please select region, state or province</option>
-                                        <option>Alabama</option>
-                                      </select>
-                                    </div>
-                                  </li>
-                                  <li>
                                     <label for="postcode">Zip/Postal Code</label>
                                     <div class="input-box">
                                       <input class="postal_code input-text validate-postcode form-control" id="postal_code" name="postal_code" type="text">
                                     </div>
                                   </li>
                                 </ul>
+
                                 <div class="buttons-set">
                                 <button type="submit" title="Get a quote" class="button btn-proceed-checkout btn-checkout"><span><span>Get a Quote</span></span></button>                            
                                 </div>
                               </div>
                             </fieldset>
+
+                      <div id="shipping-rates">
+                        <ul class="methods-list shipping-rates-list">
+                          <li class="shipping-rate">
+                            <label class="shipping-label">
+                              <input name="shipping_method" class="shipping-rate-carrier-service" type="radio" value="XXXX">
+                              <span class="shipping-rate-carrier">UPS</span>
+                              <span class="shipping-rate-service">2ndDayAir</span>
+                              <span class="shipping-rate-rate">100</span>$
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+
                             </form>
                           </div>
+
                         </div>
                       </div>
                     <form id="form-cart" name="cart" action="/checkout" method="POST">

@@ -16,6 +16,7 @@ use Business::PayPal::API::ExpressCheckout;
 use Angler::Cart;
 use Angler::Forms::Checkout;
 use File::Spec;
+use Angler::Shipping;
 
 get '/checkout' => sub {
     my ($cart_form, $user);
@@ -287,6 +288,19 @@ sub checkout_tokens {
 
     $tokens->{cart_tax} = $angler_cart->tax;
     $tokens->{cart_shipping} = $angler_cart->shipping_cost;
+
+    my $rates = Angler::Shipping::show_rates($angler_cart);
+    if ($rates) {
+        my @shipping_rates;
+        foreach my $rate (@$rates) {
+            push @shipping_rates, {
+                                     value => $rate->{carrier_service},
+                                     label => "$rate->{carrier} $rate->{service} $rate->{rate}\$",
+                                    };
+        }
+        $tokens->{shipping_rates} = \@shipping_rates;
+    }
+
 
     my @payment_errors;
     # report the paypal failures too

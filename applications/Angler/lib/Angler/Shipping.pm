@@ -3,6 +3,10 @@ package Angler::Shipping;
 use strict;
 use warnings;
 
+use Net::Easypost;
+use Net::Easypost::Address;
+use Net::Easypost::Parcel;
+
 =head2 shipment_methods($schema, $country_iso_code)
 
 Returns a ShipmentDestination resultset. In list context, you can get
@@ -109,5 +113,59 @@ sub free_shipping_cart {
     }
     return 1;
 }
+
+sub show_rates {
+    my ($cart) = @_;
+    my $rates;
+    my $weight = 0;
+    foreach my $product (@{$cart->cart->products}) {
+        my $p = $cart->schema->resultset('Product')->find($product->sku);
+        if ($p) {
+            $weight += ($p->weight || 0);
+        }
+    }
+    return unless $weight;
+    $weight *= 16;
+    eval {
+        my $easypost = Net::Easypost->new;
+        my $from = Net::Easypost::Address->new(
+                                               name => 'West Branch Resort',
+                                               street1 => '150 Faulkener Rd',
+                                               city => 'Hancock',
+                                               state => 'NY',
+                                               zip => '13783',
+                                               country => 'US',
+                                              );
+        my $to = Net::Easypost::Address->new(
+                                             zip => $cart->postal_code,
+                                             country => $cart->country,
+                                            );
+        my $parcel = Net::Easypost::Parcel->new(
+                                                weight => $weight, # real
+                                                # defaults
+                                                length => 15,
+                                                width => 15,
+                                                height => 8,
+                                               );
+        $rates = $easypost->get_rates({ to => $to, from => $from, parcel => $parcel });
+    };
+    my @output;
+    if ($rates && @$rates) {
+        foreach my $rate (@$rates) {
+            push @output, {
+                           carrier => $rate->carrier,
+                           rate => $rate->rate,
+                           service => $rate->service,
+                           carrier_service => $rate->carrier . $rate->service,
+                          };
+        }
+    }
+    if (@output > 1) {
+        @output = sort { $a->{rate} <=> $b->{rate} } @output;
+    }
+    @output ? return \@output : return;
+}
+
+
 
 1;

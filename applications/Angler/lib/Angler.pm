@@ -2,6 +2,9 @@ package Angler;
 use Dancer ':syntax';
 use Dancer::Plugin::Ajax;
 use Dancer::Plugin::Auth::Extensible;
+
+$ENV{EASYPOST_API_KEY} = config->{easypost}->{development};
+
 use Dancer::Plugin::Form;
 use Angler::Schema; # load before Dancer::Plugin::Interchange6
 use Dancer::Plugin::Interchange6;
@@ -27,6 +30,8 @@ use POSIX qw/ceil/;
 use URL::Encode qw/url_decode_utf8/;
 use DateTime;
 
+use Angler::Shipping;
+
 our $VERSION = '0.1';
 
 # debug dbic 
@@ -34,6 +39,7 @@ our $VERSION = '0.1';
 
 # connect DBIC session engine to our schema
 set session_options => {schema => schema};
+
 
 =head1 HOOKS
 
@@ -999,10 +1005,13 @@ hook 'before_cart_display' => sub {
         user_id => session('logged_in_users_id'),
     );
 
+    $values->{shipping_rates} = Angler::Shipping::show_rates($angler_cart);
+    debug to_dumper($values->{shipping_rates});
+
     $angler_cart->update_costs;
 
     $form_values->{country} = $angler_cart->country;
-    $values->{states} = states($form_values->{country});
+    # $values->{states} = states($form_values->{country});
 
     $form_values->{postal_code} = $angler_cart->postal_code;
 
@@ -1010,11 +1019,11 @@ hook 'before_cart_display' => sub {
     $values->{cart_tax} = $angler_cart->tax;
     $values->{cart_total} = $cart->total;
 
-    $values->{shipping_methods} = $angler_cart->shipping_methods;
+    # $values->{shipping_methods} = $angler_cart->shipping_methods;
 
-    unless (@{$values->{shipping_methods}}) {
-        $values->{shipping_warning} = 'No shipping methods for this country/zip';
-    }
+    # unless (@{$values->{shipping_methods}}) {
+    # $values->{shipping_warning} = 'No shipping methods for this country/zip';
+    # }
 
     $form->fill($form_values);
     $values->{form} = $form;
@@ -1040,6 +1049,7 @@ sub states {
 
     return $states;
 };
+
 
 get '/' => sub {
 
