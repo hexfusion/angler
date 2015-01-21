@@ -1,3 +1,4 @@
+requires 'Imager';
 requires 'Cache::FileCache';
 requires 'HTML::Obliterate';
 requires 'Set::Tiny';
