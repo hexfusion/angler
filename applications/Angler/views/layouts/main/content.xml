@@ -2,10 +2,15 @@
 <!-- Cart -->
 <list name="cart" class="cartitem" iterator="cart">
 <param name="name"/>
+<param name="name-href" field="uri" target="href" op="append"/>
 <param name="price" filter="currency"/>
 <param name="qty" field="quantity"/>
 <param name="subtotal" filter="currency"/>
 <param name="remove-cart-product" field="sku" target="value"/>
+<param name="image" target="src" field="extra.image"/>
+<param name="image-alt" class="image" target="alt" field="name"/>
+<param name="product-image" target="title" field="name"/>
+<param name="product-image-href" class="product-image" target="href" field="uri" op="append"/>
 </list>
 <value name="cart_count" class="cart-count"/>
 <value name="cart_total" class="cart-total" filter="currency"/>
