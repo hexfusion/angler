@@ -1,7 +1,6 @@
 package Angler::Routes::Blog;
 
 use Dancer ':syntax';
-#use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Form;
 
@@ -24,4 +23,25 @@ get '/blog' => sub {
 
     $tokens{"extra-js-file"} = 'blog-page.js';
     template 'blog/content', \%tokens;
+};
+
+get '/blog/:article' => sub {
+    my %tokens;
+    my $form = form('search');
+    my $article = params->{article};
+
+    my $blog = $schema->resultset('Message')->find(
+        {
+          uri => $article,
+        }
+    );
+
+    unless ($blog) {
+        return template 'blog/content';
+    }
+
+    $tokens{blog} = $blog;
+    $tokens{form} = $form;
+
+    template 'blog/view', \%tokens;
 };
