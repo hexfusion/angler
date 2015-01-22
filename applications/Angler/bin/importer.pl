@@ -262,7 +262,7 @@ sub process_orvis_product {
 
     my $sku = "WB-OR-" . $pf_id;
 
-    my $uri = lc( unidecode("$name-wbor$pf_id") );
+    my $uri = lc( unidecode("$name-$pf_id") );
     $uri =~ s/\s+/-/g;
     $uri =~ s/\//-/g;
 
@@ -415,7 +415,7 @@ sub process_orvis_product {
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
                 my $uri =
-                  lc( unidecode("${sku_name}-wbor${item_code}") );
+                  lc( unidecode("${sku_name}-${pf_id}${item_code}") );
                 $uri =~ s/\s+/-/g;
                 $uri =~ s/\//-/g;
 
@@ -532,7 +532,7 @@ sub process_orvis_product {
                 my $price = $sku->first_child('Regular_Price')->text;
 
                 my $uri =
-                  lc( unidecode("${sku_name}-wbor${item_code}") );
+                  lc( unidecode("${sku_name}-${pf_id}${item_code}") );
                 $uri =~ s/\s+/-/g;
                 $uri =~ s/\//-/g;
 
