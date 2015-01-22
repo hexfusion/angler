@@ -1,6 +1,6 @@
 <specification>
 <!-- Main Cart -->
-<list name="cart" iterator="cart.products">
+<list name="cart" iterator="cart">
     <param name="name"  class="item-name"/>
     <param name="price" class="item-price" filter="currency"/>
     <param name="qty" class="item-quantity" field="quantity"/>
@@ -9,14 +9,14 @@
 
 <!-- Add Sidebar Cart -->
 <value name="sidebar-cart-overview" include="../components/widgets/cart_overview_sidebar.html"/>
-<value name="subtotal" class="cart-subtotal" field="cart.subtotal"
+<value name="subtotal" class="cart-subtotal" field="cart_subtotal"
        filter="currency"/>
 <!--
 <value name="cart-shipping" field="cart_shipping" filter="currency"/>
 <value name="cart-tax" field="cart_tax" filter="currency"/>
 -->
 
-<value name="total" class="cart-total" field="cart.total" filter="currency"/>
+<value name="total" class="cart-total" field="cart_total" filter="currency"/>
 
 <container name="signin" value="!session.logged_in_user"/>
 
@@ -58,7 +58,7 @@
     <field name="card_cvc" id="inputCardCVC"/>
     <field name="payment_method" id="inputPaymentMethod" />
 
-    <field name="shipping_method" iterator="shipping_rates" />
+    <!-- barfing field name="shipping_method" iterator="shipping_rates" /-->
 </form>
 
 <!-- Email errors -->

@@ -1,6 +1,6 @@
 <specification>
 <!-- Cart Side -->
-<list name="cart-small" class="cartsmallitem" iterator="cart.products">
+<list name="cart-small" class="cartsmallitem" iterator="cart">
 <param name="name"  class="cart-name"/>
 <param name="price" class="cart-price" filter="currency"/>
 <param name="qty" class="cart-quantity" field="quantity"/>

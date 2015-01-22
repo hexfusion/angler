@@ -119,6 +119,7 @@ hook 'before_template_render' => sub {
     my $cart = cart;
     $tokens->{cart} = $cart->products;
     $tokens->{cart_count} = $cart->quantity;
+    $tokens->{cart_subtotal} = $cart->subtotal;
     $tokens->{cart_total} = $cart->total;
 
     my $default_image =
