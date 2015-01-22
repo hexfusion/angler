@@ -121,9 +121,25 @@ hook 'before_template_render' => sub {
     $tokens->{cart_count} = $cart->quantity;
     $tokens->{cart_total} = $cart->total;
 
+    my $default_image =
+      schema->resultset('Media')->find( { uri => 'default.jpg' } );
+
+    my $image_type =
+      schema->resultset('MediaType')->find( { type => 'image' } );
+
     # add images into 'extra' attribute
     foreach my $product ( @{$tokens->{cart}} ) {
-        $product->set_extra( image => '/some/path/to/image.png' );
+        my $image =
+          shop_product( $product->{sku} )
+            ->media->search( { media_types_id => $image_type->media_types_id },
+              { rows => 1 } )->single;
+
+        # set default
+        $image = $default_image unless $image;
+
+        my $display = $image_type->media_displays->find({name => 'cart'});
+
+        $product->set_extra( image => $display->path . '/' . $image->uri );
     }
 
     my %history;
