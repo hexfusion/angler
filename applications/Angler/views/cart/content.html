@@ -14,7 +14,7 @@
                         </li>
                       </ul>
                     </div>
-                    <form id="form-cart" name="cart" action="/checkout" method="POST">
+                    <form id="form-cart" name="cart" action="/cart" method="POST">
                       <fieldset>
                         <table id="shopping-cart-table" class="data-table cart-table">
                           <colgroup>
@@ -47,12 +47,13 @@
                           </tfoot>
                           <tbody>
                             <tr class="cartitem first last odd">
-                              <td><a href="" title="" class="product-image"><img class="thumbnail" src="" width="75" height="75" alt=""></a></td> 
+                              <td><a href="" title="" class="product-image"><img class="thumbnail" src="" width="75" height="75" alt=""></a>
+                              </td> 
                               <td><h2 class="product-name"> <a class="name" href="">Simms Coldweather Shirt Red</a> </h2></td>
                               <td class="a-center"><a href="" title="Edit item parameters">Edit</a></td>
                               <td class="a-right"><span class="cart-price"> <span class="price">$99.95</span> </span></td>
                               <!-- inclusive price starts here -->
-                              <td class="a-center"><input name="" value="2" size="4" title="Qty" class="input-text qty form-control" maxlength="12"></td>
+                              <td class="a-center"><input name="quantity" value="2" size="4" title="Qty" class="input-text qty form-control" maxlength="12"></td>
                               <!--Sub total starts here -->
                               <td class="a-right"><span class="cart-price"> <span class="subtotal price">$199.90</span> </span></td>
                               <td class="a-center last"><a href="" title="Remove item" class="btn-remove btn-remove2">Remove item</a></td>
