@@ -848,7 +848,7 @@ if (0) {
 
         # FIXME this should be a new folder 200x200
 
-        if ( my $uri = $image->display_uri('image_120x120') ) {
+        if ( my $uri = $image->display_uri('product_200x200') ) {
             $product->{image} = uri_for($uri);
         }
     }
