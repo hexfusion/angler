@@ -181,7 +181,7 @@ hook 'before_layout_render' => sub {
     my $record;
 
     # logo
-    $tokens->{logo_uri} = uri_for('/');
+    $tokens->{logo_uri} = '/';
 
     my $nav = shop_navigation;
 
@@ -832,7 +832,9 @@ if (0) {
 
         # FIXME this should be a new folder 200x200
 
-        $product->{image} = uri_for($image->display_uri('image_120x120'));
+        if ( my $uri = $image->display_uri('image_120x120') ) {
+            $product->{image} = uri_for($uri);
+        }
     }
 
     # I don't the the following is needed for Sam's grid design...
@@ -955,8 +957,12 @@ hook 'before_product_display' => sub {
     my $image = $product->media_by_type('image')->first;
 
     if ($image) {
-        $tokens->{image_src} = uri_for($image->display_uri('image_325x325'));
-        $tokens->{image_thumb} = uri_for($image->display_uri('image_50x50'));
+        if ( my $uri = $image->display_uri('image_325x325') ) {
+            $tokens->{image_src} = uri_for($uri);
+        }
+        if ( my $uri = $image->display_uri('image_50x50') ) {
+            $tokens->{image_thumb} = uri_for($uri);
+        }
     }
 
     my $video = $product->media_by_type('video')->first;
