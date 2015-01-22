@@ -6,13 +6,8 @@
 <param name="subtotal" filter="currency"/>
 <param name="remove-cart-product" field="sku" target="value"/>
 <param name="thumbnail" field="extra.image" target="src"/>
+<param name="name" class="thumbnail" target="alt"/>
 </list>
-
-<list name="cart_image" class="cartimage" iterator="image">
-<param name="src"/>
-<param name="name" class="image-name" target="title"/>
-</list>
-
 
 <!-- free shipping containers -->
 <!--
