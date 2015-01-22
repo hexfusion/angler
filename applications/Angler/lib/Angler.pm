@@ -15,7 +15,8 @@ logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role user_roles
 );
 
-#use Angler::Routes::About;
+use Angler::Routes::About;
+use Angler::Routes::Blog;
 use Angler::Routes::Account;
 use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
@@ -1094,10 +1095,6 @@ get '/account/address/edit' => sub {
 
 get '/account/address/new' => sub {
     template 'account/address/new';
-};
-
-get '/blog' => sub {
-    template 'blog/content';
 };
 
 get '/learning-center' => sub {
