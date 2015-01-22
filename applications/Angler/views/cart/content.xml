@@ -3,8 +3,9 @@
 <param name="name"/>
 <param name="price" filter="currency"/>
 <param name="qty" field="quantity"/>
+<param name="link" field="uri" target="href"/>
 <param name="subtotal" filter="currency"/>
-<param name="remove-cart-product" field="sku" target="value"/>
+<param name="remove" field="sku" target="href" op="append"/>
 <param name="thumbnail" field="extra.image" target="src"/>
 <param name="name" class="thumbnail" target="alt"/>
 </list>
