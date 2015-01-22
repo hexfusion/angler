@@ -847,7 +847,7 @@ if (0) {
 
         $image = $default_image unless $image;
 
-        # FIXME this should be a new folder 200x200
+        $product->{details} = "location.href=('/" . $product->{uri} . "')";
 
         if ( my $uri = $image->display_uri('product_200x200') ) {
             $product->{image} = uri_for($uri);
@@ -970,16 +970,18 @@ hook 'before_product_display' => sub {
     $tokens->{free_shipping} = 1;
     }
 
+    my $default_image =
+      schema->resultset('Media')->find( { uri => 'default.jpg' } );
+
     # add image. There could be more, so we just pick the first
+    # FIXME issue #72
     my $image = $product->media_by_type('image')->first;
 
+    $image = $default_image unless $image;
+
     if ($image) {
-        if ( my $uri = $image->display_uri('image_325x325') ) {
-            $tokens->{image_src} = uri_for($uri);
-        }
-        if ( my $uri = $image->display_uri('image_50x50') ) {
-            $tokens->{image_thumb} = uri_for($uri);
-        }
+        $tokens->{image_src} = uri_for($image->display_uri('product_325x325'));
+        $tokens->{image_thumb} = uri_for($image->display_uri('product_75x75'));
     }
 
     my $video = $product->media_by_type('video')->first;
