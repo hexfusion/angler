@@ -35,7 +35,9 @@
 <param name="price"/>
 <param name="qty" field="quantity"/>
 <param name="subtotal" filter="currency"/>
-<param name="remove-cart-product" field="sku" target="value"/>
+<param name="image" field="extra.image" target="src"/>
+<param name="remove" field="sku" target="href" op="append"/>
+<param name="link" field="uri" target="href"/>
 </list>
 
 <!-- free shipping container -->
