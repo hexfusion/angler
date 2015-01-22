@@ -665,6 +665,11 @@ my @displays = (
         type => 'product_325x325',
     },
     {
+        name => 'flypage_zoom',
+        size => '975x975',
+        type => 'product_975x975',
+    },
+    {
         name => 'flypage_alt',
         size => '100x100',
         type => 'product_100x100',
@@ -676,7 +681,7 @@ foreach my $record (@displays) {
     $images->add_to_media_displays({
                                     type => $record->{type},
                                     name => $record->{name},
-                                    path => "/images/products/$record->{size}",
+                                    path => "/products/images/$record->{size}",
                                     size => $record->{size},});
 }
 
