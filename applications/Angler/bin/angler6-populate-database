@@ -306,6 +306,27 @@ $schema->resultset('Attribute')->create(
     }
 );
 
+$schema->resultset('Attribute')->create(
+    {
+        name             => 'size',
+        title            => 'Choose Size',
+        type             => 'variant',
+        priority         => 1,
+        attribute_values => [
+            { value => '5',  title => 'Mens 5' },
+            { value => '6',  title => 'Mens 6' },
+            { value => '7',  title => 'Mens 7' },
+            { value => '8',  title => 'Mens 8' },
+            { value => '9',  title => 'Mens 9' },
+            { value => '10',  title => 'Mens 10' },
+            { value => '11',  title => 'Mens 11' },
+            { value => '12',  title => 'Mens 12' },
+            { value => '13',  title => 'Mens 13' },
+            { value => '14',  title => 'Mens 14' },
+        ]
+    }
+);
+
 $product{WBA0003} = $schema->resultset('Product')->create(
     {
         sku => 'WBA0003',
@@ -346,6 +367,114 @@ $product{WBA2001} = $schema->resultset('Product')->create(
         weight => '1',
         inventory_exempt => '1',
     }
+);
+
+$product{WBA8001} = $schema->resultset('Product')->create(
+    {
+        sku => 'WBA8001',
+        manufacturer_sku => '',
+        name => 'Patagonia Foot Tractor',
+        short_description => "The Foot Tractor Wading Boot elevates our award winning, patent-pending aluminum bar technology to new levels of performance.",
+        description => "<p>
+Here’s the problem: Steel studs, cleats or screw heads are too hard—they skate down rock surfaces like fingernails on a blackboard. Felt wears out quickly, slides on mud and algae and can carry invasive species. Here’s the solution: Our new Foot Tractor Wading Boots with next-generation aluminum bar technology. The new, more aggressively shaped aluminum bars are just hard enough to cut through algae and slime, yet soft enough to conform to rock surfaces. They also grip well on muddy trails, won’t accumulate snow and don’t hold moisture. In other words, they offer the wading traction we’ve been looking for all our lives. Made with fast-drying synthetic leather and Venergy monofilament mesh panels, Foot Tractors offer industrial-strength support and protection in a light, comfortable boot.</p>
+<p>
+<h3>Features</h3>
+<ul>
+<li>Clarino® synthetic leather upper for the finest in lightweight and durability, even after extended flexing in wet environments</li>
+<li>Venergy monofilament mesh paneling for quick drainage and weight reduction</li>
+<li>Oversized toe box and heel cup feature Texon trilaminate to help protect heel and toe from rock impact and foot compression</li>
+<li>Sticky rubber lugged sole with inset multi-directional gripping aluminum bar design</li>
+<li>Clarino® synthetic leather upper with Venergy monofilament mesh panels. Texon trilaminate toe box and heel counter. Multidirectional gripping designed aluminum bars</li>
+<li>1899 g (67 oz)</li><li>Made in China.</li>
+</ul></p>", 
+        price => '279',
+        uri => 'patagonia-foot-tractor-wading-boots',
+        weight => '5',
+        inventory_exempt => '1',
+    }
+);
+
+$schema->resultset('Product')->find( { sku => "WBA8001" } )->add_variants(
+    {
+        size => '5',
+        manufacturer_sku => 'PA8002',
+        sku    => 'WBA8002',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-5',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '6',
+        manufacturer_sku => 'PA8003',
+        sku    => 'WBA8003',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-6',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '7',
+        manufacturer_sku => 'PA8004',
+        sku    => 'WBA8004',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-7',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '8',
+        manufacturer_sku => 'PA8005',
+        sku    => 'WBA8005',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-8',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '9',
+        manufacturer_sku => 'PA8006',
+        sku    => 'WBA8006',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-9',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '10',
+        manufacturer_sku => 'PA8007',
+        sku    => 'WBA8007',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-10',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '11',
+        manufacturer_sku => 'PA8008',
+        sku    => 'WBA8008',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-11',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '12',
+        manufacturer_sku => 'PA8009',
+        sku    => 'WBA8009',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-12',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '13',
+        manufacturer_sku => 'PA8010',
+        sku    => 'WBA8010',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-13',
+        price  => 279,
+        weight => '5',
+    },
+    {
+        size => '14',
+        manufacturer_sku => 'PA8011',
+        sku    => 'WBA8011',
+        uri    => 'patagonia-foot-tractor-wading-boots-size-14',
+        price  => 279,
+        weight => '5',
+    },
 );
 
 $schema->resultset('Product')->find( { sku => "WBA1001" } )->add_variants(
@@ -688,7 +817,7 @@ foreach my $record (@displays) {
 # set default for example product
 my $media = $schema->resultset('Media')->populate([
                             {
-                                file => 'public/images/products/optimized_jpgs/orvis_helios_2.jpg',
+                                file => 'public/products/images/orvis_helios_2.jpg',
                                 uri => 'orvis_helios_2.jpg',
                                 mime_type => 'image/jpg',
                                 media_types_id => $images->id,
@@ -700,6 +829,17 @@ my $media = $schema->resultset('Media')->populate([
                                 media_types_id => $images->id,
                             },
                             {
+                                file => 'public/products/images/patagonia_foot_tractor.jpg',
+                                uri => 'patagonia_foot_tractor.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => $images->id,
+                            },
+                            {
+                                file => 'http://www.youtube.com/embed/P-UKSJnWWQE',
+                                uri => 'http://www.youtube.com/embed/P-UKSJnWWQE',
+                                media_types_id => $video->id,
+                            },
+                            {   file => 'http://www.youtube.com/embed/HfhpZPdrc2A',
                                 uri => 'http://www.youtube.com/embed/HfhpZPdrc2A',
                                 media_types_id => $video->id,
                             },
@@ -848,6 +988,8 @@ $media = $schema->resultset('Media')->populate([
 ]);
 
 my $helios_image = $schema->resultset('Media')->find({ uri => 'orvis_helios_2.jpg' });
+my $tractor = $schema->resultset('Media')->find({ uri => 'patagonia_foot_tractor.jpg' });
+my $tractor_video = $schema->resultset('Media')->find({ uri => 'http://www.youtube.com/embed/P-UKSJnWWQE' });
 my $helios_video = $schema->resultset('Media')->find({ uri => 'http://www.youtube.com/embed/HfhpZPdrc2A' });
 my $orvis = $schema->resultset('Navigation')->find({ uri => 'orvis' });
 
@@ -868,7 +1010,34 @@ $schema->resultset('MediaProduct')->populate([
                                            { media_id => $helios_video->id, sku => 'WBA0007' },
                                           ]);
 
+$schema->resultset('MediaProduct')->populate([
+                                           { media_id => $tractor->id, sku => 'WBA8001' },
+                                           { media_id => $tractor->id, sku => 'WBA8002' },
+                                           { media_id => $tractor->id, sku => 'WBA8003' },
+                                           { media_id => $tractor->id, sku => 'WBA8004' },
+                                           { media_id => $tractor->id, sku => 'WBA8005' },
+                                           { media_id => $tractor->id, sku => 'WBA8006' },
+                                           { media_id => $tractor->id, sku => 'WBA8007' },
+                                           { media_id => $tractor->id, sku => 'WBA8008' },
+                                           { media_id => $tractor->id, sku => 'WBA8009' },
+                                           { media_id => $tractor->id, sku => 'WBA8010' },
+                                           { media_id => $tractor->id, sku => 'WBA8011' },
+                                            #video
+                                           { media_id => $tractor_video->id, sku => 'WBA8001' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8002' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8003' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8004' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8005' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8006' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8007' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8008' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8009' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8010' },
+                                           { media_id => $tractor_video->id, sku => 'WBA8011' },
+                                          ]);
+
 my $rods = shop_navigation->find({ uri => 'fly-fishing-gear/fly-rods' });
+my $new_nav = shop_navigation->find({ uri => 'fly-fishing-gear/new' });
 
 $schema->resultset('NavigationProduct')->populate([
                                            { navigation_id => $rods->id, sku => 'WBA0001' },
@@ -900,7 +1069,8 @@ $schema->resultset('NavigationProduct')->populate([
                                            { navigation_id => $orvis->id, sku => 'WBA0012' },
                                            { navigation_id => $orvis->id, sku => 'WBA0013' },
                                            { navigation_id => $orvis->id, sku => 'WBA0014' },
-
+                                           # new tractors
+                                           { navigation_id => $new_nav->id, sku => 'WBA8001' },
 
 ]);
 
