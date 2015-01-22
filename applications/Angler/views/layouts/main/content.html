@@ -183,8 +183,12 @@ var $j = jQuery;
                       </div>
                       <ol id="cart-sidebar" class="cartitem mini-products-list">
                         <li class="item last odd">
-                          <div class="product-control-buttons"> <a href="" title="Remove This Item" onClick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" class="btn-remove">Remove This Item</a> <a href="" title="Edit item" class="btn-edit">Edit item</a> </div>
-                          <a href="/" title="Simms Coldweather Shirt Red" class="product-image"><img class="image" src="/product/simms-coldweather-ls-shirt-cart.png" alt="Simms Coldweather Shirt Red"></a>
+                          <div class="product-control-buttons">
+                            <a href="/cart?remove=" title="Remove This Item" onClick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" class="remove btn-remove">Remove This Item</a>
+                            <!--<a href="" title="Edit item" class="btn-edit">Edit item</a>-->
+                           </div>
+                          <a href="/" title="Simms Coldweather Shirt Red" class="product-image">
+                            <img class="image" src="/product/simms-coldweather-ls-shirt-cart.png" alt="Simms Coldweather Shirt Red"></a>
                           <p class="name"><a class="name-href" href="/">Simms Coldweather Shirt Red</a></p>
                           <div class="product-details"> <strong><span class="qty">2</span></strong> x <span class="price">$99.95</span> </div>
                         </li>

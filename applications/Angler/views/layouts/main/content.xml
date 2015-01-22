@@ -6,7 +6,7 @@
 <param name="price" filter="currency"/>
 <param name="qty" field="quantity"/>
 <param name="subtotal" filter="currency"/>
-<param name="remove-cart-product" field="sku" target="value"/>
+<param name="remove" field="sku" target="href" op="append"/>
 <param name="image" target="src" field="extra.image"/>
 <param name="image-alt" class="image" target="alt" field="name"/>
 <param name="product-image" target="title" field="name"/>
