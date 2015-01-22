@@ -1,3 +1,11 @@
 <specification>
 <value name="blog-sidebar" include="components/menu.html"/>
+
+<value name="blog-title" field="blog.title" />
+<value name="blog-content" field="blog.content" op="hook"/>
+<value name="blog-share" include="components/share.html" op="hook"/>
+<value name="blog-link" field="blog.uri" target="href" op="append" />
+<!-- <value name="blog-date" field="blog.created" filter="date" /> -->
+<value name="blog-author" field="blog.author.name" />
+
 </specification>
