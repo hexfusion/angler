@@ -109,7 +109,7 @@ sub add_attribute_values {
 
     my $attribute = $schema->resultset('Attribute')->find_or_create(
         {
-            name  => $name,
+            name  => &clean_attribute_value($name),
             title => $title,
             type  => 'variant',
         },
@@ -415,7 +415,7 @@ sub process_orvis_product {
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
                 my $uri =
-                  lc( unidecode("${sku_name}-wbor${pf_id}${item_code}") );
+                  lc( unidecode("${sku_name}-wbor${item_code}") );
                 $uri =~ s/\s+/-/g;
                 $uri =~ s/\//-/g;
 
@@ -449,8 +449,8 @@ sub process_orvis_product {
                       split( /,/, $sku->first_child('Option_String')->text );
 
                     foreach my $i ( 0 .. $#option_names ) {
-                        $attributes{ $option_names[$i] } =
-                          &clean_attribute_value($option_string[$i]);
+                        $attributes{ &clean_attribute_value( $option_names[$i] )
+                        } = &clean_attribute_value( $option_string[$i] );
                     }
 
                     # we add one variant at a time since orvis have a small
@@ -532,7 +532,7 @@ sub process_orvis_product {
                 my $price = $sku->first_child('Regular_Price')->text;
 
                 my $uri =
-                  lc( unidecode("${sku_name}-wbor${pf_id}${item_code}") );
+                  lc( unidecode("${sku_name}-wbor${item_code}") );
                 $uri =~ s/\s+/-/g;
                 $uri =~ s/\//-/g;
 
@@ -570,8 +570,8 @@ sub process_orvis_product {
                     }
 
                     foreach my $i ( 0 .. $#option_names ) {
-                        $attributes{ $option_names[$i] } =
-                          &clean_attribute_value( $option_string[$i] );
+                        $attributes{ &clean_attribute_value( $option_names[$i] )
+                        } = &clean_attribute_value( $option_string[$i] );
                     }
 
                     try {
