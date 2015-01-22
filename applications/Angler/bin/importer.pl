@@ -65,6 +65,8 @@ unless ( defined $config->{manufacturers}->{$manufacturer}->{type} ) {
 
 $active = 0 unless $active;
 
+my @product_columns = shop_product->result_source->columns;
+
 # parse by type
 
 my $type = $config->{manufacturers}->{$manufacturer}->{type};
@@ -139,6 +141,9 @@ return a cleaned up value for AttributeValue value column
 sub clean_attribute_value {
     my $value = lc(shift);
     $value =~ s/\s+/_/g;
+    while ( grep { $value eq $_ } @product_columns ) {
+        $value = "X$value";
+    }
     return $value;
 }
 
@@ -236,6 +241,7 @@ sub process_orvis_product {
         )
         || $xml->first_child('Group_Name')->text eq 'Gift Card'
         || $xml->first_child('Cat_Name')->text eq 'Gift Card'
+        || $xml->first_child('Dir_Name')->text =~ /School/i
       )
     {
         debug "skipping $pf_id due to category";
@@ -251,13 +257,13 @@ sub process_orvis_product {
 
     my $keywords = decode_entities( $xml->first_child('Keywords')->text );
 
-    my $name = "Orvis " . clean_name( $xml->first_child('PF_Name')->text );
+    my $pf_name = clean_name( $xml->first_child('PF_Name')->text );
+    my $name = "Orvis $pf_name";
 
     my $sku = "WB-OR-" . $pf_id;
 
-    my $uri = lc( $name . "-wbor$pf_id" );
+    my $uri = lc( unidecode("$name-wbor$pf_id") );
     $uri =~ s/\s+/-/g;
-    $uri = encode_entities($uri);
     $uri =~ s/\//-/g;
 
     my $product = shop_product->find_or_create(
@@ -282,7 +288,7 @@ sub process_orvis_product {
     if ($navigator) {
         my $first_child = $navigator->first_child;
         my $text        = $first_child->text;
-        my $uri         = lc($text);
+        my $uri         = lc( unidecode($text) );
         $uri =~ s/\s+/-/g;
 
         my $nav = $schema->resultset('Navigation')->find_or_create(
@@ -306,8 +312,8 @@ sub process_orvis_product {
             $nav = $schema->resultset('Navigation')->find_or_create(
                 {
                     uri       => $uri,
-                    type      => 'nav',
-                    scope     => 'menu-main',
+                    type      => 'manufacturer',
+                    scope     => 'orvis',
                     name      => $text,
                     parent_id => $nav->id,
                 },
@@ -396,18 +402,21 @@ sub process_orvis_product {
                 my $pf_id = $xml->first_child('PF_ID')->text;
                 my $item_code = $sku->first_child('Item_Code')->text;
 
-                # prefix name with Orvis
-                my $sku_name = "Orvis "
-                  . clean_name( $sku->first_child('Sku_Name')->text );
+                my $sku_name =
+                  clean_name( $sku->first_child('Sku_Name')->text );
+                unless ( $sku_name =~ /^\Q$pf_name\E/ ) {
+                    $sku_name = "$pf_name $sku_name";
+                }
+                $sku_name = "Orvis $sku_name";
 
                 # prefix sku with WB-OR-
                 my $variant_sku = "WB-OR-" . $pf_id . "-" . $item_code;
 
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
-                my $uri = lc("${sku_name}-wbor${pf_id}${item_code}");
+                my $uri =
+                  lc( unidecode("${sku_name}-wbor${pf_id}${item_code}") );
                 $uri =~ s/\s+/-/g;
-                $uri = encode_entities($uri);
                 $uri =~ s/\//-/g;
 
                 my $variant = shop_product->find(
@@ -511,16 +520,20 @@ sub process_orvis_product {
 
                 my $item_code = $sku->first_child('Item_Code')->text;
 
-                my $sku_name = "$name"
-                  . clean_name( $sku->first_child('Sku_Name')->text );
+                my $sku_name =
+                  clean_name( $sku->first_child('Sku_Name')->text );
+                unless ( $sku_name =~ /^\Q$pf_name\E/ ) {
+                    $sku_name = "$pf_name $sku_name";
+                }
+                $sku_name = "Orvis $sku_name";
 
                 my $variant_sku = "WB-OR-" . $item_code;
 
                 my $price = $sku->first_child('Regular_Price')->text;
 
-                my $uri = lc("${sku_name}-wbor${pf_id}${item_code}");
+                my $uri =
+                  lc( unidecode("${sku_name}-wbor${pf_id}${item_code}") );
                 $uri =~ s/\s+/-/g;
-                $uri = encode_entities($uri);
                 $uri =~ s/\//-/g;
 
                 my $variant = shop_product->find(
@@ -542,7 +555,7 @@ sub process_orvis_product {
                     my %attributes = (
                         sku              => $variant_sku,
                         manufacturer_sku => $item_code,
-                        name             => $variant_sku,
+                        name             => $sku_name,
                         price            => $price,
                         uri              => $uri,
                     );
