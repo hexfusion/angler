@@ -1,3 +1,6 @@
+requires 'File::Path';
+requires 'File::Spec';
+requires 'HTTP::Tiny';
 requires 'Imager';
 requires 'Cache::FileCache';
 requires 'HTML::Obliterate';

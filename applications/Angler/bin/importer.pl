@@ -12,9 +12,13 @@ package main;
 use Dancer ':script';
 use Angler::Schema;
 use Dancer::Plugin::Interchange6;
+use File::Path qw/make_path/;
+use File::Spec;
 use Getopt::Long;
 use HTML::Entities;
 use HTML::Obliterate qw/strip_html/;
+use HTTP::Tiny;
+use Imager;
 use Pod::Usage;
 use Text::Unidecode;
 use Try::Tiny;
@@ -29,6 +33,9 @@ set log    => 'info';
 my $config = config->{importer};
 
 my $schema = shop_schema;
+
+#my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
+my $img_dir = "/home/syspete/camp11/images";
 
 my ( $active, $file, $help, $manufacturer );
 
@@ -66,6 +73,9 @@ unless ( defined $config->{manufacturers}->{$manufacturer}->{type} ) {
 $active = 0 unless $active;
 
 my @product_columns = shop_product->result_source->columns;
+my $mediatype_image =
+  $schema->resultset('MediaType')->find( { type => 'image' } );
+
 
 # parse by type
 
@@ -280,6 +290,30 @@ sub process_orvis_product {
             key => 'primary'
         }
     );
+
+    # download image
+
+    my $img_dir_helios = File::Spec->catdir($img_dir, "original_files/helios");
+    make_path( $img_dir_helios );
+
+    my $http = HTTP::Tiny->new();
+    TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
+        if ( my $elt = $xml->first_child('LargeImageURL') ) {
+            if ( my $url = $elt->text ) {
+                ( my $file = $url ) =~ s/^.+\///;
+                my $path = File::Spec->catfile($img_dir_helios, $file);
+                my $response = $http->mirror( $url, $path );
+                if ( $response->{success} ) {
+                    info "response $response->{status} for $tag $pf_id $name";
+                    sleep 1;
+                    last TAG;
+                }
+                else {
+                    error "failed to get $tag for $pf_id $name";
+                }
+            }
+        }
+    }
 
     # add navigation for this canonical product
 
