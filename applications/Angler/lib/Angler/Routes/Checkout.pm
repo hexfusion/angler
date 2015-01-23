@@ -32,6 +32,10 @@ post '/checkout' => sub {
     my $cart_form;
     my $form = form('checkout');
     my $values = $form->values;
+    if (param('get_a_quote')) {
+        return forward '/cart';
+    }
+    debug "Posting to checkout with values: " . to_dumper($values);
 
     # use the shipping_method if it was input in cart.
     if (param('shipping_method')) {
@@ -40,12 +44,18 @@ post '/checkout' => sub {
     else {
         $cart_form = form('cart')->values('session');
     }
+    debug "Checkout form values are" . to_dumper($values);
+    debug "Cart form has the following values: " . to_dumper($cart_form);
+
 
     # take values from cart_form or use default
     $values->{postal_code}     ||= $cart_form->{postal_code};
     $values->{country}         ||= $cart_form->{country} || 'US';
-    $values->{billing_country} ||= $cart_form->{billing_country} || 'US';
+    $values->{billing_country} ||= $cart_form->{billing_country} || $cart_form->{country} || 'US';
+    $values->{billing_postal_code} ||= $cart_form->{billing_postal_code} || $cart_form->{postal_code};
     $values->{shipping_method} ||= $cart_form->{shipping_method};
+
+    debug "Values in checkout routes are: " . to_dumper($values);
 
     # if user logs in on checkout page lets make sure they get back
     if (param('login')) {
@@ -279,9 +289,9 @@ sub checkout_tokens {
                                         cart => $tokens->{cart},
                                         postal_code => $values->{postal_code},
                                         country => $values->{country},
-                                        shipping_methods_id => $values->{shipping_method},
+                                        shipping_methods_id => $values->{shipping_method} || 0,
                                         user_id => session('logged_in_users_id'),);
-
+debug "Angler Cart: ", ref($angler_cart);
     $values ||= {};
 
     $angler_cart->update_costs($values);
@@ -295,12 +305,11 @@ sub checkout_tokens {
         foreach my $rate (@$rates) {
             push @shipping_rates, {
                                      value => $rate->{carrier_service},
-                                     label => "$rate->{carrier} $rate->{service} $rate->{rate}\$",
+                                     label => "$rate->{service} $rate->{rate}\$",
                                     };
         }
         $tokens->{shipping_rates} = \@shipping_rates;
     }
-
 
     my @payment_errors;
     # report the paypal failures too

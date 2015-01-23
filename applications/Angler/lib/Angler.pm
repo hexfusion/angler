@@ -1032,9 +1032,27 @@ hook 'before_cart_display' => sub {
         user_id => session('logged_in_users_id'),
     );
 
-    $values->{shipping_rates} = Angler::Shipping::show_rates($angler_cart);
-    debug to_dumper($values->{shipping_rates});
+    my $rates = Angler::Shipping::show_rates($angler_cart);
+    $values->{shipping_methods} = [];
+    if ($rates && @$rates) {
+        my @shipping_rates;
+        foreach my $rate (@$rates) {
+            push @shipping_rates, {
+                                     value => $rate->{carrier_service},
+                                     label => "$rate->{service} $rate->{rate}\$",
+                                    };
+        }
+        $values->{shipping_methods} = \@shipping_rates;
+        if (@shipping_rates) {
+            $values->{show_shipping_methods} = 1;
+        }
+        debug to_dumper("shipping methods are" . to_dumper($values->{shipping_methods}));
+    }
 
+    if ($form_values->{shipping_method}) {
+        $values->{shipping_method} = $form_values->{shipping_method};
+        debug "Shipping method is " . $form_values->{shipping_method};
+    }
     $angler_cart->update_costs;
 
     $form_values->{country} = $angler_cart->country;
