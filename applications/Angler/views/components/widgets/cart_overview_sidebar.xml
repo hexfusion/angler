@@ -4,5 +4,6 @@
 <param name="name"  class="cart-name"/>
 <param name="price" class="cart-price" filter="currency"/>
 <param name="qty" class="cart-quantity" field="quantity"/>
+<param name="image" field="extra.image" target="src"/>
 </list>
 </specification>
