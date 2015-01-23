@@ -5,6 +5,8 @@
     <param name="price" class="item-price" filter="currency"/>
     <param name="qty" class="item-quantity" field="quantity"/>
     <param name="subtotal" class="item-subtotal" filter="currency"/>
+    <param name="image" field="extra.image" target="src"/>
+    <param name="link" field="uri" target="href"/>
 </list>
 
 <!-- Add Sidebar Cart -->
