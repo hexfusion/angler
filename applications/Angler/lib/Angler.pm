@@ -41,6 +41,29 @@ our $VERSION = '0.1';
 # connect DBIC session engine to our schema
 set session_options => {schema => schema};
 
+=head1 COMMON TOKENS
+
+This is a list of common tokens, which should be used exclusively.
+
+=over 4
+
+=item cart_subtotal
+
+Cart subtotal.
+
+=item cart_shipping
+
+Shipping cost.
+
+=item cart_tax
+
+Tax amount.
+
+=item cart_total
+
+Total amount of order.
+
+=back
 
 =head1 HOOKS
 
