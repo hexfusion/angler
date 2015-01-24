@@ -1038,6 +1038,29 @@ hook 'before_cart_display' => sub {
 
     my $form = form('shipping-quote');
     my $form_values = $form->values('session');
+
+    if (logged_in_user) {
+        # retrieve shipping address
+        #TODO this should be a search and a dropdown to select if multiple
+        my $ship_adr = shop_address->search(
+            {
+                users_id => session('logged_in_user_id'),
+                type => 'shipping',
+            },
+            {
+                order_by => {-desc => 'last_modified'},
+                rows => 1,
+            },
+        )->single;
+
+        if ($ship_adr) {
+            debug "user_address: Shipping address found: ", $ship_adr->id;
+
+            $form_values->{postal_code} ||= $ship_adr->postal_code;
+            $form_values->{country} ||= $ship_adr->country_iso_code;
+        }
+    }
+
     my $angler_cart = Angler::Cart->new(
         schema => shop_schema,
         cart => $cart,
