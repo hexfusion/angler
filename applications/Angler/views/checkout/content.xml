@@ -13,8 +13,9 @@
 <value name="sidebar-cart-overview" include="../components/widgets/cart_overview_sidebar.html"/>
 <value name="subtotal" class="cart-subtotal" field="cart_subtotal"
        filter="currency"/>
-<!--
+
 <value name="cart-shipping" field="cart_shipping" filter="currency"/>
+<!--
 <value name="cart-tax" field="cart_tax" filter="currency"/>
 -->
 

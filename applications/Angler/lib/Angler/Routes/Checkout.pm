@@ -39,7 +39,13 @@ post '/checkout' => sub {
     $values->{country}         ||= $values->{country} || 'US';
     $values->{billing_country} ||= $values->{billing_country} || $values->{country} || 'US';
     $values->{billing_postal_code} ||= $values->{billing_postal_code} || $values->{postal_code};
-    $values->{shipping_method} ||= session('shipping_method');
+
+    if ($values->{shipping_method}) {
+        session 'shipping_method' => $values->{shipping_method};
+    }
+    else {
+        $values->{shipping_method} = session('shipping_method') || 0;
+    }
 
     debug "Values in checkout routes are: " . to_dumper($values);
 
