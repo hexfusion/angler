@@ -176,15 +176,15 @@ DISTRIBUTIONS
       Any::Moose 0.21
     requirements:
       ExtUtils::MakeMaker 6.30
-      Mouse 0.40
-  AnyEvent-7.07
-    pathname: M/ML/MLEHMANN/AnyEvent-7.07.tar.gz
+      Moose 0
+  AnyEvent-7.08
+    pathname: M/ML/MLEHMANN/AnyEvent-7.08.tar.gz
     provides:
-      AE 7.07
-      AnyEvent 7.07
-      AnyEvent::Base 7.07
-      AnyEvent::CondVar 7.07
-      AnyEvent::CondVar::Base 7.07
+      AE 7.08
+      AnyEvent 7.08
+      AnyEvent::Base 7.08
+      AnyEvent::CondVar 7.08
+      AnyEvent::CondVar::Base 7.08
       AnyEvent::Debug undef
       AnyEvent::Debug::Backtrace undef
       AnyEvent::Debug::Wrap undef
@@ -204,6 +204,7 @@ DISTRIBUTIONS
       AnyEvent::Impl::Qt::Io undef
       AnyEvent::Impl::Qt::Timer undef
       AnyEvent::Impl::Tk undef
+      AnyEvent::Impl::UV undef
       AnyEvent::Strict undef
     requirements:
       ExtUtils::MakeMaker 0
@@ -438,6 +439,65 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       SOAP::Lite 0.67
+  CGI-4.13
+    pathname: L/LE/LEEJO/CGI-4.13.tar.gz
+    provides:
+      CGI 4.13
+      CGI::Carp 4.13
+      CGI::Cookie 4.13
+      CGI::File::Temp 4.13
+      CGI::Pretty 4.13
+      CGI::Push 4.13
+      CGI::Util 4.13
+      Fh 4.13
+      MultipartBuffer 4.13
+    requirements:
+      Carp 0
+      Config 0
+      Encode 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0.82
+      File::Temp 0
+      HTML::Entities 3.69
+      base 0
+      constant 0
+      if 0
+      overload 0
+      parent 0.225
+      perl 5.008001
+      strict 0
+      utf8 0
+      warnings 0
+  Cache-Cache-1.08
+    pathname: R/RJ/RJBS/Cache-Cache-1.08.tar.gz
+    provides:
+      Cache::BaseCache undef
+      Cache::BaseCacheTester undef
+      Cache::Cache 1.08
+      Cache::CacheMetaData undef
+      Cache::CacheSizer undef
+      Cache::CacheTester undef
+      Cache::CacheUtils undef
+      Cache::FileBackend undef
+      Cache::FileCache undef
+      Cache::MemoryBackend undef
+      Cache::MemoryCache undef
+      Cache::NullCache undef
+      Cache::Object undef
+      Cache::SharedMemoryBackend undef
+      Cache::SharedMemoryCache undef
+      Cache::SizeAwareCache undef
+      Cache::SizeAwareCacheTester undef
+      Cache::SizeAwareFileCache undef
+      Cache::SizeAwareMemoryCache undef
+      Cache::SizeAwareSharedMemoryCache undef
+    requirements:
+      Digest::SHA1 2.02
+      Error 0.15
+      ExtUtils::MakeMaker 0
+      File::Spec 0.82
+      Storable 1.014
   Capture-Tiny-0.23
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.23.tar.gz
     provides:
@@ -1779,6 +1839,13 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  DateTime-Format-ISO8601-0.08
+    pathname: J/JH/JHOBLITT/DateTime-Format-ISO8601-0.08.tar.gz
+    provides:
+      DateTime::Format::ISO8601 0.08
+    requirements:
+      DateTime 0.18
+      DateTime::Format::Builder 0.77
   DateTime-Format-Mail-0.3001
     pathname: D/DR/DROLSKY/DateTime-Format-Mail-0.3001.tar.gz
     provides:
@@ -2726,22 +2793,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0.47
       perl 5.004
-  Devel-CheckCompiler-0.05
-    pathname: S/SY/SYOHEX/Devel-CheckCompiler-0.05.tar.gz
-    provides:
-      Devel::AssertC99 undef
-      Devel::CheckCompiler 0.05
-    requirements:
-      CPAN::Meta 0
-      CPAN::Meta::Prereqs 0
-      Exporter 0
-      ExtUtils::CBuilder 0
-      File::Temp 0
-      Module::Build 0.38
-      Test::More 0.98
-      Test::Requires 0
-      parent 0
-      perl 5.008001
   Devel-Declare-0.006017
     pathname: E/ET/ETHER/Devel-Declare-0.006017.tar.gz
     provides:
@@ -2964,6 +3015,19 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test 0
       perl 5.008
+  Error-0.17022
+    pathname: S/SH/SHLOMIF/Error-0.17022.tar.gz
+    provides:
+      Error 0.17022
+      Error::Simple 0.17022
+      Error::WarnDie 0.17022
+      Error::subs 0.17022
+    requirements:
+      Module::Build 0.39
+      Scalar::Util 0
+      perl v5.6.0
+      strict 0
+      warnings 0
   Eval-Closure-0.11
     pathname: D/DO/DOY/Eval-Closure-0.11.tar.gz
     provides:
@@ -3369,6 +3433,13 @@ DISTRIBUTIONS
       Filesys::Notify::Simple 0.12
     requirements:
       ExtUtils::MakeMaker 6.30
+  HTML-Obliterate-0.3
+    pathname: D/DM/DMUEY/HTML-Obliterate-0.3.tar.gz
+    provides:
+      HTML::Obliterate 0.3
+    requirements:
+      ExtUtils::MakeMaker 0
+      version 0
   HTML-Parser-3.71
     pathname: G/GA/GAAS/HTML-Parser-3.71.tar.gz
     provides:
@@ -3623,31 +3694,63 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0.31
       Time::HiRes 0
+  Imager-1.001
+    pathname: T/TO/TONYC/Imager-1.001.tar.gz
+    provides:
+      Imager 1.001
+      Imager::Color 1.011
+      Imager::Color::Float 1.005
+      Imager::Color::Table 1.003
+      Imager::CountColor 0.02
+      Imager::Expr 1.006
+      Imager::Expr::Assem 1.003
+      Imager::Expr::Infix 1.006
+      Imager::Expr::Postfix 1.006
+      Imager::ExtUtils 1.002
+      Imager::FORMATS 1.001
+      Imager::File::CUR undef
+      Imager::File::ICO 0.04
+      Imager::File::SGI 0.03
+      Imager::Fill 1.012
+      Imager::Filter::DynTest 0.02
+      Imager::Filter::Flines 0.03
+      Imager::Filter::Mandelbrot 0.04
+      Imager::Font 1.038
+      Imager::Font::BBox 1.006
+      Imager::Font::FreeType2 1.020
+      Imager::Font::Image undef
+      Imager::Font::Test 1.0001
+      Imager::Font::Truetype 1.012
+      Imager::Font::Type1 1.012
+      Imager::Font::Wrap 1.004
+      Imager::Fountain 1.007
+      Imager::IO 1.001
+      Imager::Matrix2d 1.012
+      Imager::Preprocess 1.001
+      Imager::Probe 1.004
+      Imager::Regops undef
+      Imager::Test 1.003
+      Imager::Test::OverUtf8 1.003
+      Imager::Transform 1.006
+    requirements:
+      ExtUtils::MakeMaker 0
+      Scalar::Util 1
+      Test::More 0.47
+      XSLoader 0
+  Imager-File-JPEG-0.90
+    pathname: T/TO/TONYC/Imager-File-JPEG-0.90.tar.gz
+    provides:
+      Imager::File::JPEG 0.90
+    requirements:
+      ExtUtils::MakeMaker 0
+      Imager 0.86
+      XSLoader 0
   Import-Into-1.002000
     pathname: H/HA/HAARG/Import-Into-1.002000.tar.gz
     provides:
       Import::Into 1.002000
     requirements:
       ExtUtils::MakeMaker 0
-  Interchange6-0.062
-    pathname: H/HO/HORNBURG/Interchange6-0.062.tar.gz
-    provides:
-      Interchange6 0.062
-      Interchange6::Cart undef
-      Interchange6::Cart::Cost undef
-      Interchange6::Cart::Product undef
-      Interchange6::Role::Costs undef
-      Interchange6::Types undef
-    requirements:
-      DateTime 0
-      ExtUtils::MakeMaker 0
-      Moo 1.004005
-      MooX::HandlesVia 0
-      MooseX::CoverableModifiers 0.3
-      Test::More 0
-      Test::Most 0
-      Test::Warnings 0
-      namespace::clean 0
   Interchange6-Schema-0.060
     pathname: H/HO/HORNBURG/Interchange6-Schema-0.060.tar.gz
     provides:
@@ -4217,21 +4320,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Module-Build-XSUtil-0.14
-    pathname: H/HI/HIDEAKIO/Module-Build-XSUtil-0.14.tar.gz
-    provides:
-      Module::Build::XSUtil 0.14
-    requirements:
-      Devel::CheckCompiler 0.02
-      Devel::PPPort 3.19
-      Exporter 0
-      ExtUtils::CBuilder 0
-      File::Basename 0
-      File::Path 0
-      Module::Build 0.4005
-      XSLoader 0.02
-      parent 0
-      perl 5.008005
   Module-Find-0.11
     pathname: C/CR/CRENZ/Module-Find-0.11.tar.gz
     provides:
@@ -4881,45 +4969,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 7.02
       Test::More 0.88
       perl 5.008001
-  Mouse-2.4.1
-    pathname: G/GF/GFUJI/Mouse-2.4.1.tar.gz
-    provides:
-      Mouse 2.004001
-      Mouse::Exporter undef
-      Mouse::Meta::Attribute undef
-      Mouse::Meta::Class undef
-      Mouse::Meta::Method undef
-      Mouse::Meta::Method::Accessor undef
-      Mouse::Meta::Method::Constructor undef
-      Mouse::Meta::Method::Delegation undef
-      Mouse::Meta::Method::Destructor undef
-      Mouse::Meta::Module undef
-      Mouse::Meta::Role undef
-      Mouse::Meta::Role::Application undef
-      Mouse::Meta::Role::Application::RoleSummation undef
-      Mouse::Meta::Role::Composite undef
-      Mouse::Meta::Role::Method undef
-      Mouse::Meta::TypeConstraint undef
-      Mouse::Object undef
-      Mouse::PurePerl undef
-      Mouse::Role 2.004001
-      Mouse::Spec 2.004001
-      Mouse::TypeRegistry undef
-      Mouse::Util undef
-      Mouse::Util::MetaRole undef
-      Mouse::Util::TypeConstraints undef
-      Squirrel undef
-      Squirrel::Role undef
-      Test::Mouse undef
-      ouse undef
-    requirements:
-      Devel::PPPort 3.19
-      ExtUtils::ParseXS 3.22
-      Module::Build 0.4005
-      Module::Build::XSUtil 0
-      Scalar::Util 1.14
-      XSLoader 0.02
-      perl 5.008005
   Mozilla-CA-20130114
     pathname: A/AB/ABH/Mozilla-CA-20130114.tar.gz
     provides:
@@ -5405,6 +5454,29 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  Perl-Tidy-20140711
+    pathname: S/SH/SHANCOCK/Perl-Tidy-20140711.tar.gz
+    provides:
+      Perl::Tidy 20140711
+      Perl::Tidy::Debugger 20140711
+      Perl::Tidy::DevNull 20140711
+      Perl::Tidy::Diagnostics 20140711
+      Perl::Tidy::FileWriter 20140711
+      Perl::Tidy::Formatter 20140711
+      Perl::Tidy::HtmlWriter 20140711
+      Perl::Tidy::IOScalar 20140711
+      Perl::Tidy::IOScalarArray 20140711
+      Perl::Tidy::IndentationItem 20140711
+      Perl::Tidy::LineBuffer 20140711
+      Perl::Tidy::LineSink 20140711
+      Perl::Tidy::LineSource 20140711
+      Perl::Tidy::Logger 20140711
+      Perl::Tidy::Tokenizer 20140711
+      Perl::Tidy::VerticalAligner 20140711
+      Perl::Tidy::VerticalAligner::Alignment 20140711
+      Perl::Tidy::VerticalAligner::Line 20140711
+    requirements:
+      ExtUtils::MakeMaker 0
   Plack-1.0033
     pathname: M/MI/MIYAGAWA/Plack-1.0033.tar.gz
     provides:
@@ -5914,6 +5986,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Set-Tiny-0.02
+    pathname: T/TR/TRENDELS/Set-Tiny-0.02.tar.gz
+    provides:
+      Set::Tiny 0.02
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   Snowball-Norwegian-1.2
     pathname: A/AS/ASKSH/Snowball-Norwegian-1.2.tar.gz
     provides:

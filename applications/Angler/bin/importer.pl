@@ -21,6 +21,7 @@ use HTTP::Tiny;
 use Imager;
 use Pod::Usage;
 use Text::Unidecode;
+use Time::HiRes qw/sleep/;
 use Try::Tiny;
 use URI::Escape;
 use XML::Twig;
@@ -34,8 +35,9 @@ my $config = config->{importer};
 
 my $schema = shop_schema;
 
-#my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
-my $img_dir = "/home/syspete/camp11/images";
+my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
+
+my @img_sizes = qw/35 75 100 110 200 325 975/;
 
 my ( $active, $file, $help, $manufacturer );
 
@@ -297,19 +299,101 @@ sub process_orvis_product {
     make_path( $img_dir_helios );
 
     my $http = HTTP::Tiny->new();
+
     TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
-        if ( my $elt = $xml->first_child('LargeImageURL') ) {
+
+        if ( my $elt = $xml->first_child($tag) ) {
+
+            # found the tag
+
             if ( my $url = $elt->text ) {
+
+                # should have an image URL
+
                 ( my $file = $url ) =~ s/^.+\///;
                 my $path = File::Spec->catfile($img_dir_helios, $file);
-                my $response = $http->mirror( $url, $path );
-                if ( $response->{success} ) {
-                    info "response $response->{status} for $tag $pf_id $name";
-                    sleep 1;
-                    last TAG;
+
+                # get image if it doesn't already exist
+
+                unless ( -r $path ) {
+                    my $response = $http->mirror( $url, $path );
+                    sleep rand(0.5); # don't hit them too hard
+                    unless ( $response->{success} ) {
+                        error "failed to get $url: " . $response->{reason};
+                        next TAG;
+                    }
                 }
-                else {
-                    error "failed to get $tag for $pf_id $name";
+
+                SIZE: foreach my $size ( @img_sizes ) {
+
+                    ( my $ext = lc($file) ) =~ s/^.+\.//;
+
+                    my $dir = File::Spec->catdir( $img_dir, "${size}x${size}" );
+                    make_path($dir);
+
+                    my $new_file = "${uri}.${ext}";
+                    my $new_path = File::Spec->catfile( $dir, $new_file );
+
+                    unless ( -r $new_path ) {
+
+                        # we don't have this image yet so create is
+
+                        my $img = Imager->new( file => $path );
+
+                        unless ($img) {
+                            error "Imager read failed for $tag $pf_id $name: "
+                            . Imager->errstr;
+                            next TAG;
+                        }
+
+                        # scale
+                        $img = $img->scale(
+                            xpixels => $size,
+                            ypixels => $size,
+                            type    => 'min'
+                        );
+
+                        unless ($img) {
+                            error "Imager scale barfed for $size"
+                              . "x$size on $tag $pf_id $name: "
+                              . $img->errstr;
+                            next SIZE;
+                        }
+
+                        # write it
+                        if ( $ext eq 'jpg' ) {
+                            my $ret = $img->write(
+                                file        => $new_path,
+                                jpegquality => 90
+                            );
+                            unless ($ret) {
+                                error "Imager write failed: " . $img->errstr;
+                                next SIZE;
+                            }
+                        }
+                        else {
+                            my $ret = $img->write( file => $new_path );
+                            unless ($ret) {
+                                error "Imager write failed: " . $img->errstr;
+                                next SIZE;
+                            }
+                        }
+                    }
+
+                    # make sure we've got the database entry for this image
+
+                    $schema->resultset('Media')->find_or_create(
+                        {
+                            file           => $new_file,
+                            uri            => $new_file,
+                            mime_type      => "image/$ext",
+                            media_types_id => $mediatype_image->id,
+                        },
+                        {
+                            key => 'medias_file',
+                        }
+                    );
+                    last TAG;
                 }
             }
         }
@@ -359,7 +443,12 @@ sub process_orvis_product {
 
         # add product to the final nav
 
-        $nav->add_to_navigation_products({ sku => $product->sku });
+        $schema->resultset('NavigationProduct')->find_or_create(
+            {
+                navigation_id => $nav->id,
+                sku           => $product->sku
+            }
+        );
     }
     else {
         warning unidecode("no Navigator element for $sku $name\n");

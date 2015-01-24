@@ -1,7 +1,9 @@
+requires 'Time::HiRes';
 requires 'File::Path';
 requires 'File::Spec';
 requires 'HTTP::Tiny';
 requires 'Imager';
+requires 'Imager::File::JPEG';
 requires 'Cache::FileCache';
 requires 'HTML::Obliterate';
 requires 'Set::Tiny';
