@@ -6,4 +6,11 @@
 <param name="qty" class="cart-quantity" field="quantity"/>
 <param name="image" field="extra.image" target="src"/>
 </list>
+
+<!-- Cart Totals -->
+<value name="subtotal" class="cart-subtotal" field="cart_subtotal" filter="currency"/>
+<value name="cart-shipping" field="cart_shipping" filter="currency"/>
+<value name="cart-tax" field="cart_tax" filter="currency"/>
+<value name="total" class="cart-total" field="cart_total" filter="currency"/>
+
 </specification>
