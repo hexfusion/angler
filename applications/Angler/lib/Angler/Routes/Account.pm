@@ -172,7 +172,7 @@ sub states {
 
 
 # my account
-get '/account' => sub {
+get '/account' => require_role user => sub {
     my $user = shop_user(session('logged_in_user_id'));
 
     # this should never happen with DPAE
@@ -223,7 +223,7 @@ get '/account' => sub {
     template 'account/content', \%tokens;
 };
 
-get '/account/edit' => sub {
+get '/account/edit' => require_role user => sub {
     my $form = form('edit');
     my $user = shop_user->find(session('logged_in_user_id'));
     $form->fill({   email => $user->email,
@@ -233,7 +233,7 @@ get '/account/edit' => sub {
     template 'account/edit', {form => $form};
 };
 
-post '/account/edit' => sub {
+post '/account/edit'  => require_role user => sub {
     my $form = form('edit');
     my $values = $form->values;
     my $email = $values->{email};
@@ -334,7 +334,7 @@ post '/account/edit' => sub {
 };
 
 # my address
-get '/account/address' => sub {
+get '/account/address' => require_role user => sub {
     my $user = shop_user(session('logged_in_user_id'));
 
     # this should never happen with DPAE
@@ -451,7 +451,7 @@ get '/account/address/edit/:addresses_id' => sub {
     template 'account/address/edit', \%tokens;
   };
 
-post '/account/address/edit/:addresses_id' => sub {
+post '/account/address/edit/:addresses_id'  => require_role user => sub {
     my %tokens;
     my $form = form('edit');
     my $values = $form->values;
