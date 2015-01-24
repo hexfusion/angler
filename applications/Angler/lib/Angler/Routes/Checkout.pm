@@ -608,7 +608,7 @@ sub user_address {
             type => 'billing',
         },
         {
-            order_by => 'last_modified DESC',
+            order_by => {-desc => 'last_modified'},
             rows => 1,
         },
     )->single;
@@ -628,7 +628,7 @@ sub user_address {
             type => 'shipping',
         },
         {
-            order_by => 'last_modified DESC',
+            order_by => {-desc => 'last_modified'},
             rows => 1,
         },
     )->single;
