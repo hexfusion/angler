@@ -32,28 +32,14 @@ post '/checkout' => sub {
     my $cart_form;
     my $form = form('checkout');
     my $values = $form->values;
-    if (param('get_a_quote')) {
-        return forward '/cart';
-    }
-    debug "Posting to checkout with values: " . to_dumper($values);
-
-    # use the shipping_method if it was input in cart.
-    if (param('shipping_method')) {
-        $cart_form = form('cart')->values;
-    }
-    else {
-        $cart_form = form('cart')->values('session');
-    }
-    debug "Checkout form values are" . to_dumper($values);
-    debug "Cart form has the following values: " . to_dumper($cart_form);
-
+    my $shipping_quote_values = form('shipping-quote')->values('session');
 
     # take values from cart_form or use default
-    $values->{postal_code}     ||= $cart_form->{postal_code};
-    $values->{country}         ||= $cart_form->{country} || 'US';
-    $values->{billing_country} ||= $cart_form->{billing_country} || $cart_form->{country} || 'US';
-    $values->{billing_postal_code} ||= $cart_form->{billing_postal_code} || $cart_form->{postal_code};
-    $values->{shipping_method} ||= $cart_form->{shipping_method};
+    $values->{postal_code}     ||= $shipping_quote_values->{postal_code};
+    $values->{country}         ||= $values->{country} || 'US';
+    $values->{billing_country} ||= $values->{billing_country} || $values->{country} || 'US';
+    $values->{billing_postal_code} ||= $values->{billing_postal_code} || $values->{postal_code};
+    $values->{shipping_method} ||= session('shipping_method');
 
     debug "Values in checkout routes are: " . to_dumper($values);
 
@@ -190,6 +176,29 @@ post '/checkout' => sub {
     template 'checkout/content', checkout_tokens($form, $error_hash, $values);
 };
 
+post '/shipping-quote' => sub {
+    my $form = form('shipping-quote');
+
+    # save to session so cart route picks it up
+    $form->to_session;
+
+    if (param('get_quote')) {
+        # retrieving quotes, no-op
+    }
+    elsif (param('select_quote')) {
+        # selecting quotes
+
+        my $ship_method_id = param('shipping_method');
+
+        if ($ship_method_id) {
+            debug "Selecting shipping method $ship_method_id in SQ route.";
+            session shipping_method => $ship_method_id;
+        }
+    }
+
+    redirect '/cart';
+};
+
 get '/paypal-checkout' => sub {
     my $pp = pp_obj();
 
@@ -289,7 +298,7 @@ sub checkout_tokens {
                                         cart => $tokens->{cart},
                                         postal_code => $values->{postal_code},
                                         country => $values->{country},
-                                        shipping_methods_id => $values->{shipping_method} || 0,
+                                        shipping_methods_id => session('shipping_method') || 0,
                                         user_id => session('logged_in_users_id'),);
 debug "Angler Cart: ", ref($angler_cart);
     $values ||= {};
@@ -300,16 +309,18 @@ debug "Angler Cart: ", ref($angler_cart);
     $tokens->{cart_shipping} = $angler_cart->shipping_cost;
 
     my $rates = Angler::Shipping::show_rates($angler_cart);
+    my @shipping_rates;
+
     if ($rates) {
-        my @shipping_rates;
         foreach my $rate (@$rates) {
             push @shipping_rates, {
                                      value => $rate->{carrier_service},
                                      label => "$rate->{service} $rate->{rate}\$",
                                     };
         }
-        $tokens->{shipping_rates} = \@shipping_rates;
     }
+
+    $tokens->{shipping_rates} = \@shipping_rates;
 
     my @payment_errors;
     # report the paypal failures too
@@ -365,7 +376,6 @@ debug "Angler Cart: ", ref($angler_cart);
 
     # iterator for states
     $tokens->{states} = states($tokens->{country});
-
 
     return $tokens;
 };
@@ -617,7 +627,7 @@ sub user_address {
         debug "Billing address found: ", $bill_adr->id;
 
         $form_values = Angler::Forms::Checkout->new(
-            billing_address => $bill_adr,
+            address => $bill_adr,
         )->transpose;
     }
 

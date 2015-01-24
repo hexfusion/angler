@@ -1013,20 +1013,12 @@ hook 'before_cart_display' => sub {
 
     $values->{countries} = countries();
 
-    my $form = form('cart');
-    my $form_values;
-
-    if (request->method eq 'GET') {
-        $form_values = $form->values('session');
-    }
-    else {
-        $form_values = $form->values;
-    }
-
+    my $form = form('shipping-quote');
+    my $form_values = $form->values('session');
     my $angler_cart = Angler::Cart->new(
         schema => shop_schema,
         cart => $cart,
-        shipping_methods_id => $form_values->{shipping_method},
+        shipping_methods_id => session('shipping_method') || 0,
         country => $form_values->{country},
         postal_code => $form_values->{postal_code},
         user_id => session('logged_in_users_id'),
@@ -1037,16 +1029,24 @@ hook 'before_cart_display' => sub {
     if ($rates && @$rates) {
         my @shipping_rates;
         foreach my $rate (@$rates) {
-            push @shipping_rates, {
-                                     value => $rate->{carrier_service},
-                                     label => "$rate->{service} $rate->{rate}\$",
-                                    };
+            my $iref = {
+                value => $rate->{carrier_service},
+                label => "$rate->{service} $rate->{rate}\$",
+            };
+            if ($rate->{carrier_service} == $angler_cart->shipping_methods_id) {
+                $iref->{checked} = 'checked';
+            }
+
+            push @shipping_rates, $iref;
         }
         $values->{shipping_methods} = \@shipping_rates;
         if (@shipping_rates) {
             $values->{show_shipping_methods} = 1;
         }
-        debug to_dumper("shipping methods are" . to_dumper($values->{shipping_methods}));
+        debug "shipping methods are", $values->{shipping_methods};
+    }
+    else {
+        debug "No rates found for: ", $form_values;
     }
 
     if ($form_values->{shipping_method}) {
@@ -1070,6 +1070,7 @@ hook 'before_cart_display' => sub {
     # $values->{shipping_warning} = 'No shipping methods for this country/zip';
     # }
 
+    # filling cart form
     $form->fill($form_values);
     $values->{form} = $form;
 };

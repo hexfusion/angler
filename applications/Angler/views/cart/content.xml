@@ -19,7 +19,7 @@
 </container>
 -->
 
-<form name="cart" target="name" id="form-cart">
+<form name="shipping-quote" link="name">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
 <field name="state" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
 <field name="shipping_method" class="shipping-rate-value" />
@@ -30,6 +30,7 @@
   <list name="shipping-rate" iterator="shipping_methods">
     <param name="shipping-rate-value" field="value" target="value" />
     <param name="shipping-rate-label" field="label" />
+    <param name="shipping-rate-checked" class="shipping-rate-value" field="checked" target="checked" />
   </list>
 </container>
 

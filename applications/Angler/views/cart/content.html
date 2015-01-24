@@ -65,10 +65,10 @@
                         </table>
                        </fieldset>
                     </form>
-                    <form id="form-cart" name="cart" action="/checkout" method="POST">
                     <div class="cart-collaterals">
                       <div class="col2-set">
                         <div class="col-1">
+                          <form id="form-cart" name="cart" action="/checkout" method="POST">
                           <div class="crosssell">
                             <h2>Based on your selection, you may be interested in the following items:</h2>
                             <ul id="crosssell-products-list">
@@ -106,11 +106,13 @@
                                 </div>
                               </li>
                             </ul>
-                           </div>
+                          </div>
+                          </form>
                         </div>
                         <div class="col-2">
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
+                            <form id="form-shipping-quote" name="shipping-quote" action="/shipping-quote" method="POST">
                             <fieldset>
                             <div class="shipping-form">
                                 <p>Enter your destination to get a shipping estimate.</p>
@@ -134,7 +136,7 @@
                                 <div class="buttons-set">
                                 <button type="submit" title="Get a quote" 
                                         class="button btn-proceed-checkout btn-checkout" 
-                                        name="get_a_quote" value="get_a_quote">
+                                        name="get_quote" value="1">
                                   <span><span>Get a Quote</span></span></button>                            
                                 </div>
                               </div>
@@ -150,11 +152,17 @@
                                   </li>
                                 </ul>
                               </div>
+                              <div class="buttons-set">
+                                <button type="submit" name="select_quote" value="1" title="Select a quote" class="button btn-proceed-checkout btn-checkout"><span><span>Select a Quote</span></span></button>                            
+                              </div>
                             </fieldset>
+
+                            </form>
                           </div>
                         </div>
                       </div>
                       <div class="totals">
+                        <form action="/checkout" method="POST">
                         <table id="shopping-cart-totals-table">
                           <colgroup>
                           <col>
@@ -183,6 +191,7 @@
                           </li>
                           <!--<li><a href="" title="Checkout with Multiple Addresses">Checkout with Multiple Addresses</a> </li> -->
                         </ul>
+                        </form>
                       </div>
                     </div>
                     </form>

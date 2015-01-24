@@ -60,7 +60,7 @@
     <field name="card_cvc" id="inputCardCVC"/>
     <field name="payment_method" id="inputPaymentMethod" />
 
-    <!-- barfing field name="shipping_method" iterator="shipping_rates" /-->
+    <field name="shipping_method" iterator="shipping_rates"/>
 </form>
 
 <!-- Email errors -->
