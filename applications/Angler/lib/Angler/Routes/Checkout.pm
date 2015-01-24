@@ -59,7 +59,7 @@ post '/checkout' => sub {
 
     # if user logs in on checkout page lets make sure they get back
     if (param('login')) {
-        forward '/login', {return_url => 'checkout'}, {method => 'get'},
+        return forward '/login', {return_url => 'checkout'}, {method => 'get'},
     }
 
     if ($form->pristine and logged_in_user) {
