@@ -382,7 +382,7 @@ sub process_orvis_product {
 
                     # make sure we've got the database entry for this image
 
-                    $schema->resultset('Media')->find_or_create(
+                    my $media = $schema->resultset('Media')->find_or_create(
                         {
                             file           => $new_file,
                             uri            => $new_file,
@@ -391,6 +391,12 @@ sub process_orvis_product {
                         },
                         {
                             key => 'medias_file',
+                        }
+                    );
+                    $schema->resultset('MediaProduct')->find_or_create(
+                        {
+                            media_id => $media->id,
+                            sku      => $sku,
                         }
                     );
                     last TAG;
