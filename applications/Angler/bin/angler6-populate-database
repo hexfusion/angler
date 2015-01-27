@@ -110,6 +110,18 @@ shop_address->create({
     country_iso_code => 'US',
 });
 
+shop_address->create({
+    users_id => $users{greg}->id,
+    first_name => 'Agneta',
+    last_name => 'Fisherfru',
+    type => 'billing',
+    address => 'Golden Ave',
+    postal_code => '97203',
+    city => 'Portland',
+    states_id => $state_oregon->id,
+    country_iso_code => 'US',
+});
+
 # Create user sam
 $users{sam} = shop_user->create(
     { username => 'sbatschelet@mac.com', password => 'Testing123', nickname => 'trout lover',
@@ -125,7 +137,7 @@ shop_address->create({
     users_id => $users{sam}->id,
     first_name => $users{sam}->first_name,
     last_name => $users{sam}->last_name,
-    type => 'billing',
+    type => 'shipping',
     address => '416 Twist Run Rd',
     postal_code => '13760',
     city => 'Endwell',
