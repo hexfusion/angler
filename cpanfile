@@ -3,6 +3,7 @@ requires 'File::Path';
 requires 'File::Spec';
 requires 'HTTP::Tiny';
 requires 'Imager';
+requires 'Imager::File::GIF';
 requires 'Imager::File::JPEG';
 requires 'Cache::FileCache';
 requires 'HTML::Obliterate';
