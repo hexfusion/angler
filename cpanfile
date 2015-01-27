@@ -1,3 +1,5 @@
+requires 'Spreadsheet::ParseExcel';
+requires 'Spreadsheet::ParseXLSX';
 requires 'Time::HiRes';
 requires 'File::Path';
 requires 'File::Spec';
