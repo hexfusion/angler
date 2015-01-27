@@ -12,143 +12,10 @@
 
             </div>
             <form action="/checkout" class="account-info" method="POST">
-            <ol class="opc" id="checkoutSteps">
-              <li id="opc-billing" class="section">
-                <div id="checkout-step-billing" class="step a-item">
-                <div class="step-title">
-                  <h2>Billing Information</h2>
-                </div>
-                  <ul class="form-list">
-                  <li id="billing-new-address-form">
-<div class="well">
-                  <ul>
-                    <li class="fields">
-                      <div class="customer-name">
-                        <div class="field name-firstname control-group error">
-                          <label for="inputBillingFirstName" class="required"><em>*</em>First Name</label>
-                            <div class="billing_first_name input-box">
-                            <input type="text" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" title="First Name" maxlength="255" class="input-text required-entry"  />
-                             <span class="form-error" id="errorBillingFirstName">Error</span>
-                          </div>
-                        </div>
-                        <div class="field name-lastname control-group error">
-                          <label for="inputBillingLastName" class="required"><em>*</em>Last Name</label>
-                          <div class="billing_last_name input-box">
-                            <input type="text" id="inputBillingLastName" name="billing_last_name" placeholder="Last name" title="Last Name" maxlength="255" class="input-text required-entry"  />
-                            <span class="form-error" id="errorBillingLastName">Error</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="fields">
-                      <div class="field control-group error">
-                         <label for="inputBillingCompany">Company</label>
-                        <div class="billing_company input-box">
-                          <input type="text" id="inputBillingCompany" name="billing_company" placeholder="Company" title="Company" class="input-text required-entry" />
-                          <span class="form-error" id="errorBillingCompany">Error</span>
-                        </div>
-                      </div>
-                      <div class="field control-group error">
-                        <label for="inputEmail" class="required"><em>*</em>Email Address</label>
-                        <div class="email input-box">
-                          <input type="text" id="inputEmail" name="email" placeholder="Email" title="Email Address" class="input-text required-entry" />
-                          <span class="form-error" id="errorEmail">Error</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="wide">
-                    <div class="field control-group error">
-                      <label for="inputBillingAddress" class="required"><em>*</em>Address</label>
-                      <div class="billing_address input-box">
-                        <input type="text" title="Street Address" id="inputBillingAddress" name="billing_address" placeholder="Address" class="input-text  required-entry" />
-                        <span class="form-error" id="errorBillingAddress">Error</span>
-                      </div>
-                    </div>
-                    </li>
-                    <li class="wide">
-                      <div class="billing_address_2 input-box">
-                        <input type="text" title="Street Address 2" id="inputBillingAddress2" name="billing_address_2" placeholder="Address 2" class="input-text " />
-                      </div>
-                    </li>
-                    <li class="fields">
-                      <div class="field control-group error">
-                        <label for="inputBillingCity" class="required"><em>*</em>City</label>
-                        <div class="billing_city input-box">
-                          <input type="text" title="City" id="inputBillingCity" name="billing_city" placeholder="City" class="input-text  required-entry" />
-                          <span class="control-label" for="inputError" id="errorBillingCity">Error</span>
-                        </div>
-                      </div>
-                      <div class="field control-group error">
-                        <label for="inputBillingState" class="required"><em>*</em>State/Province</label>
-                        <div class="billing_state input-box">
-                          <select class="input-xlarge" id="inputBillingState" name="billing_state" placeholder="Choose State">
-                           <option>State</option>
-                          </select>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="fields">
-                      <div class="field control-group error">
-                        <label for="inputBillingPostalCode" class="required"><em>*</em>Zip/Postal Code</label>
-                        <div class="billing_postal_code input-box">
-                          <input type="text" title="Zip/Postal Code" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" class="input-text required-entry" />
-                          <span class="control-label" for="inputError" id="errorBillingPostalCode">Error</span>
-                        </div>
-                      </div>
-                      <div class="field control-group error">
-                        <label for="inputBillingCountry" class="required"><em>*</em>Country</label>
-                        <div class="input-box">
-                          <select class="input-xlarge" name="billing_country" id="inputBillingCountry" title="Country" placeholder="Choose Country" >
-                            <option>Country</option>
-                          </select>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="fields">
-                      <div class="field control-group error">
-                        <label for="inputBillingPhone" class="required"><em>*</em>Telephone</label>
-                        <div class="billing_phone input-box">
-                          <input type="text" id="inputBillingPhone" name="billing_phone" placeholder="Phone" title="Telephone" class="input-text  required-entry"/>
-                          <span class="control-label" for="inputError" id="errorBillingPhone">Error</span>
-                        </div>
-                      </div>
-                      <div class="field">
-                        <label for="inputBillingFax">Fax</label>
-                        <div class="billing_fax input-box">
-                          <input type="text" id="inputBillingFax" name="billing_fax" placeholder="Fax" title="Fax" class="input-text"/>
-                        </div>
-                      </div>
-                    </li>
-<!--                    <li class="fields" id="register-customer-password">
-                      <div class="field control-group error">
-                        <label for="inputPassword" class="required"><em>*</em>Password</label>
-                        <div class="password input-box">
-                          <input id="inputPassword" name="password" placeholder="Password" type="password" title="Password" class="input-text required-entry validate-password" />
-                          <span class="control-label" for="inputError" id="errorPassword">Error</span>
-                        </div>
-                      </div>
-                      <div class="field control-group error">
-                        <label for="billing:confirm_password" class="required"><em>*</em>Confirm Password</label>
-                        <div class="input-box">
-                          <input type="password" name="" title="Confirm Password" id="" class="input-text required-entry validate-cpassword" />
-                          <span class="control-label" for="inputError" id="errorPasswordConfirm">Error</span>
-                        </div>
-                      </div>
-                    </li>
--->
-                  <li class="control">
-                      <input type="checkbox" data-related-item="shipping_container" id="inputShippingEnabled" name="shipping_enabled" value="1" title="Use Differnt Shipping Address" class="checkbox" />
-                      <label for="shipping:same_as_billing">Different Shipping Address</label>
-                    </li>
-                  </ul>
-                </div><!-- end well -->
-                </div>
-                </li>
-                <!-- end billing information -->
-               
-                  <li id="opc-billing" class="section">
-<div id="shipping_container">               
-     <div id="checkout-step-billing" class="step a-item">
+              <ol class="opc" id="checkoutSteps">
+                <li id="opc-billing" class="section">
+                  <div id="shipping_container">               
+                    <div id="checkout-step-billing" class="step a-item">
                     <div class="step-title">
                       <h2>Shipping Information</h2>
                     </div>
@@ -255,11 +122,147 @@
                           </div>
                         </div>
                       </li>
+                                        <li class="control">
+                      <input type="checkbox" data-related-item="billing-container" id="inputBillingEnabled" name="billing_enabled" value="1" title="Use Differnt Shipping Address" class="checkbox" />
+                      <label for="shipping:same_as_billing">Different Billing Address</label>
+                    </li>
                     </ul>
                     </div><!-- end well -->
                     </div>
                     </div>
                     </div><!-- end shipping container -->
+
+                <li id="opc-billing" class="section">
+                  <div id="billing-container">
+                <div id="checkout-step-billing" class="step a-item">
+                <div class="step-title">
+                  <h2>Billing Information</h2>
+                </div>
+                  <ul class="form-list">
+                  <li id="billing-new-address-form">
+<div class="well">
+                  <ul>
+                    <li class="fields">
+                      <div class="customer-name">
+                        <div class="field name-firstname control-group error">
+                          <label for="inputBillingFirstName" class="required"><em>*</em>First Name</label>
+                            <div class="billing_first_name input-box">
+                            <input type="text" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" title="First Name" maxlength="255" class="input-text required-entry"  />
+                             <span class="form-error" id="errorBillingFirstName">Error</span>
+                          </div>
+                        </div>
+                        <div class="field name-lastname control-group error">
+                          <label for="inputBillingLastName" class="required"><em>*</em>Last Name</label>
+                          <div class="billing_last_name input-box">
+                            <input type="text" id="inputBillingLastName" name="billing_last_name" placeholder="Last name" title="Last Name" maxlength="255" class="input-text required-entry"  />
+                            <span class="form-error" id="errorBillingLastName">Error</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="fields">
+                      <div class="field control-group error">
+                         <label for="inputBillingCompany">Company</label>
+                        <div class="billing_company input-box">
+                          <input type="text" id="inputBillingCompany" name="billing_company" placeholder="Company" title="Company" class="input-text required-entry" />
+                          <span class="form-error" id="errorBillingCompany">Error</span>
+                        </div>
+                      </div>
+                      <div class="field control-group error">
+                        <label for="inputEmail" class="required"><em>*</em>Email Address</label>
+                        <div class="email input-box">
+                          <input type="text" id="inputEmail" name="email" placeholder="Email" title="Email Address" class="input-text required-entry" />
+                          <span class="form-error" id="errorEmail">Error</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="wide">
+                    <div class="field control-group error">
+                      <label for="inputBillingAddress" class="required"><em>*</em>Address</label>
+                      <div class="billing_address input-box">
+                        <input type="text" title="Street Address" id="inputBillingAddress" name="billing_address" placeholder="Address" class="input-text  required-entry" />
+                        <span class="form-error" id="errorBillingAddress">Error</span>
+                      </div>
+                    </div>
+                    </li>
+                    <li class="wide">
+                      <div class="billing_address_2 input-box">
+                        <input type="text" title="Street Address 2" id="inputBillingAddress2" name="billing_address_2" placeholder="Address 2" class="input-text " />
+                      </div>
+                    </li>
+                    <li class="fields">
+                      <div class="field control-group error">
+                        <label for="inputBillingCity" class="required"><em>*</em>City</label>
+                        <div class="billing_city input-box">
+                          <input type="text" title="City" id="inputBillingCity" name="billing_city" placeholder="City" class="input-text  required-entry" />
+                          <span class="control-label" for="inputError" id="errorBillingCity">Error</span>
+                        </div>
+                      </div>
+                      <div class="field control-group error">
+                        <label for="inputBillingState" class="required"><em>*</em>State/Province</label>
+                        <div class="billing_state input-box">
+                          <select class="input-xlarge" id="inputBillingState" name="billing_state" placeholder="Choose State">
+                           <option>State</option>
+                          </select>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="fields">
+                      <div class="field control-group error">
+                        <label for="inputBillingPostalCode" class="required"><em>*</em>Zip/Postal Code</label>
+                        <div class="billing_postal_code input-box">
+                          <input type="text" title="Zip/Postal Code" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" class="input-text required-entry" />
+                          <span class="control-label" for="inputError" id="errorBillingPostalCode">Error</span>
+                        </div>
+                      </div>
+                      <div class="field control-group error">
+                        <label for="inputBillingCountry" class="required"><em>*</em>Country</label>
+                        <div class="input-box">
+                          <select class="input-xlarge" name="billing_country" id="inputBillingCountry" title="Country" placeholder="Choose Country" >
+                            <option>Country</option>
+                          </select>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="fields">
+                      <div class="field control-group error">
+                        <label for="inputBillingPhone" class="required"><em>*</em>Telephone</label>
+                        <div class="billing_phone input-box">
+                          <input type="text" id="inputBillingPhone" name="billing_phone" placeholder="Phone" title="Telephone" class="input-text  required-entry"/>
+                          <span class="control-label" for="inputError" id="errorBillingPhone">Error</span>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <label for="inputBillingFax">Fax</label>
+                        <div class="billing_fax input-box">
+                          <input type="text" id="inputBillingFax" name="billing_fax" placeholder="Fax" title="Fax" class="input-text"/>
+                        </div>
+                      </div>
+                      </div>
+                    </li>
+<!--                    <li class="fields" id="register-customer-password">
+                      <div class="field control-group error">
+                        <label for="inputPassword" class="required"><em>*</em>Password</label>
+                        <div class="password input-box">
+                          <input id="inputPassword" name="password" placeholder="Password" type="password" title="Password" class="input-text required-entry validate-password" />
+                          <span class="control-label" for="inputError" id="errorPassword">Error</span>
+                        </div>
+                      </div>
+                      <div class="field control-group error">
+                        <label for="billing:confirm_password" class="required"><em>*</em>Confirm Password</label>
+                        <div class="input-box">
+                          <input type="password" name="" title="Confirm Password" id="" class="input-text required-entry validate-cpassword" />
+                          <span class="control-label" for="inputError" id="errorPasswordConfirm">Error</span>
+                        </div>
+                      </div>
+                    </li>
+-->
+
+                  </ul>
+                </div><!-- end well -->
+                </div>
+                </li>
+                <!-- end billing information -->
                     </li>
                     <li class="section">
                       <div class="step-title">

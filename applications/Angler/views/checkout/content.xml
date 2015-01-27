@@ -24,6 +24,7 @@
 <form name="checkout" class="account-info">
     <field name="email" id="inputEmail"/>
     <!-- Billing -->
+    <field name="billing_enabled" id="inputBillingEnabled"/>
     <field name="billing_first_name" id="inputBillingFirstName"/>
     <field name="billing_last_name" id="inputBillingLastName"/>
     <field name="billing_company" id="inputBillingCompany"/>
@@ -36,7 +37,6 @@
     <field name="billing_postal_code" id="inputBillingPostalCode"/>
     <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
     <!-- Shipping -->
-    <field name="shipping_enabled" id="inputShippingEnabled"/>
     <field name="first_name" id="inputFirstName"/>
     <field name="last_name" id="inputLastName"/>
     <field name="company" id="inputCompany"/>

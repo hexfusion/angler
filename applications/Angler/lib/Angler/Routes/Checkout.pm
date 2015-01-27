@@ -616,27 +616,6 @@ sub user_address {
     my $form_values;
     debug "user_address: POST Prefill form with addresses.";
 
-    # find existing billing address for user
-    #TODO this should be a search and a dropdown to select if multiple
-    my $bill_adr = shop_address->search(
-        {
-            users_id => session('logged_in_user_id'),
-            type => 'billing',
-        },
-        {
-            order_by => {-desc => 'last_modified'},
-            rows => 1,
-        },
-    )->single;
-
-    if ($bill_adr) {
-        debug "Billing address found: ", $bill_adr->id;
-
-        $form_values = Angler::Forms::Checkout->new(
-            address => $bill_adr,
-        )->transpose;
-    }
-
     #TODO this should be a search and a dropdown to select if multiple
     my $ship_adr = shop_address->search(
         {
@@ -652,8 +631,32 @@ sub user_address {
     if ($ship_adr) {
         debug "user_address: Shipping address found: ", $ship_adr->id;
 
+        $form_values = Angler::Forms::Checkout->new(
+            address => $ship_adr,
+        )->transpose;
+        
         $form_values->{shipping_enabled} = 1;
         $form_values->{shipping_id} = $ship_adr->id;
+    }
+
+       # find existing billing address for user
+    #TODO this should be a search and a dropdown to select if multiple
+    my $bill_adr = shop_address->search(
+        {
+            users_id => session('logged_in_user_id'),
+            type => 'billing',
+        },
+        {
+            order_by => {-desc => 'last_modified'},
+            rows => 1,
+        },
+    )->single;
+
+    if ($bill_adr) {
+        debug "Billing address found: ", $bill_adr->id;
+
+        $form_values->{billing_enabled} = 1;
+        $form_values->{billing_id} = $bill_adr->id;
     }
         debug "user_address: Filling checkout form with: ", $form_values;
   
