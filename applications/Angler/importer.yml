@@ -1,0 +1,246 @@
+options:
+    product_prefix: WB
+    join_string: "-"
+    filters:
+        Attribute:
+            name:
+                - lc
+                - special2underscore
+        AttributeValue:
+            value:
+                - lc
+                - special2underscore
+        Navigation:
+            uri:
+                - lc
+                - special2underscore
+                - space2dash
+        Product:
+            sku:
+                - lc
+                - space2dash
+            uri:
+                - lc
+                - special2underscore
+                - space2dash
+manufacturers:
+    hatch:
+        prefix: HA
+        full_name: Hatch Outdoors
+        short_name: Hatch
+    loomis:
+        prefix: LO
+        full_name: Loomis
+    orvis:
+        prefix: OR
+        full_name: The Orvis Company
+        short_name: Orvis
+        type: xml
+        fields:
+            description:
+                - xml:PF_Description|Best_Item_Name|PF_Name
+            price:
+                - xml:Min_List_Price|Min_Regular_Price
+            name:
+                - short_name
+                - xml:Best_Item_Name|PF_Name
+            navigation:
+                - xml:Dir_Name
+                - xml:Group_Name
+                - xml:Cat_Name
+                - xml:SubCat_Name
+            sku:
+                - product_prefix
+                - prefix
+                - xml:PF_ID
+            uri:
+                - short_name
+                - xml:Best_Item_Name|PF_Name
+            canonical:
+                sku:
+                    - product_prefix
+                    - prefix
+    patagonia:
+        prefix: PA
+        full_name: Patagonia
+        type: xls
+        fields:
+            navigation:
+                - xls:Category1
+                - xls:Category2
+                - xls:Category3
+            all:
+                price: xls:Retail
+                gtin: UPC
+            canonical:
+                sku:
+                    - product_prefix
+                    - prefix
+                    - xls:Item
+                name:
+                    - full_name
+                    - xls:Product
+                uri:
+                    - full_name
+                    - xls:Product
+            variant:
+                attributes:
+                    color: xls:Color
+                    size: xls:Size
+                sku:
+                    - product_prefix
+                    - prefix
+                    - xls:Item
+                    - xls:Color_Code
+                    - xls:Size
+                name:
+                    - full_name
+                    - xls:Product
+                    - xls:Color_Code
+                uri:
+                    - full_name
+                    - xls:Product
+                    - xls:Color_Code
+                    - xls:Size
+        navigation_alias:
+            filters:
+                -
+                    field: Product
+                    regexp: "^M's"
+                    result: men
+                -
+                    field: Product
+                    regexp: "^W's"
+                    result: women
+            clothing:
+                - men:
+                    - outerwear:
+                        - alpine/shell-tops
+                        - alpine/shell-bottoms
+                        - alpine/insulation-tops
+                        - trail-running/tops
+                        - trail-running/bottoms
+                        - trail-running/outerwear
+                - women:
+                    - outerwear:
+                        - alpine/shell-tops
+                        - alpine/shell-bottoms
+                        - alpine/insulation-tops
+                        - trail-running/tops
+                        - trail-running/bottoms
+                        - trail-running/outerwear
+                - kids:
+    sage:
+        prefix: SA
+        full_name: Sage
+    scott:
+        prefix: SC
+        full_name: Scott
+    simms:
+        prefix: SI
+        full_name: Simms Fishing Products
+        short_name: Simms
+        type: xlsx
+        worksheet: 0
+        header_row: 1
+        headers:
+            - Item Category Code
+            - Product Group Code
+            - SKU
+            - UPC
+            - Product Name - Display
+            - Product Name - Description
+            - Color
+            - Size
+            - SRP
+            - Base
+            - Season
+        fields:
+            navigation:
+                - xls:Item Category Code
+            all:
+                price: xls:SRP
+                gtin: UPC
+                manufacturer_price: Base
+            canonical:
+                sku:
+                    - product_prefix
+                    - prefix
+                    - xls:Item
+                name:
+                    - full_name
+                    - xls:Product
+                uri:
+                    - full_name
+                    - xls:Product
+            variant:
+                attributes:
+                    color: xls:Color
+                    size: xls:Size
+                sku:
+                    - product_prefix
+                    - prefix
+                    - xls:Item
+                    - xls:Color_Code
+                    - xls:Size
+                name:
+                    - full_name
+                    - xls:Product
+                    - xls:Color_Code
+                uri:
+                    - full_name
+                    - xls:Product
+                    - xls:Color_Code
+                    - xls:Size
+        navigation:
+            headers: "Item Category Code"
+            keys:
+                ACCES:
+                BAGS:
+                FOOT:
+                GLOVES:
+                HEAD:
+                    - clothing
+                    - filter:men_women
+                    - hats
+                LAYER:
+                OUTER:
+                PACKS:
+                SOCKS:
+                SPORTS:
+                TSHIRT:
+                VESTS:
+                WADERS: "fly-fishing-gear/waders"
+            filters:
+                men_women:
+                    -
+                        field: "Product Name - Description"
+                        regexp: "^WMS "
+                        result: women
+                    -
+                        field: "Product Name - Description"
+                        regexp: "^KIDS "
+                        result: kids
+                    -
+                        field: "Product Name - Description"
+                        regexp: ".*"
+                        result: mens
+            clothing:
+                - mens:
+                    - t-shirts:
+                        - TSHIRT
+                        - alpine/shell-tops
+                        - alpine/shell-bottoms
+                        - alpine/insulation-tops
+                        - trail-running/tops
+                        - trail-running/bottoms
+                        - trail-running/outerwear
+                - women:
+                    - outerwear:
+                        - alpine/shell-tops
+                        - alpine/shell-bottoms
+                        - alpine/insulation-tops
+                        - trail-running/tops
+                        - trail-running/bottoms
+                        - trail-running/outerwear
+                - kids:
