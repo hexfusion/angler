@@ -3,6 +3,7 @@ package Angler::Shipping;
 use strict;
 use warnings;
 
+use Dancer ':syntax';
 use Net::Easypost;
 use Net::Easypost::Address;
 use Net::Easypost::Parcel;
@@ -27,6 +28,7 @@ sub shipment_methods {
 
     my @zone_ids;
     my $country_rs = $schema->resultset('Country')->find($country);
+
     if ($country_rs and $country eq 'US' and $postal_code) {
         if (my $state = find_state($schema, $postal_code)) {
             foreach my $zone ($state->zones) {
@@ -65,6 +67,42 @@ sub shipment_methods_iterator_by_iso_country {
     @iterator = sort { $a->{title} cmp $b->{title} } @iterator;
     return \@iterator;
 }
+
+=head2 deliverable_countries
+
+returns a Country resultset including countries in the 'Deliverable Countries' zone.
+
+=cut
+
+sub deliverable_countries {
+    my ($schema) = @_;
+    my $zone = $schema->resultset('Zone')->find({ zone => 'Deliverable Countries' });
+
+    # 
+    unless ($zone) {
+        die "you need to populate the 'Deliverable Countries' zone.";
+    }
+
+    my @country_iso_codes;
+
+    foreach my $country ($zone->countries) {
+            push @country_iso_codes, $country->country_iso_code;
+    }
+
+    return [$schema->resultset('Country')
+      ->search({
+                country_iso_code => { -in => \@country_iso_codes },
+                active => '1'
+               })];
+
+}
+
+=head2 find_state
+
+This method uses the data from angler6-populate-postal-zones.  With the input of a standard 5 digit US zipcode
+the a state object is returned.
+
+=cut
 
 # from postal code get State
 sub find_state {
@@ -144,7 +182,7 @@ sub easy_post_get_rates {
     return unless $zip;
     my $rates;
 
-    my $ounches = $weight * 16;
+    my $ounces = $weight * 16;
     eval {
         my $easypost = Net::Easypost->new;
         my $from = Net::Easypost::Address->new(
@@ -160,7 +198,7 @@ sub easy_post_get_rates {
                                              country => $country,
                                             );
         my $parcel = Net::Easypost::Parcel->new(
-                                                weight => $ounches,
+                                                weight => $ounces,
                                                );
         $rates = $easypost->get_rates({ to => $to, from => $from, parcel => $parcel });
     };
