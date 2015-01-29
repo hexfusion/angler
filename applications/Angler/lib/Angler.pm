@@ -1034,7 +1034,7 @@ hook 'before_cart_display' => sub {
         $values->{free_shipping} = 1;
     }
 
-    $values->{countries} = countries();
+    $values->{countries} = Angler::Shipping::deliverable_countries(shop_schema);
 
     my $form = form('shipping-quote');
     my $form_values = $form->values('session');
