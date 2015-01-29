@@ -8,7 +8,7 @@ use warnings;
 
 use Dancer ':script';
 use Dancer::Plugin::Interchange6;
-
+use Data::Dumper;
 set logger => 'console';
 set logger_format => '%m';
 
@@ -976,134 +976,54 @@ $schema->resultset('Zone')->search({ zone => { -like => 'US postal %' } })->dele
 # populate zones table with new US postal zones.
 $schema->populate(Zone => $pop_zones);
 
-# exit now. With easypost we just need the zone populated
-exit;
+# populate deliverable countries
+my @deliverable_countries = (
+['AU', 'Australia'],
+['AT', 'Austria'],
+['BE', 'Belgium'],
+['CA', 'Canada'],
+['CZ', 'Czech Republic'],
+['DK', 'Denmark'],
+['DE', 'Germany'],
+['GR', 'Greece'],
+['HU', 'Hungary'],
+['IS', 'Iceland'],
+['IE', 'Ireland'],
+['IT', 'Italy'],
+['JP', 'Japan'],
+['KR', 'South Korea'],
+['LU', 'Luxembourg'],
+['MX', 'Mexico'],
+['NL', 'Netherlands'],
+['NO', 'Norway'],
+['PL', 'Poland'],
+['PT', 'Portugal'],
+['ES', 'Spain'],
+['SE', 'Sweden'],
+['CH', 'Switzerland'],
+['TR', 'Turkey'],
+['US', 'United States'],
+['GB', 'United Kingdom'],
+);
 
-# populate ShipmentCarriers
-my %carrier;
- 
-$carrier{UPS} = $schema->resultset("ShipmentCarrier")->create(
-    {
-        name => 'UPS',
-        account_number => '1Z999999999999999999',
-        shipment_methods => [
-            { 
+my @destinations;
 
-              name => 'Next Day Air Early AM',
-              max_weight => '150',
-            },
-            { 
+for my $destination (@deliverable_countries) {
+    my ($country_iso_code, $name) = @$destination;
+print Dumper($country_iso_code);
+          push @destinations,
+                {
+                    zone => 'Deliverable ' . $name,
+                    created => $now,
+                    last_modified => $now,
+                    zone_countries => [ { country_iso_code => $country_iso_code } ],
+                };
+        }
 
-              name => 'Next Day Air Early AM Letter',
-              max_weight => '150',
-            },
-            {
+my $pop_deliverable = \@destinations;
 
-              name => 'Next Day Air',
-              max_weight => '150',
-            },
-            {
+$schema->resultset('Zone')->search({ zone => { -like => 'Deliverable %' } })->delete;
 
-              name => 'Next Day Air Letter',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Next Day Air Saver',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Next Day Air Saver Letter',
-              max_weight => '150',
-            },
-            {
-
-              name => '2nd Day Air A.M.',
-              max_weight => '150',
-            },
-            {
-
-              name => '2nd Day Air',
-              max_weight => '150',
-            },
-            {
-
-              name => '2nd Day Air A.M. Letter',
-              max_weight => '150',
-            },
-            {
-
-              name => '2nd Day Air Letter',
-              max_weight => '150',
-            },
-            {
-
-              name => '3 Day Select',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Ground Commercial',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Ground Residential',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Worldwide Express',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Worldwide Express Plus',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Worldwide Express Letter',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Worldwide Express Plus Letter',
-              max_weight => '150',
-            },
-            {
-
-              name => 'Worldwide Expedited',
-              max_weight => '150',
-            },
-        ],
-    });
- 
-$carrier{USPS} = $schema->resultset("ShipmentCarrier")->create(
-    {
-        name => 'USPS',
-        account_number => '8985943852094',
-        shipment_methods => [
-            { name => 'EXPRESS' },
-            { name => 'FIRST CLASS' },
-            { name => 'PRIORITY' },
-            { name => 'PARCEL' },
-            { name => 'BPM' },
-            { name => 'LIBRARY' },
-            { name => 'GLOBAL EXPRESS GUARANTEED' },
-            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT RECTANGULAR' },
-            { name => 'GLOBAL EXPRESS GUARANTEED NON-DOCUMENT NON-RECTANGULAR' },
-            { name => 'USPS GXG ENVELOPES' },
-            { name => 'EXPRESS MAIL INTERNATIONAL (EMS)' },
-            { name => 'EXPRESS MAIL INTERNATIONAL (EMS) FLAT-RATE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL' },
-            { name => 'PRIORITY MAIL INTERNATIONAL FLAT-RATE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL REGULAR FLAT-RATE BOXES' },
-            { name => 'PRIORITY MAIL INTERNATIONAL LARGE FLAT-RATE BOX' },
-            { name => 'PRIORITY MAIL INTERNATIONAL SMALL FLAT-RATE BOX' },
-            { name => 'FIRST CLASS MAIL INTERNATIONAL LARGE ENVELOPE' },
-            { name => 'PRIORITY MAIL INTERNATIONAL' },
-        ],
-    });
+# populate zones table with deliverable zones.
+$schema->populate(Zone => $pop_deliverable);
 
