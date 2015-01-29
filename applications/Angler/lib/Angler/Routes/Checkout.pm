@@ -185,6 +185,9 @@ post '/checkout' => sub {
 post '/shipping-quote' => sub {
     my $form = form('shipping-quote');
 
+    # force update of form values
+    $form->values;
+
     # save to session so cart route picks it up
     $form->to_session;
 
