@@ -122,6 +122,27 @@ shop_address->create({
     country_iso_code => 'US',
 });
 
+# Create user racke
+$users{racke} = shop_user->create(
+    { username => 'racke@westbranchresort.com', password => 'Testing123', nickname => 'toller Hecht',
+      first_name => 'Stefan', last_name => 'Hornburg',
+      email => 'racke@westbranchresort.com', created => $now,
+      user_roles => [
+        { roles_id => '3' },
+      ],
+  });
+
+shop_address->create({
+    users_id => $users{racke}->id,
+    first_name => $users{racke}->first_name,
+    last_name => $users{racke}->last_name,
+    type => 'shipping',
+    address => 'Crescent Ave',
+    postal_code => '97403',
+    city => 'Wedemark',
+    country_iso_code => 'DE',
+});
+
 # Create user sam
 $users{sam} = shop_user->create(
     { username => 'sbatschelet@mac.com', password => 'Testing123', nickname => 'trout lover',
