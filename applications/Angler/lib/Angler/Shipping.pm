@@ -3,7 +3,6 @@ package Angler::Shipping;
 use strict;
 use warnings;
 
-use Dancer ':syntax';
 use Net::Easypost;
 use Net::Easypost::Address;
 use Net::Easypost::Parcel;
@@ -78,7 +77,6 @@ sub deliverable_countries {
     my ($schema) = @_;
     my $zone = $schema->resultset('Zone')->find({ zone => 'Deliverable Countries' });
 
-    # 
     unless ($zone) {
         die "you need to populate the 'Deliverable Countries' zone.";
     }
@@ -181,6 +179,7 @@ sub easy_post_get_rates {
     return unless $weight;
     return unless $zip;
     my $rates;
+    my $zone;
 
     my $ounces = $weight * 16;
     eval {
@@ -206,20 +205,21 @@ sub easy_post_get_rates {
     # find the zone
     my $country_row = $schema->resultset('Country')->find({ country_iso_code => $country });
     die "Country not found" unless $country_row;
-    my $zones_rs = $country_row->zones;
-    my $zones_found = $zones_rs->count;
-    my $zone;
-    if ($zones_found == 1) {
-        $zone = $zones_rs->first;
-    }
-    elsif ($zones_found > 1) {
+
+    my $zone_rs = $schema->resultset('Zone');
+
+    if ($country eq 'US') {
         # search the zip
         my $postal_zone = substr($zip, 0, 3);
-        $zone = $zones_rs->single({ zone => { -like => "% postal $postal_zone" } });
+        $zone = $zone_rs->find({ zone => { -like => "% postal $postal_zone" } });
+    }
+    else {
+        # match zone by country name
+        $zone = $zone_rs->find({ zone => $country_row->name });
     }
 
     die "No zone found for $country and $zip!" unless $zone;
-    # print "Zone id is " . $zone->id . " " . $zone->zone . "\n";
+
     my @out;
     if ($rates && @$rates) {
         foreach my $rate (@$rates) {
