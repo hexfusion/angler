@@ -33,61 +33,8 @@
                         view or edit information.</p>
                       </div>
 
-                      <div class="order-container box-account box-recent">
-                        <div class="box-head">
-                          <h2>Recent Orders</h2><a href="/account/orders">View
-                          All</a>
-                        </div>
-
-                        <table class="data-table" id=
-                        "my-orders-table">
-                          <colgroup>
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                            <col width="1">
-                          </colgroup>
-
-                          <thead>
-                            <tr class="first last">
-                              <th>Order #</th>
-
-                              <th>Date</th>
-
-                              <th>Ship To</th>
-
-                              <th><span class="nobr">Order
-                              Total</span></th>
-
-                              <th>Status</th>
-
-                              <th>&nbsp;</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            <tr class="order-list first last odd">
-                              <td class="order-number">100000001</td>
-
-                              <td class="order-date">8/24/2014</td>
-
-                              <td class="order-ship">Sam Batschelet</td>
-
-                              <td class="order-total">$150.49</td>
-
-                              <td>
-                              <em class="order-status">Pending</em></td>
-
-                              <td class="last"><a class="order-link" href="/account/orders/view/">View
-                              Order</a>&nbsp; &nbsp; 
-                              <!-- <a href="" class="link-reorder">Reorder</a> --></td>
-                            </tr>
-                          </tbody>
-                        </table><script type="text/javascript">
-decorateTable('my-orders-table')
-                        </script>
+                      <div class="box-account box-recent">
+                        <div class="display-orders">Order Component Is Broken</div>
                       </div>
 
                       <div class="box-account box-info">
@@ -137,57 +84,10 @@ decorateTable('my-orders-table')
 
                             <div class="box-content">
                               <div class="col-1">
-                               <h4>Default Shipping Address</h4>
-
-                                <div class="no-shipping-address">
-                                  You have not set a default
-                                  shipping address.<br>
-                                </div>
-
-                                <div class="shipping-address">
-                                  <p><span id="inputFirstName">Sam </span>
-                                  <span>&nbsp;</span>
-                                  <span id="inputLastName">Batschelet</span></p></br>
-                                  <p><span id="inputCompany">West Branch Angler</span></p></br>
-                                  <p><span id="inputAddress">704 Mirador Rd</span></p></br>
-                                  <p><span id="inputAddress2">Apt #2</span></p></br>
-                                  <p><span id="inputCity">Vestal</span>, &nbsp;
-                                  <span id="inputState">New York</span>
-                                  <span>&nbsp;</span>
-                                  <span id="inputPostalCode">13850</span></p></br>
-                                  <p><span id="inputCountry">Russia</span></p></br>
-                                  <a href="/account/address/edit/shipping">Edit Address</a>
-                                </div>
-                                <div class="no-shipping-address">
-                                <a href="/account/address/new">Add Address</a>
-                                </div>
+                                <div class="display-shipping-address">Shipping Address Component Is Broken</div>
                               </div>
-
                               <div class="col-2">
-                                <h4>Default Billing Address</h4>
-
-                                <div class="no-billing-address">
-                                  You have not set a default
-                                  billing address.<br>
-                                </div>
-
-                                <div class="billing-address">
-                                  <p><span id="inputBillingFirstName">Sam </span>
-                                  <span>&nbsp;</span>
-                                  <span id="inputBillingLastName">Batschelet</span></p></br>
-                                  <p><span id="inputBillingCompany">West Branch Angler</span></p></br>
-                                  <p><span id="inputBillingAddress">704 Mirador Rd</span></p></br>
-                                  <p><span id="inputBillingAddress2">Apt #2</span></p></br>
-                                  <p><span id="inputBillingCity">Vestal</span>, &nbsp;
-                                  <span id="inputBillingState">New York</span>
-                                  <span>&nbsp;</span>
-                                  <span id="inputBillingPostalCode">13850</span></p></br>
-                                  <p><span id="inputBillingCountry">Russia</span></p></br>
-                                  <a href="/account/address/edit/billing">Edit Address</a>
-                               </div>
-                                <div class="no-billing-address">
-                                <a href="/account/address/new">Add Address</a>
-                                </div>
+                                <div class="display-billing-address">Billing Address Component Is Broken</div>
                               </div>
                             </div>
                           </div>

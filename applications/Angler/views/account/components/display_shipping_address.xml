@@ -1,0 +1,20 @@
+<specification>
+<!-- Default Shipping -->
+<container name="default_shipping" value="!shipping_address" class="no-shipping-address">
+</container>
+<container name="shipping_exist" value="shipping_address" class="shipping-address">
+</container>
+<value name="first_name" id="inputFirstName" field="shipping_address.first_name"/>
+<value name="last_name" id="inputLastName" field="shipping_address.last_name"/>
+<value name="company" id="inputCompany" field="shipping_address.company"/>
+<value name="address" id="inputAddress" field="shipping_address.address"/>
+<value name="address_2" id="inputAddress2" field="shipping_address.address_2"/>
+<value name="city" id="inputCity" field="shipping_address.city"/>
+<container name="state" id="inputState" value="shipping_address_state">
+<value name="state" id="inputState" field="shipping_address_state"/>
+</container>
+<value name="postal_code" id="inputPostalCode" field="shipping_address.postal_code"/>
+<value name="country" id="inputCountry" field="shipping_address_country"/>
+<value name="phone" id="inputPhone" field="shipping_address.phone"/>
+<value name="shipping_edit" class="shipping-edit" field="shipping_address.addresses_id" target="href" op="append"/>
+</specification>

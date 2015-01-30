@@ -1,0 +1,18 @@
+<specification>
+<!-- Default Billing -->
+<container name="default_billing" value="!billing_address" class="no-billing-address">
+</container>
+<container name="billing_exist" value="billing_address" class="billing-address">
+</container>
+<value name="billing_first_name" id="inputBillingFirstName" field="billing_address.first_name"/>
+<value name="billing_last_name" id="inputBillingLastName" field="billing_address.last_name"/>
+<value name="billing_company" id="inputBillingCompany" field="billing_address.company"/>
+<value name="billing_address" id="inputBillingAddress" field="billing_address.address"/>
+<value name="billing_address_2" id="inputBillingAddress2" field="billing_address.address_2"/>
+<value name="billing_city" id="inputBillingCity" field="billing_address.city"/>
+<container name="billing_state" id="inputBillingState" value="billing_address_state">
+<value name="billing_state" id="inputBillingState" field="billing_address_state"/>
+</container>
+<value name="billing_country" id="inputBillingCountry" field="billing_address_country"/>
+<value name="billing_edit" class="billing-edit" field="billing_address.addresses_id" target="href" op="append"/>
+</specification>
