@@ -223,6 +223,9 @@ hook 'before_layout_render' => sub {
     # logo
     $tokens->{logo_uri} = '/';
 
+    # logged in user?
+    $tokens->{logged_in_user} = session('logged_in_user_id');
+
     my $nav = shop_navigation;
 
     # build menu sections for mega-drop
@@ -280,37 +283,7 @@ hook 'before_layout_render' => sub {
             };
         };
     };
-
-    # login/logout button
-    if (! logged_in_user){
-        $action = 'login';
-        $scope = 'top-login';
-    } else {
-        $action ='logout';
-        $scope = 'top-logout'
 };
-
-
-   my $auth = schema->resultset('Navigation')->search(
-         {
-          scope => $scope,
-         },
-    );
-    while (my $record = $auth->next) {
-       if ( $record->type eq 'nav' ) {
-         push @{$tokens->{'auth-' . $scope}}, $record;
-     } else {
-         push @{$tokens->{'fb-' . $scope}}, $record;
-   }
-    };
-
-    # adjust image name.
-    
-
-    # navigation elements
-#    $tokens->{navigation} = shop_navigation->search(where => {parent => 0});
-};
-
 
 =head2 before_navigation_search
 
@@ -1029,6 +1002,9 @@ hook 'before_cart_display' => sub {
 
             $form_values->{postal_code} ||= $ship_adr->postal_code;
             $form_values->{country} ||= $ship_adr->country_iso_code;
+
+            debug "user postal code ", $form_values->{postal_code};
+            debug "user country ", $form_values->{country};
         }
     }
 

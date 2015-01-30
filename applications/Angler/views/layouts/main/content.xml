@@ -26,6 +26,13 @@
 <!-- Add MegaDrop -->
 <value name="mega-drop" include="../../components/menus/mega-drop/content.html"/>
 
+<!-- Login/Logout -->
+<container name="login" value="!logged_in_user" class="auth-login">
+</container>
+
+<container name="logout" value="logged_in_user" class="auth-logout">
+</container>
+
 <!-- Left -->
 <list name="menu_top" class="nav-top-menu" iterator="menu_nav-top">
 <param name="label" class="nav-top-menu-link" field="name"/>
