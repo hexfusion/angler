@@ -1,6 +1,7 @@
 <specification>
 
 <value name="account-menu" include="../components/menu.html"/>
+<value name="display-orders" include="../components/display_orders.html"/>
 
 <list name="orders" class="order-row" iterator="orders">
 <param name="order_number" class="order-number"/>
@@ -18,4 +19,6 @@
 <param name="subtotal"/>
 </list>
 </list>
+<container name="pager" value="orders" >
+</container>
 </specification>
