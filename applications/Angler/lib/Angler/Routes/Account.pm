@@ -129,9 +129,11 @@ returns state name with states_id input
 
 sub state_name {
     my ($states_id) = @_;
+    my $name;
 
-    my $name = shop_schema->resultset('State')->find($states_id)->name;
-
+    if ($states_id) {
+        $name = shop_schema->resultset('State')->find($states_id)->name;
+    }
     return $name;
 };
 
