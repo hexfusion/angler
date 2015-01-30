@@ -8,7 +8,7 @@ use Angler::Shipping;
 use Dancer qw/:tests/;
 use Dancer::Plugin::DBIC;
 use Data::Dumper;
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 $ENV{EASYPOST_API_KEY} = config->{easypost}->{development};
 
@@ -44,3 +44,20 @@ ok ($methods_count, "Found $methods_count methods");
 is $schema->resultset('ShipmentCarrier')->search({})->count, $carriers_count, "No new carriers";
 is $schema->resultset('ShipmentRate')->search({})->count,    $rates_count,    "No new rates";
 is $schema->resultset('ShipmentMethod')->search({})->count,  $methods_count,  "No new methods";
+
+@rates = Angler::Shipping::easy_post_get_rates($schema, DE => 30853 => 5);
+
+ok(@rates);
+diag "DE rates";
+foreach my $rate (@rates) {
+    diag $rate->shipment_method->name . " => " . $rate->price . "\n";
+}
+
+@rates = Angler::Shipping::easy_post_get_rates($schema, US => 30853 => 5);
+
+ok(@rates);
+diag "US rates";
+foreach my $rate (@rates) {
+    diag $rate->shipment_method->name . " => " . $rate->price . "\n";
+}
+
