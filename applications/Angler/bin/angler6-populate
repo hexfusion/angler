@@ -64,6 +64,7 @@ shop_address->create({
     city => 'Hancock',
     states_id => $state->id,
     country_iso_code => 'US',
+    phone => '607-467-5525',
 });
 
 shop_address->create({
@@ -108,6 +109,7 @@ shop_address->create({
     city => 'Eugene',
     states_id => $state_oregon->id,
     country_iso_code => 'US',
+    phone => '800-555-1212',
 });
 
 shop_address->create({
@@ -141,6 +143,7 @@ shop_address->create({
     postal_code => '97403',
     city => 'Wedemark',
     country_iso_code => 'DE',
+    phone => '+49.511.978200.19',
 });
 
 # Create user sam
@@ -164,6 +167,7 @@ shop_address->create({
     city => 'Endwell',
     states_id => $state->id,
     country_iso_code => 'US',
+    phone => '607-245-9343',
 });
 
 # Create user admin
