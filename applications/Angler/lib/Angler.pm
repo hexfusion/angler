@@ -848,35 +848,6 @@ if (0) {
           )->order_by( { "-$direction" => [$order] } )->all
     ];
 
-    # add image for product (if one exists)
-    # FIXME: IC6S Product listing method needs to return images if poss
-    #        since otherwise we end up having to run a query for each
-    #        product i the listing.
-
-    # FIXME this should come from config.
-    my $default_image =
-      $schema->resultset('Media')->find( { uri => 'default.jpg' } );
-
-    my $image_type =
-      $schema->resultset('MediaType')->find( { type => 'image' } );
-
-    foreach my $product (@$listing ) {
-
-        # retrieve picture and add it to the results
-        my $image =
-          shop_product( $product->{sku} )
-          ->media->search( { media_types_id => $image_type->media_types_id },
-            { rows => 1 } )->single;
-
-        $image = $default_image unless $image;
-
-        $product->{details} = "location.href=('/" . $product->{uri} . "')";
-
-        if ( my $uri = $image->display_uri('product_200x200') ) {
-            $product->{image} = uri_for($uri);
-        }
-    }
-
     # I don't the the following is needed for Sam's grid design...
 #    if ( $view eq 'grid' ) {
 #        my @grid;
