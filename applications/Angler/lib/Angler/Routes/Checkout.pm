@@ -37,8 +37,8 @@ post '/checkout' => sub {
     # take values from cart_form or use default
     $values->{postal_code}     ||= $shipping_quote_values->{postal_code};
     $values->{country}         ||= $values->{country} || 'US';
-    $values->{billing_country} ||= $values->{billing_country} || $values->{country} || 'US';
-    $values->{billing_postal_code} ||= $values->{billing_postal_code} || $values->{postal_code};
+    $values->{shipping_country} ||= $values->{shipping_country} || $values->{country} || 'US';
+    $values->{shipping_postal_code} ||= $values->{shipping_postal_code} || $values->{postal_code};
 
     if ($values->{shipping_method}) {
         session 'shipping_method' => $values->{shipping_method};
@@ -402,45 +402,45 @@ sub order_address_tokens {
     debug "order_address_tokens values ", $values;
 
     # create order address tokens
-    $tokens->{billing_address} = (
+    $tokens->{shipping_address} = (
         {
             users_id => $user->id,
-            type => 'billing',
-            first_name => $values->{billing_first_name},
-            last_name => $values->{billing_last_name},
-            company => $values->{billing_company},
-            address => $values->{billing_address},
-            address_2 => $values->{billing_address_2},
-            postal_code => $values->{billing_postal_code},
-            city => $values->{billing_city},
-            states_id => $values->{billing_state},
-            country_iso_code => $values->{billing_country},
-            phone => $values->{billing_phone}
+            type => 'shipping',
+            first_name => $values->{first_name},
+            last_name => $values->{last_name},
+            company => $values->{company},
+            address => $values->{address},
+            address_2 => $values->{address_2},
+            postal_code => $values->{postal_code},
+            city => $values->{city},
+            states_id => $values->{state},
+            country_iso_code => $values->{country},
+            phone => $values->{phone}
         }
     );
 
-    if ($values->{shipping_enabled} and $values->{shipping_enabled} == 1) {
-        # create shipping address
-        $tokens->{shipping_address} = (
+    if ($values->{billing_enabled} and $values->{billing_enabled} == 1) {
+        # create billing address
+        $tokens->{billing_address} = (
             {
                 users_id => $user->id,
-                type => 'shipping',
-                first_name => $values->{first_name},
-                last_name => $values->{last_name},
-                company => $values->{company},
-                address => $values->{address},
-                address_2 => $values->{address_2},
-                postal_code => $values->{postal_code},
-                city => $values->{city},
-                states_id => $values->{state},
-                country_code => $values->{country},
-                phone => $values->{phone}
+                type => 'billing',
+                first_name => $values->{billing_first_name},
+                last_name => $values->{billing_last_name},
+                company => $values->{billing_company},
+                address => $values->{billing_address},
+                address_2 => $values->{billing_address_2},
+                postal_code => $values->{billing_postal_code},
+                city => $values->{billing_city},
+                states_id => $values->{billing_state},
+                country_iso_code => $values->{billing_country},
+                phone => $values->{billing_phone}
             }
         );
     }
     else {
         # billing and shipping are the same
-        $tokens->{shipping_address} = $tokens->{billing_address}
+        $tokens->{billing_address} = $tokens->{shipping_address}
     }
 
     return $tokens;
@@ -520,21 +520,21 @@ sub validate_checkout {
         $validator->field('email' => 'EmailValid');
     }
 
-    # billing address
-    $validator->field('billing_first_name' => "String");
-    $validator->field('billing_last_name' => "String");
-    $validator->field('billing_address' => "String");
-    $validator->field('billing_postal_code' => "String");
-    $validator->field('billing_city' => 'String');
-    $validator->field('billing_phone' => 'String');
+    # shipping address
+    $validator->field('first_name' => "String");
+    $validator->field('last_name' => "String");
+    $validator->field('address' => "String");
+    $validator->field('postal_code' => "String");
+    $validator->field('city' => 'String');
+    $validator->field('phone' => 'String');
 
-    # shipping address is differnt
-    if ($values->{shipping_enabled} and $values->{shipping_enabled} == 1) {
-        $validator->field('first_name' => "String");
-        $validator->field('last_name' => "String");
-        $validator->field('address' => "String");
-        $validator->field('postal_code' => "String");
-        $validator->field('city' => 'String');
+    # billing address is differnt
+    if ($values->{billing_enabled} and $values->{billing_enabled} == 1) {
+        $validator->field('billing_first_name' => "String");
+        $validator->field('billing_last_name' => "String");
+        $validator->field('billing_address' => "String");
+        $validator->field('billing_postal_code' => "String");
+        $validator->field('billing_city' => 'String');
     }
 
     # payment method
