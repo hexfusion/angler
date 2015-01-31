@@ -172,7 +172,7 @@ post '/checkout' => sub {
             finalize_order($tokens, $form);
             debug("Order complete.");
             session logged_in_user_id => undef;
-            return template 'checkout/reciept/content', $tokens;
+            return template 'checkout/receipt/content', $tokens;
         }
         else {
             debug "Payment failed: ", $tx->error_message;
@@ -285,7 +285,7 @@ get '/paypal-checkout' => sub {
     session paypal_token => undef;
     session payment_order_id => undef;
     session logged_in_user_id => undef;
-    return template 'checkout/reciept/content', $tokens;
+    return template 'checkout/receipt/content', $tokens;
 };
 
 =head2 checkout_tokens
