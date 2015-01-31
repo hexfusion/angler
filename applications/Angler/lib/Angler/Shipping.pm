@@ -201,6 +201,9 @@ sub easy_post_get_rates {
                                                );
         $rates = $easypost->get_rates({ to => $to, from => $from, parcel => $parcel });
     };
+    if ($@) {
+        die "Easy post call failed: $@";
+    }
 
     # find the zone
     my $country_row = $schema->resultset('Country')->find({ country_iso_code => $country });
