@@ -729,45 +729,41 @@ sub process_orvis_product {
                           ->find($variant_sku);
                         unless ($variant) {
                             warning "adding variant $variant_sku failed";
-                            next SKU;
                         }
                     }
                     catch {
                         warning $_;
-                        next SKU;
                     };
                 }
+                next SKU unless $variant;
 
-                # images
+                # image
 
-              TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
+                foreach my $elt ( $sku->descendants('Image_URL') ) {
 
-                    if ( my $elt = $sku->first_child($tag) ) {
+                    # found the tag
 
-                        # found the tag
+                    if ( my $url = $elt->text ) {
 
-                        if ( my $url = $elt->text ) {
+                        # should have an image URL
 
-                            # should have an image URL
+                        ( my $file = $url ) =~ s/^.+\///;
+                        my $path =
+                          File::Spec->catfile( $original_files, $file );
 
-                            ( my $file = $url ) =~ s/^.+\///;
-                            my $path =
-                              File::Spec->catfile( $original_files, $file );
+                        # get image if it doesn't already exist
 
-                            # get image if it doesn't already exist
-
-                            unless ( -r $path ) {
-                                my $http = HTTP::Tiny->new();
-                                my $response = $http->mirror( $url, $path );
-                                sleep rand(0.5);    # don't hit them too hard
-                                unless ( $response->{success} ) {
-                                    error "failed to get $url: "
-                                      . $response->{reason};
-                                    next TAG;
-                                }
+                        unless ( -r $path ) {
+                            my $http = HTTP::Tiny->new();
+                            my $response = $http->mirror( $url, $path );
+                            sleep rand(0.5);    # don't hit them too hard
+                            unless ( $response->{success} ) {
+                                error "failed to get $url: "
+                                  . $response->{reason};
                             }
-                            last TAG if &process_image( $variant, $path );
                         }
+
+                        &process_image( $variant, $path ) if -r $path;
                     }
                 }
             }
@@ -886,45 +882,41 @@ sub process_orvis_product {
                           ->find($variant_sku);
                         unless ($variant) {
                             warning "adding variant $variant_sku failed";
-                            next SKU;
                         }
                     }
                     catch {
                         warning $_;
-                        next SKU;
                     };
                 }
+                next SKU unless $variant;
 
-                # images
+                # image
 
-              TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
+                foreach my $elt ( $sku->descendants('Image_URL') ) {
 
-                    if ( my $elt = $sku->first_child($tag) ) {
+                    # found the tag
 
-                        # found the tag
+                    if ( my $url = $elt->text ) {
 
-                        if ( my $url = $elt->text ) {
+                        # should have an image URL
 
-                            # should have an image URL
+                        ( my $file = $url ) =~ s/^.+\///;
+                        my $path =
+                          File::Spec->catfile( $original_files, $file );
 
-                            ( my $file = $url ) =~ s/^.+\///;
-                            my $path =
-                              File::Spec->catfile( $original_files, $file );
+                        # get image if it doesn't already exist
 
-                            # get image if it doesn't already exist
-
-                            unless ( -r $path ) {
-                                my $http = HTTP::Tiny->new();
-                                my $response = $http->mirror( $url, $path );
-                                sleep rand(0.5);    # don't hit them too hard
-                                unless ( $response->{success} ) {
-                                    error "failed to get $url: "
-                                      . $response->{reason};
-                                    next TAG;
-                                }
+                        unless ( -r $path ) {
+                            my $http = HTTP::Tiny->new();
+                            my $response = $http->mirror( $url, $path );
+                            sleep rand(0.5);    # don't hit them too hard
+                            unless ( $response->{success} ) {
+                                error "failed to get $url: "
+                                  . $response->{reason};
                             }
-                            last TAG if &process_image( $variant, $path );
                         }
+
+                        &process_image( $variant, $path ) if -r $path;
                     }
                 }
             }
