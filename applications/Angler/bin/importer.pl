@@ -342,19 +342,21 @@ Returns true on success.
 sub process_image {
     my ( $product, $path ) = @_;
 
-    ( my $ext = lc($path) ) =~ s/^.+\.//;
+    my $file = [ File::Spec->splitpath($path) ]->[2];
+
+    ( my $ext = lc($file) ) =~ s/^.+\.//;
     $ext =~ s/\s+$//;
 
     my $sku = $product->sku;
-    my $uri = $product->uri;
 
   SIZE: foreach my $size (@img_sizes) {
 
-        my $dir = File::Spec->catdir( $img_dir, "${size}x${size}" );
+        my $dir =
+          File::Spec->catdir( $img_dir, "${size}x${size}", $manufacturer );
+
         make_path($dir);
 
-        my $new_file = "${uri}.${ext}";
-        my $new_path = File::Spec->catfile( $dir, $new_file );
+        my $new_path = File::Spec->catfile( $dir, $file );
 
         unless ( -r $new_path ) {
 
@@ -409,7 +411,7 @@ sub process_image {
         my $media = $schema->resultset('Media')->find_or_create(
             {
                 file           => $path,
-                uri            => $new_file,
+                uri            => File::Spec->catfile( $manufacturer, $file ),
                 mime_type      => "image/$ext",
                 media_types_id => $mediatype_image->id,
             },
@@ -541,7 +543,6 @@ sub process_orvis_product {
                 }
 
                 last TAG if &process_image( $product, $path );
-
             }
         }
     }
@@ -737,34 +738,40 @@ sub process_orvis_product {
                 }
                 next SKU unless $variant;
 
-                # image
+                # images
 
-                foreach my $elt ( $sku->descendants('Image_URL') ) {
+                my %images;
+                foreach my $SkuImage ( $sku->descendants('SkuImage') ) {
 
-                    # found the tag
+                    my $Label_Name =
+                      $SkuImage->first_child_trimmed_text('Label_Name');
 
-                    if ( my $url = $elt->text ) {
+                    next
+                      if $Label_Name !~ /^((large|alt|product)\s+(image|view))/;
 
-                        # should have an image URL
+                    $images{$1} =
+                      $SkuImage->first_child_trimmed_text('Image_URL');
+                }
 
-                        ( my $file = $url ) =~ s/^.+\///;
-                        my $path =
-                          File::Spec->catfile( $original_files, $file );
+                delete $images{"product image"} if $images{"large view"};
 
-                        # get image if it doesn't already exist
+                foreach my $url ( values %images ) {
 
-                        unless ( -r $path ) {
-                            my $http = HTTP::Tiny->new();
-                            my $response = $http->mirror( $url, $path );
-                            sleep rand(0.5);    # don't hit them too hard
-                            unless ( $response->{success} ) {
-                                error "failed to get $url: "
-                                  . $response->{reason};
-                            }
+                    ( my $file = $url ) =~ s/^.+\///;
+                    my $path = File::Spec->catfile( $original_files, $file );
+
+                    # get image if it doesn't already exist
+
+                    unless ( -r $path ) {
+                        my $http = HTTP::Tiny->new();
+                        my $response = $http->mirror( $url, $path );
+                        sleep rand(0.5);    # don't hit them too hard
+                        unless ( $response->{success} ) {
+                            error "failed to get $url: " . $response->{reason};
                         }
-
-                        &process_image( $variant, $path ) if -r $path;
                     }
+
+                    &process_image( $variant, $path ) if -r $path;
                 }
             }
         }
@@ -890,34 +897,40 @@ sub process_orvis_product {
                 }
                 next SKU unless $variant;
 
-                # image
+                # images
 
-                foreach my $elt ( $sku->descendants('Image_URL') ) {
+                my %images;
+                foreach my $SkuImage ( $sku->descendants('SkuImage') ) {
 
-                    # found the tag
+                    my $Label_Name =
+                      $SkuImage->first_child_trimmed_text('Label_Name');
 
-                    if ( my $url = $elt->text ) {
+                    next
+                      if $Label_Name !~ /^((large|alt|product)\s+(image|view))/;
 
-                        # should have an image URL
+                    $images{$1} =
+                      $SkuImage->first_child_trimmed_text('Image_URL');
+                }
 
-                        ( my $file = $url ) =~ s/^.+\///;
-                        my $path =
-                          File::Spec->catfile( $original_files, $file );
+                delete $images{"product image"} if $images{"large view"};
 
-                        # get image if it doesn't already exist
+                foreach my $url ( values %images ) {
 
-                        unless ( -r $path ) {
-                            my $http = HTTP::Tiny->new();
-                            my $response = $http->mirror( $url, $path );
-                            sleep rand(0.5);    # don't hit them too hard
-                            unless ( $response->{success} ) {
-                                error "failed to get $url: "
-                                  . $response->{reason};
-                            }
+                    ( my $file = $url ) =~ s/^.+\///;
+                    my $path = File::Spec->catfile( $original_files, $file );
+
+                    # get image if it doesn't already exist
+
+                    unless ( -r $path ) {
+                        my $http = HTTP::Tiny->new();
+                        my $response = $http->mirror( $url, $path );
+                        sleep rand(0.5);    # don't hit them too hard
+                        unless ( $response->{success} ) {
+                            error "failed to get $url: " . $response->{reason};
                         }
-
-                        &process_image( $variant, $path ) if -r $path;
                     }
+
+                    &process_image( $variant, $path ) if -r $path;
                 }
             }
         }
