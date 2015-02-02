@@ -11,15 +11,10 @@
 
 <link href="/css/rateit.css" rel="stylesheet" type="text/css">
 <link href="/css/fonts.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="/js/prototype.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 <script type="text/javascript" src="/js/jquery.rateit.min.js"></script>
 <script type="text/javascript" src="/js/scripts.js"></script>
-<script>
-jQuery.noConflict();
-var $j = jQuery;
-</script>
 <!--[if lt IE 7]>
 <script type="text/javascript">
 //<![CDATA[
@@ -301,35 +296,33 @@ var $j = jQuery;
 <script src="/js/bootstrap-hover-dropdown.js"></script>
 <script src="/js/fitdivs.js"></script>
 
-<!-- REMEMBER $ = prototype $j = jQuery -->
-
 <script src="/js/jquery.equalheightcolumns.js"></script>
 <script>
-        $j('.products-grid li').equalHeightColumns({
+        $('.products-grid li').equalHeightColumns({
             //checkHeight: 'height',
             equalizeRows: true
         });
 </script>
 <!-- checks for payment_method in /checkout form -->
 <script type="text/javascript">
-$j(document).ready(function() {
-    $j(".payment_container").hide();
-    $j(".btn-primary").on("click", function(){
-      var payment_method = $j(this).find("input[name$='payment_method']").val();
-        $j(".payment_container").hide();
-        $j(".payment_container[payment_method='" + payment_method + "']").show();
+$(document).ready(function() {
+    $(".payment_container").hide();
+    $(".btn-primary").on("click", function(){
+      var payment_method = $(this).find("input[name$='payment_method']").val();
+        $(".payment_container").hide();
+        $(".payment_container[payment_method='" + payment_method + "']").show();
     });
 
     // check that it's not checked by default
-    var load = $j("input[name$='payment_method']").val();
-    $j(".payment_container[payment_method='" + load + "']").show();
+    var load = $("input[name$='payment_method']").val();
+    $(".payment_container[payment_method='" + load + "']").show();
 });
 </script>
 
 <script type="text/javascript">
 function evaluate(){
-    var item = $j(this);
-    var relatedItem = $j("#" + item.attr("data-related-item")).parent();
+    var item = $(this);
+    var relatedItem = $("#" + item.attr("data-related-item")).parent();
    
     if(item.is(":checked")){
         relatedItem.fadeIn();
@@ -338,20 +331,20 @@ function evaluate(){
     }
 }
 
-$j('input[type="checkbox"]').click(evaluate).each(evaluate);
+$('input[type="checkbox"]').click(evaluate).each(evaluate);
 </script>
 
 <script>
-        $j(document).ready(function(){
+        $(document).ready(function(){
         // Target your .container, .wrapper, .post, etc.
-            $j(".megadrop").fitVids();
+            $(".megadrop").fitVids();
         });
     </script>
 
 <script>
         // Menu drop down effect
-        $j('.dropdown-toggle').dropdownHover().dropdown();
-        $j(document).on('click', '.megadrop .dropdown-menu', function(e) {
+        $('.dropdown-toggle').dropdownHover().dropdown();
+        $(document).on('click', '.megadrop .dropdown-menu', function(e) {
           e.stopPropagation()
         })
     </script>
