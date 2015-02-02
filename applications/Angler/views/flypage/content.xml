@@ -6,7 +6,7 @@
 <value name="description" field="product.description" op="hook"/>
 <value name="image_src" class="product-image" target="src" />
 <value name="video_src" class="product-video" target="src" />
-<value name="image_thumb" class="product-image-thumb" target="src" />
+<!--value name="image_thumb" class="product-image-thumb" target="src" /-->
 <value name="price" class="price" field="product.price"/>
 
 <!-- product attributes -->
@@ -23,6 +23,11 @@
     <param name="product-attributes-value" field="title"/>
     <param name="selected" class="product-attributes-value" target="selected" op="toggle"/>
   </list>
+</list>
+
+<list name="thumbs" iterator="thumbs" class="thumbs">
+    <param name="src" class="product-image-thumb" target="src"/>
+    <param name="href" class="thumb-link" target="href" op="append"/>
 </list>
 
 <value name="quantity" iterator="quantity"/>

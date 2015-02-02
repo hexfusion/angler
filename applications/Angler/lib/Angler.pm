@@ -951,6 +951,24 @@ hook 'before_product_display' => sub {
         $tokens->{image_thumb} = uri_for($image->display_uri('product_75x75'));
     }
 
+    my $parent_product =
+      $product->canonical_sku ? $product->canonical : $product;
+
+    my %thumbs;
+    my $variants = $parent_product->variants;
+    while ( my $variant = $variants->next ) {
+        my $images = $variant->media_by_type('image');
+        while ( my $image = $images->next ) {
+            $thumbs{ $image->display_uri('product_75x75') } = $variant->uri;
+        }
+    }
+    foreach my $image ( sort keys %thumbs ) {
+        push @{$tokens->{thumbs}}, {
+            src => $image,
+            href => $thumbs{$image},
+        };
+    }
+
     my $video = $product->media_by_type('video')->first;
 
     if ($video) {
