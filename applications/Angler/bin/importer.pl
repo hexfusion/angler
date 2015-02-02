@@ -2,6 +2,7 @@
 
 use warnings;
 use strict;
+use v5.14;
 
 package Product;
 
@@ -13,25 +14,30 @@ use Dancer ':script';
 use Angler::Schema;
 use Dancer::Plugin::Interchange6;
 use File::Path qw/make_path/;
+use File::Copy;
 use File::Spec;
 use Getopt::Long;
 use HTML::Entities;
 use HTML::Obliterate qw/strip_html/;
 use HTTP::Tiny;
 use Imager;
+use List::Util qw/all/;
 use Pod::Usage;
+use Spreadsheet::ParseExcel;
+use Spreadsheet::ParseXLSX;
 use Text::Unidecode;
 use Time::HiRes qw/sleep/;
 use Try::Tiny;
 use URI::Escape;
 use XML::Twig;
-use YAML;
+use YAML qw/LoadFile/;
 use Data::Dumper::Concise;
 
 set logger => 'console';
 set log    => 'info';
 
-my $config = config->{importer};
+my $config =
+  LoadFile( File::Spec->catfile( config->{appdir}, "importer.yml" ) );
 
 my $schema = shop_schema;
 
@@ -77,16 +83,27 @@ $active = 0 unless $active;
 my @product_columns = shop_product->result_source->columns;
 my $mediatype_image =
   $schema->resultset('MediaType')->find( { type => 'image' } );
+die "MediaType type image not found" unless $mediatype_image;
 
+# where we store downloaded images
+
+my $original_files =
+  File::Spec->catdir( $img_dir, "original_files", $manufacturer );
+make_path($original_files);
 
 # parse by type
 
 my $type = $config->{manufacturers}->{$manufacturer}->{type};
-if ( $type eq 'xls' ) {
+if ( $type =~ /^xls/ ) {
 
     # spreadsheet
 
-    die "xls processing not working yet\n";
+    if ( $manufacturer eq 'simms' ) {
+        &parse_excel($file);
+    }
+    else {
+        die "xls processor for $manufacturer does not exist";
+    }
 }
 elsif ( $type eq 'xml' ) {
 
@@ -168,7 +185,7 @@ Also removes freight charge from name, e.g.: (+$30).
 =cut
 
 sub clean_name {
-    my $name = strip_html(decode_entities( shift ));
+    my $name = strip_html( decode_entities(shift) );
 
     # freight charge in name
     $name =~ s/\(\+\$\s*\d+\)//;
@@ -206,6 +223,208 @@ sub short_description {
         $short_description = substr( $description, 500 );
     }
     return $short_description;
+}
+
+=head2 trim
+
+Remove leading and trailing spaces.
+
+=cut
+
+sub trim {
+    my $text = shift;
+    $text =~ s/^\s+|\s+$//g;
+    return $text;
+}
+
+=head2 parse_excel
+
+Parse Excel file (xls or xlsx) in order to add products to database
+
+=cut
+
+sub parse_excel {
+
+    my $config = $config->{manufacturers}->{$manufacturer};
+
+    # choose parser
+
+    my $parser =
+      $config->{type} eq 'xlsx'
+      ? Spreadsheet::ParseXLSX->new
+      : Spreadsheet::ParseExcel->new;
+
+    # parse the file
+
+    my $workbook = $parser->parse(shift);
+    if ( !defined $workbook ) {
+        die $parser->error(), ".\n";
+    }
+
+    # we need at least one worksheet
+
+    die "no worksheets found" unless $workbook->worksheet_count;
+
+    my $worksheet = $workbook->worksheet( $config->{worksheet} );
+
+    die "worksheet not found" unless $worksheet;
+
+    # col/row ranges in use
+
+    my ( $col_min, $col_max ) = $worksheet->col_range();
+    my ( $row_min, $row_max ) = $worksheet->row_range();
+
+    # grab headers
+
+    my %headers;
+    foreach my $col ( $col_min .. $col_max ) {
+        $headers{$col} =
+          &trim( $worksheet->get_cell( $config->{header_row}, $col )->value );
+    }
+
+    # check headers
+
+    die "Unexpected headers in file"
+      unless (
+        join( "|", sort values %headers ) eq
+        join( "|", sort @{ $config->{headers} } ) );
+
+    my ( $sku, %data );
+    foreach my $row ( 2 .. $row_max ) {
+        my %cells =
+          map {
+            $headers{$_} => &trim( $worksheet->get_cell( $row, $_ )->value )
+          } $col_min .. $col_max;
+
+        if ( $sku && $cells{"Product Group Code"} ne $sku ) {
+            &insert_product( $sku, %data );
+            undef %data;
+        }
+        $sku = $cells{"Product Group Code"};
+
+        #unless ( grep { $_ eq $cells{"Item Category Code"} } qw/
+        #my $men_women =
+        #if (
+        #my $icc = $cells{"Item Category Code"};
+        #if ( $icc eq 'HEAD'
+        #for ( $cells{"Item Category Code"} ) {
+        #    when (
+        #}
+
+        %data = (
+
+        );
+    }
+    &insert_product( $sku, %data );
+}
+
+sub insert_product {
+    my ( $sku, %data ) = @_;
+    print "insert $sku\n";
+}
+
+=head2 process_image( $product, $path );
+
+Arguments are:
+
+=over
+
+=item * L<Interchange6::Schema::Result::Product>
+
+=item * path to original image
+
+=back
+
+Returns true on success.
+
+=cut
+
+sub process_image {
+    my ( $product, $path ) = @_;
+
+    ( my $ext = lc($path) ) =~ s/^.+\.//;
+    $ext =~ s/\s+$//;
+
+    my $sku = $product->sku;
+    my $uri = $product->uri;
+
+  SIZE: foreach my $size (@img_sizes) {
+
+        my $dir = File::Spec->catdir( $img_dir, "${size}x${size}" );
+        make_path($dir);
+
+        my $new_file = "${uri}.${ext}";
+        my $new_path = File::Spec->catfile( $dir, $new_file );
+
+        unless ( -r $new_path ) {
+
+            # we don't have this image yet so create it
+
+            my $img = Imager->new( file => $path );
+
+            unless ($img) {
+                error "Imager read failed for $sku $path " . Imager->errstr;
+                return;
+            }
+
+            # scale
+            $img = $img->scale(
+                xpixels => $size,
+                ypixels => $size,
+                type    => 'min'
+            );
+
+            unless ($img) {
+                error "Imager scale barfed for $size"
+                  . "x$size on $sku $path: "
+                  . $img->errstr;
+                return;
+            }
+
+            # write it
+            if ( $ext eq 'jpg' ) {
+                my $ret = $img->write(
+                    file        => $new_path,
+                    jpegquality => 90,
+                    type        => 'jpeg',
+                );
+                unless ($ret) {
+                    error "Imager jpeg write failed for $new_path: "
+                      . $img->errstr;
+                    return;
+                }
+            }
+            else {
+                my $ret = $img->write( file => $new_path );
+                unless ($ret) {
+                    error "Imager $ext write failed for $new_path: "
+                      . $img->errstr;
+                    return;
+                }
+            }
+        }
+
+        # make sure we've got the database entry for this image
+
+        my $media = $schema->resultset('Media')->find_or_create(
+            {
+                file           => $path,
+                uri            => $new_file,
+                mime_type      => "image/$ext",
+                media_types_id => $mediatype_image->id,
+            },
+            {
+                key => 'medias_file',
+            }
+        );
+        $schema->resultset('MediaProduct')->find_or_create(
+            {
+                media_id => $media->id,
+                sku      => $sku,
+            }
+        );
+    }
+    return 1;
 }
 
 =head2 process_orvis_product
@@ -270,7 +489,7 @@ sub process_orvis_product {
     my $keywords = decode_entities( $xml->first_child('Keywords')->text );
 
     my $pf_name = clean_name( $xml->first_child('PF_Name')->text );
-    my $name = "Orvis $pf_name";
+    my $name    = "Orvis $pf_name";
 
     my $sku = "WB-OR-" . $pf_id;
 
@@ -295,12 +514,9 @@ sub process_orvis_product {
 
     # download image
 
-    my $img_dir_helios = File::Spec->catdir($img_dir, "original_files/helios");
-    make_path( $img_dir_helios );
-
     my $http = HTTP::Tiny->new();
 
-    TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
+  TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
 
         if ( my $elt = $xml->first_child($tag) ) {
 
@@ -311,96 +527,21 @@ sub process_orvis_product {
                 # should have an image URL
 
                 ( my $file = $url ) =~ s/^.+\///;
-                my $path = File::Spec->catfile($img_dir_helios, $file);
+                my $path = File::Spec->catfile( $original_files, $file );
 
                 # get image if it doesn't already exist
 
                 unless ( -r $path ) {
                     my $response = $http->mirror( $url, $path );
-                    sleep rand(0.5); # don't hit them too hard
+                    sleep rand(0.5);    # don't hit them too hard
                     unless ( $response->{success} ) {
                         error "failed to get $url: " . $response->{reason};
                         next TAG;
                     }
                 }
 
-                SIZE: foreach my $size ( @img_sizes ) {
+                last TAG if &process_image( $product, $path );
 
-                    ( my $ext = lc($file) ) =~ s/^.+\.//;
-
-                    my $dir = File::Spec->catdir( $img_dir, "${size}x${size}" );
-                    make_path($dir);
-
-                    my $new_file = "${uri}.${ext}";
-                    my $new_path = File::Spec->catfile( $dir, $new_file );
-
-                    unless ( -r $new_path ) {
-
-                        # we don't have this image yet so create is
-
-                        my $img = Imager->new( file => $path );
-
-                        unless ($img) {
-                            error "Imager read failed for $tag $pf_id $name: "
-                            . Imager->errstr;
-                            next TAG;
-                        }
-
-                        # scale
-                        $img = $img->scale(
-                            xpixels => $size,
-                            ypixels => $size,
-                            type    => 'min'
-                        );
-
-                        unless ($img) {
-                            error "Imager scale barfed for $size"
-                              . "x$size on $tag $pf_id $name: "
-                              . $img->errstr;
-                            next SIZE;
-                        }
-
-                        # write it
-                        if ( $ext eq 'jpg' ) {
-                            my $ret = $img->write(
-                                file        => $new_path,
-                                jpegquality => 90
-                            );
-                            unless ($ret) {
-                                error "Imager write failed: " . $img->errstr;
-                                next SIZE;
-                            }
-                        }
-                        else {
-                            my $ret = $img->write( file => $new_path );
-                            unless ($ret) {
-                                error "Imager write failed: " . $img->errstr;
-                                next SIZE;
-                            }
-                        }
-                    }
-
-                    # make sure we've got the database entry for this image
-
-                    my $media = $schema->resultset('Media')->find_or_create(
-                        {
-                            file           => $new_file,
-                            uri            => $new_file,
-                            mime_type      => "image/$ext",
-                            media_types_id => $mediatype_image->id,
-                        },
-                        {
-                            key => 'medias_file',
-                        }
-                    );
-                    $schema->resultset('MediaProduct')->find_or_create(
-                        {
-                            media_id => $media->id,
-                            sku      => $sku,
-                        }
-                    );
-                    last TAG;
-                }
             }
         }
     }
@@ -460,9 +601,6 @@ sub process_orvis_product {
         warning unidecode("no Navigator element for $sku $name\n");
     }
 
-    #$xml->purge;
-    #return;
-
     # Product->Item
 
     my @items = $xml->children('Item');
@@ -507,13 +645,14 @@ sub process_orvis_product {
             my @option_names;
             foreach my $option (@options) {
 
-                my $option_name = lc($option->first_child('OptionName')->text);
+                my $option_name =
+                  lc( $option->first_child('OptionName')->text );
 
                 my $title = ucfirst($option_name);
 
                 $option_name =~ s/\s+/_/g;
 
-                $title = "Line weight" if $option_name eq "line_weigh";
+                $title = "Line weight"   if $option_name eq "line_weigh";
                 $title = "Magnification" if $option_name eq "magnificat";
 
                 push @option_names, $option_name;
@@ -526,9 +665,9 @@ sub process_orvis_product {
 
             # process each variant
 
-            foreach my $sku (@skus) {
+          SKU: foreach my $sku (@skus) {
 
-                my $pf_id = $xml->first_child('PF_ID')->text;
+                my $pf_id     = $xml->first_child('PF_ID')->text;
                 my $item_code = $sku->first_child('Item_Code')->text;
 
                 my $sku_name =
@@ -543,8 +682,7 @@ sub process_orvis_product {
 
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
-                my $uri =
-                  lc( unidecode("${sku_name}-${pf_id}${item_code}") );
+                my $uri = lc( unidecode("${sku_name}-${pf_id}${item_code}") );
                 $uri =~ s/\s+/-/g;
                 $uri =~ s/\//-/g;
 
@@ -587,10 +725,50 @@ sub process_orvis_product {
                     # attribute options)
                     try {
                         $product->add_variants( ( \%attributes ) );
+                        $variant = $product->related_resultset('variants')
+                          ->find($variant_sku);
+                        unless ($variant) {
+                            warning "adding variant $variant_sku failed";
+                            next SKU;
+                        }
                     }
                     catch {
                         warning $_;
+                        next SKU;
                     };
+                }
+
+                # images
+
+              TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
+
+                    if ( my $elt = $sku->first_child($tag) ) {
+
+                        # found the tag
+
+                        if ( my $url = $elt->text ) {
+
+                            # should have an image URL
+
+                            ( my $file = $url ) =~ s/^.+\///;
+                            my $path =
+                              File::Spec->catfile( $original_files, $file );
+
+                            # get image if it doesn't already exist
+
+                            unless ( -r $path ) {
+                                my $http = HTTP::Tiny->new();
+                                my $response = $http->mirror( $url, $path );
+                                sleep rand(0.5);    # don't hit them too hard
+                                unless ( $response->{success} ) {
+                                    error "failed to get $url: "
+                                      . $response->{reason};
+                                    next TAG;
+                                }
+                            }
+                            last TAG if &process_image( $variant, $path );
+                        }
+                    }
                 }
             }
         }
@@ -645,7 +823,7 @@ sub process_orvis_product {
 
             my @skus = $item->children('Sku');
 
-            foreach my $sku ( @skus ) {
+          SKU: foreach my $sku (@skus) {
 
                 my $item_code = $sku->first_child('Item_Code')->text;
 
@@ -660,14 +838,13 @@ sub process_orvis_product {
 
                 my $price = $sku->first_child('Regular_Price')->text;
 
-                my $uri =
-                  lc( unidecode("${sku_name}-${pf_id}${item_code}") );
+                my $uri = lc( unidecode("${sku_name}-${pf_id}${item_code}") );
                 $uri =~ s/\s+/-/g;
                 $uri =~ s/\//-/g;
 
                 my $variant = shop_product->find(
                     {
-                        sku           => $variant_sku,
+                        sku => $variant_sku,
                     }
                 );
 
@@ -705,10 +882,50 @@ sub process_orvis_product {
 
                     try {
                         $product->add_variants( ( \%attributes ) );
+                        $variant = $product->related_resultset('variants')
+                          ->find($variant_sku);
+                        unless ($variant) {
+                            warning "adding variant $variant_sku failed";
+                            next SKU;
+                        }
                     }
                     catch {
                         warning $_;
+                        next SKU;
                     };
+                }
+
+                # images
+
+              TAG: foreach my $tag (qw/ LargeImageURL ImageURL /) {
+
+                    if ( my $elt = $sku->first_child($tag) ) {
+
+                        # found the tag
+
+                        if ( my $url = $elt->text ) {
+
+                            # should have an image URL
+
+                            ( my $file = $url ) =~ s/^.+\///;
+                            my $path =
+                              File::Spec->catfile( $original_files, $file );
+
+                            # get image if it doesn't already exist
+
+                            unless ( -r $path ) {
+                                my $http = HTTP::Tiny->new();
+                                my $response = $http->mirror( $url, $path );
+                                sleep rand(0.5);    # don't hit them too hard
+                                unless ( $response->{success} ) {
+                                    error "failed to get $url: "
+                                      . $response->{reason};
+                                    next TAG;
+                                }
+                            }
+                            last TAG if &process_image( $variant, $path );
+                        }
+                    }
                 }
             }
         }
