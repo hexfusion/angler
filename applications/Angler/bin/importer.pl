@@ -457,7 +457,7 @@ sub process_orvis_cross_sell {
     return unless $product;
 
     foreach my $Cross_Sell ( $Cross_Sells->children ) {
-        my $related_sku = "WB-OR-" . $Cross_Sells->{'att'}->{'PF_ID'};
+        my $related_sku = "WB-OR-" . $Cross_Sell->{'att'}->{'PF_ID'};
         my $related_product = shop_product($related_sku);
         next unless $related_product;
         $schema->resultset('MerchandisingProduct')->find_or_create(
