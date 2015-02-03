@@ -27,7 +27,8 @@
 
 <list name="thumbs" iterator="thumbs" class="thumbs">
     <param name="src" class="product-image-thumb" target="src"/>
-    <param name="href" class="thumb-link" target="href" op="append"/>
+    <!--param name="href" class="thumb-link" target="href" op="append"/-->
+    <param name="sku" class="thumb-link" target="sku"/>
 </list>
 
 <value name="quantity" iterator="quantity"/>

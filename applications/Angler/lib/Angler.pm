@@ -951,20 +951,23 @@ hook 'before_product_display' => sub {
     my $parent_product =
       $product->canonical_sku ? $product->canonical : $product;
 
+    # we collect thumbs in a hash to avoid display 2 thumbs that have the same
+    # image
     my %thumbs;
     my $variants = $parent_product->variants;
     while ( my $variant = $variants->next ) {
         my $images = $variant->media_by_type('image');
         while ( my $image = $images->next ) {
-            $thumbs{ $image->display_uri('product_75x75') } = $variant->uri;
+            my $src = $image->display_uri('product_75x75');
+
+            $thumbs{$src} = {
+                src  => $src,
+                href => $variant->uri,
+                sku  => $variant->sku,
+            };
         }
     }
-    foreach my $image ( sort keys %thumbs ) {
-        push @{$tokens->{thumbs}}, {
-            src => $image,
-            href => $thumbs{$image},
-        };
-    }
+    $tokens->{thumbs} = [ values %thumbs ];
 
     my $video = $product->media_by_type('video')->first;
 
@@ -1241,7 +1244,39 @@ ajax '/check_variant' => sub {
     to_json(\%response);
 };
 
-shop_setup_routes;
+ajax '/variant_attribute_values' => sub {
 
+    # param should be sku of a variant
+
+    my ( %response, %attributes );
+    my $product = shop_product(param 'sku');
+
+    return undef unless $product;
+
+    my $attributes_rset = $product->search_related(
+        'product_attributes',
+        {
+            'attribute.type' => 'variant',
+        },
+        {
+            prefetch => [
+                'attribute', { product_attribute_values => 'attribute_value' },
+            ],
+        }
+    );
+
+    while ( my $attribute = $attributes_rset->next ) {
+        $attributes{ $attribute->attribute->name } =
+          $attribute->product_attribute_values->first->attribute_value->value;
+    }
+
+    $response{type} = "success";
+    $response{values} = \%attributes;
+
+    content_type('application/json');
+    to_json(\%response);
+};
+
+shop_setup_routes;
 
 true;
