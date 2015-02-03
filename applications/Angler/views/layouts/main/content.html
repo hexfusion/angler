@@ -11,18 +11,6 @@
 
 <link href="/css/rateit.css" rel="stylesheet" type="text/css">
 <link href="/css/fonts.css" rel="stylesheet" type="text/css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-<script type="text/javascript" src="/js/jquery.rateit.min.js"></script>
-<script type="text/javascript" src="/js/scripts.js"></script>
-<!--[if lt IE 7]>
-<script type="text/javascript">
-//<![CDATA[
-    var BLANK_URL = public/js/blank.html';
-    var BLANK_IMG = 'public/js/spacer.gif';
-//]]>
-</script>
-<![endif]-->
 <!--[if lt IE 9]>
 <div style=' clear: both; text-align:center; position: relative;'>
  <a href="//windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="//storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a>
@@ -42,18 +30,8 @@
 <link rel="stylesheet" type="text/css" href="/css/responsive.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/camera.css" media="all">
 
-<script type="text/javascript" src="/js/slider.js"></script>
-<script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="/js/bootstrap.js"></script>
-<script type="text/javascript" src="/js/jquery.touchswipe.js"></script>
-<script type="text/javascript" src="/js/tm-stick-up.js"></script>
 <!--[if lt IE 8]>
 <link rel="stylesheet" type="text/css" href="product/css/styles-ie.css" media="all" />
-<![endif]-->
-
-<!--[if lt IE 7]>
-<script type="text/javascript" src="product/js/lib/ds-sleight.js"></script>
-<script type="text/javascript" src="product/js/ie6.js"></script>
 <![endif]-->
 
 </head>
@@ -186,7 +164,6 @@
                         <button type="button" title="Checkout" class="button" onClick="location.href=('/checkout')"><span><span>Checkout</span></span></button>
                         <button type="button" title="My Cart" class="button" onClick="location.href=('/cart')"><span><span>My Cart</span></span></button>
                       </div>
-                      <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
                     </div>
                   </div>
                   <p class="mini-cart"><strong class="cart-count"title="">2</strong> </p>
@@ -292,11 +269,76 @@
     </div>
   </div>
 </div>
-<!-- Bootstrap core JavaScript-->
-<script src="/js/bootstrap-hover-dropdown.js"></script>
-<script src="/js/fitdivs.js"></script>
-
+<!-- popup for login -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header login_modal_header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Login to Your Account</h2>
+      </div>
+      <div class="modal-body login-modal">
+        <p>West Branch Angler is the ultimate resource for the fly fishing enthusiast and it's 100% free to join!.</p>
+        <br/>
+        <div class="clearfix"></div>
+        <div id='social-icons-conatainer'>
+          <form action="/login" method="post" id="login-form">
+            <div class='modal-body-left'>
+              <div class="form-group">
+                <input type="text" name="username" id="email" placeholder="Enter your name" class="form-control login-field" required>
+                <i class="fa fa-user login-field-icon"></i>
+              </div>
+        
+              <div class="form-group">
+                <input type="password" name="password" id="pass" placeholder="Password" class="form-control login-field" required>
+                <i class="fa fa-lock login-field-icon"></i>
+              </div>
+              <button type="submit" class="btn btn-success modal-login-btn">Login</button>
+              <div class="buttons-set"> <a href="" class="f-left">Forgot Your Password?</a> 
+              </div>
+            </form>
+            <div class='modal-body-right'>
+              <div class="modal-social-icons">
+                <a href='#' class="btn btn-default facebook"> <i class="fa fa-facebook modal-icons"></i> Sign In with Facebook </a>
+                <a href='#' class="btn btn-default twitter"> <i class="fa fa-twitter modal-icons"></i> Sign In with Twitter </a>
+                <a href='#' class="btn btn-default google"> <i class="fa fa-google-plus modal-icons"></i> Sign In with Google </a>
+                <a href='#' class="btn btn-default linkedin"> <i class="fa fa-linkedin modal-icons"></i> Sign In with Linkedin </a>
+              </div> 
+            </div>  
+            <div id='center-line'> OR </div>
+          </div>                                                                                                              
+          <div class="clearfix"></div>
+                
+          <div class="form-group modal-register-btn">
+            <button onClick="window.location='/registration'" class="btn btn-default"> New User Please Register</button>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer login_modal_footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- all js at the end -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script src="/js/jquery.easing.1.3.js"></script>
 <script src="/js/jquery.equalheightcolumns.js"></script>
+<script src="/js/jquery.rateit.min.js"></script>
+<script src="/js/jquery.touchswipe.js"></script>
+<script src="/js/fitdivs.js"></script>
+<script src="/js/slider.js"></script>
+<script src="/js/tm-stick-up.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/bootstrap-hover-dropdown.js"></script>
+<script src="/js/scripts.js"></script>
+<script class="extra-js-file" src="/js/"></script>
+<!--[if lt IE 7]>
+<script type="text/javascript" src="product/js/lib/ds-sleight.js"></script>
+<script type="text/javascript" src="product/js/ie6.js"></script>
+<![endif]-->
+<!-- Bootstrap core JavaScript-->
 <script>
         $('.products-grid li').equalHeightColumns({
             //checkHeight: 'height',
@@ -349,84 +391,5 @@ $('input[type="checkbox"]').click(evaluate).each(evaluate);
         })
     </script>
 
-<script>
-(function() {
-    var isBootstrapEvent = false;
-    if (window.jQuery) {
-        var all = jQuery('*');
-        jQuery.each(['hide.bs.dropdown', 
-            'hide.bs.collapse', 
-            'hide.bs.modal', 
-            'hide.bs.tooltip',
-            'hide.bs.popover'], function(index, eventName) {
-            all.on(eventName, function( event ) {
-                isBootstrapEvent = true;
-            });
-        });
-    }
-    var originalHide = Element.hide;
-    Element.addMethods({
-        hide: function(element) {
-            if(isBootstrapEvent) {
-                isBootstrapEvent = false;
-                return element;
-            }
-            return originalHide(element);
-        }
-    });
-})();
-</script>
-<script class="extra-js-file" src="/js/"></script>
 </body>
 </html>
-<!-- popup for login -->
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header login_modal_header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="myModalLabel">Login to Your Account</h2>
-            </div>
-            <div class="modal-body login-modal">
-                <p>West Branch Angler is the ultimate resource for the fly fishing enthusiast and it's 100% free to join!.</p>
-                <br/>
-                <div class="clearfix"></div>
-                <div id='social-icons-conatainer'>
-                <form action="/login" method="post" id="login-form">
-                    <div class='modal-body-left'>
-                        <div class="form-group">
-                            <input type="text" name="username" id="email" placeholder="Enter your name" class="form-control login-field" required>
-                            <i class="fa fa-user login-field-icon"></i>
-                        </div>
-        
-                        <div class="form-group">
-                            <input type="password" name="password" id="pass" placeholder="Password" class="form-control login-field" required>
-                            <i class="fa fa-lock login-field-icon"></i>
-                        </div>
-                        <button type="submit" class="btn btn-success modal-login-btn">Login</button>
-                        <div class="buttons-set"> <a href="" class="f-left">Forgot Your Password?</a> 
-                    </div>
-                </form>
-                    <div class='modal-body-right'>
-                        <div class="modal-social-icons">
-                            <a href='#' class="btn btn-default facebook"> <i class="fa fa-facebook modal-icons"></i> Sign In with Facebook </a>
-                            <a href='#' class="btn btn-default twitter"> <i class="fa fa-twitter modal-icons"></i> Sign In with Twitter </a>
-                            <a href='#' class="btn btn-default google"> <i class="fa fa-google-plus modal-icons"></i> Sign In with Google </a>
-                            <a href='#' class="btn btn-default linkedin"> <i class="fa fa-linkedin modal-icons"></i> Sign In with Linkedin </a>
-                        </div> 
-                    </div>  
-                    <div id='center-line'> OR </div>
-                </div>                                                                                                              
-                <div class="clearfix"></div>
-                
-                <div class="form-group modal-register-btn">
-                    <button onClick="window.location='/registration'" class="btn btn-default"> New User Please Register</button>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="modal-footer login_modal_footer">
-            </div>
-        </div>
-    </div>
-</div>
-
