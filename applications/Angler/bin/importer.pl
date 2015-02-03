@@ -119,8 +119,20 @@ elsif ( $type eq 'xml' ) {
     }
 
     my $twig = XML::Twig->new( twig_handlers => $twig_handlers );
-
     $twig->parsefile($file);
+
+    if ( $manufacturer eq 'orvis' ) {
+
+        # now orvis products are all inserted we need to reparse
+        # to add cross-sell info
+
+        my $twig =
+          XML::Twig->new(
+            twig_handlers => { Product => \&process_orvis_cross_sell } );
+
+        $twig->parsefile($file);
+    }
+
 }
 else {
 
@@ -427,6 +439,38 @@ sub process_image {
         );
     }
     return 1;
+}
+
+=head2 process_orvis_cross_sell
+
+twig handler for Orvis xml Cross_Sell
+
+=cut
+
+sub process_orvis_cross_sell {
+    my ( $t, $xml ) = @_;
+
+    my $Cross_Sells = $xml->first_child('Cross_Sells');
+
+    my $sku = "WB-OR-" . $Cross_Sells->{'att'}->{'PF_ID'};
+    my $product = shop_product($sku);
+    return unless $product;
+
+    foreach my $Cross_Sell ( $Cross_Sells->children ) {
+        my $related_sku = "WB-OR-" . $Cross_Sells->{'att'}->{'PF_ID'};
+        my $related_product = shop_product($related_sku);
+        next unless $related_product;
+        $schema->resultset('MerchandisingProduct')->find_or_create(
+            {
+                sku         => $sku,
+                sku_related => $related_sku,
+                type        => 'related',
+            },
+            {
+                key => 'merchandising_products_sku_sku_related_type'
+            }
+        );
+    }
 }
 
 =head2 process_orvis_product
