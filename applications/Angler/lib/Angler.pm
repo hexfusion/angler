@@ -1216,10 +1216,11 @@ ajax '/check_variant' => sub {
 
                 $image = $default_image unless $image;
 
-                $response{src} = $image->display_uri('product_325x325');
+                $response{name}    = $product->name;
                 $response{price}   = $product->price;
                 $response{selling} = $product->selling_price
                   if $product->price > $product->selling_price;
+                $response{src}  = $image->display_uri('product_325x325');
                 $response{type} = "success";
             }
             else {
