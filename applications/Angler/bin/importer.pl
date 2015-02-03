@@ -36,6 +36,8 @@ use Data::Dumper::Concise;
 set logger => 'console';
 set log    => 'info';
 
+my $count = 0;
+
 my $config =
   LoadFile( File::Spec->catfile( config->{appdir}, "importer.yml" ) );
 
@@ -126,6 +128,8 @@ elsif ( $type eq 'xml' ) {
         # now orvis products are all inserted we need to reparse
         # to add cross-sell info
 
+        info "processing cross-sells";
+        $count = 0;
         my $twig =
           XML::Twig->new(
             twig_handlers => { Product => \&process_orvis_cross_sell } );
@@ -450,6 +454,8 @@ twig handler for Orvis xml Cross_Sell
 sub process_orvis_cross_sell {
     my ( $t, $xml ) = @_;
 
+    info "processed $count products" unless ( ++$count % 100 );
+
     my $Cross_Sells = $xml->first_child('Cross_Sells');
 
     my $sku = "WB-OR-" . $Cross_Sells->{'att'}->{'PF_ID'};
@@ -481,6 +487,8 @@ twig handler for Orvis xml Product
 
 sub process_orvis_product {
     my ( $t, $xml ) = @_;
+
+    info "processed $count products" unless ( ++$count % 100 );
 
     # get attribute 'option'
 
