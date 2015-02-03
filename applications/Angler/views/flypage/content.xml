@@ -7,7 +7,7 @@
 <value name="image_src" class="product-image" target="src" />
 <value name="video_src" class="product-video" target="src" />
 <!--value name="image_thumb" class="product-image-thumb" target="src" /-->
-<value name="price" class="price" field="product.price"/>
+<value name="price" class="selling-price" field="product.price"/>
 
 <!-- product attributes -->
 <!--container name="variant-error" value="session.shop_cart_error"/-->

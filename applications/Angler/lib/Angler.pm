@@ -946,10 +946,7 @@ hook 'before_product_display' => sub {
 
     $image = $default_image unless $image;
 
-    if ($image) {
-        $tokens->{image_src} = uri_for($image->display_uri('product_325x325'));
-        $tokens->{image_thumb} = uri_for($image->display_uri('product_75x75'));
-    }
+    $tokens->{image_src} = uri_for($image->display_uri('product_325x325'));
 
     my $parent_product =
       $product->canonical_sku ? $product->canonical : $product;
@@ -1209,8 +1206,18 @@ ajax '/check_variant' => sub {
     if ( defined $sku ) {
         if ( $product = shop_product($sku) ) {
             if ( $product = $product->find_variant( \%params ) ) {
+
+                my $default_image =
+                  schema->resultset('Media')->find( { uri => 'default.jpg' } );
+                my $image = $product->media_by_type('image')->first;
+
+                $image = $default_image unless $image;
+
+                $response{src} = $image->display_uri('product_325x325');
+                $response{price}   = $product->price;
+                $response{selling} = $product->selling_price
+                  if $product->price > $product->selling_price;
                 $response{type} = "success";
-                $response{uri} = "/" . $product->uri;
             }
             else {
                 debug "variant not found for sku $sku with params: " . \%params;
