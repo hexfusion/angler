@@ -19,14 +19,9 @@ get '/review/:sku' => sub {
     my $form = form('review');
     my ($image_src, $review_count, $review_avg);
 
-    # add image. There could be more, so we just pick the first
-    my $image = $product->media_by_type('image')->first;
+    my $image = $product->image_325x325;
 
-    if ($image) {
-        $image_src = uri_for($image->display_uri('image_325x325'));
-    }
-
-    template 'product-review', { product => $product,
+    template 'product/review/content', { product => $product,
                                  image_src => $image_src,
                                  review_count => $product->reviews->count,
                                  review_avg => $product->average_rating,
