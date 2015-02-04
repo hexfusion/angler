@@ -47,11 +47,13 @@ engines:
         options:
           int_curr_symbol: "$"
       rating_class:
-        class: "DanceShop::Filters::RatingClass"
+        class: "Angler::Filters::RatingClass"
       selling_price:
-        class: "DanceShop::Filters::SellingPrice"
+        class: "Angler::Filters::SellingPrice"
         options:
           int_curr_symbol: "$"
+      title:
+        class: "Angler::Filters::Title"
 
 # log to a file by default
 logger: file

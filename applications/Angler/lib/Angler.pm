@@ -870,6 +870,8 @@ hook 'before_product_display' => sub {
     my $canonical_product =
       $product->canonical_sku ? $product->canonical : $product;
 
+    $tokens->{title} = $product->name;
+
     # an interesting page
     var add_to_history =>
       { type => 'product', name => $product->name, sku => $product->sku };
@@ -952,7 +954,7 @@ hook 'before_product_display' => sub {
     while ( my $variant = $variants->next ) {
         my $images = $variant->media_by_type('image');
         while ( my $image = $images->next ) {
-            my $src = $image->display_uri('product_75x75');
+            my $src = $image->display_uri('product_100x100');
 
             $thumbs{$src} = {
                 src  => $src,

@@ -1,4 +1,5 @@
 <specification>
+<value name="title" id="title" filter="title"/>
 <!-- Cart -->
 <list name="cart" class="cartitem" iterator="cart">
 <param name="name"/>

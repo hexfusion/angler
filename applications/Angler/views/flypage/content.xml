@@ -54,11 +54,18 @@
 <value name="category_name" id="category-name"/>
 <value name="category_more" class="link-more" target="href"/> 
 
-<list name="other_products" class="related-products" iterator="related_products">
-<param name="name" class="related-product-link" field="name"/>
-<param name="price" class="related-product-price" field="price"
-       filter="currency"/>
+<list name="related-products" iterator="related_products">
+    <param name="related_image" target="src" field="image_100x100"/>
+    <param name="image-alt" class="related_image" target="alt" field="name"/>
+    <param name="image-href" class="product-image" field="uri" target="href"/>
+    <param name="name" class="related-product-link" field="name"/>
+    <param name="name-href" class="related-product-link" field="uri"
+        target="href"/>
+    <param name="price" class="related-product-price" field="selling_price"
+        filter="currency"/>
+    <param name="link-cart" field="sku" target="href" op="append"/>
 </list>
+
 <!-- <list name="links" class="link" iterator="review_link"> -->
 <value name="review_link" class="add-review" iterator="review_link" target="href"/>
 

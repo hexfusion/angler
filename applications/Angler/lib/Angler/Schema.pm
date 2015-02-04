@@ -14,8 +14,14 @@ Interchange6::Schema::Result::Product->add_columns(
     },
 );
 
+*Interchange6::Schema::Result::Product::details = sub {
+    return "location.href=('/" . shift->uri . "')";
+};
+
 *Interchange6::Schema::Result::Product::image = sub {
-    my $self = shift;
+    my ( $self, $size ) = @_;
+
+    $size = "325x325" unless $size;
 
     my $schema = $self->result_source->schema;
 
@@ -37,16 +43,33 @@ Interchange6::Schema::Result::Product->add_columns(
     $image = $schema->resultset('Media')->find( { uri => 'default.jpg' } )
       unless $image;
 
-    if ( my $uri = $image->display_uri('product_200x200') ) {
+    if ( my $uri = $image->display_uri("product_$size") ) {
         return $uri;
     }
     else {
         return undef;
     }
 };
-
-*Interchange6::Schema::Result::Product::details = sub {
-    return "location.href=('/" . shift->uri . "')";
+*Interchange6::Schema::Result::Product::image_35x35 = sub {
+    return shift->image("35x35");
+};
+*Interchange6::Schema::Result::Product::image_75x75 = sub {
+    return shift->image("75x75");
+};
+*Interchange6::Schema::Result::Product::image_100x100 = sub {
+    return shift->image("100x100");
+};
+*Interchange6::Schema::Result::Product::image_110x110 = sub {
+    return shift->image("110x110");
+};
+*Interchange6::Schema::Result::Product::image_200x200 = sub {
+    return shift->image("200x200");
+};
+*Interchange6::Schema::Result::Product::image_325x325 = sub {
+    return shift->image("325x325");
+};
+*Interchange6::Schema::Result::Product::image_975x975 = sub {
+    return shift->image("975x975");
 };
 
 1;
