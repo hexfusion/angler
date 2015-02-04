@@ -1,31 +1,49 @@
-   <div class="slider-container">
+ <div class="slider-container">
       <div class="slider_block">
-        <script type="text/javascript" src="/js/camera.js"></script>
-        <script type="text/javascript">
-         /* index slider */
-         jQuery(function(){
-          jQuery('#camera_wrap').camera({
-          alignmen: 'topCenter',
-          height: '20.357%',
-          minHeight: '34px',
-          loader : true,
-          loaderColor: '#f48b47',
-          loaderPadding: '0',
-          loaderStroke: '2',
-          navigation: true,
-          pagination: false,
-          fx: 'simpleFade',
-          navigationHover:false,
-          thumbnails: false,
-          playPause: false 
-          });
-         });    
-         </script>
         <div class="fluid_container">
-          <div class="camera_wrap camera_orange_skin" id="camera_wrap">
-            <div class="slider slide-data" data-link="#" data-src="/images/camera/slides/slide5.jpg"></div>
+   <header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="fill" style="background-image:url(&#39;/images/camera/slides/slide5.jpg&#39;);"></div>
+                <div class="carousel-caption">
+                 <h2 class="header-promo">West Branch Angler End of Season Sale</h2>
+                 <h3 class="descrip-promo">Up to 40% Off Past-Season Apparel & Gear</h3>
+                    <a class="btn-invert" href="">Shop Men's</a>
+                    <a class="btn-invert" href="">Shop Women's</a>
+                    <a class="btn-invert" href="">Shop Kids'</a>
+                    <a class="btn-invert" href="">Shop Gear</a>
+               </div>
+            </div>
+            <div class="item">
+                <div class="fill" style="background-image:url(&#39;/images/camera/slides/slide2.jpg&#39;);"></div>
+                <div class="carousel-caption">
+                    <h2>Caption 2</h2>
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill" style="background-image:url(&#39;/images/camera/slides/slide3.jpg&#39;);"></div>
+                <div class="carousel-caption">
+                    <h2>Caption 3</h2>
+                </div>
+            </div>
         </div>
-       <div class="clear"></div>
-        </div>
-      </div>
-    </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+    </header>
+</div>
+</div>
+</div>
