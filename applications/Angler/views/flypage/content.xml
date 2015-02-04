@@ -63,6 +63,7 @@
         target="href"/>
     <param name="price" class="related-product-price" field="selling_price"
         filter="currency"/>
+    <param name="no_variants" op="toggle" args="tree"/>
     <param name="link-cart" field="sku" target="href" op="append"/>
 </list>
 

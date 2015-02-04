@@ -71,5 +71,8 @@ Interchange6::Schema::Result::Product->add_columns(
 *Interchange6::Schema::Result::Product::image_975x975 = sub {
     return shift->image("975x975");
 };
+*Interchange6::Schema::Result::Product::no_variants = sub {
+    return shift->variant_count ? 0 : 1;
+};
 
 1;
