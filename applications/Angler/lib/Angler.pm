@@ -926,7 +926,7 @@ hook 'before_product_display' => sub {
     my $qmax = 10;
     my $qiter = Data::Transpose::Iterator::Scalar->new([$qmin..$qmax]);
 
-    $tokens->{quantity} = $qiter;
+    $tokens->{quantity_iterator} = $qiter;
 
     # free shipping
     my $free_shipping_amount = config->{free_shipping}->{amount};
