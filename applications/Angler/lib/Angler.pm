@@ -867,38 +867,32 @@ hook 'before_product_display' => sub {
     my @related_products;
     my @reviews;
 
+    my $canonical_product =
+      $product->canonical_sku ? $product->canonical : $product;
+
     # an interesting page
     var add_to_history =>
       { type => 'product', name => $product->name, sku => $product->sku };
 
     # breadcrumbs
-    my $path = $product->path;
+    my $path = $canonical_product->path;
     $tokens->{breadcrumbs} = $path;
 
     # find related products
-    my $prod_rs = shop_product($product->sku)->search_related(
+    $tokens->{related_products} = $canonical_product->search_related(
         'merchandising_products',
         {
-            type => 'related',
+            'me.type' => 'related',
+        },
+      )->search_related(
+        'product_related',
+        {
+            'product_related.active' => 1,
         },
         {
-            rows => config->{flypage}->{related_products}->{qty},
+            rows => config->{flypage}->{related_product}->{qty} || 3,
         },
-    );
-
-    while (my $prod = $prod_rs->next) {
-        my $related = shop_product($prod->sku_related);
-        my $image = $related->media_by_type('image')->first;
-        push @related_products, {
-                            sku => $related->sku,
-                            name => $related->name,
-                            price => $related->price,
-                            image => $image,
-        };
-    }
-
-    debug "Related Products: ", \@related_products;
-    $tokens->{related_products} = \@related_products;
+      )->listing( { users_id => session('logged_in_user_id') });
 
     # reviews
     my $review_rs = shop_product($product->sku)->reviews;
