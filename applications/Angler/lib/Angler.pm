@@ -867,6 +867,8 @@ hook 'before_product_display' => sub {
     my @related_products;
     my @reviews;
 
+    &add_recent_products( $tokens, 3 );
+
     my $canonical_product =
       $product->canonical_sku ? $product->canonical : $product;
 
@@ -1084,12 +1086,77 @@ hook 'before_cart_display' => sub {
     $values->{form} = $form;
 };
 
+=head1 METHODS
+
+=head2 add_recent_products($tokens, $quantity)
+
+Add recent_products token containing the most recently-viewed products.
+
+This sub must be given the current template tokens hash reference and
+quantity of results wanted.
+
+=cut
+
+sub add_recent_products {
+    my ( $tokens, $quantity ) = @_;
+
+    return if (!defined $tokens || !defined $quantity );
+
+    my %history;
+    my $session_history = session('history');
+    if ( ref($session_history) eq 'HASH' ) {
+        %history = %$session_history;
+    }
+
+    if ( defined $history{product} ) {
+
+        my %seen;
+        my @skus;
+        foreach my $product ( @{ $history{product} } ) {
+
+            next if $product->{uri} eq request->path;
+
+            unless ( $seen{ $product->{sku} } ) {
+                $seen{ $product->{sku} } = 1;
+                push @skus, $product->{sku};
+            }
+            last if scalar(@skus == $quantity);
+        }
+
+        my $products = schema->resultset('Product')
+          ->search( { active => 1, sku => { -in => \@skus } } );
+
+        if ( $products->has_rows ) {
+
+            # we have some results so set the token
+
+            $tokens->{recent_products} = [ $products->listing(
+                { users_id => session('logged_in_user_id') } )->all ];
+        }
+    }
+}
+
+=head2 countries
+
+Returns an array reference of active Country result rows ordered by name.
+
+=cut
+
 sub countries {
     return [shop_country->search(
         {active => 1},
         {order_by => 'name'},
     )];
 }
+
+=head2 countries
+
+Takes an iso_country_code as argument.
+
+Returns an array reference of active State result rows ordered by name for
+the requested country.
+
+=cut
 
 sub states {
     my ($country) = @_;
@@ -1105,6 +1172,9 @@ sub states {
     return $states;
 };
 
+=head1 ROUTES
+
+=cut
 
 get '/' => sub {
 

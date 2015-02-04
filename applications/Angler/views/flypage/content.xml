@@ -6,7 +6,23 @@
 <value name="description" field="product.description" op="hook"/>
 <value name="image_src" class="product-image" target="src" />
 <value name="image_name" class="product-image" target="title" field="product.name"/>
-<value name="video_src" class="product-video" target="src" />
+
+<container name="video-box" value="video_src">
+    <value name="video_src" class="product-video" target="src" />
+</container>
+
+<!-- recently view products -->
+<container name="box-up-sell" value="recent_products">
+    <list name="up-sell-item" iterator="recent_products">
+        <param name="name"/>
+        <param name="image-src" target="src" field="image_200x200"/>
+        <param name="link" field="uri" target="href" op="append"/>
+        <param name="price" field="selling_price" filter="selling_price"/>
+        <param name="inventory" class="label" op="toggle" args="tree"/>
+        <param name="sku" target="value"/>
+    </list>
+</container>
+
 <!--value name="image_thumb" class="product-image-thumb" target="src" /-->
 <value name="price" class="selling-price" field="product.price"/>
 
