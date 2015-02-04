@@ -22,7 +22,7 @@ get '/search' => sub {
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
-    template 'product/listing/content', {products => $results,
+    template 'product/grid/content', {products => $results,
                                  count => $count,
 				 brands => [$brands->all],
     };
