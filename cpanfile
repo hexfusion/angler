@@ -1,3 +1,5 @@
+requires 'Emailesque';
+requires 'HTML::FormatText::WithLinks';
 requires 'Spreadsheet::ParseExcel';
 requires 'Spreadsheet::ParseXLSX';
 requires 'Time::HiRes';
