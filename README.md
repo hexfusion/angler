@@ -1,15 +1,25 @@
-NAME
-    Angler - Interchange 6 webstore
+=encoding utf8
 
-ISSUES
-    https://github.com/sbatschelet/angler/issues
+=pod
+ 
+=head1 NAME
 
-WIKI
-    https://github.com/sbatschelet/angler/wiki
+Angler - Interchange 6 webstore
 
-AUTHORS
-    Stefan Hornburg (Racke), `racke@linuxia.de'
+=head1 ISSUES
 
-    Peter Mottram, `peter@sysnix.com'
+https://github.com/sbatschelet/angler/issues
 
-    Sam Batschelet `sbatschelet@mac.com'
+=head1 WIKI
+
+https://github.com/sbatschelet/angler/wiki
+
+=head1 AUTHORS
+
+Stefan Hornburg (Racke), `racke@linuxia.de'
+
+Peter Mottram, `peter@sysnix.com'
+
+Sam Batschelet `sbatschelet@mac.com'
+
+=cut
