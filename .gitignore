@@ -1,7 +1,23 @@
+*.log
+
+# tomcat
 tomcat.pid
 tomcat/latest/logs
+tomcat/*/logs/
+tomcat/*/conf/Catalina/localhost/solr.xml
+tomcat/*/conf/server.xml
+tomcat/*/temp/tomcat-native-1.1.32-src/
+tomcat/*/webapps/solr/
+
+# solr
+solr/core1/conf/db-connection.xml
+solr/core1/conf/scripts.conf
+solr/core1/data/index/
 dev-modules
 .perl-version
+passwd
+
+#interchange5
 catalogs/site/catalog_local.cfg
 catalogs/site/products/*.gdbm
 catalogs/site/products/.*.autonumber
@@ -27,10 +43,13 @@ interchange/src/vlink
 interchange/src/vlink._*
 interchange/var/log/*
 interchange/var/run/*
+
+# angler
 applications/Angler/bin/app.pl
+applications/Angler/blib/
 applications/Angler/sql/*
-solr/conf/db-connection.xml
-solr/conf/scripts.conf
+applications/Angler/pm_to_blib
+
 my.cnf
 mysql.yml
 nginx/
