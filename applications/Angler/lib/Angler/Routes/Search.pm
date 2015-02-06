@@ -18,14 +18,26 @@ get '/search' => sub {
     my $results = $search->solr_query;
     my $count = $search->count;
 
+    debug "Count for ", \@words, ": ", $count;
+    debug "Matches:", $results;
+
+    my @pages = ({page => 1, uri => "bla", active => "active"});
+
     # load list of brands
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
-    template 'product/grid/content', {products => $results,
-                                 count => $count,
-				 brands => [$brands->all],
-    };
+    my %tokens = (
+        products => $results,
+        pagination => \@pages,
+        breadcrumbs => [],
+        facets => [],
+        views => [],
+        count => $count,
+        brands => [$brands->all],
+    );
+
+    template 'product/grid/content', \%tokens;
 };
 
 1;
