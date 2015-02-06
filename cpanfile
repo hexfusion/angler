@@ -106,3 +106,4 @@ requires 'Date::Calc';
 requires 'Business::PayPal::API', 0.70;
 requires 'File::MimeInfo';
 requires 'Net::Easypost', '0.13';
+requires 'Data::Transpose', '0.0012';

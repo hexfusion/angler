@@ -658,6 +658,16 @@ sub user_address {
     if ($bill_adr) {
         debug "Billing address found: ", $bill_adr->id;
 
+        my $billing_form_values = Angler::Forms::Checkout->new(
+            address => $bill_adr,
+            prefix => 'billing_',
+        )->transpose;
+
+        # add billing data to form values
+        while (my ($key, $value) = each %$billing_form_values) {
+            $form_values->{$key} = $value;
+        }
+
         $form_values->{billing_enabled} = 1;
         $form_values->{billing_id} = $bill_adr->id;
     }

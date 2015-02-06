@@ -4,18 +4,29 @@ use strict;
 use warnings;
 
 use Moo;
-use Data::Transpose 0.0008;
+use Data::Transpose 0.0012;
+use Data::Transpose::Prefix;
 
 has address => (
     is => 'ro',
     required => 1,
 );
 
+has prefix => (
+    is => 'ro',
+);
+
 sub transpose {
     my ($self) = @_;
-    my $tp = Data::Transpose->new;
+    my $tp;
 
-    $tp->field('first_name');
+    if ($self->prefix) {
+        $tp = Data::Transpose::Prefix->new(prefix => $self->prefix);
+    }
+    else {
+        $tp = Data::Transpose->new();
+    }
+
     $tp->field('last_name');
     $tp->field('address');
     $tp->field('address_2');
