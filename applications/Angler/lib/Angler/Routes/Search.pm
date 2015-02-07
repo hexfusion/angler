@@ -15,10 +15,14 @@ get '/search' => sub {
         solr_url => config->{solr_url},
         words => \@words);
 
-    my $results = $search->solr_query;
-    my $count = $search->count;
+    $search->search(param('q'));
 
-    debug "Count for ", \@words, ": ", $count;
+    my $response = $search->response;
+    my $results = $search->results;
+    my $count = $search->num_found;
+
+    debug "Count for ", \@words, ": ", $search->num_found;
+    debug "Total entries: ", $response->pager->total_entries;
     debug "Matches:", $results;
 
     my @pages = ({page => 1, uri => "bla", active => "active"});
@@ -29,7 +33,7 @@ get '/search' => sub {
 
     my %tokens = (
         products => $results,
-        pager => $search->pager,
+        pager => $response->pager,
         pagination => \@pages,
         breadcrumbs => [],
         facets => [],
