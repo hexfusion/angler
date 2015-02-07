@@ -29,6 +29,7 @@ get '/search' => sub {
 
     my %tokens = (
         products => $results,
+        pager => $search->pager,
         pagination => \@pages,
         breadcrumbs => [],
         facets => [],

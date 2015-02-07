@@ -4,6 +4,7 @@ use Moo;
 use MooX::Types::MooseLike::Base qw/ArrayRef/;
 
 use WebService::Solr;
+use Data::Page;
 
 has solr_url => (
     is => 'ro',
@@ -25,6 +26,18 @@ has count => (
 has page_size => (
     is => 'rw',
     default => sub {20},
+);
+
+has pager => (
+    is => 'rwp',
+    lazy => 1,
+    default => sub {
+        my $self = shift;
+        my $pager = Data::Page->new(
+            total_entries => $self->count,
+            entries_per_page => $self->page_size,
+        );
+    },
 );
 
 has words => (
@@ -66,8 +79,9 @@ sub solr_query {
 
     my $count = $response->pager->total_entries;
 
-    # save count in our object
+    # save count and pager in our object
     $self->_set_count($count);
+    $self->_set_pager($response->pager);
 
 	for my $doc ( $response->docs ) {
 		my (%record, $name);
