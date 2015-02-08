@@ -1,2 +1,10 @@
 <specification>
+
+<!-- Alerts -->
+<container name="alert" class="alert" value="alerts">
+<value name="alert" field="alerts.alert-class" target="class" op="append" />
+<value name="alert-notice" field="alerts.alert-notice" />
+<value name="alert-msg" field="alerts.alert-msg" op="hook" />
+</container>
+
 </specification>
