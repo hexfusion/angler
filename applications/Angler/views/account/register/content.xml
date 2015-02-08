@@ -1,10 +1,10 @@
 <specification>
 <form name="registration" link="name">
-<field name="first_name"/>
-<field name="last_name"/>
-<field name="email"/>
-<field name="password"/>
-<field name="confirm_password"/>
+<field name="first_name" id="first_name"/>
+<field name="last_name" id="last_name"/>
+<field name="email" id="email"/>
+<field name="password" id="password"/>
+<field name="confirm_password" id="confirm_password"/>
 </form>
 
 <!-- Alerts -->
