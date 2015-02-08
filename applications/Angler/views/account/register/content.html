@@ -1,4 +1,4 @@
-<div class="main-container col1-layout">
+<div class="main-container col2-layout">
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
@@ -6,56 +6,67 @@
           <div class="col-main">
             <div class="padding-s">
               <div class="account-create">
-                <div class="page-title">
+                <div class="alert ">
+                  <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong class="alert-notice"></strong> <span class="alert-msg"></span>
+                </div>
+                <div class="page-title ">
                   <h1>Create an Account</h1>
                 </div>
-                <form name="registration" action="/registration" method="POST" id="form-validate">
+                <div class ="well">
+                <form name="registration" action="/registration" method="POST" id="form-validate" role="form" data-toggle="validator">
                   <div class="fieldset">
                     <h2 class="legend">Personal Information</h2>
                     <ul class="form-list">
                       <li class="fields">
                         <div class="customer-name">
-                          <div class="field name-firstname">
-                            <label for="firstname" class="required"><em>*</em>First Name</label>
+                          <div class="field form-group">
+                            <label for="firstname" class="required control-label"><em>*</em>First Name</label>
                             <div class="input-box">
-                              <input id="firstname" name="firstname" title="First Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                              <input id="firstname" name="firstname" title="First Name" maxlength="255" class="input-text form-control" data-error="Please enter a First Name" type="text" required="">
+                              <div class="help-block with-errors"></div>
                             </div>
                           </div>
-                          <div class="field name-lastname">
-                            <label for="lastname" class="required"><em>*</em>Last Name</label>
+                          <div class="field form-group">
+                            <label for="lastname" class="required control-label"><em>*</em>Last Name</label>
                             <div class="input-box">
-                              <input id="lastname" name="lastname" title="Last Name" maxlength="255" class="input-text required-entry form-control" type="text">
+                              <input id="lastname" name="lastname" title="Last Name" maxlength="255" class="input-text form-control" data-error="Please enter a Last Name" type="text" required="">
+                              <div class="help-block with-errors"></div>
                             </div>
                           </div>
                         </div>
                       </li>
                       <li>
+                      <div class="field form-group">
                         <label for="email_address" class="required"><em>*</em>Email Address</label>
-                        <span class="form-error" id="error-email"><ul><li class="error-email"><span class="email-msg">Error</span></li></ul></span>
                         <div class="input-box">
-                          <input name="email" id="email_address" title="Email Address" class="input-text validate-email required-entry form-control" type="email">
-                        </div>
+                          <input name="email" id="email_address" title="Email Address" class="input-text form-control" data-error="Please enter a valid Email Address" type="email" required="">
+                          <span class="help-block with-errors"></span>
+                       </div>
+                      </div>
                       </li>
-                      <li class="control">
+                <!--      <li class="control">
                         <input name="is_subscribed" title="Sign Up for Newsletter" value="1" id="is_subscribed" class="checkbox" type="checkbox">
                         <label for="is_subscribed">Sign Up for Newsletter</label>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                   <div class="fieldset">
                     <h2 class="legend">Login Information</h2>
                     <ul class="form-list">
                       <li class="fields">
-                        <div class="field">
+                        <div class="field form-group">
                           <label for="password" class="required"><em>*</em>Password</label>
                           <div class="input-box">
-                            <input name="password" id="password" title="Password" class="input-text required-entry validate-password form-control" type="password">
+                            <input name="password" id="password" title="Password" class="input-text form-control" data-minlength="8" data-toggle="validator" type="password" required="">
+                            <span class="help-block">Minimum of 8 characters!</span>
                           </div>
                         </div>
-                        <div class="field">
+                        <div class="field form-group">
                           <label for="confirmation" class="required"><em>*</em>Confirm Password</label>
                           <div class="input-box">
-                            <input name="confirm_password" title="Confirm Password" id="confirmation" class="input-text required-entry validate-cpassword form-control" type="password">
+                            <input name="confirm_password" title="Confirm Password" id="confirmation" class="input-text form-control" data-match="#password" data-match-error="Sorry these passwords don't match!" type="password" required>
+                            <div class="help-block with-errors"></div>
                           </div>
                         </div>
                       </li>
@@ -67,6 +78,7 @@
                     <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
                   </div>
                 </form>
+                </div>
               </div>
             </div>
           </div>
