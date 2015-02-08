@@ -19,31 +19,49 @@ use URI::Escape qw(uri_escape);
 use Digest::MD5 qw(md5_hex);
 
 use Angler::Forms::Checkout;
+use Angler::Alert;
 
 my $now = DateTime->now;
 
 # registration
 get '/registration' => sub {
+    my $tokens;
     my $form = form('registration');
 
-    template 'account/register/content', {form => $form};
+    $tokens->{'form'} = $form;
+    $tokens->{'extra-js-file'} = 'validator.min.js';
+
+    template 'account/register/content', $tokens;
 };
 
 post '/registration' => sub {
+    my $tokens;
     my $form = form('registration');
     my $values = $form->values;
     my $username = $values->{email};
 
+    $tokens->{'form'} = $form;
+    $tokens->{'extra-js-file'} = 'validator.min.js';
+
+    debug "form ", $tokens;
+
     # user exists?
     my $user = shop_user->find({ username => $username });
 
-    my @errors;
-#    $errors[0] = ({'errors' => [['exists','Email already exists']],'field' => 'username'});
+    if ($user) {
+        $tokens->{'alerts'} = Angler::Alert->username_exists;
+        $form->fill($values);
+        debug "return tokens", $tokens;
+        return template 'account/register/content', $tokens;
+    };
 
-#    debug "Error Test Top: ", @errors;
+    $tokens->{errors} = validate_registration($values);
 
-    # id of user role
-    my $user_role_id = '3';
+    # if we have errors back to the form we go
+    if ($tokens->{errors}) {
+        debug "Form passed on clientside but not on serverside ", $tokens->{errors};
+        return template 'account/register/content', $tokens;
+    }
 
     my $user_data = { username => $values->{email},
                       email    => $values->{email},
@@ -51,8 +69,24 @@ post '/registration' => sub {
                       last_name => $values->{last_name},
                       password => $values->{password},
                       created => $now
-        };
-    # debug "User data: ", $user_data;
+    };
+  
+    # so far so good add user
+    $user = add_user($user_data);
+
+    $tokens->{'alerts'} = Angler::Alert->registration_success;
+
+    return template 'auth/login/content', $tokens;
+};    
+
+=head2 validate_registration
+
+input form values and will return errors
+
+=cut
+
+sub validate_registration {
+    my ($values) = @_;
 
     # validate form input
     my $validator = Data::Transpose::Validator->new(requireall => 1);
@@ -86,36 +120,22 @@ post '/registration' => sub {
                         },
 
     );
-    my $clean = $validator->transpose($values);
-    my %token;
-    $token{errors} = $validator->errors_as_hashref;
-    $token{errors} = {'errors' => [['exists','Email already exists']],'field' => 'username'};
 
-    #$errors = ($errors, $error_u);
+    if (! $validator->transpose($values)) {
+        my ($v_hash, %errors);
 
-   #my $errors =  ($v_error, $u_error);
+        $v_hash = $validator->errors_hash;
 
-    #push ( @{ $errors[0] }, $user_exists);
-
-    debug "Auth errors clean: ", %token;
-
-    my $errors = $token{errors};
-
-    #if ( $validator->errors || $user ) {
-    # create new user and role
-    #$user = add_user($user_data);
-
-    # add user attribute
-    #$user->add_attribute('facebook','0');
-
-    #debug("Register result: ", $acct || 'N/A');
-    #return redirect '/auth/login/content';
-   # }
-
-    template 'account/register/content', {form => $form,
-                  errors => $errors};
-
+        while (my ($key, $value) = each %$v_hash) {
+            $errors{$key} = $value->[0]->{value};
+            # flag the field with error using has-error class
+            $errors{$key . '_input' } = 'has-error';
+        }
+   return \%errors;
+    }
 };
+
+
 
 get '/login/denied' => sub {
     template 'login_denied';
@@ -755,15 +775,10 @@ sub reg_conf_email {
 
 sub add_user {
     my ($user_data) = @_;
-    my ($user, $role);
-    my $user_role_id = config->{user_role_id};
 
-     debug("Create user data: ", $user_data);
+    debug("Create user data: ", $user_data);
     # create account
-    $user = shop_user->create( $user_data );
-
-    # add user role
-    $role = $user->create_related('user_roles', { users_id => $user->id, roles_id => $user_role_id  } );
+    my $user = shop_user->create( $user_data );
 
     # email confirmation
     reg_conf_email();
