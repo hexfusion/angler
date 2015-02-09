@@ -19,11 +19,19 @@ use File::Spec;
 use Angler::Shipping;
 
 get '/checkout' => sub {
-    my ($cart_form, $user);
     my $form = form('checkout');
     $form->valid(0);
 
-    debug "get checkout";
+    # does user have a shipping address?
+    # NOTE if user has only a billing address we don't fill
+    # this because it seems a weird sitatuion and not common.
+    # but I could be wrong..
+    my $user_address = shop_user(session('logged_in_user_id'))->addresses->search({ type => 'shipping'})->first;
+
+    if ($user_address) {
+        my $form_values = user_address();
+        $form->fill($form_values);
+    }
 
     template 'checkout/content', checkout_tokens($form);
 };
@@ -309,7 +317,7 @@ sub checkout_tokens {
                                         country => $values->{country},
                                         shipping_methods_id => session('shipping_method') || 0,
                                         user_id => session('logged_in_users_id'),);
-debug "Angler Cart: ", ref($angler_cart);
+    debug "Angler Cart: ", ref($angler_cart);
     $values ||= {};
 
     $angler_cart->update_costs($values);
