@@ -1067,8 +1067,6 @@ hook 'before_cart_display' => sub {
     $angler_cart->update_costs;
 
     $form_values->{country} = $angler_cart->country;
-    # $values->{states} = states($form_values->{country});
-
     $form_values->{postal_code} = $angler_cart->postal_code;
 
     $values->{cart_shipping} = $angler_cart->shipping_cost;
@@ -1136,54 +1134,21 @@ sub add_recent_products {
     }
 }
 
-=head2 countries
-
-Returns an array reference of active Country result rows ordered by name.
-
-=cut
-
-sub countries {
-    return [shop_country->search(
-        {active => 1},
-        {order_by => 'name'},
-    )];
-}
-
-=head2 countries
-
-Takes an iso_country_code as argument.
-
-Returns an array reference of active State result rows ordered by name for
-the requested country.
-
-=cut
-
-sub states {
-    my ($country) = @_;
-    my $states;
-
-    $states = [shop_schema->resultset('State')->search(
-        {country_iso_code => $country,
-         active => 1,
-     },
-        {order_by => 'name'},
-    )];
-
-    return $states;
-};
-
 =head1 ROUTES
 
 =cut
 
 get '/' => sub {
-
+    my $tokens;
     # get all manufacturers
     my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
         debug "json components", $components;
 
-    template 'home/content', {manufacturer => [$mf->all], component => $components };
+    $tokens->{"component"} = $components;
+    $tokens->{"manufacturer"} = [$mf->all];
+
+    template 'home/content', $tokens;
 
 };
 
