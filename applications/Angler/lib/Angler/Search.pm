@@ -30,24 +30,4 @@ has words => (
     default => sub {[]},
 );
 
-sub results {
-    my $self = shift;
-    my @matches;
-
-	for my $doc ( $self->response->docs ) {
-		my (%record, $name);
-
-        for my $fld ($doc->fields) {
-            $name = $fld->name;
-            next if $name =~ /^_/;
-
-            $record{$name} = $fld->value;
-        }
-
-        push  @matches, \%record;
-	}
-
-    return \@matches;
-}
-
 1;
