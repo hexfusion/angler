@@ -11,6 +11,7 @@ get qr{/search(/(.*))?} => sub {
     my $q;
     my ($slash, $current_uri) = splat;
 
+    $current_uri ||= '';
     debug "Current search uri: ", $current_uri;
 
     # create search object
