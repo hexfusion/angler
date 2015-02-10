@@ -14,19 +14,22 @@ use Try::Tiny;
 
 get '/review/:sku' => sub {
     my $self = shift;
-    my $sku = params->{sku};
+
+    my $sku     = param "sku";
+    my $form    = form('review');
     my $product = shop_product($sku);
-    my $form = form('review');
-    my ($image_src, $review_count, $review_avg);
 
-    my $image = $product->image_325x325;
-
-    template 'product/review/content', { product => $product,
-                                 image_src => $image_src,
-                                 review_count => $product->reviews->count,
-                                 review_avg => $product->average_rating,
-                                 form => $form,
-    };
+    template 'product/review/content',
+      {
+        image   => $product->image_325x325,
+        product => $product,
+        review_count =>
+          $product->reviews->search( { public => 1, approved => 1 } )->count,
+        review_avg      => $product->average_rating,
+        form            => $form,
+        "canonical-url" => uri_for( "/review/" . $product->sku ),
+        "extra-js-file" => 'validator.min.js',
+      };
 };
 
 #post '/review/:sku' => require_login sub {

@@ -1,10 +1,13 @@
 <specification>
 <!-- Product -->
 <value name="name" field="product.name"/>
-<value name="sku" id="sku" field="product.sku"/>
+<value name="sku" id="review" op="append" target="action" field="product.sku"/>
 <value name="short_description" field="product.short_description"/>
 <value name="description" field="product.description" op="hook"/>
-<value name="image_src" class="product-image" target="src" />
+<container name="image-container" value="image">
+    <value name="product-image" target="src" field="image"/>
+    <value name="image-name" target="title" field="name"/>
+</container>
 <value name="video_src" class="product-video" target="src" />
 <value name="image_thumb" class="product-image-thumb" target="src" />
 <value name="price" class="price" field="product.price"/>
