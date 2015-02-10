@@ -1327,6 +1327,11 @@ ajax '/variant_attribute_values' => sub {
     to_json(\%response);
 };
 
+get '404' => sub {
+    status 'not_found';
+    template 'error_pages/404' => { title => 'Not Found' };
+};
+
 shop_setup_routes;
 
 true;
