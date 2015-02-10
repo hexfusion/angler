@@ -945,7 +945,8 @@ hook 'before_product_display' => sub {
 
     $image = $default_image unless $image;
 
-    $tokens->{image_src} = uri_for($image->display_uri('product_325x325'));
+    $tokens->{image_src} = uri_for($image->display_uri('product_325x325'))
+      if $image;
 
     my $parent_product =
       $product->canonical_sku ? $product->canonical : $product;
