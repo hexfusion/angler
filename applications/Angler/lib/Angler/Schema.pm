@@ -36,6 +36,22 @@ Interchange6::Schema::Result::Product->add_columns(
         }
     )->single;
 
+    if ( !$image && $self->canonical_sku ) {
+
+        # no image for variant so try parent product
+        $image = $self->media_products->search_related(
+            'media',
+            {
+                'media_type.type' => 'image',
+            },
+            {
+                join => 'media_type',
+                rows => 1
+            }
+        )->single;
+    }
+
+    # fallback to default image
     # FIXME this should come from config.
     $image = $schema->resultset('Media')->find( { uri => 'default.jpg' } )
       unless $image;
