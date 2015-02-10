@@ -7,28 +7,34 @@ use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Email;
 
 use Angler::Cart;
+use Angler::Data::Tokens;
 use Angler::Forms::Checkout;
-use File::Spec;
+use Angler::Shipping;
 
+use File::Spec;
 use DateTime;
 use Business::PayPal::API::ExpressCheckout;
 
-use Angler::Cart;
-use Angler::Forms::Checkout;
-use File::Spec;
-use Angler::Shipping;
 
 get '/checkout' => sub {
     my $form = form('checkout');
     $form->valid(0);
 
+    # set form defaults
+    $form = set_default_form_values($form);
+
     # does user have a shipping address?
     # NOTE if user has only a billing address we don't fill
     # this because it seems a weird sitatuion and not common.
     # but I could be wrong..
-    my $user_address = shop_user(session('logged_in_user_id'))->addresses->search({ type => 'shipping'})->first;
+    my $ship_adr = shop_address->search(
+        {
+            users_id => session('logged_in_user_id'),
+            type => 'shipping',
+        },
+    );
 
-    if ($user_address) {
+    if ($ship_adr and logged_in_user) {
         my $form_values = user_address();
         $form->fill($form_values);
     }
@@ -37,25 +43,13 @@ get '/checkout' => sub {
 };
 
 post '/checkout' => sub {
-    my $cart_form;
     my $form = form('checkout');
-    my $values = $form->values;
-    my $shipping_quote_values = form('shipping-quote')->values('session');
 
-    # take values from cart_form or use default
-    $values->{postal_code}     ||= $shipping_quote_values->{postal_code};
-    $values->{country}         ||= $values->{country} || 'US';
-    $values->{shipping_country} ||= $values->{shipping_country} || $values->{country} || 'US';
-    $values->{shipping_postal_code} ||= $values->{shipping_postal_code} || $values->{postal_code};
+    # set form defaults
+    $form = set_default_form_values($form);
 
-    if ($values->{shipping_method}) {
-        session 'shipping_method' => $values->{shipping_method};
-    }
-    else {
-        $values->{shipping_method} = session('shipping_method') || 0;
-    }
-
-    debug "Values in checkout routes are: " . to_dumper($values);
+    # checkout form values
+    my $values = $form->{values};
 
     # if user logs in on checkout page lets make sure they get back
     if (param('login')) {
@@ -74,6 +68,7 @@ post '/checkout' => sub {
     my $error_hash;
 
     unless($form->pristine) {
+        debug "validate checkout";
         # before we do anything lets make sure we have what we need
         $error_hash = validate_checkout($values);
     }
@@ -187,7 +182,7 @@ post '/checkout' => sub {
         }
     }
 
-    template 'checkout/content', checkout_tokens($form, $error_hash, $values);
+    template 'checkout/content', checkout_tokens($form, $error_hash);
 };
 
 post '/shipping-quote' => sub {
@@ -304,8 +299,11 @@ tokens used to display form cart and errors in the checkout view
 
 sub checkout_tokens {
     my ($form, $errors) = @_;
-    my $tokens;
     my $values = $form->{values};
+
+    # set tokens states, countries, card_months, card_years
+    my $tokens = Angler::Data::Tokens->new(schema => shop_schema,
+                                            form => $form)->checkout;
 
     $tokens->{form} = $form;
     $tokens->{cart} = cart;
@@ -317,7 +315,6 @@ sub checkout_tokens {
                                         country => $values->{country},
                                         shipping_methods_id => session('shipping_method') || 0,
                                         user_id => session('logged_in_users_id'),);
-    debug "Angler Cart: ", ref($angler_cart);
     $values ||= {};
 
     $angler_cart->update_costs($values);
@@ -363,36 +360,7 @@ sub checkout_tokens {
         $tokens->{paypal_exception} = join(', ', @payment_errors);
     }
 
-
-    # iterator for countries
-    $tokens->{countries} = [ shop_country->search(
-        {active => 1},
-        {
-          group_by => [ qw/priority name/ ],
-          order_by => { -desc => 'priority' }
-        }
-    )];
-
-    # iterators for credit card expiration
-    $tokens->{card_months} = card_months();
-    $tokens->{card_years} = card_years();
-
-    if ($errors) {
-        $tokens->{errors} = $errors;
-        $tokens->{country} = $tokens->{form}->values->{country};
-    }
-    else {
-        # default values for form
-        $tokens->{country} = 'US';
-        $tokens->{billing_country} = 'US';
-    }
-
-    # iterators for credit card expiration
-    $tokens->{card_months} = card_months();
-    $tokens->{card_years} = card_years();
-
-    # iterator for states
-    $tokens->{states} = states($tokens->{country});
+    $tokens->{errors} = $errors;
 
     return $tokens;
 };
@@ -454,59 +422,6 @@ sub order_address_tokens {
     return $tokens;
 
 };
-
-=head2 states
-
-input country_iso_code and return a state object
-
-=cut
-
-sub states {
-    my ($country) = @_;
-    my $states;
-
-    $states = [shop_schema->resultset('State')->search(
-        {country_iso_code => $country,
-         active => 1,
-     },
-        {order_by => 'name'},
-    )];
-
-    return $states;
-};
-
-=head2 card_months
-
-iterators for credit card expiration months
-
-=cut
-
-sub card_months {
-    my @months;
-
-    for my $i (1..12) {
-        push @months, {value => $i, label => $i};
-    }
-
-    return \@months;
-}
-
-=head2 card_years
-
-iterators for credit card years
-
-=cut
-
-sub card_years {
-    my @years;
-    my $cur_year = DateTime->now->year;
-
-    for my $i ($cur_year..$cur_year+20) {
-        push @years, {value => substr($i,0,2), label => $i};
-    }
-
-    return \@years;
-}
 
 =head2 validate_checkout
 
@@ -591,8 +506,6 @@ check if user exists if not then create it. returns user object
 sub find_or_create_user {
     my ($values) = @_;
 
-#    bless $values;
-
     debug "create user values" ,$values;
     my $user;
 
@@ -614,6 +527,35 @@ sub find_or_create_user {
         }
     }
     return $user;
+};
+
+=head2 set_default_form_values
+
+define the defaults used by the checkout form. returns checkout $form
+
+=cut
+
+sub set_default_form_values {
+    my ($form) = @_;
+    my $checkout_values = $form->values;
+    my $shipping_quote_values = form('shipping-quote')->values('session');
+
+    # take values from shipping_quote form or use default
+    $checkout_values->{postal_code}     ||= $shipping_quote_values->{postal_code};
+    $checkout_values->{country}         ||= $checkout_values->{country} || 'US';
+    $checkout_values->{billing_country} ||= $checkout_values->{shipping_country} || $checkout_values->{country} || 'US';
+    $checkout_values->{billing_postal_code} ||= $checkout_values->{shipping_postal_code} || $checkout_values->{postal_code};
+
+    if ($checkout_values->{shipping_method}) {
+        session 'shipping_method' => $checkout_values->{shipping_method};
+    }
+    else {
+        $checkout_values->{shipping_method} = session('shipping_method') || 0;
+    }
+
+    $form->fill($checkout_values);
+
+    return $form;
 };
 
 =head2 user_address
