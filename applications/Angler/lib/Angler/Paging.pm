@@ -55,18 +55,29 @@ sub page_list {
          }
     } $first_page .. $last_page;
 
- 
-    # unless ($current == '1') {
-    #     $tokens->{pagination_previous} =
-    #      uri_for(  "$uri/" . ($current - 1), \%query);
-    # }
-
-    # unless ($current == $n) {
-    #     $tokens->{pagination_next} =
-    #      uri_for( $tokens->{navigation}->uri . '/' . ($current + 1), \%query);
-    # }
-
     return \@pages;
+}
+
+sub previous_uri {
+    my $self = shift;
+    my $pager = $self->pager;
+
+    if ($pager->previous_page) {
+        return uri_for($self->uri . '/' . $pager->previous_page);
+    }
+
+    return undef;
+}
+
+sub next_uri {
+    my $self = shift;
+    my $pager = $self->pager;
+
+    if ($pager->next_page) {
+        return uri_for($self->uri . '/' . $pager->next_page);
+    }
+
+    return undef;
 }
 
 sub uri_for {
