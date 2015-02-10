@@ -145,26 +145,10 @@ hook 'before_template_render' => sub {
     $tokens->{cart_subtotal} = $cart->subtotal;
     $tokens->{cart_total} = $cart->total;
 
-    my $default_image =
-      schema->resultset('Media')->find( { uri => 'default.jpg' } );
-
-    my $image_type =
-      schema->resultset('MediaType')->find( { type => 'image' } );
-
     # add images into 'extra' attribute
     foreach my $product ( @{$tokens->{cart}} ) {
-        my $image =
-          shop_product( $product->{sku} )
-            ->media->search( { media_types_id => $image_type->media_types_id },
-              { rows => 1 } )->single;
-
-        # set default
-        $image = $default_image unless $image;
-
-        my $display = $image_type->media_displays->find({name => 'cart'});
-
-        $product->set_extra( image => $display->path . '/' . $image->uri )
-          if $image;
+        my $image = shop_product( $product->{sku} )->image_75x75;
+        $product->set_extra( image => $image ) if $image;
     }
 
     my %history;
@@ -936,20 +920,29 @@ hook 'before_product_display' => sub {
     $tokens->{free_shipping} = 1;
     }
 
-    my $default_image =
-      schema->resultset('Media')->find( { uri => 'default.jpg' } );
-
-    # add image. There could be more, so we just pick the first
-    # FIXME issue #72
-    my $image = $product->media_by_type('image')->first;
-
-    $image = $default_image unless $image;
-
-    $tokens->{image_src} = uri_for($image->display_uri('product_325x325'))
-      if $image;
-
     my $parent_product =
       $product->canonical_sku ? $product->canonical : $product;
+
+    # find an image for this product
+
+    my $images_rset = $product->media_products->search_related(
+        'media',
+        { 'media_type.type' => 'image', },
+        { join              => 'media_type', rows => 1 }
+    );
+
+    if ( $images_rset->has_rows ) {
+
+        # we have images
+
+        $tokens->{image_src} = $product->image_325x325;
+    }
+    elsif ( $product->canonical_sku ) {
+
+        # no images and we have a variant so try the parent product
+
+        $tokens->{image_src} = $parent_product->image_325x325;
+    }
 
     # we collect thumbs in a hash to avoid display 2 thumbs that have the same
     # image
@@ -1245,17 +1238,33 @@ ajax '/check_variant' => sub {
         if ( $product = shop_product($sku) ) {
             if ( $product = $product->find_variant( \%params ) ) {
 
-                my $default_image =
-                  schema->resultset('Media')->find( { uri => 'default.jpg' } );
-                my $image = $product->media_by_type('image')->first;
+                # main image
 
-                $image = $default_image unless $image;
+                my $images_rset = $product->media_products->search_related(
+                    'media',
+                    { 'media_type.type' => 'image', },
+                    { join              => 'media_type', rows => 1 }
+                );
+
+                if ( $images_rset->has_rows ) {
+
+                    # we have images
+
+                    $response{src} = $product->image_325x325;
+                }
+                elsif ( $product->canonical_sku ) {
+
+                    # no images and we have a variant so try the parent product
+
+                    $response{src} = $product->canonical->image_325x325;
+                }
+
+                # and the rest
 
                 $response{name}    = $product->name;
                 $response{price}   = $product->price;
                 $response{selling} = $product->selling_price
                   if $product->price > $product->selling_price;
-                $response{src}  = $image->display_uri('product_325x325');
                 $response{type} = "success";
             }
             else {

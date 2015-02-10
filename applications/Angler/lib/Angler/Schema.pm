@@ -25,9 +25,6 @@ Interchange6::Schema::Result::Product->add_columns(
 
     my $schema = $self->result_source->schema;
 
-    my $image_type =
-      $schema->resultset('MediaType')->find( { type => 'image' } );
-
     my $image = $self->media_products->search_related(
         'media',
         {
