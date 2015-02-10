@@ -163,7 +163,8 @@ hook 'before_template_render' => sub {
 
         my $display = $image_type->media_displays->find({name => 'cart'});
 
-        $product->set_extra( image => $display->path . '/' . $image->uri );
+        $product->set_extra( image => $display->path . '/' . $image->uri )
+          if $image;
     }
 
     my %history;
