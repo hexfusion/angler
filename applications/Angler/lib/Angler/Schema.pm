@@ -43,8 +43,8 @@ Interchange6::Schema::Result::Product->add_columns(
     $image = $schema->resultset('Media')->find( { uri => 'default.jpg' } )
       unless $image;
 
-    if ( my $uri = $image->display_uri("product_$size") ) {
-        return $uri;
+    if ( $image ) {
+        return $image->display_uri("product_$size");
     }
     else {
         return undef;

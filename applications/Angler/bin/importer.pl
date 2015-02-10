@@ -186,9 +186,6 @@ return a cleaned up value for AttributeValue value column
 sub clean_attribute_value {
     my $value = lc(shift);
     $value =~ s/\s+/_/g;
-    while ( grep { $value eq $_ } @product_columns ) {
-        $value = "X$value";
-    }
     return $value;
 }
 
@@ -763,14 +760,16 @@ sub process_orvis_product {
                         name             => $sku_name,
                         price            => $regular_price,
                         uri              => $uri,
+                        attributes       => [],
                     );
 
                     my @option_string =
                       split( /,/, $sku->first_child('Option_String')->text );
 
                     foreach my $i ( 0 .. $#option_names ) {
-                        $attributes{ &clean_attribute_value( $option_names[$i] )
-                        } = &clean_attribute_value( $option_string[$i] );
+                        push @{ $attributes{attributes} },
+                          { &clean_attribute_value( $option_names[$i] ) =>
+                              &clean_attribute_value( $option_string[$i] ) };
                     }
 
                     # we add one variant at a time since orvis have a small
@@ -919,6 +918,7 @@ sub process_orvis_product {
                         name             => $sku_name,
                         price            => $price,
                         uri              => $uri,
+                        attributes       => [],
                     );
 
                     my @option_string =
@@ -931,8 +931,9 @@ sub process_orvis_product {
                     }
 
                     foreach my $i ( 0 .. $#option_names ) {
-                        $attributes{ &clean_attribute_value( $option_names[$i] )
-                        } = &clean_attribute_value( $option_string[$i] );
+                        push @{ $attributes{attributes} },
+                          { &clean_attribute_value( $option_names[$i] ) =>
+                              &clean_attribute_value( $option_string[$i] ) };
                     }
 
                     try {
