@@ -19,7 +19,7 @@ use URI::Escape qw(uri_escape);
 use Digest::MD5 qw(md5_hex);
 
 use Angler::Forms::Checkout;
-use Angler::Alert;
+use Angler::Data::Alert;
 
 my $now = DateTime->now;
 
@@ -49,7 +49,7 @@ post '/registration' => sub {
     my $user = shop_user->find({ username => $username });
 
     if ($user) {
-        $tokens->{'alerts'} = Angler::Alert->username_exists;
+        $tokens->{'alerts'} = Angler::Data::Alert->username_exists;
         $form->fill($values);
         debug "return tokens", $tokens;
         return template 'account/register/content', $tokens;
@@ -74,7 +74,7 @@ post '/registration' => sub {
     # so far so good add user
     $user = add_user($user_data);
 
-    $tokens->{'alerts'} = Angler::Alert->registration_success;
+    $tokens->{'alerts'} = Angler::Data::Alert->registration_success;
 
     return template 'auth/login/content', $tokens;
 };    

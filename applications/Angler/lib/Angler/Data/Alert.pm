@@ -1,4 +1,4 @@
-package Angler::Alert;
+package Angler::Data::Alert;
 
 use strict;
 use warnings;
