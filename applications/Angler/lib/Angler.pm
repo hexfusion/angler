@@ -205,6 +205,9 @@ hook 'before_layout_render' => sub {
     my $scope = '';
     my $record;
 
+    $tokens->{"canonical-url"} = uri_for( request->path )
+      unless $tokens->{"canonical-url"};
+
     # logo
     $tokens->{logo_uri} = '/';
 
@@ -856,6 +859,8 @@ hook 'before_product_display' => sub {
 
     my $canonical_product =
       $product->canonical_sku ? $product->canonical : $product;
+
+    $tokens->{"canonical-url"} = uri_for( $canonical_product->uri );
 
     $tokens->{title} = $product->name;
 

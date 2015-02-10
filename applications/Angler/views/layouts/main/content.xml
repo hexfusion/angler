@@ -1,5 +1,8 @@
 <specification>
 <value name="title" id="title" filter="title"/>
+
+<value name="canonical-url" id="canonical-url" target="href"/>
+
 <!-- Cart -->
 <list name="cart" class="cartitem" iterator="cart">
 <param name="name"/>
