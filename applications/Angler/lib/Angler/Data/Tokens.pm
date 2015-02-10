@@ -76,7 +76,7 @@ sub states {
     my $values = $self->form->{values};
 
     my $states = [ $self->schema->resultset('State')->search(
-            {country_iso_code => $self->country},
+            {country_iso_code => $self->country,
              active => 1,
             },
             {order_by => 'name'},
