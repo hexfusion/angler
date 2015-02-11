@@ -56,7 +56,7 @@ post '/checkout' => sub {
         return forward '/login', {return_url => 'checkout'}, {method => 'get'},
     }
 
-    if (($form->pristine or !$form->valid()) and logged_in_user) {
+    if ($form->pristine and logged_in_user) {
         # search for exisitng addresses
         debug "search for exiting address";
         my $form_values = user_address();
@@ -67,7 +67,7 @@ post '/checkout' => sub {
 
     my $error_hash;
 
-    unless($form->pristine or !$form->valid()) {
+    unless($form->pristine) {
         debug "validate checkout";
         # before we do anything lets make sure we have what we need
         $error_hash = validate_checkout($values);
@@ -82,7 +82,7 @@ post '/checkout' => sub {
     my ($user, $order);
 
     # check if form is pristine or has no values.
-    unless($form->pristine or !$form->valid()) {
+    unless($form->pristine) {
         debug "create user";
         # form is clean lets create the order/user now
         $user = find_or_create_user($values);
@@ -552,6 +552,9 @@ sub set_default_form_values {
         $checkout_values->{shipping_method} = session('shipping_method') || 0;
     }
 
+    # although we set the form defaults we want the form to be checked as prestine
+    $form->{pristine} = '1';
+
     $form->fill($checkout_values);
 
     return $form;
@@ -586,12 +589,12 @@ sub user_address {
         $form_values = Angler::Forms::Checkout->new(
             address => $ship_adr,
         )->transpose;
-        
+
         $form_values->{shipping_enabled} = 1;
         $form_values->{shipping_id} = $ship_adr->id;
     }
 
-       # find existing billing address for user
+    # find existing billing address for user
     #TODO this should be a search and a dropdown to select if multiple
     my $bill_adr = shop_address->search(
         {
@@ -621,7 +624,7 @@ sub user_address {
         $form_values->{billing_id} = $bill_adr->id;
     }
         debug "user_address: Filling checkout form with: ", $form_values;
-  
+
     return $form_values
 };
 
