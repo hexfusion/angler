@@ -37,5 +37,14 @@ sub registration_success {
     return $tokens;
 }
 
+sub review_success {
+    my $tokens;
+    $tokens->{'alert-class'} = 'alert-success';
+    $tokens->{'alert-notice'} = 'Success!';
+    $tokens->{'alert-msg'} = 'Thankyou for reviewing this product. Our shop has been notified and your review will appear as soon as possible';
+
+    return $tokens;
+}
+
 
 1;
