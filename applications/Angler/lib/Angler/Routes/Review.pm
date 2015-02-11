@@ -53,6 +53,7 @@ post '/review/:sku' => sub {
 
     $tokens->{'form'} = $form;
     $tokens->{errors} = validate_review($values);
+    $tokens->{'extra-js-file'} = 'validator.min.js';
 
     if ( $tokens->{errors} ) {
         debug "server-side errors in post review: ", $tokens->{errors};
