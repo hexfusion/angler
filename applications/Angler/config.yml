@@ -108,3 +108,7 @@ plugins:
   Email:
     transport:
       Sendmail:
+  Flash::Note:
+    queue: key_multiple
+    arguments: array
+    dequeue: by_key
