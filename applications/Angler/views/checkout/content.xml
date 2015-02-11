@@ -19,7 +19,11 @@
 
 <value name="total" class="cart-total" field="cart_total" filter="currency"/>
 
+<!-- hide login if user is logged in -->
 <container name="signin" value="!session.logged_in_user"/>
+
+<!-- if user is logged_in then hide the email form input. -->
+<container name="anonymous" class="anonymous" value="!session.logged_in_user_id"/>
 
 <form name="checkout" class="account-info">
     <field name="email" id="inputEmail"/>
