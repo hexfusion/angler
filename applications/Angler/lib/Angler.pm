@@ -14,6 +14,7 @@ use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role user_roles
 );
+use Dancer::Plugin::FlashNote;
 
 use Angler::Routes::About;
 use Angler::Routes::Blog;
@@ -204,6 +205,12 @@ hook 'before_layout_render' => sub {
     my $action ='';
     my $scope = '';
     my $record;
+
+    my $flash_flush = flash_flush;
+    $tokens->{flash} = {};
+    foreach my $flash (@$flash_flush) {
+        push @{ $tokens->{flash}->{ $flash->[0] } }, { message => $flash->[1] };
+    }
 
     $tokens->{"canonical-url"} = uri_for( request->path )
       unless $tokens->{"canonical-url"};
