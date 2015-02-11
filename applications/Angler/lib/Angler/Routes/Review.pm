@@ -117,8 +117,7 @@ sub review_email {
 #    debug 'email review data ', $review_data;
         email ({
             from    => 'ic6test@westbranchangler.com',
-            #to      => 'sam@westbranchresort.com',
-            to      => 'peter@sysnix.com',
+            to      => 'sam@westbranchresort.com',
             subject => 'New Product Review Has Been Posted!',
             type    => 'html',
             body => $message,
