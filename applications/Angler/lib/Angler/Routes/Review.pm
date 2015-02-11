@@ -19,6 +19,8 @@ get '/review/:sku' => sub {
     my $form    = form('review');
     my $product = shop_product($sku);
 
+    return forward 404 unless $product;
+
     template 'product/review/content',
       {
         image   => $product->image_325x325,
@@ -39,6 +41,8 @@ post '/review/:sku' => sub {
     my $users_id;
     my $sku = params->{sku};
     my $product = shop_product($sku);
+
+    return forward 404 unless $product;
 
     #validate input
     my $error_hash = validate_review($values);
