@@ -5,6 +5,7 @@ use Dancer::Plugin::Interchange6;
 
 use Angler::Search;
 use Angler::Paging;
+use Angler::SearchResults;
 
 get qr{/search(/(.*))?} => sub {
     my $params = params;
@@ -43,9 +44,12 @@ get qr{/search(/(.*))?} => sub {
 
     debug "Total entries: ", $response->pager->total_entries;
 
+    my %query = params('query');
+
     my $paging = Angler::Paging->new(
         pager => $response->pager,
         uri => '/search/' .  $search->current_search_to_url(hide_page => 1) . '/page',
+        query => \%query,
     );
 
     # load list of brands
@@ -60,10 +64,20 @@ get qr{/search(/(.*))?} => sub {
         pagination_next => $paging->next_uri,
         breadcrumbs => [],
         facets => [],
-        views => [],
         count => $count,
         brands => [$brands->all],
     );
+
+    my $navigation = Angler::SearchResults->new(
+        routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
+        tokens => \%tokens,
+    );
+
+    # select view
+    $navigation->select_view(%query);
+
+    # add different views to template tokens
+    $tokens{views} = $navigation->views;
 
     template 'product/grid/content', \%tokens;
 };
