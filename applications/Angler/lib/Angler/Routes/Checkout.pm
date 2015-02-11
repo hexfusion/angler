@@ -56,7 +56,7 @@ post '/checkout' => sub {
         return forward '/login', {return_url => 'checkout'}, {method => 'get'},
     }
 
-    if ($form->pristine and logged_in_user) {
+    if (($form->pristine or !$form->valid()) and logged_in_user) {
         # search for exisitng addresses
         debug "search for exiting address";
         my $form_values = user_address();
