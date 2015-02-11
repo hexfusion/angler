@@ -1,5 +1,7 @@
 <specification>
 <!-- Product -->
+<value name="uri" field="product.uri" target="href" op="append"/>
+<value name="link-title" class="uri" field="product.name" target="title"/>
 <value name="name" field="product.name"/>
 <value name="sku" id="review" op="append" target="action" field="product.sku"/>
 <value name="short_description" field="product.short_description"/>

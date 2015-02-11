@@ -34,33 +34,39 @@ get '/review/:sku' => sub {
       };
 };
 
-#post '/review/:sku' => require_login sub {
 post '/review/:sku' => sub {
+    my $tokens;
     my $form = form('review');
     my $values = $form->values;
-    my $users_id;
-    my $sku = params->{sku};
+
+    my $sku = param 'sku';
     my $product = shop_product($sku);
 
     return forward 404 unless $product;
 
-    #validate input
-    my $error_hash = validate_review($values);
+    $tokens->{'form'} = $form;
+    $tokens->{errors} = validate_review($values);
 
-#    unless ($error_hash) {
-        my $review_data = { rating => $values->{rating},
-                            title => $values->{title},
-                            content => $values->{content},
-                            recommend => $values->{recommend},
-                            author => $users_id,
-        };
+    if ( $tokens->{errors} ) {
+        debug "server-side errors in post review: ", $tokens->{errors};
+        return template 'product/review/content', $tokens;
+    }
 
-        debug "error hash: ", $error_hash;
-         debug "form values: ", $review_data;
-          my $review = $product->add_to_reviews( $review_data );
-            review_email($review_data);
-            $form->reset;
-            return redirect "/review/:sku";
+    my $review_data = {
+        rating    => $values->{rating},
+        title     => $values->{title},
+        content   => $values->{content},
+        recommend => $values->{recommend},
+    };
+
+    if (logged_in_user) {
+        $review_data->{author_users_id } = session('logged_in_user_id');
+    }
+    debug "review form values: ", $review_data;
+    my $review = $product->add_to_reviews($review_data);
+    review_email($review_data);
+    $form->reset;
+    return redirect "/review/$sku";
 };
 
 sub validate_review {
@@ -86,7 +92,8 @@ sub review_email {
 #    debug 'email review data ', $review_data;
         email ({
             from    => 'ic6test@westbranchangler.com',
-            to      => 'sam@westbranchresort.com',
+            #to      => 'sam@westbranchresort.com',
+            to      => 'peter@sysnix.com',
             subject => 'New Product Review Has Been Posted!',
             type    => 'html',
             body => $message,
