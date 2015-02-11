@@ -1241,42 +1241,48 @@ ajax '/check_variant' => sub {
 
     if ( defined $sku ) {
         if ( $product = shop_product($sku) ) {
-            if ( $product = $product->find_variant( \%params ) ) {
 
-                # main image
+            if ( $product->canonical || $product->variants->has_rows ) {
 
-                my $images_rset = $product->media_products->search_related(
-                    'media',
-                    { 'media_type.type' => 'image', },
-                    { join              => 'media_type', rows => 1 }
-                );
+                $product = $product->find_variant( \%params );
 
-                if ( $images_rset->has_rows ) {
+                if ( !$product ) {
+                    debug "variant not found for sku $sku with params: "
+                      . \%params;
+                    $response{type}    = "error";
+                    $response{message} = $message;
 
-                    # we have images
-
-                    $response{src} = $product->image_325x325;
+                    content_type('application/json');
+                    return to_json( \%response );
                 }
-                elsif ( $product->canonical_sku ) {
-
-                    # no images and we have a variant so try the parent product
-
-                    $response{src} = $product->canonical->image_325x325;
-                }
-
-                # and the rest
-
-                $response{name}    = $product->name;
-                $response{price}   = $product->price;
-                $response{selling} = $product->selling_price
-                  if $product->price > $product->selling_price;
-                $response{type} = "success";
             }
-            else {
-                debug "variant not found for sku $sku with params: " . \%params;
-                $response{type} = "error";
-                $response{message} = $message;
+
+            my $images_rset = $product->media_products->search_related(
+                'media',
+                { 'media_type.type' => 'image', },
+                { join              => 'media_type', rows => 1 }
+            );
+
+            if ( $images_rset->has_rows ) {
+
+                # we have images
+
+                $response{src} = $product->image_325x325;
             }
+            elsif ( $product->canonical_sku ) {
+
+                # no images and we have a variant so try the parent product
+
+                $response{src} = $product->canonical->image_325x325;
+            }
+
+            # and the rest
+
+            $response{name}    = $product->name;
+            $response{price}   = $product->price;
+            $response{selling} = $product->selling_price
+              if $product->price > $product->selling_price;
+            $response{type} = "success";
         }
         else {
             debug "product not found in database for sku $sku in check_variant";
