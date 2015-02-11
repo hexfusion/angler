@@ -66,6 +66,7 @@ get qr{/search(/(.*))?} => sub {
         facets => [],
         count => $count,
         brands => [$brands->all],
+        "extra-js-file" => 'product-listing.js',
     );
 
     my $navigation = Angler::SearchResults->new(
