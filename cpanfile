@@ -1,3 +1,4 @@
+requires 'Dancer::Plugin::FlashNote';
 requires 'Emailesque';
 requires 'HTML::FormatText::WithLinks';
 requires 'Spreadsheet::ParseExcel';
