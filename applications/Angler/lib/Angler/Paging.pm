@@ -5,7 +5,9 @@ use strict;
 use warnings;
 
 use Moo;
-use MooX::Types::MooseLike::Base qw(InstanceOf);
+use MooX::Types::MooseLike::Base qw(InstanceOf HashRef);
+
+use URI;
 
 has pager => (
     is => 'rw',
@@ -16,6 +18,11 @@ has pager => (
 has uri => (
     is => 'rw',
     required => 1,
+);
+
+has query => (
+    is => 'rw',
+    isa => HashRef,
 );
 
 sub page_list {
@@ -50,7 +57,7 @@ sub page_list {
            page => $_,
            uri  => $_ == $pager->current_page
            ? undef
-           : uri_for( "$uri/$_", \%query ),
+           : $self->uri_for( "$uri/$_" ),
            active => $_ == $pager->current_page ? " active" : undef,
          }
     } $first_page .. $last_page;
@@ -63,7 +70,7 @@ sub previous_uri {
     my $pager = $self->pager;
 
     if ($pager->previous_page) {
-        return uri_for($self->uri . '/' . $pager->previous_page);
+        return $self->uri_for($self->uri . '/' . $pager->previous_page);
     }
 
     return undef;
@@ -74,14 +81,20 @@ sub next_uri {
     my $pager = $self->pager;
 
     if ($pager->next_page) {
-        return uri_for($self->uri . '/' . $pager->next_page);
+        return $self->uri_for($self->uri . '/' . $pager->next_page);
     }
 
     return undef;
 }
 
 sub uri_for {
-    return shift;
+    my ($self, $path) = @_;
+    my $uri = URI->new;
+
+    $uri->path($path);
+    $uri->query_form($self->query);
+
+    return $uri->canonical;
 }
 
 1;
