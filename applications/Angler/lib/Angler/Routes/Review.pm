@@ -2,6 +2,7 @@ package Angler::Routes::Review;
 
 use Dancer ':syntax';
 use Dancer::Plugin::Interchange6;
+use Dancer::Plugin::FlashNote;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Auth::Extensible qw(
@@ -20,6 +21,12 @@ get '/review/:sku' => sub {
     my $product = shop_product($sku);
 
     return forward 404 unless $product;
+
+    if (logged_in_user) {
+        $form->fill(
+            { nickname => shop_user( session('logged_in_user_id') )->nickname }
+        );
+    }
 
     template 'product/review/content',
       {
@@ -59,14 +66,31 @@ post '/review/:sku' => sub {
         recommend => $values->{recommend},
     };
 
+    my ( $user, $review );
     if (logged_in_user) {
-        $review_data->{author_users_id } = session('logged_in_user_id');
+        $user = shop_user( session('logged_in_user_id') );
+        $review_data->{author_users_id} = $user->id;
     }
-    debug "review form values: ", $review_data;
-    my $review = $product->add_to_reviews($review_data);
-    review_email($review_data);
+
+    try {
+        $review = $product->add_to_reviews($review_data);
+        $user->update({ nickname => $values->{nickname} }) if $user;
+    }
+    catch {
+        $review_data->{error} = $_;
+    }
+    finally {
+        $review_data->{sku} = $product->sku;
+        $review_data->{reviews_id} = $review->id if $review;
+        $review_data->{nickname} = $values->{nickname};
+        $review_data->{username} = $user->username if $user;
+        review_email($review_data);
+    };
+
+    flash success => "Thankyou for reviewing this product. Our shop staff have been notified and your review will appear on the site as soon as possible.";
+
     $form->reset;
-    return redirect "/review/$sku";
+    return redirect "/" . $product->uri;
 };
 
 sub validate_review {
