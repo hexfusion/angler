@@ -59,38 +59,43 @@
                                 <div class="input-box">
                                   <input name="rating" type="range" min="0" max="5" value="0" step="0.5" id="rating-backing">
                                   <span class="rateit" data-rateit-backingfld="#rating-backing"></span>
-                                  <div class="help-block with-errors"></div>
                                 </div>
                               </li>
 
                               <li>
-                                <label for="nickname_field" class="control-label">Nickname</label>
-                                <div class="input-box">
-                                  <input name="nickname" id="nickname_field" class="input-text form-control" type="text" data-error="Please enter a nickname for yourself" required>
-                                  <div class="help-block with-errors"></div>
+                                <div class="form-group">
+                                  <label for="nickname_field" class="control-label">Nickname</label>
+                                  <div class="input-box">
+                                    <input name="nickname" pattern="^([_A-z0-9]){3,}$" id="nickname_field" class="input-text form-control" type="text" required>
+                                    <div class="help-block with-errors"></div>
+                                  </div>
                                 </div>
                               </li>
 
                               <li>
-                                <label for="summary_field" class="control-label">Summary of Your Review</label>
-                                <div class="input-box">
-                                  <input name="title" id="summary_field" class="input-text form-control" type="text" data-error="Please enter a summary here" required>
-                                  <div class="help-block with-errors"></div>
+                                <div class="form-group">
+                                  <label for="summary_field" class="control-label">Summary of Your Review</label>
+                                  <div class="input-box">
+                                    <input name="title" id="summary_field" class="input-text form-control" type="text" required>
+                                    <div class="help-block with-errors"></div>
+                                  </div>
                                 </div>
                               </li>
 
                               <li>
-                                <label for="review_field" class="control-label">Review</label>
-                                <div class="input-box">
-                                  <textarea name="content" id="review_field" rows="3" class="form-control" data-error="Please enter review text here" required></textarea>
-                                  <div class="help-block with-errors"></div>
+                                <div class="form-group">
+                                  <label for="review_field" class="control-label">Review</label>
+                                  <div class="input-box">
+                                    <textarea name="content" id="review_field" rows="3" class="form-control" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                  </div>
                                 </div>
                               </li>
 
                               <li>
                                 <label for="recommend_field" class="control-label">Would You Recommend to a Friend?</label>
                                 <div class="input-box">
-                                  <input name="recommend" id="recommend_field" class="form-control" value="1" type="checkbox">
+                                  <input name="recommend" id="recommend_field" class="form-control" type="checkbox">
                                 </div>
                               </li>
 
