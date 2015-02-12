@@ -37,7 +37,6 @@ get '/review/:sku' => sub {
         review_avg      => $product->average_rating,
         form            => $form,
         "canonical-url" => uri_for( "/review/" . $product->sku ),
-        "extra-js-file" => 'validator.min.js',
       };
 };
 
@@ -53,7 +52,6 @@ post '/review/:sku' => sub {
 
     $tokens->{'form'} = $form;
     $tokens->{errors} = validate_review($values);
-    $tokens->{'extra-js-file'} = 'validator.min.js';
 
     if ( $tokens->{errors} ) {
         debug "server-side errors in post review: ", $tokens->{errors};
