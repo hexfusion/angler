@@ -1,0 +1,4 @@
+<specification>
+    <container name="have-email" value="email"/>
+    <value name="email"/>
+</specification>

@@ -1,0 +1,7 @@
+<specification>
+    <form name="resetrequest" link="name">
+        <field name="email" link="name"/>
+    </form>
+    <value name="form-error" field="error" op="toggle" />
+    <value name="error"/>
+</specification>

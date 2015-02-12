@@ -1,0 +1,13 @@
+<specification>
+    <form name="resetconfirm" link="name">
+        <field name="password" id="password"/>
+        <field name="confirm_password" id="confirm_password"/>
+    </form>
+    <value name="form-errors" field="errors" op="toggle" />
+    <list name="error-password" iterator="errors.password">
+        <param name="value" class="password-msg"/>
+    </list>
+    <list name="error-confirm_password" iterator="errors.confirm_password">
+        <param name="value" class="verify-msg"/>
+    </list>
+</specification>

@@ -1,0 +1,29 @@
+<div class="main-container col1-layout">
+  <div class="container">
+    <div class="well">
+      <div class="page-title">
+        <h1>Request Password Reset</h1>
+        <p>If you have forgotten your password then please enter the email address associated with your account below and click on 'submit'.</p>
+        <p> We will send you an email containing instructions on how to rest your password.</p>
+      </div>
+      <form name="resetrequest" action="/resetpassword" method="post" data-toggle="validator" role="form">
+        <div class="fieldset">
+          <ul class="form-list">
+            <li>
+              <div class="form-group">
+                <div class="form-error" id="error-email"><span class="error">Error</span></div>
+                <label for="email_address">Email Address</label>
+                <div class="input-box">
+                  <input name="email" id="email" title="Email Address" class="input-text form-control" type="email" required>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
+      </form>
+    </div>
+  </div>
+</div>
+

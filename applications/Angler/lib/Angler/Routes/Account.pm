@@ -793,8 +793,61 @@ get "/resetpassword" => sub {
     template 'account/resetpassword/request', $tokens;
 };
 
+post "/resetpassword" => sub {
+    my $tokens;
+    my $form = form('resetrequest');
+    my $values = $form->values;
+    my $email = $values->{email};
+
+    $tokens->{'form'} = $form;
+
+    my $validator = Data::Transpose::Validator->new(requireall => 1);
+    $validator->prepare(email => {validator => 'EmailValid'});
+
+    if (! $validator->transpose($values)) {
+        $tokens->{error} = "The email address does not look valid."
+          . " Please make sure you have entered it correctly";
+        return template 'account/resetpassword/request', $tokens;
+    }
+
+    my $user = shop_user->find({ username => $email });
+
+    if ( $user ) {
+
+        $tokens->{link} =
+          uri_for( "resetpassword/" . $user->reset_token_generate );
+
+        $tokens->{year} = DateTime->now->year;
+
+        my $message = template "email/resetpassword", $tokens,
+          { layout => undef };
+
+        email(
+            {
+                from    => 'ic6test@westbranchangler.com',
+                to      => $email,
+                subject => "Password reset request for West Branch Angler",
+                type    => 'html',
+                body    => $message,
+            }
+        );
+    }
+
+    $form->to_session;
+    redirect "/resetpassword/sent";
+};
+
+get "/resetpassword/sent" => sub {
+    my $form  = form('resetrequest');
+    my $values = $form->values('session');
+    $form->reset;
+    return template 'account/resetpassword/email_sent', $values;
+};
+
 get "/resetpassword/:arg" => sub {
     my $tokens;
+    my $arg = param 'arg';
+
     my $form = form('resetconfirm');
 
     $tokens->{'form'} = $form;
