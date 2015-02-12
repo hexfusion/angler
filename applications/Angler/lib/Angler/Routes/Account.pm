@@ -29,7 +29,6 @@ get '/registration' => sub {
     my $form = form('registration');
 
     $tokens->{'form'} = $form;
-    $tokens->{'extra-js-file'} = 'validator.min.js';
 
     template 'account/register/content', $tokens;
 };
@@ -41,7 +40,6 @@ post '/registration' => sub {
     my $username = $values->{email};
 
     $tokens->{'form'} = $form;
-    $tokens->{'extra-js-file'} = 'validator.min.js';
 
     debug "form ", $tokens;
 
@@ -784,6 +782,24 @@ sub add_user {
     reg_conf_email();
 
     return ($user);
+};
+
+get "/resetpassword" => sub {
+    my $tokens;
+    my $form = form('resetrequest');
+
+    $tokens->{'form'} = $form;
+
+    template 'account/resetpassword/request', $tokens;
+};
+
+get "/resetpassword/:arg" => sub {
+    my $tokens;
+    my $form = form('resetconfirm');
+
+    $tokens->{'form'} = $form;
+
+    template 'account/resetpassword/confirm', $tokens;
 };
 
 1;
