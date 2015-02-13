@@ -8,6 +8,7 @@ use Dancer::Plugin::Auth::Extensible qw(
 logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role
 );
+use Dancer::Plugin::FlashNote;
 use String::Random;
 use Facebook::Graph;
 use Data::Transpose::Validator;
@@ -810,6 +811,9 @@ post "/resetpassword" => sub {
         return template 'account/resetpassword/request', $tokens;
     }
 
+    # we look for valid user but respond with "email sent..." even if user
+    # does not exist
+
     my $user = shop_user->find({ username => $email });
 
     if ( $user ) {
@@ -833,6 +837,7 @@ post "/resetpassword" => sub {
         );
     }
 
+    # stash form values so they survive the redirect
     $form->to_session;
     redirect "/resetpassword/sent";
 };
@@ -844,15 +849,105 @@ get "/resetpassword/sent" => sub {
     return template 'account/resetpassword/email_sent', $values;
 };
 
-get "/resetpassword/:arg" => sub {
-    my $tokens;
-    my $arg = param 'arg';
+get "/resetpassword/:token" => sub {
+    my $token = param 'token';
+    my $user;
 
+    try {
+        $user = shop_user->find_user_with_reset_token($token);
+    }
+    catch {
+        warning "resetpassword confirm failed: ", $_;
+    };
+
+    if ( $user ) {
+        template 'account/resetpassword/confirm',
+          { form => form('resetconfirm'), token => $token };
+    }
+    else {
+        template "account/resetpassword/bad_token";
+    }
+};
+
+post "/resetpassword/:token" => sub {
+    my $token = param 'token';
+
+    my ( $tokens, $user );
     my $form = form('resetconfirm');
+    my $values = $form->values;
 
-    $tokens->{'form'} = $form;
+    try {
+        $user = shop_user->find_user_with_reset_token( $token );
+    }
+    catch {
+        warning "resetpassword confirm failed: ", $_;
+    };
 
-    template 'account/resetpassword/confirm', $tokens;
+    if ( !$user ) {
+
+        # we shouldn't normally get here but just in case do something sane
+
+        flash warning => "We're really sorry but something went wrong when trying to reset your password. Our staff have been informed and will investigate. In the meantime please enter your email address again and we will send you a new link for you to try.";
+        return redirect "/resetpassword";
+    }
+
+    my $validator = Data::Transpose::Validator->new( requireall => 1 );
+    $validator->prepare(
+        password => {
+            validator => {
+                class   => 'PasswordPolicy',
+                options => {
+                    username      => $user->username,
+                    minlength     => 8,
+                    maxlength     => 50,
+                    patternlength => 4,
+                    mindiffchars  => 5,
+                    disabled      => {
+                        digits   => 1,
+                        mixed    => 1,
+                        specials => 1,
+                    }
+                }
+            }
+        },
+        confirm_password => {
+            validator => 'String',
+        },
+        passwords_matching => {
+            validator => 'Group',
+            fields    => [ "password", "confirm_password" ],
+        },
+    );
+
+    if ($validator->transpose($values)) {
+
+        # all good so change user password and head back somewhere nice
+
+        $user->password( $values->{password} );
+        $user->update;
+
+        flash success =>
+          "Your password has been changed. Welcome back to West Branch Angler, "
+          . $user->first_name;
+
+        # should use history here...
+        return redirect "/";
+    }
+    else {
+
+        # we have a problem
+
+        my ($v_hash, %errors);
+        $v_hash = $validator->errors_hash;
+        while (my ($key, $value) = each %$v_hash) {
+            $errors{$key} = $value->[0]->{value};
+            # flag the field with error using has-error class
+            $errors{$key . '_input' } = 'has-error';
+        }
+        $tokens->{'form'} = $form;
+        $tokens->{errors} = \%errors;
+        template 'account/resetpassword/confirm', { form => $form };
+    }
 };
 
 1;

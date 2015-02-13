@@ -1,9 +1,2 @@
 <specification>
-    <form name="password_reset_request" link="name">
-        <field name="email" link="name"/>
-    </form>
-    <value name="form-error" field="errors" op="toggle" />
-    <list name="error-email" iterator="errors.email">
-        <param name="value" class="email-msg"/>
-    </list>
 </specification>

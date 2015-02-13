@@ -3,18 +3,27 @@
     <div class="well">
       <div class="page-title">
         <h1>Password Reset</h1>
-        <p>If you have forgotten your password then please enter the email address associated with your account below and click on 'submit'.</p>
-        <p> We will send you an email containing instructions on how to rest your password.</p>
+        <p>Please enter and confirm your new password below then click on 'Submit'</p>
       </div>
-      <form name="resetrequest" id="resetrequest" action="/resetpassword" method="post" data-toggle="validator" role="form">
+      <form name="resetconfirm" id="resetconfirm" method="post" data-toggle="validator" role="form">
         <div class="fieldset">
           <ul class="form-list">
             <li>
               <div class="form-group">
-                <div class="form-error" id="error-email"><ul><li class="error-email"><span class="email-msg">Error</span></li></ul></div>
-                <label for="email_address">Email Address</label>
+                <div class="form-errors" id="error-password"><span class="error">Error</span></div>
+                <label for="password">Password</label>
                 <div class="input-box">
-                  <input name="email" id="email" title="Email Address" class="input-text form-control" type="email" required>
+                  <input name="password" id="password" title="Password" class="input-text form-control" data-minlength="8" data-toggle="validator" type="password" required="">
+                  <span class="help-block">Minimum of 8 characters!</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="form-group">
+                <div class="form-errors" id="error-confirm_password"><span class="error">Error</span></div>
+                <label for="confirm_password">Confirm Password</label>
+                <div class="input-box">
+                  <input name="confirm_password" title="Confirm Password" id="confirm_password" class="input-text form-control" data-match="#password" data-match-error="Sorry these passwords don't match!" type="password" required>
                   <div class="help-block with-errors"></div>
                 </div>
               </div>
