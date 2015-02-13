@@ -70,6 +70,12 @@ records:
 free_shipping: 
   amount: 100
 
+homepage:
+  new_products:
+    qty: 8
+    attribute: homepage
+    attribute_value: highlighted_products
+
 flypage:
   related_product:
     qty: 3
