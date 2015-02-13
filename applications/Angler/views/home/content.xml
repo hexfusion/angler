@@ -6,4 +6,21 @@
 
 <!-- components -->
 <value name="camera-slideshow" include="../../views/components/sliders/camera-slideshow/content.html"/>
+
+<container name="new_products" class="new-products" value="new_products.count"/>
+
+<list name="results" class="product-box" iterator="new_products">
+<param name="sku"/>
+<param name="name" class="product-name" filter="upper"/>
+<param name="name" class="product-link" target="title"/>
+<param name="name" class="product-image" target="alt"/>
+<param name="uri" class="product-link" target="href" op="append"/>
+<param name="uri" class="details-form" target="action" op="append"/>
+<param name="image" class="product-image" target="src"/>
+<param name="selling_price" class="product-price"/>
+<param name="show_price" class="full-price" field="discount_percent" op="toggle" args="tree"/>
+<param name="price" class="lowest-price"/>
+<param name="details" class="details" target="onClick"/>
+</list>
+
 </specification>

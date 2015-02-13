@@ -1148,10 +1148,6 @@ sub add_recent_products {
 get '/' => sub {
     my $tokens;
 
-    my $attribute = config->{homepage}->{related_product}->{attribute} || 'homepage';
-    my $attribute_value = config->{homepage}->{related_product}->{attribute_value} || 'highlighted_products';
-    my $rows = config->{homepage}->{related_product}->{qty} || '8';
-
     # get all manufacturers
     my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
@@ -1183,8 +1179,6 @@ get '/' => sub {
            ],
        },
    );
-
-    debug "home products", $product->count;
 
     $tokens->{"new_products"} = $new_products;
     $tokens->{"component"} = $components;
