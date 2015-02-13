@@ -221,6 +221,18 @@ hook 'before_layout_render' => sub {
     # logged in user?
     $tokens->{logged_in_user} = session('logged_in_user_id');
 
+    # setup basic history for testing
+    # we ignore 404 because if you have a missing file in
+    # template it throws a 404..
+    unless (request->path eq '404') {
+        debug "pass ";
+        session last_page => session('current_page') || 'none';
+        session current_page => request->path;
+    }
+
+    $tokens->{'current_page'} = session('current_page');
+    $tokens->{'last_page'} = session('last_page');
+
     my $nav = shop_navigation;
 
     # build menu sections for mega-drop
