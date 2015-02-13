@@ -1147,11 +1147,46 @@ sub add_recent_products {
 
 get '/' => sub {
     my $tokens;
+
+    my $attribute = config->{homepage}->{related_product}->{attribute} || 'homepage';
+    my $attribute_value = config->{homepage}->{related_product}->{attribute_value} || 'highlighted_products';
+    my $rows = config->{homepage}->{related_product}->{qty} || '8';
+
     # get all manufacturers
     my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
         debug "json components", $components;
 
+    # products for homepage grid
+    my $attribute = config->{homepage}->{related_product}->{attribute} || 'homepage';
+    my $attribute_value = config->{homepage}->{related_product}->{attribute_value} || 'highlighted_products';
+    my $rows = config->{homepage}->{related_product}->{qty} || '8';
+
+    my $new_products = shop_product->search(
+        {
+            -and => [
+                        'attribute.name' => $attribute,
+                        'attribute_value.value' => $attribute_value
+                    ],
+        },
+            { rows => $rows,
+              join  => [
+                {
+                    product_attributes => [
+                        'attribute',
+                            {
+                                product_attribute_values =>
+                                'attribute_value'
+                            }
+                    ]
+                },
+           ],
+       },
+   );
+
+    debug "home products", $product->count;
+
+    $tokens->{"new_products"} = $new_products;
     $tokens->{"component"} = $components;
     $tokens->{"manufacturer"} = [$mf->all];
 
