@@ -1381,11 +1381,11 @@ ajax '/variant_attribute_values' => sub {
     to_json(\%response);
 };
 
-get '404' => sub {
-    pass if request->path =~ m{^/(css|fonts|images|js|products)/};
-    status 'not_found';
-    template 'error_pages/404' => { title => 'Not Found' };
-};
+#get '404' => sub {
+#    pass if request->path =~ m{^/(css|fonts|images|js|products)/};
+#    status 'not_found';
+#    template 'error_pages/404' => { title => 'Not Found' };
+#};
 
 shop_setup_routes;
 
