@@ -24,6 +24,7 @@ use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
 use Angler::Cart;
+use Angler::SearchResults;
 
 use Data::Transpose::Iterator::Scalar;
 use Template::Flute::Iterator::JSON;
@@ -335,34 +336,20 @@ hook 'before_navigation_search' => sub {
               [ split( /\!/, url_decode_utf8( $query{"f.$_"} ) ) ]
     } grep { /^f\./ } keys %query;
 
-    # determine which view to display
-
-    my @views = (
-        {
-            name => 'grid',
-            title => 'Grid',
-            icon_class => 'fa fa-th'
-        },
-        {
-            name => 'list',
-            title => 'List',
-            icon_class => 'fa fa-th-list'
-        },
+    # setup search results handler
+    my $results_handler = Angler::SearchResults->new(
+        routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
+        tokens => $tokens,
     );
-    my $view = $query{view};
-    if (   !defined $view
-        || !grep { $_ eq $view } map { $_->{name} } @views )
-    {
-        $view = $routes_config->{navigation}->{default_view} || 'grid';
-    }
-    $tokens->{"navigation-view-$view"} = 1;
 
-    my $view_index = first { $views[$_]->{name} eq $view } 0..$#views;
-    $views[$view_index]->{active} = 'active';
-    $tokens->{views} = \@views;
+    # select view
+    $results_handler->select_view(%query);
 
-    # rows (products per page) 
+    # add different views to template tokens
+    $tokens->{views} = $results_handler->views;
 
+    # rows (products per page)
+    my $view = $results_handler->current_view;
     my $rows = $query{rows};
     if ( !defined $rows || $rows !~ /^\d+$/ ) {
         $rows = $routes_config->{navigation}->{records} || 10;
