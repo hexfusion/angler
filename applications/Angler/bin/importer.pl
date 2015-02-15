@@ -287,7 +287,6 @@ sub parse_excel {
     my ( $row_min, $row_max ) = $worksheet->row_range();
 
     # grab headers
-
     my %headers;
     foreach my $col ( $col_min .. $col_max ) {
         $headers{$col} =
@@ -301,38 +300,184 @@ sub parse_excel {
         join( "|", sort values %headers ) eq
         join( "|", sort @{ $config->{headers} } ) );
 
-    my ( $sku, %data );
+    my @color_values;
+    my @size_values;
+
+
+   #FIXME this is a dirty hack and should be done in the loop below
+   foreach my $row ( 2 .. $row_max ) {
+        my %cells =
+          map {
+            $headers{$_} => &trim( $worksheet->get_cell( $row, $_ )->value )
+          } $col_min .. $col_max;
+
+        # get all attribute values
+        if ($cells{"Color"}) {
+            push @color_values, $cells{"Color"};
+        }
+        if ($cells{"Size"}) {
+            push @size_values, $cells{"Size"};
+        }
+    }
+
+    # populate all attributes and attribute_values found in file
+    &add_attribute_values( 'color', 'Color', @color_values );
+    &add_attribute_values( 'size', 'Size', @size_values );
+
+
+    my @variants;
+
+    my ( $sku, $full_name, $price, $color, $size, $manf_sku, $name, $short_description, $description, $keywords, $active, $data );
     foreach my $row ( 2 .. $row_max ) {
         my %cells =
           map {
             $headers{$_} => &trim( $worksheet->get_cell( $row, $_ )->value )
           } $col_min .. $col_max;
 
+        # add canonical
         if ( $sku && $cells{"Product Group Code"} ne $sku ) {
-            &insert_product( $sku, %data );
-            undef %data;
+            &insert_product( $sku, $data );
+            undef $data;
         }
+        # these are variants lets save them for later
+        elsif ($data) {
+
+            $data->{'variant'} = '1';
+            #FIXME this can be done by assigning in $data
+            if ($data->{'color'}) {
+                $data->{'attributes'}->{color} = &clean_attribute_value($data->{'color'});
+                delete $data->{'color'};
+            }
+
+            if ($data->{'size'}) {
+                $data->{'attributes'}->{size} =  &clean_attribute_value($data->{'size'});
+                delete $data->{'size'};
+            }
+
+            push @variants, $data;
+
+           # print "creating variants $data->{'sku'}\n";
+           undef $data;
+        }
+
+        # define headers
         $sku = $cells{"Product Group Code"};
-
-        #unless ( grep { $_ eq $cells{"Item Category Code"} } qw/
-        #my $men_women =
-        #if (
-        #my $icc = $cells{"Item Category Code"};
-        #if ( $icc eq 'HEAD'
-        #for ( $cells{"Item Category Code"} ) {
-        #    when (
-        #}
-
-        %data = (
-
+        $manf_sku = $cells{"SKU"};
+        $name = $cells{"Product Name - Display"};
+        $full_name = $cells{"Product Name - Description"};
+        $price = $cells{"SRP"};
+        $color = $cells{"Color"};
+        $size = $cells{"Size"};
+ 
+        $data = (
+        {
+            sku               => $sku,
+            manufacturer_code => 'SF',
+            manufacturer_sku  => $manf_sku,
+            name              => $name,
+            full_name         => $full_name,
+            price             => $price,
+            short_description => $short_description,
+            description       => $description,
+            keywords          => $keywords,
+            season            => 'S15',
+            active            => $active,
+            color             => $color,
+            size              => $size
+        },
         );
     }
-    &insert_product( $sku, %data );
+
+    # now lets create variants
+    foreach (@variants) {
+        &create_variant($_);
+    }
+}
+
+=head2 create_variants
+
+=cut
+
+sub create_variant {
+    my ( $data ) = @_;
+
+    print "creating varaint $data->{'sku'}\n";
+
+    $data = &format_product($data);
+
+    my $product = $schema->resultset('Product')->find( { sku => $data->{'canonical_sku'} } );
+
+    # canonical product should have 0 for price.
+    if ($product->price ne '0.00') {
+        $product->update({ price => '0.00'});
+    }
+
+   $product->add_variants(
+    {
+        sku    => $data->{sku},
+        name   => $data->{name},
+        uri    => $data->{uri},
+        price  => $data->{price},
+        attributes => $data->{attributes},
+     });
+
+}
+
+=head2 format_product( $data );
+
+input product or variant data and this filter will return clean data
+ready for db insert.
+
+=cut
+
+sub format_product {
+    my ( $data ) = @_;
+    my $sku_field = 'sku';
+
+    # step through non default data checks
+    if ($data->{'description'}) {
+         $data->{'short_description'} = &short_description($data->{'description'});
+    }
+    if ($data->{'keywords'}) {
+        $data->{'keywords'} = decode_entities($data->{'keywords'});
+    }
+
+    $data->{'name'} = clean_name($data->{'name'});
+
+    # if this a variant do a few extra steps
+    if ($data->{'variant'}) {
+        $sku_field = 'manufacturer_sku';
+        $data->{'canonical_sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{sku};
+        $data->{'name'} = clean_name($data->{'full_name'});
+    }
+
+    $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{$sku_field};
+    $data->{uri} = lc( unidecode("$data->{name}-$data->{$sku_field}") );
+    $data->{uri} =~ s/\s+/-/g;
+    $data->{uri} =~ s/\//-/g;
+
+    return $data;
 }
 
 sub insert_product {
-    my ( $sku, %data ) = @_;
-    print "insert $sku\n";
+    my ( $sku, $data ) = @_;
+    $data = format_product($data);
+
+    print "creating product $data->{'sku'}\n";
+
+    my $product = $schema->resultset('Product')->find_or_create(
+        {
+            sku => $data->{'sku'},
+            manufacturer_sku => $data->{'manufacturer_sku'},
+            name => $data->{'name'},
+            short_description => $data->{'short_description'} ||'',
+            description => $data->{'description'} ||'',
+            price => $data->{'price'},
+            uri => $data->{'uri'},
+            weight => '1',
+            inventory_exempt => '1',
+        }
+    );
 }
 
 =head2 process_image( $product, $path );
