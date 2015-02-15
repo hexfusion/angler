@@ -421,6 +421,8 @@ sub create_variant {
         attributes => $data->{attributes},
      });
 
+    # add manufacturer as default nav route
+    &set_manufacturer_navigation($data->{sku});
 }
 
 =head2 format_product( $data );
@@ -478,7 +480,36 @@ sub insert_product {
             inventory_exempt => '1',
         }
     );
+
+    # add manufacturer as default nav route
+    &set_manufacturer_navigation($data->{sku});
+
 }
+
+=head set_manufacturer_navigation($sku)
+
+gives the product a default navigation route defining the manufacturer.
+
+=cut
+
+sub set_manufacturer_navigation {
+    my ( $sku ) = @_;
+
+    my $nav = $schema->resultset('Navigation')->find({ uri => $manufacturer});
+
+    if ($nav) {
+        $schema->resultset('NavigationProduct')->find_or_create(
+            {
+                sku => $sku,
+                navigation_id => $nav->id
+            }
+        );
+    }
+    else {
+        die "no manufacturer route populated in Navigation";
+    }
+}
+
 
 =head2 process_image( $product, $path );
 
