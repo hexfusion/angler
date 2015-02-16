@@ -1066,11 +1066,14 @@ ajax '/check_variant' => sub {
     if ( defined $sku ) {
         if ( $product = shop_product($sku) ) {
 
-            if ( $product->canonical || $product->variants->has_rows ) {
+            my $variant;
+            my $is_canonical = $product->canonical_sku ? 0 : 1;
 
-                $product = $product->find_variant( \%params );
+            if ( !$is_canonical || $product->variants->has_rows ) {
 
-                if ( !$product ) {
+                $variant = $product->find_variant( \%params );
+
+                if ( !$variant ) {
                     debug "variant not found for sku $sku with params: "
                       . \%params;
                     $response{type}    = "error";
@@ -1079,6 +1082,11 @@ ajax '/check_variant' => sub {
                     content_type('application/json');
                     return to_json( \%response );
                 }
+
+                $response{name} = $variant->name unless $is_canonical;
+                $response{price}   = $variant->price;
+                $response{selling} = $variant->selling_price
+                    if $variant->price > $variant->selling_price;
             }
 
             my $images_rset = $product->media_products->search_related(
@@ -1100,13 +1108,15 @@ ajax '/check_variant' => sub {
                 $response{src} = $product->canonical->image_325x325;
             }
 
-            # and the rest
+            $response{name}  = $product->name  unless $response{name};
+            $response{price} = $product->price unless $response{price};
+            $response{type}  = "success";
 
-            $response{name}    = $product->name;
-            $response{price}   = $product->price;
-            $response{selling} = $product->selling_price
-              if $product->price > $product->selling_price;
-            $response{type} = "success";
+            if (  !$response{selling}
+                && $product->price > $product->selling_price )
+            {
+                $response{selling} = $product->selling_price;
+            }
         }
         else {
             debug "product not found in database for sku $sku in check_variant";
