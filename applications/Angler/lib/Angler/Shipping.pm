@@ -87,12 +87,15 @@ sub deliverable_countries {
             push @country_iso_codes, $country->country_iso_code;
     }
 
-    return [$schema->resultset('Country')
-      ->search({
+    return [
+        $schema->resultset('Country')->search(
+            {
                 country_iso_code => { -in => \@country_iso_codes },
-                active => '1'
-               })];
-
+                active           => '1'
+            },
+            { order_by => 'name' }
+        )
+    ];
 }
 
 =head2 find_state
