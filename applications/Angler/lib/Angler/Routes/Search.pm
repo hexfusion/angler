@@ -18,6 +18,7 @@ get qr{/search(/(.*))?} => sub {
     # create search object
     my $search = Angler::Search->new(
         solr_url => config->{solr_url},
+        facets => config->{facet_fields}->{attributes},
     );
 
     if (exists $params->{q}) {
@@ -42,7 +43,7 @@ get qr{/search(/(.*))?} => sub {
     my $results = $search->results;
     my $count = $search->num_found;
 
-    debug "Total entries: ", $response->pager->total_entries;
+    debug "Facets found: ", $search->facets_found;
 
     my %query = params('query');
 
