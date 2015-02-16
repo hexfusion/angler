@@ -327,7 +327,7 @@ sub parse_excel {
 
     my @variants;
 
-    my ( $sku, $full_name, $price, $color, $size, $manf_sku, $name, $short_description, $description, $keywords, $active, $data );
+    my ( $sku, $code, $full_name, $price, $color, $size, $manf_sku, $name, $short_description, $description, $keywords, $active, $data );
     foreach my $row ( 2 .. $row_max ) {
         my %cells =
           map {
@@ -335,22 +335,24 @@ sub parse_excel {
           } $col_min .. $col_max;
 
         # add canonical
-        if ( $sku && $cells{"Product Group Code"} ne $sku ) {
-            &insert_product( $sku, $data );
+        if ( $code && $cells{"Product Group Code"} ne $code ) {
+            &insert_product( $data );
             undef $data;
         }
         # these are variants lets save them for later
         elsif ($data) {
 
             $data->{'variant'} = '1';
+
             #FIXME this can be done by assigning in $data
             if ($data->{'color'}) {
                 $data->{'attributes'}->{color} = &clean_attribute_value($data->{'color'});
+                $data->{'name'} = "$data->{'name'} $data->{color}";
                 delete $data->{'color'};
             }
-
             if ($data->{'size'}) {
                 $data->{'attributes'}->{size} =  &clean_attribute_value($data->{'size'});
+                $data->{'name'} = "$data->{'name'} $data->{size}";
                 delete $data->{'size'};
             }
 
@@ -361,21 +363,19 @@ sub parse_excel {
         }
 
         # define headers
-        $sku = $cells{"Product Group Code"};
+        $code = $cells{"Product Group Code"};
         $manf_sku = $cells{"SKU"};
         $name = $cells{"Product Name - Display"};
-        $full_name = $cells{"Product Name - Description"};
         $price = $cells{"SRP"};
         $color = $cells{"Color"};
         $size = $cells{"Size"};
  
         $data = (
         {
-            sku               => $sku,
+            code              => $code,
             manufacturer_code => 'SF',
             manufacturer_sku  => $manf_sku,
             name              => $name,
-            full_name         => $full_name,
             price             => $price,
             short_description => $short_description,
             description       => $description,
@@ -401,9 +401,10 @@ sub parse_excel {
 sub create_variant {
     my ( $data ) = @_;
 
-    print "creating varaint $data->{'sku'}\n";
-
+    # format product
     $data = &format_product($data);
+
+    print "creating variant $data->{'sku'}\n";
 
     my $product = $schema->resultset('Product')->find( { sku => $data->{'canonical_sku'} } );
 
@@ -434,7 +435,6 @@ ready for db insert.
 
 sub format_product {
     my ( $data ) = @_;
-    my $sku_field = 'sku';
 
     # step through non default data checks
     if ($data->{'description'}) {
@@ -445,16 +445,16 @@ sub format_product {
     }
 
     $data->{'name'} = clean_name($data->{'name'});
+    $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'code'};
+    $data->{uri} = lc( unidecode("$data->{'name'}-$data->{'code'}") );
 
     # if this a variant do a few extra steps
     if ($data->{'variant'}) {
-        $sku_field = 'manufacturer_sku';
-        $data->{'canonical_sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{sku};
-        $data->{'name'} = clean_name($data->{'full_name'});
+        $data->{'canonical_sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{code};
+        $data->{uri} = lc( unidecode("$data->{name}") );
+        $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'manufacturer_sku'};
     }
 
-    $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{$sku_field};
-    $data->{uri} = lc( unidecode("$data->{name}-$data->{$sku_field}") );
     $data->{uri} =~ s/\s+/-/g;
     $data->{uri} =~ s/\//-/g;
 
@@ -462,8 +462,8 @@ sub format_product {
 }
 
 sub insert_product {
-    my ( $sku, $data ) = @_;
-    $data = format_product($data);
+    my ( $data ) = @_;
+    $data = &format_product($data);
 
     print "creating product $data->{'sku'}\n";
 
