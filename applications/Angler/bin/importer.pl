@@ -205,6 +205,19 @@ sub clean_name {
     return $name;
 }
 
+=head2 clean_uri($uri)
+
+Removes junk from potential uri including RFC3986 reserved characters
+
+=cut
+
+sub clean_uri {
+    my $uri = shift;
+    $uri =~ s^\Q!*'();:@&=+$,/?#[]\E^-^xg;
+    $uri =~ s/\s+/-/g;
+    $uri =~ s/\-.+/-/g;
+}
+
 =head2 short_description($description)
 
 Tries to shorten a description to fit in short_description varchar(500) column
@@ -417,7 +430,7 @@ sub create_variant {
     {
         sku    => $data->{sku},
         name   => $data->{name},
-        uri    => $data->{uri},
+        uri    => &clean_uri($data->{uri}),
         price  => $data->{price},
         attributes => $data->{attributes},
      });
@@ -446,17 +459,14 @@ sub format_product {
 
     $data->{'name'} = clean_name($data->{'name'});
     $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'code'};
-    $data->{uri} = lc( unidecode("$data->{'name'}-$data->{'code'}") );
+    $data->{uri} = &clean_uri(lc( unidecode("$data->{'name'}-$data->{'code'}") ));
 
     # if this a variant do a few extra steps
     if ($data->{'variant'}) {
         $data->{'canonical_sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{code};
-        $data->{uri} = lc( unidecode("$data->{name}") );
+        $data->{uri} = &clean_uri(lc( unidecode("$data->{name}") ));
         $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'manufacturer_sku'};
     }
-
-    $data->{uri} =~ s/\s+/-/g;
-    $data->{uri} =~ s/\//-/g;
 
     return $data;
 }
@@ -475,7 +485,7 @@ sub insert_product {
             short_description => $data->{'short_description'} ||'',
             description => $data->{'description'} ||'',
             price => $data->{'price'},
-            uri => $data->{'uri'},
+            uri => &clean_uri($data->{'uri'}),
             weight => '1',
             inventory_exempt => '1',
         }
@@ -719,9 +729,7 @@ sub process_orvis_product {
 
     my $sku = "WB-OR-" . $pf_id;
 
-    my $uri = lc( unidecode("$name-$pf_id") );
-    $uri =~ s/\s+/-/g;
-    $uri =~ s/\//-/g;
+    my $uri = &clean_uri( lc( unidecode("$name-$pf_id") ) );
 
     my $product = shop_product->find_or_create(
         {
@@ -778,8 +786,7 @@ sub process_orvis_product {
     if ($navigator) {
         my $first_child = $navigator->first_child;
         my $text        = $first_child->text;
-        my $uri         = lc( unidecode($text) );
-        $uri =~ s/\s+/-/g;
+        my $uri         = &clean_uri(lc( unidecode($text) ));
 
         my $nav = $schema->resultset('Navigation')->find_or_create(
             {
@@ -796,8 +803,7 @@ sub process_orvis_product {
         foreach my $sibling ( $first_child->siblings ) {
 
             my $text = $sibling->text;
-            $uri .= "/" . lc($text);
-            $uri =~ s/\s+/-/g;
+            $uri .= "/" . &clean_uri(lc($text));
 
             $nav = $schema->resultset('Navigation')->find_or_create(
                 {
@@ -907,9 +913,8 @@ sub process_orvis_product {
 
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
-                my $uri = lc( unidecode("${sku_name}-${pf_id}${item_code}") );
-                $uri =~ s/\s+/-/g;
-                $uri =~ s/\//-/g;
+                my $uri = &clean_uri(
+                    lc( unidecode("${sku_name}-${pf_id}${item_code}") ) );
 
                 my $variant = shop_product->find(
                     {
@@ -1067,9 +1072,8 @@ sub process_orvis_product {
 
                 my $price = $sku->first_child('Regular_Price')->text;
 
-                my $uri = lc( unidecode("${sku_name}-${pf_id}${item_code}") );
-                $uri =~ s/\s+/-/g;
-                $uri =~ s/\//-/g;
+                my $uri = &clean_uri(
+                    lc( unidecode("${sku_name}-${pf_id}${item_code}") ) );
 
                 my $variant = shop_product->find(
                     {
