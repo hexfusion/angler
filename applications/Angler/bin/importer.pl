@@ -227,24 +227,24 @@ Tries to shorten a description to fit in short_description varchar(500) column
 sub short_description {
     my $description = shift;
 
+    # nothing todo
+    return $description if length($description) <= 500;
+
+    # try to produce something sensible using some of the earlier sentences
+    # in from description
     my @desc_sentences = split( /\./, $description );
-    my $short_description = '';
+    my $short_description = shift(@desc_sentences) . '.';
     foreach my $sentence (@desc_sentences) {
-        if ( length($short_description) + length($sentence) + 1 < 500 ) {
-            $short_description .= ".$sentence";
+        if ( length($short_description) + length($sentence) + 2 <= 500 ) {
+            $short_description .= " $sentence.";
         }
         else {
             last;
         }
     }
-    if ($short_description) {
+    if ( length($short_description) > 500 ) {
 
-        # append final full stop
-        $short_description .= ".";
-    }
-    else {
-
-        # all sentences were too long so get a substr
+        # still too long so get a substr
         $short_description = substr( $description, 500 );
     }
     return $short_description;
