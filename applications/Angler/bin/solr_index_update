@@ -16,8 +16,16 @@ use Interchange::Search::Solr;
 # initiate Solr object
 my $solr = Interchange::Search::Solr->new(solr_url => config->{solr_url});
 
-# all canonical products
-my $product_rs = $schema->resultset('Product')->search({canonical_sku => undef});
+my $product_rs;
+
+if (@ARGV) {
+    # specific product
+    $product_rs = $schema->resultset('Product')->search({sku => shift});
+}
+else {
+    # all canonical products
+    $product_rs = $schema->resultset('Product')->search({canonical_sku => undef});
+}
 
 my ($product, $data);
 
