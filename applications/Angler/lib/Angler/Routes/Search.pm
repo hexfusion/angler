@@ -11,14 +11,32 @@ get qr{/search(/(.*))?} => sub {
     my $params = params;
     my $q;
     my ($slash, $current_uri) = splat;
+    my %tokens;
 
     $current_uri ||= '';
     debug "Current search uri: ", $current_uri;
+
+    my %query = params('query');
+
+    my $navigation = Angler::SearchResults->new(
+        routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
+        tokens => \%tokens,
+        query => \%query,
+    );
+
+    # select view
+    $navigation->select_view;
+
+    # add different views to template tokens
+    $tokens{views} = $navigation->views;
+
+    $navigation->select_rows;
 
     # create search object
     my $search = Angler::Search->new(
         solr_url => config->{solr_url},
         facets => config->{facet_fields}->{attributes},
+        rows => $tokens{per_page},
     );
 
     if (exists $params->{q}) {
@@ -89,7 +107,7 @@ get qr{/search(/(.*))?} => sub {
                    };
     }
 
-    my %query = params('query');
+
 
     my $paging = Angler::Paging->new(
         pager => $response->pager,
@@ -101,29 +119,16 @@ get qr{/search(/(.*))?} => sub {
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
-    my %tokens = (
-        products => $results,
-        pager => $response->pager,
-        pagination => $paging->page_list,
-        pagination_previous => $paging->previous_uri,
-        pagination_next => $paging->next_uri,
-        breadcrumbs => [],
-        facets => \@facets,
-        count => $count,
-        brands => [$brands->all],
-        "extra-js-file" => 'product-listing.js',
-    );
-
-    my $navigation = Angler::SearchResults->new(
-        routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
-        tokens => \%tokens,
-    );
-
-    # select view
-    $navigation->select_view(%query);
-
-    # add different views to template tokens
-    $tokens{views} = $navigation->views;
+    $tokens{products} = $results;
+    $tokens{pager} = $response->pager,
+    $tokens{pagination} = $paging->page_list,
+    $tokens{pagination_previous} = $paging->previous_uri,
+    $tokens{pagination_next} = $paging->next_uri,
+    $tokens{breadcrumbs} = [];
+    $tokens{facets} = \@facets;
+    $tokens{count} = $count;
+    $tokens{brands} = [$brands->all];
+    $tokens{"extra-js-file"} = 'product-listing.js';
 
     template 'product/grid/content', \%tokens;
 };

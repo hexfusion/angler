@@ -238,10 +238,11 @@ hook 'before_navigation_search' => sub {
     my $results_handler = Angler::SearchResults->new(
         routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
         tokens => $tokens,
+        query => \%query,
     );
 
     # select view
-    $results_handler->select_view(%query);
+    $results_handler->select_view;
 
     # add different views to template tokens
     $tokens->{views} = $results_handler->views;

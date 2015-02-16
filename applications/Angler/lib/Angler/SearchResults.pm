@@ -7,6 +7,7 @@ use warnings;
 use Moo;
 use MooX::Types::MooseLike::Base qw(HashRef);
 
+use POSIX qw/ceil/;
 use List::Util qw(first);
 
 =head1 ATTRIBUTES
@@ -19,6 +20,18 @@ Hash reference from L<Dancer::Plugin::Interchange6::Routes> plugin configuration
 =cut
 
 has routes_config => (
+    is => 'rw',
+    isa => HashRef,
+    required => 1,
+);
+
+=head2 query
+
+Query parameters from HTTP request.
+
+=cut
+
+has query => (
     is => 'rw',
     isa => HashRef,
     required => 1,
@@ -72,11 +85,11 @@ has views => (
 
 # determine which view to display
 sub select_view {
-    my ($self, %query) = @_;
+    my ($self) = @_;
     my $routes_config = $self->routes_config;
     my $tokens = $self->tokens;
     my @views = @{$self->views};
-    my $view = $query{view};
+    my $view = $self->query->{view};
 
     if (   !defined $view
         || !grep { $_ eq $view } map { $_->{name} } @views )
@@ -93,13 +106,13 @@ sub select_view {
 }
 
 sub select_rows {
-    my ($self, %query) = @_;
+    my ($self) = @_;
     my $routes_config = $self->routes_config;
     my $tokens = $self->tokens;
 
     # rows (products per page) 
 
-    my $rows = $query{rows};
+    my $rows = $self->query->{rows};
     if ( !defined $rows || $rows !~ /^\d+$/ ) {
         $rows = $routes_config->{navigation}->{records} || 10;
     }
