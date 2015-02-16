@@ -65,6 +65,8 @@ sub solr_hash {
                description => $product->description,
                gtin => $product->gtin || '',
                uri => $product->uri,
+               price => $product->price,
+               selling_price => $product->selling_price || 0,
                created => solr_date_format($product->created),
                last_modified => solr_date_format($product->last_modified),
                active => $product->active,
