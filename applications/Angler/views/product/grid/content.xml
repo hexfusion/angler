@@ -65,6 +65,7 @@
         <param name="facet-title" field="title"/>
         <param name="show-count" field="unchecked" op="toggle" args="tree"/>
         <param name="facet-count" field="count"/>
+        <param name="facet-uri" class="facet-checkbox" field="query_url" target="facet-uri"/>
     </list>
 </list>
 

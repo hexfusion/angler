@@ -43,7 +43,29 @@ get qr{/search(/(.*))?} => sub {
     my $results = $search->results;
     my $count = $search->num_found;
 
+#    debug "Results: ", $search->results;
     debug "Facets found: ", $search->facets_found;
+
+    # transform facets
+    my @facets;
+
+    for my $name (@{$search->facets}) {
+        my @values = map {$_->{title} = $_->{name};
+                          $_->{value} = $_->{name};
+                          $_->{name} = $name;
+                          $_->{checked} = '';
+                          $_
+                      }
+            @{$search->facets_found->{$name}};
+
+        next unless @values;
+
+        push @facets, {title => $name,
+                       values => \@values,
+                   };
+    }
+
+    debug "Facets: ", \@facets;
 
     my %query = params('query');
 
@@ -64,7 +86,7 @@ get qr{/search(/(.*))?} => sub {
         pagination_previous => $paging->previous_uri,
         pagination_next => $paging->next_uri,
         breadcrumbs => [],
-        facets => [],
+        facets => \@facets,
         count => $count,
         brands => [$brands->all],
         "extra-js-file" => 'product-listing.js',
