@@ -1,0 +1,82 @@
+#! /usr/bin/env perl
+#
+# Script to update products in Solr index
+
+use strict;
+use warnings;
+
+use Dancer;
+use Dancer::Plugin::Interchange6;
+
+my $schema = shop_schema;
+
+use Data::Dumper;
+use Interchange::Search::Solr;
+
+# initiate Solr object
+my $solr = Interchange::Search::Solr->new(solr_url => config->{solr_url});
+
+# all canonical products
+my $product_rs = $schema->resultset('Product')->search({canonical_sku => undef});
+
+my ($product, $data);
+
+while ($product = $product_rs->next) {
+    $data = solr_hash($product);
+    solr_run_update($solr, $data);
+
+    my $variants_rs = $product->variants;
+    my $variant;
+
+    while (my $variant = $variants_rs->next) {
+        $data = solr_hash($variant);
+        solr_run_update($solr, $data);
+    }
+}
+
+sub solr_run_update {
+    my ($solr, $data) = @_;
+
+    my $ret = $solr->maintainer_update('add', $data);
+
+    if ($ret->solr_status) {
+        die "Failed to update Solr index for ", $data->{sku}, ": ", $ret->{content}->{error}->{msg}, "\n";
+    }
+
+    return $ret;
+}
+
+sub solr_hash {
+    my $product = shift;
+    my %record;
+
+    # add "canonical" data
+    %record = (sku => $product->sku,
+               canonical_sku => $product->canonical_sku,
+               name => $product->name,
+               description => $product->description,
+               gtin => $product->gtin || '',
+               uri => $product->uri,
+               created => solr_date_format($product->created),
+               last_modified => solr_date_format($product->last_modified),
+               active => $product->active,
+           );
+
+    if ($product->canonical_sku) {
+        # add variant data
+        for my $att_name (@{config->{facet_fields}->{attributes}}) {
+            if (my $att_value = $product->find_attribute_value({name => $att_name})) {
+                $record{$att_name} = $att_value;
+            }
+        }
+    }
+
+#    warn "Record for ", $product->sku, ": ", Dumper(\%record);
+    return \%record;
+}
+
+sub solr_date_format {
+    my $dt = shift;
+    return $dt->strftime('%FT%TZ');
+}
+
