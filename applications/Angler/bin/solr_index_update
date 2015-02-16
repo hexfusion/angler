@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 use Dancer;
+use Angler::Schema; # load before Dancer::Plugin::Interchange6
 use Dancer::Plugin::Interchange6;
 
 my $schema = shop_schema;
@@ -70,6 +71,7 @@ sub solr_hash {
                created => solr_date_format($product->created),
                last_modified => solr_date_format($product->last_modified),
                active => $product->active,
+               image => $product->image_325x325,
            );
 
     if ($product->canonical_sku) {

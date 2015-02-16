@@ -49,6 +49,7 @@
     <field name="selling_price" type="float" indexed="true" stored="true" />
     <field name="gtin" type="string" indexed="true" stored="true" />
     <field name="uri" type="string" indexed="true" stored="true" />
+    <field name="image" type="string" indexed="true" stored="true" />
 
     <!-- product attributes -->
     <field name="action" type="string" indexed="true" stored="true" />
