@@ -45,7 +45,8 @@
     <field name="canonical_sku" type="string" indexed="true" stored="true" />
     <field name="name" type="text" indexed="true" stored="true" />
     <field name="description" type="text" indexed="true" stored="true" />
-    <field name="price" type="float" indexed="true" stored="true" /> 
+    <field name="price" type="float" indexed="true" stored="true" />
+    <field name="selling_price" type="float" indexed="true" stored="true" />
     <field name="gtin" type="string" indexed="true" stored="true" />
     <field name="uri" type="string" indexed="true" stored="true" />
 
