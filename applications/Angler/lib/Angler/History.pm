@@ -169,13 +169,22 @@ sub add {
     my ( $self, %args ) = @_;
     my $type = delete $args{type};
 
-    die "type must be defined for Dancer::History->add" unless $type.
+    die "type must be defined for Dancer::History->add" unless $type;
+    die "uri must be defined for Dancer::History->add"  unless $args{uri};
 
-    # add to the appropriate list
-    unshift @{$self->pages->{$type}}, \%args;
+    if (   !$self->pages->{$type}
+        || !$self->pages->{$type}->[0]
+        || $self->pages->{$type}->[0]->{uri} ne $args{uri} )
+    {
 
-    # trim to max_items if necessary
-    pop @{$self->pages->{$type}} if @{$self->pages->{$type}} > $self->max_items;
+        # not same uri as newest items on this list so add it
+
+        unshift( @{ $self->pages->{$type} }, \%args );
+
+        # trim to max_items if necessary
+        pop @{ $self->pages->{$type} }
+          if @{ $self->pages->{$type} } > $self->max_items;
+    }
 }
 
 1;

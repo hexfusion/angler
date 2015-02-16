@@ -44,7 +44,7 @@ Puts history into the token C<history>.
 
 hook before_template_render => sub {
     my $tokens = shift;
-    $tokens->{history} = var('history');
+    $tokens->{history} = &history;
 };
 
 =head2 after_layout_render
@@ -55,13 +55,12 @@ Save history back into session as long as request is not ajax.
 
 hook after_layout_render => sub {
     return if request->is_ajax;
-    session history => var('history')->pages;
+    session history => &history()->pages;
 };
 
 sub add_to_history {
     my ( $self, @args ) = plugin_args(@_);
 
-    my $conf         = plugin_setting;
     my $path         = request->path;
     my $query_params = params('query');
 
@@ -73,6 +72,13 @@ sub add_to_history {
         @args,
     );
 
+    my $history = &history;
+
+    # add the page
+    $history->add( %args );
+}
+
+sub history {
     unless ( var('history') ) {
 
         # var history has not yet been defined so pull history from session
@@ -80,10 +86,12 @@ sub add_to_history {
         my $session_history = session('history');
         $session_history = {} unless ref($session_history) eq 'HASH';
 
-        my %args = (
-            pages     => $session_history,
-        );
+        my $conf = plugin_setting;
+
+        my %args = ( pages => $session_history );
+
         $args{max_items} = $conf->{max_items} if $conf->{max_items};
+
         $args{methods} = $conf->{methods}
           if ( $conf->{methods} && ref( $conf->{methods} ) eq 'ARRAY' );
 
@@ -91,16 +99,12 @@ sub add_to_history {
 
         var history => $history;
     }
-
-    # add the page
-    var('history')->add( %args );
+    return var('history');
 }
 
 register add_to_history => \&add_to_history;
 
-register history => sub {
-    return var('history');
-};
+register history => \&history;
 
 register_plugin;
 
