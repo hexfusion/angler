@@ -128,3 +128,8 @@ plugins:
     queue: key_multiple
     arguments: array
     dequeue: by_key
+  "Angler::Plugin::History":
+    max_items: 20
+    methods:
+      - product
+      - navigation
