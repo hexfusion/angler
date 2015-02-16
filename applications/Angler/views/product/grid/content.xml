@@ -21,6 +21,7 @@
 <param name="uri" target="href" class="page_number"/>
 </list>
 
+
 <list name="results" class="product-box" iterator="products">
 <param name="sku"/>
 <param name="info-link" class="product-more-info" field="sku" target="action" op="append"/>
@@ -35,7 +36,7 @@
 <param name="name" class="product-link" target="title"/>
 <param name="uri" class="details-form" target="action" op="append"/>
 <param name="discount_percent" class="discount" op="toggle" args="tree"/>
-<param name="details" class="details" target="onClick"/>
+<param name="uri" class="details" target="href" op="append"/>
 </list>
 
 <!-- Brands -->
