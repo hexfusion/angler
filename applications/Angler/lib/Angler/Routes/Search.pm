@@ -48,24 +48,46 @@ get qr{/search(/(.*))?} => sub {
 
     # transform facets
     my @facets;
+    my $schema = shop_schema;
 
     for my $name (@{$search->facets}) {
-        my @values = map {$_->{title} = $_->{name};
-                          $_->{value} = $_->{name};
-                          $_->{name} = $name;
-                          $_->{checked} = '';
-                          $_
-                      }
-            @{$search->facets_found->{$name}};
+        my @facets_found = @{$search->facets_found->{$name}};
+        next unless @facets_found;
 
-        next unless @values;
+        # retrieve corresponding attribute
+        my $attribute = $schema->resultset('Attribute')->find({
+            type => 'variant',
+            name => $name,
+        });
 
-        push @facets, {title => $name,
+        if (! $attribute) {
+            warning "Attribute not found for facets: $name.";
+            next;
+        }
+
+        my @values;
+
+        for my $facet_found (@{$search->facets_found->{$name}}) {
+            # retrieve attribute title
+            my $value = $attribute->attribute_values
+                ->find({value => $facet_found->{name}});
+
+            if (! $value) {
+                warning "Attribute value not found for facets: $name - $facet_found->{name}";
+                next;
+            }
+
+            $facet_found->{title} = $value->title;
+            $facet_found->{name} = $name;
+            $facet_found->{checked} = $facet_found->{active};
+
+            push @values, $facet_found;
+        }
+
+        push @facets, {title => $attribute->title,
                        values => \@values,
                    };
     }
-
-    debug "Facets: ", \@facets;
 
     my %query = params('query');
 
