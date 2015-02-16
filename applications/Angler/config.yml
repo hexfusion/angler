@@ -80,6 +80,16 @@ flypage:
   related_product:
     qty: 3
 
+# attributes for filtering search results
+facet_fields:
+  attributes:
+    - action
+    - size
+    - color
+    - weight
+    - length
+    - inseam
+
 order_email: orders@westbranchangler.com
 
 plugins:
