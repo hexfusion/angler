@@ -214,17 +214,25 @@ hook 'before_navigation_search' => sub {
 
     # FIXME I believe this only goes 1 level of children
 
+    # 2015-02-07
+    # SysPete: this makes a LOT of bad assumptions about how we create and
+    # manage nav. For now use something simpler.
+    #
     # if this is the root category then show all the childrens products.
-    if ( $tokens->{navigation}->is_root == 1 ) {
-        $products =
-          $tokens->{navigation}->children->search_related('navigation_products')
-          ->search_related('product')->active;
-    }
-    else {
-        $products =
-          $tokens->{navigation}->navigation_products->search_related('product')
-          ->active;
-    }
+    #if ( $tokens->{navigation}->is_root == 1 ) {
+    #    $products =
+    #      $tokens->{navigation}->children->search_related('navigation_products')
+    #      ->search_related('product')->active;
+    #}
+    #else {
+    #    $products =
+    #      $tokens->{navigation}->navigation_products->search_related('product')
+    #      ->active;
+    #}
+
+    $products =
+      $tokens->{navigation}->navigation_products->search_related('product')
+      ->active;
 
     # find facets in query params
 
