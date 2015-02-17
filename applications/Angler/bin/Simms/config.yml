@@ -1,0 +1,8 @@
+dbi: mysql
+dbname: simms 
+host: localhost
+port: 3306 
+user: root
+pass: toor
+options: 
+  mysql_enable_utf8 : 1
