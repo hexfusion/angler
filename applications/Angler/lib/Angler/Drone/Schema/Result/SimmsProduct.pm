@@ -7,6 +7,7 @@ Angler::Drone::Schema::Result::SimmsProduct
 
 =cut
 
+use DateTime;
 
 use Angler::Drone::Schema::Candy -components =>
   [qw(InflateColumn::DateTime TimeStamp)];
@@ -79,7 +80,7 @@ Product image.
 
 column img => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 description
@@ -90,7 +91,7 @@ Full product description.
 
 column description => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 features
@@ -101,7 +102,7 @@ Product features.
 
 column featuress => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 product_care
@@ -112,7 +113,7 @@ Product care.
 
 column product_care => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 technologies
@@ -123,7 +124,7 @@ Product technologies
 
 column technologies => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 videos
@@ -134,7 +135,7 @@ Product videos
 
 column videos => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 html
@@ -145,7 +146,7 @@ Product html
 
 column html => {
     data_type     => "text",
-    nullable      => 1
+    is_nullable      => 1
 };
 
 =head2 created
