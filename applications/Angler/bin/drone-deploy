@@ -1,0 +1,12 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Dancer ':script';
+use Dancer::Plugin::DBIC;
+
+my $schema = schema('drone');
+
+$schema->deploy({add_drop_table => 1});
+
