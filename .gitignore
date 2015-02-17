@@ -50,6 +50,9 @@ applications/Angler/blib/
 applications/Angler/sql/*
 applications/Angler/pm_to_blib
 
+# eclipse
+.project
+
 my.cnf
 mysql.yml
 nginx/
