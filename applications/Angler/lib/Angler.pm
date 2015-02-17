@@ -544,51 +544,15 @@ hook 'before_navigation_search' => sub {
 
     # paging
 
-    my $current = $pager->current_page;
-    my $n = int( ($pager->total_entries / $pager->entries_per_page) + .999);
-    my $first_page = 1;
-    my $last_page  = $pager->last_page;
+    my $paging = Angler::Paging->new(
+        pager => $pager,
+        uri   => $tokens->{navigation}->uri,
+        query => \%query,
+    );
 
-    if ( $pager->last_page > 5 ) {
-   # more than 5 pages so we might need to start later than page 1
-        if ( $pager->current_page <= 3 ) {
-            $last_page = 5;
-        }
-        elsif (
-            $pager->last_page - $pager->current_page <
-             3 )
-            {
-                $first_page = $pager->last_page - 4;
-            }
-        else {
-            $first_page = $pager->current_page - 2;
-            $last_page = $pager->current_page + 2;
-        }
-    }
-
-    my @pages = map {
-       +{
-           page => $_,
-           uri  => $_ == $pager->current_page
-           ? undef
-           : uri_for( $tokens->{navigation}->uri . '/' . $_, \%query ),
-           active => $_ == $pager->current_page ? " active" : undef,
-         }
-    } $first_page .. $last_page;
-
-    # debug "Paging", \@pages;
-
-    $tokens->{pagination} = \@pages;
-
-    unless ($current == '1') {
-        $tokens->{pagination_previous} =
-         uri_for( $tokens->{navigation}->uri . '/' . ($current - 1), \%query);
-    }
-
-    unless ($current == $n) {
-        $tokens->{pagination_next} =
-         uri_for( $tokens->{navigation}->uri . '/' . ($current + 1), \%query);
-    }
+    $tokens->{pagination} = $paging->page_list;
+    $tokens->{pagination_previous} = $paging->previous_uri;
+    $tokens->{pagination_next} = $paging->next_uri;
 
     # product listing using paged_products result set
 
