@@ -244,7 +244,7 @@ my $nav = $schema->resultset('Navigation')->populate([
 # flies
 { navigation_id => '500', priority => '200', uri => 'flies/dries-emergers', type => 'menu', scope => 'flies', name => 'Dries and Emergers', description => 'Dries and Emergers', parent_id =>'50' },
 { navigation_id => '501', priority => '300', uri => 'flies/nymphs', type => 'menu', scope => 'flies', name => 'Nymphs', description => 'Nymphs', parent_id =>'50' },
-{ navigation_id => '505', priority => '350', uri => 'flies/wet-flies', type => 'menu', scope => 'flies', name => 'Wet Flies', description => 'Wet Flies', parent_id =>'50' },
+{ navigation_id => '506', priority => '350', uri => 'flies/wet-flies', type => 'menu', scope => 'flies', name => 'Wet Flies', description => 'Wet Flies', parent_id =>'50' },
 { navigation_id => '502', priority => '400', uri => 'flies/streamers', type => 'menu', scope => 'flies', name => 'Streamers', description => 'Streamers', parent_id =>'50' },
 { navigation_id => '503', priority => '500', uri => 'flies/saltwater', type => 'menu', scope => 'flies', name => 'Saltwater Flies', description => 'Saltwater Flies', parent_id =>'50' },
 { navigation_id => '504', priority => '600', uri => 'flies/pike-bass-panfish', type => 'menu', scope => 'flies', name => 'Freshwater Pike, Bass, and Panfish Flies', description => 'Freshwater Pike, Bass, Panfish Flies', parent_id =>'50' },
