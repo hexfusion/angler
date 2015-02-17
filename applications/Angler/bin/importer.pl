@@ -468,6 +468,10 @@ sub add_to_nav_by_uri {
     $nav->find_or_create_related( 'navigation_products',
         { sku => $product->sku } );
 
+    # make sure the leaf nav has higher priority than parents
+
+    $nav->update( { priority => 100 } ) unless $nav->priority;
+
     while ( $nav->is_branch ) {
         $nav = $nav->parent;
         $nav->find_or_create_related( 'NavigationProduct',
