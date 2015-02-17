@@ -208,6 +208,7 @@ my $nav = $schema->resultset('Navigation')->populate([
 { navigation_id => '107', priority => '1000', uri => 'fly-fishing-gear/packs-vests', type => 'menu', scope => 'gear', description => 'Packs & Vests', name => 'Packs & Vests', parent_id =>'10' },
 { navigation_id => '108', priority => '1200', uri => 'fly-fishing-gear/leader-tippet', type => 'menu', scope => 'gear', description => 'Leader & Tippet', name => 'Leader & Tippet', parent_id =>'10' },
 { navigation_id => '109', priority => '1300', uri => 'fly-fishing-gear/tools-gadgets', type => 'menu', scope => 'gear', description => 'Tools & Gadgets', name => 'Tools & Gadgets', parent_id =>'10' },
+{ navigation_id => '116', priority => '1350', uri => 'fly-fishing-gear/fishing-lights', type => 'menu', scope => 'gear', description => 'Fishing Lights', name => 'Fishing Lights', parent_id =>'10' },
 { navigation_id => '110', priority => '700', uri => 'fly-fishing-gear/bags-luggage', type => 'menu', scope => 'gear',  description => 'Bags & Luggage', name => 'Bags & Luggage', parent_id =>'10' },
 { navigation_id => '111', priority => '1500', uri => 'fly-fishing-gear/nets', type => 'menu', scope => 'gear',  description => 'Landing Nets', name => 'Landing Nets', parent_id =>'10' },
 { navigation_id => '112', priority => '800', uri => 'fly-fishing-gear/watercraft-boats', type => 'menu', scope => 'gear', description => 'Watercraft & Boats', name => 'Watercraft & Boats', parent_id =>'10' },
