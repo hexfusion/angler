@@ -11,8 +11,8 @@
             <h3 class="signin">Exisiting Customers <a href="#login-modal" data-toggle="modal" data-target="#login-modal">Login Here</a></h3>
 
             </div>
-            <form action="/checkout" class="account-info" method="POST">
-              <ol class="opc" id="checkoutSteps">
+            <form action="/checkout" data-toggle="validator" role="form" class="account-info" method="POST">
+             <ol class="opc" id="checkoutSteps">
                 <li id="opc-billing" class="section">
                   <div id="shipping_container">               
                     <div id="checkout-step-billing" class="step a-item">
@@ -26,43 +26,43 @@
                     <ul>
                       <li class="fields">
                         <div class="customer-name">
-                          <div class="field name-firstname control-group error">
+                          <div class="field form-group">
                             <label for="inputFirstName" class="required"><em>*</em>First Name</label>
                             <div class="input-box">
-                            <input type="text" id="inputFirstName" name="first_name" placeholder="First name" title="First Name" maxlength="255" class="input-text required-entry"  />
-                            <span class="control-label" for="inputError" id="errorFirstName">Error</span>
+                            <input type="text" id="inputFirstName" name="first_name" placeholder="First name" data-error="Please enter a First Name" title="First Name" maxlength="255" class="input-text form-control" required="" />
+                            <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorFirstName">Error</span>
                             </div>
                           </div>
-                          <div class="field name-lastname control-group error">
+                          <div class="field form-group">
                             <label for="inputLastName" class="required"><em>*</em>Last Name</label>
                             <div class="input-box">
-                            <input type="text" id="inputLastName" name="last_name" placeholder="Last name" title="Last Name" maxlength="255" class="input-text required-entry"  />
-                            <span class="control-label" for="inputError" id="errorLastName">Error</span>
+                            <input type="text" id="inputLastName" name="last_name" placeholder="Last name" data-error="Please enter a Last Name" title="Last Name" maxlength="255" class="input-text form-control" required="" />
+                            <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorLastName">Error</span>
                             </div>
                           </div>
                         </div>
                       </li>
                       <li class="fields">
-                        <div class="field control-group error">
+                        <div class="field form-group">
                           <label for="inputCompany">Company</label>
                           <div class="input-box">
                           <input type="text" id="inputCompany" name="company" placeholder="Company" title="Company" class="input-text " />
                           </div>
                         </div>
-                      <div class="field control-group error anonymous">
+                      <div class="field form-group">
                         <label for="inputEmail" class="required"><em>*</em>Email Address</label>
-                        <div class="email input-box">
-                          <input type="text" id="inputEmail" name="email" placeholder="Email" title="Email Address" class="input-text required-entry" />
-                          <span class="form-error" id="errorEmail">Error</span>
+                        <div class="input-box">
+                          <input type="text" id="inputEmail" name="email" placeholder="Email" title="Email Address" class="input-text form-control" data-error="Please enter a valid Email Address" type="email" required="" />
+                          <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorEmail">Error</span>
                         </div>
                       </div>
                       </li>
                       <li class="wide">
-                        <div class="field control-group error">
+                        <div class="field form-group">
                           <label for="inputAddress" class="required"><em>*</em>Address</label>
                           <div class="input-box">
-                          <input type="text" title="Street Address" id="inputAddress" name="address" placeholder="Address" class="input-text  required-entry" />
-                          <span class="control-label" for="inputError" id="errorAddress">Error</span>
+                          <input type="text" title="Street Address" id="inputAddress" name="address" placeholder="Address" data-error="Please enter an Address" class="input-text form-control" required="" />
+                          <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorAddress">Error</span>
                           </div>
                         </div>
                       </li>
@@ -72,14 +72,14 @@
                         </div>
                       </li>
                       <li class="fields">
-                        <div class="field control-group error">
+                        <div class="field form-group">
                           <label for="inputCity" class="required"><em>*</em>City</label>
                           <div class="input-box">
-                          <input type="text" title="City" id="inputCity" name="city" placeholder="City" class="input-text  required-entry" />
-                          <span class="control-label" for="inputError" id="errorCity">Error</span>
+                          <input type="text" title="City" id="inputCity" name="city" placeholder="City" data-error="Please enter an Address" class="input-text form-control" required="" />
+                          <span class="help-block with-errors"></span><span class="control-label" for="inputError" id="errorCity">Error</span>
                           </div>
                         </div>
-                        <div class="field control-group error">
+                        <div class="field form-group">
                           <label for="inputState" class="required"><em>*</em>State/Province</label>
                           <div class="input-box">
                           <select class="input-xlarge" id="inputState" name="state"  placeholder="Choose State">
@@ -89,11 +89,11 @@
                         </div>
                       </li>
                       <li class="fields">
-                        <div class="field control-group error">
+                        <div class="field form-group">
                           <label for="inputPostalCode" class="required"><em>*</em>Zip/Postal Code</label>
                           <div class="input-box">
-                          <input type="text" title="Zip/Postal Code" id="inputPostalCode" name="postal_code" placeholder="ZIP code" class="input-text validate-zip-international  required-entry" />
-                        <span class="control-label" for="inputError" id="errorPostalCode">Error</span>
+                          <input type="text" title="Zip/Postal Code" id="inputPostalCode" name="postal_code" placeholder="ZIP code" data-error="Please enter a Postal Code" class="input-text form-control" required="" />
+                        <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorPostalCode">Error</span>
                         </div>
                         </div>
                         <div class="field">
@@ -106,14 +106,14 @@
                         </div>
                       </li>
                       <li class="fields">
-                        <div class="field control-group error">
-                          <label for="inputPhone" class="required"><!--<em>*</em>-->Telephone</label>
+                        <div class="field form-group">
+                          <label for="inputPhone" class="required"><em>*</em>Telephone</label>
                           <div class="input-box">
-                          <input type="text" id="inputPhone" name="phone" placeholder="Phone" title="Telephone" class="input-text  required-entry"/>
-                          <span class="control-label" for="inputError" id="errorPhone">Error</span>
+                          <input type="text" id="inputPhone" name="phone" placeholder="Phone" title="Telephone" data-error="Please enter a Phone Number" class="input-text form-control" required=""/>
+                          <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorPhone">Error</span>
                           </div>
                         </div>
-                        <div class="field control-group error">
+                        <div class="field control-group">
                           <label for="inputFax">Fax</label>
                           <div class="input-box">
                           <input type="text" id="inputFax" name="fax" placeholder="Fax" title="Fax" class="input-text  required-entry"/>
@@ -142,10 +142,10 @@
                   <ul>
                     <li class="fields">
                       <div class="customer-name">
-                        <div class="field name-firstname control-group error">
+                        <div class="field form-group">
                           <label for="inputBillingFirstName" class="required"><em>*</em>First Name</label>
                             <div class="billing_first_name input-box">
-                            <input type="text" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" title="First Name" maxlength="255" class="input-text required-entry"  />
+                            <input type="text" id="inputBillingFirstName" name="billing_first_name" placeholder="First name" title="First Name" data-error="Please enter a Billing First Name" maxlength="255" class="input-text form-control"/>
                              <span class="form-error" id="errorBillingFirstName">Error</span>
                           </div>
                         </div>
