@@ -30,7 +30,6 @@ sub page_list {
     my $pager = $self->pager;
     my $uri = $self->uri;
     my $current = $pager->current_page;
-    my $n = int( ($pager->total_entries / $pager->entries_per_page) + .999);
     my $first_page = 1;
     my $last_page  = $pager->last_page;
     my %query;
