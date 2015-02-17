@@ -502,7 +502,7 @@ sub create_variant {
     {
         sku    => $data->{sku},
         name   => $data->{name},
-        uri    => &clean_uri($data->{uri}),
+        uri    => $data->{uri},
         price  => $data->{price},
         attributes => $data->{attributes},
      });
@@ -531,14 +531,20 @@ sub format_product {
 
     $data->{'name'} = clean_name($data->{'name'});
     $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'code'};
-    $data->{uri} = &clean_uri(lc( unidecode("$data->{'name'}-$data->{'code'}") ));
+    $data->{uri} = lc( unidecode("$data->{'name'} $data->{'code'}") );
 
     # if this a variant do a few extra steps
     if ($data->{'variant'}) {
         $data->{'canonical_sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{code};
-        $data->{uri} = &clean_uri(lc( unidecode("$data->{name}") ));
+        $data->{'uri'} = lc( unidecode("$data->{name}") );
         $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'manufacturer_sku'};
     }
+    else {
+        $data->{'manufacturer_sku'} = $data->{'code'};
+    }
+
+    $data->{uri} =~ s/\s+/-/g;
+    $data->{uri} =~ s/\//-/g;
 
     return $data;
 }
@@ -557,7 +563,7 @@ sub insert_product {
             short_description => $data->{'short_description'} ||'',
             description => $data->{'description'} ||'',
             price => $data->{'price'},
-            uri => &clean_uri($data->{'uri'}),
+            uri => $data->{'uri'},
             weight => '1',
             inventory_exempt => '1',
         }
