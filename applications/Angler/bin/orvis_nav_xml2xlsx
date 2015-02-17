@@ -1,0 +1,78 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+
+use Excel::Writer::XLSX;
+use Getopt::Long;
+use Pod::Usage;
+use XML::Twig;
+
+my ( $xml, $output, $help );
+
+GetOptions(
+    "xml=s"    => \$xml,
+    "output=s" => \$output,
+    "help"     => \$help,
+);
+pod2usage(1) if $help;
+
+# initial checks
+
+unless ( $xml && $output ) {
+    print "ERROR: xml and output must be supplied as options.\n";
+    pod2usage(1);
+}
+
+unless ( -r $xml ) {
+    print "ERROR: unable to read xml";
+    exit 1;
+}
+
+my $workbook = Excel::Writer::XLSX->new( $output );
+die "Problems creating new Excel file: $!" unless defined $workbook;
+
+my $worksheet = $workbook->add_worksheet;
+my $row = 0;
+my %seen;
+
+my $twig =
+  XML::Twig->new( twig_handlers => { Navigator => \&process_navigator } );
+
+$twig->parsefile($xml);
+
+sub process_navigator {
+    my ( $t, $xml ) = @_;
+
+    my $col = 0;
+
+    my @row;
+    foreach my $child ( $xml->children ) {
+        push @row, $child->text;
+    }
+    my $i = join("__", @row);
+    return if $seen{$i};
+
+    $seen{$i} = 1;
+    $worksheet->write( $row, 0, \@row );
+
+    print "$row rows written\n" unless ( ++$row % 100 );
+    $xml->purge;
+}
+
+__END__
+
+=head1 NAME
+
+orvis_nav_xml2xlsx
+
+=head1 SYNOPSIS
+
+orvis_nav_xml2xlsx [options]
+
+ Options:
+  -x | --xml      path to orvis xml file
+  -o | --output   path to xlsx output file - should have .xlsx extension
+  -h | --help     help message
+
+=cut
