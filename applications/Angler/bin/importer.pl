@@ -13,6 +13,7 @@ package main;
 use Dancer ':script';
 use Angler::Schema;
 use Dancer::Plugin::Interchange6;
+use File::Basename;
 use File::Path qw/make_path/;
 use File::Copy;
 use File::Spec;
@@ -47,7 +48,8 @@ my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
 
 my @img_sizes = qw/35 75 100 110 200 325 975/;
 
-my ( $active, $file, $help, $manufacturer );
+my ( $active, $file, $help, $manufacturer, %nav_lookup );
+
 
 GetOptions(
     "active"         => \$active,
@@ -113,6 +115,46 @@ elsif ( $type eq 'xml' ) {
     my $twig_handlers;
 
     if ( $manufacturer eq 'orvis' ) {
+
+        # pull in nav data
+
+        my $nav_excel_file =
+          File::Spec->catfile( [ File::Spec->splitpath($0) ]->[1],
+            '..', 'shared', 'data', 'orvis_nav.xlsx' );
+
+        my $parser = Spreadsheet::ParseXLSX->new;
+
+        # parse the file
+
+        my $workbook = $parser->parse($nav_excel_file);
+        if ( !defined $workbook ) {
+            die $parser->error(), ".\n";
+        }
+
+        # we need at least one worksheet
+
+        die "no worksheets found" unless $workbook->worksheet_count;
+
+        my $worksheet = $workbook->worksheet(0);
+
+        die "worksheet not found" unless $worksheet;
+
+        # col/row ranges in use
+
+        my ( $row_min, $row_max ) = $worksheet->row_range();
+
+        foreach my $row ( $row_min .. $row_max ) {
+            my $col4 = $worksheet->get_cell( $row, 4 );
+            next unless $col4;
+            my $nav = $col4->value;
+            next unless $nav;
+            my @row;
+            foreach my $col ( 0 .. 3 ) {
+                push @row, $worksheet->get_cell( $row, $col )->value;
+            }
+            $nav_lookup{ join( "_", @row ) } = $nav;
+        }
+
         $twig_handlers = { Product => \&process_orvis_product };
     }
     else {
@@ -213,9 +255,10 @@ Removes junk from potential uri including RFC3986 reserved characters
 
 sub clean_uri {
     my $uri = shift;
-    $uri =~ s^\Q!*'();:@&=+$,/?#[]\E^-^xg;
+    $uri =~ s^\!\*\'\(\)\;\:\@\&\=\+\$\,/\?\#\[\]^-^g;
     $uri =~ s/\s+/-/g;
-    $uri =~ s/\-.+/-/g;
+    $uri =~ s/\-+/-/g;
+    return $uri;
 }
 
 =head2 short_description($description)
@@ -404,6 +447,31 @@ sub parse_excel {
     # now lets create variants
     foreach (@variants) {
         &create_variant($_);
+    }
+}
+
+=head2 add_to_nav_by_uri( $uri, $product_obj )
+
+Find nav with $uri and find or create NavigationProduct entry
+
+=cut
+
+sub add_to_nav_by_uri {
+    my ( $uri, $product ) = @_;
+
+    my $nav = $schema->resultset('Navigation')->find( { uri => $uri } );
+    if ( not $nav ) {
+        error "uri $uri not found in Navigation for: " . $product->name;
+        return;
+    }
+
+    $nav->find_or_create_related( 'navigation_products',
+        { sku => $product->sku } );
+
+    while ( $nav->is_branch ) {
+        $nav = $nav->parent;
+        $nav->find_or_create_related( 'NavigationProduct',
+            { sku => $product->sku } );
     }
 }
 
@@ -697,23 +765,14 @@ sub process_orvis_product {
         return;
     }
 
-    # do we skip due to category?
+    # do we skip due to lack of navigation entry?
 
-    if (
-        $xml->first_child('Dir_Name')->text eq 'Distinctive Home'
-        || (
-            $xml->first_child('Dir_Name')->text eq 'Sale Outlet'
-            && (   $xml->first_child('Group_Name')->text eq 'Distinctive Home'
-                || $xml->first_child('Cat_Name')->text =~ /Home/ )
-        )
-        || $xml->first_child('Group_Name')->text eq 'Gift Card'
-        || $xml->first_child('Cat_Name')->text eq 'Gift Card'
-        || $xml->first_child('Dir_Name')->text =~ /School/i
-      )
-    {
-        debug "skipping $pf_id due to category";
-        return;
-    }
+    my $nav_uri =
+      $nav_lookup{
+        join( "_", map { $_->text } $xml->first_child('Navigator')->children )
+      };
+
+    return unless $nav_uri;
 
     # grab Product info
 
@@ -769,7 +828,7 @@ sub process_orvis_product {
                     my $response = $http->mirror( $url, $path );
                     sleep rand(0.5);    # don't hit them too hard
                     unless ( $response->{success} ) {
-                        error "failed to get $url: " . $response->{reason};
+                        warning "failed to get $url: " . $response->{reason};
                         next TAG;
                     }
                 }
@@ -781,56 +840,7 @@ sub process_orvis_product {
 
     # add navigation for this canonical product
 
-    my $navigator = $xml->first_child('Navigator');
-
-    if ($navigator) {
-        my $first_child = $navigator->first_child;
-        my $text        = $first_child->text;
-        my $uri         = &clean_uri(lc( unidecode($text) ));
-
-        my $nav = $schema->resultset('Navigation')->find_or_create(
-            {
-                uri   => $uri,
-                type  => 'nav',
-                scope => 'menu-main',
-                name  => $text,
-            },
-            {
-                key => 'navigations_uri',
-            }
-        );
-
-        foreach my $sibling ( $first_child->siblings ) {
-
-            my $text = $sibling->text;
-            $uri .= "/" . &clean_uri(lc($text));
-
-            $nav = $schema->resultset('Navigation')->find_or_create(
-                {
-                    uri       => $uri,
-                    type      => 'manufacturer',
-                    scope     => 'orvis',
-                    name      => $text,
-                    parent_id => $nav->id,
-                },
-                {
-                    key => 'navigations_uri',
-                }
-            );
-        }
-
-        # add product to the final nav
-
-        $schema->resultset('NavigationProduct')->find_or_create(
-            {
-                navigation_id => $nav->id,
-                sku           => $product->sku
-            }
-        );
-    }
-    else {
-        warning unidecode("no Navigator element for $sku $name\n");
-    }
+    &add_to_nav_by_uri( $nav_uri, $product );
 
     # Product->Item
 
@@ -998,7 +1008,7 @@ sub process_orvis_product {
                         my $response = $http->mirror( $url, $path );
                         sleep rand(0.5);    # don't hit them too hard
                         unless ( $response->{success} ) {
-                            error "failed to get $url: " . $response->{reason};
+                            warning "failed to get $url: " . $response->{reason};
                         }
                     }
 

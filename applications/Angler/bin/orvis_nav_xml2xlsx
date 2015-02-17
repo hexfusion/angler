@@ -46,10 +46,7 @@ sub process_navigator {
 
     my $col = 0;
 
-    my @row;
-    foreach my $child ( $xml->children ) {
-        push @row, $child->text;
-    }
+    my @row = map { $_->text } $xml->children;
     my $i = join("__", @row);
     return if $seen{$i};
 
