@@ -6,6 +6,7 @@ use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Email;
 
+use Angler::Plugin::History;
 use Angler::Cart;
 use Angler::Data::Tokens;
 use Angler::Forms::Checkout;
@@ -15,74 +16,65 @@ use File::Spec;
 use DateTime;
 use Business::PayPal::API::ExpressCheckout;
 
-
 get '/checkout' => sub {
     my $form = form('checkout');
     $form->valid(0);
 
-    # set form defaults
-    $form = set_default_form_values($form);
+    debug "form pristine ", $form->pristine;
 
-    # does user have a shipping address?
-    # NOTE if user has only a billing address we don't fill
-    # this because it seems a weird sitatuion and not common.
-    # but I could be wrong..
-    my $ship_adr = shop_address->search(
-        {
-            users_id => session('logged_in_user_id'),
-            type => 'shipping',
-        },
-    );
-
-    if ($ship_adr and logged_in_user) {
-        my $form_values = user_address();
-        $form->fill($form_values);
+    # if the checkout form is pristine fill with user data or defaults
+    if ($form->pristine) {
+        debug "setting form values";
+        $form = set_form_values($form);
     }
 
     template 'checkout/content', checkout_tokens($form);
 };
 
 post '/checkout' => sub {
+    my $tokens = shift;
+    my ($user, $order, $error_hash);
     my $form = form('checkout');
-
-    # set form defaults
-    $form = set_default_form_values($form);
-
-    # checkout form values
     my $values = $form->{values};
+
+var add_to_history => { type => 'all', name => 'Blog page' };
+
+    $values->{validate} = '1';
+
+    debug "form values ", $form->values;
+    debug "form pristine ", $form->pristine;
+
+    # if the checkout form is pristine fill with user data or defaults
+    if ($form->pristine ) {
+        debug "setting form values";
+        $form = set_form_values($form);
+        return template 'checkout/content', checkout_tokens($form);
+    }
 
     # if user logs in on checkout page lets make sure they get back
     if (param('login')) {
         return forward '/login', {return_url => 'checkout'}, {method => 'get'},
     }
 
-    if ($form->pristine and logged_in_user) {
-        # search for exisitng addresses
-        debug "search for exiting address";
-        my $form_values = user_address();
-        if ($form_values) {
-            $form->fill($form_values);
-        }
-    }
+    my $history = session('history');
 
-    my $error_hash;
+    debug "Previous Page: ", $history->{all}[2];
+    debug "Current Page: ", history->current_page->{uri};
 
-    unless($form->pristine) {
-        debug "validate checkout";
+
+    # validate form unless prestine or has defaults.
+    unless( history->previous_page->{uri} eq '/cart' ) {
+        debug "validate checkout values", $values;
+
         # before we do anything lets make sure we have what we need
         $error_hash = validate_checkout($values);
-    }
 
-    # if we have errors back to the form we go
-    if ($error_hash) {
-        debug "oops you have form errors return to checkout :", $error_hash;
-        return template 'checkout/content', checkout_tokens($form, $error_hash);
-    }
+        # if we have errors back to the form we go
+        if ($error_hash) {
+            debug "oops you have form errors return to checkout :", $error_hash;
+            return template 'checkout/content', checkout_tokens($form, $error_hash);
+        }
 
-    my ($user, $order);
-
-    # check if form is pristine or has no values.
-    unless($form->pristine) {
         debug "create user";
         # form is clean lets create the order/user now
         $user = find_or_create_user($values);
@@ -94,93 +86,91 @@ post '/checkout' => sub {
         # generate order now get payment later
         $order = generate_order($form, $user);
 
-    }
+        # payment
+        # paypal
 
-    # payment
+        if ($values->{payment_method} and $values->{payment_method} eq 'paypal') {
 
-    # paypal
-    if ($values->{payment_method} and $values->{payment_method} eq 'paypal') {
+            # manually insert the paymant data
+            my %payment_data = (
+                                payment_mode => 'PayPal',
+                                payment_action => 'charge',
+                                status => 'request',
+                                sessions_id => session->id,
+                                amount => cart->total,
+                                users_id => $user->id,
+           );
 
-        # manually insert the paymant data
-        my %payment_data = (
-                            payment_mode => 'PayPal',
-                            payment_action => 'charge',
-                            status => 'request',
-                            sessions_id => session->id,
-                            amount => cart->total,
-                            users_id => $user->id,
-                            );
+            debug "Populating the payment order";
+            my $payment_order = 
+              shop_schema->resultset('PaymentOrder')->create(\%payment_data);
 
-        debug "Populating the payment order";
-        my $payment_order = 
-          shop_schema->resultset('PaymentOrder')->create(\%payment_data);
+            session payment_order_id => $payment_order->payment_orders_id;
 
-        session payment_order_id => $payment_order->payment_orders_id;
+            my %response = paypal_request($values);
 
-        my %response = paypal_request($values);
+            # check the response
+            if ($response{Ack} eq 'Success' and $response{Token}) {
 
-        # check the response
-        if ($response{Ack} eq 'Success' and $response{Token}) {
+                # handle the sandbox
+                my $base = 'https://www.sandbox.paypal.com';
 
-            # handle the sandbox
-            my $base = 'https://www.sandbox.paypal.com';
+                if (config->{paypal}->{production}) {
+                    $base = 'https://www.paypal.com';
+                }
 
-            if (config->{paypal}->{production}) {
-                $base = 'https://www.paypal.com';
+                my $uri = URI->new($base . '/cgi-bin/webscr');
+                $uri->query_form(cmd => '_express-checkout',
+                                     useraction => 'commit',
+                                     token => $response{Token});
+                debug "Redirecting to " . $uri->as_string;
+
+                # store the order_id to retrieve later
+                session (paypal_order_id => $order->id);
+
+                # store the token and redirect
+                session (paypal_token => $response{Token});
+                return redirect $uri->as_string;
             }
-
-            my $uri = URI->new($base . '/cgi-bin/webscr');
-            $uri->query_form(cmd => '_express-checkout',
-                                 useraction => 'commit',
-                                 token => $response{Token});
-            debug "Redirecting to " . $uri->as_string;
-
-            # store the order_id to retrieve later
-            session (paypal_order_id => $order->id);
-
-            # store the token and redirect
-            session (paypal_token => $response{Token});
-            return redirect $uri->as_string;
+            else {
+                $error_hash = { paypal => "Couldn't perform a request to paypal" };
+            }
         }
-        else {
-            $error_hash = { paypal => "Couldn't perform a request to paypal" };
-        }
-    }
-    elsif ($values->{payment_method} and $values->{payment_method} eq 'creditcard') {
-        # input data complete, charge amount
-        my $expiration = sprintf(
-            "%02d/%02d",
-            $values->{card_month}, $values->{card_year});
+        elsif ($values->{payment_method} and $values->{payment_method} eq 'creditcard') {
+            # input data complete, charge amount
+            my $expiration = sprintf(
+                "%02d/%02d",
+                $values->{card_month}, $values->{card_year});
 
-        my %payment_data = (amount => cart->total,
+            my %payment_data = (amount => cart->total,
                                 first_name => $values->{first_name},
                                 last_name => $values->{last_name},
                                 card_number => $values->{card_number},
                                 expiration => $expiration,
                                 cvc => $values->{card_cvc});
 
-        $payment_data{action} = 'Normal Authorization';
+            $payment_data{action} = 'Normal Authorization';
 
-        debug("Payment_data: ", \%payment_data);
+            debug("Payment_data: ", \%payment_data);
 
-        my $tx = shop_charge(%payment_data);
+            my $tx = shop_charge(%payment_data);
 
-        if ($tx->is_success) {
-            debug "Payment successful: ", $tx->authorization;
+            if ($tx->is_success) {
+                debug "Payment successful: ", $tx->authorization;
 
-            # append payment tokens
-            my $tokens = generate_payment($order, $tx->payment_order);
+                # append payment tokens
+                my $tokens = generate_payment($order, $tx->payment_order);
 
-            finalize_order($tokens, $form);
-            debug("Order complete.");
-            session logged_in_user_id => undef;
-            return template 'checkout/receipt/content', $tokens;
-        }
-        else {
-            debug "Payment failed: ", $tx->error_message;
+                finalize_order($tokens, $form);
+                debug("Order complete.");
+                session logged_in_user_id => undef;
+                return template 'checkout/receipt/content', $tokens;
+            }
+            else {
+                debug "Payment failed: ", $tx->error_message;
+            }
         }
     }
-
     template 'checkout/content', checkout_tokens($form, $error_hash);
 };
 
@@ -528,33 +518,33 @@ sub find_or_create_user {
     return $user;
 };
 
-=head2 set_default_form_values
+=head2 set_form_values
 
 define the defaults used by the checkout form. returns checkout $form
 
 =cut
 
-sub set_default_form_values {
+sub set_form_values {
     my ($form) = @_;
-    my $checkout_values = $form->values;
+    my $checkout_values;
     my $shipping_quote_values = form('shipping-quote')->values('session');
 
-    # take values from shipping_quote form or use default
-    $checkout_values->{postal_code}     ||= $shipping_quote_values->{postal_code};
-    $checkout_values->{country}         ||= $checkout_values->{country} || 'US';
-    $checkout_values->{billing_country} ||= $checkout_values->{shipping_country} || $checkout_values->{country} || 'US';
-    $checkout_values->{billing_postal_code} ||= $checkout_values->{shipping_postal_code} || $checkout_values->{postal_code};
-
-    if ($checkout_values->{shipping_method}) {
-        session 'shipping_method' => $checkout_values->{shipping_method};
+    if (logged_in_user) {
+        # search for exisitng addresses
+        debug "search for exiting address";
+        $checkout_values = user_address();
     }
-    else {
-        $checkout_values->{shipping_method} = session('shipping_method') || 0;
+    elsif (!$checkout_values->{shipping_enabled}) {
+        # take values from shipping_quote form or use default
+        $checkout_values->{postal_code}     ||= $shipping_quote_values->{postal_code};
+        $checkout_values->{country}         ||= $checkout_values->{country} || 'US';
+        $checkout_values->{billing_country} ||= $checkout_values->{shipping_country} || $checkout_values->{country} || 'US';
+        $checkout_values->{billing_postal_code} ||= $checkout_values->{shipping_postal_code} || $checkout_values->{postal_code};
     }
 
-    # although we set the form defaults we want the form to be checked as prestine
-    $form->{pristine} = '1';
+    $checkout_values->{shipping_method} = session('shipping_method') || 0;
 
+    # save changes to form
     $form->fill($checkout_values);
 
     return $form;
