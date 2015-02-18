@@ -6,6 +6,7 @@ use warnings;
 use Moo;
 use Data::Transpose 0.0012;
 use Data::Transpose::Prefix;
+use Angler::Shipping;
 
 has schema => (
     is => 'ro',
@@ -53,13 +54,7 @@ sub checkout {
 sub countries {
     my ($self) = @_;
 
-    my $countries = [ $self->schema->resultset('Country')->search(
-        {active => 1},
-        {
-          group_by => [ qw/priority name/ ],
-          order_by => { -desc => 'priority' }
-        }
-    )];
+    my $countries = Angler::Shipping::deliverable_countries($self->schema);
 
     return $countries;
 };
