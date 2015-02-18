@@ -86,7 +86,7 @@ post '/review/:sku' => sub {
         review_email($review_data);
     };
 
-    flash success => "Thankyou for reviewing this product. Our shop staff have been notified and your review will appear on the site as soon as possible.";
+    flash success => "Thank you for reviewing this product. Our shop staff have been notified and your review will appear on the site as soon as possible.";
 
     $form->reset;
     return redirect "/" . $product->uri;
@@ -114,8 +114,8 @@ sub review_email {
     my $message = template('email/review_new', $review_data, {layout => undef});
 #    debug 'email review data ', $review_data;
         email ({
-            from    => 'ic6test@westbranchangler.com',
-            to      => 'sam@westbranchresort.com',
+            from    => 'noreply@westbranchangler.com',
+            to      => config->{emails}->{admin_email},
             subject => 'New Product Review Has Been Posted!',
             type    => 'html',
             body => $message,
