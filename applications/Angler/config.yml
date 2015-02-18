@@ -78,6 +78,7 @@ emails:
   order_to_email: orders@westbranchangler.com
   order_from_email: service@westbranchangler.com
   admin_email: sam@westbranchresort.com
+  service_email: service@westbranchangler.com
 
 plugins:
   Interchange6::Routes:
