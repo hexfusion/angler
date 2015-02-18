@@ -119,18 +119,21 @@
 
 
 <!-- Reviews -->
-<container name="review_exist" value="review_count" class="product-reviews-summary"/>
+<container name="review-exist" value="review_count" class="product-reviews-summary"/>
     <value name="review_count" class="review-count" iterator="review_count"/>
     <value name="review_avg" class="review-avg" iterator="review_avg"/>
+    <value name="review_avg" class="review-avg-star" iterator="review_avg" target="data-rateit-value"/>
+<container name="review-null" value="!review_count" class="no-product-review"/>
 
-<container name="review_null" value="!review_count" class="no-product-review"/>
-
-<list name="review_list" class="product-comment" iterator="review_list">
-<param name="rating" class="product-comment-rating" field="rating" target="data-rateit-value"/>
-<param name="title" class="product-comment-title" field="title"/>
-<param name="author" class="product-comment-author" field="reviewer"/>
-<param name="content" class="product-comment-content" field="content" op="hook"/>
-<param name="avatar" class="product-comment-avatar" field="avatar" target="src"/>
+<container name="review-section" value="review_count" class="box-review"/>
+<list name="review_list" class="product-review-list" iterator="reviews">
+<param name="rating" class="review-rating" field="rating" target="data-rateit-value"/>
+<param name="title" class="review-title" field="title"/>
+<param name="title" class="review-date" field="date"/>
+<param name="author" class="review-user" field="author"/>
+<param name="content" class="review-content" field="content" op="hook"/>
+<param name="label" class="review-label" field="label.name"/>
+<param name="label-type" class="review-label" field="label.type" target="class" op="append"/>
 </list>
 
 <!-- Breadcrumbs -->
