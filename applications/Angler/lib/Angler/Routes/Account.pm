@@ -71,7 +71,10 @@ post '/registration' => sub {
     };
   
     # so far so good add user
-    $user = add_user($user_data);
+    $user = &add_user($user_data);
+
+    # email new user
+    &reg_conf_email($user);
 
     $tokens->{'alerts'} = Angler::Data::Alert->registration_success;
 
@@ -760,11 +763,11 @@ sub facebook_auth {
 };
 
 sub reg_conf_email {
-    my ($data) = @_;
-    my $message = template('email/reg_conf_email', $data, {layout => undef});
+    my ($user) = @_;
+    my $message = template('email/reg_conf_email', $user, {layout => undef});
         email ({
-            from    => 'ic6test@westbranchangler.com',
-            to      => 'sam@westbranchresort.com',
+            from    => config->{emails}->{service_email},
+            to      => $user->email,
             subject => 'You have created an account with West Branch Angler.',
             type    => 'html',
             body => $message,
