@@ -680,7 +680,7 @@ hook 'before_product_display' => sub {
             $label = 'WBA User';
 
             # is the user part of the pro role?
-            if ($pro = $review->author->roles->find({ name => 'pro' })) {
+            if ($review->author->roles->find({ name => 'pro' })) {
                 $label_type = 'label-success';
                 $label = 'Pro Reviewer';
             }
