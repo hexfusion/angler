@@ -670,14 +670,37 @@ hook 'before_product_display' => sub {
 
     debug "review avg: ", $tokens->{review_avg};
 
+    my ( $author, $label_type, $label );
+
     while (my $review = $review_rs->next) {
-       push @reviews, {
+
+        if ($review->author) {
+            $author = $review->author->first_name  . ' ' . $review->author->last_name;
+            $label_type = 'label-primary';
+            $label = 'WBA User';
+
+            # is the user part of the pro role?
+            if ($pro = $review->author->roles->find({ name => 'pro' })) {
+                $label_type = 'label-success';
+                $label = 'Pro Reviewer';
+            }
+        }
+        # anon
+        else {
+            $author = "Anonymous";
+            $label_type = 'label-standard';
+            $label = 'Unregistered User';
+        }
+
+        push @reviews, {
                     content => $review->content,
                     rating => $review->rating,
                     recommend => $review->recommend,
-#FIXME we need to manage if user is anonymous
-#                    author => $review->author->first_name  . ' ' . $review->author->last_name
-        };    
+                    title => $review->title,
+                    label => { type => $label_type, name => $label },
+                    author => $author,
+                    date => $review->created->strftime("Created on %B %d %Y")
+        };
     };
 
     $tokens->{reviews} = \@reviews;
