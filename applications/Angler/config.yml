@@ -25,13 +25,13 @@ session: "DBIC"
 session_expires: "16 hours"
 
 # plack
-plack_middlewares:
-  -
-    - Debug
-    - panels
-    -
-      - DBIC::QueryLog
-      - Memory
+#plack_middlewares:
+#  -
+#    - Debug
+#    - panels
+#    -
+#      - DBIC::QueryLog
+#      - Memory
 
 # template: "template_toolkit"
 # engines:
@@ -90,7 +90,10 @@ facet_fields:
     - length
     - inseam
 
-order_email: orders@westbranchangler.com
+emails:
+  order_to_email: orders@westbranchangler.com
+  order_from_email: service@westbranchangler.com
+  admin_email: sam@westbranchresort.com
 
 plugins:
   Interchange6::Routes:
