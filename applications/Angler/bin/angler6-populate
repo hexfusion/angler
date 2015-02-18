@@ -38,7 +38,7 @@ my $taxes = $schema->resultset("Tax")->create (
 # roles
 my $roles = $schema->resultset("Role")->populate([
     { roles_id => '3', name => 'editor', label => 'Editor', description => 'Editor Role' },
-    { roles_id => '4', name => 'pro', label => 'Industry Pro', description => 'Pro Role' },
+    { roles_id => '4', name => 'pro', label => 'Pro Reviewer', description => 'Pro Role' },
     { roles_id => '5', name => 'staff', label => 'Shop Staff',description => 'Staff Role'  },
   ]);
 
@@ -1120,7 +1120,7 @@ $schema->resultset('NavigationProduct')->populate([
 
 $product{WBA0003}->add_to_reviews(
                     {
-                    title           => '1',
+                    title           => 'Wow just wht the doctor ordered!',
                     message_types_id   => '3',
                     content         => "The Helios 2 fly rod changed my life I can't say enough good things about it.",
                     author_users_id          =>  $users{john}->id,
@@ -1134,7 +1134,7 @@ $product{WBA0003}->add_to_reviews(
 
 $schema->resultset('Product')->find( { sku => "WBA0017" } )->add_to_reviews(
                                     {
-                                        title           => '1',
+                                        title           => 'Dont sell the farm just yet',
                                         message_types_id   => '3',
                                         content         => "It's a fine rod but to me it's way over priced.",
                                         author_users_id          =>  $users{ben}->id,
