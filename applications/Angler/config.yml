@@ -24,22 +24,6 @@ template: "template_flute"
 session: "DBIC"
 session_expires: "16 hours"
 
-# plack
-#plack_middlewares:
-#  -
-#    - Debug
-#    - panels
-#    -
-#      - DBIC::QueryLog
-#      - Memory
-
-# template: "template_toolkit"
-# engines:
-#   template_toolkit:
-#     encoding:  'utf8'
-#     start_tag: '[%'
-#     end_tag:   '%]'
-
 engines:
   template_flute:
     filters:
