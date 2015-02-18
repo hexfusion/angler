@@ -15,13 +15,8 @@
 </container>
 
 <value name="form-errors" field="errors" op="toggle" />
-<list name="error-email" iterator="errors.email">
-<param name="value" class="email-msg"/>
-</list>
-<list name="error-password" iterator="errors.password">
-<param name="value" class="password-msg"/>
-</list>
-<list name="error-confirm_password" iterator="errors.confirm_password">
-<param name="value" class="verify-msg"/>
-</list>
+
+<value name="password_error" id="errorPassword"
+field="errors.password" op="toggle"/>
+
 </specification>
