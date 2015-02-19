@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
+<!-- DO NOT EDIT: THIS IS NOT USED ANY MORE. SEE solr_index_update INSTEAD -->
 <dataConfig>
     <xi:include href="db-connection.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude"/>
