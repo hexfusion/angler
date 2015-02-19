@@ -138,5 +138,24 @@ get qr{/search(/(.*))?} => sub {
     template 'product/grid/content', \%tokens;
 };
 
+get '/ajax/search' => sub {
+    my $q = params->{'q'} || '';
+    my $search = Angler::Search->new(
+                                     solr_url => config->{solr_url},
+                                     rows => 10,
+                                     search_fields => [qw/sku name uri/],
+                                     facets => [], # disable facets
+                                     return_fields => [qw/sku name uri/],
+                                    );
+    my $res = $search->execute_query(q[(_query_:"{!edismax qf='sku name uri description'}] . $q . '*")');
+    # debug to_dumper($res);
+    my $results = $search->results;
+    # debug to_dumper($results);
+    debug $search->search_string;
+    debug scalar(@$results) . " results for " . $q;
+    content_type('application/json');
+	return to_json({ docs => $results });
+};
+
 1;
 

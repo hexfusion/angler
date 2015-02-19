@@ -28,6 +28,8 @@
 <link rel="stylesheet" type="text/css" href="/css/megadrop.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/styles.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/responsive.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.css" media="all">
 <link rel="canonical" id="canonical-url" href="">
 
 <!--[if lt IE 8]>
@@ -120,7 +122,7 @@
                   <form id="search_mini_form" action="/search" method="get">
                     <div class="form-search" style="margin-top: 10px;">
                       <label for="search">Search:</label>
-                      <input id="search" type="text" placeholder="Search" name="q" value=""  class="input-text"  />
+                      <input id="search" type="text" placeholder="Search" name="q" value=""  class="input-text" autocomplete="off" />
                       <button type="submit" title="Search" class="button"><span><span>Search</span></span></button>
                       <div id="search_autocomplete" class="search-autocomplete"></div>
                     </div>
@@ -337,6 +339,7 @@
 <script src="/js/h5f.min.js"></script>
 <script src="/js/validator.min.js"></script>
 <script src="/js/scripts.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
 <script class="extra-js-file src" src="/js/"></script>
 <!--[if lt IE 7]>
 <script type="text/javascript" src="product/js/lib/ds-sleight.js"></script>
@@ -394,6 +397,65 @@ $('input[type="checkbox"]').click(evaluate).each(evaluate);
           e.stopPropagation()
         })
     </script>
+
+<script>
+$.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _create: function() {
+        this._super();
+        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+    },
+    _renderMenu: function( ul, items ) {
+        var that = this,
+            currentCategory = "";
+        $.each( items, function( index, item ) {
+            var li;
+            if ( item.category != currentCategory ) {
+                ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                currentCategory = item.category;
+            }
+            li = that._renderItemData( ul, item );
+            if ( item.category ) {
+                li.attr( "aria-label", item.category + " : " + item.label );
+            }
+        });
+    }
+});
+$(function() {
+	$("#search").catcomplete(
+			{
+				source : function(request, response) {
+					$.ajax({
+						url : "/ajax/search",
+						dataType : "json",
+						data : {
+							q : request.term
+						},
+						success : function(data) {
+							response($.map(data.docs, function(item) {
+								return {
+									label : item.name,
+									value : '',
+                                    category : '',
+									link : '/' + item.uri,
+								}
+							}));
+						}
+					});
+				},
+				delay: 0,
+				minLength : 2,
+                select: function(event, ui) {
+                    window.location.href = ui.item.link;
+                },
+				open: function() {
+			        $(this).catcomplete('widget').css('z-index', 10);
+			        return false;
+			    },
+
+            });
+});
+</script>
+
 
 </body>
 </html>
