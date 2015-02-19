@@ -273,53 +273,16 @@ hook 'before_navigation_search' => sub {
     $tokens->{per_page} = $rows;
 
     # order
-
-    my @order_by_iterator = (
-        { value => 'priority',       label => 'Position' },
-        { value => 'average_rating', label => 'Rating' },
-        { value => 'selling_price',  label => 'Price' },
-        { value => 'name',           label => 'Name' },
-        { value => 'sku',            label => 'SKU' },
-    );
-    $tokens->{order_by_iterator} = \@order_by_iterator;
-
-    my $order     = $query{order};
-    my $direction = $query{dir};
-
-    # maybe set default order(_by)
-    if (   !defined $order
-        || !grep { $_ eq $order } map { $_->{value} } @order_by_iterator )
-    {
-        $order = 'priority';
-    }
-    $tokens->{order_by} = $order;
-
-    # maybe set default direction
-    if ( !defined $direction || $direction !~ /^(asc|desc)/ ) {
-        if ( $order =~ /^(average_rating|priority)$/ ) {
-            $direction = 'desc';
-        }
-        else {
-            $direction = 'asc';
-        }
-    }
-
+    $results_handler->select_sorting;
+    my $order     = $results_handler->current_sorting;
+    my $direction = $results_handler->current_sorting_direction;
     # we need to prepend alias to most columns but not all
     unless ( $order =~ /^(average_rating|selling_price)$/ ) {
         $order = $products->me($order);
     }
-
-    # asc/desc arrow
-    if ( $direction eq 'asc' ) {
-        $tokens->{reverse_order} = 'desc';
-        $tokens->{order_by_glyph} =
-          q(<span class="fa fa-long-arrow-up"></span>);
-    }
-    else {
-        $tokens->{reverse_order} = 'asc';
-        $tokens->{order_by_glyph} =
-          q(<span class="fa fa-long-arrow-down"></span>);
-    }
+    #    debug join(' ', $tokens->{reverse_order}, "($order)", $tokens->{order_by},
+    #               to_dumper($tokens->{order_by_iterator}),
+    #               to_dumper($results_handler->query));
 
     # Filter products based on facets in query params if there are any.
     # This loopy query stuff is terrible - should be a much better way

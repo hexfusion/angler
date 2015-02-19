@@ -59,6 +59,20 @@ has current_view => (
     is => 'rwp',
 );
 
+
+=head2 current_sorting
+
+Returns the name of the current sorting, after calling C<select_sorting>.
+
+=head2 current_sorting_direction
+
+Returns the name of the current sorting direction, after calling C<select_sorting>.
+
+=cut
+
+has current_sorting => ( is => 'rwp' );
+has current_sorting_direction => ( is => 'rwp' );
+
 =head2 views
 
 Returns list of views.
@@ -127,5 +141,56 @@ sub select_rows {
     }
     $tokens->{per_page} = $rows;
 }
+
+sub select_sorting {
+    my ($self) = @_;
+    my $tokens = $self->tokens;
+    my $query  = $self->query;
+
+    my @order_by_iterator = (
+        { value => 'priority',       label => 'Position' },
+        { value => 'average_rating', label => 'Rating' },
+        { value => 'selling_price',  label => 'Price' },
+        { value => 'name',           label => 'Name' },
+        { value => 'sku',            label => 'SKU' },
+    );
+    $tokens->{order_by_iterator} = \@order_by_iterator;
+
+    my $order     = $query->{order};
+    my $direction = $query->{dir};
+
+    # maybe set default order(_by)
+    if (   !defined $order
+        || !grep { $_ eq $order } map { $_->{value} } @order_by_iterator )
+    {
+        $order = 'priority';
+    }
+    $tokens->{order_by} = $order;
+
+    # maybe set default direction
+    if ( !defined $direction || $direction !~ /^(asc|desc)/ ) {
+        if ( $order =~ /^(average_rating|priority)$/ ) {
+            $direction = 'desc';
+        }
+        else {
+            $direction = 'asc';
+        }
+    }
+    # asc/desc arrow
+    if ( $direction eq 'asc' ) {
+        $tokens->{reverse_order} = 'desc';
+        $tokens->{order_by_glyph} =
+          q(<span class="fa fa-long-arrow-up"></span>);
+    }
+    else {
+        $tokens->{reverse_order} = 'asc';
+        $tokens->{order_by_glyph} =
+          q(<span class="fa fa-long-arrow-down"></span>);
+    }
+    $self->_set_current_sorting($order);
+    $self->_set_current_sorting_direction($direction);
+    return $order;
+}
+
 
 1;
