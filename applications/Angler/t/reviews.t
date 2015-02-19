@@ -106,8 +106,6 @@ ok( !$mech->look_down( "class", "product-reviews-summary" ),
 ok( !$mech->look_down( class => "product-review-list" ),
     "No product-review-list" );
 
-done_testing;
-__END__
 lives_ok( sub { $product->reviews->update( { public => 1, approved => 1 } ) },
     "set all reviews to public and approved" );
 
@@ -120,17 +118,15 @@ ok( $mech->look_down( "class", "product-reviews-summary" ),
 ok( $mech->look_down( class => "product-review-list" ),
     "Has product-review-list" );
 
-done_testing;
-__END__
 #cleanup
 lives_ok( sub { $product->reviews->delete }, "delete product reviews" );
 
 lives_ok(
     sub {
-        $schema->resultset('User')
-          ->search( { username => { like => "anonymous%" } } )->delete;
+        $schema->resultset('User')->find( { nickname => "Dave Bean" } )
+          ->delete;
     },
-    "delete anonymous users"
+    "delete anonymous user Dave Bean"
 );
 
 done_testing;
