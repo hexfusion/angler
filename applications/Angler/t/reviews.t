@@ -145,16 +145,22 @@ lives_ok(
     'create user fred@example.com'
 );
 
+ok( $mech->look_down( class => "auth-login last" ), "we have login link");
+ok( !$mech->look_down( class => "auth-logout last" ), "no logout link");
+
 $mech->submit_form_ok(
     {
         form_id => "login-form",
         fields    => {
-            email    => 'fred@example.com',
+            username => 'fred@example.com',
             password => "taexuJ1miGha7xo"
         },
     },
     "Login"
 );
+
+ok( !$mech->look_down( class => "auth-login last" ), "no login link");
+ok( $mech->look_down( class => "auth-logout last" ), "we have logout link");
 
 $mech->get_ok( "/" . $product->uri, "get: /" . $product->uri );
 
