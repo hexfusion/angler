@@ -639,14 +639,22 @@ hook 'before_product_display' => sub {
     while (my $review = $review_rs->next) {
 
         if ($review->author) {
-            $author = $review->author->first_name  . ' ' . $review->author->last_name;
-            $label_type = 'label-primary';
-            $label = 'WBA User';
 
-            # is the user part of the pro role?
-            if ($review->author->roles->find({ name => 'pro' })) {
-                $label_type = 'label-success';
-                $label = 'Pro Reviewer';
+            $author = $review->author->nickname;
+
+            if ( $review->author->username =~ /^anonymous/ ) {
+                $label_type = 'label-standard';
+                $label = 'Unregistered User';
+            }
+            else {
+                $label_type = 'label-primary';
+                $label      = 'WBA User';
+
+                # is the user part of the pro role?
+                if ( $review->author->roles->find( { name => 'pro' } ) ) {
+                    $label_type = 'label-success';
+                    $label      = 'Pro Reviewer';
+                }
             }
         }
         # anon
