@@ -66,7 +66,7 @@ post '/review/:sku' => sub {
         rating    => $values->{rating},
         title     => $values->{title},
         content   => $values->{content},
-        recommend => $values->{recommend},
+        recommend => $values->{recommend} ? 1 : 0,
     };
 
     my ( $user, $review );
@@ -105,15 +105,15 @@ post '/review/:sku' => sub {
     }
 
     try {
+        $review_data->{author_users_id} = $user->id;
         $review = $product->add_to_reviews($review_data);
     }
     catch {
-        error "problem inserting review: ", $review_data;
+        error "problem inserting review: ", $_;
         $review_data->{error} = $_;
     }
     finally {
         debug "send email review for id: ", $review->id;
-        $review_data->{author_users_id} = $user->id;
         $review_data->{sku} = $product->sku;
         $review_data->{reviews_id} = $review->id;
         $review_data->{nickname} = $user->nickname;
