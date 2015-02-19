@@ -1,3 +1,5 @@
+requires 'Test::WWW::Mechanize::Dancer';
+requires 'WWW::Mechanize::TreeBuilder';
 requires 'Excel::Writer::XLSX';
 requires 'Dancer::Plugin::FlashNote';
 requires 'Emailesque';
