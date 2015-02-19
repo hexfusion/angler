@@ -624,7 +624,8 @@ hook 'before_product_display' => sub {
       )->listing( { users_id => session('logged_in_user_id') });
 
     # reviews
-    my $review_rs = shop_product($product->sku)->reviews;
+    my $review_rs = shop_product( $product->sku )
+      ->reviews->search( { public => 1, approved => 1 } );
 
     $tokens->{review_count} =  $review_rs->count;
     $tokens->{review_link} = '/review/' . $product->sku;

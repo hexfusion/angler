@@ -12,6 +12,7 @@ require_login require_any_role
 use Data::Transpose::Validator;
 use Dancer::Plugin::Email;
 use Try::Tiny;
+use Data::UUID;
 
 get '/review/:sku' => sub {
     my $self = shift;
@@ -19,6 +20,8 @@ get '/review/:sku' => sub {
     my $sku     = param "sku";
     my $form    = form('review');
     my $product = shop_product($sku);
+
+    warning "review get pristine: ", $form->pristine;
 
     return forward 404 unless $product;
 
@@ -43,6 +46,7 @@ get '/review/:sku' => sub {
 post '/review/:sku' => sub {
     my $tokens;
     my $form = form('review');
+    warning "review post pristine: ", $form->pristine;
     my $values = $form->values;
 
     my $sku = param 'sku';
@@ -68,21 +72,52 @@ post '/review/:sku' => sub {
     my ( $user, $review );
     if (logged_in_user) {
         $user = shop_user( session('logged_in_user_id') );
-        $review_data->{author_users_id} = $user->id;
+    }
+    elsif ( $user = shop_user->find({ nickname => $values->{nickname} }) ) {
+        debug "found anon user in add review with nickname: " . $user->nickname;
+    }
+    else {
+        # create dummy user with unique username
+        my $ug = Data::UUID->new;
+        $user = shop_user->create(
+            {
+                username => lc($ug->create_str),
+                active   => 0,
+            }
+        );
+        # change username to anonymous12345
+        $user->update({username => "anonymous" . $user->id});
+    }
+
+    if ( !$user->nickname || $user->nickname ne $values->{nickname} ) {
+        try {
+            $user->update( { nickname => $values->{nickname} } );
+        }
+        catch {
+            # delete anonymous user and return error
+            $user->delete unless logged_in_user;
+            $tokens->{errors} =
+              { nickname =>
+                  "Nickname already in use. Please choose a different one." };
+            debug "server-side errors in post review: ", $tokens->{errors};
+            return template 'product/review/content', $tokens;
+        }
     }
 
     try {
         $review = $product->add_to_reviews($review_data);
-        $user->update({ nickname => $values->{nickname} }) if $user;
     }
     catch {
+        error "problem inserting review: ", $review_data;
         $review_data->{error} = $_;
     }
     finally {
+        debug "send email review for id: ", $review->id;
+        $review_data->{author_users_id} = $user->id;
         $review_data->{sku} = $product->sku;
-        $review_data->{reviews_id} = $review->id if $review;
-        $review_data->{nickname} = $values->{nickname};
-        $review_data->{username} = $user->username if $user;
+        $review_data->{reviews_id} = $review->id;
+        $review_data->{nickname} = $user->nickname;
+        $review_data->{username} = $user->username;
         review_email($review_data);
     };
 
@@ -106,13 +141,13 @@ sub validate_review {
     if (!$clean || $validator->errors) {
         $error_hash = $validator->errors_hash;
     }
+
     return $error_hash;
 };
 
 sub review_email {
     my ($review_data) = @_;
     my $message = template('email/review_new', $review_data, {layout => undef});
-#    debug 'email review data ', $review_data;
         email ({
             from    => 'noreply@westbranchangler.com',
             to      => config->{emails}->{admin_email},
