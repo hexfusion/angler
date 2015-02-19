@@ -783,7 +783,7 @@ sub add_user {
     my $user = shop_user->create( $user_data );
 
     # email confirmation
-    reg_conf_email();
+    #reg_conf_email();
 
     return ($user);
 };
