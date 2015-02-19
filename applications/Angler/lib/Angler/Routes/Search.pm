@@ -40,6 +40,7 @@ get qr{/search(/(.*))?} => sub {
         rows => $tokens{per_page},
         sorting_direction => $navigation->current_sorting_direction,
         sorting => $navigation->sorting_for_solr,
+        global_conditions => { active => 1 },
     );
     debug $search->version;
 
@@ -145,7 +146,8 @@ get '/ajax/search' => sub {
                                      rows => 10,
                                      search_fields => [qw/sku name uri/],
                                      facets => [], # disable facets
-                                     return_fields => [qw/sku name uri/],
+                                     return_fields => [qw/sku name uri active/],
+                                     global_conditions => { active => 1 },
                                     );
     my $res = $search->execute_query(q[(_query_:"{!edismax qf='sku name uri description'}] . $q . '*")');
     # debug to_dumper($res);
