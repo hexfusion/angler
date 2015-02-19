@@ -72,6 +72,7 @@ sub solr_hash {
                last_modified => solr_date_format($product->last_modified),
                active => $product->active,
                image => $product->image_325x325,
+               average_rating => $product->average_rating,
            );
 
     if ($product->canonical_sku) {

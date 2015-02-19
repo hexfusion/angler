@@ -43,10 +43,10 @@
 <fields>
     <field name="sku" type="string" indexed="true" stored="true" multiValued="false" required="true"/>	
     <field name="canonical_sku" type="string" indexed="true" stored="true" />
-    <field name="name" type="text" indexed="true" stored="true" />
+    <field name="name" type="text" indexed="true" multiValued="false" stored="true" />
     <field name="description" type="text" indexed="true" stored="true" />
     <field name="price" type="float" indexed="true" stored="true" />
-    <field name="selling_price" type="float" indexed="true" stored="true" />
+    <field name="selling_price" type="float" indexed="true" multiValued="false" stored="true" />
     <field name="gtin" type="string" indexed="true" stored="true" />
     <field name="uri" type="string" indexed="true" stored="true" />
     <field name="image" type="string" indexed="true" stored="true" />
@@ -62,6 +62,7 @@
     <field name="created" type="date" indexed="true" stored="true"/>
     <field name="last_modified" type="date" indexed="true" stored="true"/>
     <field name="active" type="string" indexed="true" stored="true"/>
+    <field name="average_rating" multiValued="false" type="string" indexed="true" stored="true" />
     <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
  </fields>
 

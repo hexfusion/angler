@@ -192,5 +192,16 @@ sub select_sorting {
     return $order;
 }
 
+sub sorting_for_solr {
+    my $self = shift;
+    my $sorting = $self->current_sorting;
+    if ($sorting and $sorting eq 'priority') {
+        return 'score';
+    }
+    else {
+        return $sorting;
+    }
+}
+
 
 1;

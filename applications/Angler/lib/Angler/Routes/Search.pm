@@ -26,6 +26,7 @@ get qr{/search(/(.*))?} => sub {
 
     # select view
     $navigation->select_view;
+    $navigation->select_sorting;
 
     # add different views to template tokens
     $tokens{views} = $navigation->views;
@@ -37,7 +38,11 @@ get qr{/search(/(.*))?} => sub {
         solr_url => config->{solr_url},
         facets => config->{facet_fields}->{attributes},
         rows => $tokens{per_page},
+        sorting_direction => $navigation->current_sorting_direction,
+        sorting => $navigation->sorting_for_solr,
     );
+    debug $search->version;
+
 
     if (exists $params->{q}) {
         $q = $params->{q};
@@ -60,16 +65,16 @@ get qr{/search(/(.*))?} => sub {
     my $response = $search->response;
     my $results = $search->results;
     my $count = $search->num_found;
-
+    debug $response->raw_response->request->content;
 #    debug "Results: ", $search->results;
     debug "Facets found: ", $search->facets_found;
-
+    # debug to_dumper($search);
     # transform facets
     my @facets;
     my $schema = shop_schema;
 
     for my $name (@{$search->facets}) {
-        my @facets_found = @{$search->facets_found->{$name}};
+        my @facets_found = @{$search->facets_found->{$name} || []};
         next unless @facets_found;
 
         # retrieve corresponding attribute
