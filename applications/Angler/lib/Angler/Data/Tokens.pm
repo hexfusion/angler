@@ -26,10 +26,6 @@ has billing_country => (
     is => 'ro',
 );
 
-has shipping_country => (
-    is => 'ro',
-);
-
 =head1 DESCRIPTION
 
 This is a collection of useful form tokens
@@ -83,25 +79,6 @@ sub states {
 
     my $states = [ $self->schema->resultset('State')->search(
             {country_iso_code => $country_iso_code,
-             active => 1,
-            },
-            {order_by => 'name'},
-    )];
-    return $states;
-};
-
-=head2 _states
-
-internal only see states
-
-=cut
-
-sub _states {
-    my ($self) = @_;
-    my $values = $self->form->{values};
-
-    my $states = [ $self->schema->resultset('State')->search(
-            {country_iso_code => $values->{billing_country},
              active => 1,
             },
             {order_by => 'name'},
