@@ -46,6 +46,7 @@ sub checkout {
     $tokens->{'states'} = $self->_states;
     $tokens->{'card_months'} = $self->card_months;
     $tokens->{'card_years'} = $self->card_years;
+    $tokens->{'extra-js-file'} = 'checkout.js';
 
     return $tokens;
 

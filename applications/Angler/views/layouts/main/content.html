@@ -358,37 +358,6 @@
             equalizeRows: true
         });
 </script>
-<!-- checks for payment_method in /checkout form -->
-<script type="text/javascript">
-$(document).ready(function() {
-    $(".payment_container").hide();
-    $(".btn-primary").on("click", function(){
-      var payment_method = $(this).find("input[name$='payment_method']").val();
-        $(".payment_container").hide();
-        $(".payment_container[payment_method='" + payment_method + "']").show();
-    });
-
-    // check that it's not checked by default
-    var load = $("input[name$='payment_method']").val();
-    $(".payment_container[payment_method='" + load + "']").show();
-});
-</script>
-
-<script type="text/javascript">
-function evaluate(){
-    var item = $(this);
-    var relatedItem = $("#" + item.attr("data-related-item")).parent();
-   
-    if(item.is(":checked")){
-        relatedItem.fadeIn();
-    }else{
-        relatedItem.fadeOut();   
-    }
-}
-
-$('input[type="checkbox"]').click(evaluate).each(evaluate);
-</script>
-
 <script>
         $(document).ready(function(){
         // Target your .container, .wrapper, .post, etc.
