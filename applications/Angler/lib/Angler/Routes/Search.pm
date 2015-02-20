@@ -153,8 +153,56 @@ get '/ajax/search' => sub {
     # debug to_dumper($res);
     my $results = $search->results;
     # debug to_dumper($results);
-    debug $search->search_string;
-    debug scalar(@$results) . " results for " . $q;
+    # debug $search->search_string;
+    debug scalar(@$results) . " solr results for " . $q;
+    foreach my $item (@$results) {
+        $item->{category} = ''; # no category for search results
+    }
+    # debug to_dumper($results);
+
+    if (length($q) > 2) {
+        my $schema = shop_schema;
+#         $schema->storage->debugcb(sub {
+#                                       my ($op, $info) = @_;
+#                                       debug "$info";
+#                                   });
+
+        my $like = $q;
+        $like =~ s/[^\w]/ /g; # remove punctuation and such
+        my @words = grep { $_ } split(/\s+/, $like);
+        my @conds;
+        foreach my $word (@words) {
+            my @likeness;
+            foreach my $field (qw/uri name description/) {
+                push @likeness, { $field => { -like => '%' . $word . '%' } };
+            }
+            push @conds, \@likeness;
+        }
+        if (@conds) {
+            my %search = (active => 1,
+                          -and =>  \@conds );
+            my $cats = $schema->resultset('Navigation')
+              ->search(\%search,
+                       {
+                        order_by => [qw/type name/],
+                        # rows => 20, # unclear
+                       });
+            while (my $cat = $cats->next) {
+                my %details = (
+                               name => $cat->name,
+                               category => $cat->type,
+                               uri => $cat->uri,
+                              );
+                if ($details{category} eq 'menu') {
+                    $details{category} = 'Category';
+                }
+                else {
+                    $details{category} = ucfirst($details{category});
+                }
+                push @$results, \%details;
+            }
+        }
+    }
     content_type('application/json');
 	return to_json({ docs => $results });
 };
