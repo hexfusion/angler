@@ -106,6 +106,7 @@ get qr{/search(/(.*))?} => sub {
             $facet_found->{title} = $value->title;
             $facet_found->{name} = $name;
             $facet_found->{checked} = $facet_found->{active};
+            $facet_found->{unchecked} = ! $facet_found->{active};
             # debug "facet title is " . $value->title;
             push @values, $facet_found;
         }
