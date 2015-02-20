@@ -173,7 +173,7 @@ get '/ajax/search' => sub {
         my @conds;
         foreach my $word (@words) {
             my @likeness;
-            foreach my $field (qw/uri name description/) {
+            foreach my $field (qw/name/) {
                 push @likeness, { $field => { -like => '%' . $word . '%' } };
             }
             push @conds, \@likeness;
