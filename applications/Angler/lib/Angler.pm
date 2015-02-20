@@ -1102,6 +1102,33 @@ ajax '/check_variant' => sub {
     to_json(\%response);
 };
 
+=head2 ajax /states_for_country
+
+Called with single param 'code' which should be a valid country iso code.
+Returns a hash reference of states_id => name in values if found.
+
+=cut
+
+ajax '/states_for_country' => sub {
+    my $country_iso_code = param 'code';
+    my %response;
+    if ($country_iso_code) {
+
+        my %states =
+          map { $_->{states_id} => $_->{name} } shop_state->search(
+            { country_iso_code => $country_iso_code, active => 1 },
+            { order_by => "name", columns => [qw/states_id name/] }
+          )->hri->all;
+
+        if (%states) {
+            $response{type}   = "success";
+            $response{values} = \%states;
+        }
+    }
+    content_type('application/json');
+    to_json(\%response);
+};
+
 ajax '/variant_attribute_values' => sub {
 
     # param should be sku of a variant
