@@ -25,7 +25,14 @@ if (@ARGV) {
 }
 else {
     # all canonical products
-    $product_rs = $schema->resultset('Product')->search({canonical_sku => undef});
+    $product_rs = $schema->resultset('Product')->search(
+        {
+            "me.canonical_sku" => undef
+        },
+        {
+            prefetch => 'variants'
+        }
+    )->with_lowest_selling_price->with_average_rating;
 }
 
 my ($product, $data);
