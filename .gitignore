@@ -10,6 +10,7 @@ tomcat/*/temp/tomcat-native-1.1.32-src/
 tomcat/*/webapps/solr/
 
 # solr
+solr/core1/conf/dataimport.properties
 solr/core1/conf/db-connection.xml
 solr/core1/conf/scripts.conf
 solr/core1/data/index/
