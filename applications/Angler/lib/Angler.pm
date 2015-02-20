@@ -660,7 +660,7 @@ hook 'before_product_display' => sub {
         # anon
         else {
             $author = "Anonymous";
-            $label_type = 'label-standard';
+            $label_type = 'label-default';
             $label = 'Unregistered User';
         }
 
