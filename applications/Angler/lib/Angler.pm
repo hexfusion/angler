@@ -517,7 +517,7 @@ hook 'before_navigation_search' => sub {
 
     my $paging = Angler::Paging->new(
         pager => $pager,
-        uri   => $tokens->{navigation}->uri,
+        uri   => "/" . $tokens->{navigation}->uri,
         query => \%query,
     );
 
