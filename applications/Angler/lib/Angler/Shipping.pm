@@ -81,17 +81,10 @@ sub deliverable_countries {
         die "you need to populate the 'Deliverable Countries' zone.";
     }
 
-    my @country_iso_codes;
-
-    foreach my $country ($zone->countries) {
-            push @country_iso_codes, $country->country_iso_code;
-    }
-
     return [
-        $schema->resultset('Country')->search(
+        $zone->countries->search(
             {
-                country_iso_code => { -in => \@country_iso_codes },
-                active           => '1'
+                active => '1'
             },
             { order_by => 'name' }
         )
