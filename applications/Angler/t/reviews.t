@@ -216,6 +216,8 @@ ok( $mech->look_down( "class", "product-reviews-summary" ),
 ok( $mech->look_down( class => "product-review-list" ),
     "Has product-review-list" );
 
+$mech->get_ok( "/logout", "logout" );
+
 lives_ok( sub { $product->reviews->delete }, "delete product reviews" );
 
 lives_ok( sub { $user->delete; }, 'delete user fred@example.com' );
