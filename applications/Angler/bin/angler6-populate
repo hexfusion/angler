@@ -248,7 +248,7 @@ my $nav = $schema->resultset('Navigation')->populate([
 { navigation_id => '502', priority => '400', uri => 'flies/streamers', type => 'menu', scope => 'flies', name => 'Streamers', description => 'Streamers', parent_id =>'50' },
 { navigation_id => '503', priority => '500', uri => 'flies/saltwater', type => 'menu', scope => 'flies', name => 'Saltwater Flies', description => 'Saltwater Flies', parent_id =>'50' },
 { navigation_id => '504', priority => '600', uri => 'flies/pike-bass-panfish', type => 'menu', scope => 'flies', name => 'Freshwater Pike, Bass, and Panfish Flies', description => 'Freshwater Pike, Bass, Panfish Flies', parent_id =>'50' },
-{ navigation_id => '505', priority => '700', uri => 'flies/steelhead-salmon-flies', type => 'menu', scope => 'flies', name => 'Steelhead and Salmon Flies', description => 'Steelhead and Salmon Flies', parent_id =>'50' },
+{ navigation_id => '505', priority => '700', uri => 'flies/steelhead-salmon', type => 'menu', scope => 'flies', name => 'Steelhead and Salmon Flies', description => 'Steelhead and Salmon Flies', parent_id =>'50' },
 # species
 { navigation_id => '600', priority => '100', uri => 'fly-fishing-gear/trout', type => 'menu', scope => 'species', name => 'Trout' , description => 'Fly Fishing Gear for Trout', parent_id =>'20'},
 { navigation_id => '601',priority => '200', uri => 'fly-fishing-gear/steelhead', type => 'menu', scope => 'species', name => 'Steelhead' , description => 'Fly Fishing Gear for Steelhead', parent_id =>'20'},
