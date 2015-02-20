@@ -37,7 +37,7 @@
     <field name="billing_city" id="inputBillingCity"/>
     <field name="billing_phone" id="inputBillingPhone"/>
     <field name="billing_fax" id="inputBillingFax"/>
-    <field name="billing_state" id="inputBillingState" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
+    <field name="billing_state" id="inputBillingState" iterator="billing_states" iterator_value_key="states_id" iterator_name_key="name"/>
     <field name="billing_postal_code" id="inputBillingPostalCode"/>
     <field name="billing_country" id="inputBillingCountry" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/>
     <!-- Shipping -->
@@ -47,7 +47,7 @@
     <field name="address" id="inputAddress"/>
     <field name="address_2" id="inputAddress2"/>
     <field name="city" id="inputCity"/>
-    <field name="state" id="inputState" iterator="states"
+    <field name="state" id="inputState" iterator="shipping_states"
        iterator_value_key="states_id" iterator_name_key="name"
        keep="empty_value"/>
     <field name="country" id="inputCountry" iterator="countries"

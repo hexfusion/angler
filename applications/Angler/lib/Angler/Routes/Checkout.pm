@@ -290,9 +290,13 @@ sub checkout_tokens {
     my ($form, $errors) = @_;
     my $values = $form->{values};
 
-    # set tokens states, countries, card_months, card_years
-    my $tokens = Angler::Data::Tokens->new(schema => shop_schema,
-                                            form => $form)->checkout;
+    # set tokens {billing|shipping}_states, countries, card_months, card_years
+    my $tokens = Angler::Data::Tokens->new(
+        billing_country => $values->{billing_country},
+        country         => $values->{country}, # shipping country
+        schema          => shop_schema,
+        form            => $form
+    )->checkout;
 
     $tokens->{form} = $form;
     $tokens->{cart} = cart;

@@ -7,6 +7,7 @@ use Moo;
 use Data::Transpose 0.0012;
 use Data::Transpose::Prefix;
 use Angler::Shipping;
+use Dancer qw/:syntax/;
 
 has schema => (
     is => 'ro',
@@ -18,6 +19,14 @@ has form => (
 );
 
 has country => (
+    is => 'ro',
+);
+
+has billing_country => (
+    is => 'ro',
+);
+
+has shipping_country => (
     is => 'ro',
 );
 
@@ -43,7 +52,8 @@ sub checkout {
     my $tokens;
 
     $tokens->{'countries'} = $self->countries;
-    $tokens->{'states'} = $self->_states;
+    $tokens->{'billing_states'} = $self->states($self->billing_country);
+    $tokens->{'shipping_states'} = $self->states($self->country);
     $tokens->{'card_months'} = $self->card_months;
     $tokens->{'card_years'} = $self->card_years;
     $tokens->{'extra-js-file'} = 'checkout.js';
@@ -60,7 +70,7 @@ sub countries {
     return $countries;
 };
 
-=head2 states
+=head2 states($country_iso_code)
 
 Returns an array reference of active State result rows ordered by name for
 the requested country.
@@ -68,11 +78,11 @@ the requested country.
 =cut
 
 sub states {
-    my ($self) = @_;
+    my ( $self, $country_iso_code ) = @_;
     my $values = $self->form->{values};
 
     my $states = [ $self->schema->resultset('State')->search(
-            {country_iso_code => $self->country,
+            {country_iso_code => $country_iso_code,
              active => 1,
             },
             {order_by => 'name'},
