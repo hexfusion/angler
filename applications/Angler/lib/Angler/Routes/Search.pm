@@ -74,6 +74,8 @@ get qr{/search(/(.*))?} => sub {
     my @facets;
     my $schema = shop_schema;
 
+    my %facet_map;
+
     for my $name (@{$search->facets}) {
         my @facets_found = @{$search->facets_found->{$name} || []};
         next unless @facets_found;
@@ -83,7 +85,7 @@ get qr{/search(/(.*))?} => sub {
             type => 'variant',
             name => $name,
         });
-
+        # debug "facet name is $name";
         if (! $attribute) {
             warning "Attribute not found for facets: $name.";
             next;
@@ -100,11 +102,11 @@ get qr{/search(/(.*))?} => sub {
                 warning "Attribute value not found for facets: $name - $facet_found->{name}";
                 next;
             }
-
+            $facet_map{$name}{$facet_found->{name}} = $value->title;
             $facet_found->{title} = $value->title;
             $facet_found->{name} = $name;
             $facet_found->{checked} = $facet_found->{active};
-
+            # debug "facet title is " . $value->title;
             push @values, $facet_found;
         }
 
@@ -125,12 +127,30 @@ get qr{/search(/(.*))?} => sub {
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
+    my @breadcrumbs = ({
+                        uri => 'search',
+                        name => 'Products',
+                       });
+    # debug to_dumper(\%facet_map);
+    foreach my $breadcrumb ($search->breadcrumbs) {
+        my $bc = {
+                  uri => 'search/' . $breadcrumb->{uri},
+                  name => ucfirst($breadcrumb->{label}),
+                 };
+        if (my $bc_facet = $breadcrumb->{facet}) {
+            if (my $bc_title  = $facet_map{$bc_facet}{$breadcrumb->{label}}) {
+                $bc->{name} = $bc_title;
+            }
+        }
+        push @breadcrumbs, $bc;
+    }
+
     $tokens{products} = $results;
     $tokens{pager} = $response->pager,
     $tokens{pagination} = $paging->page_list,
     $tokens{pagination_previous} = $paging->previous_uri,
     $tokens{pagination_next} = $paging->next_uri,
-    $tokens{breadcrumbs} = [];
+    $tokens{breadcrumbs} = \@breadcrumbs;
     $tokens{facets} = \@facets;
     $tokens{count} = $count;
     $tokens{brands} = [$brands->all];
