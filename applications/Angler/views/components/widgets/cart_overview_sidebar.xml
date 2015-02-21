@@ -2,6 +2,7 @@
 <!-- Cart Side -->
 <list name="cart-small" class="cartsmallitem" iterator="cart">
 <param name="name"  class="cart-name"/>
+<param name="uri" class="cart-name" target="href" op="append"/>
 <param name="price" class="cart-price" filter="currency"/>
 <param name="qty" class="cart-quantity" field="quantity"/>
 <param name="image" field="extra.image" target="src"/>
