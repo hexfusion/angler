@@ -1,3 +1,4 @@
+requires 'WWW::Mechanize';
 requires 'Test::WWW::Mechanize::Dancer';
 requires 'WWW::Mechanize::TreeBuilder';
 requires 'Excel::Writer::XLSX';
