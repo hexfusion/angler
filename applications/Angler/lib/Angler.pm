@@ -1051,33 +1051,16 @@ ajax '/check_variant' => sub {
                     return to_json( \%response );
                 }
 
-                $response{name} = $variant->name unless $is_canonical;
+                $response{name}    = $variant->name unless $is_canonical;
                 $response{price}   = $variant->price;
+                $response{src}     = $variant->image_325x325;
                 $response{selling} = $variant->selling_price
-                    if $variant->price > $variant->selling_price;
+                  if $variant->price > $variant->selling_price;
             }
 
-            my $images_rset = $product->media_products->search_related(
-                'media',
-                { 'media_type.type' => 'image', },
-                { join              => 'media_type', rows => 1 }
-            );
-
-            if ( $images_rset->has_rows ) {
-
-                # we have images
-
-                $response{src} = $product->image_325x325;
-            }
-            elsif ( $product->canonical_sku ) {
-
-                # no images and we have a variant so try the parent product
-
-                $response{src} = $product->canonical->image_325x325;
-            }
-
-            $response{name}  = $product->name  unless $response{name};
-            $response{price} = $product->price unless $response{price};
+            $response{name}  = $product->name          unless $response{name};
+            $response{price} = $product->price         unless $response{price};
+            $response{src}   = $product->image_325x325 unless $response{src};
             $response{type}  = "success";
 
             if (  !$response{selling}
