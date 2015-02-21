@@ -755,7 +755,7 @@ hook 'before_cart_display' => sub {
     $values->{title} = "Cart";
 
     # related items
-    $tokens->{related_products} =
+    $values->{related_products} =
       shop_schema->resultset('MerchandisingProduct')->search(
         {
             'me.sku'  => { -in => map { $_->sku } $cart->products_array },
