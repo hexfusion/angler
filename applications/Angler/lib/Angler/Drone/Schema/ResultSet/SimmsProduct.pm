@@ -17,7 +17,15 @@ use XML::Twig;
 
 =head1 SYNOPSIS
 
-Provides extra accessor methods for L<Angler::Drone::Schema::ResultSet::SimmsProduct>
+Provides extra accessor methods for L<Angler::Drone::Schema::Result::SimmsProduct>
+
+to scrape the simmsfishing.com site for new data run the methods in this order.
+
+1.) fetch_pages: note this only has about 20 useful pages then should be killed
+
+2.) fetch_data
+
+3.) parse_data
 
 =cut
 
