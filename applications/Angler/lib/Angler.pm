@@ -613,15 +613,14 @@ hook 'before_product_display' => sub {
         {
             'me.type' => 'related',
         },
-      )->search_related(
-        'product_related',
+      )->related_resultset('product_related')->rand->search(
         {
             'product_related.active' => 1,
         },
         {
             rows => config->{flypage}->{related_product}->{qty} || 3,
         },
-      )->listing( { users_id => session('logged_in_user_id') });
+      )->listing( { users_id => session('logged_in_user_id') } );
 
     # reviews
     my $review_rs = shop_product( $product->sku )
