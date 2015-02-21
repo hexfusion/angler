@@ -100,9 +100,9 @@ Product features.
 
 =cut
 
-column featuress => {
-    data_type     => "text",
-    is_nullable      => 1
+column features => {
+    data_type   => "text",
+    is_nullable => 1
 };
 
 =head2 product_care
@@ -112,8 +112,8 @@ Product care.
 =cut
 
 column product_care => {
-    data_type     => "text",
-    is_nullable      => 1
+    data_type       => "text",
+    is_nullable     => 1
 };
 
 =head2 technologies
@@ -173,5 +173,6 @@ column last_modified => {
     set_on_create => 1,
     set_on_update => 1
 };
+
 
 1;
