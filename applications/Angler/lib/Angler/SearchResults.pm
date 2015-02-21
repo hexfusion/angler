@@ -152,7 +152,6 @@ sub select_sorting {
         { value => 'average_rating', label => 'Rating' },
         { value => 'selling_price',  label => 'Price' },
         { value => 'name',           label => 'Name' },
-        { value => 'sku',            label => 'SKU' },
     );
     $tokens->{order_by_iterator} = \@order_by_iterator;
 
