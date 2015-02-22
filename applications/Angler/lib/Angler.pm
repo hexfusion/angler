@@ -118,18 +118,6 @@ hook 'before_layout_render' => sub {
     # logged in user?
     $tokens->{logged_in_user} = session('logged_in_user_id');
 
-    # setup basic history for testing
-    # we ignore 404 because if you have a missing file in
-    # template it throws a 404..
-    unless (request->path eq '404') {
-        debug "pass ";
-        session last_page => session('current_page') || 'none';
-        session current_page => request->path;
-    }
-
-    $tokens->{'current_page'} = session('current_page');
-    $tokens->{'last_page'} = session('last_page');
-
     my $nav = shop_navigation;
 
     # build menu sections for mega-drop
@@ -755,20 +743,23 @@ hook 'before_cart_display' => sub {
     $values->{title} = "Cart";
 
     # related items
-    $values->{related_products} =
-      shop_schema->resultset('MerchandisingProduct')->search(
-        {
-            'me.sku'  => { -in => map { $_->sku } $cart->products_array },
-            'me.type' => 'related',
-        }
-      )->related_resultset('product_related')->rand->search(
-        {
-            'product_related.active' => 1,
-        },
-        {
-            rows => config->{cart}->{related_product}->{qty} || 3,
-        }
-      )->listing( { users_id => session('logged_in_user_id') } );
+    my @cart_product_skus = map { $_->sku } $cart->products_array;
+    if (@cart_product_skus) {
+        $values->{related_products} =
+          shop_schema->resultset('MerchandisingProduct')->search(
+            {
+                'me.sku' => { -in => map { $_->sku } $cart->products_array },
+                'me.type' => 'related',
+            }
+          )->related_resultset('product_related')->rand->search(
+            {
+                'product_related.active' => 1,
+            },
+            {
+                rows => config->{cart}->{related_product}->{qty} || 3,
+            }
+          )->listing( { users_id => session('logged_in_user_id') } );
+    }
 
     # determine whether shipping is free or determine missing amount
     if ($free_shipping_amount > $subtotal) {
