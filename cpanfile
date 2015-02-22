@@ -80,7 +80,7 @@ requires 'Dancer';
 requires 'Dancer::Session::Storable';
 requires 'DBIx::Class::Tree::AdjacencyList';
 # requires 'Dancer::Plugin::Interchange6', '0.040';
-requires 'Dancer::Session::DBIC';
+requires 'Dancer::Session::DBIC', '0.004';
 # requires 'Dancer::Template::TemplateFlute', '0.0113';
 # requires 'Interchange6::Schema', '0.050';
 requires 'Interchange6', '0.063';
