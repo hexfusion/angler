@@ -10,7 +10,7 @@ BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
 
 use Dancer qw/:script !pass/;
 
-use Angler::Schema;
+use Angler::Interchange6::Schema;
 use Dancer::Plugin::DBIC;
 use Angler;
 
