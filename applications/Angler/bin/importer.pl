@@ -12,6 +12,7 @@ package main;
 
 use Dancer ':script';
 use Angler::Schema;
+use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use File::Basename;
 use File::Path qw/make_path/;
@@ -43,6 +44,7 @@ my $config =
   LoadFile( File::Spec->catfile( config->{appdir}, "importer.yml" ) );
 
 my $schema = shop_schema;
+my $drone_schema = schema('drone');
 
 my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
 
@@ -259,6 +261,20 @@ sub clean_uri {
     $uri =~ s/\s+/-/g;
     $uri =~ s/\-+/-/g;
     return $uri;
+}
+
+=head2 decode_url($url)
+
+decode url into $scheme, $authority, $path, $query, $fragment
+
+=cut
+
+sub decode_url {
+    my $url = shift;
+    my($scheme, $authority, $path, $query, $fragment) =
+      $url =~ m|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?|;
+
+    return ($scheme, $authority, $path, $query, $fragment);
 }
 
 =head2 short_description($description)
@@ -531,12 +547,12 @@ sub format_product {
 
     $data->{'name'} = clean_name($data->{'name'});
     $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'code'};
-    $data->{uri} = lc( unidecode("$data->{'name'} $data->{'code'}") );
+    $data->{uri} = &clean_uri(lc( unidecode("$data->{'name'} $data->{'code'}") ));
 
     # if this a variant do a few extra steps
     if ($data->{'variant'}) {
         $data->{'canonical_sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{code};
-        $data->{'uri'} = lc( unidecode("$data->{name}") );
+        $data->{'uri'} = &clean_uri(lc( unidecode("$data->{name}") ));
         $data->{'sku'} = 'WB-' . $data->{'manufacturer_code'} . '-' . $data->{'manufacturer_sku'};
     }
     else {
@@ -555,6 +571,14 @@ sub insert_product {
 
     print "creating product $data->{'sku'}\n";
 
+    my $drone_product = $drone_schema->resultset('SimmsProduct')->find(
+                        {sku => $data->{'manufacturer_sku'} });
+
+    if ($drone_product) {
+        $data->{'description'} = ($drone_product->description, $drone_product->features);
+        #$data->{'short_description'}= &short_description($data->{'description'});
+    }
+
     my $product = $schema->resultset('Product')->find_or_create(
         {
             sku => $data->{'sku'},
@@ -569,12 +593,53 @@ sub insert_product {
         }
     );
 
+    # lets check the drone for an image
+    if (defined($drone_product) and $drone_product->img) {
+        # download and add image to media.
+        my $path = &download_images($drone_product->img);
+        if ($path) {
+            &process_image($product, $path);
+        }
+    }
+
+    if (defined($drone_product) and $drone_product->videos) {
+        # could be a few videos comma delimited
+        my @videos = split(/,/, $drone_product->videos);
+
+        foreach (@videos) {
+            &process_video($product, $_);
+        }
+    }
+
     # add manufacturer as default nav route
     &set_manufacturer_navigation($data->{sku});
 
 }
 
-=head set_manufacturer_navigation($sku)
+=head2 download_images($url)
+
+=cut
+
+sub download_images {
+    my ( $url ) = @_;
+
+    # download image
+    my $http = HTTP::Tiny->new();
+    ( my $file = $url ) =~ s/^.+\///;
+    my $path = File::Spec->catfile( $original_files, $file );
+
+    # get image if it doesn't already exist
+    unless ( -r $path ) {
+        my $response = $http->mirror( $url, $path );
+        sleep rand(0.5); # don't hit them too hard
+        unless ( $response->{success} ) {
+            warning "failed to get $url: " . $response->{reason};
+        }
+    }
+    return $path
+}
+
+=head2 set_manufacturer_navigation($sku)
 
 gives the product a default navigation route defining the manufacturer.
 
@@ -705,6 +770,47 @@ sub process_image {
     return 1;
 }
 
+=head2 process_video($product, $url)
+
+=cut
+
+sub process_video {
+    my ($product, $url) = @_;
+
+   # info "process video url ", $url;
+
+    #FIXME hack alert
+   my (undef, $authority, $path, undef, undef) = decode_url($url);
+
+
+    if ( $authority and  $path ) {
+
+        # format video url
+         $url = "https://" . $authority . $path;
+
+        my $mediatype_video =
+          $schema->resultset('MediaType')->find( { type => 'video' } );
+        die "MediaType type video not found" unless $mediatype_video;
+
+        my $media = $schema->resultset('Media')->find_or_create(
+            {
+                file => $url,
+                uri => $url,
+                media_types_id => $mediatype_video->id,
+            },
+            {
+                key => 'medias_file',
+            }
+        );
+        $schema->resultset('MediaProduct')->find_or_create(
+            {
+                media_id => $media->id,
+                sku => $product->sku,
+            }
+        );
+    }
+        info "video added for ", $product->sku;
+}
 =head2 process_orvis_cross_sell
 
 twig handler for Orvis xml Cross_Sell
