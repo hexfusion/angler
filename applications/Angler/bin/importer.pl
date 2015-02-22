@@ -11,7 +11,7 @@ use Moo;
 package main;
 
 use Dancer ':script';
-use Angler::Schema;
+use Angler::Interchange6::Schema;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use File::Basename;
@@ -399,7 +399,9 @@ sub parse_excel {
 
     my @variants;
 
-    my ( $sku, $code, $full_name, $price, $color, $size, $manf_sku, $name, $short_description, $description, $keywords, $active, $data );
+    my ( $sku, $code, $features, $full_name, $price, $color, $size, $manf_sku,
+      $name, $short_description, $description, $keywords, $active, $data,
+      $technologies );
     foreach my $row ( 2 .. $row_max ) {
         my %cells =
           map {
@@ -451,6 +453,8 @@ sub parse_excel {
             price             => $price,
             short_description => $short_description,
             description       => $description,
+            technologies      => $technologies,
+            features          => $features,
             keywords          => $keywords,
             season            => 'S15',
             active            => $active,
@@ -565,19 +569,50 @@ sub format_product {
     return $data;
 }
 
-sub insert_product {
+=head2 add_drone_data( $data )
+
+if the manufacturer has drone data it will be added to $data
+
+=cut
+
+sub add_drone_data {
     my ( $data ) = @_;
+
+    # simms drone data is linked to manufacturer_sku
+    my $drone_product = $drone_schema->resultset('SimmsProduct')->find(
+                        {sku => $data->{'manufacturer_sku'} });    
+
+    # lets check the drone for an image
+    if (defined($drone_product) and $drone_product->img) {
+        # download and add image to media.
+        my $path = &download_images($drone_product->img);
+        if ($path) {
+            &process_image($product, $path);
+        }
+    }
+}
+
+
+sub insert_canonical_product {
+    my ( $data ) = @_;
+
+    my $drone_product = $drone_schema->resultset('SimmsProduct')->find(
+                        {sku => $data->{'code'} });
+
+    if (defined($drone_product) and $drone_product->description) {
+        print "found description\n";
+        $data->{'description'} = $drone_product->description;
+        if ($drone_product->features) {
+            $data->{'description'} = $drone_product->description . " <br><hr><h3>Features</h3> ". $drone_product->features;
+        }
+    }
+
+    #print "description: ", $data->{'description'};
+
+    # format data
     $data = &format_product($data);
 
     print "creating product $data->{'sku'}\n";
-
-    my $drone_product = $drone_schema->resultset('SimmsProduct')->find(
-                        {sku => $data->{'manufacturer_sku'} });
-
-    if ($drone_product) {
-        $data->{'description'} = ($drone_product->description, $drone_product->features);
-        #$data->{'short_description'}= &short_description($data->{'description'});
-    }
 
     my $product = $schema->resultset('Product')->find_or_create(
         {
