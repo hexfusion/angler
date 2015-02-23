@@ -192,3 +192,5 @@ sub add {
         $product->insert;
     }
 }
+
+1;
