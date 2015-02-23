@@ -19,6 +19,17 @@ This module helps with populating video assets.
 
 =head1 SYNOPSIS
 
+my $product = shop_product->find({ sku => 'WBA2001'});
+my $url = '//www.youtube.com/embed/vRar23OkWgk?rel=0';
+
+my $video = Angler::Populate::Video->new(
+    schema => shop_schema,
+    url   => $url,
+    product => $product,
+);
+
+$video->add;
+
 =cut
 
 =head2 url
