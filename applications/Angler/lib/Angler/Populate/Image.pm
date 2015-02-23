@@ -1,15 +1,5 @@
 package Angler::Populate::Image;
 
-=head1 NAME
-
-Angler::Populate::Image
-
-=head1 DESCRIPTION
-
-This module provides image population capabilities for the Media class.
-
-=cut
-
 use strict;
 use warnings;
 
@@ -24,6 +14,10 @@ use Imager;
 
 set logger => 'console';
 set log => 'info';
+
+=head1 NAME
+
+Angler::Populate::Image
 
 =head1 DESCRIPTION
 
