@@ -60,7 +60,7 @@ L<Interchange6::Schema> object.
 =cut
 
 has schema => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
