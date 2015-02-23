@@ -596,7 +596,7 @@ hook 'before_product_display' => sub {
     $tokens->{breadcrumbs} = $path;
 
     # find related products
-    $tokens->{related_products} = $canonical_product->search_related(
+    my $related_products = $canonical_product->search_related(
         'merchandising_products',
         {
             'me.type' => 'related',
@@ -609,6 +609,9 @@ hook 'before_product_display' => sub {
             rows => config->{flypage}->{related_product}->{qty} || 3,
         },
       )->listing( { users_id => session('logged_in_user_id') } );
+
+    $values->{related_products} = $related_products
+      if $related_products->has_rows;
 
     # reviews
     my $review_rs = shop_product( $product->sku )
@@ -742,23 +745,32 @@ hook 'before_cart_display' => sub {
 
     $values->{title} = "Cart";
 
-    # related items
-    my @cart_product_skus = map { $_->sku } $cart->products_array;
-    if (@cart_product_skus) {
-        $values->{related_products} =
+    # related_products
+    my @canonical_skus =
+      map { $_->canonical_sku || $_->sku } $cart->products_array;
+
+    if ( @canonical_skus ) {
+        my $related_products =
           shop_schema->resultset('MerchandisingProduct')->search(
             {
-                'me.sku' => { -in => map { $_->sku } $cart->products_array },
+                'me.sku'  => { -in => \@canonical_skus },
                 'me.type' => 'related',
+            },
+            {
+                join => { product => { canonical => 'variants' }},
             }
           )->related_resultset('product_related')->rand->search(
             {
                 'product_related.active' => 1,
+                'product_related.sku'    => { -not_in => \@canonical_skus },
             },
             {
                 rows => config->{cart}->{related_product}->{qty} || 3,
             }
           )->listing( { users_id => session('logged_in_user_id') } );
+
+        $values->{related_products} = $related_products
+          if $related_products->has_rows;
     }
 
     # determine whether shipping is free or determine missing amount
