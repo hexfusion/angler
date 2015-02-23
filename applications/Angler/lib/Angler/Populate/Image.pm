@@ -14,14 +14,41 @@ use strict;
 use warnings;
 
 use Moo;
+
+use Dancer ':script';
 use File::Spec;
 use HTTP::Tiny;
 use HTML::Entities;
 use File::Path;
 use Imager;
 
-#set logger => 'console';
-#set log => 'info';
+set logger => 'console';
+set log => 'info';
+
+=head1 DESCRIPTION
+
+This module helps with downloading populating and formatting image assets
+for the Media and MediaProduct classes.
+
+=head1 SYNOPSIS
+
+my $product = shop_product->find({ sku => 'WBA2001'});
+my $url = 'http://placehold.it/950x400.jpg';
+my $img_dir = '/home/camp/angler/rsync/htdocs/assetstore/site/images/items';
+my $manufacturer = 'simms';
+
+my $image = Angler::Populate::Image->new(
+    schema => shop_schema,
+    url   => $url,
+    manufacturer  => $manufacturer,
+    product =>  $product,
+    img_dir => $img_dir
+);
+
+$image->download;
+$image->process;
+
+=cut
 
 =head2 url
 
@@ -88,17 +115,17 @@ has product => (
     required => 1,
 );
 
-=head2 path
+=head2 file_path
 
-Returns path
+Returns file path
 
 =cut
 
-has path => (
+has file_path => (
     is => 'lazy',
 );
 
-sub _build_path {
+sub _build_file_path {
     my ($self) = @_;
     ( my $file = $self->url ) =~ s/^.+\///;
     return File::Spec->catfile( $self->original_files, $file );
@@ -123,11 +150,11 @@ sub download {
     my $http = HTTP::Tiny->new();
 
     # get image if it doesn't already exist
-    unless ( -r $self->path ) {
-        my $response = $http->mirror( $self->url, $self->path );
+    unless ( -r $self->file_path ) {
+        my $response = $http->mirror( $self->url, $self->file_path );
         sleep rand(0.5); # don't hit them too hard
         unless ( $response->{success} ) {
-           # warning "failed to get $url: " . $response->{reason};
+            warning "failed to get $self->url: " . $response->{reason};
         }
     }
 }
@@ -142,7 +169,7 @@ sub process {
     my ( $self ) = @_;
     my @img_sizes = qw/35 75 100 110 200 325 975/;
 
-    my $file = [ File::Spec->splitpath($self->path) ]->[2];
+    my $file = [ File::Spec->splitpath($self->file_path) ]->[2];
 
     ( my $ext = lc($file) ) =~ s/^.+\.//;
     $ext =~ s/\s+$//;
@@ -162,10 +189,10 @@ sub process {
 
             # we don't have this image yet so create it
 
-            my $img = Imager->new( file => $self->path );
+            my $img = Imager->new( file => $self->file_path );
 
             unless ($img) {
-#                error "Imager read failed for $sku $path " . Imager->errstr;
+                error "Imager read failed for $sku $self->file_path " . Imager->errstr;
                 return;
             }
 
@@ -177,9 +204,9 @@ sub process {
             );
 
             unless ($img) {
-#                error "Imager scale barfed for $size"
-#                  . "x$size on $sku $path: "
-#                  . $img->errstr;
+                error "Imager scale barfed for $size"
+                  . "x$size on $sku $self->file_path: "
+                  . $img->errstr;
                 return;
             }
 
@@ -191,16 +218,16 @@ sub process {
                     type        => 'jpeg',
                 );
                 unless ($ret) {
- #                   error "Imager jpeg write failed for $new_path: "
- #                     . $img->errstr;
+                   error "Imager jpeg write failed for $new_path: "
+                     . $img->errstr;
                     return;
                 }
             }
             else {
                 my $ret = $img->write( file => $new_path );
                 unless ($ret) {
-#                    error "Imager $ext write failed for $new_path: "
-#                      . $img->errstr;
+                    error "Imager $ext write failed for $new_path: "
+                      . $img->errstr;
                     return;
                 }
             }
@@ -214,7 +241,7 @@ sub process {
 
         my $media = $self->schema->resultset('Media')->find_or_create(
             {
-                file           => $self->path,
+                file           => $self->file_path,
                 uri            => File::Spec->catfile( $self->manufacturer, $file ),
                 mime_type      => "image/$ext",
                 media_types_id => $mediatype_image->id,
