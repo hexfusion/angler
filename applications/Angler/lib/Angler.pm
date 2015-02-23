@@ -610,7 +610,7 @@ hook 'before_product_display' => sub {
         },
       )->listing( { users_id => session('logged_in_user_id') } );
 
-    $values->{related_products} = $related_products
+    $tokens->{related_products} = $related_products
       if $related_products->has_rows;
 
     # reviews
