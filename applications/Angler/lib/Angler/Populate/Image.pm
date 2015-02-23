@@ -51,7 +51,7 @@ Returns url of image
 =cut
 
 has url => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
@@ -76,6 +76,14 @@ has original_files => (
     is => 'lazy'
 );
 
+sub _build_original_files {
+    my ($self) = @_;
+    my $original_files =
+      File::Spec->catdir( $self->img_dir, "original_files", $self->manufacturer );
+    File::Path->make_path($original_files);
+    return $original_files;
+}
+
 =head2 manufacturer
 
 Returns the product manufacturer
@@ -94,7 +102,7 @@ L<Interchange6::Schema> object.
 =cut
 +
 has schema => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
@@ -105,7 +113,7 @@ L<Interchange6::Schema::Result::Product> object.
 =cut
 +
 has product => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
@@ -123,14 +131,6 @@ sub _build_file_path {
     my ($self) = @_;
     ( my $file = $self->url ) =~ s/^.+\///;
     return File::Spec->catfile( $self->original_files, $file );
-}
-
-sub _build_original_files {
-    my ($self) = @_;
-    my $original_files =
-      File::Spec->catdir( $self->img_dir, "original_files", $self->manufacturer );
-    File::Path->make_path($original_files);
-    return $original_files;
 }
 
 =head2 download
