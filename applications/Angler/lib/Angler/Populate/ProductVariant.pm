@@ -1,4 +1,4 @@
-package Angler::Populate::Variant;
+package Angler::Populate::ProductVariant;
 
 use strict;
 use warnings;
@@ -11,13 +11,35 @@ set log => 'info';
 
 =head1 NAME
 
-Angler::Populate::Variant
+Angler::Populate::ProductVariant
 
 =head1 DESCRIPTION
 
-assists in population of the Product variants class
+assists in population Product variants
 
 =head1 SYNOPSIS
+
+my $product = shop_product->find({ sku => 'WBA2002'});
+my $attributes = {'size' => 's', 'color' => 'red'};
+
+my $variant = Angler::Populate::ProductVariant->new(
+
+            schema => shop_schema,
+            product => $product,
+            sku => 'WBA2003',
+            name => 'Test Product Variant',
+            price => '20.00',
+            uri => 'simms_glove_small_red',
+            weight => '3.5',
+            gtin => '8908765555555599',
+            active => '1',
+            manufacturer_sku => 'SF-23444',
+            inventory_exempt => '0',
+            priority => '0',
+            attributes => $attributes
+);
+
+$variant->add;
 
 =head1 ASSESSORS
 
@@ -65,17 +87,6 @@ Returns price of product
 has price => (
     is => 'ro',
     required => 1,
-);
-
-=head2 canonical_sku
-
-Returns canonical_sku of product
-
-=cut
-
-has canonical_sku => (
-    is => 'ro',
-    required => 1,    
 );
 
 =head2 uri
@@ -159,8 +170,8 @@ Returns a hashref of attributes
 =cut
 
 has attributes => (
-    is => 'ro'
-    isa => 'Hashref'
+    is => 'ro',
+    required => '1'
 );
 
 =head1 METHODS
@@ -169,21 +180,19 @@ has attributes => (
 
 sub add {
     my ($self) = @_;
-    my $schema = $self->schema;
 
     $self->product->add_variants(
     {
-        sku => $self->sku,$
-        name => $self->name,$
-        price => $self->price,$
-        uri => $self->uri,$
-        weight => $self->weight,$
-        gtin => $self->gtin,$
-        canonical_sku => $self->canonical_sku,$
-        active => $self->active,$
-        manufacturer_sku => $self->manufacturer_sku,$
-        inventory_exempt => $self->inventory_exempt,$
-        priority => $self->priority$
+        sku => $self->sku,
+        name => $self->name,
+        price => $self->price,
+        uri => $self->uri,
+        weight => $self->weight,
+        gtin => $self->gtin,
+        active => $self->active,
+        manufacturer_sku => $self->manufacturer_sku,
+        inventory_exempt => $self->inventory_exempt,
+        priority => $self->priority,
             attributes => $self->attributes,
      });
 }
