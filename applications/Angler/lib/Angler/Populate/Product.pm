@@ -19,9 +19,39 @@ assists in population of the product class
 
 =head1 SYNOPSIS
 
+my $product = Angler::Populate::Product->new(
+            schema => shop_schema,
+            sku => 'WBA2002',
+            name => 'Test Product',
+            short_description => 'Just a short description',
+            description => 'Like a short description but this is longer',
+            price => '20.00',
+            uri => 'simms_glove',
+            weight => '3.5',
+            gtin => '8908765555555555',
+            canonical_sku => undef,
+            active => '1',
+            manufacturer_sku => 'SF-23444',
+            inventory_exempt => '0',
+            priority => '0'
+);
+
+$product->add;
+
 =head1 ASSESSORS
 
 =cut
+
+=head2 schema
+
+Returns Interchange6::Schema
+
+=cut
+
+has schema => (
+    is => 'ro',
+    required => 1,
+);
 
 =head2 sku
 
@@ -169,10 +199,11 @@ has priority => (
 sub add {
     my ($self) = @_;
     my $schema = $self->schema;
+    my $sku = $self->sku;
 
     my $product = $schema->resultset('Product')->find_or_new(
         {
-            sku => $self->sku,
+            sku => $sku,
             name => $self->name,
             short_description => $self->short_description,
             description => $self->description,
@@ -188,9 +219,10 @@ sub add {
         }
     );
     unless ($product->in_storage) {
-        info "Product sku: $product->sku not found and added"
+        info "Product sku: $sku not found and added";
         $product->insert;
     }
+    return $product;
 }
 
 1;
