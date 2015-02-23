@@ -85,12 +85,13 @@ the start of the list.
 has pages => (
     is  => 'rw',
     isa => HashRef [ ArrayRef [HashRef] ],
+    default => sub { {} },
 );
 
 =head2 current_page
 
-Returns the first page from L</pages> of type C<all>.  Returns undef if
-L</pages> has no C<type> named C<all>.
+Returns the first page from L</pages> of type C<all>.  Returns an empty
+hash reference if L</pages> has no C<type> named C<all>.
 
 =cut
 
@@ -104,13 +105,13 @@ sub _build_current_page {
     if ( defined $self->pages->{all} ) {
         return $self->pages->{all}->[0];
     }
-    return undef;
+    return {};
 }
 
 =head2 previous_page
 
-Returns the second page from L</pages> of type C<all>. Returns undef if
-L</pages> has no C<type> named C<all>.
+Returns the second page from L</pages> of type C<all>. Returns an empty
+hash reference if L</pages> has no C<type> named C<all>.
 
 =cut
 
@@ -121,10 +122,10 @@ has previous_page => (
 
 sub _build_previous_page {
     my $self = shift;
-    if ( defined $self->pages->{all} ) {
+    if ( defined $self->pages->{all} && @{$self->pages->{all}} > 1 ) {
         return $self->pages->{all}->[1];
     }
-    return undef;
+    return {};
 }
 
 =head2 methods
