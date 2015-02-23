@@ -10,6 +10,8 @@
 <param name="name" class="thumbnail" target="alt"/>
 </list>
 
+<value name="continue-shopping" target="href" field="history.previous_page.uri"/>
+
 <!-- free shipping containers -->
 <!--
 <container name="free-shipping" value="free_shipping"/>
