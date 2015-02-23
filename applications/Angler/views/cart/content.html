@@ -68,22 +68,25 @@
                     <div class="cart-collaterals">
                       <div class="col2-set">
                         <div class="col-1">
-                          <form id="form-cart" name="cart" action="/checkout" method="POST">
                           <div class="crosssell">
                             <h2>Based on your selection, you may be interested in the following items:</h2>
                             <ul id="crosssell-products-list">
-                              <li class="item odd"> <a class="product-image" href="" title="Patagonia Men's Rio Gallegos Waders"><img src="products/images/100x100/patagonia-rio-gallegos.png" alt="Patagonia Men's Rio Gallegos Waders"></a>
+                              <li class="related-products item odd">
+                                <form method="POST" action="/cart">
+                                  <input type="hidden" name="sku" class="sku">
+                                  <a class="product-image" href="/" alt="Patagonia Men's Rio Gallegos Waders"><img class="related_image" src="products/images/100x100/patagonia-rio-gallegos.png" alt="Patagonia Men's Rio Gallegos Waders"></a>
                                 <div class="product-details">
-                                  <h3 class="product-name"><a href="">Patagonia Men's Rio Gallegos Waders</a></h3>
+                                  <h3 class="product-name"><a class="related-product-link" href="/">Patagonia Men's Rio Gallegos Waders</a></h3>
                                   <div class="price-box"> <span class="regular-price" id="product-price-46"> <span class="price">$499.00</span> </span> </div>
-                                  <button type="button" title="Add to Cart" class="button btn-cart" onClick="setLocation('')"><span><span>Add to Cart</span></span></button>
-                                  <ul class="add-to-links">
+                                  <button type="submit" title="Add to Cart" class="button btn-proceed-checkout btn-checkout"><span><span>Add to Cart</span></span></button>
+                                  <!--ul class="add-to-links">
                                     <li><a href="" class="link-wishlist">Add to Wishlist</a></li>
                                     <li><span class="separator">|</span> <a href="" class="link-compare">Add to Compare</a></li>
-                                  </ul>
+                                  </ul-->
                                 </div>
+                                </form>
                               </li>
-                              <li class="item even"> <a class="product-image" href="" title="Patagonia Stud Kit"><img src="products/images/100x100/patagonia-stud-kit.png" alt="Patagonia Stud Kit"></a>
+                              <li class="related-products item even"> <a class="product-image" href="" title="Patagonia Stud Kit"><img src="products/images/100x100/patagonia-stud-kit.png" alt="Patagonia Stud Kit"></a>
                                 <div class="product-details">
                                   <h3 class="product-name"><a href="">Patagonia Stud Kit</a></h3>
                                   <div class="price-box"> <span class="regular-price" id="product-price-44"> <span class="price">$19.00</span> </span> </div>
@@ -94,7 +97,7 @@
                                   </ul>
                                 </div>
                               </li>
-                              <li class="item last odd"> <a class="product-image" href="" title="Patagonia Fitzroy Trout Trucker Hat"><img src="products/images/100x100/patagonia-fitzroy-trout-trucker-grn.png" alt="Patagonia Fitzroy Trout Trucker Hat"></a>
+                              <li class="related-products item last odd"> <a class="product-image" href="" title="Patagonia Fitzroy Trout Trucker Hat"><img src="products/images/100x100/patagonia-fitzroy-trout-trucker-grn.png" alt="Patagonia Fitzroy Trout Trucker Hat"></a>
                                 <div class="product-details">
                                   <h3 class="product-name"><a href="">Patagonia Fitzroy Trout Trucker Hat</a></h3>
                                   <div class="price-box"> <span class="regular-price" id="product-price-45"> <span class="price">$29.00</span> </span> </div>
@@ -107,7 +110,6 @@
                               </li>
                             </ul>
                           </div>
-                          </form>
                         </div>
                         <div class="col-2">
                           <div class="shipping">

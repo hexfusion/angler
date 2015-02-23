@@ -47,5 +47,21 @@
 -->
 <value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
 <value name="cart-total" field="cart_total" filter="currency"/>
+
+<list name="related-products" iterator="related_products">
+    <param name="sku" target="value"/>
+    <param name="related_image" target="src" field="image_110x110"/>
+    <param name="image-alt" class="related_image" target="alt" field="name"/>
+    <param name="image-href" class="product-image" field="uri" target="href"
+        op="append"/>
+    <param name="image-title" class="product-image" field="name"
+        target="title"/>
+    <param name="name" class="related-product-link" field="name"/>
+    <param name="name-href" class="related-product-link" field="uri"
+        target="href"/>
+    <param name="name-title" class="related-product-link" field="name"
+        target="title"/>
+    <param name="price" field="selling_price" filter="currency"/>
+</list>
 </specification>
 
