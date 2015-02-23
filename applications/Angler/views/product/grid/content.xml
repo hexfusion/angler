@@ -52,6 +52,19 @@
 <param name="uri" class="breadcrumb-link" target="href" op="append"/>
 </list>
 
+<!-- Remove words -->
+
+<!-- this value doesn't work if put nested inside <container>,
+yielding a '/' href... -->
+<value name="clear_words" class="remove-all-terms" target="href" op="append" />
+<container name="remove-search-terms" value="clear_words">
+  <list name="remove-search-term" iterator="remove_words"
+        class="remove-search-term">
+    <param name="name" class="remove-search-term-link"/>
+    <param name="uri" class="remove-search-term-link" target="href" op="append"/>
+  </list>
+</container>
+
 <!-- facets -->
 <list name="facet-group" iterator="facets" value="checked">
     <param name="facet-group-title" field="title"/>

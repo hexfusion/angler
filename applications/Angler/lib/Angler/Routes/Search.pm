@@ -145,6 +145,13 @@ get qr{/search(/(.*))?} => sub {
         }
         push @breadcrumbs, $bc;
     }
+    my @removewords;
+    foreach my $remove_word ($search->remove_word_links) {
+        push @removewords, {
+                            uri => 'search/' . $remove_word->{uri},
+                            name => ucfirst($remove_word->{label}),
+                           };
+    }
 
     $tokens{products} = $results;
     $tokens{pager} = $response->pager,
@@ -152,6 +159,12 @@ get qr{/search(/(.*))?} => sub {
     $tokens{pagination_previous} = $paging->previous_uri,
     $tokens{pagination_next} = $paging->next_uri,
     $tokens{breadcrumbs} = \@breadcrumbs;
+    if (@removewords) {
+        $tokens{clear_words} = 'search/' . $search->clear_words_link;
+        $tokens{remove_words} = \@removewords;
+        # debug to_dumper(\@removewords);
+        # debug $tokens{clear_words};
+    }
     $tokens{facets} = \@facets;
     $tokens{count} = $count;
     $tokens{brands} = [$brands->all];
