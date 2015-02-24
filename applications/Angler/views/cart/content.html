@@ -30,7 +30,6 @@
                             <tr class="first last">
                               <th rowspan="1">Product Image</th>
                               <th rowspan="1"><span class="nobr">Product Name</span></th>
-                              <th rowspan="1"></th>
                               <th class="a-center" colspan="1"><span class="nobr">Unit Price</span></th>
                               <th rowspan="1" class="a-center">Qty</th>
                               <th class="a-center" colspan="1">Subtotal</th>
@@ -53,10 +52,17 @@
                               <td><a href="" title="" class="product-image link"><img class="thumbnail" src="" width="75" height="75" alt=""></a>
                               </td> 
                               <td><h2 class="product-name"> <a class="name link" href="">Simms Coldweather Shirt Red</a> </h2></td>
-                              <td class="a-center"><a class="link" href="" title="Edit item parameters">Edit</a></td>
                               <td class="a-right"><span class="cart-price"> <span class="price">$99.95</span> </span></td>
                               <!-- inclusive price starts here -->
-                              <td class="a-center"><input name="quantity" value="2" size="4" title="Qty" class="input-text qty form-control" maxlength="12"></td>
+                              <td class="a-center">
+                                <form class="form-inline" action="/cart" method="post">
+                                 <input type="hidden" class="update" name="update" value="sku">
+                                  <input name="quantity" value="2" size="4" title="Qty" class="input-text qty form-control" maxlength="12">
+                                  <button type="submit" class="btn-link">
+                                    <i class="fa fa-refresh fa-2x"></i>
+                                  </button>
+                                </form>
+                              </td>
                               <!--Sub total starts here -->
                               <td class="a-right"><span class="cart-price"> <span class="subtotal price">$199.90</span> </span></td>
                               <td class="a-center last"><a href="/cart?remove=" title="Remove item" class="remove btn-remove btn-remove2" onClick="return confirm('Are you sure you would like to remove this item from the shopping cart?');">Remove item</a></td>
