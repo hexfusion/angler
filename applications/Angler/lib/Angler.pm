@@ -995,6 +995,24 @@ get '/account/address/new' => sub {
     template 'account/address/new';
 };
 
+any [ 'get', 'post' ] => '/cart' => sub {
+
+    pass if ( param('remove') || param('update') );
+
+    if ( my $sku = param('sku') ) {
+        my $product = shop_product($sku);
+        pass unless $product;
+
+        if ( !$product->canonical_sku && $product->has_variants ) {
+
+            # this will cause a redirect to product instead of adding to cart
+            # so add a flash message before handing on control
+            flash info => "This product has several variants. Please choose the options you would like and then add it to the cart.";
+        }
+    }
+    pass;
+};
+
 get '/learning-center' => sub {
     template 'learning/content';
 };
