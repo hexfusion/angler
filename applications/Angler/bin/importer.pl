@@ -410,7 +410,7 @@ sub parse_excel {
 
         # add canonical
         if ( $code && $cells{"Product Group Code"} ne $code ) {
-            &insert_product( $data );
+            &insert_canonical_product( $data );
             undef $data;
         }
         # these are variants lets save them for later
@@ -587,7 +587,7 @@ sub add_drone_data {
         # download and add image to media.
         my $path = &download_images($drone_product->img);
         if ($path) {
-            &process_image($product, $path);
+            &process_image($data->product, $path);
         }
     }
 }
