@@ -107,12 +107,12 @@ get qr{/search(/(.*))?} => sub {
             $facet_found->{name} = $name;
             $facet_found->{checked} = $facet_found->{active};
             $facet_found->{unchecked} = ! $facet_found->{active};
-            # debug "facet title is " . $value->title;
+            $facet_found->{priority} = $value->priority;
             push @values, $facet_found;
         }
 
         push @facets, {title => $attribute->title,
-                       values => \@values,
+                       values => sort_attributes(\@values),
                    };
     }
 
@@ -240,6 +240,42 @@ get '/ajax/search' => sub {
     content_type('application/json');
 	return to_json({ docs => $results });
 };
+
+sub sort_attributes {
+    my $values = shift;
+    my (@priority, @name_no_number, @numbers);
+    my @old = @$values;
+    foreach my $value (@old) {
+        push @priority, $value->{priority};
+        my $copy = $value->{title};
+        if ($copy =~ /\A(\d+(\.\d+)?)/) {
+            push @numbers, $1;
+            $copy =~ s/\A\d+(\.\d+)?//;
+            push @name_no_number, $copy;
+        }
+        elsif ($copy =~ /(\d+(\.\d+)?)\z/) {
+            push @numbers, $1;
+            $copy =~ s/\d+(\.\d+)?\z//;
+            push @name_no_number, $copy;
+        }
+        else {
+            push @name_no_number, $copy;
+            push @numbers, 0;
+        }
+    }
+    # debug to_dumper([\@numbers, \@name_no_number, \@priority]);
+
+    my @sorted = @old[
+                      sort {
+                          $priority[$b] <=> $priority[$a]
+                            ||
+                            $name_no_number[$a] cmp $name_no_number[$b]
+                            ||
+                            $numbers[$a] <=> $numbers[$b]
+                      } 0..$#old
+                     ];
+    return \@sorted;
+}
 
 1;
 
