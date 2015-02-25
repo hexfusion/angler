@@ -137,24 +137,35 @@ manufacturers:
         prefix: SC
         full_name: Scott
     simms:
-        prefix: SI
+        prefix: SF
         full_name: Simms Fishing Products
         short_name: Simms
         type: xlsx
         worksheet: 0
         header_row: 1
-        headers:
-            - Item Category Code
-            - Product Group Code
-            - SKU
-            - UPC
-            - Product Name - Display
-            - Product Name - Description
-            - Color
-            - Size
-            - SRP
-            - Base
-            - Season
+        headers: 
+              - source: Item Category Code
+                map: navigation
+              - source: Product Group Code
+                map: code
+              - source: SKU
+                map: manufacturer_sku
+              - source: UPC
+                map: gtin
+              - source: Product Name - Display
+                map: name
+              - source: Product Name - Description
+                map: remove_field
+              - source: Color
+                map: color
+              - source: Size
+                map: size
+              - source: SRP
+                map: price
+              - source: Base
+                map: remove_field
+              - source: Season
+                map: season
         fields:
             navigation:
                 - xls:Item Category Code
