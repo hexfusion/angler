@@ -52,12 +52,12 @@
     <field name="image" type="string" indexed="true" stored="true" />
 
     <!-- product attributes -->
-    <field name="action" type="string" indexed="true" stored="true" />
-    <field name="size" type="string" indexed="true" stored="true" />
-    <field name="color" type="string" indexed="true" stored="true" />
-    <field name="weight" type="string" indexed="true" stored="true" />
-    <field name="length" type="string" indexed="true" stored="true" />
-    <field name="inseam" type="string" indexed="true" stored="true" />
+    <field name="action" multiValued="true" type="string" indexed="true" stored="true" />
+    <field name="size"   multiValued="true" type="string" indexed="true" stored="true" />
+    <field name="color"  multiValued="true" type="string" indexed="true" stored="true" />
+    <field name="weight" multiValued="true" type="string" indexed="true" stored="true" />
+    <field name="length" multiValued="true" type="string" indexed="true" stored="true" />
+    <field name="inseam" multiValued="true" type="string" indexed="true" stored="true" />
     
     <field name="created" type="date" indexed="true" stored="true"/>
     <field name="last_modified" type="date" indexed="true" stored="true"/>

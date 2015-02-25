@@ -30,7 +30,7 @@ else {
             "me.canonical_sku" => undef
         },
         {
-            prefetch => 'variants'
+            prefetch => [qw/variants navigation_products/],
         }
     )->with_lowest_selling_price->with_average_rating;
 }
@@ -39,20 +39,14 @@ my ($product, $data);
 
 while ($product = $product_rs->next) {
     $data = solr_hash($product);
+    print Dumper($data);
     solr_run_update($solr, $data);
-
-    my $variants_rs = $product->variants;
-    my $variant;
-
-    while (my $variant = $variants_rs->next) {
-        $data = solr_hash($variant);
-        solr_run_update($solr, $data);
-    }
 }
 
 sub solr_run_update {
     my ($solr, $data) = @_;
 
+    print "adding $data->{sku}\n";
     my $ret = $solr->maintainer_update('add', $data);
 
     if ($ret->solr_status) {
@@ -82,17 +76,20 @@ sub solr_hash {
                average_rating => $product->average_rating,
                navigation_ids => [ map { $_->navigation_id } $product->navigation_products ],
            );
-
-    if ($product->canonical_sku) {
-        # add variant data
+    my $variants_rs = $product->variants;
+    print "Found " . $variants_rs->count . " variants\n";
+    my %attributes_found;
+    while (my $variant = $variants_rs->next) {
         for my $att_name (@{config->{facet_fields}->{attributes}}) {
-            if (my $att_value = $product->find_attribute_value({name => $att_name})) {
-                $record{$att_name} = $att_value;
+            if (my $att_value = $variant->find_attribute_value({name => $att_name})) {
+                if (!$attributes_found{$att_name}{$att_value}) {
+                    $attributes_found{$att_name}{$att_value} = 1;
+                    $record{$att_name} ||= [];
+                    push @{$record{$att_name}}, $att_value;
+                }
             }
         }
     }
-
-#    warn "Record for ", $product->sku, ": ", Dumper(\%record);
     return \%record;
 }
 
