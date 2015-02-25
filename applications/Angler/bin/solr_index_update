@@ -80,6 +80,7 @@ sub solr_hash {
                active => $product->active,
                image => $product->image,
                average_rating => $product->average_rating,
+               navigation_ids => [ map { $_->navigation_id } $product->navigation_products ],
            );
 
     if ($product->canonical_sku) {

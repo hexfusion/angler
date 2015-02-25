@@ -36,7 +36,7 @@ get qr{/search(/(.*))?} => sub {
     # create search object
     my $search = Angler::Search->new(
         solr_url => config->{solr_url},
-        facets => config->{facet_fields}->{attributes},
+        facets => [ 'navigation_ids', @{config->{facet_fields}->{attributes}} ],
         rows => $tokens{per_page},
         sorting_direction => $navigation->current_sorting_direction,
         sorting => $navigation->sorting_for_solr,
@@ -75,18 +75,26 @@ get qr{/search(/(.*))?} => sub {
     my $schema = shop_schema;
 
     my %facet_map;
+    # debug to_dumper($search);
+
 
     for my $name (@{$search->facets}) {
         my @facets_found = @{$search->facets_found->{$name} || []};
         next unless @facets_found;
 
+        my ($is_navigation, $attribute, $facet_title);
         # retrieve corresponding attribute
-        my $attribute = $schema->resultset('Attribute')->find({
-            type => 'variant',
-            name => $name,
-        });
-        # debug "facet name is $name";
-        if (! $attribute) {
+        if ($name eq 'navigation_ids') {
+            $is_navigation = 1;
+            $facet_title = 'Categories';
+        }
+        elsif ($attribute = $schema->resultset('Attribute')->find({
+                                                                   type => 'variant',
+                                                                   name => $name,
+                                                                  })) {
+            $facet_title  = $attribute->title;
+        }
+        else {
             warning "Attribute not found for facets: $name.";
             next;
         }
@@ -95,28 +103,44 @@ get qr{/search(/(.*))?} => sub {
 
         for my $facet_found (@{$search->facets_found->{$name}}) {
             # retrieve attribute title
-            my $value = $attribute->attribute_values
-                ->find({value => $facet_found->{name}});
-
-            if (! $value) {
+            my %value;
+            if ($is_navigation) {
+                if (my $navigation = $schema->resultset('Navigation')->find($facet_found->{name})) {
+                    %value = (
+                              title => $navigation->name,
+                              priority => 0, # $navigation->priority,
+                             );
+                }
+                else {
+                    warning "Attribute value not found for facets: $name - $facet_found->{name}";
+                    next;
+                }
+            }
+            elsif (my $value = $attribute->attribute_values
+                   ->find({value => $facet_found->{name}})) {
+                %value = (
+                          title => $value->title,
+                          priority => $value->priority,
+                         );
+            }
+            else {
                 warning "Attribute value not found for facets: $name - $facet_found->{name}";
                 next;
             }
-            $facet_map{$name}{$facet_found->{name}} = $value->title;
-            $facet_found->{title} = $value->title;
+            $facet_map{$name}{$facet_found->{name}} = $value{title};
+            $facet_found->{title} = $value{title};
             $facet_found->{name} = $name;
             $facet_found->{checked} = $facet_found->{active};
             $facet_found->{unchecked} = ! $facet_found->{active};
-            $facet_found->{priority} = $value->priority;
+            $facet_found->{priority} = $value{priority};
             push @values, $facet_found;
         }
-
-        push @facets, {title => $attribute->title,
+        push @facets, {title => $facet_title,
                        values => sort_attributes(\@values),
                    };
     }
 
-
+# debug "Facets: ", \@facets;
 
     my $paging = Angler::Paging->new(
         pager => $response->pager,
@@ -141,6 +165,9 @@ get qr{/search(/(.*))?} => sub {
         if (my $bc_facet = $breadcrumb->{facet}) {
             if (my $bc_title  = $facet_map{$bc_facet}{$breadcrumb->{label}}) {
                 $bc->{name} = $bc_title;
+            }
+            else {
+                warning "no $bc_facet $breadcrumb->{label} found in facet map";
             }
         }
         push @breadcrumbs, $bc;
