@@ -15,7 +15,8 @@ use Angler::Interchange6::Schema;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 #use Angler::Interchange6::Schema::Populate::Media;
-#use Angler::Populate::Simms;
+use Angler::Populate::Product;
+use Angler::Populate::Attribute;
 use Angler::Populate::ParseExcel;
 use File::Basename;
 use File::Path qw/make_path/;
@@ -36,6 +37,7 @@ use Try::Tiny;
 use URI::Escape;
 use XML::Twig;
 use YAML qw/LoadFile/;
+use List::MoreUtils qw(uniq);
 use Data::Dumper::Concise;
 
 set logger => 'console';
@@ -92,26 +94,63 @@ $active = 0 unless $active;
 # parse by type
 
 my $type = $config->{manufacturers}->{$manufacturer}->{type};
+
 if ( $type =~ /^xls/ ) {
+    $config = $config->{manufacturers}->{$manufacturer};
 
-    # spreadsheet
-
-    print Dumper($config);
-
-    info "file: $file";
-
-    if ( $manufacturer eq 'simms' ) {
     my $data = Angler::Populate::ParseExcel->new(
                                 file => $file,
-                                importer_config =>  $config->{manufacturers}->{$manufacturer}
+                                importer_config => $config
     );
-    $data->parse;
+
+    #workflow
+
+    # parse excel file
+    my @data = $data->parse;
+
+    # append excel data with drone if exists
+#    my $drone = Angler::Populate::Drone->new(
+#    );
+
+    # create attributes and attribute_values
+    my @values;
+    foreach my $attribute (@{$config->{attributes}}) {
+        foreach (@data) {
+            # make sure value exists
+            if ($_->{$attribute}) {
+                push @values, $_->{$attribute};
+            }
+        }
+        # make array unique
+        @values = uniq @values;
+        # add
+        my $attributes = Angler::Populate::Attribute->new(
+            schema => shop_schema,
+            name   => $attribute,
+            title  => ucfirst $attribute,
+            values =>  \@values
+        );
+        $attributes->add;
+    }
+
+
+    # add canonical products
+    my %seen;
+    my $product;
+    my @canonical = grep { ! $seen{$_->{code}}++ } @data;
+
+    foreach (@canonical) {
+    $product = Angler::Populate::Product->new($_);
+        $product->add;
+    }
+
+#    my @variants = grep { $seen{$_->{code}}++ } @data;
 
     }
     else {
         die "xls processor for $manufacturer does not exist";
     }
-}
+
 
 __END__
 
