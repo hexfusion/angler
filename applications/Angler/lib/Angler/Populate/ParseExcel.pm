@@ -34,7 +34,7 @@ has file => (
     required => 1,
 );
 
-=head2 config
+=head2 importer_config
 
 Returns importer config
 
@@ -79,6 +79,9 @@ sub parse {
             $headers{$col} = &trim(@{$config->{headers}}[$col]->{map}); 
         }
 
+    # define manufacturer prefix
+    my $prefix = $config->{prefix};
+
     my @data;
     foreach my $row ( 2 .. $row_max ) {
         my %cells =
@@ -87,10 +90,11 @@ sub parse {
           } $col_min .. $col_max;
             # remove if map = delete
             delete $cells{'remove_field'};
+            $cells{'manufacturer'} = lc $config->{short_name};
             push @data, \%cells;
 
      }
-    return \@data;
+    return @data;
 }
 
 sub trim {
