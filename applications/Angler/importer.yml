@@ -166,6 +166,19 @@ manufacturers:
                 map: remove_field
               - source: Season
                 map: season
+        attributes:
+                - color
+                - size
+        drone:
+            class: SimmsProduct
+            fields:
+                - img
+                - description
+                - features
+                - product_care
+                - technologies
+                - videos
+                - sku
         fields:
             navigation:
                 - xls:Item Category Code
@@ -186,8 +199,8 @@ manufacturers:
                     - xls:Product
             variant:
                 attributes:
-                    color: xls:Color
-                    size: xls:Size
+                    - color
+                    - size
                 sku:
                     - product_prefix
                     - prefix
