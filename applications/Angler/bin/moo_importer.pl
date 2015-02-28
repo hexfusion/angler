@@ -19,6 +19,8 @@ use Angler::Populate::Product;
 use Angler::Populate::ProductVariant;
 use Angler::Populate::Attribute;
 use Angler::Populate::ParseExcel;
+use Angler::Populate::Image;
+#use Angler::Populate::Size;
 use File::Basename;
 use File::Path qw/make_path/;
 use File::Copy;
@@ -107,20 +109,54 @@ if ( $type =~ /^xls/ ) {
     # parse excel file
     my @data = $data->parse;
 
-    # append excel data with drone if exists
-#    my $drone = Angler::Populate::Drone->new(
-#    );
+    my ($drone_data, $drone_rs);
+    my $drone_class = $config->{drone}->{class};
 
+    # check if drone has any data
+    if ($drone_class) {
+        $drone_rs = $drone_schema->resultset($drone_class);
+        $drone_data = $drone_rs->count;
+    }
 
-    # add canonical products
     my %seen;
     my $product;
     my @canonical = grep { ! $seen{$_->{code}}++ } @data;
 
     foreach (@canonical) {
+        # define drone link
+        my $drone_product = $drone_schema->resultset($drone_class)->find({ sku => $_->{code} });
+
+        # check if canonical product has any drone data;
+        if($drone_product) {
+            foreach my $dtf ( @{$config->{drone}->{fields}->{text}}) {
+                $drone_data = $drone_product->$dtf;
+                if ($drone_data){
+                    $_->{$dtf} = $drone_data;
+                }
+            }
+        }
+
+        # add product
         $product = Angler::Populate::Product->new($_);
-        $product->add;
+        $product = $product->add;
+
+        # lets check the drone for an image
+        if (defined($drone_product) and $drone_product->img) {
+
+            my $image = Angler::Populate::Image->new(
+                schema => shop_schema,
+                url   => $drone_product->img,
+                manufacturer  => $manufacturer,
+                product =>  $product,
+                img_dir => $img_dir
+            );
+            $image->download;
+            $image->process;
+        }
     }
+
+    # add default sizes
+#    Angler::Populate::Size->add;
 
     # reset
     %seen = ();
@@ -167,18 +203,6 @@ if ( $type =~ /^xls/ ) {
     else {
         die "xls processor for $manufacturer does not exist";
     }
-
-=head2 clean_attribute_value($value)
-
-return a cleaned up value for AttributeValue value column
-
-=cut
-
-sub clean_attribute_value {
-    my $value = lc(shift);
-    $value =~ s/\s+/_/g;
-    return $value;
-}
 
 
 __END__
