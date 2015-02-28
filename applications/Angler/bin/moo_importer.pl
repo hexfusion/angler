@@ -16,6 +16,7 @@ use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 #use Angler::Interchange6::Schema::Populate::Media;
 use Angler::Populate::Product;
+use Angler::Populate::ProductVariant;
 use Angler::Populate::Attribute;
 use Angler::Populate::ParseExcel;
 use File::Basename;
@@ -103,8 +104,6 @@ if ( $type =~ /^xls/ ) {
                                 importer_config => $config
     );
 
-    #workflow
-
     # parse excel file
     my @data = $data->parse;
 
@@ -112,18 +111,43 @@ if ( $type =~ /^xls/ ) {
 #    my $drone = Angler::Populate::Drone->new(
 #    );
 
-    # create attributes and attribute_values
+
+    # add canonical products
+    my %seen;
+    my $product;
+    my @canonical = grep { ! $seen{$_->{code}}++ } @data;
+
+    foreach (@canonical) {
+        $product = Angler::Populate::Product->new($_);
+        $product->add;
+    }
+
+    # reset
+    %seen = ();
+    my $variant;
+    my @variants = grep { $seen{$_->{code}}++ } @data;
     my @values;
+
+    my @attributes;
+    my $i = '-1';
+
     foreach my $attribute (@{$config->{attributes}}) {
-        foreach (@data) {
+        $i++;
+        foreach (@variants) {
             # make sure value exists
             if ($_->{$attribute}) {
-                push @values, $_->{$attribute};
+               push @values, $_->{$attribute};
+               push @attributes, $_->{'attributes'}[$i] = {
+                    name => $attribute,
+                    title => ucfirst($attribute),
+                    value => $_->{$attribute}},
+                     $_->{'manufacturer'} = $manufacturer;
             }
         }
-        # make array unique
+        # make array values unique
         @values = uniq @values;
-        # add
+
+        # add attributes
         my $attributes = Angler::Populate::Attribute->new(
             schema => shop_schema,
             name   => $attribute,
@@ -133,23 +157,28 @@ if ( $type =~ /^xls/ ) {
         $attributes->add;
     }
 
-
-    # add canonical products
-    my %seen;
-    my $product;
-    my @canonical = grep { ! $seen{$_->{code}}++ } @data;
-
-    foreach (@canonical) {
-    $product = Angler::Populate::Product->new($_);
-        $product->add;
+    # add variants
+    foreach (@variants) {
+        $variant = Angler::Populate::ProductVariant->new($_);
+        $variant->add;
     }
-
-#    my @variants = grep { $seen{$_->{code}}++ } @data;
 
     }
     else {
         die "xls processor for $manufacturer does not exist";
     }
+
+=head2 clean_attribute_value($value)
+
+return a cleaned up value for AttributeValue value column
+
+=cut
+
+sub clean_attribute_value {
+    my $value = lc(shift);
+    $value =~ s/\s+/_/g;
+    return $value;
+}
 
 
 __END__

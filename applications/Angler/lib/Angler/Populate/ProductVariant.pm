@@ -4,6 +4,11 @@ use strict;
 use warnings;
 
 use Moo;
+use Angler::Interchange6::Schema;
+use Dancer::Plugin::DBIC;
+use Dancer::Plugin::Interchange6;
+use Text::Unidecode;
+use YAML qw/LoadFile/;
 use Dancer ':script';
 
 set logger => 'console';
@@ -24,8 +29,7 @@ my $attributes = {'size' => 's', 'color' => 'red'};
 
 my $variant = Angler::Populate::ProductVariant->new(
 
-            schema => shop_schema,
-            product => $product,
+            code => '23444',
             sku => 'WBA2003',
             name => 'Test Product Variant',
             price => '20.00',
@@ -45,13 +49,29 @@ $variant->add;
 
 =cut
 
-=head2 product
+=head2 importer_config
+
+Returns importer config
+
+=cut
+
+has importer_config => (
+    is => 'lazy'
+);
+
+sub _build_importer_config {
+    my ($self) =@_;
+    my $file = LoadFile( File::Spec->catfile( config->{appdir}, "importer.yml" ) );
+    return $file->{manufacturers}->{$self->manufacturer};
+}
+
+=head2 code 
 
 Returns the Interchange6::Schema::Result::Product object
 
 =cut
 
-has product => (
+has code => (
     is => 'ro',
     required => '1',
 );
@@ -63,9 +83,15 @@ Returns sku of product
 =cut
 
 has sku => (
-    is => 'ro',
-    required => 1,
+    is => 'lazy',
 );
+
+sub _build_sku {
+    my ($self) = @_;
+    my $prefix = $self->importer_config->{prefix};
+    my $sku = "WB-" . $prefix . "-" . $self->manufacturer_sku;
+    return $sku;
+}
 
 =head2 name
 
@@ -96,9 +122,14 @@ Returns uri of product
 =cut
 
 has uri => (
-    is => 'ro',
-    required => 1,
+    is => 'lazy',
 );
+
+sub _build_uri {
+    my ($self) = @_;
+    my $uri = clean_uri(lc( unidecode($self->name . '-' . $self->attribute_values . '-' .  $self->manufacturer_sku)));
+    return $uri;
+}
 
 =head2 weight
 
@@ -129,7 +160,7 @@ Returns active 0/1 of product
 
 has active => (
     is => 'ro',
-    default => undef
+    default => '0'
 );
 
 =head2 manufacturer_sku
@@ -150,7 +181,7 @@ Returns inventory_exempt status of product
 
 has inventory_exempt => (
     is => 'ro',
-    default => '1'
+    default => '0'
 );
 
 =head2 priority
@@ -161,17 +192,67 @@ Returns priority of product
 
 has priority => (
     is => 'ro',
+    default => '0'
 );
 
 =head2 attributes
 
-Returns a hashref of attributes
+experimental only atm
 
 =cut
 
 has attributes => (
     is => 'ro',
     required => '1'
+);
+
+=head2 attribute_values
+
+Returns a list of the attribute values space delimited.
+
+=cut
+
+has attribute_values => (
+    is => 'lazy',
+);
+
+sub _build_attribute_values {
+    my ($self) = @_;
+    my @a = @{$self->attributes};
+    my @v;
+    foreach (@a) {
+         push @v, $_->{value};
+    }
+    return join(' ', @v);;
+}
+
+=head2 variants
+
+returns attribute/value pair used for add_varaints method
+
+=cut
+
+has variants => (
+    is => 'lazy'
+);
+
+sub _build_variants {
+    my ($self) = @_;
+    my @a = @{$self->attributes};
+    my $variants;
+    foreach (@a) {
+         $variants->{$_->{name}} = &clean_attribute_value($_->{value});
+    }
+    return $variants;
+}
+
+=head2 manufacturer
+
+=cut
+
+has manufacturer => (
+    is => 'ro',
+    required => 1,
 );
 
 =head1 METHODS
@@ -181,7 +262,9 @@ has attributes => (
 sub add {
     my ($self) = @_;
 
-    $self->product->add_variants(
+    info "variants", $self->variants;
+
+    shop_product->find({manufacturer_sku => $self->code})->add_variants(
     {
         sku => $self->sku,
         name => $self->name,
@@ -193,8 +276,34 @@ sub add {
         manufacturer_sku => $self->manufacturer_sku,
         inventory_exempt => $self->inventory_exempt,
         priority => $self->priority,
-            attributes => $self->attributes,
+            attributes => $self->variants,
      });
+}
+
+=head2 clean_uri($uri)
+
+Removes junk from potential uri including RFC3986 reserved characters
+
+=cut
+
+sub clean_uri {
+    my $uri = shift;
+    $uri =~ s^\!\*\'\(\)\;\:\@\&\=\+\$\,/\?\#\[\]^-^g;
+    $uri =~ s/\s+/-/g;
+    $uri =~ s/\-+/-/g;
+    return $uri;
+}
+
+=head2 clean_attribute_value($value)
+
+return a cleaned up value for AttributeValue value column
+
+=cut
+
+sub clean_attribute_value {
+    my $value = lc(shift);
+    $value =~ s/\s+/_/g;
+    return $value;
 }
 
 1;

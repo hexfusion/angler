@@ -256,7 +256,7 @@ sub add {
             price => $self->price,
             uri => $self->uri,
             weight => $self->weight,
-            gtin => $self->gtin,
+            gtin => undef,
             canonical_sku => $self->canonical_sku,
             active => $self->active,
             manufacturer_sku => $self->code,
