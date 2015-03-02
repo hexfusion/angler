@@ -1148,6 +1148,35 @@ ajax '/states_for_country' => sub {
     to_json(\%response);
 };
 
+=head2 ajax /states_id_for_zipcode
+
+Called with a single param 'zipcode' which should be a valid US zipcode
+searches on the first three digits for a zone named "US postal $zip3".
+Returns the states_id if found.
+
+=cut
+
+ajax '/states_id_for_zipcode' => sub {
+    my $zip = param 'zipcode';
+    my %return = ( type => "fail" );
+
+    if ( $zip && $zip =~ /^(\d{3})/ ) {
+        if ( my $zone =
+            shop_schema->resultset('Zone')->find( { zone => "US postal $1" } ) )
+        {
+            if ( my $state = $zone->states->single ) {
+                %return = (
+                    type      => "success",
+                    states_id => $state->states_id
+                );
+            }
+        }
+    }
+
+    content_type('application/json');
+    to_json(\%return);
+};
+
 ajax '/variant_attribute_values' => sub {
 
     # param should be sku of a variant
