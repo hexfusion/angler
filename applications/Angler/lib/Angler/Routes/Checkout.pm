@@ -4,6 +4,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
+use Dancer::Plugin::Ajax;
 use Dancer::Plugin::Email;
 
 use Angler::Plugin::History;
@@ -172,6 +173,48 @@ var add_to_history => { type => 'all', name => 'Blog page' };
         }
     }
     template 'checkout/content', checkout_tokens($form, $error_hash);
+};
+
+ajax '/checkout/update_tax' => sub {
+    my %params = params;
+    my %return;
+
+    forward 400 unless $params{shipping_country};
+
+    my $tax_rate = 0;
+
+    if ( $params{shipping_country} eq 'US' && $params{shipping_state} ) {
+        my $state = shop_state( $params{shipping_state} );
+        if ( $state && $state->state_iso_code eq 'NY' ) {
+            $tax_rate = 0.08;
+        }
+    }
+
+    if (   $params{billing_country}
+        && $params{billing_country} eq 'US'
+        && $params{billing_state} )
+    {
+        my $state = shop_state( $params{billing_state} );
+        if ( $state && $state->state_iso_code eq 'NY' ) {
+            $tax_rate = 0.08;
+        }
+    }
+
+    my $cart = shop_cart;
+    if ( $tax_rate ) {
+        $cart->apply_cost( amount => $tax_rate, name => 'tax', relative => 1 );
+        $return{tax} = $cart->cost('tax');
+    }
+    else {
+        $return{tax} = '0.00';
+    }
+
+    $return{subtotal} = $cart->subtotal;
+    $return{total}    = $cart->total;
+    $return{type}     = 'success';
+
+    content_type('application/json');
+    to_json( \%return );
 };
 
 post '/shipping-quote' => sub {
