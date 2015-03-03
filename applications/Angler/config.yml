@@ -81,6 +81,8 @@ emails:
   service_email: service@westbranchangler.com
 
 plugins:
+  Ajax:
+    content_type: 'application/json'
   Interchange6::Routes:
     product:
       template: flypage/content

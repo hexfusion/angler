@@ -120,7 +120,7 @@
                         <div class="col-2">
                           <div class="shipping">
                             <h2>Estimate Shipping and Tax</h2>
-                            <form id="form-shipping-quote" name="shipping-quote" action="/shipping-quote" method="POST">
+                            <form data-toggle="validator" role=form" id="form-shipping-quote" name="shipping-quote" action="/shipping-quote" method="POST">
                             <fieldset>
                             <div class="shipping-form">
                                 <p>Enter your destination to get a shipping estimate.</p>
@@ -135,8 +135,9 @@
                                   </li>
                                   <li>
                                     <label for="postcode">Zip/Postal Code</label>
-                                    <div class="input-box">
-                                      <input class="postal_code input-text validate-postcode form-control" id="postal_code" name="postal_code" type="text">
+                                    <div class="input-box form-group">
+                                      <input class="postal_code input-text validate-postcode form-control" id="postal_code" name="postal_code" type="text" data-delay="0" required>
+                                      <div class="help-block with-errors"></div>
                                     </div>
                                   </li>
                                 </ul>

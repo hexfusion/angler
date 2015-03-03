@@ -24,6 +24,7 @@ use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
+use Angler::Routes::Validator;
 use Angler::Cart;
 use Angler::SearchResults;
 
@@ -867,6 +868,8 @@ hook 'before_cart_display' => sub {
     # filling cart form
     $form->fill($form_values);
     $values->{form} = $form;
+
+    $values->{"extra-js-file"} = 'cart.js';
 };
 
 =head1 METHODS
