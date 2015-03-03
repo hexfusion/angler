@@ -14,29 +14,33 @@ All of the Validator routes are ajax and are prefix with "/validator"
 
 prefix '/validator';
 
-=head2 /cart/quote
+=head2 /postcode_for_country
 
-Validate US zip codes in cart 'estimate shipping and tax'
+Expected params are C<country> which should be ISO country code
+and C<postal_code>.
+
+Returns 200 OK for all countries except US. For US it checks zip3 against zones.
 
 =cut
 
-ajax '/cart/quote' => sub {
+ajax '/postcode_for_country' => sub {
 
     my %query = params('query');
 
-    if ( $query{country} && $query{country} eq 'US' && $query{postal_code} ) {
+    if (   $query{country}
+        && uc( $query{country} ) eq 'US'
+        && $query{postal_code} )
+    {
 
-        if ( $query{postal_code} !~ /^(\d{3})\d{2}$/ ) {
-            status(404);
-            return( to_json({ response => "Invalid zipode"}) )
-        }
+        return fail_response( 404, "invalid zipcode" )
+          unless $query{postal_code} =~ /^(\d{3})\d{2}$/;
 
         my $zip3 = $1;
 
         my $zone = schema->resultset('Zone')->search(
             {
                 'zone_countries.country_iso_code' => 'US',
-                zone => "US postal $zip3",
+                zone                              => "US postal $zip3",
 
             },
             {
@@ -44,13 +48,23 @@ ajax '/cart/quote' => sub {
             }
         )->single;
 
-        if ( not $zone ) {
-            status(404);
-            return( to_json({ response => "zipode not found"}) )
-        }
+        return fail_response( 404, "zipcode not found" ) unless $zone;
     }
+
     to_json({ type => "success" });
 };
+
+=head1 METHODS
+
+=head2 fail_response( $code, $message )
+
+=cut
+
+sub fail_response {
+    my ( $code, $msg ) = @_;
+    status($code);
+    return to_json({ type => "fail", message => $msg });
+}
 
 # paranoia
 prefix undef;
