@@ -151,7 +151,7 @@ sub show_rates {
     foreach my $product (@{$cart->cart->products}) {
         my $p = $cart->schema->resultset('Product')->find($product->sku);
         if ($p) {
-            $weight += ($p->weight || 0);
+            $weight += $p->weight*1 ? $p->weight : 0.25;
         }
     }
     return unless $weight;
