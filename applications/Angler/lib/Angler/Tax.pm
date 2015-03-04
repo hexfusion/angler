@@ -16,7 +16,7 @@ sub rate {
     my $taxable = taxable_location($schema, $state);
 
     if ($taxable) {
-        $tax_total = ( 0.08 * $subtotal);
+        $tax_total = sprintf("%.2f", 0.08 * $subtotal);
     }
     return $tax_total;
 }
