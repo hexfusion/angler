@@ -6,6 +6,7 @@ use warnings;
 use Net::Easypost;
 use Net::Easypost::Address;
 use Net::Easypost::Parcel;
+use Dancer qw/debug warning/;
 
 =head2 shipment_methods($schema, $country_iso_code)
 
@@ -148,10 +149,16 @@ sub free_shipping_cart {
 sub show_rates {
     my ($cart) = @_;
     my $weight = 0;
-    foreach my $product (@{$cart->cart->products}) {
-        my $p = $cart->schema->resultset('Product')->find($product->sku);
-        if ($p) {
-            $weight += $p->weight*1 ? $p->weight : 0.25;
+    foreach my $product ( $cart->cart->products_array ) {
+        if ( defined $product->weight ) {
+            debug "sku ", $product->sku, " has weight ", $product->weight;
+            $weight += $product->weight;
+        }
+        else {
+            debug "sku ", $product->sku, " has undef weight.";
+            warning "TODO: add navigation weights + code to handle such.";
+            # for now add some weight for this product
+            $weight += 0.25;
         }
     }
     return unless $weight;
