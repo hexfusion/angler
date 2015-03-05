@@ -257,6 +257,21 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  Archive-Extract-0.74
+    pathname: B/BI/BINGOS/Archive-Extract-0.74.tar.gz
+    provides:
+      Archive::Extract 0.74
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Path 0
+      File::Spec 0.82
+      IPC::Cmd 0.64
+      Locale::Maketext::Simple 0
+      Module::Load::Conditional 0.04
+      Params::Check 0.07
+      Test::More 0
+      if 0
   Archive-Zip-1.45
     pathname: P/PH/PHRED/Archive-Zip-1.45.tar.gz
     provides:
@@ -542,6 +557,29 @@ DISTRIBUTIONS
       Scalar::Util 0
       strict 0
       warnings 0
+  Carp-Assert-0.21
+    pathname: N/NE/NEILB/Carp-Assert-0.21.tar.gz
+    provides:
+      Carp::Assert 0.21
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      vars 0
+      warnings 0
+  Carp-Assert-More-1.14
+    pathname: P/PE/PETDANCE/Carp-Assert-More-1.14.tar.gz
+    provides:
+      Carp::Assert::More 1.14
+    requirements:
+      Carp 0
+      Carp::Assert 0
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      Test::Exception 0
+      Test::More 0.18
   Carp-Clan-6.04
     pathname: S/ST/STBEY/Carp-Clan-6.04.tar.gz
     provides:
@@ -1224,6 +1262,21 @@ DISTRIBUTIONS
       SQL::Translator 0.11007
       Test::More 0
       Try::Tiny 0
+  DBIx-Class-Schema-Config-0.001011
+    pathname: S/SY/SYMKAT/DBIx-Class-Schema-Config-0.001011.tar.gz
+    provides:
+      DBIx::Class::Schema::Config 0.001011
+    requirements:
+      Config::Any 0.23
+      DBD::SQLite 0
+      DBIx::Class 0.08100
+      ExtUtils::MakeMaker 6.36
+      File::HomeDir 0
+      Hash::Merge 0
+      Storable 0
+      Test::More 0.42
+      namespace::clean 0
+      perl 5.005
   DBIx-Class-Schema-Loader-0.07042
     pathname: I/IL/ILMARI/DBIx-Class-Schema-Loader-0.07042.tar.gz
     provides:
@@ -1559,6 +1612,13 @@ DISTRIBUTIONS
       Module::Load 0
       Net::SMTP::SSL 1.01
       Net::SSLeay 1.58
+  Dancer-Plugin-FlashNote-1.0.4
+    pathname: P/PO/POLETTIX/Dancer-Plugin-FlashNote-1.0.4.tar.gz
+    provides:
+      Dancer::Plugin::FlashNote 1.000004
+    requirements:
+      Dancer 1.2001
+      ExtUtils::MakeMaker 6.30
   Dancer-Plugin-Interchange6-0.061
     pathname: H/HO/HORNBURG/Dancer-Plugin-Interchange6-0.061.tar.gz
     provides:
@@ -1585,10 +1645,10 @@ DISTRIBUTIONS
       Test::Roo 1.004
       YAML 0
       perl 5.014000
-  Dancer-Session-DBIC-0.003
-    pathname: H/HO/HORNBURG/Dancer-Session-DBIC-0.003.tar.gz
+  Dancer-Session-DBIC-0.004
+    pathname: H/HO/HORNBURG/Dancer-Session-DBIC-0.004.tar.gz
     provides:
-      Dancer::Session::DBIC 0.003
+      Dancer::Session::DBIC 0.004
     requirements:
       DBIx::Class 0
       Dancer 0
@@ -2833,6 +2893,18 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0.47
       perl 5.004
+  Devel-Confess-0.007011
+    pathname: H/HA/HAARG/Devel-Confess-0.007011.tar.gz
+    provides:
+      Devel::Confess 0.007011
+      Devel::Confess::Builtin 0.007011
+      Devel::Confess::Source undef
+      Devel::Confess::_Util undef
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      perl 5.006000
   Devel-Declare-0.006017
     pathname: E/ET/ETHER/Devel-Declare-0.006017.tar.gz
     provides:
@@ -3039,60 +3111,60 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Email-Sender-1.300006
-    pathname: R/RJ/RJBS/Email-Sender-1.300006.tar.gz
+  Email-Sender-1.300016
+    pathname: R/RJ/RJBS/Email-Sender-1.300016.tar.gz
     provides:
-      Email::Sender 1.300006
-      Email::Sender::Failure 1.300006
-      Email::Sender::Failure::Multi 1.300006
-      Email::Sender::Failure::Permanent 1.300006
-      Email::Sender::Failure::Temporary 1.300006
-      Email::Sender::Manual 1.300006
-      Email::Sender::Manual::QuickStart 1.300006
-      Email::Sender::Role::CommonSending 1.300006
-      Email::Sender::Role::HasMessage 1.300006
-      Email::Sender::Simple 1.300006
-      Email::Sender::Success 1.300006
-      Email::Sender::Success::Partial 1.300006
-      Email::Sender::Transport 1.300006
-      Email::Sender::Transport::DevNull 1.300006
-      Email::Sender::Transport::Failable 1.300006
-      Email::Sender::Transport::Maildir 1.300006
-      Email::Sender::Transport::Mbox 1.300006
-      Email::Sender::Transport::Print 1.300006
-      Email::Sender::Transport::SMTP 1.300006
-      Email::Sender::Transport::SMTP::Persistent 1.300006
-      Email::Sender::Transport::Sendmail 1.300006
-      Email::Sender::Transport::Test 1.300006
-      Email::Sender::Transport::Wrapper 1.300006
-      Email::Sender::Util 1.300006
+      Email::Sender 1.300016
+      Email::Sender::Failure 1.300016
+      Email::Sender::Failure::Multi 1.300016
+      Email::Sender::Failure::Permanent 1.300016
+      Email::Sender::Failure::Temporary 1.300016
+      Email::Sender::Manual 1.300016
+      Email::Sender::Manual::QuickStart 1.300016
+      Email::Sender::Role::CommonSending 1.300016
+      Email::Sender::Role::HasMessage 1.300016
+      Email::Sender::Simple 1.300016
+      Email::Sender::Success 1.300016
+      Email::Sender::Success::Partial 1.300016
+      Email::Sender::Transport 1.300016
+      Email::Sender::Transport::DevNull 1.300016
+      Email::Sender::Transport::Failable 1.300016
+      Email::Sender::Transport::Maildir 1.300016
+      Email::Sender::Transport::Mbox 1.300016
+      Email::Sender::Transport::Print 1.300016
+      Email::Sender::Transport::SMTP 1.300016
+      Email::Sender::Transport::SMTP::Persistent 1.300016
+      Email::Sender::Transport::Sendmail 1.300016
+      Email::Sender::Transport::Test 1.300016
+      Email::Sender::Transport::Wrapper 1.300016
+      Email::Sender::Util 1.300016
     requirements:
-      Capture::Tiny 0.08
       Carp 0
-      Cwd 0
-      Email::Abstract 3
+      Email::Abstract 3.006
       Email::Address 0
       Email::Simple 1.998
-      ExtUtils::MakeMaker 6.30
+      ExtUtils::MakeMaker 0
       Fcntl 0
       File::Basename 0
-      File::Find 0
-      File::Path 0
+      File::Path 2.06
       File::Spec 0
-      File::Temp 0
-      FindBin 0
+      IO::File 0
+      IO::Handle 0
       List::MoreUtils 0
       Module::Runtime 0
       Moo 1.000008
       Moo::Role 0
       MooX::Types::MooseLike 0.15
+      MooX::Types::MooseLike::Base 0
       Net::SMTP 0
       Scalar::Util 0
       Sub::Exporter 0
+      Sub::Exporter::Util 0
       Sys::Hostname 0
-      Test::More 0.96
       Throwable::Error 0.200003
       Try::Tiny 0
+      strict 0
+      warnings 0
   Email-Simple-2.202
     pathname: R/RJ/RJBS/Email-Simple-2.202.tar.gz
     provides:
@@ -3181,6 +3253,45 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
+  Excel-Writer-XLSX-0.81
+    pathname: J/JM/JMCNAMARA/Excel-Writer-XLSX-0.81.tar.gz
+    provides:
+      Excel::Writer::XLSX 0.81
+      Excel::Writer::XLSX::Chart 0.81
+      Excel::Writer::XLSX::Chart::Area 0.81
+      Excel::Writer::XLSX::Chart::Bar 0.81
+      Excel::Writer::XLSX::Chart::Column 0.81
+      Excel::Writer::XLSX::Chart::Doughnut 0.81
+      Excel::Writer::XLSX::Chart::Line 0.81
+      Excel::Writer::XLSX::Chart::Pie 0.81
+      Excel::Writer::XLSX::Chart::Radar 0.81
+      Excel::Writer::XLSX::Chart::Scatter 0.81
+      Excel::Writer::XLSX::Chart::Stock 0.81
+      Excel::Writer::XLSX::Chartsheet 0.81
+      Excel::Writer::XLSX::Drawing 0.81
+      Excel::Writer::XLSX::Examples 0.81
+      Excel::Writer::XLSX::Format 0.81
+      Excel::Writer::XLSX::Package::App 0.81
+      Excel::Writer::XLSX::Package::Comments 0.81
+      Excel::Writer::XLSX::Package::ContentTypes 0.81
+      Excel::Writer::XLSX::Package::Core 0.81
+      Excel::Writer::XLSX::Package::Packager 0.81
+      Excel::Writer::XLSX::Package::Relationships 0.81
+      Excel::Writer::XLSX::Package::SharedStrings 0.81
+      Excel::Writer::XLSX::Package::Styles 0.81
+      Excel::Writer::XLSX::Package::Table 0.81
+      Excel::Writer::XLSX::Package::Theme 0.81
+      Excel::Writer::XLSX::Package::VML 0.81
+      Excel::Writer::XLSX::Package::XMLwriter 0.81
+      Excel::Writer::XLSX::Shape 0.81
+      Excel::Writer::XLSX::Utility 0.81
+      Excel::Writer::XLSX::Workbook 0.81
+      Excel::Writer::XLSX::Worksheet 0.81
+    requirements:
+      Archive::Zip 1.3
+      ExtUtils::MakeMaker 0
+      File::Temp 0.19
+      IO::File 1.14
   Exception-Class-1.37
     pathname: D/DR/DROLSKY/Exception-Class-1.37.tar.gz
     provides:
@@ -3597,6 +3708,26 @@ DISTRIBUTIONS
     requirements:
       Carp 0
       ExtUtils::MakeMaker 0
+  HTML-Form-6.03
+    pathname: G/GA/GAAS/HTML-Form-6.03.tar.gz
+    provides:
+      HTML::Form 6.03
+      HTML::Form::FileInput 6.03
+      HTML::Form::IgnoreInput 6.03
+      HTML::Form::ImageInput 6.03
+      HTML::Form::Input 6.03
+      HTML::Form::KeygenInput 6.03
+      HTML::Form::ListInput 6.03
+      HTML::Form::SubmitInput 6.03
+      HTML::Form::TextInput 6.03
+    requirements:
+      Encode 2
+      ExtUtils::MakeMaker 0
+      HTML::TokeParser 0
+      HTTP::Request 6
+      HTTP::Request::Common 6.03
+      URI 1.10
+      perl 5.008001
   HTML-Format-2.11
     pathname: N/NI/NIGELM/HTML-Format-2.11.tar.gz
     provides:
@@ -3673,6 +3804,23 @@ DISTRIBUTIONS
       HTML::Tagset 3
       XSLoader 0
       perl 5.008
+  HTML-PrettyPrinter-0.03
+    pathname: C/CL/CLMS/HTML-PrettyPrinter-0.03.tar.gz
+    provides:
+      HTML::PrettyPrinter 0.03
+    requirements:
+      ExtUtils::MakeMaker 0
+      HTML::Element 3.02
+      HTML::Tagset 3.01
+  HTML-Selector-XPath-0.18
+    pathname: C/CO/CORION/HTML-Selector-XPath-0.18.tar.gz
+    provides:
+      HTML::Selector::XPath 0.18
+    requirements:
+      ExtUtils::MakeMaker 6.59
+      Test::Base 0
+      Test::More 0
+      perl 5.008001
   HTML-Tagset-3.20
     pathname: P/PE/PETDANCE/HTML-Tagset-3.20.tar.gz
     provides:
@@ -5497,6 +5645,21 @@ DISTRIBUTIONS
       OLE::Storage_Lite::PPS::Root 0.19
     requirements:
       ExtUtils::MakeMaker 0
+  Object-Import-1.004
+    pathname: A/AM/AMBRUS/Object-Import-1.004.tar.gz
+    provides:
+      Object::Import 1.004
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Temp 0
+      IO::Handle 0
+      MRO::Compat 0
+      Math::BigInt 1.59
+      Scalar::Util 0
+      Test::More 0.47
+      perl 5.008
+      strict 0
+      warnings 0
   Object-InsideOut-3.98
     pathname: J/JD/JDHEDDEN/Object-InsideOut-3.98.tar.gz
     provides:
@@ -6246,6 +6409,63 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Selenium-Remote-Driver-0.23
+    pathname: G/GE/GEMPESAW/Selenium-Remote-Driver-0.23.tar.gz
+    provides:
+      Selenium::Remote::Commands 0.23
+      Selenium::Remote::Driver 0.23
+      Selenium::Remote::Driver::Firefox::Profile 0.23
+      Selenium::Remote::ErrorHandler 0.23
+      Selenium::Remote::Mock::Commands 0.23
+      Selenium::Remote::Mock::RemoteConnection 0.23
+      Selenium::Remote::RemoteConnection 0.23
+      Selenium::Remote::WDKeys 0.23
+      Selenium::Remote::WebElement 0.23
+      Test::Selenium::Remote::Driver 0.23
+      Test::Selenium::Remote::Role::DoesTesting 0.23
+      Test::Selenium::Remote::WebElement 0.23
+    requirements:
+      Archive::Extract 0
+      Archive::Zip 0
+      Carp 0
+      Cwd 0
+      Data::Dumper 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Copy 0
+      File::Spec::Functions 0
+      File::Temp 0
+      HTTP::Headers 0
+      HTTP::Request 0
+      HTTP::Response 0
+      IO::Compress::Zip 0
+      IO::Socket 0
+      JSON 0
+      LWP::UserAgent 0
+      List::MoreUtils 0
+      MIME::Base64 0
+      Moo 1.005
+      Moo::Role 0
+      Net::Ping 0
+      Scalar::Util 0
+      Sub::Install 0
+      Test::Builder 0
+      Test::LongString 0
+      Try::Tiny 0
+      base 0
+      constant 0
+      namespace::clean 0
+      perl 5.010
+      strict 0
+      warnings 0
+  Session-Token-1.008
+    pathname: F/FR/FRACTAL/Session-Token-1.008.tar.gz
+    provides:
+      Session::Token 1.008
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.008000
   Set-Tiny-0.02
     pathname: T/TR/TRENDELS/Set-Tiny-0.02.tar.gz
     provides:
@@ -6265,6 +6485,13 @@ DISTRIBUTIONS
       Lingua::Stem::Snowball::Se 1.2
     requirements:
       Test::More 0.42
+  Spiffy-0.46
+    pathname: I/IN/INGY/Spiffy-0.46.tar.gz
+    provides:
+      Spiffy 0.46
+      Spiffy::mixin undef
+    requirements:
+      ExtUtils::MakeMaker 6.30
   Spreadsheet-ParseExcel-0.65
     pathname: D/DO/DOUGW/Spreadsheet-ParseExcel-0.65.tar.gz
     provides:
@@ -6580,6 +6807,17 @@ DISTRIBUTIONS
       Term::ReadKey 2.31
     requirements:
       ExtUtils::MakeMaker 0
+  Test-Base-0.88
+    pathname: I/IN/INGY/Test-Base-0.88.tar.gz
+    provides:
+      Test::Base 0.88
+      Test::Base::Block 0.88
+      Test::Base::Filter undef
+      Test::Base::Handle 0.88
+    requirements:
+      ExtUtils::MakeMaker 6.30
+      Filter::Util::Call 0
+      Spiffy 0.40
   Test-CheckManifest-1.29
     pathname: R/RE/RENEEB/Test-CheckManifest-1.29.tar.gz
     provides:
@@ -6717,6 +6955,28 @@ DISTRIBUTIONS
       Test::More 0.70
       Text::Diff 0.35
       perl 5.008003
+  Test-LWP-UserAgent-0.026
+    pathname: E/ET/ETHER/Test-LWP-UserAgent-0.026.tar.gz
+    provides:
+      Test::LWP::UserAgent 0.026
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      HTTP::Date 0
+      HTTP::Request 0
+      HTTP::Response 0
+      HTTP::Status 0
+      LWP::UserAgent 0
+      Safe::Isa 0
+      Scalar::Util 0
+      Storable 0
+      Try::Tiny 0
+      URI 0
+      namespace::clean 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
   Test-LeakTrace-0.15
     pathname: G/GF/GFUJI/Test-LeakTrace-0.15.tar.gz
     provides:
@@ -6727,6 +6987,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.59
       Test::More 0.62
       perl 5.008001
+  Test-LongString-0.17
+    pathname: R/RG/RGARCIA/Test-LongString-0.17.tar.gz
+    provides:
+      Test::LongString 0.17
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::Builder 0.12
+      Test::Builder::Tester 1.04
   Test-Manifest-1.23
     pathname: B/BD/BDFOY/Test-Manifest-1.23.tar.gz
     provides:
@@ -6924,6 +7192,46 @@ DISTRIBUTIONS
       strict 0
       version 0
       warnings 0
+  Test-WWW-Mechanize-1.44
+    pathname: P/PE/PETDANCE/Test-WWW-Mechanize-1.44.tar.gz
+    provides:
+      Test::WWW::Mechanize 1.44
+    requirements:
+      Carp::Assert::More 0
+      ExtUtils::MakeMaker 0
+      HTML::TreeBuilder 0
+      HTTP::Server::Simple 0.42
+      HTTP::Server::Simple::CGI 0
+      LWP 6.02
+      Test::Builder::Tester 1.09
+      Test::LongString 0.15
+      Test::More 0.96
+      URI::file 0
+      WWW::Mechanize 1.68
+      perl 5.008
+  Test-WWW-Mechanize-Dancer-0.0100
+    pathname: W/WW/WWOLF/Test-WWW-Mechanize-Dancer-0.0100.tar.gz
+    provides:
+      Test::WWW::Mechanize::Dancer 0.0100
+    requirements:
+      Cwd 0
+      Dancer 0
+      ExtUtils::MakeMaker 6.30
+      Module::Load 0
+      Moose 0
+      Test::WWW::Mechanize::PSGI 0
+      strict 0
+      warnings 0
+  Test-WWW-Mechanize-PSGI-0.35
+    pathname: L/LB/LBROCARD/Test-WWW-Mechanize-PSGI-0.35.tar.gz
+    provides:
+      Test::WWW::Mechanize::PSGI 0.35
+    requirements:
+      ExtUtils::MakeMaker 0
+      HTTP::Message::PSGI 0
+      Test::More 0
+      Test::WWW::Mechanize 0
+      Try::Tiny 0
   Test-Warn-0.24
     pathname: C/CH/CHORNY/Test-Warn-0.24.tar.gz
     provides:
@@ -7325,6 +7633,74 @@ DISTRIBUTIONS
       XSLoader 0
       base 0
       perl 5.008
+  WWW-Mechanize-1.74
+    pathname: E/ET/ETHER/WWW-Mechanize-1.74.tar.gz
+    provides:
+      WWW::Mechanize 1.74
+      WWW::Mechanize::Image undef
+      WWW::Mechanize::Link undef
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      File::Temp 0
+      FindBin 0
+      Getopt::Long 0
+      HTML::Form 6
+      HTML::HeadParser 0
+      HTML::Parser 3.33
+      HTML::TokeParser 2.28
+      HTML::TreeBuilder 0
+      HTTP::Daemon 0
+      HTTP::Request 1.3
+      HTTP::Server::Simple 0.35
+      HTTP::Server::Simple::CGI 0
+      HTTP::Status 0
+      LWP 5.829
+      LWP::UserAgent 5.829
+      Pod::Usage 0
+      Test::More 0.34
+      Test::Warn 0.11
+      URI 1.36
+      URI::URL 0
+      URI::file 0
+      perl 5.008
+  WWW-Mechanize-PhantomJS-0.11
+    pathname: C/CO/CORION/WWW-Mechanize-PhantomJS-0.11.tar.gz
+    provides:
+      WWW::Mechanize::PhantomJS 0.11
+      WWW::Mechanize::PhantomJS::DSL 0.11
+      WWW::Mechanize::PhantomJS::Examples 0.11
+      WWW::Mechanize::Plugin::Selector 0.11
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Copy 0
+      File::Find 0
+      File::Path 0
+      HTML::Selector::XPath 0
+      HTTP::Daemon 0
+      HTTP::Response 0
+      IO::Socket::INET 0
+      LWP::Simple 0
+      Object::Import 0
+      Scalar::Util 0
+      Selenium::Remote::Driver 0.18
+      WWW::Mechanize::Link 0
+      perl 5.006
+  WWW-Mechanize-TreeBuilder-1.20000
+    pathname: A/AS/ASH/WWW-Mechanize-TreeBuilder-1.20000.tar.gz
+    provides:
+      WWW::Mechanize::TreeBuilder 1.20000
+    requirements:
+      ExtUtils::MakeMaker 6.59
+      HTML::TreeBuilder 0
+      Moose 2.1200
+      MooseX::Role::Parameterized 0
+      Scalar::Util 0
+      Test::More 0
+      Test::WWW::Mechanize 0
+      perl 5.008001
   WWW-RobotRules-6.02
     pathname: G/GA/GAAS/WWW-RobotRules-6.02.tar.gz
     provides:
