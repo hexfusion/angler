@@ -148,6 +148,9 @@ sub free_shipping_cart {
 
 sub show_rates {
     my ($cart) = @_;
+
+    # calculate cart weight
+
     my $weight = 0;
     foreach my $product ( $cart->cart->products_array ) {
         if ( defined $product->weight ) {
@@ -161,7 +164,12 @@ sub show_rates {
             $weight += 0.25;
         }
     }
+
+    # zero weight is valid for things such as gift tokens or services
+
     return unless $weight;
+
+
     my @rates = easy_post_get_rates($cart->schema, $cart->country,
                                     $cart->postal_code, $weight);
     my @out;
