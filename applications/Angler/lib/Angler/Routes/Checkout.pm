@@ -232,7 +232,8 @@ post '/shipping-quote' => sub {
 
     if ( param('get_quote') && param('country') && param('postal_code') ) {
 
-        my $zone = shop_zone->find({zone=>"Deliverable Countries"});
+        my $zone = shop_schema->resultset('Zone')
+          ->find( { zone => "Deliverable Countries" } );
 
         # TODO: fail here if the zone is missing instead of going back to cart
         return template('/cart', $tokens) unless $zone;
@@ -272,7 +273,7 @@ post '/shipping-quote' => sub {
 
         $tokens->{shipping_methods} = $angler_cart->shipping_methods;
 
-        template "cart", { $tokens };
+        template "cart", $tokens;
     }
     elsif (param('select_quote')) {
         # selecting quotes
