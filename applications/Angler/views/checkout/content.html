@@ -92,14 +92,14 @@
                         <div class="field form-group">
                           <label for="inputPostalCode" class="required"><em>*</em>Zip/Postal Code</label>
                           <div class="input-box">
-                          <input type="text" title="Zip/Postal Code" id="inputPostalCode" name="postal_code" placeholder="ZIP code" data-error="Please enter a Postal Code" class="input-text form-control" required="" />
+                          <input type="text" title="Zip/Postal Code" id="inputPostalCode" name="postal_code" placeholder="ZIP code" data-error="Please enter a Postal Code" class="input-text form-control postal_code" required="" />
                         <span class="help-block with-errors"></span> <span class="control-label" for="inputError" id="errorPostalCode">Error</span>
                         </div>
                         </div>
                         <div class="field">
                           <label for="inputCountry" class="required"><em>*</em>Country</label>
                         <div class="input-box">
-                          <select id="inputCountry" name="country" class="validate-select" title="Country" >
+                          <select id="inputCountry" name="country" class="validate-select country" title="Country" >
                             <option>Country</option>
                           </select>
                         </div>
@@ -211,14 +211,14 @@
                       <div class="field control-group error">
                         <label for="inputBillingPostalCode" class="required"><em>*</em>Zip/Postal Code</label>
                         <div class="billing_postal_code input-box">
-                          <input type="text" title="Zip/Postal Code" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" class="input-text required-entry" />
+                          <input type="text" title="Zip/Postal Code" id="inputBillingPostalCode" name="billing_postal_code" placeholder="ZIP code" class="input-text required-entry postal_code" />
                           <span class="control-label" for="inputError" id="errorBillingPostalCode">Error</span>
                         </div>
                       </div>
                       <div class="field control-group error">
                         <label for="inputBillingCountry" class="required"><em>*</em>Country</label>
                         <div class="input-box">
-                          <select class="input-xlarge" name="billing_country" id="inputBillingCountry" title="Country" placeholder="Choose Country" >
+                          <select class="input-xlarge country" name="billing_country" id="inputBillingCountry" title="Country" placeholder="Choose Country" >
                             <option>Country</option>
                           </select>
                         </div>
