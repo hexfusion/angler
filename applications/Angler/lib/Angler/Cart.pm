@@ -32,8 +32,7 @@ user_id for authenticated users.
 =cut
 
 has user_id => (
-    is => 'rw',
-    required => 1,
+    is => 'ro',
 );
 
 =head2 cart
@@ -43,7 +42,7 @@ L<Interchange6::Cart> object.
 =cut
 
 has cart => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
@@ -54,18 +53,18 @@ L<Interchange6::Schema> object.
 =cut
 
 has schema => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
 =head2 country
 
-Shipping country, defaults to C<US>.
+Shipping country (required).
 
 =cut
 
 has country => (
-    is => 'rw',
+    is => 'ro',
     default => 'US',
 );
 
@@ -76,7 +75,7 @@ Postal code (required).
 =cut
 
 has postal_code => (
-    is => 'rw',
+    is => 'ro',
     required => 1,
 );
 
@@ -88,7 +87,7 @@ Sets the current shipping method
 =cut
 
 has shipping_methods_id => (
-    is => 'rw',
+    is => 'ro',
 );
 
 =head2 state
@@ -119,6 +118,10 @@ Returns shipping methods.
 
 has shipping_methods => (
     is => 'rwp',
+);
+
+has shipping_rates => (
+    is => 'rw',
 );
 
 =head2 tax
@@ -154,10 +157,6 @@ sub update_costs {
         }
     }
 
-    unless ($self->country) {
-        $self->country('US');
-    }
-
     my $shipping_methods_id = $self->shipping_methods_id;
     my $shipping_cost;
 
@@ -182,6 +181,8 @@ sub update_costs {
             );
 
     $self->_set_shipping_methods($shipping_methods);
+
+    $self->shipping_rates(Angler::Shipping::show_rates($self));
 
     # Determine state
     my $state = Angler::Shipping::find_state($schema,
