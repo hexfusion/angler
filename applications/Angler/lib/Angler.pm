@@ -787,6 +787,9 @@ hook 'before_cart_display' => sub {
     my $form = form('shipping-quote');
     my $form_values = $form->values('session');
 
+    # set country if we don't already have it
+    $form_values->{country} ||= 'US';
+
     if (logged_in_user) {
         # retrieve shipping address
         #TODO this should be a search and a dropdown to select if multiple
