@@ -220,14 +220,59 @@ ajax '/checkout/update_tax' => sub {
 post '/shipping-quote' => sub {
     my $form = form('shipping-quote');
 
+    my $tokens;
+
     # force update of form values
-    $form->values;
+    my $values = $form->values;
+
+    $tokens->{'form'} = $form;
 
     # save to session so cart route picks it up
     $form->to_session;
 
-    if (param('get_quote')) {
-        # retrieving quotes, no-op
+    if ( param('get_quote') && param('country') && param('postal_code') ) {
+
+        my $zone = shop_zone->find({zone=>"Deliverable Countries"});
+
+        # TODO: fail here if the zone is missing instead of going back to cart
+        return template('/cart', $tokens) unless $zone;
+
+        my @countries = $zone->zone_countries->get_column('country_iso_code');
+
+        my $dtv = Data::Transpose::Validator->new(requireall => 1);
+
+        $dtv->field( country     => 'String' );
+        $dtv->field( postal_code => 'String' );
+
+        my $clean = $dtv->transpose($values);
+
+        if (!$clean || $dtv->errors) {
+            $tokens->{errors} = $dtv->errors_hash;
+            return template '/cart', $tokens;
+        }
+
+        unless (
+            Angler::Validator::country_and_postal_code(
+                $values->{country}, $values->{postal_code}
+            )
+          )
+        {
+            # TODO: set appropriate errors.
+            # TODO: are these errors handles by the template?
+            return template '/cart', $tokens;
+        }
+
+        my $angler_cart = Angler::Cart->new(
+            cart        => shop_cart,
+            schema      => shop_schema,
+            country     => param('country'),
+            postal_code => param('postal_code')
+        );
+        $angler_cart->update_costs;
+
+        $tokens->{shipping_methods} = $angler_cart->shipping_methods;
+
+        template "cart", { $tokens };
     }
     elsif (param('select_quote')) {
         # selecting quotes
