@@ -14,6 +14,7 @@ solr/core1/conf/dataimport.properties
 solr/core1/conf/db-connection.xml
 solr/core1/conf/scripts.conf
 solr/core1/data/index/
+solr/core1/data/tlog/
 dev-modules
 .perl-version
 passwd
