@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Dancer ':script';
-use Angler::Schema;
+use Angler::Interchange6::Schema;
 use Dancer::Plugin::Interchange6;
 
 set logger        => 'console';
@@ -48,7 +48,6 @@ my %users;
 $users{john} = shop_user->create(
     { username => 'john@westbranchresort.com', password => 'Testing123', first_name => 'John',
       last_name => 'Miller', email => 'john@westbranchresort.com',
-      created => $now,
       user_roles => [
           { roles_id => '4' },
       ],
@@ -83,7 +82,6 @@ shop_address->create({
 $users{ben} = shop_user->create(
     { username => 'ben@westbranchresort.com', password => 'Testing123', first_name => 'Ben',
       last_name => 'Sheard', email => 'ben@westbranchresort.com',
-      created => $now,
       user_roles => [
           { roles_id => '5' },
       ],
@@ -93,7 +91,7 @@ $users{ben} = shop_user->create(
 $users{greg} = shop_user->create(
     { username => 'gregory@westbranchresort.com', password => 'Testing123', nickname => 'pike lover',
       first_name => 'Gregor', last_name => 'Fisherman',
-      email => 'gregory@westbranchresort.com', created => $now,
+      email => 'gregory@westbranchresort.com',
       user_roles => [
         { roles_id => '3' },
       ],
@@ -128,7 +126,7 @@ shop_address->create({
 $users{racke} = shop_user->create(
     { username => 'racke@westbranchresort.com', password => 'Testing123', nickname => 'toller Hecht',
       first_name => 'Stefan', last_name => 'Hornburg',
-      email => 'racke@westbranchresort.com', created => $now,
+      email => 'racke@westbranchresort.com',
       user_roles => [
         { roles_id => '3' },
       ],
@@ -146,11 +144,33 @@ shop_address->create({
     phone => '+49.511.978200.19',
 });
 
+# Create user syspete
+$users{syspete} = shop_user->create(
+    { username => 'peter@sysnix,com', password => 'Testing123', nickname => 'SysPete',
+      first_name => 'Peter', last_name => 'Mottram',
+      email => 'peter@sysnix.com',
+      user_roles => [
+        { roles_id => '3' },
+      ],
+  });
+
+shop_address->create({
+    users_id => $users{syspete}->id,
+    first_name => $users{syspete}->first_name,
+    last_name => $users{syspete}->last_name,
+    type => 'shipping',
+    address => 'Sqaq San Rafel Nru 2',
+    postal_code => 'QRM 2051',
+    city => 'Qormi',
+    country_iso_code => 'MT',
+    phone => '+35621472621',
+});
+
 # Create user sam
 $users{sam} = shop_user->create(
     { username => 'sbatschelet@mac.com', password => 'Testing123', nickname => 'trout lover',
       first_name => 'Sam', last_name => 'Batschelet',
-      email => 'sbatschelet@mac.com', created => $now,
+      email => 'sbatschelet@mac.com',
       user_roles => [
         { roles_id => '1' },
         { roles_id => '5' },
@@ -174,12 +194,34 @@ shop_address->create({
 $users{admin} = shop_user->create(
     { username => 'admin', password => 'Westbranch1', nickname => 'God',
       first_name => '', last_name => '',
-      email => 'sbatschelet@mac.com', created => $now,
+      email => 'sbatschelet@mac.com',
       user_roles => [
         { roles_id => '1' },
       ],
   });
 
+# navigation attributes
+
+my @weights = (qw/ 0.125 0.25 0.5 1 2 3 4 6 8 10 12 14 16 /);
+
+my $weight_attr = $schema->resultset('Attribute')->create(
+    {
+        name => 'weight',
+        type => 'navigation',
+    }
+);
+my $weight_id = $weight_attr->id;
+
+my %wav_id;
+foreach my $weight (@weights) {
+    my $av = $schema->resultset('AttributeValue')->create(
+        {
+            attributes_id => $weight_id,
+            value => $weight,
+        }
+    );
+    $wav_id{$weight} = $av->id;
+}
 
 my $nav = $schema->resultset('Navigation')->populate([
 # category roots - no parent_id
@@ -198,37 +240,37 @@ my $nav = $schema->resultset('Navigation')->populate([
 { navigation_id => '90', priority => '-1', uri => 'clothing/mens', type => 'menu', scope => 'header', description => 'Clothing for fly fishing', name => "Men's Clothing", parent_id =>'30' },
 
 # gear
-{ navigation_id => '100', priority => '200', uri => 'fly-fishing-gear/fly-rods', type => 'menu', scope => 'gear', description => 'Fly Rods', name => 'Fly Rods', parent_id =>'10' },
-{ navigation_id => '101', priority => '300', uri => 'fly-fishing-gear/fly-reels', type => 'menu', scope => 'gear', description => 'Fly Reels', name => 'Fly Reels', parent_id =>'10' },
-{ navigation_id => '102', priority => '400', uri => 'fly-fishing-gear/fly-line', type => 'menu', scope => 'gear', description => 'Fly Line & Backing', name => 'Fly Line & Backing', parent_id =>'10' },
-{ navigation_id => '103', priority => '500', uri => 'fly-fishing-gear/waders', type => 'menu', scope => 'gear', description => 'Waders', name => 'Waders', parent_id =>'10' },
-{ navigation_id => '104', priority => '600', uri => 'fly-fishing-gear/wading-boots', type => 'menu', scope => 'gear', description => 'Wading Boots', name => 'Wading Boots', parent_id =>'10' },
-{ navigation_id => '105', priority => '610', uri => 'fly-fishing-gear/sunglasses', type => 'menu', scope => 'gear', description => 'Sunglasses', name => 'Sunglasses', parent_id =>'10' },
-{ navigation_id => '106', priority => '900', uri => 'fly-fishing-gear/fly-boxes', type => 'menu', scope => 'gear', description => 'Fly Boxes', name => 'Fly Boxes', parent_id =>'10' },
-{ navigation_id => '107', priority => '1000', uri => 'fly-fishing-gear/packs-vests', type => 'menu', scope => 'gear', description => 'Packs & Vests', name => 'Packs & Vests', parent_id =>'10' },
-{ navigation_id => '108', priority => '1200', uri => 'fly-fishing-gear/leader-tippet', type => 'menu', scope => 'gear', description => 'Leader & Tippet', name => 'Leader & Tippet', parent_id =>'10' },
-{ navigation_id => '109', priority => '1300', uri => 'fly-fishing-gear/tools-gadgets', type => 'menu', scope => 'gear', description => 'Tools & Gadgets', name => 'Tools & Gadgets', parent_id =>'10' },
-{ navigation_id => '116', priority => '1350', uri => 'fly-fishing-gear/fishing-lights', type => 'menu', scope => 'gear', description => 'Fishing Lights', name => 'Fishing Lights', parent_id =>'10' },
-{ navigation_id => '110', priority => '700', uri => 'fly-fishing-gear/bags-luggage', type => 'menu', scope => 'gear',  description => 'Bags & Luggage', name => 'Bags & Luggage', parent_id =>'10' },
-{ navigation_id => '111', priority => '1500', uri => 'fly-fishing-gear/nets', type => 'menu', scope => 'gear',  description => 'Landing Nets', name => 'Landing Nets', parent_id =>'10' },
-{ navigation_id => '112', priority => '800', uri => 'fly-fishing-gear/watercraft-boats', type => 'menu', scope => 'gear', description => 'Watercraft & Boats', name => 'Watercraft & Boats', parent_id =>'10' },
-{ navigation_id => '113', priority => '1400', uri => 'fly-fishing-gear/books-dvds', type => 'menu', scope => 'gear',  description => 'Books & DVDs', name => 'Books & DVDs', parent_id =>'10' },
-{ navigation_id => '114', priority => '1100', uri => 'fly-fishing-gear/fly-rod-combos', type => 'menu', scope => 'gear', description => 'Fly Rod Combos', name => 'Fly Rod Combos', parent_id =>'10' },
-{ navigation_id => '115', priority => '100', uri => 'fly-fishing-gear/new', type => 'menu', scope => 'gear', name => 'New Products!' , description => 'New Fly Fishing Gear!', parent_id =>'10'},
+{ navigation_id => '100', priority => '200', uri => 'fly-fishing-gear/fly-rods', type => 'menu', scope => 'gear', description => 'Fly Rods', name => 'Fly Rods', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '101', priority => '300', uri => 'fly-fishing-gear/fly-reels', type => 'menu', scope => 'gear', description => 'Fly Reels', name => 'Fly Reels', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"3"} } ] } ] },
+{ navigation_id => '102', priority => '400', uri => 'fly-fishing-gear/fly-line', type => 'menu', scope => 'gear', description => 'Fly Line & Backing', name => 'Fly Line & Backing', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"1"} } ] } ] },
+{ navigation_id => '103', priority => '500', uri => 'fly-fishing-gear/waders', type => 'menu', scope => 'gear', description => 'Waders', name => 'Waders', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"4"} } ] } ] },
+{ navigation_id => '104', priority => '600', uri => 'fly-fishing-gear/wading-boots', type => 'menu', scope => 'gear', description => 'Wading Boots', name => 'Wading Boots', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"4"} } ] } ] },
+{ navigation_id => '105', priority => '610', uri => 'fly-fishing-gear/sunglasses', type => 'menu', scope => 'gear', description => 'Sunglasses', name => 'Sunglasses', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"1"} } ] } ] },
+{ navigation_id => '106', priority => '900', uri => 'fly-fishing-gear/fly-boxes', type => 'menu', scope => 'gear', description => 'Fly Boxes', name => 'Fly Boxes', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '107', priority => '1000', uri => 'fly-fishing-gear/packs-vests', type => 'menu', scope => 'gear', description => 'Packs & Vests', name => 'Packs & Vests', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '108', priority => '1200', uri => 'fly-fishing-gear/leader-tippet', type => 'menu', scope => 'gear', description => 'Leader & Tippet', name => 'Leader & Tippet', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '109', priority => '1300', uri => 'fly-fishing-gear/tools-gadgets', type => 'menu', scope => 'gear', description => 'Tools & Gadgets', name => 'Tools & Gadgets', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '116', priority => '1350', uri => 'fly-fishing-gear/fishing-lights', type => 'menu', scope => 'gear', description => 'Fishing Lights', name => 'Fishing Lights', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '110', priority => '700', uri => 'fly-fishing-gear/bags-luggage', type => 'menu', scope => 'gear',  description => 'Bags & Luggage', name => 'Bags & Luggage', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '111', priority => '1500', uri => 'fly-fishing-gear/nets', type => 'menu', scope => 'gear',  description => 'Landing Nets', name => 'Landing Nets', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '112', priority => '800', uri => 'fly-fishing-gear/watercraft-boats', type => 'menu', scope => 'gear', description => 'Watercraft & Boats', name => 'Watercraft & Boats', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '113', priority => '1400', uri => 'fly-fishing-gear/books-dvds', type => 'menu', scope => 'gear',  description => 'Books & DVDs', name => 'Books & DVDs', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '114', priority => '1100', uri => 'fly-fishing-gear/fly-rod-combos', type => 'menu', scope => 'gear', description => 'Fly Rod Combos', name => 'Fly Rod Combos', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '115', priority => '100', uri => 'fly-fishing-gear/new', type => 'menu', scope => 'gear', name => 'New Products!' , description => 'New Fly Fishing Gear!', parent_id =>'10', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ]},
 
 # clothing
-{ navigation_id => '200', priority => '200', uri => 'clothing/mens/jackets', type => 'menu', scope => 'clothing', name => 'Jackets', description => 'Mens Jackets and Outerwear for Fly Fishing', parent_id =>'30' },
-{ navigation_id => '201', priority => '300', uri => 'clothing/mens/fleece', type => 'menu', scope => 'clothing', name => 'Fleece', description => 'Mens Fleece Layering for Fly Fishing', parent_id =>'30' },
-{ navigation_id => '202', priority => '400', uri => 'clothing/mens/layering', type => 'menu', scope => 'clothing', name => 'Layering', description => 'Mens Base Layerting for Fly Fishing', parent_id =>'30' },
-{ navigation_id => '203', priority => '500', uri => 'clothing/mens/shirts', type => 'menu', scope => 'clothing', name => 'Shirts', description => 'Mens Shirts for Fly Fishing', parent_id =>'30' },
-{ navigation_id => '204', priority => '600', uri => 'clothing/mens/t-shirts', type => 'menu', scope => 'clothing', name => 'T-Shirts', description => 'Mens Fly Fishing T-Shirts', parent_id =>'30' },
-{ navigation_id => '205', priority => '700', uri => 'clothing/mens/pants', type => 'menu', scope => 'clothing', name => 'Pants', description => 'Mens Fly Fishing Pants', parent_id =>'30' },
-{ navigation_id => '206', priority => '800', uri => 'clothing/mens/underwear', type => 'menu', scope => 'clothing', name => 'Underwear', description => 'Mens Fly Fishing Underwear', parent_id =>'30' },
-{ navigation_id => '207', priority => '900', uri => 'clothing/mens/hats', type => 'menu', scope => 'clothing', name => 'Hats', description => 'Mens Fly Fishing Hats', parent_id =>'30' },
-{ navigation_id => '208', priority => '1000', uri => 'clothing/mens/wba-logo', type => 'menu', scope => 'clothing', name => 'WBA Logo Gear', description => 'WBA Logo Gear', parent_id =>'30' },
-{ navigation_id => '209', priority => '1100', uri => 'clothing/mens/shorts', type => 'menu', scope => 'clothing', name => 'Shorts', description => 'Mens Fly Fishing Shorts', parent_id =>'30' },
-{ navigation_id => '210', priority => '1200', uri => 'clothing/mens/socks', type => 'menu', scope => 'clothing', name => 'Socks', description => 'Mens Fly Fishing Socks', parent_id =>'30' },
-{ navigation_id => '220', priority => '1300', uri => 'clothing/mens/gloves', type => 'menu', scope => 'clothing', name => 'Gloves', description => 'Mens Fly Fishing Gloves', parent_id =>'30' },
+{ navigation_id => '200', priority => '200', uri => 'clothing/mens/jackets', type => 'menu', scope => 'clothing', name => 'Jackets', description => 'Mens Jackets and Outerwear for Fly Fishing', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '201', priority => '300', uri => 'clothing/mens/fleece', type => 'menu', scope => 'clothing', name => 'Fleece', description => 'Mens Fleece Layering for Fly Fishing', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '202', priority => '400', uri => 'clothing/mens/layering', type => 'menu', scope => 'clothing', name => 'Layering', description => 'Mens Base Layerting for Fly Fishing', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '203', priority => '500', uri => 'clothing/mens/shirts', type => 'menu', scope => 'clothing', name => 'Shirts', description => 'Mens Shirts for Fly Fishing', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '204', priority => '600', uri => 'clothing/mens/t-shirts', type => 'menu', scope => 'clothing', name => 'T-Shirts', description => 'Mens Fly Fishing T-Shirts', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '205', priority => '700', uri => 'clothing/mens/pants', type => 'menu', scope => 'clothing', name => 'Pants', description => 'Mens Fly Fishing Pants', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '206', priority => '800', uri => 'clothing/mens/underwear', type => 'menu', scope => 'clothing', name => 'Underwear', description => 'Mens Fly Fishing Underwear', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '207', priority => '900', uri => 'clothing/mens/hats', type => 'menu', scope => 'clothing', name => 'Hats', description => 'Mens Fly Fishing Hats', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '208', priority => '1000', uri => 'clothing/mens/wba-logo', type => 'menu', scope => 'clothing', name => 'WBA Logo Gear', description => 'WBA Logo Gear', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '209', priority => '1100', uri => 'clothing/mens/shorts', type => 'menu', scope => 'clothing', name => 'Shorts', description => 'Mens Fly Fishing Shorts', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '210', priority => '1200', uri => 'clothing/mens/socks', type => 'menu', scope => 'clothing', name => 'Socks', description => 'Mens Fly Fishing Socks', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '220', priority => '1300', uri => 'clothing/mens/gloves', type => 'menu', scope => 'clothing', name => 'Gloves', description => 'Mens Fly Fishing Gloves', parent_id =>'30', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
 
 # clothing by brand
 { navigation_id => '300', priority => '100', uri => 'clothing/patagonia', type => 'menu', scope => 'clothing-brand', name => 'Patagonia', description => 'Patagonia Clothing', parent_id =>'31' },
@@ -237,18 +279,18 @@ my $nav = $schema->resultset('Navigation')->populate([
 { navigation_id => '303', priority => '400', uri => 'clothing/wba', type => 'menu', scope => 'clothing-brand', name => 'West Branch Angler', description => 'WBA Clothing', parent_id =>'31' },
 
 # tying
-{ navigation_id => '400', priority => '100', uri => 'fly-tying/tools', type => 'menu', scope => 'tying', name => 'Fly Tying Tools', description => 'Fly Tying Tools', parent_id =>'40' },
-{ navigation_id => '401', priority => '200', uri => 'fly-tying/materials', type => 'menu', scope => 'tying', name => 'Fly Tying Materials', description => 'Fly Tying Materials', parent_id =>'40' },
-{ navigation_id => '402', priority => '300', uri => 'fly-tying/hooks', type => 'menu', scope => 'tying', name => 'Fly Tying Hooks', description => 'Fly Tying Hooks', parent_id =>'40' },
+{ navigation_id => '400', priority => '100', uri => 'fly-tying/tools', type => 'menu', scope => 'tying', name => 'Fly Tying Tools', description => 'Fly Tying Tools', parent_id =>'40', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '401', priority => '200', uri => 'fly-tying/materials', type => 'menu', scope => 'tying', name => 'Fly Tying Materials', description => 'Fly Tying Materials', parent_id =>'40', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '402', priority => '300', uri => 'fly-tying/hooks', type => 'menu', scope => 'tying', name => 'Fly Tying Hooks', description => 'Fly Tying Hooks', parent_id =>'40', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
 
 # flies
-{ navigation_id => '500', priority => '200', uri => 'flies/dries-emergers', type => 'menu', scope => 'flies', name => 'Dries and Emergers', description => 'Dries and Emergers', parent_id =>'50' },
-{ navigation_id => '501', priority => '300', uri => 'flies/nymphs', type => 'menu', scope => 'flies', name => 'Nymphs', description => 'Nymphs', parent_id =>'50' },
-{ navigation_id => '506', priority => '350', uri => 'flies/wet-flies', type => 'menu', scope => 'flies', name => 'Wet Flies', description => 'Wet Flies', parent_id =>'50' },
-{ navigation_id => '502', priority => '400', uri => 'flies/streamers', type => 'menu', scope => 'flies', name => 'Streamers', description => 'Streamers', parent_id =>'50' },
-{ navigation_id => '503', priority => '500', uri => 'flies/saltwater', type => 'menu', scope => 'flies', name => 'Saltwater Flies', description => 'Saltwater Flies', parent_id =>'50' },
-{ navigation_id => '504', priority => '600', uri => 'flies/pike-bass-panfish', type => 'menu', scope => 'flies', name => 'Freshwater Pike, Bass, and Panfish Flies', description => 'Freshwater Pike, Bass, Panfish Flies', parent_id =>'50' },
-{ navigation_id => '505', priority => '700', uri => 'flies/steelhead-salmon', type => 'menu', scope => 'flies', name => 'Steelhead and Salmon Flies', description => 'Steelhead and Salmon Flies', parent_id =>'50' },
+{ navigation_id => '500', priority => '200', uri => 'flies/dries-emergers', type => 'menu', scope => 'flies', name => 'Dries and Emergers', description => 'Dries and Emergers', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '501', priority => '300', uri => 'flies/nymphs', type => 'menu', scope => 'flies', name => 'Nymphs', description => 'Nymphs', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '506', priority => '350', uri => 'flies/wet-flies', type => 'menu', scope => 'flies', name => 'Wet Flies', description => 'Wet Flies', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '502', priority => '400', uri => 'flies/streamers', type => 'menu', scope => 'flies', name => 'Streamers', description => 'Streamers', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '503', priority => '500', uri => 'flies/saltwater', type => 'menu', scope => 'flies', name => 'Saltwater Flies', description => 'Saltwater Flies', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '504', priority => '600', uri => 'flies/pike-bass-panfish', type => 'menu', scope => 'flies', name => 'Freshwater Pike, Bass, and Panfish Flies', description => 'Freshwater Pike, Bass, Panfish Flies', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
+{ navigation_id => '505', priority => '700', uri => 'flies/steelhead-salmon', type => 'menu', scope => 'flies', name => 'Steelhead and Salmon Flies', description => 'Steelhead and Salmon Flies', parent_id =>'50', navigation_attributes => [ { attributes_id => $weight_id, navigation_attribute_values => [ { attribute_values_id => $wav_id{"2"} } ] } ] },
 # species
 { navigation_id => '600', priority => '100', uri => 'fly-fishing-gear/trout', type => 'menu', scope => 'species', name => 'Trout' , description => 'Fly Fishing Gear for Trout', parent_id =>'20'},
 { navigation_id => '601',priority => '200', uri => 'fly-fishing-gear/steelhead', type => 'menu', scope => 'species', name => 'Steelhead' , description => 'Fly Fishing Gear for Steelhead', parent_id =>'20'},
@@ -1425,10 +1467,10 @@ for my $zone (@us_postal_zones) {
             push @zones,
                 {
                     zone => 'US postal ' . $postal_code,
-                    created => $now,
-                    last_modified => $now,
                     zone_countries => [ { country_iso_code => 'US' } ],
                     zone_states => [ { states_id => $state->id } ],
+                    created => $now,
+                    last_modified => $now,
                 };
         }
 }
@@ -1473,8 +1515,6 @@ my @deliverable_countries = (
 $schema->resultset('Zone')->create(
              {
                     zone => 'Deliverable Countries',
-                    created => $now,
-                    last_modified => $now,
                     zone_countries => \@deliverable_countries,
              }
 );
