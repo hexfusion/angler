@@ -27,28 +27,25 @@ my $product_rs =
   ->with_lowest_selling_price
   ->with_variant_count
   ->search(
-    {
-        'attribute.type' => 'variant',
-        'attribute.name' => { -in => config->{facet_fields}->{attributes} },
-    },
-    {
-        prefetch => [
-            {
-                variants => [
-                    'price_modifiers',
-                    {
-                        product_attributes => [
-                            'attribute',
-                            {
-                                product_attribute_values => 'attribute_value'
-                            }
-                        ]
-                    },
-                ]
-            },
-            'navigation_products',
-        ]
-    }
+      {},
+      {
+          prefetch => [
+              {
+                  variants => [
+                      'price_modifiers',
+                      {
+                          product_attributes => [
+                              'attribute',
+                              {
+                                  product_attribute_values => 'attribute_value'
+                              }
+                          ]
+                      },
+                  ]
+              },
+              'navigation_products',
+          ]
+      }
   );
 
 if (@ARGV) {
@@ -62,16 +59,31 @@ else {
 
 my ($product, $data);
 
+my $product_count =
+  $schema->resultset('Product')->active->canonical_only->count;
+my $count = 0;
+my $time = time();
+
 while ($product = $product_rs->next) {
+
+    $count++;
+    unless ( $count % 50 ) {
+        my $taken = time() - $time;
+        my $remaining = int( $taken / $count * $product_count );
+        my $total = $taken + $remaining;
+        print "indexed $count/$product_count in $taken seconds\n";
+    }
+
     $data = solr_hash($product);
-    print Dumper($data);
+    print Dumper($data) if $ENV{DEBUG_SOLR};
     solr_run_update($solr, $data);
 }
+print "Completed $count records in " . ( time() - $time ) . " seconds\n";
 
 sub solr_run_update {
     my ($solr, $data) = @_;
 
-    print "adding $data->{sku}\n";
+    print "adding $data->{sku}\n" if $ENV{DEBUG_SOLR};
     my $ret = $solr->maintainer_update('add', $data);
 
     if ($ret->solr_status) {
@@ -104,15 +116,19 @@ sub solr_hash {
            );
 
     my $variants_rs = $product->variants;
-    print "Found " . $product->variant_count . " variants\n";
-
+    print "Found " . $variants_rs->count . " variants\n" if $ENV{DEBUG_SOLR};
     my %attributes_found;
     my %prices = ( $product->selling_price => 1 );
 
     while (my $variant = $variants_rs->next) {
         my $prod_attr_rs = $variant->product_attributes;
         while ( my $pa = $prod_attr_rs->next ) {
+            next unless $pa->attribute->type eq 'variant';
             my $att_name = $pa->attribute->name;
+            next
+              unless grep { $att_name eq $_ }
+              @{ config->{facet_fields}->{attributes} };
+
             my $pav_rs = $pa->product_attribute_values;
             while ( my $pav = $pav_rs->next ) {
                 my $att_value = $pav->attribute_value->value;
@@ -139,6 +155,7 @@ sub solr_hash {
         $prices{ $price } = 1;
     }
     push @{$record{prices}}, keys %prices;
+
     return \%record;
 }
 
