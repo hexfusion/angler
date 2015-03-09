@@ -14,6 +14,7 @@ my $schema = shop_schema;
 use Data::Dumper;
 use Interchange::Search::Solr;
 use DateTime;
+use File::Spec;
 
 # initiate Solr object
 my $solr = Interchange::Search::Solr->new(solr_url => config->{solr_url});
@@ -27,9 +28,27 @@ my $product_rs =
   ->with_lowest_selling_price
   ->with_variant_count
   ->search(
-      {},
+      {
+          -or => [
+              {
+                  'media_type.type' => undef,
+              },
+              {
+                  'media.active'        => 1,
+                  'media_type.type'     => 'image',
+                  'media_displays.type' => 'product_325x325',
+              }
+          ]
+      },
       {
           prefetch => [
+              {
+                  media_products => {
+                      media => {
+                          media_type => 'media_displays'
+                      }
+                  }
+              },
               {
                   variants => [
                       'price_modifiers',
@@ -81,6 +100,9 @@ if (@updates) {
     solr_run_update($solr, \@updates);
 }
 print "Completed $count records in " . ( time() - $time ) . " seconds\n";
+if ( $count != $product_count ) {
+    print "WARNING: processed $count but expected $product_count\n";
+}
 
 sub solr_run_update {
     my ($solr, $data) = @_;
@@ -98,6 +120,16 @@ sub solr_hash {
     my $product = shift;
     my %record;
 
+    my $image;
+    my $media_products = $product->media_products;
+    my $media_product = $media_products->first;
+    if ($media_product) {
+        my $image_path =
+          $media_product->media->media_type->media_displays->first->path;
+        my $image_uri = $media_product->media->uri;
+        $image = File::Spec->catfile( $image_path, $image_uri );
+    }
+
     # add "canonical" data
     %record = (sku => $product->sku,
                canonical_sku => $product->canonical_sku,
@@ -111,7 +143,7 @@ sub solr_hash {
                created => solr_date_format($product->created),
                last_modified => solr_date_format($product->last_modified),
                active => $product->active,
-               image => $product->image,
+               image => $image,
                average_rating => $product->average_rating,
                navigation_ids => [ map { $_->navigation_id } $product->navigation_products ],
            );
