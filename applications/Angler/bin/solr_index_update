@@ -57,37 +57,38 @@ else {
     $product_rs = $product_rs->active->canonical_only;
 }
 
-my ($product, $data);
-
 my $product_count =
   $schema->resultset('Product')->active->canonical_only->count;
-my $count = 0;
+my @updates;
 my $time = time();
+my $count = 0;
 
-while ($product = $product_rs->next) {
+while (my $product = $product_rs->next) {
 
     $count++;
-    unless ( $count % 50 ) {
+    my $data = solr_hash($product);
+    print Dumper($data) if $ENV{DEBUG_SOLR};
+
+    push @updates, $data;
+    if (@updates >= 500) {
+        solr_run_update($solr, \@updates);
+        @updates = ();
         my $taken = time() - $time;
-        my $remaining = int( $taken / $count * $product_count );
-        my $total = $taken + $remaining;
         print "indexed $count/$product_count in $taken seconds\n";
     }
-
-    $data = solr_hash($product);
-    print Dumper($data) if $ENV{DEBUG_SOLR};
-    solr_run_update($solr, $data);
+}
+if (@updates) {
+    solr_run_update($solr, \@updates);
 }
 print "Completed $count records in " . ( time() - $time ) . " seconds\n";
 
 sub solr_run_update {
     my ($solr, $data) = @_;
 
-    print "adding $data->{sku}\n" if $ENV{DEBUG_SOLR};
     my $ret = $solr->maintainer_update('add', $data);
 
     if ($ret->solr_status) {
-        die "Failed to update Solr index for ", $data->{sku}, ": ", $ret->{content}->{error}->{msg}, "\n";
+        die "Failed to update Solr index: " . $ret->{content}->{error}->{msg};
     }
 
     return $ret;
@@ -123,8 +124,8 @@ sub solr_hash {
     while (my $variant = $variants_rs->next) {
         my $prod_attr_rs = $variant->product_attributes;
         while ( my $pa = $prod_attr_rs->next ) {
-            next unless $pa->attribute->type eq 'variant';
             my $att_name = $pa->attribute->name;
+            next unless $pa->attribute->type eq 'variant';
             next
               unless grep { $att_name eq $_ }
               @{ config->{facet_fields}->{attributes} };
