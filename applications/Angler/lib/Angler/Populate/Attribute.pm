@@ -106,12 +106,12 @@ sub add {
         my ($value, $title, $priority);
 
         if (ref($attribute_value) eq "HASH") {
-            print "Value $attribute_value->{title}\n";
             $value = $attribute_value->{value};
             $title = $attribute_value->{title};
             $priority = $attribute_value->{priority};
         }
-        elsif (ref($attribute_value) eq "SCALAR") {
+        elsif (ref($attribute_value) eq "") {
+            $value = $attribute_value;
             $title = ucfirst($attribute_value);
             $priority = '0';
         }
