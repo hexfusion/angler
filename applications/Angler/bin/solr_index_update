@@ -27,11 +27,24 @@ my $product_rs =
   ->with_lowest_selling_price
   ->with_variant_count
   ->search(
-    undef,
+    {
+        'attribute.type' => 'variant',
+        'attribute.name' => { -in => config->{facet_fields}->{attributes} },
+    },
     {
         prefetch => [
             {
-                variants => 'price_modifiers'
+                variants => [
+                    'price_modifiers',
+                    {
+                        product_attributes => [
+                            'attribute',
+                            {
+                                product_attribute_values => 'attribute_value'
+                            }
+                        ]
+                    },
+                ]
             },
             'navigation_products',
         ]
@@ -89,13 +102,20 @@ sub solr_hash {
                average_rating => $product->average_rating,
                navigation_ids => [ map { $_->navigation_id } $product->navigation_products ],
            );
+
     my $variants_rs = $product->variants;
     print "Found " . $product->variant_count . " variants\n";
+
     my %attributes_found;
     my %prices = ( $product->selling_price => 1 );
+
     while (my $variant = $variants_rs->next) {
-        for my $att_name (@{config->{facet_fields}->{attributes}}) {
-            if (my $att_value = $variant->find_attribute_value({name => $att_name, type => 'variant'})) {
+        my $prod_attr_rs = $variant->product_attributes;
+        while ( my $pa = $prod_attr_rs->next ) {
+            my $att_name = $pa->attribute->name;
+            my $pav_rs = $pa->product_attribute_values;
+            while ( my $pav = $pav_rs->next ) {
+                my $att_value = $pav->attribute_value->value;
                 if (!$attributes_found{$att_name}{$att_value}) {
                     $attributes_found{$att_name}{$att_value} = 1;
                     $record{$att_name} ||= [];
