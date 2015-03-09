@@ -13,9 +13,12 @@ my $schema = shop_schema;
 
 use Data::Dumper;
 use Interchange::Search::Solr;
+use DateTime;
 
 # initiate Solr object
 my $solr = Interchange::Search::Solr->new(solr_url => config->{solr_url});
+
+my $now = DateTime->now;
 
 my $product_rs =
   $schema->resultset('Product')
@@ -23,8 +26,17 @@ my $product_rs =
   ->with_highest_price
   ->with_lowest_selling_price
   ->with_variant_count
-  ->prefetch(
-    [ 'variants', 'navigation_products' ] );
+  ->search(
+    undef,
+    {
+        prefetch => [
+            {
+                variants => 'price_modifiers'
+            },
+            'navigation_products',
+        ]
+    }
+  );
 
 if (@ARGV) {
     # specific product
@@ -68,7 +80,8 @@ sub solr_hash {
                gtin => $product->gtin || '',
                uri => $product->uri,
                price => $product->price,
-               selling_price => $product->selling_price || 0,
+               highest_price => $product->highest_price,
+               selling_price => $product->selling_price,
                created => solr_date_format($product->created),
                last_modified => solr_date_format($product->last_modified),
                active => $product->active,
@@ -79,6 +92,7 @@ sub solr_hash {
     my $variants_rs = $product->variants;
     print "Found " . $product->variant_count . " variants\n";
     my %attributes_found;
+    my %prices = ( $product->selling_price => 1 );
     while (my $variant = $variants_rs->next) {
         for my $att_name (@{config->{facet_fields}->{attributes}}) {
             if (my $att_value = $variant->find_attribute_value({name => $att_name, type => 'variant'})) {
@@ -89,7 +103,22 @@ sub solr_hash {
                 }
             }
         }
+
+        my $price = $variant->price;
+        my $pm_rs = $variant->price_modifiers;
+        while ( my $pm = $pm_rs->next ) {
+            next
+            if (   $pm->quantity > 1
+                || $pm->roles_id
+                || $pm->start_date > $now
+                || $pm->end_date < $now
+                || $pm->price >= $price );
+
+            $price = $pm->price;
+        }
+        $prices{ $price } = 1;
     }
+    push @{$record{prices}}, keys %prices;
     return \%record;
 }
 
