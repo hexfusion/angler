@@ -36,11 +36,14 @@ my $taxes = $schema->resultset("Tax")->create (
 );
 
 # roles
-my $roles = $schema->resultset("Role")->populate([
-    { roles_id => '3', name => 'editor', label => 'Editor', description => 'Editor Role' },
-    { roles_id => '4', name => 'pro', label => 'Pro Reviewer', description => 'Pro Role' },
-    { roles_id => '5', name => 'staff', label => 'Shop Staff',description => 'Staff Role'  },
-  ]);
+my $roles = $schema->resultset("Role")->populate(
+    [
+        { name => 'editor', label => 'Editor', description => 'Editor Role' },
+        { name => 'pro', label => 'Pro Reviewer', description => 'Pro Role' },
+        { name => 'staff', label => 'Shop Staff', description => 'Staff Role' },
+    ]
+);
+my %role = map { $_->name => $_ } $schema->resultset("Role")->all;
 
 my %users;
 
@@ -49,7 +52,7 @@ $users{john} = shop_user->create(
     { username => 'john@westbranchresort.com', password => 'Testing123', first_name => 'John',
       last_name => 'Miller', email => 'john@westbranchresort.com',
       user_roles => [
-          { roles_id => '4' },
+          { roles_id => $role{pro}->id },
       ],
   });
 
@@ -83,7 +86,7 @@ $users{ben} = shop_user->create(
     { username => 'ben@westbranchresort.com', password => 'Testing123', first_name => 'Ben',
       last_name => 'Sheard', email => 'ben@westbranchresort.com',
       user_roles => [
-          { roles_id => '5' },
+          { roles_id => $role{staff}->id },
       ],
   });
 
@@ -93,7 +96,7 @@ $users{greg} = shop_user->create(
       first_name => 'Gregor', last_name => 'Fisherman',
       email => 'gregory@westbranchresort.com',
       user_roles => [
-        { roles_id => '3' },
+        { roles_id => $role{editor}->id },
       ],
   });
 
@@ -128,7 +131,7 @@ $users{racke} = shop_user->create(
       first_name => 'Stefan', last_name => 'Hornburg',
       email => 'racke@westbranchresort.com',
       user_roles => [
-        { roles_id => '3' },
+        { roles_id => $role{editor}->id },
       ],
   });
 
@@ -150,7 +153,7 @@ $users{syspete} = shop_user->create(
       first_name => 'Peter', last_name => 'Mottram',
       email => 'peter@sysnix.com',
       user_roles => [
-        { roles_id => '3' },
+        { roles_id => $role{editor}->id },
       ],
   });
 
@@ -172,8 +175,8 @@ $users{sam} = shop_user->create(
       first_name => 'Sam', last_name => 'Batschelet',
       email => 'sbatschelet@mac.com',
       user_roles => [
-        { roles_id => '1' },
-        { roles_id => '5' },
+        { roles_id => $role{admin}->id },
+        { roles_id => $role{staff}->id },
       ],
   });
 
@@ -196,7 +199,7 @@ $users{admin} = shop_user->create(
       first_name => '', last_name => '',
       email => 'sbatschelet@mac.com',
       user_roles => [
-        { roles_id => '1' },
+        { roles_id => $role{admin}->id },
       ],
   });
 
