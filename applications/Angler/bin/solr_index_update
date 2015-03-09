@@ -17,22 +17,22 @@ use Interchange::Search::Solr;
 # initiate Solr object
 my $solr = Interchange::Search::Solr->new(solr_url => config->{solr_url});
 
-my $product_rs;
+my $product_rs =
+  $schema->resultset('Product')
+  ->with_average_rating
+  ->with_highest_price
+  ->with_lowest_selling_price
+  ->with_variant_count
+  ->prefetch(
+    [ 'variants', 'navigation_products' ] );
 
 if (@ARGV) {
     # specific product
-    $product_rs = $schema->resultset('Product')->search({sku => shift});
+    $product_rs = $product_rs->search({sku => shift});
 }
 else {
-    # all canonical products
-    $product_rs = $schema->resultset('Product')->search(
-        {
-            "me.canonical_sku" => undef
-        },
-        {
-            prefetch => [qw/variants navigation_products/],
-        }
-    )->with_lowest_selling_price->with_average_rating;
+    # all active canonical products
+    $product_rs = $product_rs->active->canonical_only;
 }
 
 my ($product, $data);
@@ -77,11 +77,11 @@ sub solr_hash {
                navigation_ids => [ map { $_->navigation_id } $product->navigation_products ],
            );
     my $variants_rs = $product->variants;
-    print "Found " . $variants_rs->count . " variants\n";
+    print "Found " . $product->variant_count . " variants\n";
     my %attributes_found;
     while (my $variant = $variants_rs->next) {
         for my $att_name (@{config->{facet_fields}->{attributes}}) {
-            if (my $att_value = $variant->find_attribute_value({name => $att_name})) {
+            if (my $att_value = $variant->find_attribute_value({name => $att_name, type => 'variant'})) {
                 if (!$attributes_found{$att_name}{$att_value}) {
                     $attributes_found{$att_name}{$att_value} = 1;
                     $record{$att_name} ||= [];
