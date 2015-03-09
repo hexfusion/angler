@@ -16,7 +16,15 @@ This module provides population capabilities for the Attribute class.
 
 =head1 SYNOPSIS
 
+
 my @color_values = ['Red', 'Blue', 'Green'];
+
+# or array of hash
+
+my @size_values = (
+    { value => 'xs', title => 'Extra Small', priority => '1'},
+    { value => 's', title => 'Small', priority => '2'},
+);
 
 my $attributes = Angler::Populate::Attribute->new(
     schema => shop_schema,
@@ -94,12 +102,29 @@ sub add {
         }
     );
 
-    foreach my $value (@{$self->values}) {
-        $schema->resultset('AttributeValue')->find_or_create(
+    foreach my $attribute_value (@{$self->values}) {
+        my ($value, $title, $priority);
+
+        if (ref($attribute_value) eq "HASH") {
+            print "Value $attribute_value->{title}\n";
+            $value = $attribute_value->{value};
+            $title = $attribute_value->{title};
+            $priority = $attribute_value->{priority};
+        }
+        elsif (ref($attribute_value) eq "SCALAR") {
+            $title = ucfirst($attribute_value);
+            $priority = '0';
+        }
+        else {
+            die "Attribute values must be passed as an array or array of hashes";
+        }
+
+       $schema->resultset('AttributeValue')->find_or_create(
             {
                 attributes_id => $attribute->attributes_id,
                 value         => &clean_attribute_value($value),
-                title         => $value,
+                title         => $title,
+                priority      => $priority
             },
             {
                 key => 'attribute_values_attributes_id_value'
