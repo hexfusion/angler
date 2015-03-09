@@ -90,14 +90,14 @@ while (my $product = $product_rs->next) {
 
     push @updates, $data;
     if (@updates >= 500) {
-        solr_run_update($solr, \@updates);
+        solr_run_update(\@updates);
         @updates = ();
         my $taken = time() - $time;
         print "indexed $count/$product_count in $taken seconds\n";
     }
 }
 if (@updates) {
-    solr_run_update($solr, \@updates);
+    solr_run_update(\@updates);
 }
 print "Completed $count records in " . ( time() - $time ) . " seconds\n";
 if ( $count != $product_count ) {
@@ -105,7 +105,7 @@ if ( $count != $product_count ) {
 }
 
 sub solr_run_update {
-    my ($solr, $data) = @_;
+    my $data = shift;
 
     my $ret = $solr->maintainer_update('add', $data);
 
