@@ -34,6 +34,7 @@ use List::Util qw(first max);
 use POSIX qw/ceil/;
 use URL::Encode qw/url_decode_utf8/;
 use DateTime;
+use Class::Method::Modifiers 'install_modifier';
 
 use Angler::Shipping;
 
@@ -876,6 +877,62 @@ hook 'before_cart_display' => sub {
 };
 
 =head1 METHODS
+
+=cut
+
+install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
+    my $self = shift;
+
+    foreach my $cart_product ( $self->products_array ) {
+
+        if ( !defined $cart_product->weight ) {
+
+            my $sku =
+                $cart_product->canonical_sku
+              ? $cart_product->canonical_sku
+              : $cart_product->sku;
+
+            eval {
+
+                my $nav =
+                  schema->resultset('Product')->find($sku)->search_related(
+                    'navigation_products',
+                    {
+                        'attribute.name' => 'weight',
+                        'attribute.type' => 'navigation',
+                    },
+                    {
+                        join => {
+                            navigation => {
+                                navigation_attributes => [
+                                    'attribute',
+                                    {
+                                        navigation_attribute_values =>
+                                          'attribute_value'
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                  );
+
+                if ( $nav->has_rows ) {
+
+                    my $weight =
+                      $nav->first->navigation->navigation_attributes->first
+                      ->navigation_attribute_values->first->attribute_value
+                      ->value;
+
+                    $cart_product->set_weight($weight);
+
+                    debug "in Cart BUILD: weight of ", $cart_product->sku,
+                      " is ",
+                      $cart_product->weight;
+                }
+            };
+        }
+    }
+};
 
 =head2 add_recent_products($tokens, $quantity)
 
