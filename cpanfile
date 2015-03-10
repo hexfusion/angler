@@ -1,3 +1,4 @@
+requires 'Class::Method::Modifiers';
 requires 'WWW::Mechanize';
 requires 'Test::WWW::Mechanize::Dancer';
 requires 'WWW::Mechanize::TreeBuilder';
