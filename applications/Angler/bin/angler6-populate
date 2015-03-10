@@ -1532,9 +1532,9 @@ my @attr_values = (
     { value => 'l', title => 'Large', priority => '5'},
     { value => 'xl', title => 'Extra Large', priority => '6'},
     { value => 'xxl', title => 'Extra Extra Large', priority => '7'},
-    { value => 'xxxl', title => '3XL', priority => '8'},
-    { value => 'xxxxl', title => '4XL', priority => '9'},
-    { value => 'xxxxxl', title => '5XL', priority => '10'},
+    { value => '3xl', title => '3XL', priority => '8'},
+    { value => '4xl', title => '4XL', priority => '9'},
+    { value => '5xl', title => '5XL', priority => '10'},
 
     # clothing range
     { value => 'xs/s', title => 'XS/S', priority => '1'},
@@ -1600,5 +1600,5 @@ my @attr_values = (
         values =>  \@attr_values
         );
 
-   $attributes->add;
+    $attributes->add;
 
