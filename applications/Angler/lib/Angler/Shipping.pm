@@ -250,8 +250,6 @@ sub easy_post_get_rates {
             my $methods_rs = $carrier->shipment_methods;
             my %specs = (
                          name => $method_name,
-                         min_weight => $weight,
-                         max_weight => $weight,
                         );
 
             my $method = $methods_rs->find(\%specs);
@@ -267,8 +265,8 @@ sub easy_post_get_rates {
             my $db_ship_rate = $method->shipment_rates->find({
                                                      zones_id => $zone->zones_id,
                                                      shipment_methods_id => $method->shipment_methods_id,
-                                                     min_weight => $weight,
-                                                     max_weight => $weight,
+                                                     min_value => $weight,
+                                                     max_value => $weight,
                                                     });
             if ($db_ship_rate) {
                 if ($db_ship_rate->price ne $rate->rate) {
@@ -280,8 +278,8 @@ sub easy_post_get_rates {
                 $db_ship_rate = $method->shipment_rates->create({
                                                         zone => $zone,
                                                         shipment_method => $method,
-                                                        min_weight => $weight,
-                                                        max_weight => $weight,
+                                                        min_value => $weight,
+                                                        max_value => $weight,
                                                         price => $rate->rate,
                                                        });
             }
