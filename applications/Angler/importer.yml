@@ -172,13 +172,16 @@ manufacturers:
         drone:
             class: SimmsProduct
             fields:
-                - img
-                - description
-                - features
-                - product_care
-                - technologies
-                - videos
-                - sku
+                text:
+                    - description
+                    - features
+                    - product_care
+                    - technologies
+                    - sku
+                image:
+                    - img
+                video:
+                    - video
         fields:
             navigation:
                 - xls:Item Category Code
