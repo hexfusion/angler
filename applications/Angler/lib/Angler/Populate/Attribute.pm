@@ -122,7 +122,7 @@ sub add {
        $schema->resultset('AttributeValue')->find_or_create(
             {
                 attributes_id => $attribute->attributes_id,
-                value         => &clean_attribute_value($value),
+                value         => &map_size(&clean_attribute_value($value)),
                 title         => $title,
                 priority      => $priority
             },
@@ -142,6 +142,95 @@ return a cleaned up value for AttributeValue value column
 sub clean_attribute_value {
     my $value = lc(shift);
     $value =~ s/\s+/_/g;
+    return $value;
+}
+
+sub map_size {
+    my $value = lc(shift);
+    my %sizemapping = (
+        #xxs
+        'xxs' => 'xxs',
+        'xx-sm' => 'xxs',
+        'xx-sml' => 'xxs',
+        'xx-small' => 'xxs',
+        'xx_sm' => 'xxs',
+        'xx_sml' => 'xxs',
+        'xx_small' => 'xxs',
+        'xxsm' => 'xxs',
+        'xxsml' => 'xxs',
+        'xxsmall' => 'xxs',
+        'extra_extra_small' => 'xxs',
+        'extra-extra-small'  => 'xxs',
+        'extraextrasmall'  => 'xxs',
+        'extra_extrasmall'  => 'xxs',
+        # xs
+        'xs' => 'xs',
+        'x-sm' => 'xs',
+        'x-sml' => 'xs',
+        'x-small' => 'xs',
+        'x_sm' => 'xs',
+        'x_sml' => 'xs',
+        'x_small' => 'xs',
+        'xsm' => 'xs',
+        'xsml' => 'xs',
+        'xsmall' => 'xs',
+        # s
+        's' => 's',
+        'sm' => 's',
+        'sml' => 's',
+        'small' => 's',
+        # m
+        'm' => 'm',
+        'med' => 'm',
+        'md' => 'm',
+        'medium' => 'm',
+        # l
+        'l' => 'l',
+        'lg' => 'l',
+        'large' => 'l',
+        'lge' => 'l',
+        # xl
+        'xl' => 'xl',
+        'extra_large' => 'xl',
+        'x_large' => 'xl',
+        'x-large' => 'xl',
+        'xlarge' => 'xl',
+        'xlg' => 'xl',
+        # xxl
+        'xxl' => 'xxl',
+        'extraextralarge' => 'xxl',
+        'extra_extra_large' => 'xxl',
+        'xx_large' => 'xxl',
+        'xx-large' => 'xxl',
+        'xxlarge' => 'xxl',
+        'xxlg' => 'xxl',
+        '2xl' => 'xxl',
+        '2_xl' => 'xxl',
+        '2-xl' => 'xxl',
+        # 3xl
+        'xxxl' => '3xl',
+        'extraextraextralarge' => '3xl',
+        'extra_extra_extra_large' => '3xl',
+        'xxx_large' => '3xl',
+        'xxx-large' => '3xl',
+        'xxxlarge' => '3xl',
+        'xxxlg' => '3xl',
+        '3xl' => '3xl',
+        # 4xl
+        'xxxxl' => '4xl',
+        'extraextraextraextralarge' => '4xl',
+        'extra_extra_extra_extra_large' => '4xl',
+        'xxxx_large' => '4xl',
+        'xxxx-large' => '4xl',
+        'xxxxlarge' => '4xl',
+        'xxxxlg' => '4xl',
+        '4xl' => '4xl',
+  );
+
+    if( exists $sizemapping{$value}) {
+        print "mapping size\n";
+        $value = $sizemapping{$value};
+    }
     return $value;
 }
 
