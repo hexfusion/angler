@@ -149,29 +149,12 @@ sub free_shipping_cart {
 sub show_rates {
     my ($cart) = @_;
 
-    # calculate cart weight
-
-    my $weight = 0;
-    foreach my $product ( $cart->cart->products_array ) {
-        if ( defined $product->weight ) {
-            debug "sku ", $product->sku, " has weight ", $product->weight;
-            $weight += $product->weight;
-        }
-        else {
-            debug "sku ", $product->sku, " has undef weight.";
-            warning "TODO: add navigation weights + code to handle such.";
-            # for now add some weight for this product
-            $weight += 0.25;
-        }
-    }
-
     # zero weight is valid for things such as gift tokens or services
 
-    return unless $weight;
-
+    return unless $cart->cart->weight;
 
     my @rates = easy_post_get_rates($cart->schema, $cart->country,
-                                    $cart->postal_code, $weight);
+                                    $cart->postal_code, $cart->cart->weight);
     my @out;
     foreach my $rate (@rates) {
         push @out, {
