@@ -772,7 +772,7 @@ hook 'before_cart_display' => sub {
           )->listing( { users_id => session('logged_in_user_id') } );
 
         $values->{related_products} = $related_products
-          if $related_products->has_rows;
+          if $related_products->count;
     }
 
     # determine whether shipping is free or determine missing amount
