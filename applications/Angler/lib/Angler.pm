@@ -894,7 +894,7 @@ install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
 
             eval {
 
-                my $nav =
+                my @weights =
                   schema->resultset('Product')->find($sku)->search_related(
                     'navigation_products',
                     {
@@ -902,6 +902,8 @@ install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
                         'attribute.type' => 'navigation',
                     },
                     {
+                        columns    => [],
+                        '+columns' => { weight => 'attribute_value.value' },
                         join => {
                             navigation => {
                                 navigation_attributes => [
@@ -912,22 +914,17 @@ install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
                                     }
                                 ]
                             }
-                        }
+                        },
+                        order_by => { -desc => 'navigation.priority' },
                     }
-                  );
+                  )->hri->all;
 
-                if ( $nav->has_rows ) {
-
-                    my $weight =
-                      $nav->first->navigation->navigation_attributes->first
-                      ->navigation_attribute_values->first->attribute_value
-                      ->value;
-
-                    $cart_product->set_weight($weight);
-
-                    debug "in Cart BUILD: weight of ", $cart_product->sku,
-                      " is ",
-                      $cart_product->weight;
+                if ( @weights ) {
+                    $cart_product->set_weight($weights[0]);
+                    debug "in Cart BUILD: weight of $sku is $weights[0]";
+                }
+                else {
+                    warning "No navigation weight found for sku: $sku";
                 }
             };
         }
@@ -1061,6 +1058,11 @@ get '/account/address/new' => sub {
 any [ 'get', 'post' ] => '/cart' => sub {
 
     pass if ( param('remove') || param('update') );
+
+    # TODO: this also needs to check whether the variant is valid otherwise
+    # we get the flash message even when a valid variant is added to the cart
+
+    pass; # until fixed^^
 
     if ( my $sku = param('sku') ) {
         my $product = shop_product($sku);
