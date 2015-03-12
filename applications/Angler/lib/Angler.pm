@@ -29,6 +29,7 @@ use Angler::Routes::Validator;
 
 use Angler::Cart;
 use Angler::SearchResults;
+use Angler::Shipping;
 
 use Data::Transpose::Iterator::Scalar;
 use Template::Flute::Iterator::JSON;
@@ -36,9 +37,7 @@ use List::Util qw(first max);
 use POSIX qw/ceil/;
 use URL::Encode qw/url_decode_utf8/;
 use DateTime;
-use Class::Method::Modifiers 'install_modifier';
 
-use Angler::Shipping;
 
 our $VERSION = '0.1';
 
