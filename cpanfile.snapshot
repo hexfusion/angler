@@ -6416,14 +6416,15 @@ DISTRIBUTIONS
       XML::Writer 0.500
       YAML 0.66
       perl 5.008001
-  Safe-Isa-1.000004
-    pathname: E/ET/ETHER/Safe-Isa-1.000004.tar.gz
+  Safe-Isa-1.000005
+    pathname: E/ET/ETHER/Safe-Isa-1.000005.tar.gz
     provides:
-      Safe::Isa 1.000004
+      Safe::Isa 1.000005
     requirements:
       Exporter 5.57
       ExtUtils::MakeMaker 0
       Scalar::Util 0
+      perl 5.006
   Scalar-MoreUtils-0.02
     pathname: R/RK/RKRIMEN/Scalar-MoreUtils-0.02.tar.gz
     provides:
