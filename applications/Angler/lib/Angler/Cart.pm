@@ -5,6 +5,7 @@ use warnings;
 
 use Angler::Shipping;
 use Angler::Tax;
+use DateTime;
 
 use Moo;
 
@@ -14,7 +15,7 @@ use Moo;
 
     my $angler_cart = Angler::Cart->new(
         schema => shop_schema,
-        cart => $cart,
+        cart => shop_cart,
         shipping_methods_id => $form_values->{shipping_method},
         user_id => session('logged_in_users_id'));
 
@@ -65,12 +66,12 @@ Shipping country (required).
 
 has country => (
     is => 'ro',
-    default => 'US',
+    required => 1,
 );
 
 =head2 postal_code
 
-Postal code (required).
+Shipping postal code (required).
 
 =cut
 
@@ -78,6 +79,77 @@ has postal_code => (
     is => 'ro',
     required => 1,
 );
+
+=head2 state
+
+Returns shipping state, determined from country and postal_code.
+
+=cut
+
+has state => (
+    is => 'lazy',
+);
+
+sub _build_state {
+    my $self = shift;
+
+    return undef unless ( $self->country eq 'US' && $self->postal_code );
+    
+    my $state = Angler::Shipping::find_state(
+        $self->schema,
+        $self->postal_code,
+        $self->country
+    );
+
+    return $state ? $state : undef;
+}
+
+=head2 billing_country
+
+Billing country (optional).
+
+=cut
+
+has billing_country => (
+    is => 'ro',
+);
+
+=head2 billing_postal_code
+
+Billing postal code (optional).
+
+=cut
+
+has billing_postal_code => (
+    is => 'ro',
+);
+
+=head2 billing_state
+
+Returns billing state, determined from billing_country and billing_postal_code.
+
+=cut
+
+has billing_state => (
+    is => 'lazy',
+);
+
+sub _build_billing_state {
+    my $self = shift;
+
+    return undef
+      unless ( $self->billing_country
+        && $self->billing_country eq 'US'
+        && $self->billing_postal_code );
+
+    my $state = Angler::Shipping::find_state(
+        $self->schema,
+        $self->billing_postal_code,
+        $self->billing_country
+    );
+
+    return $state ? $state : undef;
+}
 
 =head2 shipping_methods_id
 
@@ -88,16 +160,6 @@ Sets the current shipping method
 
 has shipping_methods_id => (
     is => 'ro',
-);
-
-=head2 state
-
-Returns state, determined from country and postal_code.
-
-=cut
-
-has state => (
-    is => 'rw',
 );
 
 =head2 shipping_cost
@@ -131,13 +193,76 @@ Returns salestax amount.
 =cut
 
 has tax => (
-    is => 'rwp',
+    is => 'lazy',
 );
+
+sub _build_tax {
+    my $self = shift;
+
+    # apply tax if either shipping or billing address is US/NY
+    if (
+        ( $self->state && $self->state->state_iso_code eq 'NY' )
+        || (   $self->billing_state
+            && $self->billing_state->state_iso_code eq 'NY' )
+      )
+    {
+        my $now = $self->schema->format_datetime( DateTime->now );
+        my $tax = $self->schema->resultset('Tax')->search(
+            {
+                tax_name   => 'nys_sales_tax',
+                valid_from => [ undef, { '<=', $now } ],
+                valid_to   => [ undef, { '>=', $now } ],
+            },
+            {
+                rows => 1,
+            }
+        )->single;
+
+        die "nys_sales_tax missing from database" unless $tax;
+
+        $self->cart->apply_cost(
+            amount   => $tax->percent / 100,
+            name     => 'tax',
+            label    => $tax->description,
+            relative => 1
+        );
+
+        return $self->cart->cost('tax');
+    }
+
+    return 0;
+}
+
+=head1 METHODS
+
+=head2 BUILD
+
+Make sure L</country> is deliverable.
+
+=cut
+
+sub BUILD {
+    my $self = shift;
+
+    my $zones = $self->schema->resultset('Zone');
+
+    my $zone = $zones->find( { zone => 'Deliverable Countries' } );
+    die "Deliverable Countries zone not populated" unless $zone;
+
+    die "Country not deliverable" unless $zone->has_country($self->country);
+}
+
+=head2 update_costs
+
+=cut
 
 sub update_costs {
     my ($self) = @_;
     my $schema = $self->schema;
     my $cart = $self->cart;
+
+    # make sure tax gets set
+    $self->tax;
 
     if (my $user_id = $self->user_id) {
         my $user = $schema->resultset('User')->find($user_id);
@@ -182,19 +307,7 @@ sub update_costs {
 
     $self->_set_shipping_methods($shipping_methods);
 
-    $self->shipping_rates(Angler::Shipping::show_rates($self));
-
-    # Determine state
-    my $state = Angler::Shipping::find_state($schema,
-                                            $self->postal_code,
-                                            $self->country);
-
-    $self->state($state);
-
-    my $sales_tax = Angler::Tax::rate($schema, $state, $cart->subtotal);
-
-    $cart->apply_cost( amount => $sales_tax, name => 'tax' );
-    $self->_set_tax($sales_tax);
+    #$self->shipping_rates(Angler::Shipping::show_rates($self));
 }
 
 1;

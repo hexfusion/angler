@@ -15,16 +15,18 @@ logged_in_user authenticate_user user_has_role require_role
 require_login require_any_role user_roles
 );
 use Dancer::Plugin::FlashNote;
-
 use Angler::Plugin::History;
+
 use Angler::Routes::About;
-use Angler::Routes::Blog;
 use Angler::Routes::Account;
+use Angler::Routes::Blog;
+use Angler::Routes::Cart;
 use Angler::Routes::Checkout;
 use Angler::Routes::Contact;
 use Angler::Routes::Review;
 use Angler::Routes::Search;
 use Angler::Routes::Validator;
+
 use Angler::Cart;
 use Angler::SearchResults;
 
@@ -737,199 +739,9 @@ hook 'before_product_display' => sub {
 
 };
 
-hook 'before_cart_display' => sub {
-    my ($values) = @_;
-    # we get cart in tokens
-    my $cart = cart;
-    my $subtotal = $cart->subtotal;
-    my $free_shipping_amount = config->{free_shipping}->{amount};
-    my $free_shipping_gap;
-
-    $values->{title} = "Cart";
-
-    # related_products
-    my @canonical_skus =
-      map { $_->canonical_sku || $_->sku } $cart->products_array;
-
-    if ( @canonical_skus ) {
-        my $related_products =
-          shop_schema->resultset('MerchandisingProduct')->search(
-            {
-                'me.sku'  => { -in => \@canonical_skus },
-                'me.type' => 'related',
-            },
-            {
-                join => { product => { canonical => 'variants' }},
-            }
-          )->related_resultset('product_related')->rand->search(
-            {
-                'product_related.active' => 1,
-                'product_related.sku'    => { -not_in => \@canonical_skus },
-            },
-            {
-                rows => config->{cart}->{related_product}->{qty} || 3,
-            }
-          )->listing( { users_id => session('logged_in_user_id') } );
-
-        $values->{related_products} = $related_products
-          if $related_products->count;
-    }
-
-    # determine whether shipping is free or determine missing amount
-    if ($free_shipping_amount > $subtotal) {
-        $values->{free_shipping_gap} = $free_shipping_amount - $subtotal;
-    }
-    else {
-        $values->{free_shipping} = 1;
-    }
-
-    $values->{countries} = Angler::Shipping::deliverable_countries(shop_schema);
-
-    my $form = form('shipping-quote');
-    my $form_values = $form->values('session');
-
-    # set country if we don't already have it
-    $form_values->{country} ||= 'US';
-
-    if (logged_in_user) {
-        # retrieve shipping address
-        #TODO this should be a search and a dropdown to select if multiple
-        my $ship_adr = shop_address->search(
-            {
-                users_id => session('logged_in_user_id'),
-                type => 'shipping',
-            },
-            {
-                order_by => {-desc => 'last_modified'},
-                rows => 1,
-            },
-        )->single;
-
-        if ($ship_adr) {
-            debug "user_address: Shipping address found: ", $ship_adr->id;
-
-            $form_values->{postal_code} ||= $ship_adr->postal_code;
-            $form_values->{country} ||= $ship_adr->country_iso_code;
-
-            debug "user postal code ", $form_values->{postal_code};
-            debug "user country ", $form_values->{country};
-        }
-    }
-
-    my $angler_cart = Angler::Cart->new(
-        schema => shop_schema,
-        cart => $cart,
-        shipping_methods_id => session('shipping_method') || 0,
-        country => $form_values->{country},
-        postal_code => $form_values->{postal_code},
-        user_id => session('logged_in_users_id'),
-    );
-
-    my $rates = Angler::Shipping::show_rates($angler_cart);
-    $values->{shipping_methods} = [];
-    if ($rates && @$rates) {
-        my @shipping_rates;
-        foreach my $rate (@$rates) {
-            my $iref = {
-                value => $rate->{carrier_service},
-                label => "$rate->{service} $rate->{rate}\$",
-            };
-            if ($rate->{carrier_service} == $angler_cart->shipping_methods_id) {
-                $iref->{checked} = 'checked';
-            }
-
-            push @shipping_rates, $iref;
-        }
-        $values->{shipping_methods} = \@shipping_rates;
-        if (@shipping_rates) {
-            $values->{show_shipping_methods} = 1;
-        }
-        debug "shipping methods are", $values->{shipping_methods};
-    }
-    else {
-        debug "No rates found for: ", $form_values;
-    }
-
-    if ($form_values->{shipping_method}) {
-        $values->{shipping_method} = $form_values->{shipping_method};
-        debug "Shipping method is " . $form_values->{shipping_method};
-    }
-    $angler_cart->update_costs;
-
-    $form_values->{country} = $angler_cart->country;
-    $form_values->{postal_code} = $angler_cart->postal_code;
-
-    $values->{cart_shipping} = $angler_cart->shipping_cost;
-    $values->{cart_tax} = $angler_cart->tax;
-    $values->{cart_total} = $cart->total;
-
-    # $values->{shipping_methods} = $angler_cart->shipping_methods;
-
-    # unless (@{$values->{shipping_methods}}) {
-    # $values->{shipping_warning} = 'No shipping methods for this country/zip';
-    # }
-
-    # filling cart form
-    $form->fill($form_values);
-    $values->{form} = $form;
-
-    $values->{"extra-js-file"} = 'cart.js';
-};
-
 =head1 METHODS
 
 =cut
-
-install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
-    my $self = shift;
-
-    foreach my $cart_product ( $self->products_array ) {
-
-        if ( !defined $cart_product->weight ) {
-
-            my $sku =
-                $cart_product->canonical_sku
-              ? $cart_product->canonical_sku
-              : $cart_product->sku;
-
-            eval {
-
-                my @weights =
-                  schema->resultset('Product')->find($sku)->search_related(
-                    'navigation_products',
-                    {
-                        'attribute.name' => 'weight',
-                        'attribute.type' => 'navigation',
-                    },
-                    {
-                        columns    => [],
-                        '+columns' => { weight => 'attribute_value.value' },
-                        join => {
-                            navigation => {
-                                navigation_attributes => [
-                                    'attribute',
-                                    {
-                                        navigation_attribute_values =>
-                                          'attribute_value'
-                                    }
-                                ]
-                            }
-                        },
-                        order_by => { -desc => 'navigation.priority' },
-                    }
-                  )->hri->all;
-
-                if ( @weights ) {
-                    $cart_product->set_weight($weights[0]);
-                    debug "in Cart BUILD: weight of $sku is $weights[0]";
-                }
-                else {
-                    warning "No navigation weight found for sku: $sku";
-                }
-            };
-        }
-    }
-};
 
 =head2 add_recent_products($tokens, $quantity)
 

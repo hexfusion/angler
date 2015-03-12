@@ -44,10 +44,8 @@
 <form name="shipping-update" target="name">
 </form>
 -->
-<!--
-<value name="cart-shipping" field="cart_shipping" filter="currency"/>
+<!--value name="cart-shipping" field="cart_shipping" filter="currency"/-->
 <value name="cart-tax" field="cart_tax" filter="currency"/>
--->
 <value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
 <value name="cart-total" field="cart_total" filter="currency"/>
 
