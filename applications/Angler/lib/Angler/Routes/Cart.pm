@@ -21,17 +21,13 @@ use Angler::Shipping;
 
 hook 'before_cart_display' => sub {
     my $tokens = shift;
-    my $cart = cart;
-    my $subtotal = $cart->subtotal;
-    my $free_shipping_amount = config->{free_shipping}->{amount};
-    my $free_shipping_gap;
 
     $tokens->{title} = "Cart";
 
     # related_products
 
     my @canonical_skus =
-      map { $_->canonical_sku || $_->sku } $cart->products_array;
+      map { $_->canonical_sku || $_->sku } cart->products_array;
 
     if ( @canonical_skus ) {
         my $related_products =
@@ -54,14 +50,6 @@ hook 'before_cart_display' => sub {
           if $related_products->first;
     }
 
-    # determine whether shipping is free or determine missing amount
-    if ($free_shipping_amount > $subtotal) {
-        $tokens->{free_shipping_gap} = $free_shipping_amount - $subtotal;
-    }
-    else {
-        $tokens->{free_shipping} = 1;
-    }
-
     $tokens->{countries} = Angler::Shipping::deliverable_countries(shop_schema);
 
     # shipping quote form
@@ -73,9 +61,6 @@ hook 'before_cart_display' => sub {
         $form_scope = 'session';
     }
     my $form_values = $form->values($form_scope);
-
-    # set country if we don't already have it
-    $form_values->{country} ||= 'US';
 
     if (logged_in_user) {
         # retrieve shipping address
@@ -99,65 +84,7 @@ hook 'before_cart_display' => sub {
         }
     }
 
-    my $angler_cart = Angler::Cart->new(
-        schema => shop_schema,
-        cart => $cart,
-        shipping_methods_id => session('shipping_method') || 0,
-        country => $form_values->{country},
-        postal_code => $form_values->{postal_code},
-        user_id => session('logged_in_users_id'),
-    );
-
-    my $rates =
-      Angler::Shipping::show_rates( $angler_cart, param('get_quote') ? 0 : 1 );
-
-    $tokens->{shipping_methods} = [];
-    if ($rates && @$rates) {
-        my @shipping_rates;
-        foreach my $rate (@$rates) {
-            my $iref = {
-                value => $rate->{carrier_service},
-                label => "$rate->{service} $rate->{rate}\$",
-            };
-            if ($rate->{carrier_service} == $angler_cart->shipping_methods_id) {
-                $iref->{checked} = 'checked';
-            }
-
-            push @shipping_rates, $iref;
-        }
-        $tokens->{shipping_methods} = \@shipping_rates;
-        if (@shipping_rates) {
-            $tokens->{show_shipping_methods} = 1;
-        }
-        debug "shipping methods are", $tokens->{shipping_methods};
-    }
-    else {
-        debug "No rates found for: ", $form_values;
-    }
-
-    if ($form_values->{shipping_method}) {
-        $tokens->{shipping_method} = $form_values->{shipping_method};
-        debug "Shipping method is " . $form_values->{shipping_method};
-    }
-    $angler_cart->update_costs;
-
-    $form_values->{country} = $angler_cart->country;
-    $form_values->{postal_code} = $angler_cart->postal_code;
-
-    $tokens->{cart_shipping} = $angler_cart->shipping_cost;
-    $tokens->{cart_tax} = $angler_cart->tax;
-    $tokens->{cart_total} = $cart->total;
-
-    # $tokens->{shipping_methods} = $angler_cart->shipping_methods;
-
-    # unless (@{$tokens->{shipping_methods}}) {
-    # $tokens->{shipping_warning} = 'No shipping methods for this country/zip';
-    # }
-
-    # fill cart form & throw back into session
-    $form->fill($form_values);
-    $form->to_session;
-    $tokens->{form} = $form;
+    &shipping_quote( $form_values, $tokens );
 
     $tokens->{"extra-js-file"} = 'cart.js';
 };
@@ -209,7 +136,12 @@ install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
                     }
                   )->single->get_column('weight');
 
-                $cart_product->set_weight($weight);
+                if ( defined $weight ) {
+                    $cart_product->set_weight($weight);
+                }
+                else {
+                    warning "No navigation weight found for $sku";
+                }
             };
             if ( $@ ) {
                 warning "kaboom in Cart after BUILD: ", $@;
@@ -218,55 +150,65 @@ install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
     }
 };
 
-=head2 shipping_quote
+=head2 shipping_quote( $form_values, $tokens )
+
+Handle shipping quote form for cart get/post and ajax shipping-quote adding
+appropriate tokens.
 
 =cut
 
 sub shipping_quote {
-    my $tokens = shift;
-    my $form   = form('shipping-quote');
+    my ( $form_values, $tokens ) = @_;
 
-    debug "shipping-quote";
+    my $cart = cart;
 
-    my $values = $form->values;
+    my $subtotal = $cart->subtotal;
+    my $free_shipping_amount = config->{free_shipping}->{amount};
+    my $free_shipping_gap;
 
-    $tokens->{'form'} = $form;
-
-    my $dtv = Data::Transpose::Validator->new(requireall => 1);
-
-    $dtv->field( country     => 'String' );
-    $dtv->field( postal_code => 'String' );
-
-    my $clean = $dtv->transpose($values);
-
-    if ( !$clean || $dtv->errors ) {
-        $tokens->{errors} = $dtv->errors_hash;
-        return;
+    # determine whether shipping is free or determine missing amount
+    # FIXME: free shipping not yet implemented
+    if ($free_shipping_amount > $subtotal) {
+        $tokens->{free_shipping_gap} = $free_shipping_amount - $subtotal;
+    }
+    else {
+        $tokens->{free_shipping} = 1;
     }
 
-    unless (
-        Angler::Validator::country_and_postal_code(
-            $values->{country}, $values->{postal_code}
-        )
-      )
-    {
-        # TODO: set appropriate errors.
-        # TODO: are these errors handles by the template?
-        return template 'cart/content', $tokens;
-    }
+    $tokens->{countries} = Angler::Shipping::deliverable_countries(shop_schema);
 
-    my $angler_cart = Angler::Cart->new(
-        cart        => shop_cart,
-        schema      => shop_schema,
-        country     => param('country'),
-        postal_code => param('postal_code')
-    );
-    $angler_cart->update_costs;
+    # shipping quote form
 
-    $tokens->{shipping_methods} = $angler_cart->shipping_methods;
+    my $form = form('shipping-quote');
 
-    return;
-}
+    # set country if we don't already have it
+    $form_values->{country} ||= 'US';
+
+    eval {
+        my $angler_cart = Angler::Cart->new(
+            schema            => shop_schema,
+            cart              => $cart,
+            shipment_rates_id => $form_values->{shipping_rate},
+            country           => $form_values->{country},
+            postal_code       => $form_values->{postal_code},
+        );
+
+        if ( $angler_cart->shipment_rates ) {
+            $tokens->{show_shipping_rates} = 1;
+            $tokens->{shipping_rates}      = $angler_cart->shipment_rates;
+        }
+
+        $tokens->{cart_shipping} = $angler_cart->shipping_cost;
+        $tokens->{cart_tax}      = $angler_cart->tax;
+    };
+
+    $tokens->{cart_total} = $cart->total;
+
+    # fill shipping-quote form & stash back into session
+    $form->fill($form_values);
+    $form->to_session;
+    $tokens->{form} = $form;
+};
 
 =head2 select_quote
 
@@ -282,5 +224,29 @@ sub select_quote {
         session shipping_method => $ship_method_id;
     }
 }
+
+=head1 ROUTES
+
+=head2 ajax /shipping-quote
+
+=cut
+
+ajax '/shipping-quote' => sub {
+    my %ret;
+    my $tokens = {};
+    &shipping_quote( params, $tokens );
+    if ( $tokens->{shipping_rates} ) {
+        %ret = (
+            type  => "success",
+            rates => $tokens->{shipping_rates},
+            tax   => $tokens->{cart_tax},
+            total => $tokens->{cart_total},
+        );
+    }
+    else {
+        $ret{type} = "fail";
+    }
+    return to_json \(%ret, %$tokens);
+};
 
 true;

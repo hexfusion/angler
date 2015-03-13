@@ -29,10 +29,11 @@
 <field name="postal_code" id="postal_code"/>
 </form>
   
-<container name="shipping-rates" id="shipping-rates" value="show_shipping_methods">
-  <list name="shipping-rate" iterator="shipping_methods">
-    <param name="shipping-rate-value" field="value" target="value" />
-    <param name="shipping-rate-label" field="label" />
+<container name="shipping-rates" id="shipping-rates" value="show_shipping_rates">
+  <list name="shipping-rate" iterator="shipping_rates">
+    <param name="shipping-rate-value" field="carrier_service" target="value" />
+    <param name="shipping-rate-label" field="service" />
+    <param name="shipping-rate-price" field="rate" filter="currency"/>
     <param name="shipping-rate-checked" class="shipping-rate-value" field="checked" target="checked" />
   </list>
 </container>

@@ -123,14 +123,17 @@ sub find_state {
 }
 
 sub shipping_rate {
-    my ($schema, $id ) = @_;
+    my ( $schema, $id ) = @_;
     unless ($id) {
         return 0;
     }
-    my $shipment_rate = $schema->resultset("ShipmentRate")->find({ shipment_rates_id => $id });
+    my $shipment_rate =
+      $schema->resultset("ShipmentRate")->find( { shipment_rates_id => $id } );
+
+    return undef unless $shipment_rate;
 
     return $shipment_rate->price;
-    }
+}
 
 # from state object provide 0|1
 sub free_shipping_destination {
@@ -153,10 +156,10 @@ sub free_shipping_cart {
     return 1;
 }
 
-=head2 show_rates( $angler_cart, $from_db_flag )
+=head2 show_rates( $angler_cart, $use_easypost_flag )
 
 First argument is an instance of Angler::Cart. Second optional argument should
-be true if only rates from the database are required.
+be true if easypost should be called when there are no valid rates in the db.
 
 Always tries to get rates from database before making call to easypost.
 
@@ -165,7 +168,7 @@ No rates will be returned if $angler_cart->cart->weight is undef or zero.
 =cut
 
 sub show_rates {
-    my ($cart, $from_db) = @_;
+    my ($cart, $use_easypost) = @_;
 
     die "Shipping show_rates arg is not an Angler::Cart object"
       unless $cart->$_isa('Angler::Cart');
@@ -183,7 +186,7 @@ sub show_rates {
         $cart->postal_code, $cart->cart->weight
     );
 
-    if ( !@rates && !$from_db ) {
+    if ( !@rates && $use_easypost ) {
 
         @rates = easy_post_get_rates(
             $cart->schema,      $cart->country,
