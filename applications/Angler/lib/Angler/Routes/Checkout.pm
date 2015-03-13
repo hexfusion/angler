@@ -17,33 +17,15 @@ use File::Spec;
 use DateTime;
 use Business::PayPal::API::ExpressCheckout;
 
-get '/checkout' => sub {
+=head1 ROUTES
+
+=head2 get/post /checkout
+
+=cut
+
+any ['get', 'post'] => '/checkout' => sub {
+
     my $form = form('checkout');
-    $form->valid(0);
-
-    debug "form pristine ", $form->pristine;
-
-    # if the checkout form is pristine fill with user data or defaults
-    if ($form->pristine) {
-        debug "setting form values";
-        $form = set_form_values($form);
-    }
-
-    template 'checkout/content', checkout_tokens($form);
-};
-
-post '/checkout' => sub {
-    my $tokens = shift;
-    my ($user, $order, $error_hash);
-    my $form = form('checkout');
-    my $values = $form->{values};
-
-var add_to_history => { type => 'all', name => 'Blog page' };
-
-    $values->{validate} = '1';
-
-    debug "form values ", $form->values;
-    debug "form pristine ", $form->pristine;
 
     # if the checkout form is pristine fill with user data or defaults
     if ($form->pristine ) {
@@ -54,9 +36,11 @@ var add_to_history => { type => 'all', name => 'Blog page' };
 
     # if user logs in on checkout page lets make sure they get back
     if (param('login')) {
-        return forward '/login', {return_url => 'checkout'}, {method => 'get'},
+        return forward '/login', {return_url => '/checkout'}, {method => 'get'},
     }
 
+    my ($user, $order, $error_hash);
+    my $values = $form->{values};
     my $history = session('history');
 
     debug "Previous Page: ", $history->{all}[2];
@@ -78,7 +62,17 @@ var add_to_history => { type => 'all', name => 'Blog page' };
 
         debug "create user";
         # form is clean lets create the order/user now
-        $user = find_or_create_user($values);
+        $user = shop_user->find_or_create(
+            {
+                email      => $values->{email},
+                username   => $values->{email},
+                first_name => $values->{first_name},
+                last_name  => $values->{last_name},
+            },
+            {
+                key => 'username'
+            }
+        );
 
         # add user_id to session for DPIC6
         session(logged_in_user_id => $user->id);
@@ -319,32 +313,31 @@ sub checkout_tokens {
     $tokens->{cart} = cart;
 
     # update cart
-    my $angler_cart = Angler::Cart->new(schema => shop_schema,
-                                        cart => $tokens->{cart},
-                                        postal_code => $values->{postal_code},
-                                        country => $values->{country},
-                                        shipping_methods_id => session('shipping_method') || 0,
-                                        user_id => session('logged_in_users_id'),);
-    $values ||= {};
+    my %cart_args = (
+        schema            => shop_schema,
+        cart              => $tokens->{cart},
+        postal_code       => $values->{postal_code},
+        country           => $values->{country},
+        shipment_rates_id => $values->{shipment_rates_id},
+        use_easypost      => 1,
+    );
 
-    $angler_cart->update_costs($values);
-
-    $tokens->{cart_tax} = $angler_cart->tax;
-    $tokens->{cart_shipping} = $angler_cart->shipping_cost;
-
-    my $rates = Angler::Shipping::show_rates($angler_cart);
-    my @shipping_rates;
-
-    if ($rates) {
-        foreach my $rate (@$rates) {
-            push @shipping_rates, {
-                                     value => $rate->{carrier_service},
-                                     label => "$rate->{service} $rate->{rate}\$",
-                                    };
-        }
+    foreach my $arg (qw/billing_postal_code billing_country/) {
+        $cart_args{$arg} = $values->{$arg} if $values->{$arg};
     }
 
-    $tokens->{shipping_rates} = \@shipping_rates;
+    my $angler_cart = Angler::Cart->new(%cart_args);
+
+    my $rates = $angler_cart->shipment_rates;
+
+    if ( $rates && ref($rates) eq 'ARRAY' && @$rates ) {
+        $angler_cart->set_shipment_rates_id( $rates->[0]->{rate} )
+          unless $angler_cart->shipment_rates_id;
+    }
+
+    $tokens->{cart_tax}       = $angler_cart->tax;
+    $tokens->{cart_shipping}  = $angler_cart->shipping_cost;
+    $tokens->{shipping_rates} = $angler_cart->shipment_rates;
 
     my @payment_errors;
     # report the paypal failures too
@@ -507,38 +500,6 @@ sub validate_checkout {
     }
 };
 
-=head2 find_or_create_user
-
-check if user exists if not then create it. returns user object
-
-=cut
-
-sub find_or_create_user {
-    my ($values) = @_;
-
-    debug "create user values" ,$values;
-    my $user;
-
-    if (logged_in_user) {
-        $user = logged_in_user;
-    }
-    else {
-        # check if user exists
-        $user = shop_user->find({username => $values->{email}}); 
-
-        # if user doesn't exist create one
-        unless ($user) {
-            $user = shop_user->create({email => $values->{email},
-                                       username => $values->{email},
-                                       first_name => $values->{first_name},
-                                       last_name => $values->{last_name},
-                                       });
-        debug "created new user";
-        }
-    }
-    return $user;
-};
-
 =head2 set_form_values
 
 define the defaults used by the checkout form. returns checkout $form
@@ -546,27 +507,23 @@ define the defaults used by the checkout form. returns checkout $form
 =cut
 
 sub set_form_values {
-    my ($form) = @_;
-    my $checkout_values;
-    my $shipping_quote_values = form('shipping-quote')->values('session');
+    my $form = shift;
+    my $values;
+    my $quote_values = form('shipping-quote')->values('session');
 
     if (logged_in_user) {
-        # search for exisitng addresses
+        # search for existing addresses
         debug "search for exiting address";
-        $checkout_values = user_address();
+        $values = user_address();
     }
-    elsif (!$checkout_values->{shipping_enabled}) {
-        # take values from shipping_quote form or use default
-        $checkout_values->{postal_code}     ||= $shipping_quote_values->{postal_code};
-        $checkout_values->{country}         ||= $checkout_values->{country} || 'US';
-        $checkout_values->{billing_country} ||= $checkout_values->{shipping_country} || $checkout_values->{country} || 'US';
-        $checkout_values->{billing_postal_code} ||= $checkout_values->{shipping_postal_code} || $checkout_values->{postal_code};
-    }
-
-    $checkout_values->{shipping_method} = session('shipping_method') || 0;
+    $values->{country} ||= $quote_values->{country} || 'US';
+    $values->{postal_code}         ||= $quote_values->{postal_code};
+    $values->{billing_country}     ||= $values->{country};
+    $values->{billing_postal_code} ||= $values->{postal_code};
+    $values->{shipping_quotes_id} = $quote_values->{shipping_quotes_id};
 
     # save changes to form
-    $form->fill($checkout_values);
+    $form->fill($values);
 
     return $form;
 };
@@ -579,13 +536,14 @@ TODO this should return a full list not just ->single
 =cut
 
 sub user_address {
-    my $form_values;
-    debug "user_address: POST Prefill form with addresses.";
+    my $values;
+
+    my $users_id = session('logged_in_user_id');
 
     #TODO this should be a search and a dropdown to select if multiple
-    my $ship_adr = shop_address->search(
+    my $shipping_address = shop_address->search(
         {
-            users_id => session('logged_in_user_id'),
+            users_id => $users_id,
             type => 'shipping',
         },
         {
@@ -594,22 +552,22 @@ sub user_address {
         },
     )->single;
 
-    if ($ship_adr) {
-        debug "user_address: Shipping address found: ", $ship_adr->id;
+    if ($shipping_address) {
+        debug "user_address: Shipping address found: ", $shipping_address->id;
 
-        $form_values = Angler::Forms::Checkout->new(
-            address => $ship_adr,
+        $values = Angler::Forms::Checkout->new(
+            address => $shipping_address,
         )->transpose;
 
-        $form_values->{shipping_enabled} = 1;
-        $form_values->{shipping_id} = $ship_adr->id;
+        $values->{shipping_enabled} = 1;
+        $values->{shipping_id} = $shipping_address->id;
     }
 
     # find existing billing address for user
     #TODO this should be a search and a dropdown to select if multiple
     my $bill_adr = shop_address->search(
         {
-            users_id => session('logged_in_user_id'),
+            users_id => $users_id,
             type => 'billing',
         },
         {
@@ -628,15 +586,15 @@ sub user_address {
 
         # add billing data to form values
         while (my ($key, $value) = each %$billing_form_values) {
-            $form_values->{$key} = $value;
+            $values->{$key} = $value;
         }
 
-        $form_values->{billing_enabled} = 1;
-        $form_values->{billing_id} = $bill_adr->id;
+        $values->{billing_enabled} = 1;
+        $values->{billing_id} = $bill_adr->id;
     }
-        debug "user_address: Filling checkout form with: ", $form_values;
+        debug "user_address: Filling checkout form with: ", $values;
 
-    return $form_values
+    return $values
 };
 
 =head2 paypal_request

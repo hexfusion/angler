@@ -150,7 +150,7 @@ install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
     }
 };
 
-=head2 shipping_quote( $form_values, $tokens )
+=head2 shipping_quote( $form_values, $tokens, $use_easypost )
 
 Handle shipping quote form for cart get/post and ajax shipping-quote adding
 appropriate tokens.
@@ -158,7 +158,7 @@ appropriate tokens.
 =cut
 
 sub shipping_quote {
-    my ( $form_values, $tokens ) = @_;
+    my ( $form_values, $tokens, $use_easypost ) = @_;
 
     my $cart = cart;
 
@@ -184,6 +184,8 @@ sub shipping_quote {
     # set country if we don't already have it
     $form_values->{country} ||= 'US';
 
+    debug "Getting quote for cart with weight: ", $cart->weight;
+
     eval {
         my $angler_cart = Angler::Cart->new(
             schema            => shop_schema,
@@ -191,11 +193,13 @@ sub shipping_quote {
             shipment_rates_id => $form_values->{shipping_rate},
             country           => $form_values->{country},
             postal_code       => $form_values->{postal_code},
+            use_easypost      => $use_easypost,
         );
 
         if ( $angler_cart->shipment_rates ) {
             $tokens->{show_shipping_rates} = 1;
             $tokens->{shipping_rates}      = $angler_cart->shipment_rates;
+            debug "Found shipping rates: ", $angler_cart->shipment_rates;
         }
 
         $tokens->{cart_shipping} = $angler_cart->shipping_cost;
@@ -234,7 +238,8 @@ sub select_quote {
 ajax '/shipping-quote' => sub {
     my %ret;
     my $tokens = {};
-    &shipping_quote( params, $tokens );
+    my $params = params;
+    &shipping_quote( $params, $tokens, 1 );
     if ( $tokens->{shipping_rates} ) {
         %ret = (
             type  => "success",
@@ -246,7 +251,7 @@ ajax '/shipping-quote' => sub {
     else {
         $ret{type} = "fail";
     }
-    return to_json \(%ret, %$tokens);
+    return to_json \%ret;
 };
 
 true;

@@ -59,7 +59,7 @@ Shipping country (required).
 
 has country => (
     is       => 'ro',
-    isa      => Str,
+#    isa      => Str,
     required => 1,
 );
 
@@ -176,7 +176,9 @@ sub _build_shipment_rates {
 
             foreach my $rate (@$rates) {
                 if ( $rate->{carrier_service} == $self->shipment_rates_id ) {
-                    $rate->{checked} = 'checked';
+                    # might be consumed by radio buttons or dropdown
+                    $rate->{checked}  = 'checked';
+                    $rate->{selected} = 'selected';
                     last;
                 }
             }
@@ -194,6 +196,7 @@ The selected L<Interchange6::Schema::Result::ShipmentRate/shipment_rates_id>.
 
 has shipment_rates_id => (
     is => 'ro',
+    writer => 'set_shipment_rates_id',
 );
 
 =head2 shipping_cost
@@ -209,7 +212,7 @@ has shipping_cost => (
 sub _build_shipping_cost {
     my $self = shift;
 
-    return undef unless $self->shipment_rates_id;
+    return 0 unless $self->shipment_rates_id;
 
     my $shipping_cost =
       Angler::Shipping::shipping_rate( $self->schema,
