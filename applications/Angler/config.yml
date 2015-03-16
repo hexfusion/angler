@@ -111,6 +111,23 @@ plugins:
         username_column: username
         password_column: password
         password_check: check_password
+  DBIC:
+    default:
+      schema_class: Angler::Interchange6::Schema
+      user: root
+      options:
+        RaiseError: 1
+        PrintError: 1
+        mysql_enable_utf8: 1
+        on_connect_do: ["SET SQL_MODE = CONCAT('ANSI,TRADITIONAL', @@sql_mode)" ,"SET SQL_AUTO_IS_NULL = 0"]
+    drone:
+      schema_class: Angler::Drone::Schema
+      user: root
+      options:
+        RaiseError: 1
+        PrintError: 1
+        mysql_enable_utf8: 1
+        on_connect_do: ["SET SQL_MODE = CONCAT('ANSI,TRADITIONAL', @@sql_mode)" ,"SET SQL_AUTO_IS_NULL = 0"]
   Email:
     transport:
       Sendmail:
