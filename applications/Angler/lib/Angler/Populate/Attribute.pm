@@ -30,6 +30,7 @@ my $attributes = Angler::Populate::Attribute->new(
     schema => shop_schema,
     name   => 'color',
     title  => 'Color',
+    priority => '999',
     values =>  @color_values
 );
 
@@ -59,6 +60,17 @@ Returns attribute display title
 has title => (
     is => 'ro',
     required => 1,
+);
+
+=head2 priority
+
+Returns attribute priority
+
+=cut
+
+has priority => (
+    is => 'ro',
+    default =>'0'
 );
 
 =head2 schema
@@ -96,6 +108,7 @@ sub add {
             name  => &clean_attribute_value($self->name),
             title => $self->title,
             type  => 'variant',
+            priority => $self->priority
         },
         {
             key => 'attributes_name_type'

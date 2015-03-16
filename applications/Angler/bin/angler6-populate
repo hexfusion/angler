@@ -1597,7 +1597,8 @@ my @attr_values = (
         schema => $schema,
         name   => 'size',
         title  => 'Choose Size',
-        values =>  \@attr_values
+        values =>  \@attr_values,
+        priority => '9999' # size should always be the last attribute.
         );
 
     $attributes->add;
