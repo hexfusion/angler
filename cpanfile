@@ -78,7 +78,7 @@ requires 'Dancer::Plugin::DBIC';
 requires 'Dancer::Plugin::Email';
 requires 'Dancer::Plugin::Auth::Extensible';
 requires 'Dancer::Plugin::Auth::Extensible::Provider::DBIC';
-requires 'Dancer';
+requires 'Dancer', 1.3134;
 requires 'Dancer::Session::Storable';
 requires 'DBIx::Class::Tree::AdjacencyList';
 # requires 'Dancer::Plugin::Interchange6', '0.040';
