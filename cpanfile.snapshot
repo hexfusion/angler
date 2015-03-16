@@ -1405,79 +1405,79 @@ DISTRIBUTIONS
       DBI 1.628
       ExtUtils::MakeMaker 6.30
       Moo 1.003001
-  Dancer-1.3132
-    pathname: Y/YA/YANICK/Dancer-1.3132.tar.gz
+  Dancer-1.3134
+    pathname: Y/YA/YANICK/Dancer-1.3134.tar.gz
     provides:
-      Dancer 1.3132
-      Dancer::App 1.3132
-      Dancer::Config 1.3132
-      Dancer::Config::Object 1.3132
-      Dancer::Continuation 1.3132
-      Dancer::Continuation::Halted 1.3132
-      Dancer::Continuation::Route 1.3132
-      Dancer::Continuation::Route::ErrorSent 1.3132
-      Dancer::Continuation::Route::FileSent 1.3132
-      Dancer::Continuation::Route::Forwarded 1.3132
-      Dancer::Continuation::Route::Passed 1.3132
-      Dancer::Continuation::Route::Templated 1.3132
-      Dancer::Cookie 1.3132
-      Dancer::Cookies 1.3132
-      Dancer::Deprecation 1.3132
-      Dancer::Engine 1.3132
-      Dancer::Error 1.3132
-      Dancer::Exception 1.3132
-      Dancer::Exception::Base 1.3132
-      Dancer::Factory::Hook 1.3132
-      Dancer::FileUtils 1.3132
-      Dancer::GetOpt 1.3132
-      Dancer::HTTP 1.3132
-      Dancer::Handler 1.3132
-      Dancer::Handler::Debug 1.3132
-      Dancer::Handler::PSGI 1.3132
-      Dancer::Handler::Standalone 1.3132
-      Dancer::Hook 1.3132
-      Dancer::Hook::Properties 1.3132
-      Dancer::Logger 1.3132
-      Dancer::Logger::Abstract 1.3132
-      Dancer::Logger::Capture 1.3132
-      Dancer::Logger::Capture::Trap 1.3132
-      Dancer::Logger::Console 1.3132
-      Dancer::Logger::Diag 1.3132
-      Dancer::Logger::File 1.3132
-      Dancer::Logger::Note 1.3132
-      Dancer::Logger::Null 1.3132
-      Dancer::MIME 1.3132
-      Dancer::ModuleLoader 1.3132
-      Dancer::Object 1.3132
-      Dancer::Object::Singleton 1.3132
-      Dancer::Plugin 1.3132
-      Dancer::Plugin::Ajax 1.3132
-      Dancer::Renderer 1.3132
-      Dancer::Request 1.3132
-      Dancer::Request::Upload 1.3132
-      Dancer::Response 1.3132
-      Dancer::Route 1.3132
-      Dancer::Route::Cache 1.3132
-      Dancer::Route::Registry 1.3132
-      Dancer::Serializer 1.3132
-      Dancer::Serializer::Abstract 1.3132
-      Dancer::Serializer::Dumper 1.3132
-      Dancer::Serializer::JSON 1.3132
-      Dancer::Serializer::JSONP 1.3132
-      Dancer::Serializer::Mutable 1.3132
-      Dancer::Serializer::XML 1.3132
-      Dancer::Serializer::YAML 1.3132
-      Dancer::Session 1.3132
-      Dancer::Session::Abstract 1.3132
-      Dancer::Session::Simple 1.3132
-      Dancer::Session::YAML 1.3132
-      Dancer::SharedData 1.3132
-      Dancer::Template 1.3132
-      Dancer::Template::Abstract 1.3132
-      Dancer::Template::Simple 1.3132
-      Dancer::Template::TemplateToolkit 1.3132
-      Dancer::Test 1.3132
-      Dancer::Timer 1.3132
+      Dancer 1.3134
+      Dancer::App 1.3134
+      Dancer::Config 1.3134
+      Dancer::Config::Object 1.3134
+      Dancer::Continuation 1.3134
+      Dancer::Continuation::Halted 1.3134
+      Dancer::Continuation::Route 1.3134
+      Dancer::Continuation::Route::ErrorSent 1.3134
+      Dancer::Continuation::Route::FileSent 1.3134
+      Dancer::Continuation::Route::Forwarded 1.3134
+      Dancer::Continuation::Route::Passed 1.3134
+      Dancer::Continuation::Route::Templated 1.3134
+      Dancer::Cookie 1.3134
+      Dancer::Cookies 1.3134
+      Dancer::Deprecation 1.3134
+      Dancer::Engine 1.3134
+      Dancer::Error 1.3134
+      Dancer::Exception 1.3134
+      Dancer::Exception::Base 1.3134
+      Dancer::Factory::Hook 1.3134
+      Dancer::FileUtils 1.3134
+      Dancer::GetOpt 1.3134
+      Dancer::HTTP 1.3134
+      Dancer::Handler 1.3134
+      Dancer::Handler::Debug 1.3134
+      Dancer::Handler::PSGI 1.3134
+      Dancer::Handler::Standalone 1.3134
+      Dancer::Hook 1.3134
+      Dancer::Hook::Properties 1.3134
+      Dancer::Logger 1.3134
+      Dancer::Logger::Abstract 1.3134
+      Dancer::Logger::Capture 1.3134
+      Dancer::Logger::Capture::Trap 1.3134
+      Dancer::Logger::Console 1.3134
+      Dancer::Logger::Diag 1.3134
+      Dancer::Logger::File 1.3134
+      Dancer::Logger::Note 1.3134
+      Dancer::Logger::Null 1.3134
+      Dancer::MIME 1.3134
+      Dancer::ModuleLoader 1.3134
+      Dancer::Object 1.3134
+      Dancer::Object::Singleton 1.3134
+      Dancer::Plugin 1.3134
+      Dancer::Plugin::Ajax 1.3134
+      Dancer::Renderer 1.3134
+      Dancer::Request 1.3134
+      Dancer::Request::Upload 1.3134
+      Dancer::Response 1.3134
+      Dancer::Route 1.3134
+      Dancer::Route::Cache 1.3134
+      Dancer::Route::Registry 1.3134
+      Dancer::Serializer 1.3134
+      Dancer::Serializer::Abstract 1.3134
+      Dancer::Serializer::Dumper 1.3134
+      Dancer::Serializer::JSON 1.3134
+      Dancer::Serializer::JSONP 1.3134
+      Dancer::Serializer::Mutable 1.3134
+      Dancer::Serializer::XML 1.3134
+      Dancer::Serializer::YAML 1.3134
+      Dancer::Session 1.3134
+      Dancer::Session::Abstract 1.3134
+      Dancer::Session::Simple 1.3134
+      Dancer::Session::YAML 1.3134
+      Dancer::SharedData 1.3134
+      Dancer::Template 1.3134
+      Dancer::Template::Abstract 1.3134
+      Dancer::Template::Simple 1.3134
+      Dancer::Template::TemplateToolkit 1.3134
+      Dancer::Test 1.3134
+      Dancer::Timer 1.3134
     requirements:
       Carp 0
       Cwd 0
@@ -1519,6 +1519,7 @@ DISTRIBUTIONS
       lib 0
       overload 0
       parent 0
+      perl 5.006
       strict 0
       vars 0
       warnings 0
@@ -2959,6 +2960,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Sub::Exporter::Progressive 0.001011
       perl 5.006
+  Devel-Hide-0.0009
+    pathname: F/FE/FERREIRA/Devel-Hide-0.0009.tar.gz
+    provides:
+      Devel::Hide 0.0009
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   Devel-StackTrace-2.00
     pathname: D/DR/DROLSKY/Devel-StackTrace-2.00.tar.gz
     provides:
