@@ -6,37 +6,48 @@ use warnings;
 use base 'DBIx::Class::Schema';
 
 use Interchange6::Schema::Result::Product;
+package Interchange6::Schema::Result::Product;
 
-=head1 METHODS
+=head1 NAME
+
+Angler::Interchange6::Schema::Result::Product
+
+=head1 DESCRIPTION
+
+Adds extra columns and methods to L<Interchange6::Schema::Result::Product>.
+
+=head1 ACCESSORS
+
+=head2 manufacturer_sku
 
 =cut
 
-=head2 add_columns
-
-the following fields will be added to the schema on deploy
-
-=cut
-
-Interchange6::Schema::Result::Product->add_columns(
+__PACKAGE__->add_columns(
     manufacturer_sku => {
         data_type => 'varchar',
         size      => 64,
     },
 );
 
+=head1 METHODS
+
 =head2 details
 
+Returns javascript to change location href to uri of product.
+
 =cut
 
-*Interchange6::Schema::Result::Product::details = sub {
+sub details {
     return "location.href=('/" . shift->uri . "')";
-};
+}
 
-=head2 image
+=head2 image( $size )
+
+Returns uri of a C<$size> image for the product. Size defaults to 325x325.
 
 =cut
 
-*Interchange6::Schema::Result::Product::image = sub {
+sub image {
     my ( $self, $size ) = @_;
 
     $size = "325x325" unless $size;
@@ -80,36 +91,36 @@ Interchange6::Schema::Result::Product->add_columns(
     else {
         return undef;
     }
-};
+}
 
 =head2 image_NNNxNNN
 
 =cut
 
-*Interchange6::Schema::Result::Product::image_35x35 = sub {
+sub image_35x35 {
     return shift->image("35x35");
-};
-*Interchange6::Schema::Result::Product::image_75x75 = sub {
+}
+sub image_75x75 {
     return shift->image("75x75");
-};
-*Interchange6::Schema::Result::Product::image_100x100 = sub {
+}
+sub image_100x100 {
     return shift->image("100x100");
-};
-*Interchange6::Schema::Result::Product::image_110x110 = sub {
+}
+sub image_110x110 {
     return shift->image("110x110");
-};
-*Interchange6::Schema::Result::Product::image_200x200 = sub {
+}
+sub image_200x200 {
     return shift->image("200x200");
-};
-*Interchange6::Schema::Result::Product::image_325x325 = sub {
+}
+sub image_325x325 {
     return shift->image("325x325");
-};
-*Interchange6::Schema::Result::Product::image_975x975 = sub {
+}
+sub image_975x975 {
     return shift->image("975x975");
-};
-*Interchange6::Schema::Result::Product::no_variants = sub {
+}
+sub no_variants {
     return shift->variant_count ? 0 : 1;
-};
+}
 
 1;
 
