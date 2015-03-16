@@ -6,7 +6,6 @@ use Dancer::Plugin::Auth::Extensible;
 $ENV{EASYPOST_API_KEY} = config->{easypost}->{development};
 
 use Dancer::Plugin::Form;
-use Angler::Interchange6::Schema; # load before Dancer::Plugin::Interchange6
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::Interchange6::Routes;
 use Dancer::Plugin::DBIC;

@@ -6,7 +6,6 @@ use strict;
 use warnings;
 
 use Dancer;
-use Angler::Interchange6::Schema; # load before Dancer::Plugin::Interchange6
 use Dancer::Plugin::Interchange6;
 
 my $schema = shop_schema;

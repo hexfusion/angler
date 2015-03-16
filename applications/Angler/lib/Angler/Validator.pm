@@ -7,7 +7,6 @@ Angler::Validator - shared validation methods
 =cut
 
 use Dancer ':syntax';
-use Angler::Interchange6::Schema;
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::DBIC;
 

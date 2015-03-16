@@ -11,7 +11,6 @@ use Moo;
 package main;
 
 use Dancer ':script';
-use Angler::Interchange6::Schema;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 #use Angler::Interchange6::Schema::Populate::Media;

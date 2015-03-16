@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Moo;
-use Angler::Interchange6::Schema;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use Text::Unidecode;
