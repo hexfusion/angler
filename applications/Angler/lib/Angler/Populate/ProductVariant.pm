@@ -7,6 +7,8 @@ use Moo;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use Text::Unidecode;
+use HTML::Entities;
+use HTML::Obliterate qw/strip_html/;
 use YAML qw/LoadFile/;
 use Dancer ':script';
 
@@ -38,7 +40,6 @@ my $variant = Angler::Populate::ProductVariant->new(
             active => '1',
             manufacturer_sku => 'SF-23444',
             inventory_exempt => '0',
-            priority => '0',
             attributes => $attributes
 );
 
@@ -126,7 +127,7 @@ has uri => (
 
 sub _build_uri {
     my ($self) = @_;
-    my $uri = clean_uri(lc( unidecode($self->name . '-' . $self->attribute_values . '-' .  $self->manufacturer_sku)));
+    my $uri = clean_uri(lc( unidecode($self->name . '-' . &attribute_value_titles . '-' .  $self->manufacturer_sku)));
     return $uri;
 }
 
@@ -183,17 +184,6 @@ has inventory_exempt => (
     default => '0'
 );
 
-=head2 priority
-
-Returns priority of product
-
-=cut
-
-has priority => (
-    is => 'ro',
-    default => '0'
-);
-
 =head2 attributes
 
 experimental only atm
@@ -222,7 +212,7 @@ sub _build_attribute_values {
     foreach (@a) {
          push @v, $_->{value};
     }
-    return join(' ', @v);;
+    return join(' ', @v);
 }
 
 =head2 variants
@@ -238,6 +228,7 @@ has variants => (
 sub _build_variants {
     my ($self) = @_;
     my @a = @{$self->attributes};
+
     my $variants;
     foreach (@a) {
          $variants->{$_->{name}} = &clean_attribute_value($_->{value});
@@ -260,21 +251,21 @@ has manufacturer => (
 
 sub add {
     my ($self) = @_;
+    my $title = &attribute_value_titles;
 
     info "variants", $self->variants;
 
     shop_product->find({manufacturer_sku => $self->code})->add_variants(
     {
         sku => $self->sku,
-        name => $self->name,
+        name => &clean_name($self->name . ' ' . $title),
         price => $self->price,
-        uri => $self->uri,
+        uri => &clean_uri($self->uri),
         weight => $self->weight,
         gtin => $self->gtin,
         active => $self->active,
         manufacturer_sku => $self->manufacturer_sku,
         inventory_exempt => $self->inventory_exempt,
-        priority => $self->priority,
             attributes => $self->variants,
      });
 }
@@ -287,9 +278,7 @@ Removes junk from potential uri including RFC3986 reserved characters
 
 sub clean_uri {
     my $uri = shift;
-    $uri =~ s^\!\*\'\(\)\;\:\@\&\=\+\$\,/\?\#\[\]^-^g;
-    $uri =~ s/\s+/-/g;
-    $uri =~ s/\-+/-/g;
+    $uri =~ s/[\$#@~`'=+!&*()\[\];.,:?^ `\\\/]+/-/g;
     return $uri;
 }
 
@@ -303,6 +292,57 @@ sub clean_attribute_value {
     my $value = lc(shift);
     $value =~ s/\s+/_/g;
     return $value;
+}
+
+=head2 attribute_value_titles
+
+=cut
+
+sub attribute_value_titles {
+    my ($self) = @_;
+    my @data;
+    my $v = $self->variants;
+
+    foreach my $a ( keys %$v ) {
+        my $av_rs = shop_schema->resultset('Attribute')->find(
+            { name => $a });
+
+        my $av = $av_rs->find_related(
+            'attribute_values',
+                {
+                    value => $v->{$a}
+                }
+        );
+
+        push @data, { title => $av->title, priority => $av_rs->priority };
+    }
+
+
+    my @sorted =  sort { $a->{priority} <=> $b->{priority} } @data;
+
+    my @attr_titles;
+
+    #FIXME what a hack...
+    foreach my $key (@sorted) {
+        push @attr_titles, $key->{title};
+    }
+
+    return join(' ', @attr_titles)
+}
+
+=head2 clean_name($name)
+
+Decodes HTML entities and purges any html tags from arg.
+Also removes freight charge from name, e.g.: (+$30).
+
+=cut
+
+sub clean_name {
+    my $name = strip_html( decode_entities(shift) );
+
+    # freight charge in name
+    $name =~ s/\(\+\$\s*\d+\)//;
+    return $name;
 }
 
 1;
