@@ -25,7 +25,7 @@
 <form name="shipping-quote" link="name">
 <field name="country" iterator="countries" iterator_value_key="country_iso_code" iterator_name_key="name"/> 
 <field name="state" iterator="states" iterator_value_key="states_id" iterator_name_key="name"/>
-<field name="shipping_method" class="shipping-rate-value" />
+<field name="shipping_rate" class="shipping-rate-value" />
 <field name="postal_code" id="postal_code"/>
 </form>
   
@@ -48,6 +48,7 @@
 <!--value name="cart-shipping" field="cart_shipping" filter="currency"/-->
 <value name="cart-tax" field="cart_tax" filter="currency"/>
 <value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
+<value name="cart-shipping" field="cart_shipping" filter="currency"/>
 <value name="cart-total" field="cart_total" filter="currency"/>
 
 <container name="crosssell" value="related_products"/>

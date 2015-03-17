@@ -57,7 +57,8 @@ hook 'before_cart_display' => sub {
     my $form = form('shipping-quote');
 
     my $form_scope;
-    if ( !param('get_quote') ) {
+    if ( !param('get_quote') && !param('select_quote') ) {
+        debug "FROM SESSION";
         $form_scope = 'session';
     }
     my $form_values = $form->values($form_scope);
@@ -185,6 +186,7 @@ sub shipping_quote {
     $form_values->{country} ||= 'US';
 
     debug "Getting quote for cart with weight: ", $cart->weight;
+    debug "shipment_rates_id: ", $form_values->{shipping_rate};
 
     eval {
         my $angler_cart = Angler::Cart->new(
@@ -231,21 +233,22 @@ sub select_quote {
 
 =head1 ROUTES
 
-=head2 ajax /shipping-quote
+=head2 ajax /cart/shipping-quote
 
 =cut
 
-ajax '/shipping-quote' => sub {
+ajax '/cart/shipping-quote' => sub {
     my %ret;
     my $tokens = {};
     my $params = params;
     &shipping_quote( $params, $tokens, 1 );
     if ( $tokens->{shipping_rates} ) {
         %ret = (
-            type  => "success",
-            rates => $tokens->{shipping_rates},
-            tax   => $tokens->{cart_tax},
-            total => $tokens->{cart_total},
+            type     => "success",
+            rates    => $tokens->{shipping_rates},
+            tax      => $tokens->{cart_tax},
+            shipping => $tokens->{cart_shipping},
+            total    => $tokens->{cart_total},
         );
     }
     else {
@@ -253,5 +256,25 @@ ajax '/shipping-quote' => sub {
     }
     return to_json \%ret;
 };
+
+ajax '/cart/select-shipping' => sub {
+    my %ret = ( type => "fail" );
+    if ( my $rates_id = param('rates_id') ) {
+        if ( my $shipment_rate =
+            shop_schema->resultset('ShipmentRate')->find($rates_id) )
+        {
+            my $price = $shipment_rate->price;
+            my $cart = cart;
+            $cart->apply_cost(name => 'shipping', amount => $price );
+            %ret = (
+                type     => "success",
+                shipping => $price,
+                total    => $cart->total,
+            );
+        }
+    }
+    return to_json \%ret;
+};
+
 
 true;
