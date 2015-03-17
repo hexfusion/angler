@@ -174,14 +174,19 @@ sub _build_shipment_rates {
 
             # one of them needs to be checked
 
+            my $found = 0;
+
             foreach my $rate (@$rates) {
                 if ( $rate->{carrier_service} == $self->shipment_rates_id ) {
                     # might be consumed by radio buttons or dropdown
                     $rate->{checked}  = 'checked';
                     $rate->{selected} = 'selected';
+                    $found = 1;
                     last;
                 }
             }
+
+            $self->shipment_rates_id(undef) unless $found;
         }
         return $rates;
     }
@@ -217,6 +222,8 @@ sub _build_shipping_cost {
     my $shipping_cost =
       Angler::Shipping::shipping_rate( $self->schema,
         $self->shipment_rates_id,  );
+
+    return 0 unless $shipping_cost;
 
     $self->cart->apply_cost( amount => $shipping_cost, name => 'shipping' );
     return $shipping_cost;
