@@ -278,9 +278,7 @@ Removes junk from potential uri including RFC3986 reserved characters
 
 sub clean_uri {
     my $uri = shift;
-    $uri =~ s^\!\*\'\(\)\;\:\@\&\=\+\$\,/\?\#\[\]^-^g;
-    $uri =~ s/\s+/-/g;
-    $uri =~ s/\-+/-/g;
+    $uri =~ s/[\$#@~`'=+!&*()\[\];.,:?^ `\\\/]+/-/g;;
     return $uri;
 }
 
