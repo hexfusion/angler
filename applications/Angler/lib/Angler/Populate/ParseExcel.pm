@@ -49,8 +49,6 @@ sub parse {
 
     my $config = $self->importer_config;
 
-    info "config $config";
-
     my $parser =
       $config->{type} eq 'xlsx'
       ? Spreadsheet::ParseXLSX->new
