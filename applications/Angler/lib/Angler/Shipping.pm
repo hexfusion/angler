@@ -6,7 +6,7 @@ use warnings;
 use Net::Easypost;
 use Net::Easypost::Address;
 use Net::Easypost::Parcel;
-use Dancer qw/debug error warning/;
+use Dancer qw/config debug error warning/;
 use Safe::Isa;
 
 =head2 shipment_methods($schema, $country_iso_code)
@@ -194,12 +194,31 @@ sub show_rates {
         );
     }
 
+    # free shipping?
+
+    if (   $cart->country eq 'US'
+        && $cart->cart->subtotal >= config->{free_shipping}->{amount}
+        && free_shipping_destination( $cart->schema, $cart->state ) )
+    {
+        my $rate = $cart->schema->resultset('ShipmentRate')->search(
+            {
+                'shipment_method.name' => 'FREE100',
+            },
+            {
+                prefetch => 'shipment_method',
+                rows => 1,
+            }
+        )->single;
+
+        unshift @rates, $rate;
+    }
+
     my @out;
     foreach my $rate (@rates) {
         push @out, {
                     rate => $rate->price,
                     carrier_service => $rate->shipment_rates_id,
-                    service => $rate->shipment_method->name,
+                    service => $rate->shipment_method->title,
                    };
     }
     return \@out;

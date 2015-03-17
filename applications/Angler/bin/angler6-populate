@@ -213,7 +213,7 @@ $schema->resultset('ShipmentCarrier')->create(
         shipment_methods => [
             {
                 name           => 'FREE100',
-                title          => 'Free Shipping over $100',
+                title          => 'Free Shipping',
                 active         => 1,
                 shipment_rates => [
                     {
