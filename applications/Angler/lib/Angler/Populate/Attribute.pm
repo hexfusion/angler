@@ -189,7 +189,7 @@ sub map_size {
         'xsmall' => 'xs',
         # s
         's' => 's',
-        'sm' => 's',
+        # 'sm' => 's', ** think is to fix an error with patagonia waders where SM is Short Medium
         'sml' => 's',
         'small' => 's',
         # m
