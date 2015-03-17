@@ -107,6 +107,14 @@ if ( $type =~ /^xls/ ) {
 
     # parse excel file
     my @data = $data->parse;
+    my $merge_cell = $config->{merge_cell}->{name};
+
+    if ($merge_cell) {
+        foreach my $field (@data) {
+            $field->{$merge_cell} = join("-",map {$field->{$_}} @{$config->{merge_cell}->{fields}});
+            info "test ", $field->{$merge_cell};
+        }
+    }
 
     my ($drone_data, $drone_rs);
     my $drone_class = $config->{drone}->{class};
@@ -119,12 +127,14 @@ if ( $type =~ /^xls/ ) {
 
     my %seen;
     my $product;
+    my $drone_product;
     my @canonical = grep { ! $seen{$_->{code}}++ } @data;
 
     foreach (@canonical) {
-        # define drone link
-        my $drone_product = $drone_schema->resultset($drone_class)->find({ sku => $_->{code} });
-
+        if ($drone_class) {
+            # define drone link
+            $drone_product = $drone_schema->resultset($drone_class)->find({ sku => $_->{code} });
+        }
         # check if canonical product has any drone data;
         if($drone_product) {
             foreach my $dtf ( @{$config->{drone}->{fields}->{text}}) {
