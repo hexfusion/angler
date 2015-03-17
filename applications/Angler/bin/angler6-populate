@@ -204,6 +204,36 @@ $users{admin} = shop_user->create(
       ],
   });
 
+# free shipping
+
+$schema->resultset('ShipmentCarrier')->create(
+    {
+        name             => 'FREE',
+        title            => 'Free Shipping',
+        shipment_methods => [
+            {
+                name           => 'FREE100',
+                title          => 'Free Shipping over $100',
+                active         => 1,
+                shipment_rates => [
+                    {
+                        zones_id => $schema->resultset('Zones')->find(
+                            {
+                                zone => 'US lower 48'
+                            }
+                        )->id,
+                        value_type => 'weight',
+                        value_unit => 'lb',
+                        min_value  => 0,
+                        max_value  => 99999999.99,
+                        price      => 0,
+                    }
+                ]
+            }
+        ],
+    }
+);
+
 # navigation attributes
 
 my @weights = (qw/ 0.125 0.25 0.5 1 2 3 4 6 8 10 12 14 16 /);
