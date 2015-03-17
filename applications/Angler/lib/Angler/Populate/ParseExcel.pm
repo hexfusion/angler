@@ -86,6 +86,7 @@ sub parse {
           map {
             $headers{$_} => &trim( $worksheet->get_cell( $row, $_ )->value )
           } $col_min .. $col_max;
+
             # remove if map = delete
             delete $cells{'remove_field'};
             $cells{'manufacturer'} = lc $config->{short_name};
