@@ -252,22 +252,31 @@ has manufacturer => (
 sub add {
     my ($self) = @_;
     my $title = &attribute_value_titles;
+    my $name = $self->name . ' ' . $title;
 
-    info "variants", $self->variants;
+    my $product = shop_product->find({manufacturer_sku => $self->code});
+    my $variant = $product->find_variant($self->variants);
 
-    shop_product->find({manufacturer_sku => $self->code})->add_variants(
-    {
-        sku => $self->sku,
-        name => &clean_name($self->name . ' ' . $title),
-        price => $self->price,
-        uri => &clean_uri($self->uri),
-        weight => $self->weight,
-        gtin => $self->gtin,
-        active => $self->active,
-        manufacturer_sku => $self->manufacturer_sku,
-        inventory_exempt => $self->inventory_exempt,
-            attributes => $self->variants,
-     });
+    if ($variant) {
+        info "variant $name exists skipping";
+    }
+    else {
+        info "creating product " . $self->name  . " variant " . $name;
+
+        $product->add_variants(
+            {
+                sku => $self->sku,
+                name => $self->name . ' ' . $title,
+                price => $self->price,
+                uri => &clean_uri($self->uri),
+                weight => $self->weight,
+                gtin => $self->gtin,
+                active => $self->active,
+                manufacturer_sku => $self->manufacturer_sku,
+                inventory_exempt => $self->inventory_exempt,
+                attributes => $self->variants,
+            });
+    }
 }
 
 =head2 clean_uri($uri)
