@@ -217,7 +217,7 @@ $schema->resultset('ShipmentCarrier')->create(
                 active         => 1,
                 shipment_rates => [
                     {
-                        zones_id => $schema->resultset('Zones')->find(
+                        zones_id => $schema->resultset('Zone')->find(
                             {
                                 zone => 'US lower 48'
                             }
