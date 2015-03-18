@@ -193,7 +193,7 @@ sub _build_shipment_rates {
                 }
             }
 
-            $self->shipment_rates_id(undef) unless $found;
+            $self->set_shipment_rates_id(undef) unless $found;
         }
         if ( $self->rates_display_type eq 'list' ) {
             return $rates;
@@ -221,7 +221,7 @@ The selected L<Interchange6::Schema::Result::ShipmentRate/shipment_rates_id>.
 =cut
 
 has shipment_rates_id => (
-    is => 'ro',
+    is => 'rwp',
     writer => 'set_shipment_rates_id',
 );
 
