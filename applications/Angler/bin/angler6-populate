@@ -221,7 +221,7 @@ $schema->resultset('ShipmentCarrier')->create(
                             {
                                 zone => 'US lower 48'
                             }
-                        )->id,
+                          )->id,
                         value_type => 'weight',
                         value_unit => 'lb',
                         min_value  => 0,
@@ -231,7 +231,79 @@ $schema->resultset('ShipmentCarrier')->create(
                 ]
             }
         ],
-    }
+    },
+    {
+        name             => 'USPS',
+        title            => 'USPS',
+        shipment_methods => [
+            {
+                name  => 'USPS FirstClassPackageInternationalService',
+                title => 'USPS First Class Package International Service'
+            },
+            {
+                name  => 'USPS PriorityMailInternational',
+                title => 'USPS Priority Mail International'
+            },
+            {
+                name  => 'USPS ExpressMailInternational',
+                title => 'USPS Express Mail International'
+            },
+            {
+                name  => 'USPS Priority',
+                title => 'USPS Priority'
+            },
+            {
+                name  => 'USPS ParcelSelect',
+                title => 'USPS Parcel Select'
+            },
+            {
+                name  => 'USPS Express',
+                title => 'USPS Express'
+            },
+        ],
+    },
+    {
+        name             => 'USPS',
+        title            => 'USPS',
+        shipment_methods => [
+            {
+                name  => 'UPS Expedited',
+                title => 'UPS Expedited'
+            },
+            {
+                name  => 'UPS UPSSaver',
+                title => 'UPS Saver'
+            },
+            {
+                name  => 'UPS Ground',
+                title => 'UPS Ground'
+            },
+            {
+                name  => 'UPS 3DaySelect',
+                title => 'UPS 3 Day Select'
+            },
+            {
+                name  => 'UPS 2ndDayAirAM',
+                title => 'UPS 2nd Day Air AM'
+            },
+            {
+                name  => 'UPS 2ndDayAir',
+                title => 'UPS 2nd Day Air'
+            },
+            {
+                name  => 'UPS NextDayAirSaver',
+                title => 'UPS Next Day Air Saver'
+            },
+            {
+                name  => 'UPS NextDayAirEarlyAM',
+                title => 'UPS Next Day Air Early AM'
+            },
+            {
+                name  => 'UPS NextDayAir',
+                title => 'UPS Next Day Air'
+            },
+        ],
+    },
 );
 
 # navigation attributes
