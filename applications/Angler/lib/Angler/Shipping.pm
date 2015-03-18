@@ -89,7 +89,7 @@ sub deliverable_countries {
                 active => '1'
             },
             { order_by => 'name' }
-        )
+        )->hri->all
     ];
 }
 
@@ -188,6 +188,7 @@ sub show_rates {
 
     if ( !@rates && $use_easypost ) {
 
+        debug "we need easypost rates";
         @rates = easy_post_get_rates(
             $cart->schema,      $cart->country,
             $cart->postal_code, $cart->cart->weight
@@ -250,7 +251,7 @@ sub shipment_zone {
         $zone = $zone_rs->search(
             {
                 'zone_countries.country_iso_code' => $country,
-                'zone.zone' => { -ident => 'country.name' },
+                $zone_rs->me('zone') => { -ident => 'country.name' },
             },
             {
                 join => { zone_countries => 'country' },

@@ -68,8 +68,8 @@ sub countries {
 
 =head2 states($country_iso_code)
 
-Returns an array reference of active State result rows ordered by name for
-the requested country.
+Returns an array reference of active and hashref inflated State result rows
+ordered by name for the requested country.
 
 =cut
 
@@ -77,14 +77,16 @@ sub states {
     my ( $self, $country_iso_code ) = @_;
     my $values = $self->form->{values};
 
-    my $states = [ $self->schema->resultset('State')->search(
-            {country_iso_code => $country_iso_code,
-             active => 1,
-            },
-            {order_by => 'name'},
-    )];
-    return $states;
-};
+    my @states = $self->schema->resultset('State')->search(
+        {
+            country_iso_code => $country_iso_code,
+            active           => 1,
+        },
+        { order_by => 'name' },
+    )->hri->all;
+
+    return \@states;
+}
 
 =head2 card_months
 

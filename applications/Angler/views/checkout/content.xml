@@ -2,9 +2,9 @@
 <!-- Main Cart -->
 <list name="cart" iterator="cart">
     <param name="name"  class="item-name"/>
-    <param name="price" class="item-price" filter="currency"/>
+    <param name="price" class="item-price" filter="selling_price"/>
     <param name="qty" class="item-quantity" field="quantity"/>
-    <param name="subtotal" class="item-subtotal" filter="currency"/>
+    <param name="subtotal" class="item-subtotal" filter="selling_price"/>
     <param name="image" field="extra.image" target="src"/>
     <param name="link" field="uri" target="href"/>
 </list>
@@ -12,12 +12,12 @@
 <!-- Add Sidebar Cart -->
 <value name="sidebar-cart-overview" include="../components/widgets/cart_overview_sidebar.html"/>
 <value name="subtotal" class="cart-subtotal" field="cart_subtotal"
-       filter="currency"/>
+       filter="selling_price"/>
 
-<value name="cart-shipping" field="cart_shipping" filter="currency"/>
-<value name="cart-tax" field="cart_tax" filter="currency"/>
+<value name="cart-shipping" field="cart_shipping" filter="selling_price"/>
+<value name="cart-tax" field="cart_tax" filter="selling_price"/>
 
-<value name="total" class="cart-total" field="cart_total" filter="currency"/>
+<value name="total" class="cart-total" field="cart_total" filter="selling_price"/>
 
 <!-- hide login if user is logged in -->
 <container name="signin" value="!session.logged_in_user"/>
@@ -63,7 +63,7 @@
     <field name="card_cvc" id="inputCardCVC"/>
     <field name="payment_method" id="inputPaymentMethod" />
 
-    <field name="shipping_method" iterator="shipping_rates"/>
+    <field name="shipping_rate" iterator="shipping_rates"/>
 </form>
 
 <!-- Email errors -->
@@ -113,6 +113,15 @@
        field="errors.postal_code" op="toggle"/>
 <value name="phone_error" id="errorPhone"
        field="errors.phone" op="toggle"/>
+
+<list name="shipping-rate" iterator="shipping_rates">
+    <param name="shipping-rate-value" field="carrier_service" target="value" />
+    <param name="shipping-rate-label" field="service" />
+    <param name="shipping-rate-price" field="rate" filter="selling_price"/>
+    <param name="shipping-rate-selected" class="shipping-rate-value" field="checked" target="selected" />
+</list>
+
+<value name="shipping_rates" iterator="shipping_rates"/>
 
 <!-- Payment Method errors -->
 <value name="payment_method_css_error" field="errors.payment_method_input" target="class" class="payment_method" op="append" joiner=" "/>

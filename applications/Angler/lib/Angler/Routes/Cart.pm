@@ -207,6 +207,9 @@ sub shipping_quote {
         $tokens->{cart_shipping} = $angler_cart->shipping_cost;
         $tokens->{cart_tax}      = $angler_cart->tax;
     };
+    if ( $@ ) {
+        warning "KABOOM! shipping_quote failure: ", $@;
+    }
 
     $tokens->{cart_total} = $cart->total;
 

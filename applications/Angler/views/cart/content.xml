@@ -1,10 +1,10 @@
 <specification>
 <list name="cart" class="cartitem" iterator="cart">
 <param name="name"/>
-<param name="price" filter="currency"/>
+<param name="price" filter="selling_price"/>
 <param name="qty" field="quantity"/>
 <param name="link" field="uri" target="href"/>
-<param name="subtotal" filter="currency"/>
+<param name="subtotal" filter="selling_price"/>
 <param name="remove" field="sku" target="href" op="append"/>
 <param name="update" field="sku" target="value"/>
 <param name="thumbnail" field="extra.image" target="src"/>
@@ -33,7 +33,7 @@
   <list name="shipping-rate" iterator="shipping_rates">
     <param name="shipping-rate-value" field="carrier_service" target="value" />
     <param name="shipping-rate-label" field="service" />
-    <param name="shipping-rate-price" field="rate" filter="currency"/>
+    <param name="shipping-rate-price" field="rate" filter="selling_price"/>
     <param name="shipping-rate-checked" class="shipping-rate-value" field="checked" target="checked" />
   </list>
 </container>
@@ -46,10 +46,10 @@
 </form>
 -->
 <!--value name="cart-shipping" field="cart_shipping" filter="currency"/-->
-<value name="cart-tax" field="cart_tax" filter="currency"/>
-<value name="cart-subtotal" field="cart_subtotal" filter="currency"/>
-<value name="cart-shipping" field="cart_shipping" filter="currency"/>
-<value name="cart-total" field="cart_total" filter="currency"/>
+<value name="cart-tax" field="cart_tax" filter="selling_price"/>
+<value name="cart-subtotal" field="cart_subtotal" filter="selling_price"/>
+<value name="cart-shipping" field="cart_shipping" filter="selling_price"/>
+<value name="cart-total" field="cart_total" filter="selling_price"/>
 
 <container name="crosssell" value="related_products"/>
 <list name="related-products" iterator="related_products">
@@ -65,7 +65,7 @@
         target="href"/>
     <param name="name-title" class="related-product-link" field="name"
         target="title"/>
-    <param name="price" field="selling_price" filter="currency"/>
+    <param name="price" field="selling_price" filter="selling_price"/>
 </list>
 </specification>
 
