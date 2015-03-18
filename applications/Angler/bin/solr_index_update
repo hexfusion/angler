@@ -75,8 +75,11 @@ else {
     $product_rs = $product_rs->active->canonical_only;
 }
 
-my $product_count =
-  $schema->resultset('Product')->active->canonical_only->count;
+my $product_count = $product_rs->active->canonical_only->count;
+unless ( $product_count ) {
+    print "No active canonical products found";
+    exit 1;
+}
 my @updates;
 my $time = time();
 my $count = 0;
