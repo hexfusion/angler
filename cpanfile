@@ -76,6 +76,7 @@ requires 'DBIx::Class::TimeStamp';
 requires 'DBIx::Class::Schema::Loader';
 requires 'Dancer::Plugin::DBIC';
 requires 'Dancer::Plugin::Email';
+requires 'Email::Sender::Transport::Redirect';
 requires 'Dancer::Plugin::Auth::Extensible';
 requires 'Dancer::Plugin::Auth::Extensible::Provider::DBIC';
 requires 'Dancer', 1.3134;
