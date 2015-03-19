@@ -916,7 +916,7 @@ post "/resetpassword/:token" => sub {
         confirm_password => {
             validator => 'String',
         },
-        passwords_matching => {
+        passwords => {
             validator => 'Group',
             fields    => [ "password", "confirm_password" ],
         },
@@ -942,6 +942,7 @@ post "/resetpassword/:token" => sub {
 
         my ($v_hash, %errors);
         $v_hash = $validator->errors_hash;
+        debug "password reset error hash: ", $v_hash;
         while (my ($key, $value) = each %$v_hash) {
             $errors{$key} = $value->[0]->{value};
             # flag the field with error using has-error class
@@ -949,7 +950,8 @@ post "/resetpassword/:token" => sub {
         }
         $tokens->{'form'} = $form;
         $tokens->{errors} = \%errors;
-        template 'account/resetpassword/confirm', { form => $form };
+        debug "errors token: ", $tokens->{errors};
+        template 'account/resetpassword/confirm', $tokens;
     }
 };
 

@@ -3,11 +3,12 @@
         <field name="password" id="password"/>
         <field name="confirm_password" id="confirm_password"/>
     </form>
-    <value name="form-errors" field="errors" op="toggle" />
-    <list name="error-password" iterator="errors.password">
-        <param name="value" class="error"/>
-    </list>
-    <list name="error-confirm_password" iterator="errors.confirm_password">
-        <param name="value" class="error"/>
-    </list>
+    <value name="password_css" id="password-group" field="errors.password_input"
+        target="class" op="append" joiner=" "/>
+    <value name="password_error" id="errorPassword" field="errors.password"/>
+    <value name="confirm_css" id="confirm_password-group"
+        field="errors.passwords_input" target="class" op="append"
+        joiner=" "/>
+    <value name="confirm_error" id="errorConfirm"
+        field="errors.passwords"/>
 </specification>

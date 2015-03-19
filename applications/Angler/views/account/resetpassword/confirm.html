@@ -9,22 +9,20 @@
         <div class="fieldset">
           <ul class="form-list">
             <li>
-              <div class="form-group">
-                <div class="form-errors" id="error-password"><span class="error">Error</span></div>
+              <div id="password-group" class="form-group">
                 <label for="password">Password</label>
                 <div class="input-box">
                   <input name="password" id="password" title="Password" class="input-text form-control" data-minlength="8" data-toggle="validator" type="password" required="">
-                  <span class="help-block">Minimum of 8 characters!</span>
+                  <span class="control-label" for="password" id="errorPassword">Error</span>
                 </div>
               </div>
             </li>
             <li>
-              <div class="form-group">
-                <div class="form-errors" id="error-confirm_password"><span class="error">Error</span></div>
+              <div id="confirm_password-group" class="form-group">
                 <label for="confirm_password">Confirm Password</label>
                 <div class="input-box">
                   <input name="confirm_password" title="Confirm Password" id="confirm_password" class="input-text form-control" data-match="#password" data-match-error="Sorry these passwords don't match!" type="password" required>
-                  <div class="help-block with-errors"></div>
+                  <span class="control-label" for="confirm_password" id="errorConfirm">Error</span>
                 </div>
               </div>
             </li>
