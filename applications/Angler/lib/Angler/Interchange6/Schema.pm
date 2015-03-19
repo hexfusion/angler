@@ -14,6 +14,7 @@ Interchange6::Schema::Result::Product
 =cut
 
 use Angler::Interchange6::Schema::Result::Product;
+use Angler::Interchange6::Schema::Result::Navigation;
 
 use base 'Interchange6::Schema';
 
