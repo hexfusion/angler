@@ -150,7 +150,7 @@ shop_address->create({
 
 # Create user syspete
 $users{syspete} = shop_user->create(
-    { username => 'peter@sysnix,com', password => 'Testing123', nickname => 'SysPete',
+    { username => 'peter@sysnix.com', password => 'Testing123', nickname => 'SysPete',
       first_name => 'Peter', last_name => 'Mottram',
       email => 'peter@sysnix.com',
       user_roles => [
