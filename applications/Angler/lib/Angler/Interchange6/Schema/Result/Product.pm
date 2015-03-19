@@ -27,6 +27,11 @@ __PACKAGE__->add_columns(
         data_type => 'varchar',
         size      => 64,
     },
+    cost => {
+        data_type     => "numeric",
+        default_value => "0.0",
+        size          => [ 10, 2 ]
+    },
 );
 
 =head1 METHODS
