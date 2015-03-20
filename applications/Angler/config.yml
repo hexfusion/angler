@@ -86,6 +86,7 @@ aws:
   developer_account: 7627-6893-2538
   developer_id: AKIAJ5EX42E3HDNLPT4A
   developer_key: Si6UqoV/SKpfKR3f2RleEX+EC6bOm4xCW2qa4PnB
+  endpoint: https://mws.amazonservices.com
 
 plugins:
   Ajax:
