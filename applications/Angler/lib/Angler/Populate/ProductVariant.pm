@@ -115,6 +115,17 @@ has price => (
     required => 1,
 );
 
+=head2 cost
+
+Returns cost of product
+
+=cut
+
+has cost => (
+    is => 'ro',
+    required => 1,
+);
+
 =head2 uri
 
 Returns uri of product
@@ -268,6 +279,7 @@ sub add {
                 sku => $self->sku,
                 name => $self->name . ' ' . $title,
                 price => $self->price,
+                cost => $self->cost,
                 uri => &clean_uri($self->uri),
                 weight => $self->weight,
                 gtin => $self->gtin,

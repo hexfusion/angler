@@ -60,82 +60,65 @@ manufacturers:
                 sku:
                     - product_prefix
                     - prefix
-    patagonia:
-        prefix: PA
-        full_name: Patagonia
-        type: xls
-        fields:
-            navigation:
-                - xls:Category1
-                - xls:Category2
-                - xls:Category3
-            all:
-                price: xls:Retail
-                gtin: UPC
-            canonical:
-                sku:
-                    - product_prefix
-                    - prefix
-                    - xls:Item
-                name:
-                    - full_name
-                    - xls:Product
-                uri:
-                    - full_name
-                    - xls:Product
-            variant:
-                attributes:
-                    color: xls:Color
-                    size: xls:Size
-                sku:
-                    - product_prefix
-                    - prefix
-                    - xls:Item
-                    - xls:Color_Code
-                    - xls:Size
-                name:
-                    - full_name
-                    - xls:Product
-                    - xls:Color_Code
-                uri:
-                    - full_name
-                    - xls:Product
-                    - xls:Color_Code
-                    - xls:Size
-        navigation_alias:
-            filters:
-                -
-                    field: Product
-                    regexp: "^M's"
-                    result: men
-                -
-                    field: Product
-                    regexp: "^W's"
-                    result: women
-            clothing:
-                - men:
-                    - outerwear:
-                        - alpine/shell-tops
-                        - alpine/shell-bottoms
-                        - alpine/insulation-tops
-                        - trail-running/tops
-                        - trail-running/bottoms
-                        - trail-running/outerwear
-                - women:
-                    - outerwear:
-                        - alpine/shell-tops
-                        - alpine/shell-bottoms
-                        - alpine/insulation-tops
-                        - trail-running/tops
-                        - trail-running/bottoms
-                        - trail-running/outerwear
-                - kids:
     sage:
         prefix: SA
         full_name: Sage
     scott:
         prefix: SC
         full_name: Scott
+    patagonia:
+        prefix: PG
+        full_name: Patagonia
+        short_name: Patagonia
+        type: xls
+        worksheet: 0
+        merge_cell:
+            name: manufacturer_sku
+            fields:
+                - code
+                - color_code
+                - size
+            remove:
+                - color_code
+        header_row: 1
+        headers:
+              - source: Catalog
+                map: remove_field
+              - source: Item
+                map: code
+              - source: Product
+                map: name
+              - source: Color
+                map: color
+              - source: Color Code
+                map: color_code
+              - source: Size
+                map: size
+              - source: VSize
+                map: remove_field
+              - source: Price
+                map: cost
+              - source: Sale Pricee
+                map: remove_field
+              - source: Retail
+                map: price
+              - source: SupplierProductKey
+                map: remove_field
+              - source: UPC
+                map: gtin
+              - source: EAN
+                map: remove_field
+              - source: SKU
+                map: remove_field
+              - source: Category1
+                map: remove_field
+              - source: Category2
+                map: remove_field
+              - source: Category3
+                map: remove_field
+        attributes:
+                - color
+                - size
     simms:
         prefix: SF
         full_name: Simms Fishing Products
@@ -163,7 +146,7 @@ manufacturers:
               - source: SRP
                 map: price
               - source: Base
-                map: remove_field
+                map: cost 
               - source: Season
                 map: season
         attributes:
@@ -182,92 +165,4 @@ manufacturers:
                     - img
                 video:
                     - video
-        fields:
-            navigation:
-                - xls:Item Category Code
-            all:
-                price: xls:SRP
-                gtin: UPC
-                manufacturer_price: Base
-            canonical:
-                sku:
-                    - product_prefix
-                    - prefix
-                    - xls:Item
-                name:
-                    - full_name
-                    - xls:Product
-                uri:
-                    - full_name
-                    - xls:Product
-            variant:
-                attributes:
-                    - color
-                    - size
-                sku:
-                    - product_prefix
-                    - prefix
-                    - xls:Item
-                    - xls:Color_Code
-                    - xls:Size
-                name:
-                    - full_name
-                    - xls:Product
-                    - xls:Color_Code
-                uri:
-                    - full_name
-                    - xls:Product
-                    - xls:Color_Code
-                    - xls:Size
-        navigation:
-            headers: "Item Category Code"
-            keys:
-                ACCES:
-                BAGS:
-                FOOT:
-                GLOVES:
-                HEAD:
-                    - clothing
-                    - filter:men_women
-                    - hats
-                LAYER:
-                OUTER:
-                PACKS:
-                SOCKS:
-                SPORTS:
-                TSHIRT:
-                VESTS:
-                WADERS: "fly-fishing-gear/waders"
-            filters:
-                men_women:
-                    -
-                        field: "Product Name - Description"
-                        regexp: "^WMS "
-                        result: women
-                    -
-                        field: "Product Name - Description"
-                        regexp: "^KIDS "
-                        result: kids
-                    -
-                        field: "Product Name - Description"
-                        regexp: ".*"
-                        result: mens
-            clothing:
-                - mens:
-                    - t-shirts:
-                        - TSHIRT
-                        - alpine/shell-tops
-                        - alpine/shell-bottoms
-                        - alpine/insulation-tops
-                        - trail-running/tops
-                        - trail-running/bottoms
-                        - trail-running/outerwear
-                - women:
-                    - outerwear:
-                        - alpine/shell-tops
-                        - alpine/shell-bottoms
-                        - alpine/insulation-tops
-                        - trail-running/tops
-                        - trail-running/bottoms
-                        - trail-running/outerwear
-                - kids:
+
