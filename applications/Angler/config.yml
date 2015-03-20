@@ -80,6 +80,13 @@ emails:
   admin_email: sam@westbranchresort.com
   service_email: service@westbranchangler.com
 
+aws:
+  seller_id: A3CMOGISKX23UV
+  marketplace_id: ATVPDKIKX0DER
+  developer_account: 7627-6893-2538
+  developer_id: AKIAJ5EX42E3HDNLPT4A
+  developer_key: Si6UqoV/SKpfKR3f2RleEX+EC6bOm4xCW2qa4PnB
+
 plugins:
   Ajax:
     content_type: 'application/json'
@@ -130,6 +137,12 @@ plugins:
         PrintError: 1
         mysql_enable_utf8: 1
         on_connect_do: ["SET SQL_MODE = CONCAT('ANSI,TRADITIONAL', @@sql_mode)" ,"SET SQL_AUTO_IS_NULL = 0"]
+    qbpos:
+      schema_class: Angler::Erp::Schema
+      options:
+        RaiseError: 0
+        PrintError: 0
+        unsafe: 1
   Email:
     transport:
       Sendmail:
