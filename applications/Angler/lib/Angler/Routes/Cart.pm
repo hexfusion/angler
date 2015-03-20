@@ -92,65 +92,6 @@ hook 'before_cart_display' => sub {
 
 =head1 METHODS
 
-=head2 Dancer::Plugin::Interchange6::Cart after BUILD (modifier)
-
-=cut
-
-install_modifier "Dancer::Plugin::Interchange6::Cart", "after", "BUILD", sub {
-    my $self = shift;
-
-    foreach my $cart_product ( $self->products_array ) {
-
-
-        if ( !defined $cart_product->weight ) {
-
-            my $sku =
-                $cart_product->canonical_sku
-              ? $cart_product->canonical_sku
-              : $cart_product->sku;
-
-            eval {
-                my $weight =
-                  shop_schema->resultset('Product')->find($sku)
-                  ->search_related(
-                    'navigation_products',
-                    {
-                        'attribute.name' => 'weight',
-                        'attribute.type' => 'navigation',
-                    },
-                    {
-                        columns    => [],
-                        '+columns' => { weight => 'attribute_value.value' },
-                        join       => {
-                            navigation => {
-                                navigation_attributes => [
-                                    'attribute',
-                                    {
-                                        navigation_attribute_values =>
-                                          'attribute_value'
-                                    }
-                                ]
-                            }
-                        },
-                        order_by => { -desc => 'navigation.priority' },
-                        rows     => 1,
-                    }
-                  )->single->get_column('weight');
-
-                if ( defined $weight ) {
-                    $cart_product->set_weight($weight);
-                }
-                else {
-                    warning "No navigation weight found for $sku";
-                }
-            };
-            if ( $@ ) {
-                warning "kaboom in Cart after BUILD: ", $@;
-            }
-        }
-    }
-};
-
 =head2 shipping_quote( $form_values, $tokens, $use_easypost )
 
 Handle shipping quote form for cart get/post and ajax shipping-quote adding

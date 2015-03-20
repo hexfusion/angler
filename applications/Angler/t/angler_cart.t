@@ -26,6 +26,7 @@ die unless $environment eq 'development';
 $ENV{EASYPOST_API_KEY} = config->{easypost}->{$environment};
 
 my $cart = shop_cart;
+my $dbcart;
 
 lives_ok(
     sub {
@@ -33,7 +34,7 @@ lives_ok(
             { canonical_sku => { '!=' => undef }, price => { '>' => 5 }, }
             )->rand->rows(4);
     },
-    "find 4 products to be added to cart"
+    "find 4 random products to be added to cart"
 );
 
 while ( my $product = $rset->next ) {
@@ -42,6 +43,11 @@ while ( my $product = $rset->next ) {
 }
 
 cmp_ok( $cart->count, '==', 4, "4 products in cart" );
+
+lives_ok( sub { $dbcart = schema->resultset('Cart')->find( $cart->id ) },
+    "look for cart in DB" );
+isa_ok( $dbcart, "Interchange6::Schema::Result::Cart", "cart" );
+cmp_ok( $dbcart->cart_products->count, '==', 4, "4 products in DB cart" );
 
 throws_ok(
     sub { $ac = Angler::Cart->new() },
@@ -63,8 +69,6 @@ lives_ok(
     "new Angler::Cart for /cart shipping+tax quote"
 );
 
-lives_ok( sub { $ac->update_costs }, "update_costs" );
-
 cmp_ok( $ac->state->state_iso_code, 'eq', 'NY', 'state is NY' );
 
 note "cart subtotal: ", $cart->subtotal;
@@ -74,10 +78,33 @@ cmp_ok(
     "tax is: " . $ac->tax
 );
 
-diag explain $ac->shipping_methods_id;
+$args{postal_code} = '40401';
+
+lives_ok(
+    sub { $ac = Angler::Cart->new(%args) },
+    "new Angler::Cart for /cart shipping+tax quote"
+);
+
+cmp_ok( $ac->state->state_iso_code, 'eq', 'KY', 'state is KY' );
+cmp_ok( $ac->tax, '==', 0, "no tax" );
+
+$args{billing_country} = 'US';
+$args{billing_postal_code} = '10001';
+
+lives_ok(
+    sub { $ac = Angler::Cart->new(%args) },
+    "get cart will billing in NY and shipping KY"
+);
+cmp_ok(
+    $ac->tax, '==',
+    sprintf( "%.2f", $cart->subtotal * 0.08 ),
+    "tax is: " . $ac->tax
+);
+
+diag explain $ac->cart->weight;
+diag explain $ac->shipment_rates_id;
 diag explain $ac->shipping_cost;
-diag explain $ac->shipping_methods;
-diag explain $ac->shipping_rates;
+diag explain $ac->shipment_rates;
 diag explain $ac->tax;
 
 # cleanup

@@ -83,6 +83,8 @@ emails:
 plugins:
   Ajax:
     content_type: 'application/json'
+  Interchange6:
+    cart_class: Angler::Interchange6::Cart
   Interchange6::Routes:
     product:
       template: flypage/content
