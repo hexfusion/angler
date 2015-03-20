@@ -68,6 +68,7 @@ manufacturers:
         full_name: Scott
     patagonia:
         prefix: PG
+        vendor_code: PAT
         full_name: Patagonia
         short_name: Patagonia
         type: xls
@@ -121,6 +122,7 @@ manufacturers:
                 - size
     simms:
         prefix: SF
+        vendor_code: SIM
         full_name: Simms Fishing Products
         short_name: Simms
         type: xlsx
@@ -146,12 +148,26 @@ manufacturers:
               - source: SRP
                 map: price
               - source: Base
-                map: cost 
+                map: cost
               - source: Season
                 map: season
         attributes:
                 - color
                 - size
+        navigation:
+            OUTER: CMO
+            HEAD: CMH
+            ACCESS: FTG
+            FOOT: FB
+            BAGS: FLB
+            PACKS: FPV
+            WADERS: FW
+            VESTS: FPV
+            LAYER: CML
+            SPORTS: CMS
+            TSHIRT: CMT
+            SOCKS: CMK
+            GLOVES: CMG
         drone:
             class: SimmsProduct
             fields:
