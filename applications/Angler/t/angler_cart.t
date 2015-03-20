@@ -7,7 +7,6 @@ use Test::More;
 use Test::Exception;
 
 use Dancer qw/:script !pass/;
-use Angler::Interchange6::Schema;
 use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::DBIC;
 
@@ -43,6 +42,7 @@ while ( my $product = $rset->next ) {
 }
 
 cmp_ok( $cart->count, '==', 4, "4 products in cart" );
+cmp_ok( $cart->weight, '>', 0, "cart weight > 0" );
 
 lives_ok( sub { $dbcart = schema->resultset('Cart')->find( $cart->id ) },
     "look for cart in DB" );
