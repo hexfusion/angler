@@ -253,7 +253,6 @@ sub add {
             short_description => $self->short_description,
             description => $self->description,
             price => $self->price,
-            cost => undef,
             uri => $self->uri,
             weight => $self->weight,
             gtin => undef,
