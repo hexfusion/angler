@@ -20,6 +20,10 @@ Adds extra columns and methods to L<Interchange6::Schema::Result::Product>.
 
 =head2 manufacturer_sku
 
+=head2 cost
+
+Current cost from manufacturer.
+
 =cut
 
 __PACKAGE__->add_columns(

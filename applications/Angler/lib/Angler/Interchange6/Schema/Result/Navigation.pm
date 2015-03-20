@@ -20,6 +20,8 @@ Adds extra columns and methods to L<Interchange6::Schema::Result::Navigation>.
 
 =head2 code 
 
+ERP link to department.
+
 =cut
 
 __PACKAGE__->add_columns(
