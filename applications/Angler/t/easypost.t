@@ -3,19 +3,23 @@
 use strict;
 use warnings;
 
-use Angler::Shipping;
-
 use Dancer qw/:tests/;
+use Dancer::Plugin::Interchange6;
 use Dancer::Plugin::DBIC;
 use Data::Dumper;
-use Test::More tests => 11;
+use Test::More tests => 12;
 
-$ENV{EASYPOST_API_KEY} = config->{easypost}->{development};
+use Angler::Shipping;
 
-die "Missing EASYPOST_API_KEY in easypost/development config"
-  unless $ENV{EASYPOST_API_KEY};
+my $environment = setting 'environment';
+die unless $environment eq 'development';
+$ENV{EASYPOST_API_KEY} = config->{easypost}->{$environment};
 
-my $schema = schema;
+my $schema = shop_schema;
+
+set session_options => {schema => $schema};
+set logger => 'console';
+set log => 'debug';
 
  # shipment in the same town, 5 pounds
 my @rates = Angler::Shipping::easy_post_get_rates($schema, 'US', '13783', 5); # 

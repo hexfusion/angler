@@ -406,7 +406,7 @@ sub easy_post_get_rates {
                     {
                         valid_from => $valid_from,
                         valid_to   => $valid_to,
-                        price      => $rate->price
+                        price      => $rate->rate
                     }
                 );
             }
