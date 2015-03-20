@@ -225,6 +225,11 @@ has shipment_rates_id => (
     writer => 'set_shipment_rates_id',
 );
 
+after 'set_shipment_rates_id' => sub {
+    my $self = shift;
+    $self->clear_shipping_cost;
+};
+
 =head2 shipping_cost
 
 Returns shipping_cost.
@@ -232,7 +237,8 @@ Returns shipping_cost.
 =cut
 
 has shipping_cost => (
-    is => 'lazy',
+    is      => 'lazy',
+    clearer => 1,
 );
 
 sub _build_shipping_cost {
