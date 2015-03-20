@@ -1,3 +1,4 @@
+requires 'RPC::PlClient';
 requires 'Safe::Isa', 1.000005;
 requires 'Class::Method::Modifiers';
 requires 'WWW::Mechanize';
