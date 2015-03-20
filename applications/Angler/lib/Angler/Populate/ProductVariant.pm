@@ -184,6 +184,16 @@ has manufacturer_sku => (
     is => 'ro',
 );
 
+=head2 navigation_code
+
+Returns the navigation code of the product
+
+=cut
+
+has navigation_code => (
+    is => 'ro',
+);
+
 =head2 inventory_exempt
 
 Returns inventory_exempt status of product
@@ -289,6 +299,31 @@ sub add {
                 attributes => $self->variants,
             });
     }
+}
+
+sub export {
+    my ($self) = @_;
+    my $title = &attribute_value_titles;
+
+    my @excel_export = ([
+        $self->name,
+        $self->name . ' ' . $title,
+        $self->manufacturer_sku,
+        $self->gtin,
+        $self->navigation_code,
+        'Retail Sales',
+        'COGS-Retail',
+        $self->variants->{color},
+        $self->variants->{size},
+        $self->importer_config->{vendor_code},
+        $self->cost,
+        $self->cost,
+        $self->price,
+        $self->price,
+        'Inventory',
+        'Inventory Asset'
+    ]);
+    return @excel_export;
 }
 
 =head2 clean_uri($uri)
