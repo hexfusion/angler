@@ -1,0 +1,34 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Dancer ':script';
+use Dancer::Plugin::Database;
+use Dancer::Plugin::DBIC;
+use Angler::Erp::Schema;
+
+my $schema = schema('qbpos');
+
+my $inventory = $schema->resultset('ItemInventory');
+
+print "Count: ", $inventory->first->alu;
+
+#my @product = ({
+#    ALU => $alu,
+#    Size => $size,
+#    Attribute => $color,
+#    COGSAccount => 'COGS-Retail',
+#    Cost => $cost,
+#    OrderCost => $cost,
+#    DepartmentListID =>$code,
+#    Desc1 => $canonical_description,
+#    Desc2 => $variant_description,
+#    IncomeAccount => 'Retail Sales',
+#    ItemType => 'Inventory',
+#    MSRP => $price,
+#    Price1 => $price,
+#    TaxCode => 'Tax',
+#    UPC => $upc,
+#    VendorListID => '-3222683033530367743'
+#});
