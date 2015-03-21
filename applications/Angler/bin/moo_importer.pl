@@ -33,6 +33,7 @@ use List::Util qw/all/;
 use Pod::Usage;
 use Spreadsheet::ParseExcel;
 use Spreadsheet::ParseXLSX;
+use Spreadsheet::WriteExcel;
 use Text::Unidecode;
 use Time::HiRes qw/sleep/;
 use Try::Tiny;
@@ -41,6 +42,9 @@ use XML::Twig;
 use YAML qw/LoadFile/;
 use List::MoreUtils qw(uniq);
 use Data::Dumper::Concise;
+use DateTime qw();
+
+my $now    = DateTime->now;
 
 set logger => 'console';
 set log    => 'info';
@@ -54,6 +58,8 @@ my $schema = shop_schema;
 my $drone_schema = schema('drone');
 
 my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
+
+my $exp_dir = config->{appdir} . '/export';
 
 my @img_sizes = qw/35 75 100 110 200 325 975/;
 
@@ -108,13 +114,25 @@ if ( $type =~ /^xls/ ) {
     # parse excel file
     my @data = $data->parse;
     my $merge_cell = $config->{merge_cell}->{name};
+    my %nav_map;
 
-    if ($merge_cell) {
-        foreach my $field (@data) {
+    # define nav mapping from config
+    my $nav_map = $config->{navigation};
+
+    # do some more work on data
+    foreach my $field (@data) {
+        # check if merge cell is defined
+        if ($merge_cell) {
             $field->{$merge_cell} = join("-",map {$field->{$_}} @{$config->{merge_cell}->{fields}});
-            info "test ", $field->{$merge_cell};
+        }
+
+        # perform navigation mapping
+        if (exists $nav_map->{$field->{navigation}}) {
+           $field->{navigation} = $nav_map->{$field->{navigation}};
         }
     }
+
+#    info \@data;
 
     my ($drone_data, $drone_rs);
     my $drone_class = $config->{drone}->{class};
@@ -202,11 +220,23 @@ if ( $type =~ /^xls/ ) {
         $attributes->add;
     }
 
+    # Create a new Excel workbook
+    my $workbook = Spreadsheet::WriteExcel->new($exp_dir . '/'. $manufacturer . $now .  '.xls');
+    my $worksheet = $workbook->add_worksheet(); 
+    my @excel_export = (
+        ['canonical_desc', 'variant_desc', 'alu', 'upc', 'department_code', 'income_account', 'cogs_account',
+        'attribute', 'size', 'vendor_code', 'avg_cost', 'order_cost', 'reg_price', 'msrp', 'item_type',
+        'asset_account', 'custom_field_1']
+    );
+    my $row = 0;
     # add variants
     foreach (@variants) {
         $variant = Angler::Populate::ProductVariant->new($_);
         $variant->add;
+        push @excel_export, $variant->export;
     }
+
+    $worksheet->write_col('A1', \@excel_export)
 
     }
     else {
