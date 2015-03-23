@@ -51,7 +51,7 @@ sub get_navigation_weight {
           )->single->get_column('weight');
     };
     if ($@) {
-        warning "KABOOM! in Cart set_navigation_weight: ", $@;
+        warning "KABOOM! in Cart set_navigation_weight for sku $sku: ", $@;
     }
     warning "No navigation weight found for $sku" unless defined $weight;
     return $weight;
