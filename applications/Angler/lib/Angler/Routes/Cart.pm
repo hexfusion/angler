@@ -102,6 +102,8 @@ appropriate tokens.
 sub shipping_quote {
     my ( $form_values, $tokens, $use_easypost ) = @_;
 
+    debug "params: ", params;
+
     my $cart = cart;
 
     my $subtotal = $cart->subtotal;
@@ -182,6 +184,7 @@ sub select_quote {
 =cut
 
 ajax '/cart/shipping-quote' => sub {
+    debug "in /cart/shipping-quote";
     my %ret;
     my $tokens = {};
     my $params = params;
