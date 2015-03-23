@@ -11,23 +11,20 @@ Angler::Interchange6::Cart - extends Dancer::Plugin::Interchange6::Cart
 
 =head1 METHODS
 
-=head2 set_navigation_weight( $cart_product );
+=head2 get_navigation_weight( $sku );
 
-Called in L</add> and L</BUILD> modifier to lookup weight via navigation
+Called in L</add> and L</seed> modifiers to lookup weight via navigation
 when product has undef weight.
 
 =cut
 
-sub set_navigation_weight {
-    my $cart_product = shift;
+sub get_navigation_weight {
+    my $sku = shift;
 
-    my $sku =
-        $cart_product->canonical_sku
-      ? $cart_product->canonical_sku
-      : $cart_product->sku;
+    my $weight;
 
     eval {
-        my $weight =
+        $weight =
           schema->resultset('Product')->find($sku)->search_related(
             'navigation_products',
             {
@@ -52,17 +49,12 @@ sub set_navigation_weight {
                 rows     => 1,
             }
           )->single->get_column('weight');
-
-        if ( defined $weight ) {
-            $cart_product->set_weight($weight);
-        }
-        else {
-            warning "No navigation weight found for $sku";
-        }
     };
     if ($@) {
         warning "KABOOM! in Cart set_navigation_weight: ", $@;
     }
+    warning "No navigation weight found for $sku" unless defined $weight;
+    return $weight;
 }
 
 =head2 add
@@ -78,26 +70,38 @@ around 'add' => sub {
     if ( ref($ret) eq 'ARRAY' ) {
         foreach my $cart_product (@$ret) {
             if ( !defined $cart_product->weight ) {
-                &set_navigation_weight($cart_product);
+
+                my $sku =
+                    $cart_product->canonical_sku
+                  ? $cart_product->canonical_sku
+                  : $cart_product->sku;
+
+                $cart_product->set_weight( &get_navigation_weight($sku) );
             }
         }
     }
     return $ret;
 };
 
-=head2 BUILD
+=head2 seed
 
-Add an C<after> method modifier to C<BUILD> to add weights from nav when
+Add a C<before> method modifier to C<seed> to add weights from nav when
 product weight is undef.
 
 =cut
 
-after 'BUILD' => sub {
-    my $self = shift;
+before 'seed' => sub {
+    my ( $self, $products ) = @_;
+    if ( $products && ref($products) eq 'ARRAY' ) {
+        foreach my $product ( @$products ) {
+                my $sku =
+                    $product->{canonical_sku}
+                  ? $product->{canonical_sku}
+                  : $product->{sku};
 
-    foreach my $cart_product ( $self->products_array ) {
-        if ( !defined $cart_product->weight ) {
-            &set_navigation_weight($cart_product);
+            $product->{weight} = &get_navigation_weight($sku);
+            use Data::Dumper::Concise;
+            print Dumper( $product );
         }
     }
 };
