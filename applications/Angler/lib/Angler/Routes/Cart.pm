@@ -58,7 +58,7 @@ hook 'before_cart_display' => sub {
 
     my $form_scope;
     if ( !param('get_quote') && !param('select_quote') ) {
-        debug "FROM SESSION";
+        debug "getting shipping-quote from session";
         $form_scope = 'session';
     }
     my $form_values = $form->values($form_scope);
