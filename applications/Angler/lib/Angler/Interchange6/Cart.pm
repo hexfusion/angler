@@ -100,8 +100,6 @@ before 'seed' => sub {
                   : $product->{sku};
 
             $product->{weight} = &get_navigation_weight($sku);
-            use Data::Dumper::Concise;
-            print Dumper( $product );
         }
     }
 };
