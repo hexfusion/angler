@@ -159,11 +159,13 @@ hook 'before_layout_render' => sub {
 
         # FIXME this total and others here should come from a config not hardcode
         if ( $total > '16' ) {
+            # NOTE: this number is now ignored since we calculate number
+            # of rows dynamically below
             debug "Too many records $total to display in nav menui max is 16";
         };
 
         # set number of records per row to return
-        my $row = $menu->search({}, { rows => 8 });
+        my $row = $menu->search( {}, { rows => int( ( $total + 1 ) / 2 ) } );
 
         my $n = 2;
         my $column=0;
