@@ -23,6 +23,22 @@ my $base_url = "http://angler:Testing123\@localhost:$port/";
 
 my ( $products, $form, $table, @nodes );
 
+# delete all rates from database except FREE100
+
+lives_ok {
+    schema->resultset('ShipmentMethod')
+      ->search( { name => { '!=' => 'FREE100' } } )
+      ->search_related('shipment_rates')->delete_all
+}
+"delete all shipment rates from db except for FREE100 rates";
+
+cmp_ok(
+    schema->resultset('ShipmentMethod')
+      ->search( { name => { '!=' => 'FREE100' } } )
+      ->search_related('shipment_rates')->count,
+    '==', 0, "only FREE rates left in DB"
+);
+
 # start by visiting /cart and /checkout with shiny clean browsers
 
 {
@@ -308,8 +324,8 @@ like( $mech->base, qr(/cart$), "we have the cart" );
 # go to checkout and make sure we have rates and that our rate is selected
 #TODO: find rates
 
-# delete all rates from database and then go to checkout - rates should be
-# available
+# delete all rates from database except FREE100 and then go to checkout
+# - rates should be shown TODO
 
 lives_ok {
     schema->resultset('ShipmentMethod')
