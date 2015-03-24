@@ -53,8 +53,7 @@ sub get_navigation_weight {
     if ($@) {
         warning "KABOOM! in Cart set_navigation_weight for sku $sku: ", $@;
     }
-    warning "No navigation weight found for $sku" unless defined $weight;
-    return $weight;
+    return $weight // 0;
 }
 
 =head2 add
