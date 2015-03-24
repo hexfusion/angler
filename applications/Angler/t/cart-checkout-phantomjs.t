@@ -256,23 +256,74 @@ my $retries = 30;
 my $rate;
 while ( $retries-- ) {
     sleep 1;
-    @nodes =
-      $mech->selector('form#form-shipping-quote input[name="shipping_rate"]');
+    @nodes = $mech->selector('input[name="shipping_rate"]');
     if ( @nodes ) {
-        $rate = $mech->eval(
-          q($("input[name='shipping_rate']").last().prop("checked", true).val())
-        );
+        $rate = $mech->eval(q($("input[name='shipping_rate']").last().val()));
         last;
     }
+    else {
+        note "waiting for shipping rates";
+    }
 }
-ok( $rate, "checked shipping rate: $rate" )
+ok( $rate, "we have shipping rates" )
   or die "cannot continue without a shipping rate";
+
+# now visit checkout before submitting required shipping quote and check that
+# there are rates listed
+
+lives_ok { $mech->get( $base_url . 'checkout' ) }
+"get /checkout";
+
+ok( $mech->success, "success" );
+
+like ( $mech->base, qr(/checkout$), "we have the checkout" );
+
+#TODO: find rates
+# back to cart
+
+lives_ok { $mech->get( $base_url . 'cart' ) }
+"get /cart";
+
+ok( $mech->success, "success" );
+
+like ( $mech->base, qr(/cart$), "we have the cart" );
+
+lives_ok { @nodes = $mech->selector('input[name="shipping_rate"]') }
+"Find shipping rates in page";
+
+ok( @nodes, "we have rates" ) or die "no rates in page";
+
+lives_ok {
+    $rate = $mech->eval(
+        q($("input[name='shipping_rate']").last().prop("checked", true)))
+}
+"check the highest rate shown on the page";
 
 lives_ok { $mech->click_button( name => "select_quote" ) } "click select_quote";
 
 ok( $mech->success, "success" );
 
 like( $mech->base, qr(/cart$), "we have the cart" );
+
+# go to checkout and make sure we have rates and that our rate is selected
+#TODO: find rates
+
+# delete all rates from database and then go to checkout - rates should be
+# available
+
+lives_ok {
+    schema->resultset('ShipmentMethod')
+      ->search( { name => { '!=' => 'FREE100' } } )
+      ->search_related('shipment_rates')->delete_all
+}
+"delete all shipment rates from db except for FREE100 rates";
+
+cmp_ok(
+    schema->resultset('ShipmentMethod')
+      ->search( { name => { '!=' => 'FREE100' } } )
+      ->search_related('shipment_rates')->count,
+    '==', 0, "only FREE rates left in DB"
+);
 
 # cleanup
 lives_ok { schema->resultset('Session')->find($session_id)->delete }
