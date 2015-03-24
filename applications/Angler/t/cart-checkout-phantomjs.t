@@ -251,10 +251,31 @@ lives_ok {
 
 lives_ok { $mech->click_button( name => "get_quote" ) } "click get_quote";
 
+# wait for ajax call to complete
+my $retries = 30;
+my $rate;
+while ( $retries-- ) {
+    sleep 1;
+    @nodes =
+      $mech->selector('form#form-shipping-quote input[name="shipping_rate"]');
+    if ( @nodes ) {
+        $rate = $mech->eval(
+          q($("input[name='shipping_rate']").last().prop("checked", true).val())
+        );
+        last;
+    }
+}
+ok( $rate, "checked shipping rate: $rate" )
+  or die "cannot continue without a shipping rate";
+
+lives_ok { $mech->click_button( name => "select_quote" ) } "click select_quote";
+
 ok( $mech->success, "success" );
 
+like( $mech->base, qr(/cart$), "we have the cart" );
+
 # cleanup
-#lives_ok { schema->resultset('Session')->find($session_id)->delete }
-#"cleanup session";
+lives_ok { schema->resultset('Session')->find($session_id)->delete }
+"cleanup session";
 
 done_testing;
