@@ -150,9 +150,14 @@ hook 'before_layout_render' => sub {
 
         my $menu = $nav->search(
             {
-                'type' => 'menu',
-                'scope' => $record->scope
+                'me.type' => 'menu',
+                'me.scope' => $record->scope,
+                'navigation_products.navigation_id' => { '!=', undef },
             },
+            {
+                join => 'navigation_products',
+                group_by => 'me.uri',
+            }
         );
 
         my $total = $menu->count;
