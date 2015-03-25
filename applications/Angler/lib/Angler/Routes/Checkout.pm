@@ -338,6 +338,24 @@ sub checkout_tokens {
     $tokens->{cart_shipping}  = $angler_cart->shipping_cost;
     $tokens->{shipping_rates} = $angler_cart->shipment_rates;
 
+    if (   $values->{country}
+        && $values->{country} eq 'US'
+        && $values->{postal_code}
+        && !$values->{state} )
+    {
+        $values->{state} = $angler_cart->state->states_id;
+    }
+
+    if (   $values->{billing_country}
+        && $values->{billing_country} eq 'US'
+        && $values->{billing_postal_code}
+        && !$values->{billing_state} )
+    {
+        $values->{billing_state} = $angler_cart->billing_state->states_id;
+    }
+
+    $form->fill( $values );
+
     my @payment_errors;
     # report the paypal failures too
     if (my $pp_exception = session('paypal_exception')) {
