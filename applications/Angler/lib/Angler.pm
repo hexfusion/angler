@@ -100,8 +100,10 @@ hook 'before_template_render' => sub {
     }
 
     # return_url for redirect after successful login
-    session return_url => uri_for( request->uri, params('query') )->as_string
-      unless ( logged_in_user || request->uri =~ /login$/ );
+    if ( !logged_in_user && request->uri =~ /login$/ ) {
+        my $url = uri_for( request->uri, params('query') );
+        session return_url => "$url";
+    }
 };
 
 =head2 before_layout_render
