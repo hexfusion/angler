@@ -114,15 +114,6 @@
 <value name="phone_error" id="errorPhone"
        field="errors.phone" op="toggle"/>
 
-<list name="shipping-rate" iterator="shipping_rates">
-    <param name="shipping-rate-value" field="carrier_service" target="value" />
-    <param name="shipping-rate-label" field="service" />
-    <param name="shipping-rate-price" field="rate" filter="selling_price"/>
-    <param name="shipping-rate-selected" class="shipping-rate-value" field="checked" target="selected" />
-</list>
-
-<value name="shipping_rates" iterator="shipping_rates"/>
-
 <!-- Payment Method errors -->
 <value name="payment_method_css_error" field="errors.payment_method_input" target="class" class="payment_method" op="append" joiner=" "/>
 <value name="payment_method_error" id="errorPaymentMethod"
