@@ -175,23 +175,32 @@ ajax '/checkout/update_tax' => sub {
     my %params = params;
     my %return = ( type => "fail" );
 
-    if ( $params{shipping_country} ) {
+    if ( $params{country} ) {
 
         my $cart = shop_cart;
         eval {
+            my $schema = shop_schema;
             my $angler_cart = Angler::Cart->new(
-                schema              => shop_schema,
-                cart                => $cart,
-                country             => $params{country},
-                postal_code         => $params{postal_code},
-                billing_country     => $params{billing_country},
-                billing_postal_code => $params{billing_postal_code},
+                schema             => $schema,
+                cart               => $cart,
+                country            => $params{country},
+                postal_code        => $params{postal_code},
+                billing_country    => $params{billing_country},
+                postal_code        => $params{postal_code},
+                use_easypost       => 1,
+                rates_display_type => 'select',
             );
+            $return{rates}    = $angler_cart->shipment_rates;
+            $return{rate}     = $angler_cart->shipment_rates_id;
+            $return{shipping} = $angler_cart->shipping_cost;
             $return{tax}      = $angler_cart->tax;
             $return{subtotal} = $cart->subtotal;
             $return{total}    = $cart->total;
             $return{type}     = "success";
         };
+        if ($@) {
+            debug "KABOOM! /checkout/update_tax failure: ", $@;
+        }
     }
     to_json( \%return );
 };
