@@ -7,6 +7,7 @@ use Angler::Shipping;
 use Angler::Tax;
 use DateTime;
 use Interchange6::Types;
+use Dancer qw(debug);
 
 use Moo;
 
@@ -70,7 +71,6 @@ Shipping postal code (required).
 
 has postal_code => (
     is       => 'ro',
-    required => 1,
 );
 
 =head2 state
@@ -320,6 +320,39 @@ has use_easypost => (
 );
 
 =head1 METHODS
+
+=head2 BUILDARGS
+
+If we are passed state IDs instead of DBIC results then get staes from DB.
+
+=cut
+
+sub BUILDARGS {
+    my $class = shift;
+    my %args;
+    if ( @_ % 2 == 1 ) {
+        %args = %{ $_[0] };
+    }
+    else {
+        %args = @_;
+    }
+
+    if ( $args{state} && ref( $args{state} ) eq '' && $args{state} =~ /^\d+$/ )
+    {
+        $args{state} =
+          $args{schema}->resultset('State')->find( $args{state} );
+    }
+
+    if (   $args{billing_state}
+        && ref( $args{billing_state} ) eq ''
+        && $args{billing_state} =~ /^\d+$/ )
+    {
+        $args{billing_state} =
+          $args{schema}->resultset('State')->find( $args{billing_state} );
+    }
+
+    return \%args;
+}
 
 =head2 BUILD
 
