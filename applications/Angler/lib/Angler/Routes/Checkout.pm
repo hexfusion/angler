@@ -33,12 +33,6 @@ get '/checkout' => sub {
 
 post '/checkout' => sub {
 
-    # if user logs in on checkout page lets make sure they get back
-    # FIXME: login modal should post to /login with return_url set
-    if (param('login')) {
-        return forward '/login', {return_url => '/checkout'}, {method => 'get'},
-    }
-
     my ($user, $order, $error_hash);
 
     my $form   = form('checkout');
