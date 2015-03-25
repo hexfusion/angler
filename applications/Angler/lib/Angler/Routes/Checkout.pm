@@ -173,43 +173,26 @@ post '/checkout' => sub {
 
 ajax '/checkout/update_tax' => sub {
     my %params = params;
-    my %return;
+    my %return = ( type => "fail" );
 
-    forward 400 unless $params{shipping_country};
+    if ( $params{shipping_country} ) {
 
-    my $tax_rate = 0;
-
-    if ( $params{shipping_country} eq 'US' && $params{shipping_state} ) {
-        my $state = shop_state( $params{shipping_state} );
-        if ( $state && $state->state_iso_code eq 'NY' ) {
-            $tax_rate = 0.08;
-        }
+        my $cart = shop_cart;
+        eval {
+            my $angler_cart = Angler::Cart->new(
+                schema              => shop_schema,
+                cart                => $cart,
+                country             => $params{country},
+                postal_code         => $params{postal_code},
+                billing_country     => $params{billing_country},
+                billing_postal_code => $params{billing_postal_code},
+            );
+            $return{tax}      = $angler_cart->tax;
+            $return{subtotal} = $cart->subtotal;
+            $return{total}    = $cart->total;
+            $return{type}     = "success";
+        };
     }
-
-    if (   $params{billing_country}
-        && $params{billing_country} eq 'US'
-        && $params{billing_state} )
-    {
-        my $state = shop_state( $params{billing_state} );
-        if ( $state && $state->state_iso_code eq 'NY' ) {
-            $tax_rate = 0.08;
-        }
-    }
-
-    my $cart = shop_cart;
-    if ( $tax_rate ) {
-        $cart->apply_cost( amount => $tax_rate, name => 'tax', relative => 1 );
-        $return{tax} = $cart->cost('tax');
-    }
-    else {
-        $return{tax} = '0.00';
-    }
-
-    $return{subtotal} = $cart->subtotal;
-    $return{total}    = $cart->total;
-    $return{type}     = 'success';
-
-    content_type('application/json');
     to_json( \%return );
 };
 
@@ -329,6 +312,8 @@ sub checkout_tokens {
 
     my $rates = $angler_cart->shipment_rates;
 
+    $values->{shipping_rate} = $angler_cart->shipment_rates_id;
+
     if ( $rates && ref($rates) eq 'ARRAY' && @$rates ) {
         $angler_cart->set_shipment_rates_id( $rates->[0]->{rate} )
           unless $angler_cart->shipment_rates_id;
@@ -354,6 +339,7 @@ sub checkout_tokens {
         $values->{billing_state} = $angler_cart->billing_state->states_id;
     }
 
+    # push any changes back into form
     $form->fill( $values );
 
     my @payment_errors;
