@@ -74,6 +74,7 @@ Total amount of order.
 
 We make use of the following hooks.
 
+
 =head2 before_template_render
 
 =cut
@@ -93,6 +94,14 @@ hook 'before_template_render' => sub {
         my $image = shop_product( $product->{sku} )->image_75x75;
         $product->set_extra( image => $image ) if $image;
     }
+
+    if ( var('login_failed') && request->referer !~ /login$/ ) {
+        flash error => "Login failed. Username or password incorrect.";
+    }
+
+    # return_url for redirect after successful login
+    session return_url => uri_for( request->uri, params('query') )->as_string
+      unless ( logged_in_user || request->uri =~ /login$/ );
 };
 
 =head2 before_layout_render
