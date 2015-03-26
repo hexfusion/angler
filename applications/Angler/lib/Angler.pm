@@ -219,6 +219,8 @@ hook 'before_navigation_search' => sub {
         title => $tokens->{navigation}->name
     );
 
+    $tokens->{title} = $tokens->{navigation}->name;
+
     my %query = params('query');
 
     my $schema = shop_schema;
