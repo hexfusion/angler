@@ -34,9 +34,16 @@ lives_ok {
 
 cmp_ok(
     schema->resultset('ShipmentMethod')
+      ->search( { name => 'FREE100' } )
+      ->search_related('shipment_rates')->count,
+    '>', 0, "we have FREE100 rates in DB"
+);
+
+cmp_ok(
+    schema->resultset('ShipmentMethod')
       ->search( { name => { '!=' => 'FREE100' } } )
       ->search_related('shipment_rates')->count,
-    '==', 0, "only FREE rates left in DB"
+    '==', 0, "no other rates apart from FREE"
 );
 
 # start by visiting /cart and /checkout with shiny clean browsers
