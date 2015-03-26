@@ -215,7 +215,7 @@ sub _build_shipment_rates {
             return \@rates;
         }
     }
-    return undef;
+    return [];
 }
 
 =head2 shipment_rates_id
