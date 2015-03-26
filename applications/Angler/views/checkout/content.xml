@@ -110,40 +110,35 @@
 <value name="form-group-LastName" field="errors.last_name_input"
    target="class" op="append" joiner=" "/>
 <!-- Shipping Address -->
-<value name="address_error" id="errorAddress"
-   field="errors.address" op="toggle"/>
+<value name="address_error" field="errors.address"/>
 <value name="form-group-Address" field="errors.address_input"
    target="class" op="append" joiner=" "/>
 <!-- Shipping City -->
-<value name="city_error" id="errorCity"
-   field="errors.city" op="toggle"/>
+<value name="city_error" field="errors.city"/>
 <value name="form-group-City" field="errors.city_input"
    target="class" op="append" joiner=" "/>
 <!-- Shipping PostalCode -->
-<value name="postal_code_error" id="errorPostalCode"
-   field="errors.postal_code" op="toggle"/>
+<value name="postal_code_error" field="errors.postal_code"/>
 <value name="form-group-PostalCode" field="errors.postal_code_input"
    target="class" op="append" joiner=" "/>
 <!-- Shipping Phone -->
-<value name="phone_error" id="errorPhone"
-   field="errors.phone" op="toggle"/>
+<value name="phone_error" field="errors.phone"/>
 <value name="form-group-Phone" field="errors.phone_input"
    target="class" op="append" joiner=" "/>
 
-<!-- Payment Method errors -->
-<value name="payment_method_css_error" field="errors.payment_method_input" target="class" class="payment_method" op="append" joiner=" "/>
-<value name="payment_method_error" id="errorPaymentMethod"
-       field="errors.payment_method" op="toggle"/>
-
 <!-- Credit Card errors-->
-<value name="card_name_error" id="errorCardName"
-       field="errors.card_name" op="toggle"/>
-<value name="card_number_error" id="errorCardNumber"
-       field="errors.card_number" op="toggle"/>
-<value name="card_expire_error" id="errorCardExpire"
-       field="errors.card_month" op="toggle"/>
-<value name="card_cvc" id="errorCardCVC"
-       field="errors.card_cvc" op="toggle"/>
+<value name="card_name_error" field="errors.card_name"/>
+<value name="form-group-CardName" field="errors.card_name_input"
+   target="class" op="append" joiner=" "/>
+<value name="card_number_error" field="errors.card_number"/>
+<value name="form-group-CardNumber" field="errors.card_number_input"
+   target="class" op="append" joiner=" "/>
+<value name="card_expire_error" field="errors.card_month"/>
+<value name="form-group-CardMonth" field="errors.card_month_input"
+   target="class" op="append" joiner=" "/>
+<value name="card_cvc_error" field="errors.card_cvc"/>
+<value name="form-group-CardCVC" field="errors.card_cvc_input"
+   target="class" op="append" joiner=" "/>
 
 <!-- PayPal errors
 <container id="errorPayPal" value="paypal_exception" />
