@@ -245,6 +245,15 @@ hook 'before_navigation_search' => sub {
       $tokens->{navigation}->navigation_products->search_related('product')
       ->active;
 
+    if ( !$products->has_rows ) {
+
+        # maybe there are sub-menus that have products
+
+        $products =
+          $tokens->{navigation}->children->search_related('navigation_products')
+          ->search_related('product')->active;
+    }
+
     # find facets in query params
 
     my %query_facets = map {
