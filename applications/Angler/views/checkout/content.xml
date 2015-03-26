@@ -66,53 +66,69 @@
     <field name="shipping_rate" iterator="shipping_rates"/>
 </form>
 
-<!-- Email errors -->
-<value name="email_css_error" field="errors.email_input" target="class" class="email" op="append" joiner=" "/>
-<value name="email_error" id="errorEmail"
-      field="errors.email" op="toggle"/>
-<!-- Billing field errors -->
 <!-- Billing FirstName -->
-<value name="billing_first_name_css_error" field="errors.billing_first_name_input" target="class" class="billing_first_name" op="append" joiner=" "/>
-<value name="billing_first_name_error" id="errorBillingFirstName"
-       field="errors.billing_first_name" op="toggle"/>
+<value name="billing_first_name_error" field="errors.billing_first_name"/>
+<value name="form-group-BillingFirstName"
+    field="errors.billing_first_name_input" target="class" op="append"
+    joiner=" "/>
 <!-- Billing LastName -->
-<value name="billing_last_name_css_error" field="errors.billing_last_name_input" target="class" class="billing_last_name" op="append" joiner=" "/>
-<value name="billing_last_name_error" id="errorBillingLastName"
-       field="errors.billing_last_name" op="toggle"/>
-<!-- Billing Company -->
-<value name="billing_company_css_error" field="errors.billing_company_input" target="class" class="billing_company" op="append" joiner=" "/>
-<value name="billing_company_error" id="errorBillingCompany"
-       field="errors.billing_company" op="toggle"/>
+<value name="billing_last_name_error" field="errors.billing_last_name"/>
+<value name="form-group-BillingLastName" field="errors.billing_last_name_input"
+    target="class" op="append" joiner=" "/>
 <!-- Billing Address -->
-<value name="billing_address_css_error" field="errors.billing_address_input" target="class" class="billing_address" op="append" joiner=" "/>
-<value name="billing_address_error" id="errorBillingAddress"
-       field="errors.billing_address" op="toggle"/>
+<value name="billing_address_error" field="errors.billing_address"/>
+<value name="form-group-BillingAddress" field="errors.billing_address_input"
+    target="class" op="append" joiner=" "/>
 <!-- Billing City -->
-<value name="billing_city_css_error" field="errors.billing_city_input" target="class" class="billing_city" op="append" joiner=" "/>
-<value name="billing_city_error" id="errorBillingCity"
-       field="errors.billing_city" op="toggle"/>
+<value name="billing_city_error" field="errors.billing_city"/>
+<value name="form-group-BillingCity" field="errors.billing_city_input"
+    target="class" op="append" joiner=" "/>
 <!-- Billing PostalCode -->
-<value name="billing_postal_code_css_error" field="errors.billing_postal_code_input" target="class" class="billing_postal_code" op="append" joiner=" "/>
-<value name="billing_postal_code_error" id="errorBillingPostalCode"
-       field="errors.billing_postal_code" op="toggle"/>
-<!-- Billing PostalCode -->
-<value name="billing_phone_css_error" field="errors.billing_phone_input" target="class" class="billing_phone" op="append" joiner=" "/>
-<value name="billing_phone_error" id="errorBillingPhone"
-       field="errors.billing_phone" op="toggle"/>
+<value name="billing_postal_code_error" field="errors.billing_postal_code"/>
+<value name="form-group-BillingPostalCode"
+    field="errors.billing_postal_code_input" target="class" op="append"
+    joiner=" "/>
+<!-- Billing Phone -->
+<value name="billing_phone_error" field="errors.billing_phone"/>
+<value name="form-group-BillingPhone" field="errors.billing_phone_input"
+    target="class" op="append" joiner=" "/>
 
-<!-- Shipping field errors -->
-<value name="first_name_error" id="errorFirstName"
-       field="errors.first_name" op="toggle"/>
-<value name="last_name_error" id="errorLastName"
-       field="errors.last_name" op="toggle"/>
+<!-- Shipping FirstName -->
+<value name="first_name_error" field="errors.first_name"/>
+<value name="form-group-FirstName" field="errors.first_name_input"
+   target="class" op="append" joiner=" "/>
+<!-- Shipping LastName -->
+<value name="last_name_error" field="errors.last_name"/>
+<value name="form-group-LastName" field="errors.last_name_input"
+   target="class" op="append" joiner=" "/>
+<!-- Email errors -->
+<value name="email_error" field="errors.email"/>
+<value name="form-group-Email" field="errors.email_input" target="class"
+    op="append" joiner=" "/>
+<!-- Shipping Email -->
+<value name="last_name_error" field="errors.last_name"/>
+<value name="form-group-LastName" field="errors.last_name_input"
+   target="class" op="append" joiner=" "/>
+<!-- Shipping Address -->
 <value name="address_error" id="errorAddress"
-       field="errors.address" op="toggle"/>
+   field="errors.address" op="toggle"/>
+<value name="form-group-Address" field="errors.address_input"
+   target="class" op="append" joiner=" "/>
+<!-- Shipping City -->
 <value name="city_error" id="errorCity"
-       field="errors.city" op="toggle"/>
+   field="errors.city" op="toggle"/>
+<value name="form-group-City" field="errors.city_input"
+   target="class" op="append" joiner=" "/>
+<!-- Shipping PostalCode -->
 <value name="postal_code_error" id="errorPostalCode"
-       field="errors.postal_code" op="toggle"/>
+   field="errors.postal_code" op="toggle"/>
+<value name="form-group-PostalCode" field="errors.postal_code_input"
+   target="class" op="append" joiner=" "/>
+<!-- Shipping Phone -->
 <value name="phone_error" id="errorPhone"
-       field="errors.phone" op="toggle"/>
+   field="errors.phone" op="toggle"/>
+<value name="form-group-Phone" field="errors.phone_input"
+   target="class" op="append" joiner=" "/>
 
 <!-- Payment Method errors -->
 <value name="payment_method_css_error" field="errors.payment_method_input" target="class" class="payment_method" op="append" joiner=" "/>
