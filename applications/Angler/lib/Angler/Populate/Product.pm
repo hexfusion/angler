@@ -30,6 +30,7 @@ my $product = Angler::Populate::Product->new(
             short_description => 'Just a short description',
             description => 'Like a short description but this is longer',
             price => '20.00',
+            cost => '10.00,
             uri => 'simms_glove',
             weight => '3.5',
             gtin => '8908765555555555',
@@ -135,6 +136,17 @@ has price => (
     required => 1,
 );
 
+=head2 cost
+
+Returns cost of product
+
+=cut
+
+has cost => (
+    is => 'ro',
+    required => 1,
+);
+
 =head2 uri
 
 Returns uri of product
@@ -181,6 +193,16 @@ only a product variant.
 =cut
 
 has canonical_sku => (
+    is => 'ro',
+);
+
+=head2 navigation
+
+Returns the navigation code of the product
+
+=cut
+
+has navigation => (
     is => 'ro',
 );
 
@@ -253,9 +275,10 @@ sub add {
             short_description => $self->short_description,
             description => $self->description,
             price => $self->price,
+            cost => $self->cost,
             uri => $self->uri,
             weight => $self->weight,
-            gtin => undef,
+            gtin => $self->gtin,
             canonical_sku => $self->canonical_sku,
             active => $self->active,
             manufacturer_sku => $self->code,
@@ -270,6 +293,40 @@ sub add {
     return $product;
 }
 
+=head2 export
+
+This method takes product data and formats it for writing to excel
+the file is used by qbpos
+
+=cut
+
+sub export {
+    my ($self) = @_;
+
+    my @excel_export = ([
+       $self->name, #canonical_desc
+       $self->name,  #variant_desc
+       $self->code, #alu
+       $self->gtin, #upc
+       $self->navigation, #department_code
+       'Retail Sales', #income_account
+       'COGS-Retail', #cogs_account
+       undef, #attribute
+       undef, #size
+       $self->importer_config->{vendor_code}, #vendor_code
+       $self->importer_config->{erp_name}, #vendor_name
+       $self->cost, #avg_cost
+       $self->cost, #order_cost
+       $self->price, #reg_price
+       $self->price, #msrp
+       'Inventory', #item_type
+       'Inventory Asset', #asset_account
+       $self->sku #custom_field_1
+    ]);
+
+    return @excel_export;
+}
+
 =head2 clean_uri($uri)
 
 Removes junk from potential uri including RFC3986 reserved characters
@@ -278,7 +335,9 @@ Removes junk from potential uri including RFC3986 reserved characters
 
 sub clean_uri {
     my $uri = shift;
-    $uri =~ s/[\$#@~`'=+!&*()\[\];.,:?^ `\\\/]+/-/g;;
+    $uri =~ s/\W+/-/g;  # non-word chars
+    $uri =~ s/_+/-/g;   # underscores
+    $uri =~ s/\-+/-/g;  # multiple dashes
     return $uri;
 }
 

@@ -63,7 +63,7 @@ my $exp_dir = config->{appdir} . '/export';
 
 my @img_sizes = qw/35 75 100 110 200 325 975/;
 
-my ( $active, $file, $help, $manufacturer, %nav_lookup );
+my ( $active, $export, $file, $help, $manufacturer, %nav_lookup );
 
 
 GetOptions(
@@ -71,6 +71,7 @@ GetOptions(
     "file=s"         => \$file,
     "help"           => \$help,
     "manufacturer=s" => \$manufacturer,
+    "export"         => \$export,
 );
 pod2usage(1) if $help;
 
@@ -98,7 +99,7 @@ unless ( defined $config->{manufacturers}->{$manufacturer}->{type} ) {
 }
 
 $active = 0 unless $active;
-
+$export = 0 unless $export;
 # parse by type
 
 my $type = $config->{manufacturers}->{$manufacturer}->{type};
@@ -113,6 +114,7 @@ if ( $type =~ /^xls/ ) {
 
     # parse excel file
     my @data = $data->parse;
+
     my $merge_cell = $config->{merge_cell}->{name};
     my %nav_map;
 
@@ -120,19 +122,14 @@ if ( $type =~ /^xls/ ) {
     my $nav_map = $config->{navigation};
 
     # do some more work on data
+    # FIXME this should be part of a ExcelParse class.
     foreach my $field (@data) {
-        # check if merge cell is defined
-        if ($merge_cell) {
-            $field->{$merge_cell} = join("-",map {$field->{$_}} @{$config->{merge_cell}->{fields}});
-        }
-
         # perform navigation mapping
         if (exists $nav_map->{$field->{navigation}}) {
            $field->{navigation} = $nav_map->{$field->{navigation}};
         }
     }
 
-#    info \@data;
 
     my ($drone_data, $drone_rs);
     my $drone_class = $config->{drone}->{class};
@@ -146,8 +143,18 @@ if ( $type =~ /^xls/ ) {
     my %seen;
     my $product;
     my $drone_product;
-    my @canonical = grep { ! $seen{$_->{code}}++ } @data;
 
+    # Create a new Excel workbook
+    my $workbook = Spreadsheet::WriteExcel->new($exp_dir . '/'. $manufacturer . $now .  '.xls');
+    my $worksheet = $workbook->add_worksheet();
+    my @excel_export = (
+        ['canonical_desc', 'variant_desc', 'alu', 'upc', 'department_code', 'income_account', 'cogs_account',
+        'attribute', 'size', 'vendor_code', 'vendor_name', 'avg_cost', 'order_cost', 'reg_price', 'msrp', 'item_type',
+        'asset_account', 'custom_field_1']
+    );
+
+        # define caonical products in @data
+    my @canonical = grep { ! $seen{$_->{code}}++ } @data;
     foreach (@canonical) {
         if ($drone_class) {
             # define drone link
@@ -160,14 +167,18 @@ if ( $type =~ /^xls/ ) {
                 if ($drone_data){
                     $_->{$dtf} = $drone_data;
                 }
-            }
+             }
         }
 
         # add product
-        $product = Angler::Populate::Product->new($_);
-        $product = $product->add;
-
+        my $pop_product = Angler::Populate::Product->new($_);
+        $product = $pop_product->add;
+        # export to excel
+        if ($export) {
+            push @excel_export, $pop_product->export;
+        }
         # lets check the drone for an image
+
         if (defined($drone_product) and $drone_product->img) {
 
             my $image = Angler::Populate::Image->new(
@@ -182,15 +193,12 @@ if ( $type =~ /^xls/ ) {
         }
     }
 
-    # add default sizes
-#    Angler::Populate::Size->add;
-
     # reset
     %seen = ();
     my $variant;
-    my @variants = grep { $seen{$_->{code}}++ } @data;
-    my @values;
+    my @variants = grep { $seen{$_->{code}}++ } @data;       
 
+    my @values;
     my @attributes;
     my $i = '-1';
 
@@ -199,12 +207,12 @@ if ( $type =~ /^xls/ ) {
         foreach (@variants) {
             # make sure value exists
             if ($_->{$attribute}) {
-               push @values, $_->{$attribute};
-               push @attributes, $_->{'attributes'}[$i] = {
+                push @values, $_->{$attribute};
+                push @attributes, $_->{'attributes'}[$i] = {
                     name => $attribute,
                     title => ucfirst($attribute),
                     value => $_->{$attribute}},
-                     $_->{'manufacturer'} = $manufacturer;
+                    $_->{'manufacturer'} = $manufacturer;
             }
         }
         # make array values unique
@@ -220,22 +228,26 @@ if ( $type =~ /^xls/ ) {
         $attributes->add;
     }
 
-    # Create a new Excel workbook
-    my $workbook = Spreadsheet::WriteExcel->new($exp_dir . '/'. $manufacturer . $now .  '.xls');
-    my $worksheet = $workbook->add_worksheet(); 
-    my @excel_export = (
-        ['canonical_desc', 'variant_desc', 'alu', 'upc', 'department_code', 'income_account', 'cogs_account',
-        'attribute', 'size', 'vendor_code', 'avg_cost', 'order_cost', 'reg_price', 'msrp', 'item_type',
-        'asset_account', 'custom_field_1']
-    );
-    my $row = 0;
     # add variants
-    foreach (@variants) {
-        $variant = Angler::Populate::ProductVariant->new($_);
+    foreach my $record (@variants) {
+        # check config for cells to merge
+        if ($merge_cell) {
+            $record->{$merge_cell} = join("-",map {$record->{$_}} @{$config->{merge_cell}->{fields}});
+        }
+
+        $variant = Angler::Populate::ProductVariant->new($record);
         $variant->add;
-        push @excel_export, $variant->export;
+        if ($export) {
+            my $remove = $variant->clean;
+            # if product is a canonical product with variants delete the product record for erp export.
+            if ($remove) {
+                @excel_export = grep { $_->[2] ne $remove  } @excel_export;
+            }
+            push @excel_export, $variant->export;
+        }
     }
 
+    # write to file
     $worksheet->write_col('A1', \@excel_export)
 
     }
@@ -252,10 +264,11 @@ importer.pl - Import manufacturer products lists into Angler
 
 =head1 SYNOPSIS
 
-inporter.pl [options]
+moo-importer.pl [options]
 
  Options:
   -a | --active             set active to 't' for all items (defaults to 'f')
+  -e | --export             set erp file export to 't' (defaults to 'f')
   -f | --file               file to import
   -m | --manufacturer       manufacturer name
   -h | --help               help message

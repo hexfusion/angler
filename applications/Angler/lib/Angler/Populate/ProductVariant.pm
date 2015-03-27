@@ -184,13 +184,13 @@ has manufacturer_sku => (
     is => 'ro',
 );
 
-=head2 navigation_code
+=head2 navigation
 
 Returns the navigation code of the product
 
 =cut
 
-has navigation_code => (
+has navigation => (
     is => 'ro',
 );
 
@@ -213,7 +213,6 @@ experimental only atm
 
 has attributes => (
     is => 'ro',
-    required => '1'
 );
 
 =head2 attribute_values
@@ -248,13 +247,16 @@ has variants => (
 
 sub _build_variants {
     my ($self) = @_;
-    my @a = @{$self->attributes};
+    if ($self->attributes){
+        my @a = @{$self->attributes};
 
-    my $variants;
-    foreach (@a) {
-         $variants->{$_->{name}} = &clean_attribute_value($_->{value});
+        my $variants;
+        foreach (@a) {
+             $variants->{$_->{name}} = &clean_attribute_value($_->{value});
+        }
+        return $variants;
     }
-    return $variants;
+    return undef;
 }
 
 =head2 manufacturer
@@ -298,32 +300,66 @@ sub add {
                 inventory_exempt => $self->inventory_exempt,
                 attributes => $self->variants,
             });
+
+        # make sure canonical_product price, cost and gtin are removed.
+        if ($product->price or $product->gtin){
+            $product->update({price => '0.00', cost => '0.00', gtin => undef}); 
+        }
     }
 }
+
+=head2 export
+
+This method takes product data and formats it for writing to excel
+the file is used by qbpos
+
+=cut
 
 sub export {
     my ($self) = @_;
     my $title = &attribute_value_titles;
+    my $product = shop_product->find({manufacturer_sku => $self->code});
 
     my @excel_export = ([
-        $self->name,
-        $self->name . ' ' . $title,
-        $self->manufacturer_sku,
-        $self->gtin,
-        $self->navigation_code,
-        'Retail Sales',
-        'COGS-Retail',
-        $self->variants->{color},
-        $self->variants->{size},
-        $self->importer_config->{vendor_code},
-        $self->cost,
-        $self->cost,
-        $self->price,
-        $self->price,
-        'Inventory',
-        'Inventory Asset'
+       $self->name, #canonical_desc
+       $self->name . ' ' . $title,  #variant_desc
+       $self->manufacturer_sku, #alu
+       $self->gtin, #upc
+       $self->navigation, #department_code
+       'Retail Sales', #income_account
+       'COGS-Retail', #cogs_account
+       $self->variants->{color} || undef, #attribute
+       $self->variants->{size} || undef, #size
+       $self->importer_config->{vendor_code}, #vendor_code
+       $self->importer_config->{erp_name}, #vendor_name
+       $self->cost, #avg_cost
+       $self->cost, #order_cost
+       $self->price, #reg_price
+       $self->price, #msrp
+       'Inventory', #item_type
+       'Inventory Asset', #asset_account
+       $self->sku #custom_field_1
     ]);
+
+    if ($product->price or $product->gtin){
+        $product->update({price => '0.00', cost => '0.00', gtin => undef});
+    }
+
     return @excel_export;
+}
+
+sub clean {
+    my ($self) = @_;
+    my $title = &attribute_value_titles;
+    my $product = shop_product->find({manufacturer_sku => $self->code});
+
+    my $clean;
+
+    if ($product->price or $product->gtin){
+        $clean = $product->manufacturer_sku;
+    }
+
+    return $clean;
 }
 
 =head2 clean_uri($uri)
@@ -334,7 +370,9 @@ Removes junk from potential uri including RFC3986 reserved characters
 
 sub clean_uri {
     my $uri = shift;
-    $uri =~ s/[\$#@~`'=+!&*()\[\];.,:?^ `\\\/]+/-/g;
+    $uri =~ s/\W+/-/g;  # non-word chars
+    $uri =~ s/_+/-/g;   # underscores
+    $uri =~ s/\-+/-/g;  # multiple dashes
     return $uri;
 }
 
