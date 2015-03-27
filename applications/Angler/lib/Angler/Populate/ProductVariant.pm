@@ -7,6 +7,7 @@ use Moo;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use Text::Unidecode;
+use Try::Tiny;
 use HTML::Entities;
 use HTML::Obliterate qw/strip_html/;
 use YAML qw/LoadFile/;
@@ -286,20 +287,25 @@ sub add {
     else {
         info "creating product " . $self->name  . " variant " . $name;
 
-        $product->add_variants(
-            {
-                sku => $self->sku,
-                name => $self->name . ' ' . $title,
-                price => $self->price,
-                cost => $self->cost,
-                uri => &clean_uri($self->uri),
-                weight => $self->weight,
-                gtin => $self->gtin,
-                active => $self->active,
-                manufacturer_sku => $self->manufacturer_sku,
-                inventory_exempt => $self->inventory_exempt,
-                attributes => $self->variants,
-            });
+        try {
+            $product->add_variants(
+                {
+                    sku => $self->sku,
+                    name => $self->name . ' ' . $title,
+                    price => $self->price,
+                    cost => $self->cost,
+                    uri => &clean_uri($self->uri),
+                    weight => $self->weight,
+                    gtin => $self->gtin,
+                    active => $self->active,
+                    manufacturer_sku => $self->manufacturer_sku,
+                    inventory_exempt => $self->inventory_exempt,
+                    attributes => $self->variants,
+                });
+        }
+        catch {
+            warning $_;
+        };
 
         # make sure canonical_product price, cost and gtin are removed.
         if ($product->price or $product->gtin){
