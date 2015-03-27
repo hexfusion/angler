@@ -90,9 +90,14 @@ hook 'before_template_render' => sub {
     $tokens->{cart_total} = $cart->total;
 
     # add images into 'extra' attribute
-    foreach my $product ( @{$tokens->{cart}} ) {
-        my $image = shop_product( $product->{sku} )->image_75x75;
-        $product->set_extra( image => $image ) if $image;
+    foreach my $cart_product ( @{$tokens->{cart}} ) {
+        my $product = shop_product( $cart_product->{sku} );
+        my $image = $product->image_75x75;
+
+        # check if canonical has image
+        $image = $product->canonical->image_75x75 unless $image;
+
+        $cart_product->set_extra( image => $image ) if $image;
     }
 
     if ( var('login_failed') && request->referer !~ /login$/ ) {
