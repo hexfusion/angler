@@ -6538,6 +6538,34 @@ DISTRIBUTIONS
       XML::Twig 0
       strict 0
       warnings 0
+  Spreadsheet-WriteExcel-2.40
+    pathname: J/JM/JMCNAMARA/Spreadsheet-WriteExcel-2.40.tar.gz
+    provides:
+      Spreadsheet::WriteExcel 2.40
+      Spreadsheet::WriteExcel::BIFFwriter 2.40
+      Spreadsheet::WriteExcel::Big 2.40
+      Spreadsheet::WriteExcel::Chart 2.40
+      Spreadsheet::WriteExcel::Chart::Area 2.40
+      Spreadsheet::WriteExcel::Chart::Bar 2.40
+      Spreadsheet::WriteExcel::Chart::Column 2.40
+      Spreadsheet::WriteExcel::Chart::External 2.40
+      Spreadsheet::WriteExcel::Chart::Line 2.40
+      Spreadsheet::WriteExcel::Chart::Pie 2.40
+      Spreadsheet::WriteExcel::Chart::Scatter 2.40
+      Spreadsheet::WriteExcel::Chart::Stock 2.40
+      Spreadsheet::WriteExcel::Examples 2.40
+      Spreadsheet::WriteExcel::Format 2.40
+      Spreadsheet::WriteExcel::Formula 2.40
+      Spreadsheet::WriteExcel::OLEwriter 2.40
+      Spreadsheet::WriteExcel::Properties 2.40
+      Spreadsheet::WriteExcel::Utility 2.40
+      Spreadsheet::WriteExcel::Workbook 2.40
+      Spreadsheet::WriteExcel::Worksheet 2.40
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Temp 0
+      OLE::Storage_Lite 0.19
+      Parse::RecDescent 0
   Starman-0.4008
     pathname: M/MI/MIYAGAWA/Starman-0.4008.tar.gz
     provides:

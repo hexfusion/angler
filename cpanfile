@@ -1,3 +1,4 @@
+requires 'Spreadsheet::WriteExcel';
 requires 'WWW::Mechanize::PhantomJS';
 requires 'RPC::PlClient';
 requires 'Safe::Isa', 1.000005;
