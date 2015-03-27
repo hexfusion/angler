@@ -25,7 +25,7 @@
 <!-- if user is logged_in then hide the email form input. -->
 <container name="anonymous" class="anonymous" value="!session.logged_in_user_id"/>
 
-<form name="checkout" class="account-info">
+<form name="checkout" link="name">
     <field name="email" id="inputEmail"/>
     <!-- Billing -->
     <field name="billing_enabled" id="inputBillingEnabled"/>
