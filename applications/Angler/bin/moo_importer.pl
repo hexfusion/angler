@@ -128,6 +128,9 @@ if ( $type =~ /^xls/ ) {
         if (exists $nav_map->{$field->{navigation}}) {
            $field->{navigation} = $nav_map->{$field->{navigation}};
         }
+        if ($active) {
+            $field->{active} = '1';
+        }
     }
 
 
