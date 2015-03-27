@@ -36,7 +36,7 @@ post '/checkout' => sub {
     my ($user, $order, $error_hash);
 
     my $form   = form('checkout');
-    my $values = $form->{values};
+    my $values = $form->values;
 
     debug "validate checkout values", $values;
 
@@ -53,17 +53,22 @@ post '/checkout' => sub {
     debug "create user";
 
     # form is clean lets create the order/user now
-    $user = shop_user->find_or_create(
+    $user = shop_user->find_or_new(
         {
             email      => $values->{email},
             username   => $values->{email},
             first_name => $values->{first_name},
             last_name  => $values->{last_name},
-        },
-        {
-            key => 'username'
         }
     );
+
+    if ( $user->in_storage ) {
+        debug "found existing user during checkout: ", $user->username;
+    }
+    else {
+        $user->insert;
+        debug "create new user during checkout: ", $user->username;
+    }
 
     # add user_id to session for DPIC6
     session( logged_in_user_id => $user->id );
@@ -287,7 +292,7 @@ tokens used to display form cart and errors in the checkout view
 
 sub checkout_tokens {
     my ($form, $errors) = @_;
-    my $values = $form->{values};
+    my $values = $form->values;
 
     # set tokens {billing|shipping}_states, countries, card_months, card_years
     my $tokens = Angler::Data::Tokens->new(
@@ -300,47 +305,54 @@ sub checkout_tokens {
     $tokens->{form} = $form;
     $tokens->{cart} = cart;
 
+    my $rates = [];
+
     # update cart
-    my $angler_cart = Angler::Cart->new(
-        schema              => shop_schema,
-        cart                => $tokens->{cart},
-        postal_code         => $values->{postal_code},
-        country             => $values->{country},
-        billing_postal_code => $values->{billing_postal_code},
-        billing_country     => $values->{billing_country},
-        shipment_rates_id   => $values->{shipping_rate},
-        use_easypost        => 1,
-        rates_display_type  => 'select',
-    );
+    eval {
+        my $angler_cart = Angler::Cart->new(
+            schema              => shop_schema,
+            cart                => $tokens->{cart},
+            postal_code         => $values->{postal_code},
+            country             => $values->{country},
+            billing_postal_code => $values->{billing_postal_code},
+            billing_country     => $values->{billing_country},
+            shipment_rates_id   => $values->{shipping_rate},
+            use_easypost        => 1,
+            rates_display_type  => 'select',
+        );
 
-    my $rates = $angler_cart->shipment_rates;
+        $rates = $angler_cart->shipment_rates;
 
-    $values->{shipping_rate} = $angler_cart->shipment_rates_id;
+        $values->{shipping_rate} = $angler_cart->shipment_rates_id;
 
-    if ( $rates && ref($rates) eq 'ARRAY' && @$rates ) {
-        $angler_cart->set_shipment_rates_id( $rates->[0]->{rate} )
-          unless $angler_cart->shipment_rates_id;
+        if ( $rates && ref($rates) eq 'ARRAY' && @$rates ) {
+            $angler_cart->set_shipment_rates_id( $rates->[0]->{rate} )
+              unless $angler_cart->shipment_rates_id;
+        }
+
+        $tokens->{cart_tax}       = $angler_cart->tax;
+        $tokens->{cart_shipping}  = $angler_cart->shipping_cost;
+
+        if (   $values->{country}
+            && $values->{country} eq 'US'
+            && $values->{postal_code}
+            && !$values->{state} )
+        {
+            $values->{state} = $angler_cart->state->states_id;
+        }
+
+        if (   $values->{billing_country}
+            && $values->{billing_country} eq 'US'
+            && $values->{billing_postal_code}
+            && !$values->{billing_state} )
+        {
+            $values->{billing_state} = $angler_cart->billing_state->states_id;
+        }
+    };
+    if ($@) {
+        warning "KABOOM! in checkout_tokens: ", $@;
     }
-
-    $tokens->{cart_tax}       = $angler_cart->tax;
-    $tokens->{cart_shipping}  = $angler_cart->shipping_cost;
-    $tokens->{shipping_rates} = $angler_cart->shipment_rates;
-
-    if (   $values->{country}
-        && $values->{country} eq 'US'
-        && $values->{postal_code}
-        && !$values->{state} )
-    {
-        $values->{state} = $angler_cart->state->states_id;
-    }
-
-    if (   $values->{billing_country}
-        && $values->{billing_country} eq 'US'
-        && $values->{billing_postal_code}
-        && !$values->{billing_state} )
-    {
-        $values->{billing_state} = $angler_cart->billing_state->states_id;
-    }
+    $tokens->{shipping_rates} = $rates;
 
     # push any changes back into form
     $form->fill( $values );
@@ -828,9 +840,9 @@ sub finalize_order {
     debug to_dumper(\@attachments);
 
     email ({type => 'html',
-            from => config->{order_email},
+            from => config->{emails}->{order_from_email} || 'service@westbranchangler.com',
             to => $order->email,
-            bcc => config->{bcc} || '',
+            bcc => config->{emails}->{order_to_email} || 'orders@westbranchangler.com',
             subject => "Your Order " . $order->order_number,
             message => $body,
             multipart => 'related',
