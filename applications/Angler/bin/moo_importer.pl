@@ -176,6 +176,12 @@ if ( $type =~ /^xls/ ) {
         # add product
         my $pop_product = Angler::Populate::Product->new($_);
         $product = $pop_product->add;
+
+        if ($product) {
+            # add default navigation routes and weight;
+            $pop_product->add_defaults($product);;
+        }
+
         # export to excel
         if ($export) {
             push @excel_export, $pop_product->export;
