@@ -7,6 +7,7 @@ use Moo;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
 use Text::Unidecode;
+use Try::Tiny;
 use YAML qw/LoadFile/;
 use Dancer ':script';
 
@@ -111,7 +112,7 @@ Returns short_description of product
 
 has short_description => (
     is => 'ro',
-    default => '',
+    default => ' ',
 );
 
 =head2 description
@@ -122,7 +123,7 @@ Returns description of product
 
 has description => (
     is => 'ro',
-    default => '',
+    default => ' ',
 );
 
 =head2 price
@@ -171,7 +172,7 @@ Returns weight of product
 
 has weight => (
     is => 'ro',
-    default => '1'
+    default => '0'
 );
 
 =head2 gtin
@@ -327,6 +328,47 @@ sub export {
     return @excel_export;
 }
 
+=head2 add_defaults
+
+This method add default naviagion and weight values for product
+
+=cut
+
+sub add_defaults {
+    my ($self, $product) = @_;
+    my $manf = lc($self->importer_config->{short_name});
+
+    info "navigation ", $self->navigation;
+
+    # find the nav code
+    my $nav = shop_schema->resultset('Navigation')->find({code => $self->navigation});
+    try {
+        $nav->find_or_create_related( 'navigation_products',
+            { sku => $product->sku } );
+    }
+    catch {
+        warning $_;
+    };
+
+    # pull nav weight if weight is not given.
+    if (!$self->weight) {
+        my $weight = $nav->find_attribute_value('weight');
+
+        try {
+            $product->update({weight => $weight});
+        }
+        catch {
+            warning $_;
+        };
+    };
+
+    # set manf name as a route
+    $nav = shop_schema->resultset('Navigation')->find({uri => $manf});
+
+    $nav->find_or_create_related( 'navigation_products',
+        { sku => $product->sku } );
+
+}
 =head2 clean_uri($uri)
 
 Removes junk from potential uri including RFC3986 reserved characters
