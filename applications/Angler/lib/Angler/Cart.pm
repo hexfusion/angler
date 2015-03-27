@@ -363,6 +363,8 @@ Make sure L</country> is deliverable.
 sub BUILD {
     my $self = shift;
 
+    die "country not defined in Angler::Cart BUILD" unless $self->country;
+
     my $zones = $self->schema->resultset('Zone');
 
     my $zone = $zones->find( { zone => 'Deliverable Countries' } );
