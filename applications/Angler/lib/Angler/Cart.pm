@@ -248,7 +248,7 @@ has shipping_cost => (
 sub _build_shipping_cost {
     my $self = shift;
 
-    return 0 unless ( $self->shipment_rates && $self->shipment_rates_id );
+    return 0 unless ( @{$self->shipment_rates} && $self->shipment_rates_id );
 
     my $shipping_cost =
       Angler::Shipping::shipping_rate( $self->schema,
