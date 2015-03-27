@@ -480,8 +480,7 @@ sub add_to_nav_by_uri {
 
     my $nav = $schema->resultset('Navigation')->find( { uri => $uri } );
     if ( not $nav ) {
-        error "uri $uri not found in Navigation for: " . $product->name;
-        return;
+        die "uri $uri not found in Navigation for: " . $product->name;
     }
 
     $nav->find_or_create_related( 'navigation_products',
@@ -491,11 +490,7 @@ sub add_to_nav_by_uri {
 
     $nav->update( { priority => 100 } ) unless $nav->priority;
 
-    while ( $nav->is_branch ) {
-        $nav = $nav->parent;
-        $nav->find_or_create_related( 'NavigationProduct',
-            { sku => $product->sku } );
-    }
+    return $nav;
 }
 
 =head2 create_variants
@@ -990,7 +985,32 @@ sub process_orvis_product {
 
     # add navigation for this canonical product
 
-    &add_to_nav_by_uri( $nav_uri, $product );
+    my $nav = &add_to_nav_by_uri( $nav_uri, $product );
+
+    # set weight from nav
+    $product->update(
+        {
+            weight => $nav->search_related(
+                'navigation_attributes',
+                {
+                    'attribute.name' => 'weight',
+                    'attribute.type' => 'navigation',
+                },
+                {
+                    columns    => [],
+                    '+columns' => { weight => 'attribute_value.value' },
+                    join       => [
+                        'attribute',
+                        {
+                            navigation_attribute_values => 'attribute_value'
+                        },
+
+                    ],
+                    rows => 1,
+                }
+            )->single->get_column('weight')
+        }
+    );
 
     # Product->Item
 
