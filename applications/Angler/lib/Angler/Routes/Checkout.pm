@@ -186,6 +186,7 @@ ajax '/checkout/update_tax' => sub {
                 postal_code        => $params{postal_code},
                 billing_country    => $params{billing_country},
                 postal_code        => $params{postal_code},
+                shipment_rates_id  => $params{shipping_rate},
                 use_easypost       => 1,
                 rates_display_type => 'select',
             );
@@ -353,6 +354,8 @@ sub checkout_tokens {
         warning "KABOOM! in checkout_tokens: ", $@;
     }
     $tokens->{shipping_rates} = $rates;
+    $tokens->{cart_tax}      //= 0;
+    $tokens->{cart_shipping} //= 0;
 
     # push any changes back into form
     $form->fill( $values );
