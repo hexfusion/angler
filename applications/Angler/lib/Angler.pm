@@ -830,9 +830,7 @@ get '/' => sub {
     my $tokens;
 
     # get all manufacturers
-    my $components = Template::Flute::Iterator::JSON->new(file => '/home/sam/camp10/applications/Angler/views/home/components.json');
     my $mf = shop_navigation->search({type => 'manufacturer'});
-        debug "json components", $components;
 
     # products for homepage grid
     my $attribute = config->{homepage}->{related_product}->{attribute} || 'homepage';
@@ -862,7 +860,6 @@ get '/' => sub {
    );
 
     $tokens->{"new_products"} = $new_products;
-    $tokens->{"component"} = $components;
     $tokens->{"manufacturer"} = [$mf->all];
 
     template 'home/content', $tokens;
