@@ -25,9 +25,7 @@ use Business::PayPal::API::ExpressCheckout;
 
 get '/checkout' => sub {
     my $form = form('checkout');
-    debug "one";
     $form = set_form_values($form);
-    debug "two";
     return template 'checkout/content', checkout_tokens($form);
 };
 
@@ -293,7 +291,15 @@ tokens used to display form cart and errors in the checkout view
 
 sub checkout_tokens {
     my ($form, $errors) = @_;
-    my $values = $form->values;
+
+    my $values;
+    if ( request->is_post ) {
+        $values = $form->values('body');
+    }
+    else {
+        # if get then we need session values we extracted from cart quote form
+        $values = $form->values('session');
+    }
 
     # set tokens {billing|shipping}_states, countries, card_months, card_years
     my $tokens = Angler::Data::Tokens->new(
