@@ -183,10 +183,17 @@ get qr{/search(/(.*))?} => sub {
     template 'product/grid/content', \%tokens;
 };
 
-get qr{/clothing/brand/(?<name>[^/]+)/?(?<facets>.*)$} => sub {
-    my $values = captures;
+get qr{/(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
+    my $captures = captures;
     my %tokens;
     my %query = params('query');
+
+    my $uri = lc( $captures->{uri} );
+    my $brand_nav =
+      shop_navigation->find( { uri => $uri, scope => 'clothing-brand' } );
+    pass unless $brand_nav;
+
+    $tokens{title} = $brand_nav->description;
 
     my $navigation = Angler::SearchResults->new(
         routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
@@ -203,6 +210,9 @@ get qr{/clothing/brand/(?<name>[^/]+)/?(?<facets>.*)$} => sub {
         global_conditions => { active => 1 },
     );
 
+    # find all navigation_ids for navs that are children of the nav that
+    # has use 'clothing' which are active and have products
+
     my $rset = shop_navigation->search(
         {
             'parents.uri' => 'clothing',
@@ -217,18 +227,36 @@ get qr{/clothing/brand/(?<name>[^/]+)/?(?<facets>.*)$} => sub {
     );
     my @navigation_ids = $rset->get_column('navigation_id')->all;
 
-    var breadcrumbs => [
+    my $search_uri = join( '/', 'words',
+        split( /\s+/, $brand_nav->name ),
+        'navigation_ids', @navigation_ids, $captures->{facets} );
+
+    debug "Search uri: $search_uri";
+
+    $search->search_from_url($search_uri);
+
+    my $response = $search->response;
+    my $results = $search->results;
+    my $count = $search->num_found;
+
+    debug $response->raw_response->request->content;
+    debug "Facets found: ", $search->facets_found;
+    debug "Count: $count";
+
+    # breadcrumb is pretty simple
+
+    $tokens{breadcrumbs} = [
         {
-            name => "Clothing", uri => "clothing"
+            name => "Clothing",
+            uri  => "clothing"
         },
         {
-            name => $values->{name}, uri => "clothing/" . lc( $values->{name} )
+            name => $tokens{title},
+            uri  => $uri,
         }
     ];
 
-    forward "/" . join( "/", 'search', 'words', 
-        $values->{name}, 'navigation_ids',
-        @navigation_ids, $values->{facets} );
+    template 'product/grid/content', \%tokens;
 };
 
 get '/ajax/search' => sub {
