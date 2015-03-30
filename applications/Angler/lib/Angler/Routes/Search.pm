@@ -189,8 +189,11 @@ get qr{/(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
     my %query = params('query');
 
     my $uri = lc( $captures->{uri} );
+
     my $brand_nav =
-      shop_navigation->find( { uri => $uri, scope => 'clothing-brand' } );
+      shop_navigation->search( { uri => $uri, scope => 'clothing-brand' },
+        { rows => 1 } )->single;
+
     pass unless $brand_nav;
 
     $tokens{title} = $brand_nav->description;
