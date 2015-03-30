@@ -71,7 +71,8 @@ manufacturers:
         vendor_code: PAT
         full_name: Patagonia
         short_name: Patagonia
-        type: xls
+        erp_name: Patagonia
+        type: xls 
         worksheet: 0
         merge_cell:
             name: manufacturer_sku
@@ -114,17 +115,51 @@ manufacturers:
               - source: Category1
                 map: remove_field
               - source: Category2
-                map: remove_field
+                map: navigation 
               - source: Category3
                 map: remove_field
         attributes:
                 - color
                 - size
+        navigation:
+            Shell Tops: CMO
+            Shell Bottoms: CMO
+            Insulation Tops: CML
+            Tops: CMS
+            Bottoms: CMS
+            Outerwear: CMO
+            Accessories: FTG
+            Socks: CMS
+            Capilene: CML
+            Merino: CML
+            Waders: FW
+            Footwear: FB
+            Vests: FPV
+            Packs: FPV
+            Sportswear Tops: CMS
+            Sportswear Bottoms: CMS
+            No Zip: CMS
+            Swimwear: CMS
+            Performance Fleece: CML
+            Lifestyle Fleece: CML
+            Body Basics: CML
+            Dresses: CWS
+            Infant-Toddler: CCI
+            Girls: CCI
+            Boys: CCI
+            T-Shirts: CMT
+            Sweatshirts: CMS
+            Headwear: CMH
+            Technical Packs: FPV
+            Duffle Bags: FBL
+            Day Packs: FPV
+            Luggage: FBL
     simms:
         prefix: SF
         vendor_code: SIM
         full_name: Simms Fishing Products
         short_name: Simms
+        erp_name: Simms Fishing Products
         type: xlsx
         worksheet: 0
         header_row: 1
@@ -157,9 +192,10 @@ manufacturers:
         navigation:
             OUTER: CMO
             HEAD: CMH
+            ACCES: FTG
             ACCESS: FTG
             FOOT: FB
-            BAGS: FLB
+            BAGS: FBL
             PACKS: FPV
             WADERS: FW
             VESTS: FPV
