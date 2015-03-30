@@ -24,15 +24,6 @@ get qr{/search(/(.*))?} => sub {
         query => \%query,
     );
 
-    # select view
-    $navigation->select_view;
-    $navigation->select_sorting;
-
-    # add different views to template tokens
-    $tokens{views} = $navigation->views;
-
-    $navigation->select_rows;
-
     # create search object
     my $search = Angler::Search->new(
         solr_url => config->{solr_url},
@@ -52,23 +43,15 @@ get qr{/search(/(.*))?} => sub {
         debug "Redirect to new search uri: ", $new_uri;
         redirect "/search/$new_uri";
     }
-    else {
-        $q = '';
-    }
 
-    if ($current_uri) {
-        $search->search_from_url($current_uri);
-    }
-    else {
-        $search->search($q);
-    }
+    $search->search_from_url($current_uri);
 
     my $response = $search->response;
     my $results = $search->results;
     my $count = $search->num_found;
     debug $response->raw_response->request->content;
 #    debug "Results: ", $search->results;
-    debug "Facets found: ", $search->facets_found;
+#    debug "Facets found: ", $search->facets_found;
     # debug to_dumper($search);
     # transform facets
     my @facets;
@@ -198,6 +181,54 @@ get qr{/search(/(.*))?} => sub {
     $tokens{"extra-js-file"} = 'product-listing.js';
 
     template 'product/grid/content', \%tokens;
+};
+
+get qr{/clothing/brand/(?<name>[^/]+)/?(?<facets>.*)$} => sub {
+    my $values = captures;
+    my %tokens;
+    my %query = params('query');
+
+    my $navigation = Angler::SearchResults->new(
+        routes_config => config->{plugin}->{'Interchange6::Routes'} || {},
+        tokens        => \%tokens,
+        query         => \%query,
+    );
+
+    my $search = Angler::Search->new(
+        solr_url => config->{solr_url},
+        facets => [ 'navigation_ids', @{config->{facet_fields}->{attributes}} ],
+        rows => $tokens{per_page},
+        sorting_direction => $navigation->current_sorting_direction,
+        sorting => $navigation->sorting_for_solr,
+        global_conditions => { active => 1 },
+    );
+
+    my $rset = shop_navigation->search(
+        {
+            'parents.uri' => 'clothing',
+            'me.active' => 1,
+            'navigation_products.navigation_id' => { '!=' => undef },
+        },
+        {
+            columns => [ 'me.navigation_id' ],
+            join => [ 'parents', 'navigation_products' ],
+            group_by => 'me.navigation_id',
+        }
+    );
+    my @navigation_ids = $rset->get_column('navigation_id')->all;
+
+    var breadcrumbs => [
+        {
+            name => "Clothing", uri => "clothing"
+        },
+        {
+            name => $values->{name}, uri => "clothing/" . lc( $values->{name} )
+        }
+    ];
+
+    forward "/" . join( "/", 'search', 'words', 
+        $values->{name}, 'navigation_ids',
+        @navigation_ids, $values->{facets} );
 };
 
 get '/ajax/search' => sub {
