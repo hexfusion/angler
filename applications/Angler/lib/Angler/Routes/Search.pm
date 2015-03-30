@@ -187,6 +187,7 @@ get qr{/(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
     my $captures = captures;
     my %tokens;
     my %query = params('query');
+    my $schema = shop_schema;
 
     my $uri = lc( $captures->{uri} );
 
@@ -246,6 +247,108 @@ get qr{/(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
     debug "Facets found: ", $search->facets_found;
     debug "Count: $count";
 
+    my @facets;
+    my %facet_map;
+
+    for my $name ( @{ $search->facets } ) {
+        my @facets_found = @{ $search->facets_found->{$name} || [] };
+        next unless @facets_found;
+
+        my ( $is_navigation, $attribute, $facet_title, %value_map, $unchecked );
+
+        # retrieve corresponding attribute
+        if ( $name eq 'navigation_ids' ) {
+            $is_navigation = 1;
+            $facet_title   = 'Categories';
+
+            # if no navigation facets in URI we need to force unchecked
+            $unchecked = 1
+              if !grep { $_ eq 'navigation_ids' }
+              split( /\//, $captures->{facets} );
+        }
+        else {
+            # prefetch with cache so only one query per facet name
+            my $rset = $schema->resultset('Attribute')->search(
+                {
+                    type => 'variant',
+                    name => $name,
+                },
+                {
+                    prefetch => 'attribute_values',
+                    cache    => 1,
+                }
+            );
+
+            my $attribute = $rset->next;
+
+            if ( not $attribute) {
+                warning "Attribute not found for facets: $name.";
+                next;
+            }
+
+            $facet_title = $attribute->name;
+
+            # build %value_map for use later
+
+            my $avs = $attribute->attribute_values;
+            while ( my $av = $avs->next ) {
+                $value_map{ $av->value } =
+                  { title => $av->title, priority => $av->priority };
+            }
+        }
+
+        my @values;
+
+        for my $facet_found ( @facets_found ) {
+
+            # retrieve attribute title
+            my %value;
+            if ($is_navigation) {
+                if ( my $navigation =
+                    $schema->resultset('Navigation')
+                    ->find( $facet_found->{name} ) )
+                {
+                    %value = (
+                        title    => $navigation->name,
+                        priority => 0,                  # $navigation->priority,
+                    );
+                }
+                else {
+                    warning "Attribute value not found for facets: "
+                      . "$name - $facet_found->{name}";
+                    next;
+                }
+            }
+            elsif ( $value_map{ $facet_found->{name} } ) {
+                %value = %{ $value_map{ $facet_found->{name} } };
+            }
+            else {
+                warning "Attribute value not found for facets: "
+                  . "$name - $facet_found->{name}";
+                next;
+            }
+            $facet_map{$name}{ $facet_found->{name} } = $value{title};
+            $facet_found->{title}                     = $value{title};
+            $facet_found->{name}                      = $name;
+            $facet_found->{unchecked} = $unchecked || !$facet_found->{active};
+            $facet_found->{checked}   = !$facet_found->{unchecked};
+            $facet_found->{priority}  = $value{priority};
+            push @values, $facet_found;
+        }
+        push @facets,
+          {
+            title  => $facet_title,
+            values => sort_attributes( \@values ),
+          };
+    }
+
+    my $paging = Angler::Paging->new(
+        pager => $response->pager,
+        uri   => '/search/'
+          . $search->current_search_to_url( hide_page => 1 ) . '/page',
+        query => \%query,
+    );
+
     # breadcrumb is pretty simple
 
     $tokens{breadcrumbs} = [
@@ -254,10 +357,19 @@ get qr{/(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
             uri  => "clothing"
         },
         {
-            name => $tokens{title},
+            name => $brand_nav->name,
             uri  => $uri,
         }
     ];
+
+    $tokens{products} = $results;
+    $tokens{pager} = $response->pager,
+    $tokens{pagination} = $paging->page_list,
+    $tokens{pagination_previous} = $paging->previous_uri,
+    $tokens{pagination_next} = $paging->next_uri,
+    $tokens{facets} = \@facets;
+    $tokens{count} = $count;
+    $tokens{"extra-js-file"} = 'product-listing.js';
 
     template 'product/grid/content', \%tokens;
 };
