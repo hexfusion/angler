@@ -97,7 +97,14 @@ has views => (
     },
 );
 
-# determine which view to display
+=head1 METHODS
+
+=head2 select_view
+
+determine which view to display
+
+=cut
+
 sub select_view {
     my ($self) = @_;
     my $routes_config = $self->routes_config;
@@ -118,6 +125,12 @@ sub select_view {
     $views[$view_index]->{active} = 'active';
     $tokens->{views} = \@views;
 }
+
+=head2 select_rows
+
+Set C<per_page_iterator> and C<per_page> tokens.
+
+=cut
 
 sub select_rows {
     my ($self) = @_;
@@ -141,6 +154,10 @@ sub select_rows {
     }
     $tokens->{per_page} = $rows;
 }
+
+=head2 select_sorting
+
+=cut
 
 sub select_sorting {
     my ($self) = @_;
@@ -191,6 +208,10 @@ sub select_sorting {
     return $order;
 }
 
+=head2 sorting_for_solr
+
+=cut
+
 sub sorting_for_solr {
     my $self = shift;
     my $sorting = $self->current_sorting;
@@ -202,5 +223,19 @@ sub sorting_for_solr {
     }
 }
 
+=head2 BUILD
+
+Calls L</select_view>, L</select_sorting> and L</select_rows> and also sets
+the token C<views>.
+
+=cut
+
+sub BUILD {
+    my $self = shift;
+    $self->select_view;
+    $self->select_sorting;
+    $self->tokens->{views} = $self->views;
+    $self->select_rows;
+}
 
 1;
