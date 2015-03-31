@@ -146,8 +146,6 @@ post '/checkout' => sub {
 
         $payment_data{action} = 'Normal Authorization';
 
-        debug( "Payment_data: ", \%payment_data );
-
         my $tx = shop_charge(%payment_data);
 
         if ( $tx->is_success ) {
@@ -825,8 +823,9 @@ sub finalize_order {
     # clear cart
     cart->clear;
 
-    # reset form
+    # reset forms
     $form->reset;
+    form('shipping-quote')->reset;
 
     my $cids = {};
     # send email to customer
