@@ -153,7 +153,7 @@ post '/checkout' => sub {
 
             finalize_order( $tokens, $form );
             debug("Order complete.");
-            session orders_id => $order->order_number;
+            session orders_id => $order->id;
             return redirect '/receipt';
         }
         else {
@@ -165,6 +165,7 @@ post '/checkout' => sub {
 
 get '/receipt' => sub {
     my $orders_id = session 'orders_id';
+
     return redirect('/') unless $orders_id;
 
     my $tokens;
@@ -174,7 +175,7 @@ get '/receipt' => sub {
 
     $tokens->{order} = $order;
 
-    template 'checkout/receipt/content', $tokens;
+    template 'checkout/receipt/content', $tokens, {layout => undef};
 };
 
 ajax '/checkout/update_tax' => sub {
