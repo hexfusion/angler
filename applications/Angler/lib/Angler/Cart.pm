@@ -180,7 +180,7 @@ sub _build_shipment_rates {
         # we have some rates
 
         $self->set_shipment_rates_id( $rates->[0]->{carrier_service} )
-          unless defined $self->shipment_rates_id;
+          unless $self->shipment_rates_id;
 
         if ( defined $self->shipment_rates_id ) {
 
