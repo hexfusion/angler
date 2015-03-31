@@ -306,8 +306,9 @@ sub checkout_tokens {
         $values = $form->values('body');
     }
     else {
-        # if get then we need session values we extracted from cart quote form
-        $values = $form->values('session');
+        # FIXME: bypass object encapsulation for the time being as this
+        # is the simplest hack I can come up with atm
+        $values = $form->{values};
     }
 
     # set tokens {billing|shipping}_states, countries, card_months, card_years
