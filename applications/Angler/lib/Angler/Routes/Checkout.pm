@@ -157,7 +157,7 @@ post '/checkout' => sub {
             finalize_order( $tokens, $form );
             debug("Order complete.");
             session logged_in_user_id => undef;
-            return template 'checkout/receipt/content', $tokens;
+            return redirect '/receipt/' . $order->order_number;
         }
         else {
             debug "Payment failed: ", $tx->error_message;
