@@ -68,9 +68,6 @@ post '/checkout' => sub {
         debug "create new user during checkout: ", $user->username;
     }
 
-    # add user_id to session for DPIC6
-    session( logged_in_user_id => $user->id );
-
     debug "generating order";
 
     # generate order now get payment later
@@ -156,7 +153,6 @@ post '/checkout' => sub {
 
             finalize_order( $tokens, $form );
             debug("Order complete.");
-            session logged_in_user_id => undef;
             return redirect '/receipt/' . $order->order_number;
         }
         else {
@@ -277,7 +273,6 @@ get '/paypal-checkout' => sub {
     session paypal_order_id => undef;
     session paypal_token => undef;
     session payment_order_id => undef;
-    session logged_in_user_id => undef;
     return template 'checkout/receipt/content', $tokens;
 };
 
