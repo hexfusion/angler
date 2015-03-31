@@ -549,10 +549,11 @@ sub set_form_values {
 
     debug "shipping-quote from session: ", $quote_values;
 
-    if (logged_in_user) {
+    if (my $user = logged_in_user) {
         # search for existing addresses
         debug "search for exiting address";
         $values = user_address();
+        $values->{email} = $user->email;
     }
     $values->{country} ||= $quote_values->{country} || 'US';
     $values->{postal_code}         ||= $quote_values->{postal_code};
