@@ -1,7 +1,49 @@
 <specification>
-<value name="order_number" class="order-number" field="order.order_number"/>
-<value name="subtotal" class="order-subtotal" field="order.subtotal" filter="currency"/>
-<value name="salestax" class="order-tax" field="order.salestax" filter="currency"/>
-<value name="shipping" class="order-shipping" field="order.shipping" filter="currency"/>
-<value name="total" class="order-total" field="order.total_cost" filter="currency"/>
+
+<!-- shipping -->
+<value name="first_name" id="inputFirstName" field="order.shipping_address.first_name"/>
+<value name="last_name" id="inputLastName" field="order.shipping_address.last_name"/>
+<value name="company" id="inputCompany" field="order.shipping_address.company"/>
+<value name="address" id="inputAddress" field="order.shipping_address.address"/>
+<value name="address_2" id="inputAddress2" field="order.shipping_address.address_2"/>
+<value name="city" id="inputCity" field="order.shipping_address.city"/>
+<container name="state" id="inputState" value="!order.shipping_address.states_id">
+<value name="state" id="inputState" field="order.shipping_address.state.name"/>
+</container>
+<value name="postal_code" id="inputPostalCode" field="order.shipping_address.postal_code"/>
+<value name="country" id="inputCountry" field="order.shipping_address.country.name"/>
+<value name="phone" id="inputPhone" field="order.shipping_address.phone"/>
+<value name="phone" id="inputEmail" field="order.email"/>
+
+<!-- billing -->
+<value name="billing_first_name" id="inputBillingFirstName" field="order.billing_address.first_name"/>
+<value name="billing_last_name" id="inputBillingLastName" field="order.billing_address.last_name"/>
+<value name="billing_company" id="inputBillingCompany" field="order.billing_address.company"/>
+<value name="billing_address" id="inputBillingAddress" field="order.billing_address.address"/>
+<value name="billing_address_2" id="inputBillingAddress2" field="order.billing_address.address_2"/>
+<value name="billing_city" id="inputBillingCity" field="order.billing_address.city"/>
+<container name="billing_state" id="inputBillingState" value="!order.billing_address.states_id">
+<value name="billing_state" id="inputBillingState" field="order.billing_address.state.name"/>
+</container>
+<value name="billing_country" id="inputBillingCountry" field="order.billing_address.country.name"/>
+<value name="billing_postal_code" id="inputBillingPostalCode" field="order.billing_address.postal_code"/>
+
+<!-- orderlines -->
+<list name="order_lines" class="orderlines" iterator="order.orderlines">
+<param name="sku"/>
+<param name="name"/>
+<param name="quantity"/>
+<param name="price" filter="currency"/>
+<param name="subtotal" filter="currency"/>
+</list>
+
+<!-- order details -->
+<value name="order_date" id="inputOrderDate" field="order.order_date" filter="date"/>
+<value name="order_shipping_method" id="inputShippingMethod" field="order.shipping_method"/>
+<value name="order_number" id="inputOrderNumber" field="order.order_number"/>
+<value name="order_subtotal" id="inputOrderSubTotal" field="order.subtotal" filter="currency"/>
+<value name="order_shipping" id="inputOrderShipping" field="order.shipping" filter="currency"/>
+<value name="order_salestax" id="inputOrderSalesTax" field="order.salestax" filter="currency"/>
+<value name="order_total" id="inputOrderTotal" field="order.total_cost" filter="currency"/>
+
 </specification>
