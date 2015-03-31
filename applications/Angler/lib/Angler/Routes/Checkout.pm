@@ -153,13 +153,28 @@ post '/checkout' => sub {
 
             finalize_order( $tokens, $form );
             debug("Order complete.");
-            return redirect '/receipt/' . $order->order_number;
+            session orders_id => $order->order_number;
+            return redirect '/receipt';
         }
         else {
             debug "Payment failed: ", $tx->error_message;
         }
     }
     template 'checkout/content', checkout_tokens($form, $error_hash);
+};
+
+get '/receipt' => sub {
+    my $orders_id = session 'orders_id';
+    return redirect('/') unless $orders_id;
+
+    my $tokens;
+
+    my $order = shop_order($orders_id);
+    return redirect('/') unless $order;
+
+    $tokens->{order} = $order;
+
+    template 'checkout/receipt/content', $tokens;
 };
 
 ajax '/checkout/update_tax' => sub {
@@ -273,7 +288,8 @@ get '/paypal-checkout' => sub {
     session paypal_order_id => undef;
     session paypal_token => undef;
     session payment_order_id => undef;
-    return template 'checkout/receipt/content', $tokens;
+    session orders_id => $order->order_number;
+    return redirect '/receipt';
 };
 
 =head2 checkout_tokens
