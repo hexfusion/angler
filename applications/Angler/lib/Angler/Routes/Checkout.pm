@@ -425,8 +425,6 @@ used during order creation.
 sub order_address_tokens {
     my ($values, $tokens, $user) = @_;
 
-    debug "order_address_tokens values ", $values;
-
     # create order address tokens
     $tokens->{shipping_address} = (
         {
