@@ -36,8 +36,6 @@ post '/checkout' => sub {
     my $form   = form('checkout');
     my $values = $form->values;
 
-    debug "validate checkout values", $values;
-
     # before we do anything lets make sure we have what we need
     $error_hash = validate_checkout($values);
 
