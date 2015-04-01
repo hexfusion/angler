@@ -758,7 +758,7 @@ sub generate_order {
     my $ship_obj = shop_address->create($tokens->{shipping_address});
 
     # order date
-    my $order_date = DateTime->now->iso8601;
+    my $order_date = DateTime->now;
 
     # create orderlines
     my @orderlines;
