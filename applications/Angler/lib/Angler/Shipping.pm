@@ -216,6 +216,7 @@ sub show_rates {
 
     my @out;
     foreach my $rate (@rates) {
+        next unless defined $rate;
         push @out, {
                     rate => $rate->price,
                     carrier_service => $rate->shipment_rates_id,
