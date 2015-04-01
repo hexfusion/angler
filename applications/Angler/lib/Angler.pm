@@ -95,8 +95,11 @@ hook 'before_template_render' => sub {
         my $image = $product->image_75x75;
 
         # check if canonical has image
-        $image = $product->canonical->image_75x75 unless $image;
-
+        unless ($image) {
+            if ($product->canonical){
+                $image = $product->canonical->image_75x75;
+            }
+        }
         $cart_product->set_extra( image => $image ) if $image;
     }
 
