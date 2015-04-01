@@ -158,6 +158,21 @@ post '/checkout' => sub {
         }
         else {
             debug "Payment failed: ", $tx->error_message;
+            # We need to remove sensitive data before we pass form to template.
+            # FIXME: break encapsulation since values method is too full
+            # of surprises.
+            foreach my $field ( (qw/number month year cvc/) ) {
+                delete $values->{"card_$field"};
+            }
+            $form->{values} = $values;
+            debug "**********", $form;
+
+            $error_hash = {
+                card_number => "Sorry, your card was not accepted by our "
+                  . "payment provider. "
+                  . "Please try a different card or payment method.",
+                card_number_input => "has-error",
+            };
         }
     }
     template 'checkout/content', checkout_tokens($form, $error_hash);
@@ -302,15 +317,9 @@ tokens used to display form cart and errors in the checkout view
 sub checkout_tokens {
     my ($form, $errors) = @_;
 
-    my $values;
-    if ( request->is_post ) {
-        $values = $form->values('body');
-    }
-    else {
-        # FIXME: bypass object encapsulation for the time being as this
-        # is the simplest hack I can come up with atm
-        $values = $form->{values};
-    }
+    # FIXME: bypass object encapsulation for the time being as this
+    # is the simplest hack I can come up with atm
+    my $values = $form->{values};
 
     # set tokens {billing|shipping}_states, countries, card_months, card_years
     my $tokens = Angler::Data::Tokens->new(
