@@ -115,7 +115,7 @@ sub card_years {
     my $cur_year = DateTime->now->year;
 
     for my $i ($cur_year..$cur_year+20) {
-        push @years, {value => substr($i,0,2), label => $i};
+        push @years, { value => substr( $i, -2 ), label => $i };
     }
 
     return \@years;
