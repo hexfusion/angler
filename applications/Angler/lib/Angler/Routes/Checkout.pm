@@ -262,6 +262,7 @@ get '/paypal-checkout' => sub {
     }
 
     my %payinfo = $pp->DoExpressCheckoutPayment( Token => $details{Token},
+                                                 InvNum => $order->order_number,
                                                  PaymentAction => 'Sale',
                                                  PayerID => $details{PayerID},
                                                  OrderTotal => cart->total );
@@ -296,7 +297,7 @@ get '/paypal-checkout' => sub {
     session paypal_order_id => undef;
     session paypal_token => undef;
     session payment_order_id => undef;
-    session orders_id => $order->order_number;
+    session orders_id => $order->id;
     return redirect '/receipt';
 };
 
