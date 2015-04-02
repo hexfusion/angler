@@ -881,15 +881,6 @@ get '/about-me' => sub {
     template 'about/me/content';
 };
 
-# my orders
-get '/account/orders' => sub {
-    template 'account/orders/content';
-};
-
-get '/account/orders/view' => sub {
-    template 'account/orders/view';
-};
-
 get '/account/orders/print' => sub {
     template 'account/orders/print', {}, { layout => undef};
 };
@@ -947,19 +938,7 @@ get '/return-policy' => sub {
 
 get '/login' => sub {
     template 'auth/login/content';
-};
 
-get '/test-upload' => sub {
-    my $product = shop_product;
-    template 'test/uploader/content', { products => $product };
-};
-
-post '/upload' => sub {
-    my $upload_dir = "uploads";
-    my $upload = request->upload('filename');
-    my $filename = $upload->filename;
-    $upload->copy_to("$upload_dir/$filename");
- 
 };
 
 ajax '/check_variant' => sub {
