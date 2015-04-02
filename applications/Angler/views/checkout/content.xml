@@ -61,6 +61,7 @@
     <field name="shipping_rate" iterator="shipping_rates"/>
 </form>
 
+<value name="braintree_cse_key" id="co-billing-form" target="data-cse"/>
 <!-- Billing FirstName -->
 <value name="billing_first_name_error" field="errors.billing_first_name"/>
 <value name="form-group-BillingFirstName"
