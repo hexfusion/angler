@@ -99,6 +99,7 @@ requires 'DateTime';
 requires 'DateTime::Locale';
 requires 'Business::OnlinePayment';
 requires 'Business::OnlinePayment::Braintree';
+requires 'Net::Braintree', '0.27.0';
 requires 'Moo';
 requires 'MooX::Types::MooseLike';
 requires 'MooX::Singleton';

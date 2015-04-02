@@ -992,10 +992,10 @@ DISTRIBUTIONS
       SQL::Translator 0
       Test::More 0
       ok 0
-  DBIx-Class-0.082810
-    pathname: R/RI/RIBASUSHI/DBIx-Class-0.082810.tar.gz
+  DBIx-Class-0.082820
+    pathname: R/RI/RIBASUSHI/DBIx-Class-0.082820.tar.gz
     provides:
-      DBIx::Class 0.082810
+      DBIx::Class 0.082820
       DBIx::Class::AccessorGroup undef
       DBIx::Class::Admin undef
       DBIx::Class::CDBICompat undef
@@ -1099,7 +1099,7 @@ DISTRIBUTIONS
       List::Util 1.16
       MRO::Compat 0.12
       Module::Find 0.07
-      Moo 1.006001
+      Moo 2.000
       Package::Stash 0.28
       Path::Class 0.18
       SQL::Abstract 1.81
@@ -2898,11 +2898,11 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0.47
       perl 5.004
-  Devel-Confess-0.007011
-    pathname: H/HA/HAARG/Devel-Confess-0.007011.tar.gz
+  Devel-Confess-0.007012
+    pathname: H/HA/HAARG/Devel-Confess-0.007012.tar.gz
     provides:
-      Devel::Confess 0.007011
-      Devel::Confess::Builtin 0.007011
+      Devel::Confess 0.007012
+      Devel::Confess::Builtin 0.007012
       Devel::Confess::Source undef
       Devel::Confess::_Util undef
     requirements:
@@ -3986,13 +3986,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       HTTP::Headers 6
       perl 5.008001
-  HTTP-Parser-XS-0.16
-    pathname: K/KA/KAZUHO/HTTP-Parser-XS-0.16.tar.gz
+  HTTP-Parser-XS-0.17
+    pathname: K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
     provides:
-      HTTP::Parser::XS 0.16
+      HTTP::Parser::XS 0.17
       HTTP::Parser::XS::PP undef
     requirements:
-      ExtUtils::MakeMaker 6.42
+      ExtUtils::MakeMaker 6.36
       Test::More 0.96
   HTTP-Server-Simple-0.44
     pathname: J/JE/JESSE/HTTP-Server-Simple-0.44.tar.gz
@@ -4117,6 +4117,12 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0.31
       Time::HiRes 0
+  IPC-Signal-1.00
+    pathname: R/RO/ROSCH/IPC-Signal-1.00.tar.gz
+    provides:
+      IPC::Signal 1.00
+    requirements:
+      ExtUtils::MakeMaker 0
   Imager-1.001
     pathname: T/TO/TONYC/Imager-1.001.tar.gz
     provides:
@@ -5331,10 +5337,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test 0
       perl 5.006
-  Net-Braintree-0.26.0
-    pathname: B/BR/BRAINTREE/Net-Braintree-0.26.0.tar.gz
+  Net-Braintree-0.27.0
+    pathname: B/BR/BRAINTREE/Net-Braintree-0.27.0.tar.gz
     provides:
-      Net::Braintree 0.026000
+      Net::Braintree 0.027000
       Net::Braintree::Address undef
       Net::Braintree::AddressGateway undef
       Net::Braintree::AdvancedSearch undef
@@ -5735,6 +5741,22 @@ DISTRIBUTIONS
       Module::Runtime 0.013
       Test::Fatal 0
       strictures 1
+  Parallel-Prefork-0.17
+    pathname: K/KA/KAZUHO/Parallel-Prefork-0.17.tar.gz
+    provides:
+      Parallel::Prefork 0.17
+      Parallel::Prefork::SpareWorkers undef
+      Parallel::Prefork::SpareWorkers::Scoreboard undef
+    requirements:
+      Class::Accessor::Lite 0.04
+      ExtUtils::MakeMaker 6.42
+      List::MoreUtils 0
+      Proc::Wait3 0.03
+      Scope::Guard 0
+      Signal::Mask 0
+      Test::Requires 0
+      Test::SharedFork 0
+      perl 5.008001
   Params-Classify-0.013
     pathname: Z/ZE/ZEFRAM/Params-Classify-0.013.tar.gz
     provides:
@@ -6160,6 +6182,12 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.30
       File::Spec 0
       strict 0
+  Proc-Wait3-0.04
+    pathname: C/CT/CTILMES/Proc-Wait3-0.04.tar.gz
+    provides:
+      Proc::Wait3 0.04
+    requirements:
+      ExtUtils::MakeMaker 0
   Readonly-1.04
     pathname: S/SA/SANKO/Readonly-1.04.tar.gz
     provides:
@@ -6466,6 +6494,17 @@ DISTRIBUTIONS
       perl 5.010
       strict 0
       warnings 0
+  Server-Starter-0.24
+    pathname: K/KA/KAZUHO/Server-Starter-0.24.tar.gz
+    provides:
+      Server::Starter 0.24
+      Server::Starter::Guard undef
+    requirements:
+      ExtUtils::MakeMaker 6.59
+      IO::Socket::IP 0
+      Net::EmptyPort 0
+      Test::TCP 2.00
+      perl 5.008
   Session-Token-1.008
     pathname: F/FR/FRACTAL/Session-Token-1.008.tar.gz
     provides:
@@ -6480,6 +6519,18 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  Signal-Mask-0.008
+    pathname: L/LE/LEONT/Signal-Mask-0.008.tar.gz
+    provides:
+      Signal::Mask 0.008
+      Signal::Pending 0.008
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.30
+      IPC::Signal 0
+      POSIX 0
+      strict 0
+      warnings 0
   Snowball-Norwegian-1.2
     pathname: A/AS/ASKSH/Snowball-Norwegian-1.2.tar.gz
     provides:
@@ -6566,6 +6617,21 @@ DISTRIBUTIONS
       File::Temp 0
       OLE::Storage_Lite 0.19
       Parse::RecDescent 0
+  Starlet-0.24
+    pathname: K/KA/KAZUHO/Starlet-0.24.tar.gz
+    provides:
+      Plack::Handler::Starlet undef
+      Starlet 0.24
+      Starlet::Server undef
+    requirements:
+      ExtUtils::MakeMaker 6.42
+      LWP::UserAgent 5.8
+      Parallel::Prefork 0.13
+      Plack 0.992
+      Server::Starter 0.06
+      Test::More 0.88
+      Test::TCP 0.15
+      perl 5.008001
   Starman-0.4008
     pathname: M/MI/MIYAGAWA/Starman-0.4008.tar.gz
     provides:
