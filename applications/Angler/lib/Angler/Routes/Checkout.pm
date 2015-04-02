@@ -126,17 +126,20 @@ post '/checkout' => sub {
     elsif ( $values->{payment_method}
         and $values->{payment_method} eq 'creditcard' )
     {
+        my $month = param 'expiration_month';
+        my $year  = param('expiration_year') % 100;
+
         # input data complete, charge amount
-        my $expiration =
-          sprintf( "%02d/%02d", $values->{card_month}, $values->{card_year} );
+        my $expiration = sprintf( "%02d/%02d", $month, $year );
 
         my %payment_data = (
+            action      => 'Normal Authorization',
             amount      => cart->total,
             first_name  => $values->{first_name},
             last_name   => $values->{last_name},
-            card_number => $values->{card_number},
+            card_number => param('number'),
             expiration  => $expiration,
-            cvc         => $values->{card_cvc}
+            cvc         => param('cvv'),
         );
 
         $payment_data{action} = 'Normal Authorization';
@@ -156,15 +159,6 @@ post '/checkout' => sub {
         }
         else {
             debug "Payment failed: ", $tx->error_message;
-            # We need to remove sensitive data before we pass form to template.
-            # FIXME: break encapsulation since values method is too full
-            # of surprises.
-            foreach my $field ( (qw/number month year cvc/) ) {
-                delete $values->{"card_$field"};
-            }
-            $form->{values} = $values;
-            debug "**********", $form;
-
             $error_hash = {
                 card_number => "Sorry, your card was not accepted by our "
                   . "payment provider. "
@@ -410,6 +404,10 @@ sub checkout_tokens {
 
     $tokens->{errors} = $errors;
 
+    $tokens->{braintree_cse_key} =
+      config->{plugins}->{Interchange6}->{payment}->{providers}->{Braintree}
+      ->{cse_key};
+
     return $tokens;
 };
 
@@ -510,23 +508,15 @@ sub validate_checkout {
     $validator->field('payment_method' => 'String');
 
     # credit card data, only used payment_method is not paypal
-    if ($values->{payment_method} and $values->{payment_method} ne 'paypal') {
-        $validator->field('card_name' => 'String');
-        $validator->field('card_number' => 'CreditCard');
-        $validator->field('card_month' =>
-                         {validator => 'NumericRange',
-                           options => {
-                               min => 1,
-                               max => 12,
-                           }
-                       });
-        $validator->field('card_cvc' =>
-                          {validator => 'NumericRange',
-                           options => {
-                               min => 1,
-                               max => 9999,
-                           }
-                       });
+    # some of these are already encrypted and others will be in the future so
+    # just make sure they have some value
+    if ( $values->{payment_method} and $values->{payment_method} ne 'paypal' ) {
+        foreach my $param (
+            qw/cardholder_name number expiration_month expiration_year cvv/)
+        {
+            $values->{$param} = param $param;
+            $validator->field( $param => 'String' );
+        }
     }
 
     if (! $validator->transpose($values)) {
