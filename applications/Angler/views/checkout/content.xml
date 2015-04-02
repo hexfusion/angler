@@ -56,11 +56,6 @@
     <field name="phone" id="inputPhone"/>
     <field name="fax" id="inputFax"/>
     <!-- Payment -->
-    <field name="card_name" id="inputCardName"/>
-    <field name="card_number" id="inputCardNumber"/>
-    <field name="card_month" id="inputCardMonth" iterator="card_months"/>
-    <field name="card_year" id="inputCardYear" iterator="card_years"/>
-    <field name="card_cvc" id="inputCardCVC"/>
     <field name="payment_method" id="inputPaymentMethod" />
 
     <field name="shipping_rate" iterator="shipping_rates"/>
