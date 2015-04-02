@@ -60,6 +60,8 @@
 
     <field name="shipping_rate" iterator="shipping_rates"/>
 </form>
+<value name="card_month" id="inputCardMonth" iterator="card_months"/>
+<value name="card_year" id="inputCardYear" iterator="card_years"/>
 
 <value name="braintree_cse_key" id="co-billing-form" target="data-cse"/>
 <!-- Billing FirstName -->

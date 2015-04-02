@@ -11,7 +11,7 @@
             <h3 class="signin">Exisiting Customers <a href="#login-modal" data-toggle="modal" data-target="#login-modal">Login Here</a></h3>
 
             </div>
-            <form action="/checkout" name="checkout" data-toggle="validator" role="form" class="account-info" method="POST">
+            <form action="/checkout" id="checkout" name="checkout" data-toggle="validator" role="form" class="account-info" method="POST">
              <ol class="opc" id="checkoutSteps">
                 <li id="opc-billing" class="section">
                   <div id="shipping_container">               
@@ -310,34 +310,34 @@
                       <div class="input-box">
                         <div class="col-xs-12 form-group form-group-CardName">
                           <label class=""><em>*</em>Name on Card</label>
-                          <input class="form-control" id="inputCardName" data-braintree-name="cardholder_name" size="4" type="text" />
+                          <input class="form-control" id="inputCardName" data-encrypted-name="cardholder_name" size="4" type="text" />
                           <span class="control-label help-block with-errors card_name_error"></span>
                         </div>
                       </div>
                       <div class="input-box">
                         <div class="col-xs-12 form-group form-group-CardNumber">
                           <label class="control-label">Card Number</label>
-                          <input autocomplete="off" class="form-control card-number" id="inputCardNumber" data-braintree-name="number" size="20" type="text" />
+                          <input autocomplete="off" class="form-control card-number" id="inputCardNumber" data-encrypted-name="number" size="20" type="text" />
                           <span class="control-label help-block with-errors card_number_error"></span>
                         </div>
                       </div>
                       <div class="input-box">
                         <div class="col-xs-4 form-group form-group-CardMonth">
                           <label class="control-label">Month</label>
-                          <br><select class="input-small" id="inputCardMonth" data-braintree-name="expiration_month">
+                          <br><select class="input-small" id="inputCardMonth" name="expiration_month">
                           <option>12</option>
                           </select>
                           <span class="control-label help-block with-errors card_expire_error"></span>
                         </div>
                         <div class="col-xs-4 form-group form-group-CardYear">
                           <label class="control-label">Year</label>
-                          <br> <select class="input-small" id="inputCardYear" data-braintree-name="expiration_year">
+                          <br> <select class="input-small" id="inputCardYear" name="expiration_year">
                           <option>2013</option>
                          </select>
                         </div>
                         <div class="col-xs-4 form-group form-group-CardCVC">
                           <label class="control-label">CVC/CVV</label>
-                          <input autocomplete="off" class="form-control card_cvc" id="inputCardCVC" data-braintree-name="cvv" placeholder="e.g. 311" size="4" type="text" />
+                          <input autocomplete="off" class="form-control card_cvc" id="inputCardCVC" data-encrypted-name="cvv" placeholder="e.g. 311" size="4" type="text" />
                           <span class="control-label help-block with-errors card_cvc_error"></span>
                         </div>
                      </div>
