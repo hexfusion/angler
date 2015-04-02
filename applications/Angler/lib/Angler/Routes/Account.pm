@@ -228,23 +228,23 @@ get '/account' => require_role user => sub {
         },
     )->single;
 
-    my %tokens;
+    my $tokens;
 
-    $tokens{orders} = $user->orders;
-    $tokens{user} = $user;
+    $tokens->{orders} = $user->orders;
+    $tokens->{user} = $user;
 
-    $tokens{billing_address} = $bill_adr;
+    $tokens->{billing_address} = $bill_adr;
     if ($bill_adr) {
-        $tokens{billing_address_state} = state_name($bill_adr->states_id);
-        $tokens{billing_address_country} = country_name($bill_adr->country_iso_code);
+        $tokens->{billing_address_state} = state_name($bill_adr->states_id);
+        $tokens->{billing_address_country} = country_name($bill_adr->country_iso_code);
     }
 
-    $tokens{shipping_address} = $ship_adr;
+    $tokens->{shipping_address} = $ship_adr;
     if ($ship_adr) {
-        $tokens{shipping_address_state} = state_name($ship_adr->states_id);
-        $tokens{shipping_address_country} = country_name($ship_adr->country_iso_code);
+        $tokens->{shipping_address_state} = state_name($ship_adr->states_id);
+        $tokens->{shipping_address_country} = country_name($ship_adr->country_iso_code);
     }
-    template 'account/content', \%tokens;
+    template 'account/content', $tokens;
 };
 
 get '/account/edit' => require_role user => sub {
@@ -525,122 +525,25 @@ post '/account/address/edit/:addresses_id'  => require_role user => sub {
     template 'account/address/edit', \%tokens;
 };
 
-get '/user/account' => require_role user => sub {
-    my %tokens;
-    my $form = form('account');
+# my orders
+get '/account/orders' => sub {
+    my $tokens;
+    my $user = shop_user->find(session('logged_in_user_id'));
+    $tokens->{orders} = $user->orders;
 
-    # read information for this account
-    my $ship_adr = shop_address->search(
-        {
-            users_id => session('logged_in_user_id'),
-            type => 'shipping',
-        },
-        {
-            order_by => 'last_modified DESC',
-            rows => 1,
-        },
-    )->single;
-
-    my $bill_adr = shop_address->search(
-        {
-            users_id => session('logged_in_user_id'),
-            type => 'billing',
-        },
-        {
-            order_by => 'last_modified DESC',
-            rows => 1,
-        },
-    )->single;
-
-    my $form_values = {};
-    
-    if ($ship_adr) {
-        debug "Shipping address found: ", $ship_adr->id;
-
-        $form_values = Angler::Forms::Checkout->new(
-            address => $ship_adr,
-        )->transpose;
-        $form_values->{shipping_enabled} = 1;
-        $form_values->{shipping_id} = $ship_adr->id;
-    }
-    else {
-        $form_values->{country} = 'US';
-    }
-
-    if ($bill_adr) {
-        $form_values->{billing_id} = $bill_adr->id;
-    }
-    else {
-        $form_values->{billing_country} = 'US';
-    }
-
-    $form->fill($form_values);
-
-    %tokens = (form => $form,
-               countries => [shop_country->search(
-                   {active => 1},
-                   {order_by => 'name'},
-               )],
-               );
-
-    template 'account/my-account/content', \%tokens;
+    template 'account/orders/content', $tokens;
 };
 
-post '/user/account' => require_role user => sub {
-    # check user input
-    my $form = form('account');
+get '/account/orders/view/:orders_id' => require_role user => sub {
+    my $tokens;
+    my $user = shop_user->find(session('logged_in_user_id'));
+    $tokens->{order} = $user->orders->find({orders_id => param('orders_id')});
 
-    my $values = $form->values;
-
-    # check incoming shipping/billing id
-    my $ship_adr;
-
-    if ($values->{shipping_id}) {
-        if ($ship_adr = shop_address->find($values->{shipping_id})) {
-            if ($ship_adr->users_id ne session('logged_in_user_id')) {
-                return status '403';
-            }
-        }
-        else {
-            return status '403';
-        }
+    unless ($tokens->{order}) {
+        redirect '/account';
     }
 
-    my $error_hash;
-
-    if ($error_hash = validate_account($values)) {
-        debug "Fill account form with: ", $values;
-        $form->fill($values);
-    }
-    else {
-        # update db
-        debug "Account change ok: ", $values;
-
-        # read information for this account
-        $ship_adr->update({
-            first_name => $values->{first_name},
-            last_name => $values->{last_name},
-            address_2 => $values->{address},
-            phone => $values->{phone}
-        });
-
-        return "OK";
-    }
-
-    my %tokens = (form => $form,
-                  countries => [shop_country->search(
-                      {active => 1},
-                      {order_by => 'name'},
-                  )],
-                  errors => $error_hash);
-
-    template 'account_my-account', \%tokens;
-};
-    
-get '/orders' => require_role user => sub {
-    my $orders = shop_user->find(session('logged_in_user_id'))->search_related('Order');
-
-    template 'account_your-orders', {orders => [$orders->all]};
+    template 'account/orders/view', $tokens;
 };
 
 get '/user/orders/:order_number' => require_role user => sub {
