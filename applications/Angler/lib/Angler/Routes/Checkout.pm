@@ -262,7 +262,7 @@ get '/paypal-checkout' => sub {
     }
 
     my %payinfo = $pp->DoExpressCheckoutPayment( Token => $details{Token},
-                                                 InvNum => $order->order_number,
+                                                 InvoiceID => $order->order_number,
                                                  PaymentAction => 'Sale',
                                                  PayerID => $details{PayerID},
                                                  OrderTotal => cart->total );
