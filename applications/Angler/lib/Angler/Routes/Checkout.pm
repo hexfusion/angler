@@ -373,6 +373,17 @@ sub checkout_tokens {
         {
             $values->{billing_state} = $angler_cart->billing_state->states_id;
         }
+
+        # make sure state/billing_state is NOT set for countries that do
+        # not have show_states true
+        foreach my $value (qw/country billing_country/) {
+            next unless $values->{country};
+            ( my $state_value = $value ) =~ s/country/state/;
+            my $result = shop_country->find($values->{$value});
+            if ( !$result or !$result->show_states ) {
+                delete $values->{$state_value};
+            }
+        }
     };
     if ($@) {
         warning "KABOOM! in checkout_tokens: ", $@;
