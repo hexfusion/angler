@@ -23,6 +23,11 @@ use Business::PayPal::API::ExpressCheckout;
 
 =cut
 
+any ['get', 'post'] => '/checkout' => sub {
+    pass if cart->count > 0;
+    template 'checkout/empty/content';
+};
+
 get '/checkout' => sub {
     my $form = form('checkout');
     $form = set_form_values($form);
