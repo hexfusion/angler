@@ -8,43 +8,41 @@
               <div class="padding-s">
                 <div class="my-account">
                   <div class="page-title title-buttons">
-                    <h1>Order #100000001 - Pending</h1>
-                    <div class="order-buttons"> <a href="" class="link-reorder">Reorder</a> <span class="separator">|</span> <a href="/account/my-orders/print" class="link-print" onClick="this.target='_blank';">Print Order</a> </div>
-                  </div>
+                    <h1>Order <span id="inputOrderNumber"></span> - <span id="inputOrderStatus"></span></h1>
+                   <!-- <div class="order-buttons"> <a href="" class="link-reorder">Reorder</a> <span class="separator">|</span> <a href="/account/my-orders/print" class="link-print" onClick="this.target='_blank';">Print Order</a> </div>
+                 --> </div>
                   <dl class="order-info">
                     <dt>About This Order:</dt>
                     <dd>
                       <ul id="order-info-tabs">
                         <li class="current first last">Order Information</li>
                       </ul>
-                      <script type="text/javascript">decorateGeneric($('order-info-tabs').select('LI'),['first','last']);</script>
                     </dd>
                   </dl>
-                  <p class="order-date">Order Date: August 24, 2014</p>
+                  <p class="order-date"><span id="inputOrderDate"></span></p>
                   <div class="col2-set order-info-box">
                     <div class="col-1">
                       <div class="box">
                         <div class="box-title">
                           <h2>Shipping Address</h2>
                         </div>
-                        <div class="box-content">
-                          <address>
-                          Sam Batschelet<br>
-                          West Branch Angler<br>
-                          704 Mirador Rd<br>
-                          Vestal,  New York, 13850<br>
-                          United States<br>
-                          T: 607-467-5525
-                          </address>
-                        </div>
-                      </div>
+                       <div class="shipping-address">
+                        <p><span id="inputFirstName"></span> <span id="inputLastName"></span></p>
+                        <p><span id="inputCompany"></span></p>
+                        <p><span id="inputAddress"></span></p>
+                        <p><span id="inputAddress2"></span></p>
+                        <p><span id="inputCity"></span>, <span id="inputState"></span> <span id="inputPostalCode"></span></p>
+                        <p><span id="inputCountry"></span></p>
+                        <br />
+                      </div> 
+                     </div>
                     </div>
                     <div class="col-2">
                       <div class="box">
                         <div class="box-title">
                           <h2>Shipping Method</h2>
                         </div>
-                        <div class="box-content"> Flat Rate - Fixed </div>
+                        <div class="box-content"><span id="inputOrderShippingMethod"></span></div>
                       </div>
                     </div>
                   </div>
@@ -54,15 +52,14 @@
                         <div class="box-title">
                           <h2>Billing Address</h2>
                         </div>
-                        <div class="box-content">
-                          <address>
-                          Sam Batschelet<br>
-                          West Branch Angler<br>
-                          704 Mirador Rd<br>
-                          Vestal,  New York, 13850<br>
-                          United States<br>
-                          T: 607-467-5525
-                          </address>
+                       <div class="billing-address">
+                         <p><span id="inputBillingFirstName"></span> <span id="inputBillingLastName"></span></p>
+                         <p><span id="inputBillingCompany"></span></p>
+                         <p><span id="inputBillingAddress"></span></p>
+                         <p><span id="inputBillingAddress2"></span></p>
+                         <p><span id="inputBillingCity"></span>, <span id="inputBillingState"></span> <span id="inputBillingPostalCode"></span></p>
+                         <p><span id="inputBillingCountry"></span></p>
+                         <br />
                         </div>
                       </div>
                     </div>
@@ -72,7 +69,7 @@
                           <h2>Payment Method</h2>
                         </div>
                         <div class="box-content">
-                          <p>Check / Money order</p>
+                          <p></p>
                         </div>
                       </div>
                     </div>
@@ -81,17 +78,17 @@
                     <h2 class="table-caption">Items Ordered </h2>
                     <table class="data-table" id="my-orders-table" summary="Items Ordered">
                       <colgroup>
-                      <col>
-                      <col width="1">
-                      <col width="1">
-                      <col width="1">
-                      <col width="1">
+                      <col span="1" style="width: 50%;">
+                      <col span="1" style="width: 20%;">
+                      <col span="1" style="width: 10%;">
+                      <col span="1" style="width: 10%;">
+                      <col span="1" style="width: 10%;">
                       </colgroup>
                       <thead>
                         <tr class="first last">
-                          <th>Product Name</th>
+                          <th class="a-left">Product Name</th>
                           <th>SKU</th>
-                          <th class="a-right">Price</th>
+                          <th class="a-center">Price</th>
                           <th class="a-center">Qty</th>
                           <th class="a-right">Subtotal</th>
                         </tr>
@@ -99,40 +96,31 @@
                       <tfoot>
                         <tr class="subtotal first">
                           <td colspan="4" class="a-right"> Subtotal </td>
-                          <td class="last a-right"><span class="price">$134.25</span></td>
+                          <td class="last a-right"><span id="inputOrderSubTotal">$134.25</span></td>
                         </tr>
                         <tr class="shipping">
                           <td colspan="4" class="a-right"> Shipping &amp; Handling </td>
-                          <td class="last a-right"><span class="price">$5.00</span></td>
+                          <td class="last a-right"><span id="inputOrderShipping">$5.00</span></td>
                         </tr>
                         <tr>
                           <td colspan="4" class="a-right"> Tax </td>
-                          <td class="last a-right"><span class="price">$11.24</span></td>
+                          <td class="last a-right"><span id="inputOrderSalesTax">$11.24</span></td>
                         </tr>
                         <tr class="grand_total last">
                           <td colspan="4" class="a-right"><strong>Grand Total</strong></td>
-                          <td class="last a-right"><strong><span class="price">$150.49</span></strong></td>
+                          <td class="last a-right"><strong><span id="inputOrderTotal">$150.49</span></strong></td>
                         </tr>
                       </tfoot>
-                      <tbody class="odd">
-                        <tr class="border first last" id="order-item-row-1">
-                          <td class="order-product-name"><h3 class="product-name">Simms Dry Creek Bag</h3>
-                            <dl class="item-options">
-                              <dt>Size:</dt>
-                              <dd> Large </dd>
-                            </dl></td>
-                          <td class="order-sku">WBA2001</td>
-                          <td class="order-price"><span class="price-excl-tax"> <span class="cart-price"> <span class="price">$134.25</span> </span> </span> <br></td>
-                          <td class="order-qty"><span class="nobr"> Ordered: <strong>1</strong><br>
-                            </span></td>
-                          <td class="order-subtotal last"><span class="price-excl-tax"> <span class="cart-price"> <span class="price">$134.25</span> </span> </span> <br></td>
-                          <!--
-        <th class="a-right"><span class="price">$134.25</span></th>
-            -->
+                      <tbody class="orderlines">
+                        <tr>
+                          <td class="name"></td>
+                          <td class="sku"></td>
+                          <td class="line-price"></td>
+                          <td class="quantity"></td>
+                          <td class="subtotal"></td>
                         </tr>
                       </tbody>
                     </table>
-                    <script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
                     <div class="buttons-set">
                       <p class="back-link"><a href="/account/orders"><small>« </small>Back to My Orders</a></p>
                     </div>
