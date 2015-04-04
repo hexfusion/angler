@@ -760,7 +760,6 @@ add order details to database
 sub generate_order {
     my ($form, $user) = @_;
     my $values = $form->{values};
-
     my $tokens = checkout_tokens($form);
 
     #append order address tokens
@@ -796,6 +795,8 @@ sub generate_order {
         push @orderlines, \%orderline_product;
     }
 
+    my $shipping_rate = shop_schema->resultset('ShipmentRate')->find($values->{'shipping_rate'});
+
     # create transaction
     my %order_info = (users_id => $user->id,
               email => $user->email,
@@ -807,6 +808,8 @@ sub generate_order {
                       total_cost => $tokens->{cart}->total,
                       order_date => $order_date,
                       order_number => $order_date,
+                      shipping_method => $shipping_rate->shipment_method->name,
+                      payment_method => ucfirst($values->{'payment_method'}),
                       orderlines => \@orderlines);
 
     my $order = shop_order->create(\%order_info);
