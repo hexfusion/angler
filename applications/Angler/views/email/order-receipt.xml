@@ -39,7 +39,8 @@
 
 <!-- order details -->
 <value name="order_date" id="inputOrderDate" field="order.order_date" filter="date"/>
-<value name="order_shipping_method" id="inputShippingMethod" field="order.shipping_method"/>
+<value name="order_shipping_method" id="inputOrderShippingMethod" field="order.shipping_method"/>
+<value name="order_payment_method" id="inputOrderPaymentMethod" field="order.payment_method"/>
 <value name="order_number" id="inputOrderNumber" field="order.order_number"/>
 <value name="order_subtotal" id="inputOrderSubTotal" field="order.subtotal" filter="currency"/>
 <value name="order_shipping" id="inputOrderShipping" field="order.shipping" filter="currency"/>
