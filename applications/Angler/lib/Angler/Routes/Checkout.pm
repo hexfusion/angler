@@ -6,6 +6,7 @@ use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Ajax;
 use Dancer::Plugin::Email;
+use Try::Tiny;
 
 use Angler::Plugin::History;
 use Angler::Cart;
