@@ -873,15 +873,21 @@ sub finalize_order {
     }
     debug to_dumper(\@attachments);
 
-    email ({type => 'html',
+    try {
+        email ({type => 'html',
             from => config->{emails}->{order_from_email} || 'service@westbranchangler.com',
             to => $order->email,
-            bcc => config->{emails}->{order_to_email} || 'orders@westbranchangler.com',
+            cc => config->{emails}->{order_to_email} || 'orders@westbranchangler.com',
             subject => "Your Order " . $order->order_number,
             message => $body,
             multipart => 'related',
             attach => \@attachments,
         });
+    }
+    catch {
+        error "Checkout email failed: ", $_;
+    };
+
 
     return $order;
 }
