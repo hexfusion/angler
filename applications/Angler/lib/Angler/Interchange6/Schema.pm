@@ -15,6 +15,7 @@ Interchange6::Schema::Result::Product
 
 use Angler::Interchange6::Schema::Result::Product;
 use Angler::Interchange6::Schema::Result::Navigation;
+use Angler::Interchange6::Schema::Result::Inventory;
 
 use base 'Interchange6::Schema';
 
