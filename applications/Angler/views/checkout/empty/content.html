@@ -1,14 +1,28 @@
-<div class="main-container col2-right-layout">
+<div class="main-container col1-layout">
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
         <div class="main">
           <div class="row">
-            <div class="col-main col-xs-12 col-sm-9">
+            <div class="col-main col-xs-12">
               <div class="padding-s">
                 <div class="page-title">
-                  <h1>Checkout</h1>
-                  <p>Your cart is empty</p>
+                  <h1> Checkout</h1>
+                  <table width="100%" class="data-table cart-table">
+                    <colgroup>
+                    <col>
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th class="text-center" colspan="1"><p class="alert alert-danger">Your cart is empty <i class="fa fa-shopping-cart"></i></p></th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr class="first last">
+                        <td colspan="50"><a type="button" title="Continue Shopping" class="pull-right continue-shopping button" href="/"><span><span>Continue Shopping</span></span></a></td>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
               </div>
             </div>
@@ -18,3 +32,4 @@
     </div>
   </div>
 </div>
+
