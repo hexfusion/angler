@@ -35,7 +35,7 @@ sub with_manufacturer_inventory {
 
                         $self->correlate('variants')
                           ->related_resultset('inventory')
-                          ->get_column('lead_time_min_days')->sum_rs->as_query,
+                          ->get_column('lead_time_min_days')->min->as_query,
 
                         $self->correlate('inventory')
                           ->get_column('lead_time_min_days')->as_query,
@@ -48,7 +48,7 @@ sub with_manufacturer_inventory {
 
                         $self->correlate('variants')
                           ->related_resultset('inventory')
-                          ->get_column('lead_time_max_days')->sum_rs->as_query,
+                          ->get_column('lead_time_max_days')->max->as_query,
 
                         $self->correlate('inventory')
                           ->get_column('lead_time_max_days')->as_query,
