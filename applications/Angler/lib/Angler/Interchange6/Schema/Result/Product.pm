@@ -131,5 +131,50 @@ sub no_variants {
     return shift->variant_count ? 0 : 1;
 }
 
+=head2 lead_time_min_days
+
+=cut
+
+sub lead_time_min_days {
+    my $self = shift;
+    if ( $self->has_column_loaded('lead_time_min_days') ) {
+        return $self->get_column('lead_time_min_days');
+    }
+    my $inventory = $self->inventory;
+    if ( $inventory ) {
+        return $inventory->lead_time_min_days;
+    }
+}
+
+=head2 lead_time_max_days
+
+=cut
+
+sub lead_time_max_days {
+    my $self = shift;
+    if ( $self->has_column_loaded('lead_time_max_days') ) {
+        return $self->get_column('lead_time_max_days');
+    }
+    my $inventory = $self->inventory;
+    if ( $inventory ) {
+        return $inventory->lead_time_max_days;
+    }
+}
+
+=head2 manufacturer_quantity
+
+=cut
+
+sub manufacturer_quantity {
+    my $self = shift;
+    if ( $self->has_column_loaded('manufacturer_quantity') ) {
+        return $self->get_column('manufacturer_quantity');
+    }
+    my $inventory = $self->inventory;
+    if ( $inventory ) {
+        return $inventory->manufacturer_quantity;
+    }
+}
+
 1;
 
