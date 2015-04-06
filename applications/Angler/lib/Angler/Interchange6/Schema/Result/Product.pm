@@ -40,6 +40,35 @@ __PACKAGE__->add_columns(
 
 =head1 METHODS
 
+=head2 availability
+
+Returns string showing 'In Stock' or availability like 'Avail 3 - 5 days'.
+
+=cut
+
+sub availability {
+    my $self = shift;
+    if ( $self->quantity_in_stock ) {
+        return 'In Stock';
+    }
+    elsif ( $self->lead_time_max_days && $self->lead_time_max_days ) {
+        if ( $self->lead_time_min_days % 7 ) {
+            # show days
+            return
+                "Avail "
+              . $self->lead_time_min_days . " - "
+              . $self->lead_time_max_days . " Days";
+        }
+        else {
+            # weeks - add 6 days, divide and int
+            return
+                "Avail "
+              . int( ( $self->lead_time_min_days + 6 ) / 7 ) . " - "
+              . int( ( $self->lead_time_max_days + 6 ) / 7 ) . " Weeks";
+        }
+    }
+}
+
 =head2 details
 
 Returns javascript to change location href to uri of product.
