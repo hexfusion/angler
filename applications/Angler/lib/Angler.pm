@@ -100,6 +100,8 @@ hook 'before_template_render' => sub {
                 $image = $product->canonical->image_75x75;
             }
         }
+        # set default image
+        $image = shop_media->find(uri => config->{default_image}->{uri})->image_75x75 unless $image;
         $cart_product->set_extra( image => $image ) if $image;
     }
 

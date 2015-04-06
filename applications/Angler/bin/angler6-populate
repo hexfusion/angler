@@ -516,6 +516,17 @@ my $media = $schema->resultset('Media')->populate([
                             },
 ]);
 
+# define default image.
+$media = $schema->resultset('Media')->create(
+                            {
+                                uri => 'default.jpg',
+                                mime_type => 'image/jpg',
+                                media_types_id => $images->id,
+                                label => 'Image is not available.'
+                            },
+);
+
+
 # add all js/css assets
 $media = $schema->resultset('Media')->populate([
                             {

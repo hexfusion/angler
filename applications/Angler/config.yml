@@ -54,6 +54,9 @@ records:
 free_shipping: 
   amount: 100
 
+default_image:
+  uri: "default.jpg"
+
 homepage:
   new_products:
     qty: 8
