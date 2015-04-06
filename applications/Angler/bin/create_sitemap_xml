@@ -10,6 +10,7 @@ use File::Spec;
 my $base = "https://www.westbranchangler.com/";
 my $file = File::Spec->catfile( setting('public'), 'sitemap.xml' );
 
+# we write to a new file and rename later
 open( my $fh, ">", "$file.new" ) or die "cannot open $file.new";
 
 # opening tags
@@ -23,7 +24,27 @@ foreach my $uri ('', qw(about contact anotherpage foobar)) {
     print $fh "<url>\n<loc>$base$uri</loc>\n</url>\n";
 }
 
-# TODO: add navigation
+# navigation
+# we only want navs that have childs navs or products
+
+my $navs = shop_navigation->search(
+    {
+        'me.active' => 1,
+        'me.type'   => 'menu',
+        -or         => [
+            { 'navigation_products.navigation_id' => { '!=', undef } },
+            { 'children.navigation_id'            => { '!=', undef } },
+        ],
+    },
+    {
+        join     => [ 'children', 'navigation_products' ],
+        columns  => ['me.uri'],
+        group_by => 'me.uri',
+    }
+);
+while ( my $nav = $navs->next ) {
+    print $fh "<url>\n<loc>$base" . $nav->uri . "</loc>\n</url>\n";
+}
 
 # add active canonical products
 
