@@ -1,0 +1,27 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Dancer ':script';
+use POSIX qw(strftime);
+use Net::SFTP;
+
+my $ts = strftime("%m-%d-%Y-%H%M", localtime);
+
+my %args;
+my $host = "sftp.orvis.com";
+$args{user} = "orvisdealer";
+$args{password} = "fishing";
+$args{debug} =1;
+
+my $sftp = Net::SFTP->new($host,%args);
+
+my $remote = 'OrvisProductFull.xml';
+my $local = config->{datafiledir} . 'OrvisProductFull' . $ts . '.xml';
+
+$sftp->get($remote, $local);
+
+sub callback {
+    my ($sftp, $data, $offset, $size) = @_;
+    print "Read $offset / $size bytes\r";
+}
