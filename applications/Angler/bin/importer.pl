@@ -45,7 +45,11 @@ my $config =
 my $schema = shop_schema;
 my $drone_schema = schema('drone');
 
-my $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
+my $img_dir = "/srv/www/static/westbranchangler.com/images/products";
+if ( File::Spec->rel2abs( basename $0) !~ m(^/home/camp) ) {
+    # dev
+    $img_dir = "/home/camp/angler/rsync/htdocs/assetstore/site/images/items";
+}
 
 my @img_sizes = qw/35 75 100 110 200 325 975/;
 
@@ -874,6 +878,81 @@ sub process_orvis_cross_sell {
     }
 }
 
+=head2 set_orvis_lead_time( $product, $sku )
+
+=cut
+
+sub set_orvis_lead_time {
+    my ( $product, $sku ) = @_;
+    my $min = my $max = my $stock = 0;
+
+    # supplier lead time
+
+    if ( my $Avail_Status = $sku->first_child_trimmed_text('Avail_Status') ) {
+        if ( $Avail_Status eq 'Y' ) {
+            $min = 3;
+            $max = 5;
+        }
+        elsif ( $Avail_Status eq 'D' ) {
+            if ( my $Avail_Date = $sku->first_child_trimmed_text('Avail_Date') )
+            {
+                if ( $Avail_Date =~ /(\d+)\s+WEEK/ ) {
+                    $min = 7 * ( $1 + 1 );
+                    $max = 7 * ( $1 + 2 );
+                }
+            }
+        }
+        elsif ( grep { $Avail_Status eq $_ } (qw/ A N O W /) ) {
+
+            # ignore these
+        }
+        else {
+            warning "Avail_Status '$Avail_Status' for: ", $product->sku;
+        }
+    }
+    else {
+        warning "No Avail_Status for: ", $product->sku;
+    }
+
+    # supplier stock
+
+    if ( my $Sku_In_Stock = $sku->first_child_trimmed_text('Sku_In_Stock') ) {
+        $stock = $Sku_In_Stock if $Sku_In_Stock =~ /^\d+$/;
+        if ( !$max ) {
+            # no lead times so set some
+            $min = 3;
+            $max = 5;
+        }
+    }
+
+    # now update/insert
+
+    my $inventory = $product->inventory;
+
+    if ($inventory) {
+        $inventory->delete if ( $inventory->quantity == 0 && $max == 0 );
+        $inventory->update(
+            {
+                lead_time_min_days    => $min,
+                lead_time_max_days    => $max,
+                manufacturer_quantity => $stock,
+            }
+        );
+    }
+    else {
+        return if $max == 0;
+        $product->create_related(
+            'inventory',
+            {
+                quantity              => 0,
+                lead_time_min_days    => $min,
+                lead_time_max_days    => $max,
+                manufacturer_quantity => $stock,
+            }
+        );
+    }
+}
+
 =head2 process_orvis_product
 
 twig handler for Orvis xml Product
@@ -1030,6 +1109,8 @@ sub process_orvis_product {
 
             # a simple canonical product with no variants
 
+            my $sku = $skus[0];
+
             if ( $product->variants->has_rows ) {
 
                 # but we have variants in the DB so remove them
@@ -1039,8 +1120,9 @@ sub process_orvis_product {
                 $product->variants->delete;
             }
             else {
-                $product->price( $skus[0]->first_child('Regular_Price')->text );
+                $product->price( $sku->first_child('Regular_Price')->text );
                 $product->update;
+                &set_orvis_lead_time( $product, $sku );
                 debug unidecode("product with no variants $sku $name\n");
             }
         }
@@ -1148,6 +1230,8 @@ sub process_orvis_product {
                     };
                 }
                 next SKU unless $variant;
+
+                &set_orvis_lead_time( $variant, $sku );
 
                 # images
 
