@@ -49,10 +49,6 @@ __PACKAGE__->add_columns(
         data_type     => "integer",
         default_value => 0
     },
-    manufacturer_quantity  => {
-        data_type      => "integer",
-        default_value  => 0
-    },
 );
 
 1;
