@@ -38,12 +38,16 @@ numeric value representing number of products available from manufacturer
 
 __PACKAGE__->add_columns(
     lead_time_min_days => {
-        data_type      => "integer",
-        default_value  => 0
+        data_type     => "integer",
+        default_value => 0
     },
     lead_time_max_days => {
-        data_type      => "integer",
-        default_value  => 0
+        data_type     => "integer",
+        default_value => 0
+    },
+    manufacturer_quantity => {
+        data_type     => "integer",
+        default_value => 0
     },
     manufacturer_quantity  => {
         data_type      => "integer",
