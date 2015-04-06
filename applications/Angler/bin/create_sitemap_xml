@@ -1,0 +1,47 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Dancer ':script';
+use Dancer::Plugin::Interchange6;
+use File::Spec;
+
+my $base = "https://www.westbranchangler.com/";
+my $file = File::Spec->catfile( setting('public'), 'sitemap.xml' );
+
+open( my $fh, ">", "$file.new" ) or die "cannot open $file.new";
+
+# opening tags
+print $fh qq(<?xml version="1.0" encoding="UTF-8"?>\n);
+print $fh qq(<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n);
+
+# homepage, about, etc
+# FIXME: currently includes non-existant pages + missing others
+
+foreach my $uri ('', qw(about contact anotherpage foobar)) {
+    print $fh "<url>\n<loc>$base$uri</loc>\n</url>\n";
+}
+
+# TODO: add navigation
+
+# add active canonical products
+
+my $products = shop_product->search(
+    {
+        canonical_sku => { '!=' => undef },
+        active        => 1,
+    },
+    {
+        columns => ['uri'],
+    }
+);
+while ( my $product = $products->next ) {
+    print $fh "<url>\n<loc>$base" . $product->uri . "</loc>\n</url>\n";
+}
+
+# closing tag
+print $fh qq(</urlset>\n);
+
+close($fh);
+rename( "$file.new", $file ) or die "file rename failed";
