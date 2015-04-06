@@ -50,7 +50,7 @@ while ( my $nav = $navs->next ) {
 
 my $products = shop_product->search(
     {
-        canonical_sku => { '!=' => undef },
+        canonical_sku => undef,
         active        => 1,
     },
     {
