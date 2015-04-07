@@ -60,10 +60,10 @@ sub availability {
               . $self->lead_time_max_days . " Days";
         }
         else {
-            # weeks - add 6 days, divide and int
+            # weeks
             return
-                int( ( $self->lead_time_min_days + 6 ) / 7 ) . " - "
-              . int( ( $self->lead_time_max_days + 6 ) / 7 )
+                int( $self->lead_time_min_days / 7 ) . " - "
+              . int( $self->lead_time_max_days / 7 )
               . " Weeks";
         }
     }
