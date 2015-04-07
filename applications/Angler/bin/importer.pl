@@ -53,7 +53,7 @@ if ( File::Spec->rel2abs( basename $0) !~ m(^/home/camp) ) {
 
 my @img_sizes = qw/35 75 100 110 200 325 975/;
 
-my ( $active, $file, $help, $manufacturer, %nav_lookup );
+my ( $active, $file, $help, $manufacturer, %nav_lookup, %inventory );
 
 
 GetOptions(
@@ -158,6 +158,59 @@ elsif ( $type eq 'xml' ) {
                 push @row, $worksheet->get_cell( $row, $col )->value;
             }
             $nav_lookup{ join( "_", @row ) } = $nav;
+        }
+
+        my $inventory_report = 
+          File::Spec->catfile( [ File::Spec->splitpath($0) ]->[1],
+            '..', 'shared', 'data', 'OrvisInventoryReport.xls' );
+
+        $parser = Spreadsheet::ParseExcel->new;
+
+        # parse the file
+
+        $workbook = $parser->parse($inventory_report);
+        if ( !defined $workbook ) {
+            die $parser->error(), ".\n";
+        }
+
+        # we need at least one worksheet
+
+        die "no worksheets found" unless $workbook->worksheet_count;
+
+        $worksheet = $workbook->worksheet(0);
+
+        die "worksheet not found" unless $worksheet;
+
+        # col/row ranges in use
+
+        ( $row_min, $row_max ) = $worksheet->row_range();
+        my ( $col_min, $col_max ) = $worksheet->col_range();
+
+        # find columns we are interested in
+        my ( $item_col, $inv_col, $sku_col );
+
+        foreach my $col ( $col_min .. $col_max ) {
+            my $value = $worksheet->get_cell( $row_min, $col )->value;
+            if ( $value eq 'Item' ) {
+                $item_col = $col;
+            }
+            elsif ( $value eq 'Inventory' ) {
+                $inv_col = $col;
+            }
+            elsif ( $value eq 'SKU' ) {
+                $sku_col = $col;
+            }
+        }
+        die "Cannot find required columns in OrvisInventoryReport"
+          unless ( $item_col && $inv_col && $sku_col );
+
+        foreach my $row ( $row_min + 1 .. $row_max ) {
+            my $sku =
+                "WB-OR-"
+              . $worksheet->get_cell( $row, $item_col )->value . '-'
+              . $worksheet->get_cell( $row, $sku_col )->value;
+            my $qty = $worksheet->get_cell( $row, $inv_col )->value;
+            $inventory{$sku} = $qty;
         }
 
         $twig_handlers = { Product => \&process_orvis_product };
@@ -916,22 +969,32 @@ sub set_orvis_lead_time {
 
     # supplier stock
 
-    if ( my $Sku_In_Stock = $sku->first_child_trimmed_text('Sku_In_Stock') ) {
-        $stock = $Sku_In_Stock if $Sku_In_Stock =~ /^\d+$/;
-        if ( !$max ) {
-            # no lead times so set some
-            $min = 3;
-            $max = 5;
+    if ( $inventory{ $product->sku } ) {
+        $stock = $inventory{ $product->sku };
+    }
+    else {
+
+        # stock not found in inventory report so check xml
+        if ( my $Sku_In_Stock = $sku->first_child_trimmed_text('Sku_In_Stock') )
+        {
+            $stock = $Sku_In_Stock if $Sku_In_Stock =~ /^\d+$/;
         }
+    }
+    if ( $stock && !$max ) {
+
+        # no lead times so set some
+        $min = 3;
+        $max = 5;
     }
 
     # now update/insert
 
-    my $inventory = $product->inventory;
-
-    if ($inventory) {
-        $inventory->delete if ( $inventory->quantity == 0 && $max == 0 );
-        $inventory->update(
+    if ($product->inventory) {
+        if ( $product->inventory->quantity == 0 && $max == 0 ) {
+            $product->inventory->delete;
+            return;
+        }
+        $product->inventory->update(
             {
                 lead_time_min_days    => $min,
                 lead_time_max_days    => $max,
