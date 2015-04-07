@@ -39,6 +39,7 @@
 <param name="uri" class="details-form" target="action" op="append"/>
 <param name="discount_percent" class="discount" op="toggle" args="tree"/>
 <param name="uri" class="details" target="href" op="append"/>
+<param name="availability-string" field="availability"/>
 </list>
 
 <!-- Brands -->

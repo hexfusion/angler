@@ -6,6 +6,7 @@
 <value name="description" field="product.description" op="hook"/>
 <value name="image_src" class="product-image" target="src" />
 <value name="image_name" class="product-image" target="title" field="product.name"/>
+<value name="availability-string" field="product.availability"/>
 
 <container name="video-box" value="video_src">
     <value name="video_src" class="product-video" target="src" />

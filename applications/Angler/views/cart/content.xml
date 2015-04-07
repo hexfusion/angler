@@ -9,6 +9,7 @@
 <param name="update" field="sku" target="value"/>
 <param name="thumbnail" field="extra.image" target="src"/>
 <param name="name" class="thumbnail" target="alt"/>
+<param name="availability-string" field="extra.availability"/>
 </list>
 
 <value name="continue-shopping" target="href" field="history.previous_page.uri"/>
