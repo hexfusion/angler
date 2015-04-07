@@ -60,6 +60,7 @@
     <field name="payment_method" id="inputPaymentMethod" />
 
     <field name="shipping_rate" iterator="shipping_rates"/>
+    <field name="comments" id="inputComments"/>
 </form>
 <value name="card_month" id="inputCardMonth" iterator="card_months"/>
 <value name="card_year" id="inputCardYear" iterator="card_years"/>
