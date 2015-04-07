@@ -1239,7 +1239,7 @@ sub process_orvis_product {
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
                 my $uri = &clean_uri(
-                    lc( unidecode("${sku_name}-${pf_id}${item_code}") ) );
+                    lc( unidecode("${sku_name}-${item_code}") ) );
 
                 my $variant = shop_product->find(
                     {
