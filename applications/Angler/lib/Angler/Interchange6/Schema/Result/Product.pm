@@ -67,6 +67,9 @@ sub availability {
               . " Weeks";
         }
     }
+    else {
+        return undef;
+    }
 }
 
 =head2 details
