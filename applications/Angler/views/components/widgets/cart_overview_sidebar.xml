@@ -6,6 +6,7 @@
 <param name="price" class="cart-price" filter="currency"/>
 <param name="qty" class="cart-quantity" field="quantity"/>
 <param name="image" field="extra.image" target="src"/>
+<param name="availability-string" field="extra.availability"/>
 </list>
 
 <!-- Cart Totals -->

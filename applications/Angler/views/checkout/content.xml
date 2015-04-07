@@ -7,6 +7,7 @@
     <param name="subtotal" class="item-subtotal" filter="selling_price"/>
     <param name="image" field="extra.image" target="src"/>
     <param name="link" field="uri" target="href"/>
+    <param name="availability-string" field="extra.availability"/>
 </list>
 
 <!-- Add Sidebar Cart -->
