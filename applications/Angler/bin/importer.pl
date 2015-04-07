@@ -1261,7 +1261,7 @@ sub process_orvis_product {
 
                     my %attributes = (
                         sku              => $variant_sku,
-                        manufacturer_sku => $pf_id . "-" . $item_code,
+                        manufacturer_sku => $item_code,
                         name             => $sku_name,
                         price            => $regular_price,
                         uri              => $uri,
