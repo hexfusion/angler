@@ -38,6 +38,16 @@ __PACKAGE__->add_columns(
     },
 );
 
+=head2 product_manufacturer_sku
+
+Unique constraint.
+
+=cut
+
+__PACKAGE__->add_unique_constraint(
+    product_manufacturer_sku => [ qw/manufacturer_sku/ ],
+);
+
 =head1 METHODS
 
 =head2 availability
