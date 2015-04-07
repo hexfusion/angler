@@ -68,8 +68,19 @@ sub availability {
         }
     }
     else {
-        return "Unknown";
+        return "Out of Stock";
     }
+}
+
+=head2 allow_cart_add
+
+Returns 0 if L</availability> is "Out of Stock" else returns 1.
+
+=cut
+
+sub allow_cart_add {
+    return 0 if shift->availability eq 'Out of Stock';
+    return 1;
 }
 
 =head2 details

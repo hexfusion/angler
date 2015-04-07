@@ -35,7 +35,7 @@ sub with_manufacturer_inventory {
 
                         $self->correlate('variants')
                           ->related_resultset('inventory')
-                          ->get_column('lead_time_min_days')->min->as_query,
+                          ->get_column('lead_time_min_days')->min_rs->as_query,
 
                         $self->correlate('inventory')
                           ->get_column('lead_time_min_days')->as_query,
@@ -48,7 +48,7 @@ sub with_manufacturer_inventory {
 
                         $self->correlate('variants')
                           ->related_resultset('inventory')
-                          ->get_column('lead_time_max_days')->max->as_query,
+                          ->get_column('lead_time_max_days')->max_rs->as_query,
 
                         $self->correlate('inventory')
                           ->get_column('lead_time_max_days')->as_query,
@@ -88,7 +88,9 @@ L<Interchange6::Schema::Result::Inventory/listing>.
 =cut
 
 around 'listing' => sub {
-    return shift->(@_)->with_manufacturer_inventory;
+    my $orig = shift;
+    my $new = $orig->(@_);
+    return $new->with_manufacturer_inventory;
 };
 
 1;
