@@ -980,9 +980,9 @@ sub set_orvis_lead_time {
             $stock = $Sku_In_Stock if $Sku_In_Stock =~ /^\d+$/;
         }
     }
-    if ( $stock && !$max ) {
+    if ( $stock ) {
 
-        # no lead times so set some
+        # manufacturer has stock so nice short lead time
         $min = 3;
         $max = 5;
     }
