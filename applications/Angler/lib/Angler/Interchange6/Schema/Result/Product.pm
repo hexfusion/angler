@@ -68,7 +68,7 @@ sub availability {
         }
     }
     else {
-        return undef;
+        return "Unknown";
     }
 }
 
