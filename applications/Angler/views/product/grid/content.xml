@@ -40,6 +40,7 @@
 <param name="discount_percent" class="discount" op="toggle" args="tree"/>
 <param name="uri" class="details" target="href" op="append"/>
 <param name="availability-string" field="availability"/>
+<param name="allow_cart_add" id="addtocart" op="toggle" args="tree"/>
 </list>
 
 <!-- Brands -->
