@@ -89,7 +89,7 @@ hook 'before_template_render' => sub {
     $tokens->{cart_subtotal} = $cart->subtotal;
     $tokens->{cart_total} = $cart->total;
 
-    # add images into 'extra' attribute
+    # add various things into cart product 'extra' attribute
     foreach my $cart_product ( @{$tokens->{cart}} ) {
         my $product = shop_product( $cart_product->{sku} );
         my $image = $product->image_75x75;
@@ -103,6 +103,12 @@ hook 'before_template_render' => sub {
         # set default image
         $image = shop_media->find(uri => config->{default_image}->{uri})->image_75x75 unless $image;
         $cart_product->set_extra( image => $image ) if $image;
+
+        # availability
+        $cart_product->set_extra( availability => $product->availability );
+        $cart_product->set_extra( lead_time_min_days => $product->lead_time_min_days );
+        $cart_product->set_extra( lead_time_max_days => $product->lead_time_max_days );
+        $cart_product->set_extra( manufacturer_quantity => $product->manufacturer_quantity );
     }
 
     if ( var('login_failed') && request->referer !~ /login$/ ) {
