@@ -975,9 +975,10 @@ sub set_orvis_lead_time {
     else {
 
         # stock not found in inventory report so check xml
-        if ( my $Sku_In_Stock = $sku->first_child_trimmed_text('Sku_In_Stock') )
+        if ( my $Estimated_Quantity =
+            $sku->first_child_trimmed_text('Estimated_Quantity') )
         {
-            $stock = $Sku_In_Stock if $Sku_In_Stock =~ /^\d+$/;
+            $stock = $Estimated_Quantity if $Estimated_Quantity =~ /^\d+$/;
         }
     }
     if ( $stock ) {
@@ -1025,6 +1026,8 @@ twig handler for Orvis xml Product
 sub process_orvis_product {
     my ( $t, $xml ) = @_;
 
+    my $do_not_add = 0;
+
     info "processed $count products" unless ( ++$count % 100 );
 
     # get attribute 'option'
@@ -1049,7 +1052,7 @@ sub process_orvis_product {
         || $xml->first_child('Max_Freight')->text * 1 > 0 )
     {
         debug "skipping $pf_id due to freight charge";
-        return;
+        $do_not_add = 1;
     }
 
     # do we skip due to lack of navigation entry?
@@ -1059,7 +1062,10 @@ sub process_orvis_product {
         join( "_", map { $_->text } $xml->first_child('Navigator')->children )
       };
 
-    return unless $nav_uri;
+    if ( !$nav_uri ) {
+        debug "skipping $pf_id due to lack of navigation entry";
+        $do_not_add = 1;
+    }
 
     # grab Product info
 
@@ -1077,7 +1083,7 @@ sub process_orvis_product {
 
     my $uri = &clean_uri( lc( unidecode("$name-$pf_id") ) );
 
-    my $product = shop_product->find_or_create(
+    my $product = shop_product->find_or_new(
         {
             sku               => $sku,
             manufacturer_sku  => $pf_id,
@@ -1091,6 +1097,24 @@ sub process_orvis_product {
             key => 'primary'
         }
     );
+
+    # item's InStock can give us a clue that product might be end of line
+    # and so will never be available
+    my $InStock = $xml->first_child_trimmed_text('InStock');
+    $do_not_add = 1 unless $InStock;
+
+    # handle things we're going to skip because of $do_not_add
+    if ( $do_not_add ) {
+        if ( $product->in_storage ) {
+            # we don't want this product or its variants to be visible
+            $product->update( { active => 0 } );
+            $product->variants->update_all( { active => 0 } );
+        }
+        return;
+    }
+
+    # product might not yet be stored in database
+    $product->insert unless $product->in_storage;
 
     # download image
 
