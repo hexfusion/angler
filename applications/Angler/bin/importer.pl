@@ -937,6 +937,7 @@ sub process_orvis_cross_sell {
 
 sub set_orvis_lead_time {
     my ( $product, $sku ) = @_;
+
     my $min = my $max = my $stock = 0;
 
     # supplier lead time
@@ -987,6 +988,8 @@ sub set_orvis_lead_time {
         $min = 3;
         $max = 5;
     }
+
+    debug "sku " . $product->sku . " min $min max $max stock $stock";
 
     # now update/insert
 
@@ -1137,7 +1140,7 @@ sub process_orvis_product {
 
                 unless ( -r $path ) {
                     my $response = $http->mirror( $url, $path );
-                    sleep rand(0.5);    # don't hit them too hard
+                    sleep rand(0.2);    # don't hit them too hard
                     unless ( $response->{success} ) {
                         warning "failed to get $url: " . $response->{reason};
                         next TAG;
@@ -1479,6 +1482,8 @@ sub process_orvis_product {
                     };
                 }
                 next SKU unless $variant;
+
+                &set_orvis_lead_time( $variant, $sku );
 
                 # images
 
