@@ -64,7 +64,7 @@ yielding a '/' href... -->
 <container name="remove-search-terms" value="clear_words">
   <list name="remove-search-term" iterator="remove_words"
         class="remove-search-term">
-    <param name="name" class="remove-search-term-link"/>
+    <param name="name"/>
     <param name="uri" class="remove-search-term-link" target="href" op="append"/>
   </list>
 </container>
