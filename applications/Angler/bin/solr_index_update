@@ -26,6 +26,7 @@ my $product_rs =
   ->with_highest_price
   ->with_lowest_selling_price
   ->with_variant_count
+  ->with_manufacturer_inventory
   ->search(
       {
           -or => [
@@ -148,6 +149,7 @@ sub solr_hash {
                image => $image,
                average_rating => $product->average_rating,
                navigation_ids => [ map { $_->navigation_id } $product->navigation_products ],
+               availability => $product->availability,
            );
 
     my $variants_rs = $product->variants;
