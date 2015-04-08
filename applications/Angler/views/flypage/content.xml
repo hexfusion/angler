@@ -82,6 +82,7 @@
         filter="currency"/>
     <param name="no_variants" op="toggle" args="tree"/>
     <param name="link-cart" field="sku" target="href" op="append"/>
+    <param name="allow_cart_add" op="toggle" args="tree"/>
 </list>
 
 <!-- <list name="links" class="link" iterator="review_link"> -->
