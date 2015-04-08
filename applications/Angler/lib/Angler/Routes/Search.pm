@@ -135,25 +135,38 @@ get qr{/search(/(.*))?} => sub {
     my $brands = shop_navigation->search({type => 'manufacturer',
                                           active => 1});
 
-    my @breadcrumbs = ({
-                        uri => 'search',
-                        name => 'Products',
-                       });
-    # debug to_dumper(\%facet_map);
-    foreach my $breadcrumb ($search->breadcrumbs) {
-        my $bc = {
-                  uri => 'search/' . $breadcrumb->{uri},
-                  name => ucfirst($breadcrumb->{label}),
-                 };
-        if (my $bc_facet = $breadcrumb->{facet}) {
-            if (my $bc_title  = $facet_map{$bc_facet}{$breadcrumb->{label}}) {
-                $bc->{name} = $bc_title;
+    if ( var 'breadcrumbs' ) {
+        # we were forwared here from elsewhere
+        $tokens{breadcrumbs} = var 'breadcrumbs';
+    }
+    else {
+        my @breadcrumbs = (
+            {
+                uri  => 'search',
+                name => 'Products',
             }
-            else {
-                warning "no $bc_facet $breadcrumb->{label} found in facet map";
+        );
+
+        # debug to_dumper(\%facet_map);
+        foreach my $breadcrumb ( $search->breadcrumbs ) {
+            my $bc = {
+                uri  => 'search/' . $breadcrumb->{uri},
+                name => ucfirst( $breadcrumb->{label} ),
+            };
+            if ( my $bc_facet = $breadcrumb->{facet} ) {
+                if ( my $bc_title =
+                    $facet_map{$bc_facet}{ $breadcrumb->{label} } )
+                {
+                    $bc->{name} = $bc_title;
+                }
+                else {
+                    warning
+                      "no $bc_facet $breadcrumb->{label} found in facet map";
+                }
             }
+            push @breadcrumbs, $bc;
         }
-        push @breadcrumbs, $bc;
+        $tokens{breadcrumbs} = \@breadcrumbs;
     }
     my @removewords;
     foreach my $remove_word ($search->remove_word_links) {
@@ -164,11 +177,10 @@ get qr{/search(/(.*))?} => sub {
     }
 
     $tokens{products} = $results;
-    $tokens{pager} = $response->pager,
-    $tokens{pagination} = $paging->page_list,
-    $tokens{pagination_previous} = $paging->previous_uri,
-    $tokens{pagination_next} = $paging->next_uri,
-    $tokens{breadcrumbs} = \@breadcrumbs;
+    $tokens{pager} = $response->pager;
+    $tokens{pagination} = $paging->page_list;
+    $tokens{pagination_previous} = $paging->previous_uri;
+    $tokens{pagination_next} = $paging->next_uri;
     if (@removewords) {
         $tokens{clear_words} = 'search/' . $search->clear_words_link;
         $tokens{remove_words} = \@removewords;
@@ -181,6 +193,32 @@ get qr{/search(/(.*))?} => sub {
     $tokens{"extra-js-file"} = 'product-listing.js';
 
     template 'product/grid/content', \%tokens;
+};
+
+get qr{/(?<uri>fly-fishing-gear/(?<species>.+))} => sub {
+    my $captures = captures;
+    my $uri      = $captures->{uri};
+    my $species  = $captures->{species};
+
+    my $nav = shop_navigation->search(
+        {
+            'me.active'   => 1,
+            'me.uri'      => $uri,
+            'parents.uri' => 'fly-fishing-gear/species',
+        },
+        {
+            join => 'parents',
+        }
+    )->rows(1)->single;
+
+    pass unless $nav;
+
+    my @encestors = $nav->ancestors;
+    var breadcrumbs => [ reverse(@encestors), $nav ];
+
+    $species =~ s/\-permit//;
+    $species =~ s/striped\-//;
+    forward "/search/words/$species";
 };
 
 get qr{/XXXXXXXX_not_yet_in_use_(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
