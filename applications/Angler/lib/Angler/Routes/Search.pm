@@ -49,17 +49,26 @@ get qr{/search(/(.*))?} => sub {
     my $response = $search->response;
     my $results = $search->results;
     my $count = $search->num_found;
-    debug $response->raw_response->request->content;
-#    debug "Results: ", $search->results;
-#    debug "Facets found: ", $search->facets_found;
-    # debug to_dumper($search);
+
+    # we need an equivalent of DBIC Product's allow_cart_add otherwise 
+    # we won't get 'Add to Cart' buttons in the view
+
+    foreach my $product (@$results) {
+        if (   $product->{availability}
+            && $product->{availability} eq 'Out of Stock' )
+        {
+            $product->{allow_cart_add} = 0;
+        }
+        else {
+            $product->{allow_cart_add} = 1;
+        }
+    }
+
     # transform facets
     my @facets;
     my $schema = shop_schema;
 
     my %facet_map;
-    # debug to_dumper($search);
-
 
     for my $name (@{$search->facets}) {
         my @facets_found = @{$search->facets_found->{$name} || []};
