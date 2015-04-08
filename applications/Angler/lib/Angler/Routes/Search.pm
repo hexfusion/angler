@@ -183,7 +183,7 @@ get qr{/search(/(.*))?} => sub {
     template 'product/grid/content', \%tokens;
 };
 
-get qr{/(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
+get qr{/XXXXXXXX_not_yet_in_use_(?<uri>clothing/\w+)/?(?<facets>.*)$} => sub {
     my $captures = captures;
     my %tokens;
     my %query = params('query');
