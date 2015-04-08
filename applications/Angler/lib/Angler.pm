@@ -175,14 +175,19 @@ hook 'before_layout_render' => sub {
     while ($record = $menus->next ) {
        $section++;
 
+        # fly fishing gear by species has no navigation_products since it
+        # is handled via solr search
         my $menu = $nav->search(
             {
                 'me.type' => 'menu',
                 'me.scope' => $record->scope,
-                'navigation_products.navigation_id' => { '!=', undef },
+                -or => [
+                    { 'navigation_products.navigation_id' => { '!=', undef } },
+                    { 'parents.uri' => 'fly-fishing-gear/species' },
+                ]
             },
             {
-                join => 'navigation_products',
+                join => [ 'navigation_products', 'parents' ],
                 group_by => 'me.uri',
             }
         );
