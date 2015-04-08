@@ -996,6 +996,7 @@ sub set_orvis_lead_time {
     if ($product->inventory) {
         if ( $product->inventory->quantity == 0 && $max == 0 ) {
             $product->inventory->delete;
+            $product->update({ active => 0 });
             return;
         }
         $product->inventory->update(
@@ -1007,7 +1008,10 @@ sub set_orvis_lead_time {
         );
     }
     else {
-        return if $max == 0;
+        if ( $max == 0 ) {
+            $product->update({ active => 0 });
+            return;
+        }
         $product->create_related(
             'inventory',
             {
@@ -1524,6 +1528,17 @@ sub process_orvis_product {
         }
     }
     $xml->purge;
+
+    if ( $product->variants->count ) { 
+        # we have variants
+        if ( $product->variants->active->count ) {
+            # some are active
+            $product->update({ active => 1 });
+        }
+        else {
+            $product->update({ active => 0 });
+        }
+    }
 }
 
 __END__
