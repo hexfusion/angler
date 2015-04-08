@@ -53,7 +53,7 @@ if ( File::Spec->rel2abs( basename $0) !~ m(^/home/camp) ) {
 
 my @img_sizes = qw/35 75 100 110 200 325 975/;
 
-my ( $active, $file, $help, $manufacturer, %nav_lookup, %inventory );
+my ( $active, $file, $help, $manufacturer, %nav_lookup, %inventory, %navs );
 
 
 GetOptions(
@@ -120,6 +120,11 @@ elsif ( $type eq 'xml' ) {
     my $twig_handlers;
 
     if ( $manufacturer eq 'orvis' ) {
+
+        $navs{clothing} =
+          shop_navigation->find( { uri => "clothing/orvis" } );
+
+        $navs{manufacturer} = shop_navigation->find( { uri => "orvis" } );
 
         # pull in nav data
 
@@ -231,7 +236,7 @@ elsif ( $type eq 'xml' ) {
         $count = 0;
         my $twig =
           XML::Twig->new(
-            twig_handlers => { Product => \&process_orvis_cross_sell } );
+            twig_handlers => { Cross_Sells => \&process_orvis_cross_sell } );
 
         $twig->parsefile($file);
     }
@@ -547,6 +552,27 @@ sub add_to_nav_by_uri {
 
     $nav->update( { priority => 100 } ) unless $nav->priority;
 
+    my @ancestors = $nav->ancestors;
+
+    if ( @ancestors && $ancestors[-1]->uri eq 'clothing' ) {
+
+        # clothing by brand
+        $product->find_or_create_related(
+            'navigation_products',
+            {
+                navigation_id => $navs{clothing}->id
+            }
+        );
+    }
+
+    # manufacturer
+    $product->find_or_create_related(
+        'navigation_products',
+        {
+            navigation_id => $navs{manufacturer}->id
+        }
+    );
+
     return $nav;
 }
 
@@ -719,7 +745,7 @@ sub download_images {
         my $response = $http->mirror( $url, $path );
         sleep rand(0.5); # don't hit them too hard
         unless ( $response->{success} ) {
-            warning "failed to get $url: " . $response->{reason};
+            debug "failed to get $url: " . $response->{reason};
         }
     }
     return $path
@@ -906,15 +932,13 @@ twig handler for Orvis xml Cross_Sell
 sub process_orvis_cross_sell {
     my ( $t, $xml ) = @_;
 
-    info "processed $count products" unless ( ++$count % 100 );
+    info "processed $count cross_sells" unless ( ++$count % 100 );
 
-    my $Cross_Sells = $xml->first_child('Cross_Sells');
-
-    my $sku = "WB-OR-" . $Cross_Sells->{'att'}->{'PF_ID'};
+    my $sku = "WB-OR-" . $xml->{'att'}->{'PF_ID'};
     my $product = shop_product($sku);
     return unless $product;
 
-    foreach my $Cross_Sell ( $Cross_Sells->children ) {
+    foreach my $Cross_Sell ( $xml->children ) {
         my $related_sku = "WB-OR-" . $Cross_Sell->{'att'}->{'PF_ID'};
         my $related_product = shop_product($related_sku);
         next unless $related_product;
@@ -1146,7 +1170,7 @@ sub process_orvis_product {
                     my $response = $http->mirror( $url, $path );
                     sleep rand(0.2);    # don't hit them too hard
                     unless ( $response->{success} ) {
-                        warning "failed to get $url: " . $response->{reason};
+                        debug "failed to get $url: " . $response->{reason};
                         next TAG;
                     }
                 }
@@ -1356,7 +1380,7 @@ sub process_orvis_product {
                         my $response = $http->mirror( $url, $path );
                         sleep rand(0.5);    # don't hit them too hard
                         unless ( $response->{success} ) {
-                            warning "failed to get $url: " . $response->{reason};
+                            debug "failed to get $url: " . $response->{reason};
                         }
                     }
 
@@ -1539,6 +1563,7 @@ sub process_orvis_product {
             $product->update({ active => 0 });
         }
     }
+    
 }
 
 __END__
