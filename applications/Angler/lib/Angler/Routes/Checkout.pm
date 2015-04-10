@@ -188,6 +188,20 @@ get '/receipt' => sub {
     my $order = shop_order($orders_id);
     return redirect('/') unless $order;
 
+    my $comment = $order->comments->search(
+        {
+            public => 1,
+        },
+        {
+            order_by => 'created',
+            rows     => 1,
+        }
+    )->single;
+
+    if ( $comment ) {
+        $tokens->{order_comment} = $comment->content;
+    }
+
     $tokens->{order} = $order;
 
     template 'checkout/receipt/content', $tokens, {layout => undef};
@@ -825,6 +839,7 @@ sub generate_order {
                 title => "Initial order comment",
                 content => $values->{comments},
                 author_users_id => $user->id,
+                public => 1,
             }
         );
     }
