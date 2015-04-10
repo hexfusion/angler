@@ -814,6 +814,16 @@ sub generate_order {
 
     my $order = shop_order->create(\%order_info);
 
+    if ( $values->{comments} ) {
+        $order->add_to_comments(
+            {
+                title => "Initial order comment",
+                content => $values->{comments},
+                author_users_id => $user->id,
+            }
+        );
+    }
+
     return $order;
 };
 
