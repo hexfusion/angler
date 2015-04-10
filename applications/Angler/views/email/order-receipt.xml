@@ -47,4 +47,8 @@
 <value name="order_salestax" id="inputOrderSalesTax" field="order.salestax" filter="currency"/>
 <value name="order_total" id="inputOrderTotal" field="order.total_cost" filter="currency"/>
 
+<list name="order_comments" iterator="order.comments">
+    <param name="content"/>
+</list>
+
 </specification>
