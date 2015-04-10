@@ -80,7 +80,9 @@ post '/checkout' => sub {
     # payment
     # paypal
 
-    if ( $values->{payment_method} and $values->{payment_method} eq 'paypal' ) {
+    # FORCE PAYPAL
+    #if ( $values->{payment_method} and $values->{payment_method} eq 'paypal' ) {
+    if ( 1 ) {
 
         # manually insert the paymant data
         my %payment_data = (
@@ -523,7 +525,8 @@ sub validate_checkout {
     }
 
     # payment method
-    $validator->field('payment_method' => 'String');
+    # IGNORE - PAYPAL ONLY
+    #$validator->field('payment_method' => 'String');
 
     # credit card data, only used payment_method is not paypal
     # some of these are already encrypted and others will be in the future so
@@ -809,7 +812,9 @@ sub generate_order {
                       order_date => $order_date,
                       order_number => $order_date,
                       shipping_method => $shipping_rate->shipment_method->name,
-                      payment_method => ucfirst($values->{'payment_method'}),
+                      # FORCE PAYPAL
+                      ######payment_method => ucfirst($values->{'payment_method'}),
+                      payment_method => 'paypal',
                       orderlines => \@orderlines);
 
     my $order = shop_order->create(\%order_info);
