@@ -80,6 +80,9 @@ post '/checkout' => sub {
     # payment
     # paypal
 
+    # **** FORCE PAYPAL ****
+    $values->{payment_method} = 'paypal';
+
     if ( $values->{payment_method} and $values->{payment_method} eq 'paypal' ) {
 
         # manually insert the paymant data
