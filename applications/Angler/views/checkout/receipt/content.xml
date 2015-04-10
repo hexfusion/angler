@@ -45,4 +45,8 @@
 <value name="order_salestax" id="inputOrderSalesTax" field="order.salestax" filter="currency"/>
 <value name="order_total" id="inputOrderTotal" field="order.total_cost" filter="currency"/>
 
+<container name="show_comment" value="order_comment">
+    <value name="order_comment"/>
+</container>
+
 </specification>
