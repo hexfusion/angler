@@ -23,11 +23,25 @@
                       <p>West Branch Angler<br>
                          150 Faulkener Rd<br>
                          Hancock, NY 13783</p>
+                        <br />
                     </li>
                     <li>
                       <h3>Telephone:</h3>
                       <p>+1 (607) 467-5525<br>
                         +1 (800) 201-2557 </p>
+                      <br />
+                    </li>
+                    <li>
+                    <h3>Email:</h3>
+                    <p>
+                    <script language="JavaScript">
+                        var username = "orders";
+                        var hostname = "westbranchangler.com";
+                        var linktext = username + "@" + hostname ;
+                        document.write("<a href='" + "mail" + "to:" + username + "@" + hostname + "'>" + linktext + "</a>");
+                    </script>
+                    </p>
+                    <br />
                     </li>
                     <li class="last">
                       <h3>Social Media</h3>
@@ -39,44 +53,6 @@
                     </li>
                   </ul>
                 </div>
-                <form name="contact" action="/contact" id="contactForm" method="post">
-                  <div class="fieldset">
-                    <h2 class="legend">Contact Information</h2>
-                    <ul class="form-list">
-                      <li class="fields">
-                        <div class="field">
-                          <label for="name" class="required"><em>*</em>Name</label>
-                          <div class="input-box">
-                            <input name="name" id="name" title="Name" class="input-text required-entry form-control" type="text" required>
-                          </div>
-                        </div>
-                        <div class="field">
-                          <label for="email" class="required"><em>*</em>Email</label>
-                          <div class="input-box">
-                            <input name="email" id="email" title="Email" class="input-text required-entry validate-email form-control" type="email" required>
-                          </div>
-                        </div>
-                        <div class="field last">
-                          <label for="telephone">Telephone</label>
-                          <div class="input-box">
-                            <input name="telephone" id="telephone" title="Telephone" class="input-text form-control" type="text">
-                          </div>
-                        </div>
-                      </li>
-                      <li class="wide">
-                        <label for="comment" class="required"><em>*</em>Comment</label>
-                        <div class="input-box">
-                          <textarea name="comment" id="comment" title="Comment" class="required-entry input-text form-control" cols="5" rows="3" required></textarea>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="buttons-set">
-                    <p class="required">* Required Fields</p>
-                    <input name="hideit" id="hideit" style="display:none !important;" type="text">
-                    <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
