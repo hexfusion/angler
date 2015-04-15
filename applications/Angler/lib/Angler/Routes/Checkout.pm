@@ -6,6 +6,7 @@ use Dancer::Plugin::Form;
 use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Ajax;
 use Dancer::Plugin::Email;
+use Dancer::Plugin::FlashNote;
 use Try::Tiny;
 
 use Angler::Plugin::History;
@@ -240,6 +241,11 @@ ajax '/checkout/update_tax' => sub {
         }
     }
     to_json( \%return );
+};
+
+get '/paypal-cancel' => sub {
+    flash info => "PayPal payment cancelled. If you are having problems with payment please call us on +1 (800) 201-2557 and we'll be happy to help.";
+    return report_pp_error('PayPal payment cancelled');
 };
 
 get '/paypal-checkout' => sub {
