@@ -685,6 +685,7 @@ sub paypal_request {
                     BuyerEmail => $values->{email},
                     OrderDescription => "Angler",
                     PaymentAction => 'Sale',
+                    NoShipping => 1,
                    );
 
     # force the stringification of urls or SOAP will trip out
