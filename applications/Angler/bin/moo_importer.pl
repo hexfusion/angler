@@ -114,7 +114,6 @@ if ( $type =~ /^xls/ ) {
 
     # parse excel file
     my @data = $data->parse;
-
     my $merge_cell = $config->{merge_cell}->{name};
     my %nav_map;
 
@@ -172,6 +171,9 @@ if ( $type =~ /^xls/ ) {
                 }
              }
         }
+
+        # remove sku from drone.
+        delete $_->{sku} if $_->{sku};
 
         # add product
         my $pop_product = Angler::Populate::Product->new($_);
