@@ -144,4 +144,8 @@
 <param name="name" class="breadcrumb-link"/>
 <param name="uri" class="breadcrumb-link" target="href" op="append"/>
 </list>
+
+<!-- Components -->
+<value name="newsletter" include="../components/widgets/newsletter_signup.html"/>
+
 </specification>
