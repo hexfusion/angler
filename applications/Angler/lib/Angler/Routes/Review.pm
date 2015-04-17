@@ -21,7 +21,7 @@ get '/review/:sku' => sub {
     my $form    = form('review');
     my $product = shop_product($sku);
 
-    warning "review get pristine: ", $form->pristine;
+    debug "review get pristine: ", $form->pristine;
 
     return forward 404 unless $product;
 
@@ -46,7 +46,7 @@ get '/review/:sku' => sub {
 post '/review/:sku' => sub {
     my $tokens;
     my $form = form('review');
-    warning "review post pristine: ", $form->pristine;
+    debug "review post pristine: ", $form->pristine;
     my $values = $form->values;
 
     my $sku = param 'sku';
