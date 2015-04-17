@@ -293,7 +293,7 @@ get '/paypal-checkout' => sub {
                                                  InvoiceID => $order->order_number,
                                                  PaymentAction => 'Sale',
                                                  PayerID => $details{PayerID},
-                                                 OrderTotal => cart->total );
+                                                 OrderTotal => $po->amount );
 
     if ($payinfo{Ack} eq 'Success') {
         # update the payment order
