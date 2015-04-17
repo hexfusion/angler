@@ -840,6 +840,9 @@ sub generate_order {
 
     my $order = shop_order->create(\%order_info);
 
+    # update order number
+    $order->update({order_number => 'WBA6' . sprintf("%06s", $order->id)});
+
     if ( $values->{comments} ) {
         $order->add_to_comments(
             {
@@ -866,9 +869,6 @@ sub generate_payment {
 
     # update payment info
     $payment_order->update({orders_id => $order->id});
-
-    # update order number
-    $order->update({order_number => 'WBA6' . sprintf("%06s", $order->id)});
 
     $tokens->{order} = $order;
     $tokens->{payment} = $payment_order;
