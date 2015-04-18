@@ -21,9 +21,9 @@ my $now    = DateTime->now;
 my $manufacturer = 'orvis';
 my $exp_dir = config->{appdir} . '/export';
 
-my $navigation_rs = shop_product->search({ sku => { like => 'WB-OR-%' } });
+my $product_rs = shop_product->search({ sku => { like => 'WB-OR-%' } });
 
-print "Prduct Count", $navigation_rs->count;
+print "Prduct Count", $product_rs->count;
 
 # Create a new Excel workbook
 my $workbook = Spreadsheet::WriteExcel->new($exp_dir . '/'. $manufacturer . $now .  '.xls');
@@ -35,16 +35,28 @@ my @excel_export = (
 );
 
 
-while (my $product = $navigation_rs->next) {
+while (my $product = $product_rs->next) {
     #print "sku ", $product->sku , "\n";
 
-   my ($sku, $canonical_name);
+   my ($sku, $canonical_name, $manufacturer_sku,);
 
+    # is product a variant
     if ($product->canonical_sku) {
+        print "exporting variant ", $product->sku , " of product ", $product->canonical_sku, "\n";
         $sku = $product->canonical_sku;
         $canonical_name = $product->canonical->name;
+        $manufacturer_sku = $product->manufacturer_sku;
     }
     else {
+        # is this a single product or a canonical product
+        if ($product->has_variants) {
+            warn $product->sku, " is a canonical product but has a manuf_sku" if $product->manufacturer_sku;
+            $manufacturer_sku = undef;
+        }
+        else {
+            # this is a single product
+            $manufacturer_sku = $product->manufacturer_sku;
+        }
         $sku = $product->sku;
         $canonical_name = $product->name;
     }
@@ -56,7 +68,7 @@ while (my $product = $navigation_rs->next) {
         my @data =  ([
             $product->name ,  #variant_desc
             $canonical_name ,  #variant_desc
-            $product->manufacturer_sku, #alu
+            $manufacturer_sku, #alu
             $product->gtin, #upc
             $code, #department_code
             'Retail Sales', #income_account
