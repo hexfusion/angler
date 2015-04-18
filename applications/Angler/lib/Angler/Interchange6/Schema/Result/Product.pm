@@ -30,6 +30,7 @@ __PACKAGE__->add_columns(
     manufacturer_sku => {
         data_type => 'varchar',
         size      => 64,
+        is_nullable => 1
     },
     cost => {
         data_type     => "numeric",
