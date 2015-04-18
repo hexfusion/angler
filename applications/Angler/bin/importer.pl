@@ -1289,7 +1289,7 @@ sub process_orvis_product {
                 $sku_name = "Orvis $sku_name";
 
                 # prefix sku with WB-OR-
-                my $variant_sku = "WB-OR-" . $pf_id . "-" . $item_code;
+                my $variant_sku = "WB-OR-" . $item_code;
 
                 my $regular_price = $sku->first_child('Regular_Price')->text;
 
@@ -1554,6 +1554,9 @@ sub process_orvis_product {
     $xml->purge;
 
     if ( $product->variants->count ) { 
+        # this is not a product that can be purchased so make sure to remove invalid data
+        $product->update({ manufacturer_sku => undef, price => '0.00', cost => '0.00', gtin => undef });
+
         # we have variants
         if ( $product->variants->active->count ) {
             # some are active
