@@ -1238,6 +1238,7 @@ sub process_orvis_product {
                 $product->variants->delete;
             }
             else {
+                $product->manufacturer_sku( $sku->first_child('Item_Code')->text );
                 $product->price( $sku->first_child('Regular_Price')->text );
                 $product->update;
                 &set_orvis_lead_time( $product, $sku );
