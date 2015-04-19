@@ -6,6 +6,7 @@ use warnings;
 use Moo;
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
+use Angler::Populate::Image;
 use Text::Unidecode;
 use Try::Tiny;
 use HTML::Entities;
@@ -164,6 +165,16 @@ has gtin => (
     is => 'ro',
 );
 
+=head2 color_code
+
+Returns the product color_code.  This is only used by Patagonia at this time.
+
+=cut
+
+has color_code => (
+    is => 'ro',
+);
+
 =head2 active
 
 Returns active 0/1 of product
@@ -291,7 +302,7 @@ sub add {
             $product->add_variants(
                 {
                     sku => $self->sku,
-                    name => $self->name . ' ' . $title,
+                    name => $name,
                     price => $self->price,
                     cost => $self->cost,
                     uri => &clean_uri($self->uri),
@@ -354,6 +365,36 @@ sub export {
     return @excel_export;
 }
 
+=head2 add_image
+
+Only used by Patagonia at this time.
+
+=cut
+
+sub add_image {
+    my ($self, $img_dir) = @_;
+    my $product = shop_product->find({sku => $self->sku});
+    my $img_url = 'http://www.patagonia.com/tsimages/' . uc($product->canonical->manufacturer_sku) . '_' . 
+        uc($self->color_code) . '.fpx?wid=950&hei=950&bgcolor=FFFFFF&ftr=6&cvt=jpeg,scans=progressive';
+
+    info "downloading ", $img_url;
+
+    try {
+        my $image = Angler::Populate::Image->new(
+            schema => shop_schema,
+            url   => $img_url,
+            manufacturer  => $self->manufacturer,
+            product =>  $product,
+            img_dir => $img_dir
+        );
+        $image->download;
+        $image->process;
+    }
+    catch {
+        warning $_;
+    };
+}
+
 sub clean {
     my ($self) = @_;
     my $title = &attribute_value_titles;
@@ -402,19 +443,22 @@ sub attribute_value_titles {
     my ($self) = @_;
     my @data;
     my $v = $self->variants;
+    my $title;
+
 
     foreach my $a ( keys %$v ) {
         my $av_rs = shop_schema->resultset('Attribute')->find(
             { name => $a });
-
         my $av = $av_rs->find_related(
             'attribute_values',
                 {
                     value => $v->{$a}
                 }
         );
-
-        push @data, { title => $av->title, priority => $av_rs->priority };
+        if ($av) {
+            $title = $av->title;
+        }
+        push @data, { title => $title, priority => $av_rs->priority };
     }
 
 
