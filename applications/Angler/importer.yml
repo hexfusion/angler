@@ -33,8 +33,10 @@ manufacturers:
         full_name: Loomis
     orvis:
         prefix: OR
+        worksheet: MASTER_REORDER_CATALOG_20150406
         full_name: The Orvis Company
         short_name: Orvis
+        erp_name: Orvis Services, Inc.
         type: xml
         fields:
             description:
@@ -60,9 +62,140 @@ manufacturers:
                 sku:
                     - product_prefix
                     - prefix
+        header_row: 1
+        headers:
+              - source: Catalog
+                map: remove_field
+              - source: Item
+                map: code
+              - source: Product
+                map: name
+              - source: Color
+                map: color
+              - source: Color Code
+                map: remove_field
+              - source: Size
+                map: size
+              - source: VSize
+                map: remove_field
+              - source: Inventory
+                map: remove_field
+              - source: Inventory Date
+                map: remove_field
+              - source: Price
+                map: cost
+              - source: Sale Pricee
+                map: remove_field
+              - source: Retail
+                map: price
+              - source: SupplierProductKey
+                map: remove_field
+              - source: UPC
+                map: gtin
+              - source: EAN
+                map: remove_field
+              - source: SKU
+                map: manufacturer_sku
+              - source: Category1
+                map: remove_field
+              - source: Category2
+                map: navigation 
+              - source: Category3
+                map: remove_field
+        attributes:
+                - color
+                - size
+        navigation:
+            FLY BOXES: FX
+            WDRS-STOCKINGFT: FW
+            ACCESSORIES: FTG
+            OPTICS: FS
+            FISHING HATS: CMH
+            WADING SHOE ASC: FWA
+            LEADERS/TIPPETS: FT
+            REELS-LT FLY: FR
+            REELS-HEAVY FLY: FR
+            NTS/CRLS/WDNGST: FN
+            RAINWEAR: CMR
+            GLOVES: CMG
+            VESTS/PACKS: FPV
+            LUGGAGE: FBL
+            WADERS-BOOT FT: FB
+            FLY LINE & BACK: FL
+            TECH UNDERWEAR: CML
+            FISHING VESTS: FPV
+            TOOLS: FTG
+            HOOKS: TH
+            FLY TYING: TM
+            BEADS & EYES: TM
+            FLY TYING KITS: TT
+            CAPES & SADDLES: TM
+            FLEECE: CML
+            TECH SHIRTS: CMS
+            TECH OUTERWEAR: CMO
+            WATCHES: FTG
+            BASEBALL CAPS: CMH
+            SPIN: FD
+            ACCESS/RECON: FD
+            SUPERFINE TOUCH: FD
+            RODS/HELIOS: FD
+            CLEARWATER: FD
+            TRAVEL SERIES: FD
+            ENCOUNTER RODS: FD
+            TECH PANTS: CMO
+            SHORTS: CMR
+            SLACKS: CMP
+            UPLAND PANTS: CMP
+            UPLAND SHIRTS: CMS
+            MIDGES: TM
     sage:
         prefix: SA
         full_name: Sage
+        prefix: SA
+        worksheet: SAGE 2015
+        short_name: Sage
+        erp_name: Sage Manufacturing Corp.
+        type: xlsx
+        header_row: 1
+        headers:
+              - source: Category
+                map: navigation
+              - source: Status
+                map: status
+              - source: Item Number
+                map: manufacturer_sku
+              - source: Color
+                map: color
+              - source: Color Code
+                map: remove_field
+              - source: Size
+                map: size
+              - source: VSize
+                map: remove_field
+              - source: Inventory
+                map: remove_field
+              - source: Inventory Date
+                map: remove_field
+              - source: Price
+                map: cost
+              - source: Sale Pricee
+                map: remove_field
+              - source: Retail
+                map: price
+              - source: SupplierProductKey
+                map: remove_field
+              - source: UPC
+                map: gtin
+              - source: EAN
+                map: remove_field
+              - source: SKU
+                map: manufacturer_sku
+              - source: Category1
+                map: remove_field
+              - source: Category2
+                map: navigation
+              - source: Category3
+                map: remove_field
     scott:
         prefix: SC
         full_name: Scott
