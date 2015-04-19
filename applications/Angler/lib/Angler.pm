@@ -991,10 +991,15 @@ ajax '/check_variant' => sub {
                     return to_json( \%response );
                 }
 
+            # if default image for variant check product for an actual image
+            if($variant->image_325x325 ne 
+              '/products/images/325x325/default.jpg' ) {
+                $response{src} = $variant->image_325x325;
+            }
+
                 $response{availability} = $variant->availability;
                 $response{name}         = $variant->name unless $is_canonical;
                 $response{price}        = $variant->price;
-                $response{src}          = $variant->image_325x325;
                 $response{selling}      = $variant->selling_price
                   if $variant->price > $variant->selling_price;
             }
