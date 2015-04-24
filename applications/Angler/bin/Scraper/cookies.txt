@@ -1,0 +1,6 @@
+#LWP-Cookies-1.0
+Set-Cookie3: BBC-UID=f575b348aca03a6d9aef0f1b11c8123081ae0ab28e18332923e57aed7f59a5200Windows%20IE%207; path="/"; domain=.bbc.co.uk; path_spec; expires="2016-04-22 09:51:41Z"; version=0
+Set-Cookie3: mvtid=81-1429784846603-15-0; path="/"; domain=.richrelevance.com; path_spec; expires="2016-04-22 10:27:26Z"; version=0
+Set-Cookie3: n=1; path="/"; domain=recs.richrelevance.com; path_spec; expires="2016-04-22 09:51:48Z"; version=0
+Set-Cookie3: ric=b81.0.WWW.PATAGONIA.COM; path="/"; domain=recs.richrelevance.com; path_spec; expires="2016-04-22 10:27:26Z"; version=0
+Set-Cookie3: s=b23829747.23829747; path="/"; domain=recs.richrelevance.com; path_spec; expires="2015-04-23 10:57:26Z"; version=0
