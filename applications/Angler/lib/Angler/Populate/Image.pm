@@ -177,13 +177,16 @@ sub process {
 
         File::Path->make_path($dir);
 
+        # clean the file name for patagonia images.
+        $file =~ s/\Q.fpx?wid=950&hei=950&bgcolor=FFFFFF&ftr=6&cvt=jpeg,scans=progressive\E/.jpg/g;
+
         my $new_path = File::Spec->catfile( $dir, $file );
 
         unless ( -r $new_path ) {
 
             # we don't have this image yet so create it
 
-            my $img = Imager->new( file => $self->file_path );
+            my $img = Imager->new( file => $self->file_path, type =>'jpeg' );
 
             unless ($img) {
                 error "Imager read failed for $sku $self->file_path " . Imager->errstr;
@@ -203,6 +206,9 @@ sub process {
                   . $img->errstr;
                 return;
             }
+
+            # FIXME lazy hardcode
+            $ext ='jpg';
 
             # write it
             if ( $ext eq 'jpg' ) {
@@ -235,7 +241,7 @@ sub process {
 
         my $media = $self->schema->resultset('Media')->find_or_create(
             {
-                file           => $self->file_path,
+                file           => $dir . '/' . $file,
                 uri            => File::Spec->catfile( $self->manufacturer, $file ),
                 mime_type      => "image/$ext",
                 media_types_id => $mediatype_image->id,
