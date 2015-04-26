@@ -13,13 +13,11 @@ package main;
 use Dancer ':script';
 use Dancer::Plugin::DBIC;
 use Dancer::Plugin::Interchange6;
-#use Angler::Interchange6::Schema::Populate::Media;
 use Angler::Populate::Product;
 use Angler::Populate::ProductVariant;
 use Angler::Populate::Attribute;
 use Angler::Populate::ParseExcel;
 use Angler::Populate::Image;
-#use Angler::Populate::Size;
 use File::Basename;
 use File::Path qw/make_path/;
 use File::Copy;
@@ -132,7 +130,6 @@ if ( $type =~ /^xls/ ) {
         }
     }
 
-
     my ($drone_data, $drone_rs);
     my $drone_class = $config->{drone}->{class};
 
@@ -155,7 +152,9 @@ if ( $type =~ /^xls/ ) {
         'asset_account', 'custom_field_1']
     );
 
-        # define caonical products in @data
+    my @products;
+
+    # define caonical products in @data
     my @canonical = grep { ! $seen{$_->{code}}++ } @data;
     foreach (@canonical) {
         if ($drone_class) {
@@ -175,13 +174,18 @@ if ( $type =~ /^xls/ ) {
         # remove sku from drone.
         delete $_->{sku} if $_->{sku};
 
+        # cleanup patagonia names
+        $_->{name} =~ s/\QW's\E/Womens/g;
+        $_->{name} =~ s/\QM's\E/Mens/g;
+
         # add product
         my $pop_product = Angler::Populate::Product->new($_);
         $product = $pop_product->add;
 
         if ($product) {
             # add default navigation routes and weight;
-            $pop_product->add_defaults($product);;
+            $pop_product->add_defaults($product);
+            push @products, $product->sku;
         }
 
         # export to excel
@@ -248,6 +252,12 @@ if ( $type =~ /^xls/ ) {
 
         $variant = Angler::Populate::ProductVariant->new($record);
         $variant->add;
+
+        if ($manufacturer eq 'patagonia') {
+            print "adding image \n";
+             $variant->add_image($img_dir);
+        }
+
         if ($export) {
             my $remove = $variant->clean;
             # if product is a canonical product with variants delete the product record for erp export.
@@ -259,13 +269,36 @@ if ( $type =~ /^xls/ ) {
     }
 
     # write to file
-    $worksheet->write_col('A1', \@excel_export)
+    $worksheet->write_col('A1', \@excel_export);
 
-    }
-    else {
-        die "xls processor for $manufacturer does not exist";
-    }
+    # check canonical products for image.
+    foreach (@products) {
+        my $product = shop_product->find({ sku => $_ });
+        my $media_products = $product->media_products;
 
+        # if canonical doesnt have image check variants
+        unless ($media_products->first) {
+            $media_products = $schema->resultset('Product')->search_related('media_products',
+                { canonical_sku => $product->sku }
+            );
+
+            my $media_product = $media_products->first;
+
+            if ($media_product) {
+                my $media = $media_product->media;
+                $schema->resultset('MediaProduct')->create(
+                    {
+                        media_id => $media->id,
+                        sku      => $product->sku,
+                    }
+                );
+            }
+        }
+    }
+}
+else {
+    die "xls processor for $manufacturer does not exist";
+}
 
 __END__
 
