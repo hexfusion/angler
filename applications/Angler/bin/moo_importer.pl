@@ -143,13 +143,14 @@ if ( $type =~ /^xls/ ) {
     }
 
     my ($product, $worksheet, $drone_product);
+    my @excel_export;
 
     # if we are using the exporter lets create the excel file now
     if ($export) {
         # Create a new Excel workbook for export
         my $workbook = Spreadsheet::WriteExcel->new($exp_dir . '/'. $manufacturer . $now .  '.xls');
         my $worksheet = $workbook->add_worksheet();
-        my @excel_export = (
+        @excel_export = (
             ['canonical_desc', 'variant_desc', 'alu', 'upc', 'department_code', 'income_account', 'cogs_account',
             'attribute', 'size', 'vendor_code', 'vendor_name', 'avg_cost', 'order_cost', 'reg_price', 'msrp', 'item_type',
             'asset_account', 'custom_field_1']
