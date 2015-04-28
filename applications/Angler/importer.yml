@@ -205,6 +205,7 @@ manufacturers:
         full_name: Patagonia
         short_name: Patagonia
         erp_name: Patagonia
+        inventory_file: PatagoniaInventoryReport.xls
         type: xls 
         worksheet: 0
         merge_cell:
