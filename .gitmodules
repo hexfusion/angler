@@ -4,7 +4,6 @@
 [submodule "applications/Angler/shared"]
 	path = applications/Angler/shared
 	url = git@github.com:sbatschelet/assets-angler.git
-
-[submodule "applications/Inventory"]
-	path = applications/Inventory
-	url = git@github.com:sbatschelet/inventory.git
+[submodule "applications/ERP"]
+	path = applications/ERP
+	url = git@github.com:sbatschelet/ERP.git
