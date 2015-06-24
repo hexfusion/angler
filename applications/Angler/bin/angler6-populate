@@ -420,7 +420,7 @@ my $nav = $schema->resultset('Navigation')->populate([
 { uri => 'hatch', scope => 'manf', type => 'manufacturer', name => 'Hatch Outdoors',  description => 'Hatch Outdoors', priority => '7' },
 
 #nav
-{ uri => '', type => 'nav', scope => 'home', description => 'Fly Fishing Gear & Clothing | westbranchangler.com', name => 'Contact', priority => '1' },
+{ uri => '', type => 'nav', scope => 'home', description => 'West Branch Angler has fly fishing gear from Simms, Orvis, Patagonia, Sage, Winston, Hardy and more.  Our large stock of fly fishing waders and boots are unmatched on the east coast.', name => 'Fly Fishing Gear & Clothing | westbranchangler.com', priority => '1' },
 { uri => 'contact', type => 'menu', scope => 'nav-top', description => 'Contact', name => 'Contact', priority => '1' },
 { uri => 'about', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
 { uri => 'shipping', type => 'menu', scope => 'nav-top', description => 'Shipping', name => 'Shipping', priority => '1' },
