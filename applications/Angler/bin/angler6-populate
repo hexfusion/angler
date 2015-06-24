@@ -422,7 +422,7 @@ my $nav = $schema->resultset('Navigation')->populate([
 #nav
 { uri => '', type => 'nav', scope => 'home', description => 'Fly Fishing Gear & Clothing | westbranchangler.com', name => 'Contact', priority => '1' },
 { uri => 'contact', type => 'menu', scope => 'nav-top', description => 'Contact', name => 'Contact', priority => '1' },
-{ uri => 'about-us', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
+{ uri => 'about', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
 { uri => 'shipping', type => 'menu', scope => 'nav-top', description => 'Shipping', name => 'Shipping', priority => '1' },
 { uri => 'login', type => 'nav', scope => 'top-login', description => 'Login', name => 'Login', priority => '1' },
 { uri => 'registration', type => 'nav', scope => 'top-login', description => 'Sign Up', name => 'Sign Up', priority => '1' },
