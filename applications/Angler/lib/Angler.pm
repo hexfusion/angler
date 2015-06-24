@@ -41,7 +41,7 @@ use DateTime;
 our $VERSION = '0.1';
 
 # debug dbic 
-# schema->storage->debugfh(IO::File->new('/tmp/trace.out', 'w'));
+ schema->storage->debugfh(IO::File->new('/tmp/trace.out', 'w'));
 
 # connect DBIC session engine to our schema
 set session_options => {schema => schema};
@@ -148,6 +148,18 @@ hook 'before_layout_render' => sub {
     $tokens->{logged_in_user} = session('logged_in_user_id');
 
     my $nav = shop_navigation;
+
+    # path
+    my $path = request->path;
+    $path =~ s|^/||;
+
+    my $current_nav = $nav->find({ uri => $path });
+
+    if ($current_nav) {
+        # add page title
+        $tokens->{title} = $current_nav->name;
+        $tokens->{description} = $current_nav->description;
+    }
 
     # build menu sections for mega-drop
 

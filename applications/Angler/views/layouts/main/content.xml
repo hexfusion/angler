@@ -1,5 +1,6 @@
 <specification>
 <value name="title" id="title" filter="title"/>
+<value name="description" id="description" target="content"/>
 
 <value name="canonical-url" id="canonical-url" target="href"/>
 

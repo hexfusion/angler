@@ -420,6 +420,7 @@ my $nav = $schema->resultset('Navigation')->populate([
 { uri => 'hatch', scope => 'manf', type => 'manufacturer', name => 'Hatch Outdoors',  description => 'Hatch Outdoors', priority => '7' },
 
 #nav
+{ uri => '', type => 'nav', scope => 'home', description => 'Fly Fishing Gear & Clothing | westbranchangler.com', name => 'Contact', priority => '1' },
 { uri => 'contact', type => 'menu', scope => 'nav-top', description => 'Contact', name => 'Contact', priority => '1' },
 { uri => 'about-us', type => 'menu', scope => 'nav-top', description => 'About Us', name => 'About Us', priority => '1' },
 { uri => 'shipping', type => 'menu', scope => 'nav-top', description => 'Shipping', name => 'Shipping', priority => '1' },
