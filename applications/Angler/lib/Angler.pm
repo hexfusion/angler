@@ -122,6 +122,26 @@ hook 'before_template_render' => sub {
     }
 };
 
+
+=head2 before
+
+=cut
+
+hook 'before' => sub {
+    my $tokens = shift;
+    my $redirect;
+
+    # path
+    my $path = request->path;
+    $path =~ s|^/||;
+
+    # check for redirects
+    $redirect = shop_schema->resultset('Result::NavigationRedirect')->find({ uri => $path });
+    my $redirect_uri = $redirect->find_related('navigation', { navigation_id => $redirect->navigation_id })->uri if $redirect;
+    redirect '/' . $redirect_uri, $redirect->status_code if $redirect_uri;
+
+};
+
 =head2 before_layout_render
 
 =cut
@@ -131,6 +151,20 @@ hook 'before_layout_render' => sub {
     my $action ='';
     my $scope = '';
     my $record;
+
+    # path
+    my $path = request->path;
+    $path =~ s|^/||;
+
+    my $nav = shop_navigation;
+    my $current_nav = $nav->find({ uri => $path });
+
+    # define meta data for SEO
+    if ($current_nav) {
+        $tokens->{title} = $current_nav->name;
+        $tokens->{description} = $current_nav->description;
+    }
+
 
     my $flash_flush = flash_flush;
     $tokens->{flash} = {};
@@ -146,20 +180,6 @@ hook 'before_layout_render' => sub {
 
     # logged in user?
     $tokens->{logged_in_user} = session('logged_in_user_id');
-
-    my $nav = shop_navigation;
-
-    # path
-    my $path = request->path;
-    $path =~ s|^/||;
-
-    my $current_nav = $nav->find({ uri => $path });
-
-    if ($current_nav) {
-        # add page title
-        $tokens->{title} = $current_nav->name;
-        $tokens->{description} = $current_nav->description;
-    }
 
     # build menu sections for mega-drop
 
