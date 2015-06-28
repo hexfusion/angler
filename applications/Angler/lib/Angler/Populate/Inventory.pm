@@ -17,8 +17,6 @@ use Moo;
 
 use File::Slurp;
 use Dancer ':script';
-use Dancer::Plugin::DBIC;
-use Dancer::Plugin::Interchange6;
 use File::Spec;
 use Spreadsheet::ParseExcel;
 use Data::Dumper::Concise;
@@ -43,10 +41,22 @@ has importer_config => (
     is => 'ro',
 );
 
+=head2 schema
+
+Returns schema
+
+=cut
+
+has schema => (
+    is => 'ro',
+);
+
+
 sub sync {
     my $self = shift;
     my ($min, $max); 
     my $parser = Spreadsheet::ParseExcel->new;
+    my $schema = $self->schema;
 
     # parse the file
     my $workbook = $parser->parse($self->file);
@@ -89,25 +99,34 @@ sub sync {
 
     foreach my $row ( $row_min + 1 .. $row_max ) {
         my $sku =
-            $self->importer_config->{prefix}
+            'WB-' .
+            $self->importer_config->{prefix} . '-'
             . $worksheet->get_cell( $row, $item_col )->value . '-'
             . $worksheet->get_cell( $row, $color_code_col )->value . '-'
             . $worksheet->get_cell( $row, $size_col )->value;
         $sku =~ s/^\s+|\s+$//g;
         my $qty = $worksheet->get_cell( $row, $inv_col )->value;
-        my $product = shop_product->find({ sku => $sku });  
+        my $product = $schema->resultset('Product')->find({ sku => $sku });  
 
         if ( $product ) {
              print "Inventory sync for sku ", $sku, "\n";
+
             # manufacturer has stock so nice short lead time
-            $min = 3;
-            $max = 5;
+            if ( $qty > 0 ) {
+                $min = 3;
+                $max = 5;
+            }
+            # manufacturer has no stock so remove lead time
+            else {
+                $min = 0;
+                $max = 0;
+            }
+
             if ($product->inventory) {
-                if ( $product->inventory->quantity == 0 && $max == 0 ) {
-                    $product->inventory->delete;
-                    $product->update({ active => 0 });
-                    return;
-                }
+                print "Updating inventory \n";
+                print "    Lead time min days ", $min, "\n";
+                print "    Lead time max days ", $max, "\n";
+                print "    Quantity ", $qty, "\n";
                 $product->inventory->update(
                     {
                         lead_time_min_days    => $min,
@@ -117,6 +136,7 @@ sub sync {
                 );
             }
             else {
+                print "No inventory record exists... creating.";
                 $product->create_related(
                     'inventory',
                         {
