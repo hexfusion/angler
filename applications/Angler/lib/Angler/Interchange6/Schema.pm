@@ -15,7 +15,7 @@ Angler::Interchange6::Schema::Result::NavigationRedirect
 
 =cut
 
-Angler::Interchange6::Schema->load_classes(qw/ Result::NavigationRedirect Result::ProductRedirect /);
+Angler::Interchange6::Schema->load_classes(qw/ Result::UriRedirect /);
 
 =head1 OVERRIDE
 
