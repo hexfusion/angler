@@ -122,24 +122,28 @@ hook 'before_template_render' => sub {
     }
 };
 
-
-=head2 before
+=head2 before_navigation_404
 
 =cut
 
-hook 'before' => sub {
+hook 'before_navigation_404' => sub {
     my $tokens = shift;
-    my $redirect;
-
-    # path
-    my $path = request->path;
+    my $path = $tokens->{path};
     $path =~ s|^/||;
 
-    # check for redirects
-    $redirect = shop_schema->resultset('Result::NavigationRedirect')->find({ uri => $path });
-    my $redirect_uri = $redirect->find_related('navigation', { navigation_id => $redirect->navigation_id })->uri if $redirect;
-    redirect '/' . $redirect_uri, $redirect->status_code if $redirect_uri;
+    debug "path ", $path;
 
+    # check for uri redirect record
+    my $redirect = shop_schema->resultset('Result::UriRedirect')->find($path);
+
+    if ($redirect) {
+        # permanent redirect to specific URL
+        debug "UriRedirect record found redirecting uri ", $redirect->uri_target,
+            " for $path, with status code ", $redirect->status_code;
+
+        Dancer::Continuation::Route::Forwarded->new(
+            return_value => redirect(uri_for($redirect->uri_target), $redirect->status_code) )->throw;
+    }
 };
 
 =head2 before_layout_render
