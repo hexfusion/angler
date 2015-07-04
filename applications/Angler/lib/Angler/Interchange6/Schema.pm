@@ -5,17 +5,18 @@ package Angler::Interchange6::Schema;
 use strict;
 use warnings;
 
+our $VERSION = 1;
+
 =head1 EXTEND
 
 The following Angler::Interchange6::Schema classes extend
 Interchange6::Schema
 
-Angler::Interchange6::Schema::Result::ProductRedirect
-Angler::Interchange6::Schema::Result::NavigationRedirect
-
-=cut
+example usage:
 
 Angler::Interchange6::Schema->load_classes(qw/ Result::UriRedirect /);
+
+=cut
 
 =head1 OVERRIDE
 
