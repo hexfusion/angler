@@ -14,9 +14,11 @@ Interchange6::Schema
 
 example usage:
 
-Angler::Interchange6::Schema->load_classes(qw/ Result::UriRedirect /);
+Angler::Interchange6::Schema->load_classes(qw/ Result::DBICDHStorage Result::DBICDHStorageResult Result::DeploymentHandle /);
 
 =cut
+
+Angler::Interchange6::Schema->load_classes(qw/ Result::DBICDHStorageResult /);
 
 =head1 OVERRIDE
 
@@ -29,6 +31,8 @@ Interchange6::Schema::ResultSet::Inventory
 
 =cut
 
+use Angler::Interchange6::Schema::DBICDHStorage;
+use Angler::Interchange6::Schema::DeploymentHandler;
 use Angler::Interchange6::Schema::Result::Product;
 use Angler::Interchange6::Schema::Result::Navigation;
 use Angler::Interchange6::Schema::Result::Inventory;
