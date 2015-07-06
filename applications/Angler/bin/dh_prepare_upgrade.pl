@@ -7,7 +7,18 @@ use Dancer::Plugin::Interchange6;
 use aliased 'Angler::Interchange6::Schema::DeploymentHandler' => 'DH';
 use Getopt::Long;
 
+my ($from_version, $to_version, $help);
+
 my $force_overwrite = 0;
+
+GetOptions(
+    "from=s"          => \$from_version,
+    "to=s"            => \$to_version,
+    "overwrite"       => \$force_overwrite,
+    "help"            => \$help,
+);
+
+pod2usage(1) if $help;
 
 unless ( GetOptions( 'force_overwrite!' => \$force_overwrite ) ) {
     die "Invalid options";
@@ -30,5 +41,23 @@ $dh->prepare_upgrade({
    to_version   => $to_version,
    version_set  => [$from_version, $to_version]
 });
+
+__END__
+
+=head1 NAME
+
+dh_prepare_upgrade.pl - creates upgrade script between 2 Angler schemas
+
+=head1 SYNOPSIS
+
+dh_prepare_upgrade.pl [options]
+
+ Options:
+  -f | --from               schema version migrating from
+  -t | --to                 schema version migrating to
+  -o | --overwrite          force file overwrite
+  -h | --help               help message
+
+=cut
 
 1;
